@@ -1,53 +1,71 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CD718D
-	for <fsverity@lists.linux.dev>; Thu, 12 Jan 2023 16:47:12 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-4d4303c9de6so97363057b3.2
-        for <fsverity@lists.linux.dev>; Thu, 12 Jan 2023 08:47:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=contractor.linuxfoundation.org; s=google;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5tnxnGhfeCh9anRkbR7gFfkOY9k8KOjaPMN8uNJipIU=;
-        b=NZzKRwExmfRtMKuihPdTrQhx6WiqlEazPWNaN/Aad9esZ05w2wCxpmdYtX9EwBBX9C
-         yNgfK7PJH+uXj2e9EOtYofWjZcQ+byJ7zCIkQYmMjxt0YU6M88Q1p5dZWuzS2/aU3s4G
-         5LeT+hcZKHpZibVMkTmSsWJrRGiGVKJqxyjmoNaLPi2rDhRB8Jp7jxj8ioZWpRS1XVus
-         hfPk2z/HHKeLy08bpKhD5NtU2IQaHMpfTMbqFC+6Chx9UzjiZAP1j4Y0bX6xUs+3UB0K
-         TBoTIgSav8qUJbcaDz8SOI/HSKp9QRMRVM382dJd8sFjOL1wzohUu8myd9gf3agCyqnv
-         Oc/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5tnxnGhfeCh9anRkbR7gFfkOY9k8KOjaPMN8uNJipIU=;
-        b=71gk1L/PnGa+wnNmPH2XTDP+1FTK4uVh5LaKB1tODX/AuK4kvz7ADJLa9atxMF2V9V
-         VPePylyiViAa9cMnkJdiWSS1GtT2q7k3aZNcKLyKObzYxL1hjjAaMz33yhnGJnkM0rqg
-         gFtESb5Q89raPjVZPdu7at/O/+l0Qvct1EnVcMGTR0gsfkW7Tgq4xFcTuBV9f4zGnZQI
-         YC/EiaKMfAe7KsfDg/gBbd3sAiKVWYB6dsVrf9XDLGwievyjiNLpniUQHFSttoMY63yR
-         6bskINYJkGXiFR55y4FwwYL3HyhJUpcndPGuQ92Amw9MK0+yMdIb2shyC91cGS1d5EZX
-         OuQw==
-X-Gm-Message-State: AFqh2krLnpMpmK4wMEIcbm+IfFbbCn1J+SMSjZDWd1DOWBc3s2lWs5To
-	lCy3aeXtR1wmwhE9ygcNOx3G05Bw6obeJli/JhoJd3wLd6flnw==
-X-Google-Smtp-Source: AMrXdXsZ34KDWgqTk3NM075ZjgJjgfs9S/a/2eJzcVlHDDk9SDyt8Vm1ucjDrw8+fHYhJMOyvCCc7TA426rfUZ5YpoI=
-X-Received: by 2002:a81:ad5c:0:b0:471:d0:fcdf with SMTP id l28-20020a81ad5c000000b0047100d0fcdfmr1927714ywk.108.1673542031398;
- Thu, 12 Jan 2023 08:47:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC06079DC
+	for <fsverity@lists.linux.dev>; Mon, 16 Jan 2023 23:25:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51E75C433D2;
+	Mon, 16 Jan 2023 23:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673911506;
+	bh=ojZWPHS+IIMGuPGnsOHsgYoO/oDNhc0Uw7ZucK6fAJY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kDD+2LFrJFCh3ePeNzs/Ts07X6vxXzYMyoJjykhG5iXLBNj68HmB+m7WG96biPCBp
+	 kLBEWy3QjKnNO42SCANr2y+x79f6wSTo2BRebmeUGelYS5kQuV0vd+jLnObLfBudAl
+	 IPWdrYrTQzI7JOnFYVI/vBtJT8dzcVQVu1Nnj7MP0IRFxHYqCpfY/Hbqu9nA3QH8ky
+	 VIWIbPdJlje6MR2YvjEPU5itLKEQj+ZXK9jpD6MPrlKvHlBZuPOvHuzGO9ISqMtver
+	 vPJ788IVDsfNEyjVN2CYos8IRjKwIWDy24swBdTxaEFJkYrkRcdCckrifqlqPb/NT/
+	 uHIKJBysLZNzg==
+From: Eric Biggers <ebiggers@kernel.org>
+To: fsverity@lists.linux.dev
+Cc: linux-fscrypt@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: update fsverity git repo, list, and patchwork
+Date: Mon, 16 Jan 2023 15:22:57 -0800
+Message-Id: <20230116232257.64377-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Shyam Kumar <skachukattu@contractor.linuxfoundation.org>
-Date: Thu, 12 Jan 2023 22:17:00 +0530
-Message-ID: <CAH=dH99Cw8BCyRkKkwKACM2Tq0+J+kMvj5i1LatFSPgu0F9WFA@mail.gmail.com>
-Subject: Test Mail to FSVerity
-To: fsverity@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This is Test mail.
+From: Eric Biggers <ebiggers@google.com>
 
+We're moving fsverity development to use its own git repo, mailing list,
+and patchwork project, instead of reusing the fscrypt ones.  Update the
+MAINTAINERS file accordingly.
+
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ MAINTAINERS | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 42fc47c6edfd7..936cbdbc60eb1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8520,10 +8520,10 @@ F:	include/linux/fsnotify*.h
+ FSVERITY: READ-ONLY FILE-BASED AUTHENTICITY PROTECTION
+ M:	Eric Biggers <ebiggers@kernel.org>
+ M:	Theodore Y. Ts'o <tytso@mit.edu>
+-L:	linux-fscrypt@vger.kernel.org
++L:	fsverity@lists.linux.dev
+ S:	Supported
+-Q:	https://patchwork.kernel.org/project/linux-fscrypt/list/
+-T:	git git://git.kernel.org/pub/scm/fs/fscrypt/fscrypt.git fsverity
++Q:	https://patchwork.kernel.org/project/fsverity/list/
++T:	git https://git.kernel.org/pub/scm/fs/fsverity/linux.git
+ F:	Documentation/filesystems/fsverity.rst
+ F:	fs/verity/
+ F:	include/linux/fsverity.h
+
+base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
 -- 
-Regards
-Shyam Kumar
-The Linux Foundation Core Projects
+2.39.0
+
