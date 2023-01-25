@@ -1,49 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F415F6FB1
-	for <fsverity@lists.linux.dev>; Wed, 25 Jan 2023 20:01:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EA8FC433D2;
-	Wed, 25 Jan 2023 20:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD2810E7
+	for <fsverity@lists.linux.dev>; Wed, 25 Jan 2023 20:30:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 724C4C433D2
+	for <fsverity@lists.linux.dev>; Wed, 25 Jan 2023 20:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674676893;
-	bh=myWWWUfa+USomgtlLWQAPpShELYL1rULYUvY5Mx89Cc=;
-	h=Date:From:To:Cc:Subject:From;
-	b=WgjBl4WwC9YLr9aiIUp58Y+c8r+2FAXfKH6a283SNCDQTNPev/0UeB5iMi083Ck/K
-	 /SP8Yd760bV4nGkQ8QnU6q2xqgMGZMu/yXTEYebm3dblnHdVAENW8vkMhOmNOznnty
-	 VlxwnGmIQTTvwSgKzK0BsSV0C2/MET38m4mG2xqmp/+zMi7VX9Be1lc8fSeiuP2Na9
-	 eRVKoYGuGLj9ur8agX6AnzVatD+Uccl3R+9GMxMNK9VzjiDmmUPOQGTcHyr4+KFSp9
-	 p/m+0mPALcXgMk9dpWbZLR8X8Kb1qlW4q5aSPTuvQWDJ1HcHT32k/ol4PG99g8Cf4N
-	 nKx+qEjz7saAg==
-Date: Wed, 25 Jan 2023 12:01:31 -0800
+	s=k20201202; t=1674678644;
+	bh=FlFQ0Vy8y+if2J6CiX1BgcQRMewqc1rRwlzWHn0D3i4=;
+	h=From:To:Subject:Date:From;
+	b=dPQNFWI4Irb0Etn+OfWuniQq96/qem8wk9I17vvHsAXvRXgg7fIph/1e91RyA1gmQ
+	 1U8g7cr1AJQa01UVbRbKRFP1dJbiQOOdz4CWJrHIUpdlXxzutG5RXPSygOcElN9haa
+	 OqJgzuUJMVA8nT6G2pFNyccgbFSsVbsSVRK/KWkiNyd4MHdnJQlb6kXOqyLkhbQ6Eu
+	 umtqWbKDDBHF0ED4xeyfVM76X2XANxx1uu4tTwjfLprm06MNKiwdfny7UXxRtdBmL7
+	 aktO2TZNkbuN/YRxXa8zMX608r/EQWLsqwSDyzrubQd5DqCfow6epBx39AT6ETiZer
+	 R4k9cVG8+ZBrw==
 From: Eric Biggers <ebiggers@kernel.org>
 To: fsverity@lists.linux.dev
-Cc: linux-fscrypt@vger.kernel.org
-Subject: [ANNOUNCE] Moving the fsverity-utils git repo
-Message-ID: <Y9GKm+hcm70myZkr@sol.localdomain>
+Subject: [PATCH] fsverity.rst: update git repo URL for fsverity-utils
+Date: Wed, 25 Jan 2023 12:30:25 -0800
+Message-Id: <20230125203025.28187-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Eric Biggers <ebiggers@google.com>
 
-I'm moving the fsverity-utils git repo from the following path:
+The fsverity-utils git repo is moving out of my personal directory;
+see the announcement at
+https://lore.kernel.org/r/Y9GKm+hcm70myZkr@sol.localdomain.
 
-	https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/fsverity-utils.git
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ Documentation/filesystems/fsverity.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-to the following path:
+diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
+index c0c8a25b41bb8..2d9ef906aa2a3 100644
+--- a/Documentation/filesystems/fsverity.rst
++++ b/Documentation/filesystems/fsverity.rst
+@@ -642,7 +642,7 @@ Userspace utility
+ This document focuses on the kernel, but a userspace utility for
+ fs-verity can be found at:
+ 
+-	https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/fsverity-utils.git
++	https://git.kernel.org/pub/scm/fs/fsverity/fsverity-utils.git
+ 
+ See the README.md file in the fsverity-utils source tree for details,
+ including examples of setting up fs-verity protected files.
 
-	https://git.kernel.org/pub/scm/fs/fsverity/fsverity-utils.git
+base-commit: db85d14dc5c566879a01c4928b2f6f4d5cf0f939
+-- 
+2.39.1
 
-This way, it's now owned by the "FSVerity FS Group" and isn't just in my
-personal directory.  It's also now alongside the linux.git used for the kernel.
-
-I'll keep the old repo around for a short time while I try to update the link in
-a few places I know are using it.
-
-- Eric
