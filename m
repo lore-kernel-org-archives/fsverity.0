@@ -1,53 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAC0320D
-	for <fsverity@lists.linux.dev>; Mon, 20 Feb 2023 21:11:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D040CC4339B;
-	Mon, 20 Feb 2023 21:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA693D8F
+	for <fsverity@lists.linux.dev>; Fri, 24 Feb 2023 23:25:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9D87C4339B;
+	Fri, 24 Feb 2023 23:25:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676927502;
-	bh=6g4NDisHRG4qmLpa8BDv5tH4TBrlHaYvx8l5KIe7WXw=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=sdoTBEeNBYdtVmrVdNW//ChctssgK3NklmOKxnCz0WQyVtRiMbNshiNUHLRikVrtK
-	 0LldUTSs15SzOMN8Ysxw3oPzk+RurcCGYQI9GlMEcrutCkEL0Zi6f7RFvShUcCElAd
-	 lyrHaN73u9XSfWSTvXtWcRPeyRnfSXwGzOvvaFcciZh3W4gO4cUvCihHDYCsvJzrgH
-	 c54e21B4a8tM4g+HPZGk3O3mTuM1EAwzOiD2yCMqhY9H3A5EPImcnwL5Q4+3ohORZE
-	 TxstAJ+wnZDN2OMeBVZqTtwcmOjSPFMDxA61gfnawhf5gNfYL0FEtjboqdMBCVbaWS
-	 ASCNuC0W/itdA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B98B8E68D20;
-	Mon, 20 Feb 2023 21:11:42 +0000 (UTC)
-Subject: Re: [GIT PULL] fsverity updates for 6.3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Y/KLHT3zaA0QFhVJ@sol.localdomain>
-References: <Y/KLHT3zaA0QFhVJ@sol.localdomain>
-X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Y/KLHT3zaA0QFhVJ@sol.localdomain>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
-X-PR-Tracked-Commit-Id: 51e4e3153ebc32d3280d5d17418ae6f1a44f1ec1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6639c3ce7fd217c22b26aa9f2a3cb69dc19221f8
-Message-Id: <167692750275.16986.16446454723187739663.pr-tracker-bot@kernel.org>
-Date: Mon, 20 Feb 2023 21:11:42 +0000
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org, linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>
+	s=k20201202; t=1677281135;
+	bh=6luuhQSD+ajKK9CmlBCDc0zCfnP0G4oE/imS8DvMI7Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FxQD/uarTwtsPK8dN6rJwN9Kdc+VPPP69xqTmxUP1bflotxYLCgY1MMeRyAOLlH9g
+	 G9mSP2Ec7MFBtXzG3v61l/gN31EX5QFuK8f577eQvpo1W+XwAGeDPV3/QkIvXoikIb
+	 6pOxpOsW8S9aTzsj2w03RTk2yKHNugqqUt/QA1krgnGtcgMkeadAQifuFMkmLGU/HZ
+	 xE7G3lE6AxZFAADc3OIzlVatx0NJ/f4pAGHY+9r6LDvjgFdYvFY4w+pZfjy1uQl5Qh
+	 ePd0oVsAij3G62irSRPN6dcqTQjIU1f7ZvQbPJnyWqihJ3DLRM/4AXl/696TUTkQxs
+	 +8G+Vwgf38/WQ==
+From: Eric Biggers <ebiggers@kernel.org>
+To: fsverity@lists.linux.dev
+Cc: linux-ext4@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: [PATCH] fs/buffer.c: use b_folio for fsverity work
+Date: Fri, 24 Feb 2023 15:25:30 -0800
+Message-Id: <20230224232530.98440-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Sun, 19 Feb 2023 12:48:29 -0800:
+From: Eric Biggers <ebiggers@google.com>
 
-> https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+Use b_folio now that it exists.  This removes an unnecessary call to
+compound_head().  No actual change in behavior.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6639c3ce7fd217c22b26aa9f2a3cb69dc19221f8
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ fs/buffer.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Thank you!
-
+diff --git a/fs/buffer.c b/fs/buffer.c
+index 9e1e2add541e..034bece27163 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -308,20 +308,19 @@ static void verify_bh(struct work_struct *work)
+ 	struct buffer_head *bh = ctx->bh;
+ 	bool valid;
+ 
+-	valid = fsverity_verify_blocks(page_folio(bh->b_page), bh->b_size,
+-				       bh_offset(bh));
++	valid = fsverity_verify_blocks(bh->b_folio, bh->b_size, bh_offset(bh));
+ 	end_buffer_async_read(bh, valid);
+ 	kfree(ctx);
+ }
+ 
+ static bool need_fsverity(struct buffer_head *bh)
+ {
+-	struct page *page = bh->b_page;
+-	struct inode *inode = page->mapping->host;
++	struct folio *folio = bh->b_folio;
++	struct inode *inode = folio->mapping->host;
+ 
+ 	return fsverity_active(inode) &&
+ 		/* needed by ext4 */
+-		page->index < DIV_ROUND_UP(inode->i_size, PAGE_SIZE);
++		folio->index < DIV_ROUND_UP(inode->i_size, PAGE_SIZE);
+ }
+ 
+ static void decrypt_bh(struct work_struct *work)
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.39.2
+
