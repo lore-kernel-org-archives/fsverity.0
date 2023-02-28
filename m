@@ -1,28 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA693D8F
-	for <fsverity@lists.linux.dev>; Fri, 24 Feb 2023 23:25:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9D87C4339B;
-	Fri, 24 Feb 2023 23:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5812367
+	for <fsverity@lists.linux.dev>; Tue, 28 Feb 2023 01:01:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3CFB1C433A1;
+	Tue, 28 Feb 2023 01:01:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677281135;
-	bh=6luuhQSD+ajKK9CmlBCDc0zCfnP0G4oE/imS8DvMI7Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FxQD/uarTwtsPK8dN6rJwN9Kdc+VPPP69xqTmxUP1bflotxYLCgY1MMeRyAOLlH9g
-	 G9mSP2Ec7MFBtXzG3v61l/gN31EX5QFuK8f577eQvpo1W+XwAGeDPV3/QkIvXoikIb
-	 6pOxpOsW8S9aTzsj2w03RTk2yKHNugqqUt/QA1krgnGtcgMkeadAQifuFMkmLGU/HZ
-	 xE7G3lE6AxZFAADc3OIzlVatx0NJ/f4pAGHY+9r6LDvjgFdYvFY4w+pZfjy1uQl5Qh
-	 ePd0oVsAij3G62irSRPN6dcqTQjIU1f7ZvQbPJnyWqihJ3DLRM/4AXl/696TUTkQxs
-	 +8G+Vwgf38/WQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: fsverity@lists.linux.dev
-Cc: linux-ext4@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH] fs/buffer.c: use b_folio for fsverity work
-Date: Fri, 24 Feb 2023 15:25:30 -0800
-Message-Id: <20230224232530.98440-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	s=k20201202; t=1677546115;
+	bh=EkQcNS9ff+s73/ftmm+esj3kNcGvM+iC7iMN8fE5iBM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=MLg4vfi/I+uvxuMwP620rcv1pbGUJ6mV1XVBXK9Np1oCy6z7cZcB/ZqVzikOZNK2K
+	 /vYd2S4lZjCqj6TJRc7qvJhBTuxI5Goh6YntGHn0kCKqlVsZnean1Q1wWELql6Zy7i
+	 IQjumfC8dwyXHW92IDIGlMkIVJ7sszKBJEQLyo9MbT4BxS3jJzI7Q3uBnTUb8NRORk
+	 8Fgse5NOIExS22jJkbafSXkEGbE6foMx/WNytDQSR43bVaLB5KmmIEjuiZdYeGSfNq
+	 eo8nGVLSQZFp4kZuvP+YOKUkKT3cubSpl/q48qJy4AmsyrwufC7AV6VAkVU6sPw1dk
+	 3yfVPORjIE7/Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1B67FE68D2D;
+	Tue, 28 Feb 2023 01:01:55 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -30,46 +26,43 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [PATCH] MAINTAINERS: update fsverity git repo, list,
+ and patchwork
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <167754611510.27916.9240415450147336075.git-patchwork-notify@kernel.org>
+Date: Tue, 28 Feb 2023 01:01:55 +0000
+References: <20230116232257.64377-1-ebiggers@kernel.org>
+In-Reply-To: <20230116232257.64377-1-ebiggers@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: fsverity@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
+ linux-xfs@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-btrfs@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
+Hello:
 
-Use b_folio now that it exists.  This removes an unnecessary call to
-compound_head().  No actual change in behavior.
+This patch was applied to jaegeuk/f2fs.git (dev)
+by Eric Biggers <ebiggers@google.com>:
 
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- fs/buffer.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+On Mon, 16 Jan 2023 15:22:57 -0800 you wrote:
+> From: Eric Biggers <ebiggers@google.com>
+> 
+> We're moving fsverity development to use its own git repo, mailing list,
+> and patchwork project, instead of reusing the fscrypt ones.  Update the
+> MAINTAINERS file accordingly.
+> 
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> 
+> [...]
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 9e1e2add541e..034bece27163 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -308,20 +308,19 @@ static void verify_bh(struct work_struct *work)
- 	struct buffer_head *bh = ctx->bh;
- 	bool valid;
- 
--	valid = fsverity_verify_blocks(page_folio(bh->b_page), bh->b_size,
--				       bh_offset(bh));
-+	valid = fsverity_verify_blocks(bh->b_folio, bh->b_size, bh_offset(bh));
- 	end_buffer_async_read(bh, valid);
- 	kfree(ctx);
- }
- 
- static bool need_fsverity(struct buffer_head *bh)
- {
--	struct page *page = bh->b_page;
--	struct inode *inode = page->mapping->host;
-+	struct folio *folio = bh->b_folio;
-+	struct inode *inode = folio->mapping->host;
- 
- 	return fsverity_active(inode) &&
- 		/* needed by ext4 */
--		page->index < DIV_ROUND_UP(inode->i_size, PAGE_SIZE);
-+		folio->index < DIV_ROUND_UP(inode->i_size, PAGE_SIZE);
- }
- 
- static void decrypt_bh(struct work_struct *work)
+Here is the summary with links:
+  - [f2fs-dev] MAINTAINERS: update fsverity git repo, list, and patchwork
+    https://git.kernel.org/jaegeuk/f2fs/c/ef7592e466ef
+
+You are awesome, thank you!
 -- 
-2.39.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
