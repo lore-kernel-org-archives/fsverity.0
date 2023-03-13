@@ -1,86 +1,96 @@
-Received: from r3-24.sinamail.sina.com.cn (r3-24.sinamail.sina.com.cn [202.108.3.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6257E2
-	for <fsverity@lists.linux.dev>; Sat, 11 Mar 2023 00:20:51 +0000 (UTC)
-Received: from unknown (HELO localhost.localdomain)([114.249.61.130])
-	by sina.com (172.16.97.23) with ESMTP
-	id 640BC80600036AD9; Sat, 11 Mar 2023 08:15:04 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-X-SMAIL-MID: 35843754919500
-From: Hillf Danton <hdanton@sina.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D966C8F4E
+	for <fsverity@lists.linux.dev>; Mon, 13 Mar 2023 22:59:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 723FBC433EF;
+	Mon, 13 Mar 2023 22:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678748345;
+	bh=ZC4ulABqNwkVt6bBtqh6aW13P8sDyfHwW1mYMpHgEpg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hyHav+RtbXhY0kDc3EURUG49lMtu8OWHEYukDYWVN2zek4K73zFK8osswDbTggEEt
+	 XTS5vun594fgFROpMk7/X1K85b6k454IA0HLhTug7UpvI/D/Rk3ml3umTMmio8yKnR
+	 9HA9z0js4QKnSb+AFynC5Bm8sQtm8IbtjJMxPo4WUNzfOvuvQZjAhKUHXouX6TV0UN
+	 zcZD+qQN/U5OT7997yjyPKuURRe2j6IQ6WLc6rKxZ9dd7CgfiMS3qVZJ9nO9danpE9
+	 qVYic3sQmJHW6OX9gHNZpal2gG82M4Dznodw7XbOxSwMNcjn+tcNye8HQqu9IsNwi4
+	 VIgCTy5jxr5Vg==
+Date: Mon, 13 Mar 2023 15:59:03 -0700
+From: Eric Biggers <ebiggers@kernel.org>
 To: Nathan Huckleberry <nhuck@google.com>
-Cc: Eric Biggers <ebiggers@kernel.org>,
-	fsverity@lists.linux.dev,
+Cc: "Theodore Y. Ts'o" <tytso@mit.edu>, fsverity@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fsverity: Remove WQ_UNBOUND from fsverity read workqueue
-Date: Sat, 11 Mar 2023 08:15:15 +0800
-Message-Id: <20230311001515.2472-1-hdanton@sina.com>
-In-Reply-To: <CAJkfWY6xWhcwfV-E5brz_qvW0v-ebqp8wYhgg_ZWyD9cUp-EJg@mail.gmail.com>
-References: <20230309213742.572091-1-nhuck@google.com> <ZAq8Ey8CZ5I2xcpW@sol.localdomain> <20230310065511.2390-1-hdanton@sina.com>
+Subject: Re: [PATCH v2] fsverity: Remove WQ_UNBOUND from fsverity read
+ workqueue
+Message-ID: <ZA+qt0gakiyAoacr@sol.localdomain>
+References: <20230310193325.620493-1-nhuck@google.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230310193325.620493-1-nhuck@google.com>
 
-On 10 Mar 2023 11:09:55 -0800 Nathan Huckleberry <nhuck@google.com>
-> On Fri, Mar 10, 2023 at 12:01=E2=80=AFAM Hillf Danton <hdanton@sina.com> wr=
-> ote:
-> >
-> > On 9 Mar 2023 21:11:47 -0800 Eric Biggers <ebiggers@kernel.org>
-> > > On Thu, Mar 09, 2023 at 01:37:41PM -0800, Nathan Huckleberry wrote:
-> > > > WQ_UNBOUND causes significant scheduler latency on ARM64/Android.  Th=
-> is
-> > > > is problematic for latency sensitive workloads like I/O post-processi=
-> ng.
-> > > >
-> > > > Removing WQ_UNBOUND gives a 96% reduction in fsverity workqueue relat=
-> ed
-> > > > scheduler latency and improves app cold startup times by ~30ms.
-> > >
-> > > Maybe mention that WQ_UNBOUND was recently removed from the dm-verity w=
-> orkqueue
-> > > too, for the same reason?
-> > >
-> > > I'm still amazed that it's such a big improvement!  I don't really need=
->  it to
-> > > apply this patch, but it would be very interesting to know exactly why =
-> the
-> > > latency is so bad with WQ_UNBOUND.
+On Fri, Mar 10, 2023 at 11:33:25AM -0800, Nathan Huckleberry wrote:
+> WQ_UNBOUND causes significant scheduler latency on ARM64/Android.  This
+> is problematic for latency sensitive workloads, like I/O
+> post-processing.
 > 
-> My current guess for the root cause is excessing saving/restoring of
-> the FPSIMD state.
+> Removing WQ_UNBOUND gives a 96% reduction in fsverity workqueue related
+> scheduler latency and improves app cold startup times by ~30ms.
+> WQ_UNBOUND was also removed from the dm-verity workqueue for the same
+> reason [1].
 > 
-> > >
-> > > > This code was tested by running Android app startup benchmarks and
-> > > > measuring how long the fsverity workqueue spent in the ready queue.
-> > > >
-> > > > Before
-> > > > Total workqueue scheduler latency: 553800us
-> > > > After
-> > > > Total workqueue scheduler latency: 18962us
-> >
-> > Given the gap between data above and the 15253 us in diagram[1], and
-> > the SHA instructions[2], could you specify a bit on your test?
+> This code was tested by running Android app startup benchmarks and
+> measuring how long the fsverity workqueue spent in the runnable state.
 > 
-> The test I'm running opens the Android messaging APK which is
-> validated with fsverity. It opens the messaging app 25 times, dropping
-> caches each time. The benchmark produces a Perfetto trace which we use
-> to compute the scheduler latency. We sum up the amount of time that
-> each fsverity worker spent in the ready state. The test in [1] is
-> similar, but may be using a different APK. These tests are not in
-> AOSP, so I can't share a link to them, but I would expect that fio on
-> a ramdisk would produce similarly good results.
+> Before
+> Total workqueue scheduler latency: 553800us
+> After
+> Total workqueue scheduler latency: 18962us
+> 
+> [1]: https://lore.kernel.org/all/20230202012348.885402-1-nhuck@google.com/
+> 
+> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+> ---
+> Changelog:
+> v1 -> v2:
+> - Added comment about WQ_UNBOUND
+> - Added info about related dm-verity patches in commit message
+> 
+>  fs/verity/verify.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/verity/verify.c b/fs/verity/verify.c
+> index f50e3b5b52c9..782b8b4a24c1 100644
+> --- a/fs/verity/verify.c
+> +++ b/fs/verity/verify.c
+> @@ -387,15 +387,15 @@ EXPORT_SYMBOL_GPL(fsverity_enqueue_verify_work);
+>  int __init fsverity_init_workqueue(void)
+>  {
+>  	/*
+> -	 * Use an unbound workqueue to allow bios to be verified in parallel
+> -	 * even when they happen to complete on the same CPU.  This sacrifices
+> -	 * locality, but it's worthwhile since hashing is CPU-intensive.
+> -	 *
+>  	 * Also use a high-priority workqueue to prioritize verification work,
+>  	 * which blocks reads from completing, over regular application tasks.
+> +	 *
+> +	 * This workqueue is not marked as unbound for performance reasons.
+> +	 * Using an unbound workqueue for crypto operations causes excessive
+> +	 * scheduler latency on ARM64.
+>  	 */
+>  	fsverity_read_workqueue = alloc_workqueue("fsverity_read_queue",
+> -						  WQ_UNBOUND | WQ_HIGHPRI,
+> +						  WQ_HIGHPRI,
+>  						  num_online_cpus());
 
-Thanks for your introduction to the test.
-Are the similar results ARM64/Android specific? Could this patch help X86?
-> 
-> >
-> > [1] https://lore.kernel.org/linux-erofs/20230106073502.4017276-1-dhavale@=
-> google.com/
-> > [2] https://lore.kernel.org/lkml/CAJkfWY490-m6wNubkxiTPsW59sfsQs37Wey279L=
-> miRxKt7aQYg@mail.gmail.com/
+Applied to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
+
+I adjusted the comment slightly so that the first paragraph doesn't start with
+"Also".
+
+- Eric
