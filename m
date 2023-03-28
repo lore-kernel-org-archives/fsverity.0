@@ -1,130 +1,101 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2044.outbound.protection.outlook.com [40.107.102.44])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FB9A44
-	for <fsverity@lists.linux.dev>; Tue, 28 Mar 2023 06:16:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WRz2Br7efvc5fPn2XD+0Qz4EphRRi8HchCPoDzKViF2vydRqRAy1Q7IH9QRFkmvo/KePsbGGSEN0R/irNq8dXj4T0NML8XXffkwXemJRk2ocSlMf36nc1hdADa0gu5rMaUYAc0JY7jdt6xNcF47kbMguUnt8/rxOZahTNvzLK47k024yZ/jdqX+VlnP6/r/LFZZJhAN9coDPbE+s0O3TNgJKH6LQGvKrfj1dbCc5JIhNT/LsknF8CzWjvIZNT/Um9FEQD/mcKQ2YjTDffH/cLfU96LFdOWo1g3/MRRZaDOGplF6ovhfEaUOY4yQhBK9L5TVbrf20zHJIKG6x+2mFGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kWQNfoQ8FjtwIzKoOV8LY3StBg1j483A+FxqQPw1CrU=;
- b=Hapdgo7KOviBy87GSjKBEJRApVUADvM0uUAWvEKlAFMNPI0+MH2LuXJsDgSB1gdl3W1ettIKKMnKsBa5Q1lR0Ao4ILL0TdszPJp4np+yQ8P3yYYWqVVppQiSsToflqBAxmse9P8GIC0mTIF0pv4d59MtuL8QbK9sov2QWeakVIn2o2y0pPGrWmB2byXiM6fbu1LiHcn2YKli7xhUuxDD/HfM/1RFqahVO8a0J6XhuLyxfIYmrBe6OOiYSI6dqhdyYZDDAD4pN6v28AQXqIpRN3lQ0yjm8mji39lyKqQOUWkRj3w8+8H4iS/iR7sYw5DHYuvIsIk3K+wChL+p9GJuWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kWQNfoQ8FjtwIzKoOV8LY3StBg1j483A+FxqQPw1CrU=;
- b=TCiW0tARSOJtWYLCOU4FYIjRLNkBiw+ruZyU2oGBt2DyJzPBl99t2coBN+jTlZFlXZJ6Vsr0eabne9P2g7a6dJEmhG8veEYM0s73xkxg1mKzfvnSfNOR59D+elObKujMggeRXn4dOL5SP0xEcodzlixyC98tFY5SBpeWOwemOUY5oSpUjYAFCOwRmoWjVzVexJAAqIV0rI/0nPz9ILSc2ZYuM53J+LEX285IIBOSMSlx6S2WEVWhpIptHP55jPsIsbYeQSxQ8W2TxfJAe1qc74IsEsW9Zr7IaWw5D7rYTfQzCgvhfmaLZtkZtNU3fCLr9mXSlWNoBlzQZeS2+csNqA==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by BN9PR12MB5242.namprd12.prod.outlook.com (2603:10b6:408:11f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.30; Tue, 28 Mar
- 2023 06:15:59 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::9f90:cf3d:d640:a90b]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::9f90:cf3d:d640:a90b%4]) with mapi id 15.20.6222.030; Tue, 28 Mar 2023
- 06:15:59 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Eric Biggers <ebiggers@kernel.org>, "fsverity@lists.linux.dev"
-	<fsverity@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] fsverity: use WARN_ON_ONCE instead of WARN_ON
-Thread-Topic: [PATCH] fsverity: use WARN_ON_ONCE instead of WARN_ON
-Thread-Index: AQHZYSpeqYRshNqQPEGMCqvmIQelPa8PtzEA
-Date: Tue, 28 Mar 2023 06:15:59 +0000
-Message-ID: <962dab64-8010-26b5-a8d9-872fc27dce3e@nvidia.com>
-References: <20230328040326.105018-1-ebiggers@kernel.org>
-In-Reply-To: <20230328040326.105018-1-ebiggers@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|BN9PR12MB5242:EE_
-x-ms-office365-filtering-correlation-id: fed2c44d-6874-4fe5-0d5c-08db2f53e632
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- QTQY68yCeXtYXDszPdhg5URymNIuxDKThDl09b2vJ2aWhDkKgaeRgQOWEIDYfopQ3TPehipBX9Lv/UWtO8WF04pQDgkJXb52JgiylA0GhkxS8XeS0ertDrcgSkXZzBndxiUZ28uHnPL1extlTGUCUj4/MV5k8riEY/ZIZv7CT98HGeFKGHOOBd8SkO7f8dyNQ6ahP5Y6TxWKbokZQ26+3FPvE8bKHaWC8twHRPGH2vLtsD2Pbfa9ySehW9jx0Ux6EPt9epSoChldwUtBVHEBWR3jfSf56K9zIkFWYfb4R5AZb040DmfnLOyCcc/IspSzS0RIJw+xmx2F4MHJy4MASc2fVt7e2bSK0HqTZY4JBX7wbv0fd4FQZpdC317n0QEraTDLNANadymmI+XQDl73qJQLa5+R8L/F9Z8QVXYaJgWiuk3M+DWAvD96Yc+UU2beE2qnDanJ2/KHZMgN7lq0lDjYymZuzK6rt0J6zokeUIWjgvUYu21nMcpdW5NMRVOlQ3ezzD3SSYBeWolDhJvZk5r/ePQfADBPXnXM8/PEnfvQZHBD6+wcPChzduJCqJkMcmY+XIpEKX0VaBpp1Y974xZ+wtkZ8giV8jmyFm1ciD5GxTdPXwVVaU0sqpTUS25tXEsik1olTckjWa8XclJrvVZHp0m4J5Xc10Or0Y/9goAz1AjsKIvbnxMqYQm4KNnWxhsugDlMCKDdz4DkRCTK3w==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(366004)(396003)(39860400002)(376002)(451199021)(6512007)(6506007)(316002)(6486002)(110136005)(91956017)(186003)(66556008)(66476007)(66446008)(76116006)(8676002)(64756008)(53546011)(66946007)(31686004)(71200400001)(478600001)(41300700001)(5660300002)(4744005)(38070700005)(38100700002)(2906002)(36756003)(122000001)(2616005)(31696002)(86362001)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?V05BRjhTUTNVbXNESEdCK0loUkUyTzhMSWRQbGhoSGxzeDJKMVRDa3hCeVFL?=
- =?utf-8?B?L01PbjlKVEdiaXJkdWVESDhKSFlFdDVPajVzL2Myaktrem52aE1ZWWNGeXBq?=
- =?utf-8?B?UTh4ZEREbENLWjZYOGVNRVJuWDJQMFVVZnFnN2NhRWhzdGhSOEw0N3c1a1h4?=
- =?utf-8?B?dkNpQklnZFVqemNkRnZjbTUxbXc0NGY3OHFqT05IZ05TclNCZ2FDcWU3RU5R?=
- =?utf-8?B?ZE9QRVFEa0hlYjBsNFNZZENVN0R5UVRGaVFQSENyNnFubTBmOUZNUFA1QlBW?=
- =?utf-8?B?SWd6QndudDFBSGJzWHI1RVBUWS80bXZieXhxVTBNc1YwMEJiZld5blF0UXk2?=
- =?utf-8?B?TnBpbDgyTHV3UjVaeE9wcjZUcXdsSFhzSVl6cHNnbUtDSWJKYTd2VHNnWS9E?=
- =?utf-8?B?RVZ0NUhmYk5UV3BVV0Y1MlBXemlJTm5xK1BTV2V5ZzdiTWZVbDJrcHhWNVlP?=
- =?utf-8?B?OHc3dnl6bllYcmhlSUpmQlNIa1JKZlNUTnpGVWFFa080emVOcUhZSC9yZGc1?=
- =?utf-8?B?OGFLL3c3QVZBV091VnMxQ0ZlNW1MbUJ2NTc0N2xjemtid0Q1NVdoemNPUWZW?=
- =?utf-8?B?MW1DU3U1c05zcTZybytRR1pHZittNU40ZnNGNThrcTg2d1I2UmNwdVpJLytm?=
- =?utf-8?B?WW9UTUpxd2I3UlhBRXVDN3h6THdRb2ZEbEVTMU53UGVnTWRwcEFYejBacURZ?=
- =?utf-8?B?TFhUZmZlclFkSjlXejFRSERQdHhlWkUwbjdxWlNSZGlya29SN3Q2QzZnaWhp?=
- =?utf-8?B?WW9lVDkyOEJzWUNXZWk0MG1wOFpHKzNnZGNwZlc2Wnhid0F1aG5PK3pIbmhC?=
- =?utf-8?B?QWJhcDl6bzNzdlUyRTdvd0dCalVTZVhBdmcrOTNKZlFLT2NrczdNdXBWMzhl?=
- =?utf-8?B?VEpjK3BLOWZRNCtYYVlMdjIwQ1NEeS9aTU4rVjBPNVk0Q0RYZEYrRlVWSGpL?=
- =?utf-8?B?ZzJEZzNKTC9wTFJ5blV6V2dIM09aaEZGWnBISWFwQ3BpRVhwaUw5VWJhL2Rv?=
- =?utf-8?B?ejNINWt4ZUl0UldVZldqSFRaR0pIYXRnSHliWC9uSGdhcUpyc2JFQ0F2S0Nq?=
- =?utf-8?B?V1Y1QUZITEprWlMraVRycVB3RWVPZm05UVFKYkl6NFMxeUl2a0x5eXFpNnRk?=
- =?utf-8?B?cGZoeDVtbDZZK1RzeUN0bDkrUnNRNTRseXQ0RFg0enhpRTlERTk3bGNmL0M3?=
- =?utf-8?B?QVlldFlacEl3L3JZL2lJWlJyRmgyVkRHQWF6bG05bDFmTkxpT0tUUUU5VlAy?=
- =?utf-8?B?aC8xVUVUQlJVazdXVk0yMjEvRW1BR2hrM2xYTTJlcDRiN09YS0RLNnM1aHpY?=
- =?utf-8?B?eWVPTWpKUmFteW5pVXg4d0JVRzE0TmJrclpDUGl3MXdTRE00Q2dFS0RDb3BS?=
- =?utf-8?B?cVFlbHRLUFRQRk1haXlRR3ZRYlJUZ1NFMk5QaENKZ3MxblFvWjZJWDZOOTBU?=
- =?utf-8?B?Z0hoRUFvekVuKzRaWjJLbVpYNHFTU3ZRNXF0Z3FuWWVrRUVKcnpYYVhjSFVY?=
- =?utf-8?B?bzNmb214SjF1a0xYMG0vUWJtUUJ3NkdWTW5oSDI0QndEV3E1Y05QVVlhSGlo?=
- =?utf-8?B?amYzY211OHc5STdyOThORkZBZ25DOTRZN2N0TWJSU29KRDduOGVWUXR2WXBL?=
- =?utf-8?B?bFV4NEo0NmJrNUhBRFNsdjVRWU1VRlBIR1FHMkJLTmZwK2hKTHBtQVZxSVVI?=
- =?utf-8?B?cGtPYkFpV05WbE15UG95bzNtM3l5VjFNY2ZYcDBzUVVWUFlKU2RhZHVoOHJZ?=
- =?utf-8?B?TVZ3eFpHZXlBb216Tm5UME1qNzdIbEF0Tm5LUU4yREF5dERJWEFOUHVaMWxu?=
- =?utf-8?B?ZnR5dUJzQWxYSlFNVUV6NG1jd2g5UGtmSmxyQXRsRzB1MGJLcjhjcjdSQlg0?=
- =?utf-8?B?REREa1YwaTRqMzk5bWtMbnRxSjViMEZwUm1XUTMydjZKUS9ldlk5TkxmMzAw?=
- =?utf-8?B?OEJteEFnV203eWlqUk5FMzc0dnR4RWhBYWl0cnF6MGNTMVcyU0dmY29nL05i?=
- =?utf-8?B?TitMRnRUaW1reVhFWGFRNEhJdDJWNVJzWG0zWlRHWVhTWlUzVWlxaFhWMzFN?=
- =?utf-8?B?a3pZaStVY3JSR1M4ZVBmYWhTQlFuWVlHWlpJeGtEeTJLKzFHd1Z2bjh5My9C?=
- =?utf-8?B?RDdpaldMYWdBYUZhbU0wYjBFa1o4TUJlZWVpR2UyOWJnenZyWW1seHg1ckpO?=
- =?utf-8?Q?2AtKGz3jRZL2FDrZbZTHKZTR1vZUCAbywblxVLciG9bo?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A369414C02DAD64FA29BE2D37E06C674@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5851EAD30
+	for <fsverity@lists.linux.dev>; Tue, 28 Mar 2023 17:33:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED243C4339B;
+	Tue, 28 Mar 2023 17:33:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680024787;
+	bh=4HwFt+u19oZDx6r8WlYLiMQmmYR06P41KH3Z/3WL0os=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XxmXS8dRj4wc1QIFZd7x8YJF+4Ztz8IDuCGCRME9D0HoN+HBialYG+dZK5hfQ2Asp
+	 PZAfCnbEDMfuvV1azTYi+oYheRxD38LZ9shwDEzQlkXjJEh1QxBfHwjr/XRZas2G29
+	 6bERYq3ofM9Z5VvPOYIDzfqqq1A6kw3/gJZ7sorhfblEnq8vKOs0HCGjucnThYlea4
+	 Enx3GTudAxbxh2KMzWTdhnGCKnNNsz22XtdF9z8YbT6Nttdjpi33YWiAr4wUu3ij+e
+	 N+WAFYYpZYEowIzbjZD5j4OKKg7B/zr0KnlpU4CopyvFAVPX5xT7Kn2sQjXe6m7tHH
+	 /nOkiT2O0LTBQ==
+From: Eric Biggers <ebiggers@kernel.org>
+To: stable@vger.kernel.org
+Cc: fsverity@lists.linux.dev,
+	Victor Hsieh <victorhsieh@google.com>
+Subject: [PATCH 6.1,5.15] fsverity: don't drop pagecache at end of FS_IOC_ENABLE_VERITY
+Date: Tue, 28 Mar 2023 10:32:26 -0700
+Message-Id: <20230328173226.65244-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fed2c44d-6874-4fe5-0d5c-08db2f53e632
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2023 06:15:59.3748
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /OJl2AH1+Hzy59bWNHrdcEMyCpPBbU3+GMMwVpIQzX5yTQiNQFg95aRlDQct5UThuuQnc76+mn+NaDFwJ3LLlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5242
+Content-Transfer-Encoding: 8bit
 
-T24gMy8yNy8yMyAyMTowMywgRXJpYyBCaWdnZXJzIHdyb3RlOg0KPiBGcm9tOiBFcmljIEJpZ2dl
-cnMgPGViaWdnZXJzQGdvb2dsZS5jb20+DQo+DQo+IEFzIHBlciBMaW51cydzIHN1Z2dlc3Rpb24N
-Cj4gKGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvQ0FIay09d2hlZnhSR3lOR3pDekc2QlZlTT01
-dm52Z2ItWGhTZUZKVnhKeUF4QUY4WFJBQG1haWwuZ21haWwuY29tKSwNCj4gdXNlIFdBUk5fT05f
-T05DRSBpbnN0ZWFkIG9mIFdBUk5fT04uICBUaGlzIGJhcmVseSBhZGRzIGFueSBleHRyYQ0KPiBv
-dmVyaGVhZCwgYW5kIGl0IG1ha2VzIGl0IHNvIHRoYXQgaWYgYW55IG9mIHRoZXNlIGV2ZXIgYmVj
-b21lcyByZWFjaGFibGUNCj4gKHRoZXkgc2hvdWxkbid0LCBidXQgdGhhdCdzIHRoZSBwb2ludCks
-IHRoZSBsb2dzIGNhbid0IGJlIGZsb29kZWQuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IEVyaWMgQmln
-Z2VycyA8ZWJpZ2dlcnNAZ29vZ2xlLmNvbT4NCj4gLS0tDQo+DQoNCkxvb2tzIGdvb2QuDQoNClJl
-dmlld2VkLWJ5OiBDaGFpdGFueWEgS3Vsa2FybmkgPGtjaEBudmlkaWEuY29tPg0KDQotY2sNCg0K
-DQo=
+From: Eric Biggers <ebiggers@google.com>
+
+commit a075bacde257f755bea0e53400c9f1cdd1b8e8e6 upstream.
+[Please apply to 6.1-stable and 5.15-stable.]
+
+The full pagecache drop at the end of FS_IOC_ENABLE_VERITY is causing
+performance problems and is hindering adoption of fsverity.  It was
+intended to solve a race condition where unverified pages might be left
+in the pagecache.  But actually it doesn't solve it fully.
+
+Since the incomplete solution for this race condition has too much
+performance impact for it to be worth it, let's remove it for now.
+
+Fixes: 3fda4c617e84 ("fs-verity: implement FS_IOC_ENABLE_VERITY ioctl")
+Cc: stable@vger.kernel.org
+Reviewed-by: Victor Hsieh <victorhsieh@google.com>
+Link: https://lore.kernel.org/r/20230314235332.50270-1-ebiggers@kernel.org
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ fs/verity/enable.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+diff --git a/fs/verity/enable.c b/fs/verity/enable.c
+index df6b499bf6a14..400c264bf8930 100644
+--- a/fs/verity/enable.c
++++ b/fs/verity/enable.c
+@@ -390,25 +390,27 @@ int fsverity_ioctl_enable(struct file *filp, const void __user *uarg)
+ 		goto out_drop_write;
+ 
+ 	err = enable_verity(filp, &arg);
+-	if (err)
+-		goto out_allow_write_access;
+ 
+ 	/*
+-	 * Some pages of the file may have been evicted from pagecache after
+-	 * being used in the Merkle tree construction, then read into pagecache
+-	 * again by another process reading from the file concurrently.  Since
+-	 * these pages didn't undergo verification against the file digest which
+-	 * fs-verity now claims to be enforcing, we have to wipe the pagecache
+-	 * to ensure that all future reads are verified.
++	 * We no longer drop the inode's pagecache after enabling verity.  This
++	 * used to be done to try to avoid a race condition where pages could be
++	 * evicted after being used in the Merkle tree construction, then
++	 * re-instantiated by a concurrent read.  Such pages are unverified, and
++	 * the backing storage could have filled them with different content, so
++	 * they shouldn't be used to fulfill reads once verity is enabled.
++	 *
++	 * But, dropping the pagecache has a big performance impact, and it
++	 * doesn't fully solve the race condition anyway.  So for those reasons,
++	 * and also because this race condition isn't very important relatively
++	 * speaking (especially for small-ish files, where the chance of a page
++	 * being used, evicted, *and* re-instantiated all while enabling verity
++	 * is quite small), we no longer drop the inode's pagecache.
+ 	 */
+-	filemap_write_and_wait(inode->i_mapping);
+-	invalidate_inode_pages2(inode->i_mapping);
+ 
+ 	/*
+ 	 * allow_write_access() is needed to pair with deny_write_access().
+ 	 * Regardless, the filesystem won't allow writing to verity files.
+ 	 */
+-out_allow_write_access:
+ 	allow_write_access(filp);
+ out_drop_write:
+ 	mnt_drop_write_file(filp);
+-- 
+2.40.0
+
