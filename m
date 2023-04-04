@@ -1,49 +1,49 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420142FAE
-	for <fsverity@lists.linux.dev>; Tue,  4 Apr 2023 14:55:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2039BBA3E
+	for <fsverity@lists.linux.dev>; Tue,  4 Apr 2023 14:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680620120;
+	s=mimecast20190719; t=1680620121;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=k8y9WhZdDNtrUXoW/FedDtUjjZj566BJYHrOtFmmOqc=;
-	b=XQ5M64wYoCjwbMos+m1h3AtH64pL456UE2GAz25p4v0DZdLzW6NqMqmKLS6AENI2s2uAtF
-	Ys2OoPsKsZwxJzezRQbfVamrLpDV7LXBtmk42hHuKWKS4tT26wpbTMoqo4BBZjtDdufj44
-	TeJRpqLcWc3YZhQL/VP0HJWrPfOBB+I=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=1DCV/M5yyrM1g1B6cxt9ZQ7HQFDQ1socxlG7tzRHhCM=;
+	b=Dl94SvH+xgPNHy1SqfMAkVg+EpESivg8HdD4ytzjwhxHR9GAknJE6wUEbk+QW9Xm2VDDR2
+	PUaTPElPgscSfpM4ENFnLybnJ49/fUh04ZPKTLY2yAD7/njsPd6266OIxFPiDQcs8a12qk
+	yygzOhsCepKN/F80yrtGH7T98PWRfrs=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-67-Q6MTBGiMOQqLQvpV_2VolA-1; Tue, 04 Apr 2023 10:55:19 -0400
-X-MC-Unique: Q6MTBGiMOQqLQvpV_2VolA-1
-Received: by mail-qv1-f72.google.com with SMTP id a15-20020a0562140c2f00b005ad28a23cffso14537715qvd.6
+ us-mta-318-o5EXQ03cO1mdDSArvJ1pwg-1; Tue, 04 Apr 2023 10:55:19 -0400
+X-MC-Unique: o5EXQ03cO1mdDSArvJ1pwg-1
+Received: by mail-qv1-f71.google.com with SMTP id dl18-20020ad44e12000000b005a4d5420bc6so14702967qvb.11
         for <fsverity@lists.linux.dev>; Tue, 04 Apr 2023 07:55:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680620119;
+        d=1e100.net; s=20210112; t=1680620115;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=k8y9WhZdDNtrUXoW/FedDtUjjZj566BJYHrOtFmmOqc=;
-        b=ED7+EyEmlsd25e9hegasNNniNieT4E7ca49/Rh1xUVnKiO1Bhe+kGnGiWa78evTVQW
-         pv1p+97OOgC4imSavLV6KpoEgxbVtjHDmfRXndf1pqV/70cKRJKXZdP5CsGIWiv6Rlbt
-         dsVm1nyd+zS6Fjdo3Gf/S5UGlDmqqLFOzzLfbwwEFo35EFAQz6B9jXP/ZSzZY73wIsRL
-         tV3S2IkIYxRXMK+3vLFXHH5Gz74dz4ZD+WRmrJPBR7bg3uJD1zOQFwIo01uQ1ziXOsA3
-         kdo19vrStVnNq4B9AcxNs8qFRTx95BUrgrkfwxw3VJn7Kmx2LpnjfCYKbY7ZcLLnBoMf
-         9VsA==
-X-Gm-Message-State: AAQBX9ffe/9j8VLKByL2+27HZr46d+DgpOmm7rrAtsZkP0VHbxFXJKm7
-	0VfdtX0UHclt/lgLAtOE0PNcOrt50nuYcj5MlosKHP51w4hoczGX2S8QSHYDrYdhqF5+2sWpeJN
-	KrShmjIyKhOtnpx2e2Q==
-X-Received: by 2002:ac8:5b06:0:b0:3d4:3d6c:a62b with SMTP id m6-20020ac85b06000000b003d43d6ca62bmr3793786qtw.27.1680620118588;
-        Tue, 04 Apr 2023 07:55:18 -0700 (PDT)
-X-Google-Smtp-Source: AKy350Zq76N3HAqDggjHqbDMyBg5khfORiFnim8gNTT1pLECc9GdD6VxBnlyiVZupUjB3vAUZcGqDA==
-X-Received: by 2002:ac8:5b06:0:b0:3d4:3d6c:a62b with SMTP id m6-20020ac85b06000000b003d43d6ca62bmr3793740qtw.27.1680620118202;
-        Tue, 04 Apr 2023 07:55:18 -0700 (PDT)
+        bh=1DCV/M5yyrM1g1B6cxt9ZQ7HQFDQ1socxlG7tzRHhCM=;
+        b=Ogg7FVyqEDu4CaE1A9dQoqXSd4HbMOoBNZ6nwFjYZ+co9WgyOmifmE9FPDa5p8NRWc
+         NmtzQtmdg7psiF0DzSNXwfp6lb2W7/HbBEs5477viPaUtVhWrKQ+NmuNSdHblqdNIvPx
+         iqicf0YuUSMTsLO2TnrIc1Nfer48Oaw3loJPMPrvAQ5978Y/iGmPYElAR6syZgt3f6Xp
+         iOH7qL3FyVtDoDFzqcaAvDkqcJ5jWjjbs3vQvDwBerJoNBYH/GtoC7+rCfHuuUCmA6pk
+         z1WoqkC+Nj8W90tni7Re25GakObfKIzTRSOwzHL0cFltv9b9w0fNhvm8q3O7SzO8Sg9s
+         WI2Q==
+X-Gm-Message-State: AAQBX9f2rJ1LE+KshWKAWUiT2MoayXJfYmOsRpP7BhdTvGv0wTlMKUaR
+	CyVl1hU2KhFMa0VuQUChoDixzyQDoV0ZaS1cBIY6thABhRUVxgdJ6C8n4Ery/e5XiysWek6YFoq
+	yHCEhnbg83VuKIeZpAA==
+X-Received: by 2002:a05:622a:1002:b0:3e3:8ebe:ce17 with SMTP id d2-20020a05622a100200b003e38ebece17mr3401479qte.43.1680620115383;
+        Tue, 04 Apr 2023 07:55:15 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZeTsqSdwXkQooxtkxa5UspUTLXqFsUhIKZ9BZk1HmO99VPevTQAHz0NwCmfjyQvtO6XB3OTQ==
+X-Received: by 2002:a05:622a:1002:b0:3e3:8ebe:ce17 with SMTP id d2-20020a05622a100200b003e38ebece17mr3401445qte.43.1680620115062;
+        Tue, 04 Apr 2023 07:55:15 -0700 (PDT)
 Received: from aalbersh.remote.csb ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id j4-20020ac86644000000b003e6387431dcsm3296539qtp.7.2023.04.04.07.55.15
+        by smtp.gmail.com with ESMTPSA id j4-20020ac86644000000b003e6387431dcsm3296539qtp.7.2023.04.04.07.55.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 07:55:17 -0700 (PDT)
+        Tue, 04 Apr 2023 07:55:14 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: djwong@kernel.org,
 	dchinner@redhat.com,
@@ -63,9 +63,9 @@ Cc: rpeterso@redhat.com,
 	linux-f2fs-devel@lists.sourceforge.net,
 	cluster-devel@redhat.com,
 	Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v2 11/23] xfs: add XFS_DA_OP_BUFFER to make xfs_attr_get() return buffer
-Date: Tue,  4 Apr 2023 16:53:07 +0200
-Message-Id: <20230404145319.2057051-12-aalbersh@redhat.com>
+Subject: [PATCH v2 10/23] xfs: add XBF_VERITY_CHECKED xfs_buf flag
+Date: Tue,  4 Apr 2023 16:53:06 +0200
+Message-Id: <20230404145319.2057051-11-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230404145319.2057051-1-aalbersh@redhat.com>
 References: <20230404145319.2057051-1-aalbersh@redhat.com>
@@ -80,129 +80,47 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-One of essential ideas of fs-verity is that pages which are already
-verified won't need to be re-verified if they still in page cache.
+The meaning of the flag is that value of the extended attribute in
+the buffer was verified. The underlying pages have PageChecked() ==
+false (the way fs-verity identifies verified pages), as page content
+will be copied out to newly allocated pages in further patches.
 
-The XFS stores Merkle tree blocks in extended attributes. Each
-attribute has one Merkle tree block. We can not directly mark
-underlying xfs_buf's pages as checked. The are not aligned with
-xattr value and we don't have a reference to that buffer which is
-immediately release when value is copied out.
-
-One way to track that this block was verified is to mark xattr's
-buffer as verified. If buffer is evicted the incore
-XBF_VERITY_CHECKED flag is lost. When the xattr is read again
-xfs_attr_get() returns new buffer without the flag. The flag is then
-used to tell fs-verity if it's new page or cached one.
-
-This patch adds XFS_DA_OP_BUFFER to tell xfs_attr_get() to
-xfs_buf_hold() underlying buffer and return it as xfs_da_args->bp.
-The caller must then xfs_buf_rele() the buffer.
+The flag is being used later to SetPageChecked() on pages handed to
+the fs-verity.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
 ---
- fs/xfs/libxfs/xfs_attr.c        |  5 ++++-
- fs/xfs/libxfs/xfs_attr_leaf.c   |  7 +++++++
- fs/xfs/libxfs/xfs_attr_remote.c | 13 +++++++++++--
- fs/xfs/libxfs/xfs_da_btree.h    |  5 ++++-
- 4 files changed, 26 insertions(+), 4 deletions(-)
+ fs/xfs/xfs_buf.h | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/fs/xfs/libxfs/xfs_attr.c b/fs/xfs/libxfs/xfs_attr.c
-index 711022742e34..298b74245267 100644
---- a/fs/xfs/libxfs/xfs_attr.c
-+++ b/fs/xfs/libxfs/xfs_attr.c
-@@ -251,6 +251,8 @@ xfs_attr_get_ilocked(
-  * If the attribute is found, but exceeds the size limit set by the caller in
-  * args->valuelen, return -ERANGE with the size of the attribute that was found
-  * in args->valuelen.
-+ *
-+ * Using XFS_DA_OP_BUFFER the caller have to release the buffer args->bp.
-  */
- int
- xfs_attr_get(
-@@ -269,7 +271,8 @@ xfs_attr_get(
- 	args->hashval = xfs_da_hashname(args->name, args->namelen);
+diff --git a/fs/xfs/xfs_buf.h b/fs/xfs/xfs_buf.h
+index 549c60942208..8cc86fed962b 100644
+--- a/fs/xfs/xfs_buf.h
++++ b/fs/xfs/xfs_buf.h
+@@ -24,14 +24,15 @@ struct xfs_buf;
  
- 	/* Entirely possible to look up a name which doesn't exist */
--	args->op_flags = XFS_DA_OP_OKNOENT;
-+	args->op_flags = XFS_DA_OP_OKNOENT |
-+					(args->op_flags & XFS_DA_OP_BUFFER);
+ #define XFS_BUF_DADDR_NULL	((xfs_daddr_t) (-1LL))
  
- 	lock_mode = xfs_ilock_attr_map_shared(args->dp);
- 	error = xfs_attr_get_ilocked(args);
-diff --git a/fs/xfs/libxfs/xfs_attr_leaf.c b/fs/xfs/libxfs/xfs_attr_leaf.c
-index beee51ad75ce..112bb2604c89 100644
---- a/fs/xfs/libxfs/xfs_attr_leaf.c
-+++ b/fs/xfs/libxfs/xfs_attr_leaf.c
-@@ -2533,6 +2533,13 @@ xfs_attr3_leaf_getvalue(
- 		name_loc = xfs_attr3_leaf_name_local(leaf, args->index);
- 		ASSERT(name_loc->namelen == args->namelen);
- 		ASSERT(memcmp(args->name, name_loc->nameval, args->namelen) == 0);
-+
-+		/* must be released by the caller */
-+		if (args->op_flags & XFS_DA_OP_BUFFER) {
-+			xfs_buf_hold(bp);
-+			args->bp = bp;
-+		}
-+
- 		return xfs_attr_copy_value(args,
- 					&name_loc->nameval[args->namelen],
- 					be16_to_cpu(name_loc->valuelen));
-diff --git a/fs/xfs/libxfs/xfs_attr_remote.c b/fs/xfs/libxfs/xfs_attr_remote.c
-index d440393b40eb..72908e0e1c86 100644
---- a/fs/xfs/libxfs/xfs_attr_remote.c
-+++ b/fs/xfs/libxfs/xfs_attr_remote.c
-@@ -424,9 +424,18 @@ xfs_attr_rmtval_get(
- 			error = xfs_attr_rmtval_copyout(mp, bp, args->dp->i_ino,
- 							&offset, &valuelen,
- 							&dst);
--			xfs_buf_relse(bp);
--			if (error)
-+			xfs_buf_unlock(bp);
-+			/* must be released by the caller */
-+			if (args->op_flags & XFS_DA_OP_BUFFER)
-+				args->bp = bp;
-+			else
-+				xfs_buf_rele(bp);
-+
-+			if (error) {
-+				if (args->op_flags & XFS_DA_OP_BUFFER)
-+					xfs_buf_rele(args->bp);
- 				return error;
-+			}
+-#define XBF_READ	 (1u << 0) /* buffer intended for reading from device */
+-#define XBF_WRITE	 (1u << 1) /* buffer intended for writing to device */
+-#define XBF_READ_AHEAD	 (1u << 2) /* asynchronous read-ahead */
+-#define XBF_NO_IOACCT	 (1u << 3) /* bypass I/O accounting (non-LRU bufs) */
+-#define XBF_ASYNC	 (1u << 4) /* initiator will not wait for completion */
+-#define XBF_DONE	 (1u << 5) /* all pages in the buffer uptodate */
+-#define XBF_STALE	 (1u << 6) /* buffer has been staled, do not find it */
+-#define XBF_WRITE_FAIL	 (1u << 7) /* async writes have failed on this buffer */
++#define XBF_READ		(1u << 0) /* buffer intended for reading from device */
++#define XBF_WRITE		(1u << 1) /* buffer intended for writing to device */
++#define XBF_READ_AHEAD		(1u << 2) /* asynchronous read-ahead */
++#define XBF_NO_IOACCT		(1u << 3) /* bypass I/O accounting (non-LRU bufs) */
++#define XBF_ASYNC		(1u << 4) /* initiator will not wait for completion */
++#define XBF_DONE		(1u << 5) /* all pages in the buffer uptodate */
++#define XBF_STALE		(1u << 6) /* buffer has been staled, do not find it */
++#define XBF_WRITE_FAIL		(1u << 7) /* async writes have failed on this buffer */
++#define XBF_VERITY_CHECKED	(1u << 8) /* buffer was verified by fs-verity*/
  
- 			/* roll attribute extent map forwards */
- 			lblkno += map[i].br_blockcount;
-diff --git a/fs/xfs/libxfs/xfs_da_btree.h b/fs/xfs/libxfs/xfs_da_btree.h
-index a4b29827603f..269d26730bca 100644
---- a/fs/xfs/libxfs/xfs_da_btree.h
-+++ b/fs/xfs/libxfs/xfs_da_btree.h
-@@ -61,6 +61,7 @@ typedef struct xfs_da_args {
- 	uint8_t		filetype;	/* filetype of inode for directories */
- 	void		*value;		/* set of bytes (maybe contain NULLs) */
- 	int		valuelen;	/* length of value */
-+	struct xfs_buf	*bp;		/* OUT: xfs_buf which contains the attr */
- 	unsigned int	attr_filter;	/* XFS_ATTR_{ROOT,SECURE,INCOMPLETE} */
- 	unsigned int	attr_flags;	/* XATTR_{CREATE,REPLACE} */
- 	xfs_dahash_t	hashval;	/* hash value of name */
-@@ -95,6 +96,7 @@ typedef struct xfs_da_args {
- #define XFS_DA_OP_REMOVE	(1u << 6) /* this is a remove operation */
- #define XFS_DA_OP_RECOVERY	(1u << 7) /* Log recovery operation */
- #define XFS_DA_OP_LOGGED	(1u << 8) /* Use intent items to track op */
-+#define XFS_DA_OP_BUFFER	(1u << 9) /* Return underlying buffer */
- 
- #define XFS_DA_OP_FLAGS \
- 	{ XFS_DA_OP_JUSTCHECK,	"JUSTCHECK" }, \
-@@ -105,7 +107,8 @@ typedef struct xfs_da_args {
- 	{ XFS_DA_OP_NOTIME,	"NOTIME" }, \
- 	{ XFS_DA_OP_REMOVE,	"REMOVE" }, \
- 	{ XFS_DA_OP_RECOVERY,	"RECOVERY" }, \
--	{ XFS_DA_OP_LOGGED,	"LOGGED" }
-+	{ XFS_DA_OP_LOGGED,	"LOGGED" }, \
-+	{ XFS_DA_OP_BUFFER,	"BUFFER" }
- 
- /*
-  * Storage for holding state during Btree searches and split/join ops.
+ /* buffer type flags for write callbacks */
+ #define _XBF_INODES	 (1u << 16)/* inode buffer */
 -- 
 2.38.4
 
