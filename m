@@ -1,59 +1,60 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6192E3C07
-	for <fsverity@lists.linux.dev>; Tue,  4 Apr 2023 23:40:36 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id z19so32848067plo.2
-        for <fsverity@lists.linux.dev>; Tue, 04 Apr 2023 16:40:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571F13C07
+	for <fsverity@lists.linux.dev>; Tue,  4 Apr 2023 23:56:37 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id y2so22555760pfw.9
+        for <fsverity@lists.linux.dev>; Tue, 04 Apr 2023 16:56:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20210112.gappssmtp.com; s=20210112; t=1680651635;
+        d=fromorbit-com.20210112.gappssmtp.com; s=20210112; t=1680652597;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M/r2yyBxa2UjizT7DIESb3jdVn4T1vcr3JZCxz3Un80=;
-        b=l2RsFYI9/RVRWt/aDmW615qjr94XgOxAaXQ+UAkJU4YMTNxdL1SWonsdJUToBlbJ33
-         DPIu1jzsGIMef5CH+m4C2GOQV87eocIVgfGQ2KXn6+YS9XADLuJnuOSAx6h9+j9fnpY5
-         JTHYmubv4qSZWAR14+cgEjLy3uLmmEqMpfJ+lATcV1zLzTamDk02U3M8jBH7uG496lcD
-         puuraASOSvX9+ur5puWLnEC9/61i1l5u5Gr181q9JcQG0znhvmDJq5XOdzeaXNEnNW05
-         1UU5+ld2OPAAE5dtXF9Jdb1D6TH+pXeDq+mDu/DmDkU3DEmpC9mQq6W3PJ67HVENlW/F
-         mRiw==
+        bh=CiwVxtHqh7PtMKcIrbTly4vzLJ3BWefIHUj9tJBpUIs=;
+        b=vimaQLlpEUMehiQFMsj9zfP0aw8/xBepI6GNmarhCk57b8UQ+tn2pqLKQED8ItRRuU
+         yF8SeMM3vB+68/MfMN+3QVByH6UzFxwNuWFtq5ftE0qjeYhWqPjWaGxRRrCcG7s+Sq2t
+         TZHNB2ng1SQRm73fUpFyK2Zs5RT6hgnCgmO7HkFUdKdL6knY6P5hyJf8HGbX6i8ol+oL
+         LlqjwoN3yKJCKPqRPVUAAs623zJmSloPMxmKQY24W37dtqAQrT3uUIUAAgzZOPO1c5zR
+         spxERhNZLoAfBmHPajMN/L3QcThXSpRgXAusvQ8ERdge4t8cKIJw6oM2DZo36HcqBMPC
+         BQ7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680651635;
+        d=1e100.net; s=20210112; t=1680652597;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M/r2yyBxa2UjizT7DIESb3jdVn4T1vcr3JZCxz3Un80=;
-        b=EIHmwWIDbyNAZfWhGSD/rohWN8vPFyF7CMIIN/cnXzs2vRf75wk6L4h0uSO751jFIJ
-         TeepZE6yMMVYzWNNCdtq2jkAHVFEGU2cUIOBAyofFJLAmqsdU2hn0WWAUUWt0dcZCzbu
-         SfQ8l6Cn1uwqsg05jtO2RU+qGyjMp+QzDiTsUuHLKXsnrRyrejbuZx4luIdocluzd1+h
-         QUmcF2tbBWGWUxMqWMyh3zUkA955+odC1PIyn4gKdGdamJsRf5pnPgdC9NWvcDYeRgnm
-         wHWUfATWCBBsYa9/PpC/0XDDUREDwtQgLPsOE7Cr6lBx/DP0q6BoeVIolfg+QPpw8j2s
-         XkWA==
-X-Gm-Message-State: AAQBX9cL64ANOZ2t2h9BlOC7dBqPG9SdlrCLnv8uuBd3QEmhFZvoNrDo
-	ds5fort5tcKi+mjMF3RoL7qPCg==
-X-Google-Smtp-Source: AKy350aGtUyDc7dXm54tao9SO1Z52DtK7YHUJoaBCaBA1TXOYmz5/48+4yE+r2PZyPM8LNhcT3l0sw==
-X-Received: by 2002:a17:902:fb8c:b0:1a1:c945:4b23 with SMTP id lg12-20020a170902fb8c00b001a1c9454b23mr3916070plb.65.1680651635730;
-        Tue, 04 Apr 2023 16:40:35 -0700 (PDT)
+        bh=CiwVxtHqh7PtMKcIrbTly4vzLJ3BWefIHUj9tJBpUIs=;
+        b=SdCDGMNjAu+LY01iPQIuNPaxAmzRBg3XIPN9cYREDruDxRn7UmqDGyFkjLETtoazAj
+         LhKA6WXZkwd3UPJ92n0TPZy/Gtb7wV0+NfgFLlrsUhbeZTlNBC1akS2sURa6N5gr2Lyf
+         /OLyEaFOEq0SATK3YYSn6Y+RJyWNykpeQnSiFj2/1I8eUFQZGLu/12Ec3FT+H/UaVAct
+         G93YK5uKwY+Wrwg94DkAAij0odsy7g6MCSZ2Zh9+V7ShOyQ8FhGqcQOb0qFTgFvtu4b7
+         7KoFQFvXrWo4yU+7Bg77R7592dkrbRmriDvU9NeUKyRtoM0c/QhwZrbzLcor9ipbfBIr
+         fFAg==
+X-Gm-Message-State: AAQBX9ck9qs4eKr7+z++Dl/q/zDpDD7Ztn5QalpW4Q4gP8pD7QgZ31Q1
+	uiB1B8cHu4gIHyZrItmdj7x45A==
+X-Google-Smtp-Source: AKy350boc1NJttMEXbPWdN9rfQR7KWvZb/0IvD3DuAJJ+io4CZz0OVS7AP+iey99+szOCn0Wgij/bQ==
+X-Received: by 2002:a62:6454:0:b0:626:7c43:7cb8 with SMTP id y81-20020a626454000000b006267c437cb8mr3631280pfb.20.1680652596758;
+        Tue, 04 Apr 2023 16:56:36 -0700 (PDT)
 Received: from dread.disaster.area (pa49-181-91-157.pa.nsw.optusnet.com.au. [49.181.91.157])
-        by smtp.gmail.com with ESMTPSA id q18-20020a170902b11200b001a216d44440sm8856651plr.200.2023.04.04.16.40.24
+        by smtp.gmail.com with ESMTPSA id a18-20020a656412000000b005136b93f8e9sm8146027pgv.14.2023.04.04.16.56.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 16:40:29 -0700 (PDT)
+        Tue, 04 Apr 2023 16:56:36 -0700 (PDT)
 Received: from dave by dread.disaster.area with local (Exim 4.92.3)
 	(envelope-from <david@fromorbit.com>)
-	id 1pjqGB-00H7Og-Tt; Wed, 05 Apr 2023 09:40:19 +1000
-Date: Wed, 5 Apr 2023 09:40:19 +1000
+	id 1pjqVt-00H7ij-6l; Wed, 05 Apr 2023 09:56:33 +1000
+Date: Wed, 5 Apr 2023 09:56:33 +1000
 From: Dave Chinner <david@fromorbit.com>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: djwong@kernel.org, dchinner@redhat.com, ebiggers@kernel.org,
-	hch@infradead.org, linux-xfs@vger.kernel.org,
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, djwong@kernel.org,
+	dchinner@redhat.com, hch@infradead.org, linux-xfs@vger.kernel.org,
 	fsverity@lists.linux.dev, rpeterso@redhat.com, agruenba@redhat.com,
 	xiang@kernel.org, chao@kernel.org, damien.lemoal@opensource.wdc.com,
 	jth@kernel.org, linux-erofs@lists.ozlabs.org,
 	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com
-Subject: Re: [PATCH v2 06/23] fsverity: add drop_page() callout
-Message-ID: <20230404234019.GM3223426@dread.disaster.area>
+Subject: Re: [PATCH v2 16/23] xfs: add inode on-disk VERITY flag
+Message-ID: <20230404235633.GN3223426@dread.disaster.area>
 References: <20230404145319.2057051-1-aalbersh@redhat.com>
- <20230404145319.2057051-7-aalbersh@redhat.com>
+ <20230404145319.2057051-17-aalbersh@redhat.com>
+ <20230404224123.GD1893@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -62,84 +63,56 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230404145319.2057051-7-aalbersh@redhat.com>
+In-Reply-To: <20230404224123.GD1893@sol.localdomain>
 
-On Tue, Apr 04, 2023 at 04:53:02PM +0200, Andrey Albershteyn wrote:
-> Allow filesystem to make additional processing on verified pages
-> instead of just dropping a reference. This will be used by XFS for
-> internal buffer cache manipulation in further patches. The btrfs,
-> ext4, and f2fs just drop the reference.
+On Tue, Apr 04, 2023 at 03:41:23PM -0700, Eric Biggers wrote:
+> Hi Andrey,
 > 
-> Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> ---
->  fs/btrfs/verity.c         | 12 ++++++++++++
->  fs/ext4/verity.c          |  6 ++++++
->  fs/f2fs/verity.c          |  6 ++++++
->  fs/verity/read_metadata.c |  4 ++--
->  fs/verity/verify.c        |  6 +++---
->  include/linux/fsverity.h  | 10 ++++++++++
->  6 files changed, 39 insertions(+), 5 deletions(-)
+> On Tue, Apr 04, 2023 at 04:53:12PM +0200, Andrey Albershteyn wrote:
+> > Add flag to mark inodes which have fs-verity enabled on them (i.e.
+> > descriptor exist and tree is built).
+> > 
+> > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
+> > ---
+> >  fs/ioctl.c                 | 4 ++++
+> >  fs/xfs/libxfs/xfs_format.h | 4 +++-
+> >  fs/xfs/xfs_inode.c         | 2 ++
+> >  fs/xfs/xfs_iops.c          | 2 ++
+> >  include/uapi/linux/fs.h    | 1 +
+> >  5 files changed, 12 insertions(+), 1 deletion(-)
+> [...]
+> > diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+> > index b7b56871029c..5172a2eb902c 100644
+> > --- a/include/uapi/linux/fs.h
+> > +++ b/include/uapi/linux/fs.h
+> > @@ -140,6 +140,7 @@ struct fsxattr {
+> >  #define FS_XFLAG_FILESTREAM	0x00004000	/* use filestream allocator */
+> >  #define FS_XFLAG_DAX		0x00008000	/* use DAX for IO */
+> >  #define FS_XFLAG_COWEXTSIZE	0x00010000	/* CoW extent size allocator hint */
+> > +#define FS_XFLAG_VERITY		0x00020000	/* fs-verity sealed inode */
+> >  #define FS_XFLAG_HASATTR	0x80000000	/* no DIFLAG for this	*/
+> >  
 > 
-> diff --git a/fs/btrfs/verity.c b/fs/btrfs/verity.c
-> index c5ff16f9e9fa..4c2c09204bb4 100644
-> --- a/fs/btrfs/verity.c
-> +++ b/fs/btrfs/verity.c
-> @@ -804,10 +804,22 @@ static int btrfs_write_merkle_tree_block(struct inode *inode, const void *buf,
->  			       pos, buf, size);
->  }
->  
-> +/*
-> + * fsverity op that releases the reference obtained by ->read_merkle_tree_page()
-> + *
-> + * @page:  reference to the page which can be released
-> + *
-> + */
-> +static void btrfs_drop_page(struct page *page)
-> +{
-> +	put_page(page);
-> +}
-> +
->  const struct fsverity_operations btrfs_verityops = {
->  	.begin_enable_verity     = btrfs_begin_enable_verity,
->  	.end_enable_verity       = btrfs_end_enable_verity,
->  	.get_verity_descriptor   = btrfs_get_verity_descriptor,
->  	.read_merkle_tree_page   = btrfs_read_merkle_tree_page,
->  	.write_merkle_tree_block = btrfs_write_merkle_tree_block,
-> +	.drop_page		 = &btrfs_drop_page,
->  };
+> I don't think "xfs: add inode on-disk VERITY flag" is an accurate description of
+> a patch that involves adding something to the UAPI.
 
-Ok, that's a generic put_page() call.
+Well it does that, but it also adds the UAPI for querying the
+on-disk flag via the FS_IOC_FSGETXATTR interface as well.  It
+probably should be split up into two patches.
 
-....
-> diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-> index f50e3b5b52c9..c2fc4c86af34 100644
-> --- a/fs/verity/verify.c
-> +++ b/fs/verity/verify.c
-> @@ -210,7 +210,7 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
->  		if (is_hash_block_verified(vi, hpage, hblock_idx)) {
->  			memcpy_from_page(_want_hash, hpage, hoffset, hsize);
->  			want_hash = _want_hash;
-> -			put_page(hpage);
-> +			inode->i_sb->s_vop->drop_page(hpage);
->  			goto descend;
+> Should the other filesystems support this new flag too?
 
-			fsverity_drop_page(hpage);
+I think they should get it automatically now that it has been
+defined for FS_IOC_FSGETXATTR and added to the generic fileattr flag
+fill functions in fs/ioctl.c.
 
-static inline void
-fsverity_drop_page(struct inode *inode, struct page *page)
-{
-	if (inode->i_sb->s_vop->drop_page)
-		inode->i_sb->s_vop->drop_page(page);
-	else
-		put_page(page);
-}
+> I'd also like all ways of getting the verity flag to continue to be mentioned in
+> Documentation/filesystems/fsverity.rst.  The existing methods (FS_IOC_GETFLAGS
+> and statx) are already mentioned there.
 
-And then you don't need to add the functions to each of the
-filesystems nor make an indirect call just to run put_page().
+*nod*
 
-Cheers,
-
-Dave.
+-Dave.
 -- 
 Dave Chinner
 david@fromorbit.com
