@@ -1,49 +1,49 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C230BA3E
-	for <fsverity@lists.linux.dev>; Tue,  4 Apr 2023 14:54:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0C62FAE
+	for <fsverity@lists.linux.dev>; Tue,  4 Apr 2023 14:54:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680620090;
+	s=mimecast20190719; t=1680620094;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EljYz9VZ7nVcMno61oSjo4fgwJueEqLgTdTvZAW6Ojc=;
-	b=F4L2Zr4IhxQ/trQfxOJQ9WPEPrRiN/0BLy7/Gc/2rPkod2go5e1C4fjpyIqht60W6d0jSM
-	UH8a7PpknQOiM6Hr9ycCgTwS6gGfPXreuoI9WjRLG+Yep4ky99waizYPXT6FXLfMolCNL2
-	Vtk3XLR7sOeRboPFDYb31vL4HMn9r9M=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=395KBh5jpp5sBhV7lwrvunRnw3iYM/DZo2HMst97yLA=;
+	b=ZENtbvlJgHk7UehCvdK9ngmKGQ+j+goasoiL/Cw5Q973lw2gIiCUgl67V2n9SxlEFRj1ni
+	H+T8B2yNJIPwI3uAIjOEBIkhXlSYSTYUKspJSsN2pOgzDrOon53AcF3kk3s7Iwn7BKbR2v
+	DTvHsSxBZhiq1Cr6np8KbasGdjHBLbU=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-IwC4oTVWOlqUIEZTkDE8TA-1; Tue, 04 Apr 2023 10:54:48 -0400
-X-MC-Unique: IwC4oTVWOlqUIEZTkDE8TA-1
-Received: by mail-qk1-f197.google.com with SMTP id 187-20020a3707c4000000b007468d9a30faso14840913qkh.23
-        for <fsverity@lists.linux.dev>; Tue, 04 Apr 2023 07:54:48 -0700 (PDT)
+ us-mta-308-eAyIdCugOgGUtkhq2X591Q-1; Tue, 04 Apr 2023 10:54:53 -0400
+X-MC-Unique: eAyIdCugOgGUtkhq2X591Q-1
+Received: by mail-qt1-f198.google.com with SMTP id t15-20020a05622a180f00b003e37dd114e3so22255071qtc.10
+        for <fsverity@lists.linux.dev>; Tue, 04 Apr 2023 07:54:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680620088;
+        d=1e100.net; s=20210112; t=1680620092;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EljYz9VZ7nVcMno61oSjo4fgwJueEqLgTdTvZAW6Ojc=;
-        b=tiFNwsEMfqviZc7Qh5F/MM1e79HDfDgN9AcgrSDASjzu30Gz4sZwidgpnTq4GhDxWS
-         VDowRKYn86adnC1ZMUEWIUB6/0Ww+4E1ilIYPOry8PqiQzDTOsIERyatpdX+HBBnq76G
-         xXmCx4iEX7rvCjE5sJ4tT4tpfxYxFc++SwTIyHyChSecMUKVcPknHk4O2ZZOmM1MsECt
-         15i+JKS2xUMGR6z4dcbX282Swdvk4nHuSr45yOhWFj8j6K1zhzXShJSlle0Zg9fPG24a
-         0/jbdwTfqKTcBKxMQkbskTMdDXRbsNk2cwqcrBdum1mMK1qr1xcI2mQ5WEGthA/PWL2j
-         6+sQ==
-X-Gm-Message-State: AAQBX9dB7zwtqCX8iNWQ5LbyEYhiHXArYWklXl/QmKLgrJdHppj5dpzd
-	dAB8qCpYABAzyENGfJI8ymimmsod9DXPFJMxMJi5vvEahkbAOGyRm+4gctIV24aHDxtRIwoP8Nf
-	EBYg1BohJEyrVyblWSw==
-X-Received: by 2002:ad4:5be5:0:b0:5df:4d41:954d with SMTP id k5-20020ad45be5000000b005df4d41954dmr4197895qvc.3.1680620087795;
-        Tue, 04 Apr 2023 07:54:47 -0700 (PDT)
-X-Google-Smtp-Source: AKy350awxiwQj29WkT4ggcZAS6daFPDjxiKszMVMUv7HrI39sj994HHwSVJ4OpAB2k+VsVfNFDI7fw==
-X-Received: by 2002:ad4:5be5:0:b0:5df:4d41:954d with SMTP id k5-20020ad45be5000000b005df4d41954dmr4197864qvc.3.1680620087448;
-        Tue, 04 Apr 2023 07:54:47 -0700 (PDT)
+        bh=395KBh5jpp5sBhV7lwrvunRnw3iYM/DZo2HMst97yLA=;
+        b=raxzGghv3Mj79ow/RB+HolQ/wCHIKHnXbS5/GXu+91aYtFMYzGdZx5M025HtabPD4S
+         emz6Rk/cKgUsCA0ky8wAq4+Cxobopv4i4UmTcMTjM5vyjDZVnhQtCl5MKqBDQc51mwV0
+         tyAEV5mBXIbF9Ksd9DaPZ4/SmJCH51/EAMvcXs5cO47hs4reVaVlryeWMgPW2giNGAkp
+         qQc/SMqrJ3hmVR9xdwPTn87FZx2JcV4lxIGWI8XXXieoL79EE4RmzLlmdSwJLPS3OaeK
+         0AvPFzO/epv+SBkcJxn9NUVgkzk9FO96R1JXaMYRcyzE6+QcyByn98Eg6ulOh1vpuBWM
+         L/WA==
+X-Gm-Message-State: AAQBX9eWp9eBvzmBpPEU9dcMPcB8d2Hza536mHQ3qASxhehGxlhivvSA
+	JynWLdb9xRTIEg/kBZrW1e/CCUsWcgE+UTHigXesUH3bxX2Nj+gwUV5M7MtrAI5yn7YIqRjftj8
+	2SgSMsV5p6vMxAztN0w==
+X-Received: by 2002:a05:622a:1495:b0:3e3:86d4:5df0 with SMTP id t21-20020a05622a149500b003e386d45df0mr3709068qtx.55.1680620092097;
+        Tue, 04 Apr 2023 07:54:52 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aPi48zuTVxqlQ2ykuKHu8ozrnZJsbxnbJpjnRK3ke426WVAPqcsUdJYViMl9WXPC5V56cQ2g==
+X-Received: by 2002:a05:622a:1495:b0:3e3:86d4:5df0 with SMTP id t21-20020a05622a149500b003e386d45df0mr3709024qtx.55.1680620091642;
+        Tue, 04 Apr 2023 07:54:51 -0700 (PDT)
 Received: from aalbersh.remote.csb ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id j4-20020ac86644000000b003e6387431dcsm3296539qtp.7.2023.04.04.07.54.44
+        by smtp.gmail.com with ESMTPSA id j4-20020ac86644000000b003e6387431dcsm3296539qtp.7.2023.04.04.07.54.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 07:54:47 -0700 (PDT)
+        Tue, 04 Apr 2023 07:54:51 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: djwong@kernel.org,
 	dchinner@redhat.com,
@@ -62,11 +62,10 @@ Cc: rpeterso@redhat.com,
 	linux-ext4@vger.kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net,
 	cluster-devel@redhat.com,
-	Allison Henderson <allison.henderson@oracle.com>,
-	Mark Tinguely <tinguely@sgi.com>
-Subject: [PATCH v2 02/23] xfs: add parent pointer support to attribute code
-Date: Tue,  4 Apr 2023 16:52:58 +0200
-Message-Id: <20230404145319.2057051-3-aalbersh@redhat.com>
+	Allison Henderson <allison.henderson@oracle.com>
+Subject: [PATCH v2 03/23] xfs: define parent pointer xattr format
+Date: Tue,  4 Apr 2023 16:52:59 +0200
+Message-Id: <20230404145319.2057051-4-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230404145319.2057051-1-aalbersh@redhat.com>
 References: <20230404145319.2057051-1-aalbersh@redhat.com>
@@ -83,85 +82,72 @@ Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
 From: Allison Henderson <allison.henderson@oracle.com>
 
-Add the new parent attribute type. XFS_ATTR_PARENT is used only for parent pointer
-entries; it uses reserved blocks like XFS_ATTR_ROOT.
+We need to define the parent pointer attribute format before we start
+adding support for it into all the code that needs to use it. The EA
+format we will use encodes the following information:
 
-Signed-off-by: Mark Tinguely <tinguely@sgi.com>
+        name={parent inode #, parent inode generation, dirent offset}
+        value={dirent filename}
+
+The inode/gen gives all the information we need to reliably identify the
+parent without requiring child->parent lock ordering, and allows
+userspace to do pathname component level reconstruction without the
+kernel ever needing to verify the parent itself as part of ioctl calls.
+
+By using the dirent offset in the EA name, we have a method of knowing
+the exact parent pointer EA we need to modify/remove in rename/unlink
+without an unbound EA name search.
+
+By keeping the dirent name in the value, we have enough information to
+be able to validate and reconstruct damaged directory trees. While the
+diroffset of a filename alone is not unique enough to identify the
+child, the {diroffset,filename,child_inode} tuple is sufficient. That
+is, if the diroffset gets reused and points to a different filename, we
+can detect that from the contents of EA. If a link of the same name is
+created, then we can check whether it points at the same inode as the
+parent EA we current have.
+
 Signed-off-by: Dave Chinner <dchinner@redhat.com>
 Signed-off-by: Allison Henderson <allison.henderson@oracle.com>
 Reviewed-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/xfs/libxfs/xfs_attr.c       | 4 +++-
- fs/xfs/libxfs/xfs_da_format.h  | 5 ++++-
- fs/xfs/libxfs/xfs_log_format.h | 1 +
- fs/xfs/scrub/attr.c            | 2 +-
- 4 files changed, 9 insertions(+), 3 deletions(-)
+ fs/xfs/libxfs/xfs_da_format.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/fs/xfs/libxfs/xfs_attr.c b/fs/xfs/libxfs/xfs_attr.c
-index b1dbed7655e8..101823772bf9 100644
---- a/fs/xfs/libxfs/xfs_attr.c
-+++ b/fs/xfs/libxfs/xfs_attr.c
-@@ -976,11 +976,13 @@ xfs_attr_set(
- 	struct xfs_inode	*dp = args->dp;
- 	struct xfs_mount	*mp = dp->i_mount;
- 	struct xfs_trans_res	tres;
--	bool			rsvd = (args->attr_filter & XFS_ATTR_ROOT);
-+	bool			rsvd;
- 	int			error, local;
- 	int			rmt_blks = 0;
- 	unsigned int		total;
- 
-+	rsvd = (args->attr_filter & (XFS_ATTR_ROOT | XFS_ATTR_PARENT)) != 0;
-+
- 	if (xfs_is_shutdown(dp->i_mount))
- 		return -EIO;
- 
 diff --git a/fs/xfs/libxfs/xfs_da_format.h b/fs/xfs/libxfs/xfs_da_format.h
-index 25e2841084e1..3dc03968bba6 100644
+index 3dc03968bba6..b02b67f1999e 100644
 --- a/fs/xfs/libxfs/xfs_da_format.h
 +++ b/fs/xfs/libxfs/xfs_da_format.h
-@@ -688,12 +688,15 @@ struct xfs_attr3_leafblock {
- #define	XFS_ATTR_LOCAL_BIT	0	/* attr is stored locally */
- #define	XFS_ATTR_ROOT_BIT	1	/* limit access to trusted attrs */
- #define	XFS_ATTR_SECURE_BIT	2	/* limit access to secure attrs */
-+#define	XFS_ATTR_PARENT_BIT	3	/* parent pointer attrs */
- #define	XFS_ATTR_INCOMPLETE_BIT	7	/* attr in middle of create/delete */
- #define XFS_ATTR_LOCAL		(1u << XFS_ATTR_LOCAL_BIT)
- #define XFS_ATTR_ROOT		(1u << XFS_ATTR_ROOT_BIT)
- #define XFS_ATTR_SECURE		(1u << XFS_ATTR_SECURE_BIT)
-+#define XFS_ATTR_PARENT		(1u << XFS_ATTR_PARENT_BIT)
- #define XFS_ATTR_INCOMPLETE	(1u << XFS_ATTR_INCOMPLETE_BIT)
--#define XFS_ATTR_NSP_ONDISK_MASK	(XFS_ATTR_ROOT | XFS_ATTR_SECURE)
-+#define XFS_ATTR_NSP_ONDISK_MASK \
-+			(XFS_ATTR_ROOT | XFS_ATTR_SECURE | XFS_ATTR_PARENT)
+@@ -805,4 +805,29 @@ static inline unsigned int xfs_dir2_dirblock_bytes(struct xfs_sb *sbp)
+ xfs_failaddr_t xfs_da3_blkinfo_verify(struct xfs_buf *bp,
+ 				      struct xfs_da3_blkinfo *hdr3);
  
- /*
-  * Alignment for namelist and valuelist entries (since they are mixed
-diff --git a/fs/xfs/libxfs/xfs_log_format.h b/fs/xfs/libxfs/xfs_log_format.h
-index ae9c99762a24..727b5a858028 100644
---- a/fs/xfs/libxfs/xfs_log_format.h
-+++ b/fs/xfs/libxfs/xfs_log_format.h
-@@ -967,6 +967,7 @@ struct xfs_icreate_log {
-  */
- #define XFS_ATTRI_FILTER_MASK		(XFS_ATTR_ROOT | \
- 					 XFS_ATTR_SECURE | \
-+					 XFS_ATTR_PARENT | \
- 					 XFS_ATTR_INCOMPLETE)
- 
- /*
-diff --git a/fs/xfs/scrub/attr.c b/fs/xfs/scrub/attr.c
-index 31529b9bf389..9d2e33743ecd 100644
---- a/fs/xfs/scrub/attr.c
-+++ b/fs/xfs/scrub/attr.c
-@@ -441,7 +441,7 @@ xchk_xattr_rec(
- 	/* Retrieve the entry and check it. */
- 	hash = be32_to_cpu(ent->hashval);
- 	badflags = ~(XFS_ATTR_LOCAL | XFS_ATTR_ROOT | XFS_ATTR_SECURE |
--			XFS_ATTR_INCOMPLETE);
-+			XFS_ATTR_INCOMPLETE | XFS_ATTR_PARENT);
- 	if ((ent->flags & badflags) != 0)
- 		xchk_da_set_corrupt(ds, level);
- 	if (ent->flags & XFS_ATTR_LOCAL) {
++/*
++ * Parent pointer attribute format definition
++ *
++ * EA name encodes the parent inode number, generation and the offset of
++ * the dirent that points to the child inode. The EA value contains the
++ * same name as the dirent in the parent directory.
++ */
++struct xfs_parent_name_rec {
++	__be64  p_ino;
++	__be32  p_gen;
++	__be32  p_diroffset;
++};
++
++/*
++ * incore version of the above, also contains name pointers so callers
++ * can pass/obtain all the parent pointer information in a single structure
++ */
++struct xfs_parent_name_irec {
++	xfs_ino_t		p_ino;
++	uint32_t		p_gen;
++	xfs_dir2_dataptr_t	p_diroffset;
++	const char		*p_name;
++	uint8_t			p_namelen;
++};
++
+ #endif /* __XFS_DA_FORMAT_H__ */
 -- 
 2.38.4
 
