@@ -1,152 +1,142 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7B57EB
-	for <fsverity@lists.linux.dev>; Wed,  5 Apr 2023 10:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415397EB
+	for <fsverity@lists.linux.dev>; Wed,  5 Apr 2023 11:01:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680691153;
+	s=mimecast20190719; t=1680692486;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sBkFB8fAWBN3smTHXDCk9Sdy8T63XJRLVaCuva4Dlh8=;
-	b=IZ+80HHyflA0PA7JbWhpmorV4w26vqCt95GTbtlvNBsGt1R1wNgXV+S9kHlYM/EbLUW1p9
-	gaCq4dIKPNr/PRlXUCsiQnZZM+ko1a6jwgAMCVBqJ6n9jT+5egVYiKZsJ53tz1GpGircO9
-	Lp7SmEsPz5jWvo51V5SivpQin+t8f0A=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=BoHgQZFE6GmfSeys+DR2W7oxw4hgWtoFTpySQ2VkKFk=;
+	b=V0YFHs3q1dLyZp4PMwJNCCZ33lAFL3XbzLK2np25QTW7So8YIDuXIa+RO/8Dnu2ClfuhnK
+	ZPRWi7QRhYts68A5SRVeptxYKJ77Lv9cKPElSU901ixPibk7i2+Ak241hDyVxHeAUytT9c
+	dncUlvYXYDjomzIs6g84eq76rx7baj8=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-526-5hORl04mPD6kkapCRNy4Eg-1; Wed, 05 Apr 2023 06:39:11 -0400
-X-MC-Unique: 5hORl04mPD6kkapCRNy4Eg-1
-Received: by mail-qk1-f198.google.com with SMTP id r197-20020a37a8ce000000b0074a59c12b10so2049847qke.5
-        for <fsverity@lists.linux.dev>; Wed, 05 Apr 2023 03:39:11 -0700 (PDT)
+ us-mta-141-oMMTI6H0NGK3RBZYlp3mCg-1; Wed, 05 Apr 2023 07:01:24 -0400
+X-MC-Unique: oMMTI6H0NGK3RBZYlp3mCg-1
+Received: by mail-qk1-f197.google.com with SMTP id 198-20020a370bcf000000b007468cffa4e2so16029014qkl.10
+        for <fsverity@lists.linux.dev>; Wed, 05 Apr 2023 04:01:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680691151;
+        d=1e100.net; s=20210112; t=1680692482;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sBkFB8fAWBN3smTHXDCk9Sdy8T63XJRLVaCuva4Dlh8=;
-        b=7yX8UILSKC2F456TSsLEB/zU2cAO1Wfi7or/erq6Q7c/XNygQ93g42FF5mijxeQQnT
-         6LR5jjjwYmbiZ93HYwkmXrcE7z4YdKbJzkIaFuwl5dyS3YKmUWxrEZ+V6IHrVlGae6in
-         K9YJVnH+juijWxwSoTBIvBA3v4BIFdZDJBfejcyG7oQ1yofCeaaxibAcO/6Eu9FlvY6I
-         Gv1j0rOlohmJ91N5qiQ3SFSxm6gi2xAJoDE2aaqXIuclSABA9KkXR+4CHLK0nVLvWOfF
-         94trg5cC8PWs5RDo+qWb8IAXWCVTeeyw98fHVgkafpwzlZEIWKXNoYwQ3lOQRUSUVZHB
-         k3ww==
-X-Gm-Message-State: AAQBX9c6V7mea1rrb3/GsynZ6xEsj10HsHRrbPqHnkUtzmILuJec2Ww+
-	mzr8Kfct8+RHHXbiSXI/YLugwdPpu+/ALd1wXdX7VguZ6HE8aCVmpFioyPhErvzzj2FbIYJh4qn
-	dPwYN538+Nbn+0sU3EQ==
-X-Received: by 2002:ac8:7e96:0:b0:3b6:323d:bcac with SMTP id w22-20020ac87e96000000b003b6323dbcacmr4150874qtj.32.1680691151328;
-        Wed, 05 Apr 2023 03:39:11 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aYAf0v49WL6o/QofipBP4L4y6flhFYcYqZzNpajsevFC+xcPnxT0A0hb6dINwVq/YpVvvMSw==
-X-Received: by 2002:ac8:7e96:0:b0:3b6:323d:bcac with SMTP id w22-20020ac87e96000000b003b6323dbcacmr4150840qtj.32.1680691150879;
-        Wed, 05 Apr 2023 03:39:10 -0700 (PDT)
+        bh=BoHgQZFE6GmfSeys+DR2W7oxw4hgWtoFTpySQ2VkKFk=;
+        b=aq4+kF7GtRZFP3Trg3IgJ0QlV/THc0k/h3AuWaMvZ0suioSf4m7N55LYqMCr8W68yw
+         +u3jXyyWnrxAnY0K5fxcFxfOD2X5ypxZeFXfCcENtsbJu+54vg0jtcsl4GTIper6NHO4
+         Wh/2sulltZJ037QRx0JmafdK4MIdKUZD/FEpoSE0lzO5sQbobSdljyPRbWkkPA21Q/xu
+         SLFJHCB+wjsnw3PwtKl05PYuIP5zvGfEI8OmxJM9q1m3kZeqhQPIyx06B52fFQ4rh/3R
+         FOw2PW8XrGaG9bsah3Xh0XhUwpHmJxTeBNBt+bBLCiQrp7kr88Trh/7NYSgjNAdOYLFR
+         kbbQ==
+X-Gm-Message-State: AAQBX9eeIuO3HafDcHXwr5am70N+K5FMtU42+sgdnyShY1o+NwySD7y0
+	HEWozoEcusAdKyMJfOdHeDQA/FiOTgr5/yFKiax9H/5mOumwmFtPtevhQYG1QUrkK1KBGmFoj+o
+	RVDlkNItc5fM7LWvrjg==
+X-Received: by 2002:a05:6214:4001:b0:5ca:f6dd:f3b6 with SMTP id kd1-20020a056214400100b005caf6ddf3b6mr8310664qvb.16.1680692482378;
+        Wed, 05 Apr 2023 04:01:22 -0700 (PDT)
+X-Google-Smtp-Source: AKy350ZN5rxyt4g78lpjs6te5NjsBmYN83L29u8HXb3VRNmLRZGiyzEv7hgqJmGPE20fJY6cuY/SPQ==
+X-Received: by 2002:a05:6214:4001:b0:5ca:f6dd:f3b6 with SMTP id kd1-20020a056214400100b005caf6ddf3b6mr8310617qvb.16.1680692482068;
+        Wed, 05 Apr 2023 04:01:22 -0700 (PDT)
 Received: from aalbersh.remote.csb ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id r206-20020a3744d7000000b0074a0051fcd4sm4331706qka.88.2023.04.05.03.39.06
+        by smtp.gmail.com with ESMTPSA id om30-20020a0562143d9e00b005dd8b934576sm4136208qvb.14.2023.04.05.04.01.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 03:39:10 -0700 (PDT)
-Date: Wed, 5 Apr 2023 12:39:04 +0200
+        Wed, 05 Apr 2023 04:01:21 -0700 (PDT)
+Date: Wed, 5 Apr 2023 13:01:16 +0200
 From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Dave Chinner <david@fromorbit.com>
+To: Christoph Hellwig <hch@infradead.org>
 Cc: djwong@kernel.org, dchinner@redhat.com, ebiggers@kernel.org,
-	hch@infradead.org, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, rpeterso@redhat.com, agruenba@redhat.com,
-	xiang@kernel.org, chao@kernel.org, damien.lemoal@opensource.wdc.com,
-	jth@kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com
-Subject: Re: [PATCH v2 06/23] fsverity: add drop_page() callout
-Message-ID: <20230405103904.2ugfxqmuuqjd7itz@aalbersh.remote.csb>
+	linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	rpeterso@redhat.com, agruenba@redhat.com, xiang@kernel.org,
+	chao@kernel.org, damien.lemoal@opensource.wdc.com, jth@kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	cluster-devel@redhat.com
+Subject: Re: [PATCH v2 09/23] iomap: allow filesystem to implement read path
+ verification
+Message-ID: <20230405110116.ia5wv3qxbnpdciui@aalbersh.remote.csb>
 References: <20230404145319.2057051-1-aalbersh@redhat.com>
- <20230404145319.2057051-7-aalbersh@redhat.com>
- <20230404234019.GM3223426@dread.disaster.area>
+ <20230404145319.2057051-10-aalbersh@redhat.com>
+ <ZCxEHkWayQyGqnxL@infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20230404234019.GM3223426@dread.disaster.area>
+In-Reply-To: <ZCxEHkWayQyGqnxL@infradead.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dave,
+Hi Christoph,
 
-On Wed, Apr 05, 2023 at 09:40:19AM +1000, Dave Chinner wrote:
-> On Tue, Apr 04, 2023 at 04:53:02PM +0200, Andrey Albershteyn wrote:
-> > Allow filesystem to make additional processing on verified pages
-> > instead of just dropping a reference. This will be used by XFS for
-> > internal buffer cache manipulation in further patches. The btrfs,
-> > ext4, and f2fs just drop the reference.
-> > 
-> > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> > ---
-> >  fs/btrfs/verity.c         | 12 ++++++++++++
-> >  fs/ext4/verity.c          |  6 ++++++
-> >  fs/f2fs/verity.c          |  6 ++++++
-> >  fs/verity/read_metadata.c |  4 ++--
-> >  fs/verity/verify.c        |  6 +++---
-> >  include/linux/fsverity.h  | 10 ++++++++++
-> >  6 files changed, 39 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/fs/btrfs/verity.c b/fs/btrfs/verity.c
-> > index c5ff16f9e9fa..4c2c09204bb4 100644
-> > --- a/fs/btrfs/verity.c
-> > +++ b/fs/btrfs/verity.c
-> > @@ -804,10 +804,22 @@ static int btrfs_write_merkle_tree_block(struct inode *inode, const void *buf,
-> >  			       pos, buf, size);
-> >  }
-> >  
-> > +/*
-> > + * fsverity op that releases the reference obtained by ->read_merkle_tree_page()
-> > + *
-> > + * @page:  reference to the page which can be released
-> > + *
-> > + */
-> > +static void btrfs_drop_page(struct page *page)
-> > +{
-> > +	put_page(page);
-> > +}
+On Tue, Apr 04, 2023 at 08:37:02AM -0700, Christoph Hellwig wrote:
+> >  	if (iomap_block_needs_zeroing(iter, pos)) {
+> >  		folio_zero_range(folio, poff, plen);
+> > +		if (iomap->flags & IOMAP_F_READ_VERITY) {
+> 
+> Wju do we need the new flag vs just testing that folio_ops and
+> folio_ops->verify_folio is non-NULL?
+
+Yes, it can be just test, haven't noticed that it's used only here,
+initially I used it in several places.
+
+> 
+> > -		ctx->bio = bio_alloc(iomap->bdev, bio_max_segs(nr_vecs),
+> > -				     REQ_OP_READ, gfp);
+> > +		ctx->bio = bio_alloc_bioset(iomap->bdev, bio_max_segs(nr_vecs),
+> > +				REQ_OP_READ, GFP_NOFS, &iomap_read_ioend_bioset);
+> 
+> All other callers don't really need the larger bioset, so I'd avoid
+> the unconditional allocation here, but more on that later.
+
+Ok, make sense.
+
+> 
+> > +		ioend = container_of(ctx->bio, struct iomap_read_ioend,
+> > +				read_inline_bio);
+> > +		ioend->io_inode = iter->inode;
+> > +		if (ctx->ops && ctx->ops->prepare_ioend)
+> > +			ctx->ops->prepare_ioend(ioend);
 > > +
-> >  const struct fsverity_operations btrfs_verityops = {
-> >  	.begin_enable_verity     = btrfs_begin_enable_verity,
-> >  	.end_enable_verity       = btrfs_end_enable_verity,
-> >  	.get_verity_descriptor   = btrfs_get_verity_descriptor,
-> >  	.read_merkle_tree_page   = btrfs_read_merkle_tree_page,
-> >  	.write_merkle_tree_block = btrfs_write_merkle_tree_block,
-> > +	.drop_page		 = &btrfs_drop_page,
-> >  };
 > 
-> Ok, that's a generic put_page() call.
+> So what we're doing in writeback and direct I/O, is to:
 > 
-> ....
-> > diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-> > index f50e3b5b52c9..c2fc4c86af34 100644
-> > --- a/fs/verity/verify.c
-> > +++ b/fs/verity/verify.c
-> > @@ -210,7 +210,7 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
-> >  		if (is_hash_block_verified(vi, hpage, hblock_idx)) {
-> >  			memcpy_from_page(_want_hash, hpage, hoffset, hsize);
-> >  			want_hash = _want_hash;
-> > -			put_page(hpage);
-> > +			inode->i_sb->s_vop->drop_page(hpage);
-> >  			goto descend;
-> 
-> 			fsverity_drop_page(hpage);
-> 
-> static inline void
-> fsverity_drop_page(struct inode *inode, struct page *page)
-> {
-> 	if (inode->i_sb->s_vop->drop_page)
-> 		inode->i_sb->s_vop->drop_page(page);
-> 	else
-> 		put_page(page);
-> }
-> 
-> And then you don't need to add the functions to each of the
-> filesystems nor make an indirect call just to run put_page().
+>  a) have a submit_bio hook
+>  b) allow the file system to then hook the bi_end_io caller
+>  c) (only in direct O/O for now) allow the file system to provide
+>     a bio_set to allocate from
 
-Sure, this makes more sense, thank you!
+I see.
+
+> 
+> I wonder if that also makes sense and keep all the deferral in the
+> file system.  We'll need that for the btrfs iomap conversion anyway,
+> and it seems more flexible.  The ioend processing would then move into
+> XFS.
+> 
+
+Not sure what you mean here.
+
+> > @@ -156,6 +160,11 @@ struct iomap_folio_ops {
+> >  	 * locked by the iomap code.
+> >  	 */
+> >  	bool (*iomap_valid)(struct inode *inode, const struct iomap *iomap);
+> > +
+> > +	/*
+> > +	 * Verify folio when successfully read
+> > +	 */
+> > +	bool (*verify_folio)(struct folio *folio, loff_t pos, unsigned int len);
+> 
+> Why isn't this in iomap_readpage_ops?
+> 
+
+Yes, it can be. But it appears to me to be more relevant to
+_folio_ops, any particular reason to move it there? Don't mind
+moving it to iomap_readpage_ops.
 
 -- 
 - Andrey
