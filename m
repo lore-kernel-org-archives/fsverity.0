@@ -1,136 +1,134 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252A129A9
-	for <fsverity@lists.linux.dev>; Wed,  5 Apr 2023 15:02:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680706921;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ijdR/MHnRs9yin6C5jhmGmV2EeFx7fyGP+HaH521iTo=;
-	b=KIkCxRzfMvxGH5h4Pan7mSRz8t6jMXSa6yX2n2J0I7AWgTwLnnstorlQQFSkyVBgId8HE8
-	IU8IaA5lNvva0cRIm93CRUSVpaxwou7HI9AFQNi4oso9p6T4v5ywHYFxlxs4KqcYK5mFLZ
-	HoApe6z89CNChvZUQiNbvGF63Zil8ik=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-398-SVJ-Ls3BPWG3OaDYYZKpAQ-1; Wed, 05 Apr 2023 11:01:54 -0400
-X-MC-Unique: SVJ-Ls3BPWG3OaDYYZKpAQ-1
-Received: by mail-qk1-f199.google.com with SMTP id r127-20020a374485000000b0074a6b927a49so655737qka.3
-        for <fsverity@lists.linux.dev>; Wed, 05 Apr 2023 08:01:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680706911;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ijdR/MHnRs9yin6C5jhmGmV2EeFx7fyGP+HaH521iTo=;
-        b=daMwXEsCvN3hCn3otKkdf/KNezfQdizBnzrWHwU1URMWfEUpR375mn5sBkQL2lhbK9
-         ZvF+qIWgePFgU85/Jkl0RlgNtTmffBJaYZE9G+QCYsiuOuvsxF7nC0EHNL2mc6xT1PLv
-         4yx3osZpTCGhJM0gjCCLlsM0z/l1bxZbhuxuyxPwd15KHYSELx40ang88F569oByHPzB
-         UuKnrNiM5ZDRJnCpKAJGU+M8E1fLyXgOkc6q2hTRW2CkVA4lcHpQRtmIkcc7YvhQ+aNY
-         1GYywDpHBVM7ruHrx1EadTbtdI/c9szGK0VAR0ujQZtDZcGCeBqvouyRj0rOx7K6bJCk
-         2riw==
-X-Gm-Message-State: AAQBX9ex7Ubq9gST3brYKNtrO111CKAN4jstqlrMqapzImtB58fAuPWs
-	GXHnpiVi4OKDE7Bw0Nek1XOEUU+6K54uFdCVXRvrCPYfaG8831DQDM6LRB1UxcXUEhLnCJq4B1z
-	K6hzChjcQp9pZktlpqw==
-X-Received: by 2002:a05:6214:2504:b0:5a3:cbc6:8145 with SMTP id gf4-20020a056214250400b005a3cbc68145mr11557260qvb.19.1680706910925;
-        Wed, 05 Apr 2023 08:01:50 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YVeAhEKCJSk+gIHwjGx6PP08vlMKC4voUohfc6ezEBe0HN6HJNbkVZpy9LxJ1aS1g8D9uc0g==
-X-Received: by 2002:a05:6214:2504:b0:5a3:cbc6:8145 with SMTP id gf4-20020a056214250400b005a3cbc68145mr11557235qvb.19.1680706910656;
-        Wed, 05 Apr 2023 08:01:50 -0700 (PDT)
-Received: from aalbersh.remote.csb ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id o8-20020a0cc388000000b005dd8b93457dsm4236165qvi.21.2023.04.05.08.01.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 08:01:49 -0700 (PDT)
-Date: Wed, 5 Apr 2023 17:01:42 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: dchinner@redhat.com, ebiggers@kernel.org, hch@infradead.org,
-	linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	rpeterso@redhat.com, agruenba@redhat.com, xiang@kernel.org,
-	chao@kernel.org, damien.lemoal@opensource.wdc.com, jth@kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	cluster-devel@redhat.com
-Subject: Re: [PATCH v2 19/23] xfs: disable direct read path for fs-verity
- sealed files
-Message-ID: <20230405150142.3jmxzo5i27bbc4c4@aalbersh.remote.csb>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F2F63AE
+	for <fsverity@lists.linux.dev>; Wed,  5 Apr 2023 15:06:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E90FCC4339E;
+	Wed,  5 Apr 2023 15:06:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680707188;
+	bh=mlni390c+gmIDMlX2RnZzsHsCPBkb+xutjeyTZL88LA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z0Y5O+66tWXrhcV6ndCx07PGooMOJap5OIdpqEdvYFYnMHN0z5WiLYrWuKcSeaXHl
+	 UcZpAG3fUrlrKjP5/sAagW6AWG69d+rXgg1WBgDW+rC9NaJekXCvMerJzsJkjRnsXH
+	 m4Q6uAO39XKLOFgPn03RBth+eXeK/rY/VE0Yu1qLMe93Au/pMBUkCWq3xQz6voM133
+	 knKAwxEb9wOgh0gF0jn6wi8T39XIQ/aCS62UgeWnfbPOpTkjgiMeytHY928u5OUjWN
+	 J9dEljNMTn2fktd2Sp1o8GdjUkAWHM/TRVCjrukbVy3Hv8BEKS4poWg1XrW7ftU4DI
+	 o6Z6xJuTGto9g==
+Date: Wed, 5 Apr 2023 08:06:27 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: Christoph Hellwig <hch@infradead.org>, dchinner@redhat.com,
+	ebiggers@kernel.org, linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev, rpeterso@redhat.com, agruenba@redhat.com,
+	xiang@kernel.org, chao@kernel.org, damien.lemoal@opensource.wdc.com,
+	jth@kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com
+Subject: Re: [PATCH v2 09/23] iomap: allow filesystem to implement read path
+ verification
+Message-ID: <20230405150627.GC303486@frogsfrogsfrogs>
 References: <20230404145319.2057051-1-aalbersh@redhat.com>
- <20230404145319.2057051-20-aalbersh@redhat.com>
- <20230404161047.GA109974@frogsfrogsfrogs>
+ <20230404145319.2057051-10-aalbersh@redhat.com>
+ <ZCxEHkWayQyGqnxL@infradead.org>
+ <20230405110116.ia5wv3qxbnpdciui@aalbersh.remote.csb>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20230404161047.GA109974@frogsfrogsfrogs>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230405110116.ia5wv3qxbnpdciui@aalbersh.remote.csb>
 
-On Tue, Apr 04, 2023 at 09:10:47AM -0700, Darrick J. Wong wrote:
-> On Tue, Apr 04, 2023 at 04:53:15PM +0200, Andrey Albershteyn wrote:
-> > The direct path is not supported on verity files. Attempts to use direct
-> > I/O path on such files should fall back to buffered I/O path.
+On Wed, Apr 05, 2023 at 01:01:16PM +0200, Andrey Albershteyn wrote:
+> Hi Christoph,
+> 
+> On Tue, Apr 04, 2023 at 08:37:02AM -0700, Christoph Hellwig wrote:
+> > >  	if (iomap_block_needs_zeroing(iter, pos)) {
+> > >  		folio_zero_range(folio, poff, plen);
+> > > +		if (iomap->flags & IOMAP_F_READ_VERITY) {
 > > 
-> > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> > ---
-> >  fs/xfs/xfs_file.c | 14 +++++++++++---
-> >  1 file changed, 11 insertions(+), 3 deletions(-)
+> > Wju do we need the new flag vs just testing that folio_ops and
+> > folio_ops->verify_folio is non-NULL?
+> 
+> Yes, it can be just test, haven't noticed that it's used only here,
+> initially I used it in several places.
+> 
 > > 
-> > diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-> > index 947b5c436172..9e072e82f6c1 100644
-> > --- a/fs/xfs/xfs_file.c
-> > +++ b/fs/xfs/xfs_file.c
-> > @@ -244,7 +244,8 @@ xfs_file_dax_read(
-> >  	struct kiocb		*iocb,
-> >  	struct iov_iter		*to)
-> >  {
-> > -	struct xfs_inode	*ip = XFS_I(iocb->ki_filp->f_mapping->host);
-> > +	struct inode		*inode = iocb->ki_filp->f_mapping->host;
-> > +	struct xfs_inode	*ip = XFS_I(inode);
-> >  	ssize_t			ret = 0;
-> >  
-> >  	trace_xfs_file_dax_read(iocb, to);
-> > @@ -297,10 +298,17 @@ xfs_file_read_iter(
-> >  
-> >  	if (IS_DAX(inode))
-> >  		ret = xfs_file_dax_read(iocb, to);
-> > -	else if (iocb->ki_flags & IOCB_DIRECT)
-> > +	else if (iocb->ki_flags & IOCB_DIRECT && !fsverity_active(inode))
-> >  		ret = xfs_file_dio_read(iocb, to);
-> > -	else
-> > +	else {
-> > +		/*
-> > +		 * In case fs-verity is enabled, we also fallback to the
-> > +		 * buffered read from the direct read path. Therefore,
-> > +		 * IOCB_DIRECT is set and need to be cleared
-> > +		 */
-> > +		iocb->ki_flags &= ~IOCB_DIRECT;
-> >  		ret = xfs_file_buffered_read(iocb, to);
+> > > -		ctx->bio = bio_alloc(iomap->bdev, bio_max_segs(nr_vecs),
+> > > -				     REQ_OP_READ, gfp);
+> > > +		ctx->bio = bio_alloc_bioset(iomap->bdev, bio_max_segs(nr_vecs),
+> > > +				REQ_OP_READ, GFP_NOFS, &iomap_read_ioend_bioset);
+> > 
+> > All other callers don't really need the larger bioset, so I'd avoid
+> > the unconditional allocation here, but more on that later.
 > 
-> XFS doesn't usually allow directio fallback to the pagecache. Why
-> would fsverity be any different?
-
-Didn't know that, this is what happens on ext4 so I did the same.
-Then it probably make sense to just error on DIRECT on verity
-sealed file.
-
+> Ok, make sense.
 > 
-> --D
+> > 
+> > > +		ioend = container_of(ctx->bio, struct iomap_read_ioend,
+> > > +				read_inline_bio);
+> > > +		ioend->io_inode = iter->inode;
+> > > +		if (ctx->ops && ctx->ops->prepare_ioend)
+> > > +			ctx->ops->prepare_ioend(ioend);
+> > > +
+> > 
+> > So what we're doing in writeback and direct I/O, is to:
+> > 
+> >  a) have a submit_bio hook
+> >  b) allow the file system to then hook the bi_end_io caller
+> >  c) (only in direct O/O for now) allow the file system to provide
+> >     a bio_set to allocate from
 > 
-> > +	}
-> >  
-> >  	if (ret > 0)
-> >  		XFS_STATS_ADD(mp, xs_read_bytes, ret);
-> > -- 
-> > 2.38.4
+> I see.
+> 
+> > 
+> > I wonder if that also makes sense and keep all the deferral in the
+> > file system.  We'll need that for the btrfs iomap conversion anyway,
+> > and it seems more flexible.  The ioend processing would then move into
+> > XFS.
 > > 
 > 
+> Not sure what you mean here.
 
--- 
-- Andrey
+I /think/ Christoph is talking about allowing callers of iomap pagecache
+operations to supply a custom submit_bio function and a bio_set so that
+filesystems can add in their own post-IO processing and appropriately
+sized (read: minimum you can get away with) bios.  I imagine btrfs has
+quite a lot of (read) ioend processing they need to do, as will xfs now
+that you're adding fsverity.
 
+> > > @@ -156,6 +160,11 @@ struct iomap_folio_ops {
+> > >  	 * locked by the iomap code.
+> > >  	 */
+> > >  	bool (*iomap_valid)(struct inode *inode, const struct iomap *iomap);
+> > > +
+> > > +	/*
+> > > +	 * Verify folio when successfully read
+> > > +	 */
+> > > +	bool (*verify_folio)(struct folio *folio, loff_t pos, unsigned int len);
+
+Any reason why we shouldn't return the usual negative errno?
+
+> > Why isn't this in iomap_readpage_ops?
+> > 
+> 
+> Yes, it can be. But it appears to me to be more relevant to
+> _folio_ops, any particular reason to move it there? Don't mind
+> moving it to iomap_readpage_ops.
+
+I think the point is that this is a general "check what we just read"
+hook, so it could be in readpage_ops since we're never going to need to
+re-validate verity contents, right?  Hence it could be in readpage_ops
+instead of the general iomap_folio_ops.
+
+<shrug> Is there a use case for ->verify_folio that isn't a read post-
+processing step?
+
+--D
+
+> -- 
+> - Andrey
+> 
