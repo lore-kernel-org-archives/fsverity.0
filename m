@@ -1,118 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A7F7ED
-	for <fsverity@lists.linux.dev>; Thu,  6 Apr 2023 00:44:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21089C433D2;
-	Thu,  6 Apr 2023 00:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE146AD29
+	for <fsverity@lists.linux.dev>; Thu,  6 Apr 2023 18:16:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F7BC433EF;
+	Thu,  6 Apr 2023 18:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680741876;
-	bh=zN0uoPG2wy3vEMLhzgjqbmHAqYYQld3AbN2XunzMIoU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bo8p3D+S8WueWIQeyXVhF9VsXJIkX3mi7lCuHYZ7OixWNIVgwe52hWCGQTCpabGiY
-	 6mT1eHjUq2EedAyyBTpNdvhDNGB7ja0pxmv+2hAT4IOl/D6gtx0cKQGX4OsM8OaIJL
-	 qJbARzdhdEgqxF6P1iYB779hRD2iIfLqS229fGaWr23fMFpB+goPahUZxXr2Z0B7Lo
-	 U2dQSQsuy/cHfeInl7U1BHZohgOtSGQJM5WZTpux93iA31XE6NFlO2xoLtnQbmkcjC
-	 vNwntPVZYgHRIbIIfX+e89u8Evn868NI0UF/wcOyIkteZXz1d3WIzEoABhr37UZz1i
-	 A4vZrijh7VmiQ==
-Date: Wed, 5 Apr 2023 17:44:34 -0700
+	s=k20201202; t=1680804968;
+	bh=trf5F2WX+RYI6ExpB2fYPeUVtOa9b0dLMtB52AZJZ3I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LzuYfVxkj7HHlFc4xhRiXJkc0tcqCtTJr+KYrjvJ8DtKNlFJ//fZcThlZhcDe8YtK
+	 uKjxoWLKspclLzKOa+wB5TRAGzh2cneyWwMxwDyR3RB393cWrgq6f/gaIwSZ1nUu4X
+	 D66Aj0AUUEBWWRm9v7LQHs2iP4FKWealJ86KyNPyOjs6N3j7E4JZcBTR+aMKA8tfDC
+	 bGiNAMBwC/JFrzOTs3mGuJUojowyCSkgxemWZTAXGsNVgSNfjfO0bEd74UJzpBcfXe
+	 qrt7HtSpxxQQxv7IPDvIN5B0h3My6+GHf9/MABGY+vaTfi0EYq29SgRjJUDQAM/40V
+	 dZ/4BXPWaHaRA==
 From: Eric Biggers <ebiggers@kernel.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>, dchinner@redhat.com,
-	hch@infradead.org, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, rpeterso@redhat.com, agruenba@redhat.com,
-	xiang@kernel.org, chao@kernel.org, damien.lemoal@opensource.wdc.com,
-	jth@kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com
-Subject: Re: [PATCH v2 21/23] xfs: handle merkle tree block size != fs
- blocksize != PAGE_SIZE
-Message-ID: <20230406004434.GA879@sol.localdomain>
-References: <20230404145319.2057051-1-aalbersh@redhat.com>
- <20230404145319.2057051-22-aalbersh@redhat.com>
- <20230404163602.GC109974@frogsfrogsfrogs>
- <20230405160221.he76fb5b45dud6du@aalbersh.remote.csb>
- <20230405163847.GG303486@frogsfrogsfrogs>
- <ZC264FSkDQidOQ4N@gmail.com>
- <20230405222646.GR3223426@dread.disaster.area>
- <ZC38DkQVPZBuZCZN@gmail.com>
- <20230405233753.GU3223426@dread.disaster.area>
+To: fsverity@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH v2] fsverity: use WARN_ON_ONCE instead of WARN_ON
+Date: Thu,  6 Apr 2023 11:15:42 -0700
+Message-Id: <20230406181542.38894-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.40.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230405233753.GU3223426@dread.disaster.area>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 06, 2023 at 09:37:53AM +1000, Dave Chinner wrote:
-> On Wed, Apr 05, 2023 at 10:54:06PM +0000, Eric Biggers wrote:
-> > On Thu, Apr 06, 2023 at 08:26:46AM +1000, Dave Chinner wrote:
-> > > > We could certainly think about moving to a design where fs/verity/ asks the
-> > > > filesystem to just *read* a Merkle tree block, without adding it to a cache, and
-> > > > then fs/verity/ implements the caching itself.  That would require some large
-> > > > changes to each filesystem, though, unless we were to double-cache the Merkle
-> > > > tree blocks which would be inefficient.
-> > > 
-> > > No, that's unnecessary.
-> > > 
-> > > All we need if for fsverity to require filesystems to pass it byte
-> > > addressable data buffers that are externally reference counted. The
-> > > filesystem can take a page reference before mapping the page and
-> > > passing the kaddr to fsverity, then unmap and drop the reference
-> > > when the merkle tree walk is done as per Andrey's new drop callout.
-> > > 
-> > > fsverity doesn't need to care what the buffer is made from, how it
-> > > is cached, what it's life cycle is, etc. The caching mechanism and
-> > > reference counting is entirely controlled by the filesystem callout
-> > > implementations, and fsverity only needs to deal with memory buffers
-> > > that are guaranteed to live for the entire walk of the merkle
-> > > tree....
-> > 
-> > Sure.  Just a couple notes:
-> > 
-> > First, fs/verity/ does still need to be able to tell whether the buffer is newly
-> > instantiated or not.
-> 
-> Boolean flag from the caller.
-> 
-> > Second, fs/verity/ uses the ahash API to do the hashing.  ahash is a
-> > scatterlist-based API.  Virtual addresses can still be used (see sg_set_buf()),
-> > but the memory cannot be vmalloc'ed memory, since virt_to_page() needs to work.
-> > Does XFS use vmalloc'ed memory for these buffers?
-> 
-> Not vmalloc'ed, but vmapped. we allocate the pages individually, but
-> then call vm_map_page() to present the higher level code with a
-> single contiguous memory range if it is a multi-page buffer.
-> 
-> We do have the backing info held in the buffer, and that's what we
-> use for IO. If fsverity needs a page based scatter/gather list
-> for hardware offload, it could ask the filesystem to provide it
-> for that given buffer...
-> 
-> > BTW, converting fs/verity/ from ahash to shash is an option; I've really never
-> > been a fan of the scatterlist-based crypto APIs!  The disadvantage of doing
-> > this, though, would be that it would remove support for all the hardware crypto
-> > drivers.
-> >
-> > That *might* actually be okay, as that approach to crypto acceleration
-> > has mostly fallen out of favor, in favor of CPU-based acceleration.  But I do
-> > worry about e.g. someone coming out of the woodwork and saying they need to use
-> > fsverity on a low-powered ARM board that has a crypto accelerator like CAAM, and
-> > they MUST use their crypto accelerator to get acceptable performance.
-> 
-> True, but we are very unlikely to be using XFS on such small
-> systems and I don't think we really care about XFS performance on
-> android sized systems, either.
-> 
+From: Eric Biggers <ebiggers@google.com>
 
-FYI, I've sent an RFC patch that converts fs/verity/ from ahash to shash:
-https://lore.kernel.org/r/20230406003714.94580-1-ebiggers@kernel.org
+As per Linus's suggestion
+(https://lore.kernel.org/r/CAHk-=whefxRGyNGzCzG6BVeM=5vnvgb-XhSeFJVxJyAxAF8XRA@mail.gmail.com),
+use WARN_ON_ONCE instead of WARN_ON.  This barely adds any extra
+overhead, and it makes it so that if any of these ever becomes reachable
+(they shouldn't, but that's the point), the logs can't be flooded.
 
-It would be great if we could do that.  But I need to get a better sense for
-whether anyone will complain...
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ fs/verity/enable.c       | 4 ++--
+ fs/verity/hash_algs.c    | 4 ++--
+ fs/verity/open.c         | 2 +-
+ include/linux/fsverity.h | 6 +++---
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-- Eric
+diff --git a/fs/verity/enable.c b/fs/verity/enable.c
+index 7a0e3a84d370b..541c2a277c5c6 100644
+--- a/fs/verity/enable.c
++++ b/fs/verity/enable.c
+@@ -165,7 +165,7 @@ static int build_merkle_tree(struct file *filp,
+ 		}
+ 	}
+ 	/* The root hash was filled by the last call to hash_one_block(). */
+-	if (WARN_ON(buffers[num_levels].filled != params->digest_size)) {
++	if (WARN_ON_ONCE(buffers[num_levels].filled != params->digest_size)) {
+ 		err = -EINVAL;
+ 		goto out;
+ 	}
+@@ -277,7 +277,7 @@ static int enable_verity(struct file *filp,
+ 		fsverity_err(inode, "%ps() failed with err %d",
+ 			     vops->end_enable_verity, err);
+ 		fsverity_free_info(vi);
+-	} else if (WARN_ON(!IS_VERITY(inode))) {
++	} else if (WARN_ON_ONCE(!IS_VERITY(inode))) {
+ 		err = -EINVAL;
+ 		fsverity_free_info(vi);
+ 	} else {
+diff --git a/fs/verity/hash_algs.c b/fs/verity/hash_algs.c
+index 13fcf31be8441..ea00dbedf756b 100644
+--- a/fs/verity/hash_algs.c
++++ b/fs/verity/hash_algs.c
+@@ -84,9 +84,9 @@ struct fsverity_hash_alg *fsverity_get_hash_alg(const struct inode *inode,
+ 	}
+ 
+ 	err = -EINVAL;
+-	if (WARN_ON(alg->digest_size != crypto_ahash_digestsize(tfm)))
++	if (WARN_ON_ONCE(alg->digest_size != crypto_ahash_digestsize(tfm)))
+ 		goto err_free_tfm;
+-	if (WARN_ON(alg->block_size != crypto_ahash_blocksize(tfm)))
++	if (WARN_ON_ONCE(alg->block_size != crypto_ahash_blocksize(tfm)))
+ 		goto err_free_tfm;
+ 
+ 	err = mempool_init_kmalloc_pool(&alg->req_pool, 1,
+diff --git a/fs/verity/open.c b/fs/verity/open.c
+index 9366b441d01ca..52048b7630dcc 100644
+--- a/fs/verity/open.c
++++ b/fs/verity/open.c
+@@ -83,7 +83,7 @@ int fsverity_init_merkle_tree_params(struct merkle_tree_params *params,
+ 	params->log_blocks_per_page = PAGE_SHIFT - log_blocksize;
+ 	params->blocks_per_page = 1 << params->log_blocks_per_page;
+ 
+-	if (WARN_ON(!is_power_of_2(params->digest_size))) {
++	if (WARN_ON_ONCE(!is_power_of_2(params->digest_size))) {
+ 		err = -EINVAL;
+ 		goto out_err;
+ 	}
+diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
+index 119a3266791fd..e76605d5b36ee 100644
+--- a/include/linux/fsverity.h
++++ b/include/linux/fsverity.h
+@@ -233,18 +233,18 @@ static inline int fsverity_ioctl_read_metadata(struct file *filp,
+ static inline bool fsverity_verify_blocks(struct folio *folio, size_t len,
+ 					  size_t offset)
+ {
+-	WARN_ON(1);
++	WARN_ON_ONCE(1);
+ 	return false;
+ }
+ 
+ static inline void fsverity_verify_bio(struct bio *bio)
+ {
+-	WARN_ON(1);
++	WARN_ON_ONCE(1);
+ }
+ 
+ static inline void fsverity_enqueue_verify_work(struct work_struct *work)
+ {
+-	WARN_ON(1);
++	WARN_ON_ONCE(1);
+ }
+ 
+ #endif	/* !CONFIG_FS_VERITY */
+
+base-commit: 1238c8b91c5aca6dd13bccb1b4dc716718e7bfac
+-- 
+2.40.0
+
