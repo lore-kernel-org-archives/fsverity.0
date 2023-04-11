@@ -1,53 +1,64 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191A320F0
-	for <fsverity@lists.linux.dev>; Tue, 11 Apr 2023 05:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6nX5sI6EN+QIsWtAaq5RhWz/W4vuyCGzISy2tTv8b6w=; b=k1nDyW9ThWdwLT7pSWirEu8vAz
-	5gsYJWy42X4KvcpSpeCIEbOYds8a6VmdcdtnrFfTUZOMfEQkb0BOzhlbMIm5cunipw+jcMqtf6L/r
-	FPpApigHLGsj0AbugbMiQtHKiTFGY9ozfe/zBscnPg1Mzgw7dPOExuqFoZe1d4/QjfAIxWMa+PTwM
-	0e/gNRrYWpCr+ICTg8kD6Z7Kzqr7DVQAQCnWLRdiGK4HSeKC67KTJGD8gscP39JkuZlIwihkF+6hw
-	gY+QlKY1Wbp8V4K0W3LfRl2b/hiI8yJJDxRKMbrd7FtzqjIBqzmCFNIpdbdq70XMfufV+YB7upDdm
-	vTfdPYZg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1pm6Py-00GReU-09;
-	Tue, 11 Apr 2023 05:19:46 +0000
-Date: Mon, 10 Apr 2023 22:19:46 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: djwong@kernel.org, dchinner@redhat.com, ebiggers@kernel.org,
-	hch@infradead.org, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, rpeterso@redhat.com, agruenba@redhat.com,
-	xiang@kernel.org, chao@kernel.org, damien.lemoal@opensource.wdc.com,
-	jth@kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com
-Subject: Re: [PATCH v2 00/23] fs-verity support for XFS
-Message-ID: <ZDTt8jSdG72/UnXi@infradead.org>
-References: <20230404145319.2057051-1-aalbersh@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0F34436
+	for <fsverity@lists.linux.dev>; Tue, 11 Apr 2023 08:56:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C9BC433D2;
+	Tue, 11 Apr 2023 08:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1681203381;
+	bh=7083kajNwzY+ryJVAy0E4LGL0ceCyH58LiPuWNnEGJU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mKMf3rZpqXCpBZTZUxvCmTjnGpPg1QzWLl6xVpzPliSjU3EWRcoRF9gIu1l9+2pyt
+	 /2CU520rE/7f+OkELiM7uhcaweq8bqJk9RoerR3PhlQsjOeRo5f59Kwr4tNi2jUE8y
+	 Fh6lJMb1vqZdV9GFnSB/14hu4enJqI30REKtyN/NxT6cSoMzgrBtynt9XckgaR1STz
+	 6ktzhEA/DQOauxprMZzOeu4J+woaQWl9gYxPp0lFC1E8G4mtk4lIKaPlaYIfNAn3Yq
+	 4nXw+IZ759vcGjzgZjAxCX4UvfeLLrsf7tCRPmH26w49kfKLJ47SxVfKO8kKXOk9dk
+	 LVC4yZnxCDLFw==
+Date: Tue, 11 Apr 2023 10:56:16 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+51177e4144d764827c45@syzkaller.appspotmail.com
+Subject: Re: [PATCH] fsverity: reject FS_IOC_ENABLE_VERITY on mode 3 fds
+Message-ID: <20230411-abwegen-division-b2370b5667d9@brauner>
+References: <20230406215106.235829-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230404145319.2057051-1-aalbersh@redhat.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20230406215106.235829-1-ebiggers@kernel.org>
 
-Dave is going to hate me for this, but..
+On Thu, Apr 06, 2023 at 02:51:06PM -0700, Eric Biggers wrote:
+> From: Eric Biggers <ebiggers@google.com>
+> 
+> Commit 56124d6c87fd ("fsverity: support enabling with tree block size <
+> PAGE_SIZE") changed FS_IOC_ENABLE_VERITY to use __kernel_read() to read
+> the file's data, instead of direct pagecache accesses.
+> 
+> An unintended consequence of this is that the
+> 'WARN_ON_ONCE(!(file->f_mode & FMODE_READ))' in __kernel_read() became
+> reachable by fuzz tests.  This happens if FS_IOC_ENABLE_VERITY is called
+> on a fd opened with access mode 3, which means "ioctl access only".
+> 
+> Arguably, FS_IOC_ENABLE_VERITY should work on ioctl-only fds.  But
+> ioctl-only fds are a weird Linux extension that is rarely used and that
+> few people even know about.  (The documentation for FS_IOC_ENABLE_VERITY
+> even specifically says it requires O_RDONLY.)  It's probably not
+> worthwhile to make the ioctl internally open a new fd just to handle
+> this case.  Thus, just reject the ioctl on such fds for now.
+> 
+> Fixes: 56124d6c87fd ("fsverity: support enabling with tree block size < PAGE_SIZE")
+> Reported-by: syzbot+51177e4144d764827c45@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?id=2281afcbbfa8fdb92f9887479cc0e4180f1c6b28
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> ---
 
-I've been looking over some of the interfaces here, and I'm starting
-to very seriously questioning the design decisions of storing the
-fsverity hashes in xattrs.
-
-Yes, storing them beyond i_size in the file is a bit of a hack, but
-it allows to reuse a lot of the existing infrastructure, and much
-of fsverity is based around it.  So storing them in an xattrs causes
-a lot of churn in the interface.  And the XFS side with special
-casing xattr indices also seems not exactly nice.
+Looks good to me,
+Reviewed-by: Christian Brauner <brauner@kernel.org>
