@@ -1,44 +1,31 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C54AD22
-	for <fsverity@lists.linux.dev>; Fri,  7 Apr 2023 19:56:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E35C433D2;
-	Fri,  7 Apr 2023 19:56:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680897397;
-	bh=/3ooAeWJ2heTTSe1+fowce2OJCbJkwMvCSSAiGy5dOI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=clCdqAdSzIuv2Nh0psGWcWmbbwrVRtKcUMCziwd5jIFOLppq8+hvEMy6JY4RJLPMp
-	 x59uWAeV4ig4ih4U7jNLyVsnpfqrD7RpPe3yfp1MP72D2FoXdLnTk3xUAdXqNiTo76
-	 7873hQHGayV2JBek9f5U/Qb89gRu184TbrlBQn0ysEteLtxdwRM5mb1J34RmFP0nuB
-	 8OYIQ3NfXnHpi+fJ2/tbB2xh0PRWi+ynfmrw1NaYWHy7dBecQ4XC5MBSI2cP1pxqcR
-	 lMdFOAY4ytF24DuMMy3hoLnO4nDVkkibtBGuHd2D5IXcvpFkh35CRNw0rf+xT87I1L
-	 SBA+hcx/gQt+g==
-Date: Fri, 7 Apr 2023 19:56:36 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>, dchinner@redhat.com,
-	hch@infradead.org, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, rpeterso@redhat.com, agruenba@redhat.com,
-	xiang@kernel.org, chao@kernel.org, damien.lemoal@opensource.wdc.com,
-	jth@kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com
-Subject: Re: [PATCH v2 21/23] xfs: handle merkle tree block size != fs
- blocksize != PAGE_SIZE
-Message-ID: <ZDB1dPVjon4Qthok@gmail.com>
-References: <20230404145319.2057051-1-aalbersh@redhat.com>
- <20230404145319.2057051-22-aalbersh@redhat.com>
- <20230404163602.GC109974@frogsfrogsfrogs>
- <20230405160221.he76fb5b45dud6du@aalbersh.remote.csb>
- <20230405163847.GG303486@frogsfrogsfrogs>
- <ZC264FSkDQidOQ4N@gmail.com>
- <20230405222646.GR3223426@dread.disaster.area>
- <ZC38DkQVPZBuZCZN@gmail.com>
- <20230405233753.GU3223426@dread.disaster.area>
- <20230406004434.GA879@sol.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA88220F0
+	for <fsverity@lists.linux.dev>; Tue, 11 Apr 2023 05:01:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=KBhNfUOcD8iQz+TMuW2IJQH6CYVeRvhGPDElxngGpyE=; b=SuYCXB7pkcbxWbG1OHBZx7juNA
+	pku0+MY68aN+S95h6lBSIC3+WUupYPcZ/eHTEqYAFMoLUQnYO8MeMYSbBdMCyQylUcDHHLHcmIXd7
+	e5NqbRZSQB0gMOfbiVnUErygHRgsOtoOGaC/2EcI+J1zpIrNhA2wJV2TkXNBC4tU7LeHeSTqUrrZO
+	VIlNf2JBzbM+1SJ8Gb7TZBAgltRuPGZead5QKLPM2er7apLZLYmpxUY511LIx0AYMvAIJ3J+L1juU
+	k1OlPAFQtvgOTFojCSEo3+oOplG9rBmr5OVIw9zq4j1KxjAJOgfkDHNzOUYwe4/ft+nr670+zJOBn
+	JIilyNgg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1pm68l-00GQYB-0D;
+	Tue, 11 Apr 2023 05:01:59 +0000
+Date: Mon, 10 Apr 2023 22:01:59 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: fsverity@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org
+Subject: Re: [RFC PATCH] fsverity: use shash API instead of ahash API
+Message-ID: <ZDTpx15RX/64lbjY@infradead.org>
+References: <20230406003714.94580-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -47,47 +34,15 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230406004434.GA879@sol.localdomain>
+In-Reply-To: <20230406003714.94580-1-ebiggers@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, Apr 05, 2023 at 05:44:36PM -0700, Eric Biggers wrote:
-> > Not vmalloc'ed, but vmapped. we allocate the pages individually, but
-> > then call vm_map_page() to present the higher level code with a
-> > single contiguous memory range if it is a multi-page buffer.
-> > 
-> > We do have the backing info held in the buffer, and that's what we
-> > use for IO. If fsverity needs a page based scatter/gather list
-> > for hardware offload, it could ask the filesystem to provide it
-> > for that given buffer...
-> > 
-> > > BTW, converting fs/verity/ from ahash to shash is an option; I've really never
-> > > been a fan of the scatterlist-based crypto APIs!  The disadvantage of doing
-> > > this, though, would be that it would remove support for all the hardware crypto
-> > > drivers.
-> > >
-> > > That *might* actually be okay, as that approach to crypto acceleration
-> > > has mostly fallen out of favor, in favor of CPU-based acceleration.  But I do
-> > > worry about e.g. someone coming out of the woodwork and saying they need to use
-> > > fsverity on a low-powered ARM board that has a crypto accelerator like CAAM, and
-> > > they MUST use their crypto accelerator to get acceptable performance.
-> > 
-> > True, but we are very unlikely to be using XFS on such small
-> > systems and I don't think we really care about XFS performance on
-> > android sized systems, either.
-> > 
-> 
-> FYI, I've sent an RFC patch that converts fs/verity/ from ahash to shash:
-> https://lore.kernel.org/r/20230406003714.94580-1-ebiggers@kernel.org
-> 
-> It would be great if we could do that.  But I need to get a better sense for
-> whether anyone will complain...
+On Wed, Apr 05, 2023 at 05:37:14PM -0700, Eric Biggers wrote:
+> Therefore, let's convert fs/verity/ from ahash to shash.  This
+> simplifies the code, and it should also slightly improve performance for
+> everyone who wasn't actually using one of these ahash-only crypto
+> accelerators, i.e. almost everyone (or maybe even everyone)!
 
-FWIW, dm-verity went in the other direction.  It started with shash, and then in
-2017 it was switched to ahash by https://git.kernel.org/linus/d1ac3ff008fb9a48
-("dm verity: switch to using asynchronous hash crypto API").
-
-I think that was part of my motivation for using ahash in fsverity from the
-beginning.
-
-Still, it does seem that ahash is more trouble than it's worth these days...
-
-- Eric
+This looks like a very nice cleanup to me.  So unless someone really
+uses async crypto offload heavily for fsverity and can come up with
+a convincing argument for that, I'm all for the change.
