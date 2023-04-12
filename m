@@ -1,61 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3004436
-	for <fsverity@lists.linux.dev>; Tue, 11 Apr 2023 08:58:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D1F9C433EF;
-	Tue, 11 Apr 2023 08:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87CC362
+	for <fsverity@lists.linux.dev>; Wed, 12 Apr 2023 02:33:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F370C433D2;
+	Wed, 12 Apr 2023 02:33:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681203488;
-	bh=k4ge5HqnVcBGWNMlqm6Oo2tJAFivoB8nrqwqk8ZUbjg=;
+	s=k20201202; t=1681266801;
+	bh=uWYRkl4H5QxQQyKZRkipfJYb8JT+WBT0+Wf0sQwa8R4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ouJXDogODS75tgfWWbqqtrgkaSB8DNavqQkmT8J7sYznPTElWBYkWxEYRBfuAnBiO
-	 t8gQab2TFRQNvAVlxpWJOQlOGAXF3XGbXU6DDR+9KSZkimnjSJGmQJE9oAmxaldxjG
-	 2efHCilCeMQVIFXzx8+GqyPFkXUHbTusaZ32aOZTfPOHjlkJiMqjx903gPtkuYYAIu
-	 AZfIwz/jz/0QjHwHV27jlg/vCGHmXs8T12aPzMxcUZm7vWxEpM2I/uPxgmzXUihhrj
-	 JyfJIHvLxIPTXScdlab/ymvEMW6lN+K77F0WsO1FV/IoV3+Z+y1eKIoMK9wzrMnzwY
-	 OJ0aZSlAEfXzA==
-Date: Tue, 11 Apr 2023 10:58:03 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v2] fsverity: use WARN_ON_ONCE instead of WARN_ON
-Message-ID: <20230411-duktus-leitsatz-33c2dc2c7bde@brauner>
-References: <20230406181542.38894-1-ebiggers@kernel.org>
- <20230406182525.GA1190@sol.localdomain>
+	b=ICEWpWIHfCvZctrTa23zt5ow0V8NDHh2F1i00eVdXSsHwgqMLrkRT/XlEYlKmjHDc
+	 19nDnI8fLxzFqlz2xC7lWzBe/z+FLZQp9I6XnZMJNnBuVmGr4gIcbNqsErYoKb0m7p
+	 sxQgr5EWBTLQtP3m6ZbcVg4DVMLneqkbV0LUwwpej+ysbJ8GM6GOmxaIXmht+TVLM5
+	 8AoJUx4LJxeAkTKLmK+QxNTrCOzWSGGlTQai0S4osbYt1lIObyZ+GefEjAWZe5ts/v
+	 1DVrYg2TcXMS5rnXRentQX9hoIWFgOeiZNMnlongYGP1HyqIKramwdoHwdF+582obz
+	 FYYaJGFJaqEvg==
+Date: Tue, 11 Apr 2023 19:33:19 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, djwong@kernel.org,
+	dchinner@redhat.com, linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev, rpeterso@redhat.com, agruenba@redhat.com,
+	xiang@kernel.org, chao@kernel.org, damien.lemoal@opensource.wdc.com,
+	jth@kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com
+Subject: Re: [PATCH v2 00/23] fs-verity support for XFS
+Message-ID: <20230412023319.GA5105@sol.localdomain>
+References: <20230404145319.2057051-1-aalbersh@redhat.com>
+ <ZDTt8jSdG72/UnXi@infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230406182525.GA1190@sol.localdomain>
+In-Reply-To: <ZDTt8jSdG72/UnXi@infradead.org>
 
-On Thu, Apr 06, 2023 at 11:25:25AM -0700, Eric Biggers wrote:
-> On Thu, Apr 06, 2023 at 11:15:42AM -0700, Eric Biggers wrote:
-> > From: Eric Biggers <ebiggers@google.com>
-> > 
-> > As per Linus's suggestion
-> > (https://lore.kernel.org/r/CAHk-=whefxRGyNGzCzG6BVeM=5vnvgb-XhSeFJVxJyAxAF8XRA@mail.gmail.com),
-> > use WARN_ON_ONCE instead of WARN_ON.  This barely adds any extra
-> > overhead, and it makes it so that if any of these ever becomes reachable
-> > (they shouldn't, but that's the point), the logs can't be flooded.
-> > 
-> > Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
-> > Signed-off-by: Eric Biggers <ebiggers@google.com>
-> > ---
-> >  fs/verity/enable.c       | 4 ++--
-> >  fs/verity/hash_algs.c    | 4 ++--
-> >  fs/verity/open.c         | 2 +-
-> >  include/linux/fsverity.h | 6 +++---
-> >  4 files changed, 8 insertions(+), 8 deletions(-)
+On Mon, Apr 10, 2023 at 10:19:46PM -0700, Christoph Hellwig wrote:
+> Dave is going to hate me for this, but..
 > 
-> Sorry, forgot changelog:
+> I've been looking over some of the interfaces here, and I'm starting
+> to very seriously questioning the design decisions of storing the
+> fsverity hashes in xattrs.
 > 
-> v2: also convert the three WARN_ON in include/linux/fsverity.h
+> Yes, storing them beyond i_size in the file is a bit of a hack, but
+> it allows to reuse a lot of the existing infrastructure, and much
+> of fsverity is based around it.  So storing them in an xattrs causes
+> a lot of churn in the interface.  And the XFS side with special
+> casing xattr indices also seems not exactly nice.
 
-Looks good to me,
-Reviewed-by: Christian Brauner <brauner@kernel.org>
+It seems it's really just the Merkle tree caching interface that is causing
+problems, as it's currently too closely tied to the page cache?  That is just an
+implementation detail that could be reworked along the lines of what is being
+discussed.
+
+But anyway, it is up to the XFS folks.  Keep in mind there is also the option of
+doing what btrfs is doing, where it stores the Merkle tree separately from the
+file data stream, but caches it past i_size in the page cache at runtime.
+
+I guess there is also the issue of encryption, which hasn't come up yet since
+we're talking about fsverity support only.  The Merkle tree (including the
+fsverity_descriptor) is supposed to be encrypted, just like the file contents
+are.  Having it be stored after the file contents accomplishes that easily...
+Of course, it doesn't have to be that way; a separate key could be derived, or
+the Merkle tree blocks could be encrypted with the file contents key using
+indices past i_size, without them physically being stored in the data stream.
+
+- Eric
