@@ -1,52 +1,52 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E58A5661
-	for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 12:12:34 +0000 (UTC)
-Received: by mail-ua1-f45.google.com with SMTP id a26so2014420uak.5
-        for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 05:12:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB845661
+	for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 12:14:36 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id ch24so2040265uab.3
+        for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 05:14:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681992753; x=1684584753;
+        d=gmail.com; s=20221208; t=1681992875; x=1684584875;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Nguzq/f1Tjc/dp3Jnp8k4tZEg8n0swUGPV8jptc/xXY=;
-        b=DHQ2lFx2MizWMQQrYU/Zu46mRFRdtM4lEuTKEsZ2tYoxgcQldR2JQ3bQG2T5mJxOhR
-         b75zfmVi6WHumlV1KqvFEWyjGGVYORoOOzJPrPnkiI4CpPGnKMKfmiJ1Ff9xQI0zujLX
-         4LYMoxP6wcwkhMzWAnZjrlTobrLtGROySoTCpSUIU+YuAwZ0m7x0NruhjcL6YQ+pes6s
-         8rXwcP7fpckfnNNU0nNaDew9KHsoHdrDkSu5pbQUB4AWIuEWUJnxePaWNC5R0EJoHYx/
-         IxKIea0Lg7bjgZNTEoc7z6Ir8vLhMM1MZdom9RxmnKYhM4+VBHC42WTpzqRHeLK65F8T
-         a7Zw==
+        bh=qaylrUdg0+csiYgaM5+2CX7gGdXl19IxIjKJHzKB4FY=;
+        b=T59oQAg2MWq7i3cq5xS92GokDfg8LSKQr6n//AMVeN/y8m1wWCfWxlr3tJRQHm0oi8
+         c2d8EIeviic20oNZHKw+sfJMe7woMPxh6L2OxU0J21cCQNcjccUX+WNpfMIH8Pu+xhd0
+         sO6fkmqilDo/93nMbAJZ4QrtmxbhLHOOQ7GNKum2MQm05Ds/Hhm8iHwZM8dSoVq68B7R
+         WixL8YinjCpOI/oAE4je9+/3lCUocqV7q+YWIWXqn74TftuKPnAw4+ieTBAaY17WPrHt
+         VODnwMnGJE2C5meZrMYvmthpuDioqyGageYgv4e666vT7GK+rq7iv5Ce8lRB0c48W72i
+         vtFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681992753; x=1684584753;
+        d=1e100.net; s=20221208; t=1681992875; x=1684584875;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Nguzq/f1Tjc/dp3Jnp8k4tZEg8n0swUGPV8jptc/xXY=;
-        b=G7faX1tVik7l8/pLaay+tDo0rE3QjM2IXIewmcljv0i6Z0HXxYA1p5njPFk3UGTUok
-         jAkzNDqWsWgbY6NCwJ/J7zbCwBh3w9LQ/P16UODSmMbjDA1KjjbdX+H5eRbnAg6j3IsV
-         WPIXE7ZoKx3ZQeWh3S5RXxUR4v3Kv6Ao2TYoqj/CEKJfXkycYbGS8gKu6PDLTh7bsyST
-         GPKwe8Ais+uG/CxpRUu5qhcjyBGz0RTEZi1zVH/DMe1raDD6gvHTE15g9QNBY4mFczIo
-         k2iMkhAWuBCOYe5hMORfOKTRIjiC8tgLseCWoUjUrVElKDUEGL8jk+B/ZrKP3XkehJiP
-         /OPQ==
-X-Gm-Message-State: AAQBX9dPiuFiyuQdUz4zLvPCUyefBdA4BXaJlsqXSORbE3H2UE9D/0vV
-	GR1ikhRR2A1XvmKgqxl3+rxczbB2n0hIG0SymvA=
-X-Google-Smtp-Source: AKy350ZAWQBzAc920rmXqxFboV4WcJL/RkyzdyZVEAjmX5ykGw8ZKiZGhVdmaEOPbZo+XnBZYCpAiMN+G0rft3UT7lE=
-X-Received: by 2002:a1f:a994:0:b0:446:c76f:a7e5 with SMTP id
- s142-20020a1fa994000000b00446c76fa7e5mr855147vke.0.1681992753049; Thu, 20 Apr
- 2023 05:12:33 -0700 (PDT)
+        bh=qaylrUdg0+csiYgaM5+2CX7gGdXl19IxIjKJHzKB4FY=;
+        b=QXvn7BqqCEHtjtnIPfkW0RWfgdeHZQvhHW2DLvSup2ch7yyevj+Q0cdKAWBJpizz2f
+         QYwjuDLKdRhAoaO+NUBuT3QUOKHbRcIIoUmqoPxNSs1L3uUaLot0gQDMKbgbFdoe3HZ/
+         mkaTFd3HumVqJJ2FBAxZc9UsW0BccaeyCCbqF96HkEIVfN6OQ0ooYcOy7MkFak9gb3u4
+         NR8S1AORWrVd9fnEM1Cei/PqB5HHmBPswHzI4gJOQGGBf2abXZQKw+xB5DtoREBKJtN6
+         kvYaTUkMPoAi8fvpMNWHxNyG1iq7ioO494i8E4giGhTOkFiCfy/yTcKQHz0ntwiyEX39
+         JK1w==
+X-Gm-Message-State: AAQBX9fb8a/VMLoGRdRjA4W8S6hiEQcHVlC11BbkuO6gnj4o3hrVGuV/
+	jittIk6rG8uj6Y783yzAf1f0sqd0FeycF5HDHSIl2ex79To=
+X-Google-Smtp-Source: AKy350Yrv4NYwerSTBFmlWC65yBwWFEnf0PlTtRdRTVul1G1PUYzblBBWp37FTc5NhUJghGF9mgjX7tbs1+jP1CKVe4=
+X-Received: by 2002:a1f:a294:0:b0:443:e6f7:e37e with SMTP id
+ l142-20020a1fa294000000b00443e6f7e37emr852770vke.0.1681992875635; Thu, 20 Apr
+ 2023 05:14:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1681917551.git.alexl@redhat.com> <4c5c62c05a00a97dce0ce5fbee020e82ee76c202.1681917551.git.alexl@redhat.com>
-In-Reply-To: <4c5c62c05a00a97dce0ce5fbee020e82ee76c202.1681917551.git.alexl@redhat.com>
+References: <cover.1681917551.git.alexl@redhat.com> <69fa1af45ee0f51b50c1ff8a386a57d2842379c9.1681917551.git.alexl@redhat.com>
+In-Reply-To: <69fa1af45ee0f51b50c1ff8a386a57d2842379c9.1681917551.git.alexl@redhat.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 20 Apr 2023 15:12:21 +0300
-Message-ID: <CAOQ4uxihGt_W=o69fdGn4DCKpY-kJYYvhhXf0qxqDLRmWAyL3w@mail.gmail.com>
-Subject: Re: [PATCH 2/6] ovl: Break out ovl_entry_path_real() from ovl_i_path_real()
+Date: Thu, 20 Apr 2023 15:14:24 +0300
+Message-ID: <CAOQ4uxidTC7ZqxRjxDQ1cBGm0m4nzsjBjE-TRMjrk7XsS34qgg@mail.gmail.com>
+Subject: Re: [PATCH 3/6] ovl: Break out ovl_entry_path_lowerdata() from ovl_path_lowerdata()
 To: Alexander Larsson <alexl@redhat.com>
 Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org, ebiggers@kernel.org, 
 	tytso@mit.edu, fsverity@lists.linux.dev
@@ -56,46 +56,65 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Apr 20, 2023 at 10:44=E2=80=AFAM Alexander Larsson <alexl@redhat.co=
 m> wrote:
 >
-> This allows us to get the real path from the ovl_entry in ovl_lookup()
-> before having finished setting up the resulting inode.
+> This will be needed later when getting the lowerdata path from the
+> ovl_entry in ovl_lookup() before the dentry is set up.
 >
 > Signed-off-by: Alexander Larsson <alexl@redhat.com>
 > ---
->  fs/overlayfs/overlayfs.h |  2 ++
->  fs/overlayfs/util.c      | 25 ++++++++++++++++++-------
->  2 files changed, 20 insertions(+), 7 deletions(-)
+>  fs/overlayfs/overlayfs.h |  1 +
+>  fs/overlayfs/util.c      | 11 +++++++++--
+>  2 files changed, 10 insertions(+), 2 deletions(-)
 >
 > diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-> index 4e327665c316..477008186d18 100644
+> index 477008186d18..3d14770dc711 100644
 > --- a/fs/overlayfs/overlayfs.h
 > +++ b/fs/overlayfs/overlayfs.h
-> @@ -395,6 +395,8 @@ void ovl_path_upper(struct dentry *dentry, struct pat=
+> @@ -395,6 +395,7 @@ void ovl_path_upper(struct dentry *dentry, struct pat=
 h *path);
 >  void ovl_path_lower(struct dentry *dentry, struct path *path);
 >  void ovl_path_lowerdata(struct dentry *dentry, struct path *path);
 >  void ovl_i_path_real(struct inode *inode, struct path *path);
-> +void ovl_entry_path_real(struct ovl_fs *ofs, struct ovl_entry *oe,
-> +                        struct dentry *upperdentry, struct path *path);
+> +void ovl_entry_path_lowerdata(struct ovl_entry *oe, struct path *path);
+>  void ovl_entry_path_real(struct ovl_fs *ofs, struct ovl_entry *oe,
+>                          struct dentry *upperdentry, struct path *path);
 >  enum ovl_path_type ovl_path_real(struct dentry *dentry, struct path *pat=
 h);
->  enum ovl_path_type ovl_path_realdata(struct dentry *dentry, struct path =
-*path);
->  struct dentry *ovl_dentry_upper(struct dentry *dentry);
 > diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
-> index 9a042768013e..77c954591daa 100644
+> index 77c954591daa..17eff3e31239 100644
 > --- a/fs/overlayfs/util.c
 > +++ b/fs/overlayfs/util.c
-> @@ -351,19 +351,30 @@ struct dentry *ovl_i_dentry_upper(struct inode *ino=
-de)
->         return ovl_upperdentry_dereference(OVL_I(inode));
+> @@ -242,9 +242,9 @@ void ovl_path_lower(struct dentry *dentry, struct pat=
+h *path)
+>         }
 >  }
 >
-> -void ovl_i_path_real(struct inode *inode, struct path *path)
-> -{
-> -       struct ovl_path *lowerstack =3D ovl_lowerstack(OVL_I_E(inode));
-> +void ovl_entry_path_real(struct ovl_fs *ofs,
+> -void ovl_path_lowerdata(struct dentry *dentry, struct path *path)
+> +void ovl_entry_path_lowerdata(struct ovl_entry *oe,
 
 Nit: I would use ovl_e_ prefix. Not critical.
+
+> +                             struct path *path)
+>  {
+> -       struct ovl_entry *oe =3D OVL_E(dentry);
+>         struct ovl_path *lowerdata =3D ovl_lowerdata(oe);
+>         struct dentry *lowerdata_dentry =3D ovl_lowerdata_dentry(oe);
+>
+> @@ -262,6 +262,13 @@ void ovl_path_lowerdata(struct dentry *dentry, struc=
+t path *path)
+>         }
+>  }
+>
+> +void ovl_path_lowerdata(struct dentry *dentry, struct path *path)
+> +{
+> +       struct ovl_entry *oe =3D OVL_E(dentry);
+> +
+> +       return ovl_entry_path_lowerdata(oe, path);
+
+Nit: I wouldn't use a helper var here.
+
+Otherwise you may add (also to the previous helper patch):
+
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
 Thanks,
 Amir.
