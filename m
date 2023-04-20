@@ -1,323 +1,339 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271B317C9
-	for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 08:39:47 +0000 (UTC)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-771d9ec5aa5so1312422241.0
-        for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 01:39:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BA65661
+	for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 12:06:48 +0000 (UTC)
+Received: by mail-ua1-f54.google.com with SMTP id s13so2012631uaq.4
+        for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 05:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681979986; x=1684571986;
+        d=gmail.com; s=20221208; t=1681992407; x=1684584407;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SD17R47OkxboxfnjBjDccew2cSCqa1XXZ0JxDkWS52o=;
-        b=bWpkjC+2FtRGRy15JfdTN9NITvc+rs6aoP+b7i2radDfDG0oHoPBssLvxovfWENLbx
-         jtokm+oVFwbjgANc6n6Ux5EadqZUjCYK4cQbYpk6BdwfKZOOnHFiKsPhDSZ1mMLXlgy6
-         PMipovjnsYvTPX5GMOUE4cJW5fHOMCXhwlih8eoMu+E4kLHcSKNoMe/M1LZosFVNxk5v
-         gArPWHdvGHrzu71Ns7CHVdCWVIorDVeHcdTleCcxKCkCXDpQg9sdjCXe8yJZSsG1xI3c
-         yjXfpIZaUZZv5kNf3caMK05aArqRU2pdVQ91lSO7Fo+bB6S9LPDv6PLaoBmk3PO9oTYH
-         GDTA==
+        bh=kh0Tza5X/hVCjLbJmuCvil/DeiezWINbTbkRvetbgJo=;
+        b=eHbzaiAm7IDaoBrb1GnXIzGtlUgtJojdgwrEi43gEpCovyXDYKsUo0Bm9KQQk7wXu4
+         BtLyI8ILuVsSnlaXojRUq9XG/3H7OGpkFdUz0YGmgyUBhArA8499688Kfpb5i+7BED6o
+         FMx+DLzT4X93jGE/ATHd+ndu0VM9tNYM94Q9G3cwye+NlLuxA6JXP95zb9uBwjWGfh42
+         YI9oXUwzuCpL62k3vFdz/IZsYfpBIQBc/867lOrlKGbMg3K4gghgs7hPf+BsE59Rsik/
+         x/OdCgROXFcJHB3bYP5D6y2OEEBeP2WOWRaw8LUbyk8ZtMaAaBj8hHeH5xk/YYk2hKWA
+         fBlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681979986; x=1684571986;
+        d=1e100.net; s=20221208; t=1681992407; x=1684584407;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SD17R47OkxboxfnjBjDccew2cSCqa1XXZ0JxDkWS52o=;
-        b=WNtdp5QNu1fWzu6WdQB1p9OD9ss6hFETXEvgJw9KesJHpSrVEdrHfVN9ocxJsL4zmQ
-         qBszeWB/aeGQHGIvQKGV+ATKmiYbW6tSzxsRQ9GsULklNb8+67WhhiFskf+JI7HkDDW6
-         0DqMxmOp49iNSaAT8rFxoQq670mE+YLS8VmH88IIMHT2qGC/M+gzRVEWp/vJSst51O57
-         gLrvl+SX/keVsv9Zf5WglHssOcCm59gHKr1ugVLfn+ctfVh8/aJtOfX3EwiG6D6adPf/
-         E8aYRKXGH4APiNVlT65CIzgnwKnH+IKFa9W4mgRz2o3dv9tVqYc7/FX0wPBtDyuAJICs
-         R7WA==
-X-Gm-Message-State: AAQBX9fLpAERJASHi/CK0X466LAP1m5DsVaY4McjRAVnRFgbpUaUSYed
-	XKCt+KKEOvkuPNyQt/eL4brO/GU8jtA5bpvnaIM=
-X-Google-Smtp-Source: AKy350b/h5kRgligMh/liP/OUAHtdKnf6rArSCZ1zYDDGL17r3pKFxZIn5FSPzzXExRXcFGJ71e9lSZl/4FvgKvaXrg=
-X-Received: by 2002:a9f:305a:0:b0:73f:f15b:d9e3 with SMTP id
- i26-20020a9f305a000000b0073ff15bd9e3mr352788uab.0.1681979985809; Thu, 20 Apr
- 2023 01:39:45 -0700 (PDT)
+        bh=kh0Tza5X/hVCjLbJmuCvil/DeiezWINbTbkRvetbgJo=;
+        b=aDULnpTsvO/ly/LIJT0SFbDHlXxBfCmeVxlTaIUyUDLtv0JBlL0IFf1vQgqmlI3/Oy
+         2HfphUkDH9PxQwtzsDSzGYlMJ3nhNlREU8uPnACGHugCawFJfDTcmaUXz2fnRTyompEp
+         L7pGMEhcqo2vUEfftLYxB1hheepFhYw5vBsRUkOvI3tL5Q3HWyCXYo7yhBT7OPI+olq/
+         EkH6Kukr3Om9XP8Cf2SL9HrNtuJ00ejAdxi+akaI2l8Zal3Q+Dh58FDoX9S4kM9gwfNn
+         Q6Rj4QAseA1Pabx95+NCAmoEbtlys2VpDoihhtrqXIjnoS+0FE3GN2Tnq825knPJKuMp
+         HjOw==
+X-Gm-Message-State: AAQBX9foLXmzPEXKjTfeoMXDhuH1/xFRyAn8p5NTYvkypPAN1S1nbXwP
+	HS7rhxzCek+xVqVOoI739/KpjcTmNK/hWasuTs8=
+X-Google-Smtp-Source: AKy350aXH+zQ5TbHFj3ceJDIuZoxq9tPjYEx0lgX0Ip2DTpLgYdxXjPhjD+UywBm+4iLQD9Q2pjA9T7aX1MwOrnTpqg=
+X-Received: by 2002:a1f:a994:0:b0:446:c76f:a7e5 with SMTP id
+ s142-20020a1fa994000000b00446c76fa7e5mr842790vke.0.1681992407337; Thu, 20 Apr
+ 2023 05:06:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1681917551.git.alexl@redhat.com> <2b2c5ecaf80f810f46791a94d8638ec4027a3a0e.1681917551.git.alexl@redhat.com>
-In-Reply-To: <2b2c5ecaf80f810f46791a94d8638ec4027a3a0e.1681917551.git.alexl@redhat.com>
+References: <cover.1681917551.git.alexl@redhat.com> <df41e9dc96ddad9f9e1e684e39c28f4e097e9d9b.1681917551.git.alexl@redhat.com>
+In-Reply-To: <df41e9dc96ddad9f9e1e684e39c28f4e097e9d9b.1681917551.git.alexl@redhat.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 20 Apr 2023 11:39:34 +0300
-Message-ID: <CAOQ4uxj14qKWbz7j2Ynvoj5fBhiw-B2A9XA8AOE28kOus=RVKQ@mail.gmail.com>
-Subject: Re: [PATCH 4/6] ovl: Add framework for verity support
+Date: Thu, 20 Apr 2023 15:06:35 +0300
+Message-ID: <CAOQ4uxgdX-bphreqvO9UZXHa5vdP_weyK0aqAgSY-BuhwU1ZJA@mail.gmail.com>
+Subject: Re: [PATCH 5/6] ovl: Validate verity xattr when resolving lowerdata
 To: Alexander Larsson <alexl@redhat.com>
 Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org, ebiggers@kernel.org, 
 	tytso@mit.edu, fsverity@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+ovl_maybe_lookup_lowerdata
+
 On Thu, Apr 20, 2023 at 10:44=E2=80=AFAM Alexander Larsson <alexl@redhat.co=
 m> wrote:
 >
-> This adds the scaffolding (docs, config, mount options) for supporting
-> for a new overlay xattr "overlay.verity", which contains a fs-verity
-> digest. This is used for metacopy files, and the actual fs-verity
-> digest of the lowerdata file needs to match it. The mount option
-> "verity" specifies how this xattrs is handled.
->
-> Unless you explicitly disable it ("verity=3Doff") all existing xattrs
-> are validated before use. This is all that happens by default
-> ("verity=3Dvalidate"), but, if you turn on verity ("verity=3Don") then
-> during metacopy we generate verity xattr in the upper metacopy file if
-> the source file has verity enabled. This means later accesses can
-> guarantee that the correct data is used.
->
-> Additionally you can use "verity=3Drequire". In this mode all metacopy
-> files must have a valid verity xattr. For this to work metadata
-> copy-up must be able to create a verity xattr (so that later accesses
-> are validated). Therefore, in this mode, if the lower data file
-> doesn't have fs-verity enabled we fall back to a full copy rather than
-> a metacopy.
->
-> Actual implementation follows in a separate commit.
+> When resolving lowerdata (lazily or non-lazily) we chech the
+> overlay.verity xattr on the metadata inode, and if set verify that the
+> source lowerdata inode matches it (according to the verity options
+> enabled).
 >
 > Signed-off-by: Alexander Larsson <alexl@redhat.com>
 > ---
->  Documentation/filesystems/overlayfs.rst | 33 +++++++++++++++++
->  fs/overlayfs/Kconfig                    | 14 +++++++
->  fs/overlayfs/ovl_entry.h                |  4 ++
->  fs/overlayfs/super.c                    | 49 +++++++++++++++++++++++++
->  4 files changed, 100 insertions(+)
+>  fs/overlayfs/namei.c     | 34 ++++++++++++++
+>  fs/overlayfs/overlayfs.h |  6 +++
+>  fs/overlayfs/util.c      | 97 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 137 insertions(+)
 >
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
-systems/overlayfs.rst
-> index c8e04a4f0e21..66895bf71cd1 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -403,6 +403,39 @@ when a "metacopy" file in one of the lower layers ab=
-ove it, has a "redirect"
->  to the absolute path of the "lower data" file in the "data-only" lower l=
-ayer.
->
->
-> +fs-verity support
-> +----------------------
-> +
-> +When metadata copy up is used for a file, then the xattr
-> +"trusted.overlay.verity" may be set on the metacopy file. This
-> +specifies the expected fs-verity digest of the lowerdata file. This
-> +may then be used to verify the content of the source file at the time
-> +the file is opened. If enabled, overlayfs can also set this xattr
-> +during metadata copy up.
-> +
-> +This is controlled by the "verity" mount option, which supports
-> +these values:
-> +
-> +- "off":
-> +    The verity xattr is never used.
-> +- "validate":
-> +    Whenever a metacopy files specifies an expected digest, the
-> +    corresponding data file must match the specified digest.
-> +- "on":
-> +    Same as validate, but additionally, when generating a metacopy
-> +    file the verity xattr will be set from the source file fs-verity
-> +    digest (if it has one).
-> +- "require":
-> +    Same as "on", but additionally all metacopy files must specify a
-> +    verity xattr. Additionally metadata copy up will only be used if
-> +    the data file has fs-verity enabled, otherwise a full copy-up is
-> +    used.
-> +
-> +There are two ways to tune the default behaviour. The kernel config
-> +option OVERLAY_FS_VERITY, or the module option "verity=3DBOOL". If
-> +either of these are enabled, then verity mode is "on" by default,
-> +otherwise it is "validate".
-> +
->  Sharing and copying layers
->  --------------------------
->
-> diff --git a/fs/overlayfs/Kconfig b/fs/overlayfs/Kconfig
-> index 6708e54b0e30..98d6b1a7baf5 100644
-> --- a/fs/overlayfs/Kconfig
-> +++ b/fs/overlayfs/Kconfig
-> @@ -124,3 +124,17 @@ config OVERLAY_FS_METACOPY
->           that doesn't support this feature will have unexpected results.
->
->           If unsure, say N.
-> +
-> +config OVERLAY_FS_VERITY
-> +       bool "Overlayfs: turn on verity feature by default"
-> +       depends on OVERLAY_FS
-> +       depends on OVERLAY_FS_METACOPY
-> +       help
-> +         If this config option is enabled then overlay filesystems will
-> +         try to copy fs-verity digests from the lower file into the
-> +         metacopy file at metadata copy-up time. It is still possible
-> +         to turn off this feature globally with the "verity=3Doff"
-> +         module option or on a filesystem instance basis with the
-> +         "verity=3Doff" or "verity=3Dvalidate" mount option.
-> +
-> +         If unsure, say N.
-> diff --git a/fs/overlayfs/ovl_entry.h b/fs/overlayfs/ovl_entry.h
-> index a7b1006c5321..f759e476dfc7 100644
-> --- a/fs/overlayfs/ovl_entry.h
-> +++ b/fs/overlayfs/ovl_entry.h
-> @@ -13,6 +13,10 @@ struct ovl_config {
->         bool redirect_dir;
->         bool redirect_follow;
->         const char *redirect_mode;
-> +       bool verity_validate;
-> +       bool verity_generate;
-> +       bool verity_require;
-> +       const char *verity_mode;
->         bool index;
->         bool uuid;
->         bool nfs_export;
-> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-> index ef78abc21998..953d76f6a1e3 100644
-> --- a/fs/overlayfs/super.c
-> +++ b/fs/overlayfs/super.c
-> @@ -59,6 +59,11 @@ module_param_named(metacopy, ovl_metacopy_def, bool, 0=
-644);
->  MODULE_PARM_DESC(metacopy,
->                  "Default to on or off for the metadata only copy up feat=
-ure");
->
-> +static bool ovl_verity_def =3D IS_ENABLED(CONFIG_OVERLAY_FS_VERITY);
-> +module_param_named(verity, ovl_verity_def, bool, 0644);
-> +MODULE_PARM_DESC(verity,
-> +                "Default to on or validate for the metadata only copy up=
- feature");
-> +
->  static struct dentry *ovl_d_real(struct dentry *dentry,
->                                  const struct inode *inode)
+> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> index ba2b156162ca..49f3715c582d 100644
+> --- a/fs/overlayfs/namei.c
+> +++ b/fs/overlayfs/namei.c
+> @@ -892,6 +892,7 @@ static int ovl_fix_origin(struct ovl_fs *ofs, struct =
+dentry *dentry,
+>  /* Lazy lookup of lowerdata */
+>  int ovl_maybe_lookup_lowerdata(struct dentry *dentry)
 >  {
-> @@ -235,6 +240,7 @@ static void ovl_free_fs(struct ovl_fs *ofs)
->         kfree(ofs->config.upperdir);
->         kfree(ofs->config.workdir);
->         kfree(ofs->config.redirect_mode);
-> +       kfree(ofs->config.verity_mode);
->         if (ofs->creator_cred)
->                 put_cred(ofs->creator_cred);
->         kfree(ofs);
-> @@ -325,6 +331,11 @@ static const char *ovl_redirect_mode_def(void)
->         return ovl_redirect_dir_def ? "on" : "off";
+> +       struct ovl_fs *ofs =3D dentry->d_sb->s_fs_info;
+>         struct inode *inode =3D d_inode(dentry);
+>         const char *redirect =3D ovl_lowerdata_redirect(inode);
+>         struct ovl_path datapath =3D {};
+> @@ -919,6 +920,21 @@ int ovl_maybe_lookup_lowerdata(struct dentry *dentry=
+)
+>         if (err)
+>                 goto out_err;
+>
+> +       if (ofs->config.verity_validate) {
+> +               struct path data =3D { .mnt =3D datapath.layer->mnt, .den=
+try =3D datapath.dentry, };
+> +               struct path metapath =3D {};
+> +
+> +               ovl_path_real(dentry, &metapath);
+> +               if (!metapath.dentry) {
+> +                       err =3D -EIO;
+> +                       goto out_err;
+> +               }
+> +
+> +               err =3D ovl_validate_verity(ofs, &metapath, &data);
+> +               if (err)
+> +                       goto out_err;
+> +       }
+> +
+>         err =3D ovl_dentry_set_lowerdata(dentry, &datapath);
+>         if (err)
+>                 goto out_err;
+> @@ -1186,6 +1202,24 @@ struct dentry *ovl_lookup(struct inode *dir, struc=
+t dentry *dentry,
+>         if (err)
+>                 goto out_put;
+>
+> +       /* Validate verity of lower-data */
+> +       if (ofs->config.verity_validate &&
+> +           !d.is_dir && (uppermetacopy || ctr > 1)) {
+> +               struct path datapath;
+> +
+> +               ovl_entry_path_lowerdata(&oe, &datapath);
+> +
+> +               /* Is NULL for lazy lookup, will be verified later */
+> +               if (datapath.dentry) {
+> +                       struct path metapath;
+> +
+> +                       ovl_entry_path_real(ofs, &oe, upperdentry, &metap=
+ath);
+> +                       err =3D ovl_validate_verity(ofs, &metapath, &data=
+path);
+> +                       if (err < 0)
+> +                               goto out_free_oe;
+> +               }
+> +       }
+> +
+>         if (upperopaque)
+>                 ovl_dentry_set_opaque(dentry);
+>
+> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+> index 3d14770dc711..b1d639ccd5ac 100644
+> --- a/fs/overlayfs/overlayfs.h
+> +++ b/fs/overlayfs/overlayfs.h
+> @@ -38,6 +38,7 @@ enum ovl_xattr {
+>         OVL_XATTR_UPPER,
+>         OVL_XATTR_METACOPY,
+>         OVL_XATTR_PROTATTR,
+> +       OVL_XATTR_VERITY,
+>  };
+>
+>  enum ovl_inode_flag {
+> @@ -467,6 +468,11 @@ int ovl_lock_rename_workdir(struct dentry *workdir, =
+struct dentry *upperdir);
+>  int ovl_check_metacopy_xattr(struct ovl_fs *ofs, const struct path *path=
+);
+>  bool ovl_is_metacopy_dentry(struct dentry *dentry);
+>  char *ovl_get_redirect_xattr(struct ovl_fs *ofs, const struct path *path=
+, int padding);
+> +int ovl_get_verity_xattr(struct ovl_fs *ofs, const struct path *path,
+> +                        u8 *digest_buf, int *buf_length);
+> +int ovl_validate_verity(struct ovl_fs *ofs,
+> +                       struct path *metapath,
+> +                       struct path *datapath);
+>  int ovl_sync_status(struct ovl_fs *ofs);
+>
+>  static inline void ovl_set_flag(unsigned long flag, struct inode *inode)
+> diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+> index 17eff3e31239..55e90aa0978a 100644
+> --- a/fs/overlayfs/util.c
+> +++ b/fs/overlayfs/util.c
+> @@ -10,7 +10,9 @@
+>  #include <linux/cred.h>
+>  #include <linux/xattr.h>
+>  #include <linux/exportfs.h>
+> +#include <linux/file.h>
+>  #include <linux/fileattr.h>
+> +#include <linux/fsverity.h>
+>  #include <linux/uuid.h>
+>  #include <linux/namei.h>
+>  #include <linux/ratelimit.h>
+> @@ -742,6 +744,7 @@ bool ovl_path_check_dir_xattr(struct ovl_fs *ofs, con=
+st struct path *path,
+>  #define OVL_XATTR_UPPER_POSTFIX                "upper"
+>  #define OVL_XATTR_METACOPY_POSTFIX     "metacopy"
+>  #define OVL_XATTR_PROTATTR_POSTFIX     "protattr"
+> +#define OVL_XATTR_VERITY_POSTFIX       "verity"
+>
+>  #define OVL_XATTR_TAB_ENTRY(x) \
+>         [x] =3D { [false] =3D OVL_XATTR_TRUSTED_PREFIX x ## _POSTFIX, \
+> @@ -756,6 +759,7 @@ const char *const ovl_xattr_table[][2] =3D {
+>         OVL_XATTR_TAB_ENTRY(OVL_XATTR_UPPER),
+>         OVL_XATTR_TAB_ENTRY(OVL_XATTR_METACOPY),
+>         OVL_XATTR_TAB_ENTRY(OVL_XATTR_PROTATTR),
+> +       OVL_XATTR_TAB_ENTRY(OVL_XATTR_VERITY),
+>  };
+>
+>  int ovl_check_setxattr(struct ovl_fs *ofs, struct dentry *upperdentry,
+> @@ -1188,6 +1192,99 @@ char *ovl_get_redirect_xattr(struct ovl_fs *ofs, c=
+onst struct path *path, int pa
+>         return ERR_PTR(res);
 >  }
 >
-> +static const char *ovl_verity_mode_def(void)
+> +int ovl_get_verity_xattr(struct ovl_fs *ofs, const struct path *path,
+> +                        u8 *digest_buf, int *buf_length)
 > +{
-> +       return ovl_verity_def ? "on" : "validate";
+> +       int res;
+> +
+> +       res =3D ovl_path_getxattr(ofs, path, OVL_XATTR_VERITY, digest_buf=
+, *buf_length);
+> +       if (res =3D=3D -ENODATA || res =3D=3D -EOPNOTSUPP)
+> +               return -ENODATA;
+> +       if (res < 0) {
+> +               pr_warn_ratelimited("failed to get digest (%i)\n", res);
+> +               return res;
+> +       }
+> +
+> +       *buf_length =3D res;
+> +       return 0;
 > +}
 > +
->  static const char * const ovl_xino_str[] =3D {
->         "off",
->         "auto",
-> @@ -374,6 +385,8 @@ static int ovl_show_options(struct seq_file *m, struc=
-t dentry *dentry)
->                 seq_puts(m, ",volatile");
->         if (ofs->config.userxattr)
->                 seq_puts(m, ",userxattr");
-> +       if (strcmp(ofs->config.verity_mode, ovl_verity_mode_def()) !=3D 0=
-)
-> +               seq_printf(m, ",verity=3D%s", ofs->config.verity_mode);
->         return 0;
->  }
->
-> @@ -429,6 +442,7 @@ enum {
->         OPT_METACOPY_ON,
->         OPT_METACOPY_OFF,
->         OPT_VOLATILE,
-> +       OPT_VERITY,
->         OPT_ERR,
->  };
->
-> @@ -451,6 +465,7 @@ static const match_table_t ovl_tokens =3D {
->         {OPT_METACOPY_ON,               "metacopy=3Don"},
->         {OPT_METACOPY_OFF,              "metacopy=3Doff"},
->         {OPT_VOLATILE,                  "volatile"},
-> +       {OPT_VERITY,                    "verity=3D%s"},
->         {OPT_ERR,                       NULL}
->  };
->
-> @@ -500,6 +515,25 @@ static int ovl_parse_redirect_mode(struct ovl_config=
- *config, const char *mode)
->         return 0;
->  }
->
-> +static int ovl_parse_verity_mode(struct ovl_config *config, const char *=
-mode)
+> +static int ovl_ensure_verity_loaded(struct ovl_fs *ofs,
+> +                                   struct path *datapath)
 > +{
-> +       if (strcmp(mode, "validate") =3D=3D 0) {
-> +               config->verity_validate =3D true;
-> +       } else if (strcmp(mode, "on") =3D=3D 0) {
-> +               config->verity_validate =3D true;
-> +               config->verity_generate =3D true;
-> +       } else if (strcmp(mode, "require") =3D=3D 0) {
-> +               config->verity_validate =3D true;
-> +               config->verity_generate =3D true;
-> +               config->verity_require =3D true;
-> +       } else if (strcmp(mode, "off") !=3D 0) {
-> +               pr_err("bad mount option \"verity=3D%s\"\n", mode);
-> +               return -EINVAL;
+> +       struct inode *inode =3D d_inode(datapath->dentry);
+> +       const struct fsverity_info *vi;
+> +       const struct cred *old_cred;
+> +       struct file *filp;
+> +
+> +       vi =3D fsverity_get_info(inode);
+> +       if (vi =3D=3D NULL && IS_VERITY(inode)) {
+> +               /*
+> +                * If this inode was not yet opened, the verity info hasn=
+'t been
+> +                * loaded yet, so we need to do that here to force it int=
+o memory.
+> +                */
+> +               old_cred =3D override_creds(ofs->creator_cred);
+
+Even though it may work, that's the wrong place for override_creds(),
+because you are calling this helper from within ovl_lookup() with
+mounter creds already.
+
+Better to move revert_creds() in ovl_maybe_lookup_lowerdata()
+to out_revert_creds: goto label and call ovl_validate_verity() with
+mounter creds from all call sites.
+
+> +               filp =3D dentry_open(datapath, O_RDONLY, current_cred());
+
+You could use open_with_fake_path() here to avoid ENFILE
+not sure if this is critical.
+
+> +               revert_creds(old_cred);
+> +               if (IS_ERR(filp))
+> +                       return PTR_ERR(filp);
+> +               fput(filp);
 > +       }
 > +
 > +       return 0;
 > +}
 > +
->  static int ovl_parse_opt(char *opt, struct ovl_config *config)
->  {
->         char *p;
-> @@ -511,6 +545,10 @@ static int ovl_parse_opt(char *opt, struct ovl_confi=
-g *config)
->         if (!config->redirect_mode)
->                 return -ENOMEM;
->
-> +       config->verity_mode =3D kstrdup(ovl_verity_mode_def(), GFP_KERNEL=
-);
-> +       if (!config->verity_mode)
-> +               return -ENOMEM;
+> +int ovl_validate_verity(struct ovl_fs *ofs,
+> +                       struct path *metapath,
+> +                       struct path *datapath)
+> +{
+> +       u8 required_digest[FS_VERITY_MAX_DIGEST_SIZE];
+> +       u8 actual_digest[FS_VERITY_MAX_DIGEST_SIZE];
+> +       enum hash_algo verity_algo;
+> +       int digest_len;
+> +       int err;
 > +
->         while ((p =3D ovl_next_opt(&opt)) !=3D NULL) {
->                 int token;
->                 substring_t args[MAX_OPT_ARGS];
-> @@ -611,6 +649,13 @@ static int ovl_parse_opt(char *opt, struct ovl_confi=
-g *config)
->                         config->userxattr =3D true;
->                         break;
->
-> +               case OPT_VERITY:
-> +                       kfree(config->verity_mode);
-> +                       config->verity_mode =3D match_strdup(&args[0]);
-> +                       if (!config->verity_mode)
-> +                               return -ENOMEM;
-> +                       break;
+> +       if (!ofs->config.verity_validate ||
+> +           /* Verity only works on regular files */
+> +           !S_ISREG(d_inode(metapath->dentry)->i_mode))
+> +               return 0;
 > +
->                 default:
->                         pr_err("unrecognized mount option \"%s\" or missi=
-ng value\n",
->                                         p);
-> @@ -642,6 +687,10 @@ static int ovl_parse_opt(char *opt, struct ovl_confi=
-g *config)
->         if (err)
->                 return err;
->
-> +       err =3D ovl_parse_verity_mode(config, config->verity_mode);
-> +       if (err)
-> +               return err;
-> +
->         /*
->          * This is to make the logic below simpler.  It doesn't make any =
-other
->          * difference, since config->redirect_dir is only used for upper.
->
+> +       digest_len =3D sizeof(required_digest);
+> +       err =3D ovl_get_verity_xattr(ofs, metapath, required_digest, &dig=
+est_len);
+> +       if (err =3D=3D -ENODATA) {
+> +               if (ofs->config.verity_require) {
+> +                       pr_warn_ratelimited("metacopy file '%pd' has no o=
+verlay.verity xattr\n",
+> +                                           metapath->dentry);
+> +                       return -EIO;
+> +               }
+> +               return 0;
+> +       }
 
-Need to add code to resolve verity -> metacopy dependency
-same as for metacopy -> redirect_dir dependency.
+Thinking out loud: feels to me that verity xattr is a property that is
+always "coupled" with metacopy xattr.
 
-However, note that the nfs_export,userxattr -> !metacopy dependencies
-also imply nfs_export,userxattr -> !verity.
+I wonder if we should check and store them together during lookup.
 
-But unlike metacopy, I am not sure of we can auto disable verity (?)
-I guess it is fine to set veritfy=3Doff *along with* metacopy=3Doff because
-trying to follow a metacopy would result in EIO anyway when metacopy
-is disabled, so the verity mode is meaningless.
+On one hand that means using a bit more memory per inode
+before we need it.
+
+OTOH, getxattr on metapath during lazy lookup may incur extra
+IO to the metapath inode xattr block that will have been amortized
+if done during lookup.
+
+I have no strong feelings one way or the other.
 
 Thanks,
 Amir.
+
+> +       if (err < 0)
+> +               return err;
+> +
+> +       err =3D ovl_ensure_verity_loaded(ofs, datapath);
+> +       if (err < 0) {
+> +               pr_warn_ratelimited("lower file '%pd' failed to load fs-v=
+erity info\n",
+> +                                   datapath->dentry);
+> +               return -EIO;
+> +       }
+> +
+> +       err =3D fsverity_get_digest(d_inode(datapath->dentry), actual_dig=
+est, &verity_algo);
+> +       if (err < 0) {
+> +               pr_warn_ratelimited("lower file '%pd' has no fs-verity di=
+gest\n", datapath->dentry);
+> +               return -EIO;
+> +       }
+> +
+> +       if (digest_len !=3D hash_digest_size[verity_algo] ||
+> +           memcmp(required_digest, actual_digest, digest_len) !=3D 0) {
+> +               pr_warn_ratelimited("lower file '%pd' has the wrong fs-ve=
+rity digest\n",
+> +                                   datapath->dentry);
+> +               return -EIO;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+>  /*
+>   * ovl_sync_status() - Check fs sync status for volatile mounts
+>   *
+> --
+> 2.39.2
+>
