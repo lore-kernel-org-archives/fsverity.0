@@ -1,213 +1,68 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8EC5661
-	for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 12:18:10 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id ch24so2046319uab.3
-        for <fsverity@lists.linux.dev>; Thu, 20 Apr 2023 05:18:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681993089; x=1684585089;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Am4xXpNJ5iAaCrSeXiaBl/58mWnfGbAPREwFXIRt0Uw=;
-        b=gv1zek9msh69P4nePIQqGrlderOhL2bztEwFkWBjn4LWGWv79NYZ84U9qV7sUjpmuS
-         l/sT/LNifKDQ0NWbTyAg7WQvQe39dSekUAzXca0txgGXZqo4DFn2ztgA0vgIibFkmy7V
-         elO929lO14W3tAUR1HxAQNW6JQ97a9wDRVq2mXIFlmJU12L2HR4GpU9KfU0FYT99ZD3H
-         0l2/BfteLljEiwU+lDgWBA/GKsf+CoAXK0Nm0P7TKuoOCMtETp9jb/mtoWdpIjYApw3k
-         2pBfK4jP4WKaiH8FV7n5Jk6L6dfJOf4OXPN/Ijv1jyJZ/6Frz/omo8EDFCaxNw4KqY2O
-         6Bcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681993089; x=1684585089;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Am4xXpNJ5iAaCrSeXiaBl/58mWnfGbAPREwFXIRt0Uw=;
-        b=RRhrubdgtLskF+M5apGgcR4a7iOFSLCMCDwfJ2iJ2iQfc8JreF6Pxu/X/rdHE195rQ
-         DrygShtcQLCX2vsjRH81AiWzkksAukFem/RAhl46u/veGwr0zeiP6WsZgg5B8ybYhl4G
-         Z56Bb04r8RzZ8pJfBAXVrMkTYn8NmoPQ7hi8yKYvnKahH6P0LsYvRoJoXJCO45D9U0oG
-         JVqifNBITVbNdhw5n4l5XtiI6OGU663QwUC+5QFRCLcE4wBo8ko626TYggPtiSmIXjpO
-         +G30kSeUwaBq6rbygTROhh0vB3VXZ/IRQgwboZidNVyXF0g90AFj5DGeHMLTlqYRgWCg
-         WsaQ==
-X-Gm-Message-State: AAQBX9eZWrbKCUiHpY2bKYJPri33cgdQiC9GK8jG+enehiApx0hzIMrG
-	AiSXuzcbVwGsVl722BOcqEDT9/rSxNNtchQi1xQ=
-X-Google-Smtp-Source: AKy350bNYKkwiFtoNUh65kRvj9h1H5v0jS47ttn3k6tlNydY8gtrOUweY6HDRFkYaVm2NDJAnDjYC6ea4M1XivT6+RA=
-X-Received: by 2002:a1f:a994:0:b0:446:c76f:a7e5 with SMTP id
- s142-20020a1fa994000000b00446c76fa7e5mr865247vke.0.1681993089076; Thu, 20 Apr
- 2023 05:18:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E2E7B
+	for <fsverity@lists.linux.dev>; Tue, 25 Apr 2023 06:27:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F98DC433D2;
+	Tue, 25 Apr 2023 06:27:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682404029;
+	bh=nka1gA7XSDpO0YbpJJARB0ceyBmqTwmWDgxGdXCigbs=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Zxug7M7tFcCpGQ+9bAnra1GCaDwr0bv4tj04hqBlXBeXSgIy2OyLX9dkdNaDgYeD1
+	 HoJYu7ixXaOyxsN+gejA7w8uMNckAg+p9/RMVm5KUyNNxMDqgXtv1JboFPZ/nuOBMb
+	 3FkiX3o8fZJc7uoVTpQea+rqTOPfCYHGIEIhvQzxl5rl7h+Rhxgy7hSVWRPBhud8TH
+	 +57dLxz66nOSFtUNx+80lQMatXlAdDpwKJB/ZhkWSdvNqnRuQZ43OBLJKRQ3B656pf
+	 U2W8b7Por/4G3Hx7eBtFbI2mLof6DpADKIh39QgcPpX2gNwjmrTE0K9IqjAibiPnGx
+	 RyY0FRgO5ySig==
+Date: Mon, 24 Apr 2023 23:27:07 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>
+Subject: [GIT PULL] fsverity updates for 6.4
+Message-ID: <20230425062707.GB77408@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1681917551.git.alexl@redhat.com> <2f6d812147236c33a41b67bb4eabab3f568dd045.1681917551.git.alexl@redhat.com>
-In-Reply-To: <2f6d812147236c33a41b67bb4eabab3f568dd045.1681917551.git.alexl@redhat.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 20 Apr 2023 15:17:58 +0300
-Message-ID: <CAOQ4uxig6XTBsQi=sHUQd9iva+VxN6p4fc1X-d0iw7EpQ812pg@mail.gmail.com>
-Subject: Re: [PATCH 6/6] ovl: Handle verity during copy-up
-To: Alexander Larsson <alexl@redhat.com>
-Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org, ebiggers@kernel.org, 
-	tytso@mit.edu, fsverity@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Apr 20, 2023 at 10:44=E2=80=AFAM Alexander Larsson <alexl@redhat.co=
-m> wrote:
->
-> During regular metacopy, if lowerdata file has fs-verity enabled,
-> set the new overlay.verity xattr (if enabled).
->
-> During real data copy up, remove any old overlay.verity xattr.
->
-> If verity is required, and lowerdata does not have fs-verity enabled,
-> fall back to full copy-up (or the generated metacopy would not validate).
->
-> Signed-off-by: Alexander Larsson <alexl@redhat.com>
+The following changes since commit 197b6b60ae7bc51dd0814953c562833143b292aa:
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+  Linux 6.3-rc4 (2023-03-26 14:40:20 -0700)
 
-> ---
->  fs/overlayfs/copy_up.c   | 27 +++++++++++++++++++++++++++
->  fs/overlayfs/overlayfs.h |  2 ++
->  fs/overlayfs/util.c      | 36 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 65 insertions(+)
->
-> diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-> index eb266fb68730..a5c3862911d1 100644
-> --- a/fs/overlayfs/copy_up.c
-> +++ b/fs/overlayfs/copy_up.c
-> @@ -19,6 +19,7 @@
->  #include <linux/fdtable.h>
->  #include <linux/ratelimit.h>
->  #include <linux/exportfs.h>
-> +#include <linux/fsverity.h>
->  #include "overlayfs.h"
->
->  #define OVL_COPY_UP_CHUNK_SIZE (1 << 20)
-> @@ -644,6 +645,18 @@ static int ovl_copy_up_metadata(struct ovl_copy_up_c=
-tx *c, struct dentry *temp)
->         if (c->metacopy) {
->                 err =3D ovl_check_setxattr(ofs, temp, OVL_XATTR_METACOPY,
->                                          NULL, 0, -EOPNOTSUPP);
-> +
-> +               /* Copy the verity digest if any so we can validate the c=
-opy-up later */
-> +               if (!err) {
-> +                       struct path lowerdatapath;
-> +
-> +                       ovl_path_lowerdata(c->dentry, &lowerdatapath);
-> +                       if (WARN_ON_ONCE(lowerdatapath.dentry =3D=3D NULL=
-))
-> +                               err =3D -EIO;
-> +                       else
-> +                               err =3D ovl_set_verity_xattr_from(ofs, te=
-mp, &lowerdatapath);
-> +               }
-> +
->                 if (err)
->                         return err;
->         }
-> @@ -919,6 +932,15 @@ static bool ovl_need_meta_copy_up(struct dentry *den=
-try, umode_t mode,
->         if (flags && ((OPEN_FMODE(flags) & FMODE_WRITE) || (flags & O_TRU=
-NC)))
->                 return false;
->
-> +       /* Fall back to full copy if no fsverity on source data and we re=
-quire verity */
-> +       if (ofs->config.verity_require) {
-> +               struct dentry *lowerdata =3D ovl_dentry_lowerdata(dentry)=
-;
-> +
-> +               if (WARN_ON_ONCE(lowerdata =3D=3D NULL) ||
-> +                   !fsverity_get_info(d_inode(lowerdata)))
-> +                       return false;
-> +       }
-> +
->         return true;
->  }
->
-> @@ -985,6 +1007,11 @@ static int ovl_copy_up_meta_inode_data(struct ovl_c=
-opy_up_ctx *c)
->         if (err)
->                 goto out_free;
->
-> +       err =3D ovl_removexattr(ofs, upperpath.dentry, OVL_XATTR_VERITY);
-> +       if (err && err !=3D -ENODATA)
-> +               goto out_free;
-> +
-> +       err =3D 0;
->         ovl_set_upperdata(d_inode(c->dentry));
->  out_free:
->         kfree(capability);
-> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-> index b1d639ccd5ac..710dd816518f 100644
-> --- a/fs/overlayfs/overlayfs.h
-> +++ b/fs/overlayfs/overlayfs.h
-> @@ -473,6 +473,8 @@ int ovl_get_verity_xattr(struct ovl_fs *ofs, const st=
-ruct path *path,
->  int ovl_validate_verity(struct ovl_fs *ofs,
->                         struct path *metapath,
->                         struct path *datapath);
-> +int ovl_set_verity_xattr_from(struct ovl_fs *ofs, struct dentry *dst,
-> +                             struct path *src);
->  int ovl_sync_status(struct ovl_fs *ofs);
->
->  static inline void ovl_set_flag(unsigned long flag, struct inode *inode)
-> diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
-> index 55e90aa0978a..2bd9c9e68bf4 100644
-> --- a/fs/overlayfs/util.c
-> +++ b/fs/overlayfs/util.c
-> @@ -1285,6 +1285,42 @@ int ovl_validate_verity(struct ovl_fs *ofs,
->         return 0;
->  }
->
-> +int ovl_set_verity_xattr_from(struct ovl_fs *ofs, struct dentry *dst,
-> +                             struct path *src)
-> +{
-> +       int err;
-> +       u8 src_digest[FS_VERITY_MAX_DIGEST_SIZE];
-> +       enum hash_algo verity_algo;
-> +
-> +       if (!ofs->config.verity_generate || !S_ISREG(d_inode(dst)->i_mode=
-))
-> +               return 0;
-> +
-> +       err =3D -EIO;
-> +       if (src) {
-> +               err =3D ovl_ensure_verity_loaded(ofs, src);
-> +               if (err < 0) {
-> +                       pr_warn_ratelimited("lower file '%pd' failed to l=
-oad fs-verity info\n",
-> +                                           src->dentry);
-> +                       return -EIO;
-> +               }
-> +
-> +               err =3D fsverity_get_digest(d_inode(src->dentry), src_dig=
-est, &verity_algo);
-> +       }
-> +       if (err =3D=3D -ENODATA) {
-> +               if (ofs->config.verity_require) {
-> +                       pr_warn_ratelimited("lower file '%pd' has no fs-v=
-erity digest\n",
-> +                                           src->dentry);
-> +                       return -EIO;
-> +               }
-> +               return 0;
-> +       }
-> +       if (err < 0)
-> +               return err;
-> +
-> +       return ovl_check_setxattr(ofs, dst, OVL_XATTR_VERITY,
-> +                                 src_digest, hash_digest_size[verity_alg=
-o], -EOPNOTSUPP);
-> +}
-> +
->  /*
->   * ovl_sync_status() - Check fs sync status for volatile mounts
->   *
-> --
-> 2.39.2
->
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+
+for you to fetch changes up to 04839139213cf60d4c5fc792214a08830e294ff8:
+
+  fsverity: reject FS_IOC_ENABLE_VERITY on mode 3 fds (2023-04-11 19:23:23 -0700)
+
+----------------------------------------------------------------
+
+Several cleanups and fixes for fs/verity/, including a couple minor
+fixes to the changes in 6.3 that added support for Merkle tree block
+sizes less than the page size.
+
+----------------------------------------------------------------
+Eric Biggers (4):
+      fs/buffer.c: use b_folio for fsverity work
+      fsverity: use WARN_ON_ONCE instead of WARN_ON
+      fsverity: explicitly check for buffer overflow in build_merkle_tree()
+      fsverity: reject FS_IOC_ENABLE_VERITY on mode 3 fds
+
+Luis Chamberlain (1):
+      fs-verity: simplify sysctls with register_sysctl()
+
+ fs/buffer.c              |  9 ++++-----
+ fs/verity/enable.c       | 21 +++++++++++++++++++--
+ fs/verity/hash_algs.c    |  4 ++--
+ fs/verity/open.c         |  2 +-
+ fs/verity/signature.c    |  9 +--------
+ include/linux/fsverity.h |  6 +++---
+ 6 files changed, 30 insertions(+), 21 deletions(-)
