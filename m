@@ -1,53 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9943FC2
-	for <fsverity@lists.linux.dev>; Wed, 26 Apr 2023 17:06:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8587DC433EF;
-	Wed, 26 Apr 2023 17:06:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A596FC7
+	for <fsverity@lists.linux.dev>; Wed, 26 Apr 2023 21:47:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EE9DC433EF;
+	Wed, 26 Apr 2023 21:47:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682528790;
-	bh=vY3vR2SIoVfoXXvvxBzyFBrB8Bp1NwwLXPkNsWLh1iE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=d/KJoUP67kXRAeEvgilxA5kgtwxhimwo54e5/VKwygQK4blC/NHxB/5DVZVuFQ74W
-	 kFUUS6YZ6kB0hnBttiMcB8dj/u0q5YHOjoSn9SwrD09jbbp7ZHr8x7Xavc8OLHn3Ko
-	 GA3DaAO6tAmQQ48KE+gxxguV8XGUL80+rSlNDL0UzBM6gBlCK87RRohMxf2ypdrBi4
-	 V037PdFWzIkruFU2Xx+CMp/zPalsF7lT3yLGqrdMG8bvu3XuKCNrSRVeEnIwfxlxJo
-	 0CmMXhkL30Cj+mBKAtDYjbIRfJg4yGkJ/0wpDi+Jd3DHPITrxISbmFv3d00por4nGl
-	 xce4ufeNoj1TQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 704B9E5FFC8;
-	Wed, 26 Apr 2023 17:06:30 +0000 (UTC)
-Subject: Re: [GIT PULL] fsverity updates for 6.4
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20230425062707.GB77408@sol.localdomain>
-References: <20230425062707.GB77408@sol.localdomain>
-X-PR-Tracked-List-Id: <fsverity.lists.linux.dev>
-X-PR-Tracked-Message-Id: <20230425062707.GB77408@sol.localdomain>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
-X-PR-Tracked-Commit-Id: 04839139213cf60d4c5fc792214a08830e294ff8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: c3558a6b2a75d9adacf15dd7fae79dbfffa7ebe4
-Message-Id: <168252879044.19907.1440082376684042155.pr-tracker-bot@kernel.org>
-Date: Wed, 26 Apr 2023 17:06:30 +0000
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>
+	s=k20201202; t=1682545665;
+	bh=xzooVPlLJGbbf0vgExnpBPZ3keOfqQYgMfnBZepoFgs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=py9DvG0n6cx82FF7vhrHlUSbJ/hI0LxtPfwQRbtw5aNK9hO3Pub2d76nAEZQeTqDw
+	 PhY0ZkHeRw7isV0+AaQZYyKBO5vbKLARcU7jPbOcxkBMiKbm03W/eqzrCnE8bFP7oF
+	 SnRlp1cqDid78ww5Ni5/u5lG9gscpnh5jPnbNkAz5SUnprTcaca4VJMOJnvzM/WE9g
+	 HAsznfDm0Bp9Jqi5qtPztiN8oZMqaJiEldfS0qLEZArYeLv60//uNlcpm32XzyWY2H
+	 Umc9x3oyQ2GRK3zTcvJiUwUnYIQ8e2nYmR7xCxRikwul+lsoIFWV1Ck09pZZPOJRWP
+	 DMHbab7zntbLg==
+Date: Wed, 26 Apr 2023 14:47:43 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Alexander Larsson <alexl@redhat.com>
+Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org, amir73il@gmail.com,
+	tytso@mit.edu, fsverity@lists.linux.dev
+Subject: Re: [PATCH 5/6] ovl: Validate verity xattr when resolving lowerdata
+Message-ID: <20230426214743.GA58528@sol.localdomain>
+References: <cover.1681917551.git.alexl@redhat.com>
+ <df41e9dc96ddad9f9e1e684e39c28f4e097e9d9b.1681917551.git.alexl@redhat.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df41e9dc96ddad9f9e1e684e39c28f4e097e9d9b.1681917551.git.alexl@redhat.com>
 
-The pull request you sent on Mon, 24 Apr 2023 23:27:07 -0700:
+On Thu, Apr 20, 2023 at 09:44:04AM +0200, Alexander Larsson wrote:
+> +	err = fsverity_get_digest(d_inode(datapath->dentry), actual_digest, &verity_algo);
+> +	if (err < 0) {
+> +		pr_warn_ratelimited("lower file '%pd' has no fs-verity digest\n", datapath->dentry);
+> +		return -EIO;
+> +	}
+> +
+> +	if (digest_len != hash_digest_size[verity_algo] ||
+> +	    memcmp(required_digest, actual_digest, digest_len) != 0) {
+> +		pr_warn_ratelimited("lower file '%pd' has the wrong fs-verity digest\n",
+> +				    datapath->dentry);
+> +		return -EIO;
+> +	}
+> +
+> +	return 0;
 
-> https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+This is incorrect because the digest algorithm is not being compared.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/c3558a6b2a75d9adacf15dd7fae79dbfffa7ebe4
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+- Eric
