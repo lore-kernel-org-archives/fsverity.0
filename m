@@ -1,52 +1,52 @@
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F197D30C
-	for <fsverity@lists.linux.dev>; Wed,  3 May 2023 15:33:51 +0000 (UTC)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4329313f39eso1381893137.1
-        for <fsverity@lists.linux.dev>; Wed, 03 May 2023 08:33:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05C2D2F7
+	for <fsverity@lists.linux.dev>; Wed,  3 May 2023 15:35:42 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-77d46c7dd10so4166201241.0
+        for <fsverity@lists.linux.dev>; Wed, 03 May 2023 08:35:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683128030; x=1685720030;
+        d=gmail.com; s=20221208; t=1683128141; x=1685720141;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VJN38fphDOCnVChl1XoqJVLkmsarBD3d/ekpUkp6BwE=;
-        b=BUJ4q8xP9CcKNGY5s7RCgL6SXH5eYPaAAEJG6CseOaZypQRmBVv9fLAkuaGabs1LrV
-         QtkfKcPeRvVQnSUiQhvEqZ5PNArJF7M1dW0p4MPpyon2w9QxQdqx1fv3aU9kgnG3fQmA
-         no3uqqZugV+qE+5zqKLDXtyUggZqTaQo0HdmwfEtaHIoS3SeHob7P4uxIlhy7r1ZiPGZ
-         tIrDWIJSHZj8s5ljVLnVV91ft+6ZaLuAIeyUusmYfTHEg1vici/IeQq+ALjAkPpjfEQB
-         bUsTmje96mff5TWZJIdRlNa4qpbp1n+mWizTq+CW0s5WHa90mXD78WO5xfjGC6ZKb6uU
-         sCBA==
+        bh=eDdE+Gc/e+EnGBc769I0+5NhdONv32vPZiBHfoU+7oc=;
+        b=VeObm1f7Q5KMVPqi1BVO7/YAJ/40dOHI06OX7Ce23IV30jcfwnrbN3jemkIMIQPJz2
+         8uxxEUe2oY/w6qVKH5TqXDRsOajESZetWlcVrVO7OtElkPiA9777C9gcbEReW/xb+J2h
+         XVN2kN1UpBqPIQys2jkFr5K4p35i7ZJsA70BKuDrFzeT4iS6v+JjWv0XkBW192lNE5cR
+         BZeSL7l3KouhpKLx+NIDYAn1yA2DmKxoNei+YP/Qi+GMFHnS97X7iGnBE6uY8IJlUifx
+         eRObjq6JutTPwh8Qo6ZvNCO7IpbiVriNBPCFZSTev3FWM7p6dAGgy6xtvE1joKsKDAN1
+         HVLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683128030; x=1685720030;
+        d=1e100.net; s=20221208; t=1683128141; x=1685720141;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VJN38fphDOCnVChl1XoqJVLkmsarBD3d/ekpUkp6BwE=;
-        b=US1cZ4xZ81jR6VemDsZ/TtUzrAc3NAj6qmjFyI98z7foELdfYxuXwqmgHaQqpQ8oDT
-         UnNx9mMCJcHZURP39IjunLKxD3TYSLFAJtx7RhP8Bf4D+yT4T2UDe8y3nXj/mtUIlp3H
-         mH2T2bC/BfMbO0rW77nR4LtMXI2cmoIROMm1Vzs/OeVw+OK1eqd/7zb0DCUIagAPgO1p
-         kDZhVNX6hkcBKPEgl5q+yQJ/CAqTK7J1QPh/lJeKLZ+DXBO0L+Q9hAoft3YtsKVfq/NZ
-         1FjgajvCTTFxSwXXWIJ2plPa+aWAJ5LMWPqVYR7XAOdXFRWxaICRBwGvTykzHOUwcI6p
-         mUXA==
-X-Gm-Message-State: AC+VfDx57qbWORZ4M6f9wZc7GMxzMkIc4qxtrKjKRZ6JCNHqLf2ig1Mo
-	0Db8XBz3YSoiI5avCHYCGgmC+CbVqf/yVvbG1M8=
-X-Google-Smtp-Source: ACHHUZ5whel+bBOabjiIGFFJcSL92t0ketH66gmX1myJ2YFmM1wF5CwTEFUzvwPd4d0QLHsLV3n+TtQdtx5PDoU2tA4=
-X-Received: by 2002:a67:de06:0:b0:430:5f47:7243 with SMTP id
- q6-20020a67de06000000b004305f477243mr1553896vsk.12.1683128030318; Wed, 03 May
- 2023 08:33:50 -0700 (PDT)
+        bh=eDdE+Gc/e+EnGBc769I0+5NhdONv32vPZiBHfoU+7oc=;
+        b=BnAYBxDbGNxalGVDQ42QXQPH6M6557+7Mi8WiThoZhfVGwNvh418Ye2SB5YxQAFnv0
+         hxWLK7wssjaCLabTv3r7KR0dVT8SURD6K9MhIaxXb/xMliAXB5zeJ+zAs11vi6a3500f
+         s9+N4dc3w1k+X66uB8XOuHaPAkLJG6Ka4dPpU3/S2Rsf0oQwf9u0nvh3T6RgDtpqoRdj
+         wSH9fZdd1OhucHMkN2Vp43Hj4v4lQhu2lDjsaBznO08ceNSXvfSmb5IW7IdKDAPN9Jl/
+         2TeDBPeRjsPTGa0YIbw2WXAHHTdhNCEbFwalmbpJA12cWpVPkqe74KVEnkLa03gs9dkB
+         pSJw==
+X-Gm-Message-State: AC+VfDxjzqBTijrHw6xCS2m33ahOJ6I4brrtzN/EoeJL0gCcWp392ioQ
+	jYko6ybsz2KYaDhS1uDT8c+hl6qwx8Y4x7lJzMw=
+X-Google-Smtp-Source: ACHHUZ6ObWoETIdYjDgZ4QMcMJ3IRqxhJ5G4TlohBGDXIwI59Njn/vqJ1pc932Xtd/HrNK0DVKD2xoCYB4u9+P1KsBo=
+X-Received: by 2002:a05:6102:32c2:b0:42e:4383:783d with SMTP id
+ o2-20020a05610232c200b0042e4383783dmr1024967vss.3.1683128141311; Wed, 03 May
+ 2023 08:35:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1683102959.git.alexl@redhat.com> <c92a93fae2484e554b0d8cce5d02b8b4d6758c67.1683102959.git.alexl@redhat.com>
-In-Reply-To: <c92a93fae2484e554b0d8cce5d02b8b4d6758c67.1683102959.git.alexl@redhat.com>
+References: <cover.1683102959.git.alexl@redhat.com> <b58e57955e122b5d6c4e087cf2dd6ed664152c7b.1683102959.git.alexl@redhat.com>
+In-Reply-To: <b58e57955e122b5d6c4e087cf2dd6ed664152c7b.1683102959.git.alexl@redhat.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 3 May 2023 18:33:39 +0300
-Message-ID: <CAOQ4uxjirxft7if1n_Qv9fLAF5u+VEL+kqMdfK+DdXTts8Q-aw@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] ovl: Handle verity during copy-up
+Date: Wed, 3 May 2023 18:35:30 +0300
+Message-ID: <CAOQ4uxj_DKVD2Hp6HpTWeJDb_w3V5q0WGieLLubWWEV7jZVnaQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] ovl: Validate verity xattr when resolving lowerdata
 To: Alexander Larsson <alexl@redhat.com>
 Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org, ebiggers@kernel.org, 
 	tytso@mit.edu, fsverity@lists.linux.dev
@@ -56,164 +56,239 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, May 3, 2023 at 11:52=E2=80=AFAM Alexander Larsson <alexl@redhat.com=
 > wrote:
 >
-> During regular metacopy, if lowerdata file has fs-verity enabled,
-> set the new overlay.verity xattr (if enabled).
+> When resolving lowerdata (lazily or non-lazily) we check the
+> overlay.verity xattr on the metadata inode, and if set verify that the
+> source lowerdata inode matches it (according to the verity options
+> enabled).
 >
-> During real data copy up, remove any old overlay.verity xattr.
->
-> If verity is required, and lowerdata does not have fs-verity enabled,
-> fall back to full copy-up (or the generated metacopy would not validate).
+> Note that this changes the location of the revert_creds() call
+> in ovl_maybe_lookup_lowerdata() to ensure that we use the mounter creds
+> during the call to ovl_validate_verity() for the possible file access in
+> ovl_ensure_verity_loaded().
 >
 > Signed-off-by: Alexander Larsson <alexl@redhat.com>
 
-Looks fine to me
+As far as I can tell without knowing fsverity to well...
+
 Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
 > ---
->  fs/overlayfs/copy_up.c   | 31 +++++++++++++++++++++++++++++++
->  fs/overlayfs/overlayfs.h |  3 +++
->  fs/overlayfs/util.c      | 39 ++++++++++++++++++++++++++++++++++++++-
->  3 files changed, 72 insertions(+), 1 deletion(-)
+>  fs/overlayfs/namei.c     | 42 +++++++++++++++++-
+>  fs/overlayfs/overlayfs.h |  6 +++
+>  fs/overlayfs/util.c      | 96 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 142 insertions(+), 2 deletions(-)
 >
-> diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-> index eb266fb68730..e25bdc2baef3 100644
-> --- a/fs/overlayfs/copy_up.c
-> +++ b/fs/overlayfs/copy_up.c
-> @@ -19,6 +19,7 @@
->  #include <linux/fdtable.h>
->  #include <linux/ratelimit.h>
->  #include <linux/exportfs.h>
-> +#include <linux/fsverity.h>
->  #include "overlayfs.h"
+> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> index 292b8a948f1a..d664ecc93e0f 100644
+> --- a/fs/overlayfs/namei.c
+> +++ b/fs/overlayfs/namei.c
+> @@ -892,6 +892,7 @@ static int ovl_fix_origin(struct ovl_fs *ofs, struct =
+dentry *dentry,
+>  /* Lazy lookup of lowerdata */
+>  int ovl_maybe_lookup_lowerdata(struct dentry *dentry)
+>  {
+> +       struct ovl_fs *ofs =3D dentry->d_sb->s_fs_info;
+>         struct inode *inode =3D d_inode(dentry);
+>         const char *redirect =3D ovl_lowerdata_redirect(inode);
+>         struct ovl_path datapath =3D {};
+> @@ -915,9 +916,25 @@ int ovl_maybe_lookup_lowerdata(struct dentry *dentry=
+)
 >
->  #define OVL_COPY_UP_CHUNK_SIZE (1 << 20)
-> @@ -644,6 +645,18 @@ static int ovl_copy_up_metadata(struct ovl_copy_up_c=
-tx *c, struct dentry *temp)
->         if (c->metacopy) {
->                 err =3D ovl_check_setxattr(ofs, temp, OVL_XATTR_METACOPY,
->                                          NULL, 0, -EOPNOTSUPP);
+>         old_cred =3D ovl_override_creds(dentry->d_sb);
+>         err =3D ovl_lookup_data_layers(dentry, redirect, &datapath);
+> -       revert_creds(old_cred);
+>         if (err)
+> -               goto out_err;
+> +               goto out_revert_creds;
 > +
-> +               /* Copy the verity digest if any so we can validate the c=
-opy-up later */
-> +               if (!err) {
-> +                       struct path lowerdatapath;
+> +       if (ofs->config.verity) {
+> +               struct path data =3D { .mnt =3D datapath.layer->mnt, .den=
+try =3D datapath.dentry, };
+> +               struct path metapath =3D {};
 > +
-> +                       ovl_path_lowerdata(c->dentry, &lowerdatapath);
-> +                       if (WARN_ON_ONCE(lowerdatapath.dentry =3D=3D NULL=
-))
-> +                               err =3D -EIO;
-> +                       else
-> +                               err =3D ovl_set_verity_xattr_from(ofs, te=
-mp, &lowerdatapath);
+> +               ovl_path_real(dentry, &metapath);
+> +               if (!metapath.dentry) {
+> +                       err =3D -EIO;
+> +                       goto out_revert_creds;
 > +               }
 > +
->                 if (err)
->                         return err;
->         }
-> @@ -919,6 +932,19 @@ static bool ovl_need_meta_copy_up(struct dentry *den=
-try, umode_t mode,
->         if (flags && ((OPEN_FMODE(flags) & FMODE_WRITE) || (flags & O_TRU=
-NC)))
->                 return false;
+> +               err =3D ovl_validate_verity(ofs, &metapath, &data);
+> +               if (err)
+> +                       goto out_revert_creds;
+> +       }
+> +
+> +       revert_creds(old_cred);
 >
-> +       /* Fall back to full copy if no fsverity on source data and we re=
-quire verity */
-> +       if (ofs->config.require_verity) {
-> +               struct path lowerdata;
+>         err =3D ovl_dentry_set_lowerdata(dentry, &datapath);
+>         if (err)
+> @@ -929,6 +946,9 @@ int ovl_maybe_lookup_lowerdata(struct dentry *dentry)
+>
+>         return err;
+>
+> + out_revert_creds:
+> +       revert_creds(old_cred);
 > +
-> +               ovl_path_lowerdata(dentry, &lowerdata);
+>  out_err:
+>         pr_warn_ratelimited("lazy lowerdata lookup failed (%pd2, err=3D%i=
+)\n",
+>                             dentry, err);
+> @@ -1187,6 +1207,24 @@ struct dentry *ovl_lookup(struct inode *dir, struc=
+t dentry *dentry,
+>
+>         ovl_stack_cpy(ovl_lowerstack(oe), stack, ctr);
+>
+> +       /* Validate verity of lower-data */
+> +       if (ofs->config.verity &&
+> +           !d.is_dir && (uppermetacopy || ctr > 1)) {
+> +               struct path datapath;
 > +
-> +               if (WARN_ON_ONCE(lowerdata.dentry =3D=3D NULL) ||
-> +                   ovl_ensure_verity_loaded(&lowerdata) ||
-> +                   !fsverity_get_info(d_inode(lowerdata.dentry))) {
-> +                       return false;
+> +               ovl_e_path_lowerdata(oe, &datapath);
+> +
+> +               /* Is NULL for lazy lookup, will be verified later */
+> +               if (datapath.dentry) {
+> +                       struct path metapath;
+> +
+> +                       ovl_e_path_real(ofs, oe, upperdentry, &metapath);
+> +                       err =3D ovl_validate_verity(ofs, &metapath, &data=
+path);
+> +                       if (err < 0)
+> +                               goto out_free_oe;
 > +               }
 > +       }
 > +
->         return true;
->  }
+>         if (upperopaque)
+>                 ovl_dentry_set_opaque(dentry);
 >
-> @@ -985,6 +1011,11 @@ static int ovl_copy_up_meta_inode_data(struct ovl_c=
-opy_up_ctx *c)
->         if (err)
->                 goto out_free;
->
-> +       err =3D ovl_removexattr(ofs, upperpath.dentry, OVL_XATTR_VERITY);
-> +       if (err && err !=3D -ENODATA)
-> +               goto out_free;
-> +
-> +       err =3D 0;
->         ovl_set_upperdata(d_inode(c->dentry));
->  out_free:
->         kfree(capability);
 > diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-> index 07475eaae2ca..1cc3c8df3a4d 100644
+> index a4867ff97115..07475eaae2ca 100644
 > --- a/fs/overlayfs/overlayfs.h
 > +++ b/fs/overlayfs/overlayfs.h
-> @@ -464,11 +464,14 @@ int ovl_lock_rename_workdir(struct dentry *workdir,=
- struct dentry *upperdir);
+> @@ -38,6 +38,7 @@ enum ovl_xattr {
+>         OVL_XATTR_UPPER,
+>         OVL_XATTR_METACOPY,
+>         OVL_XATTR_PROTATTR,
+> +       OVL_XATTR_VERITY,
+>  };
+>
+>  enum ovl_inode_flag {
+> @@ -463,6 +464,11 @@ int ovl_lock_rename_workdir(struct dentry *workdir, =
+struct dentry *upperdir);
 >  int ovl_check_metacopy_xattr(struct ovl_fs *ofs, const struct path *path=
 );
 >  bool ovl_is_metacopy_dentry(struct dentry *dentry);
 >  char *ovl_get_redirect_xattr(struct ovl_fs *ofs, const struct path *path=
 , int padding);
-> +int ovl_ensure_verity_loaded(struct path *path);
->  int ovl_get_verity_xattr(struct ovl_fs *ofs, const struct path *path,
->                          u8 *digest_buf, int *buf_length);
->  int ovl_validate_verity(struct ovl_fs *ofs,
->                         struct path *metapath,
->                         struct path *datapath);
-> +int ovl_set_verity_xattr_from(struct ovl_fs *ofs, struct dentry *dst,
-> +                             struct path *src);
+> +int ovl_get_verity_xattr(struct ovl_fs *ofs, const struct path *path,
+> +                        u8 *digest_buf, int *buf_length);
+> +int ovl_validate_verity(struct ovl_fs *ofs,
+> +                       struct path *metapath,
+> +                       struct path *datapath);
 >  int ovl_sync_status(struct ovl_fs *ofs);
 >
 >  static inline void ovl_set_flag(unsigned long flag, struct inode *inode)
 > diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
-> index ee296614bd73..733871775b80 100644
+> index 74077ef50bb3..ee296614bd73 100644
 > --- a/fs/overlayfs/util.c
 > +++ b/fs/overlayfs/util.c
-> @@ -1188,7 +1188,7 @@ int ovl_get_verity_xattr(struct ovl_fs *ofs, const =
-struct path *path,
+> @@ -10,7 +10,9 @@
+>  #include <linux/cred.h>
+>  #include <linux/xattr.h>
+>  #include <linux/exportfs.h>
+> +#include <linux/file.h>
+>  #include <linux/fileattr.h>
+> +#include <linux/fsverity.h>
+>  #include <linux/uuid.h>
+>  #include <linux/namei.h>
+>  #include <linux/ratelimit.h>
+> @@ -720,6 +722,7 @@ bool ovl_path_check_dir_xattr(struct ovl_fs *ofs, con=
+st struct path *path,
+>  #define OVL_XATTR_UPPER_POSTFIX                "upper"
+>  #define OVL_XATTR_METACOPY_POSTFIX     "metacopy"
+>  #define OVL_XATTR_PROTATTR_POSTFIX     "protattr"
+> +#define OVL_XATTR_VERITY_POSTFIX       "verity"
+>
+>  #define OVL_XATTR_TAB_ENTRY(x) \
+>         [x] =3D { [false] =3D OVL_XATTR_TRUSTED_PREFIX x ## _POSTFIX, \
+> @@ -734,6 +737,7 @@ const char *const ovl_xattr_table[][2] =3D {
+>         OVL_XATTR_TAB_ENTRY(OVL_XATTR_UPPER),
+>         OVL_XATTR_TAB_ENTRY(OVL_XATTR_METACOPY),
+>         OVL_XATTR_TAB_ENTRY(OVL_XATTR_PROTATTR),
+> +       OVL_XATTR_TAB_ENTRY(OVL_XATTR_VERITY),
+>  };
+>
+>  int ovl_check_setxattr(struct ovl_fs *ofs, struct dentry *upperdentry,
+> @@ -1166,6 +1170,98 @@ char *ovl_get_redirect_xattr(struct ovl_fs *ofs, c=
+onst struct path *path, int pa
+>         return ERR_PTR(res);
 >  }
 >
->  /* Call with mounter creds as it may open the file */
-> -static int ovl_ensure_verity_loaded(struct path *datapath)
-> +int ovl_ensure_verity_loaded(struct path *datapath)
->  {
->         struct inode *inode =3D d_inode(datapath->dentry);
->         const struct fsverity_info *vi;
-> @@ -1262,6 +1262,43 @@ int ovl_validate_verity(struct ovl_fs *ofs,
->         return 0;
->  }
->
-> +int ovl_set_verity_xattr_from(struct ovl_fs *ofs, struct dentry *dst,
-> +                             struct path *src)
+> +int ovl_get_verity_xattr(struct ovl_fs *ofs, const struct path *path,
+> +                        u8 *digest_buf, int *buf_length)
 > +{
-> +       int err;
-> +       u8 src_digest[1+FS_VERITY_MAX_DIGEST_SIZE];
-> +       enum hash_algo verity_algo;
+> +       int res;
 > +
-> +       if (!ofs->config.verity || !S_ISREG(d_inode(dst)->i_mode))
+> +       res =3D ovl_path_getxattr(ofs, path, OVL_XATTR_VERITY, digest_buf=
+, *buf_length);
+> +       if (res =3D=3D -ENODATA || res =3D=3D -EOPNOTSUPP)
+> +               return -ENODATA;
+> +       if (res < 0) {
+> +               pr_warn_ratelimited("failed to get digest (%i)\n", res);
+> +               return res;
+> +       }
+> +
+> +       *buf_length =3D res;
+> +       return 0;
+> +}
+> +
+> +/* Call with mounter creds as it may open the file */
+> +static int ovl_ensure_verity_loaded(struct path *datapath)
+> +{
+> +       struct inode *inode =3D d_inode(datapath->dentry);
+> +       const struct fsverity_info *vi;
+> +       struct file *filp;
+> +
+> +       vi =3D fsverity_get_info(inode);
+> +       if (vi =3D=3D NULL && IS_VERITY(inode)) {
+> +               /*
+> +                * If this inode was not yet opened, the verity info hasn=
+'t been
+> +                * loaded yet, so we need to do that here to force it int=
+o memory.
+> +                * We use open_with_fake_path to avoid ENFILE.
+> +                */
+> +               filp =3D open_with_fake_path(datapath, O_RDONLY, inode, c=
+urrent_cred());
+> +               if (IS_ERR(filp))
+> +                       return PTR_ERR(filp);
+> +               fput(filp);
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +int ovl_validate_verity(struct ovl_fs *ofs,
+> +                       struct path *metapath,
+> +                       struct path *datapath)
+> +{
+> +       u8 xattr_data[1+FS_VERITY_MAX_DIGEST_SIZE];
+> +       u8 actual_digest[FS_VERITY_MAX_DIGEST_SIZE];
+> +       enum hash_algo verity_algo;
+> +       int xattr_len;
+> +       int err;
+> +
+> +       if (!ofs->config.verity ||
+> +           /* Verity only works on regular files */
+> +           !S_ISREG(d_inode(metapath->dentry)->i_mode))
 > +               return 0;
 > +
-> +       err =3D -EIO;
-> +       if (src) {
-> +               err =3D ovl_ensure_verity_loaded(src);
-> +               if (err < 0) {
-> +                       pr_warn_ratelimited("lower file '%pd' failed to l=
-oad fs-verity info\n",
-> +                                           src->dentry);
-> +                       return -EIO;
-> +               }
-> +
-> +               err =3D fsverity_get_digest(d_inode(src->dentry), src_dig=
-est + 1, &verity_algo);
-> +       }
+> +       xattr_len =3D sizeof(xattr_data);
+> +       err =3D ovl_get_verity_xattr(ofs, metapath, xattr_data, &xattr_le=
+n);
 > +       if (err =3D=3D -ENODATA) {
 > +               if (ofs->config.require_verity) {
-> +                       pr_warn_ratelimited("lower file '%pd' has no fs-v=
-erity digest\n",
-> +                                           src->dentry);
+> +                       pr_warn_ratelimited("metacopy file '%pd' has no o=
+verlay.verity xattr\n",
+> +                                           metapath->dentry);
 > +                       return -EIO;
 > +               }
 > +               return 0;
@@ -221,10 +296,32 @@ erity digest\n",
 > +       if (err < 0)
 > +               return err;
 > +
-> +       src_digest[0] =3D (u8)verity_algo;
-> +       return ovl_check_setxattr(ofs, dst, OVL_XATTR_VERITY,
-> +                                 src_digest, 1 + hash_digest_size[verity=
-_algo], -EOPNOTSUPP);
+> +       err =3D ovl_ensure_verity_loaded(datapath);
+> +       if (err < 0) {
+> +               pr_warn_ratelimited("lower file '%pd' failed to load fs-v=
+erity info\n",
+> +                                   datapath->dentry);
+> +               return -EIO;
+> +       }
+> +
+> +       err =3D fsverity_get_digest(d_inode(datapath->dentry), actual_dig=
+est, &verity_algo);
+> +       if (err < 0) {
+> +               pr_warn_ratelimited("lower file '%pd' has no fs-verity di=
+gest\n", datapath->dentry);
+> +               return -EIO;
+> +       }
+> +
+> +       if (xattr_len !=3D 1 + hash_digest_size[verity_algo] ||
+> +           xattr_data[0] !=3D (u8) verity_algo ||
+> +           memcmp(xattr_data+1, actual_digest, xattr_len - 1) !=3D 0) {
+> +               pr_warn_ratelimited("lower file '%pd' has the wrong fs-ve=
+rity digest\n",
+> +                                   datapath->dentry);
+> +               return -EIO;
+> +       }
+> +
+> +       return 0;
 > +}
 > +
 >  /*
