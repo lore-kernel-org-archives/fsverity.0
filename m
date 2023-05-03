@@ -1,104 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D56847F
-	for <fsverity@lists.linux.dev>; Thu, 27 Apr 2023 17:58:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5335BC433EF;
-	Thu, 27 Apr 2023 17:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682618302;
-	bh=jydreXTrkzBK4j1QQvAcqSBGsTsp36XuvyGcc7jG60w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aCmKhrcO3KsLyOka0Q/mTS3kh6m9hE+LR317pKl9NKBH34lnFI2cZ58dyAc/pZXPW
-	 bn06KheMS3BwWIiDtmf377tQ+TUTc9Fyvw6qbrtnYEcHYHlriHw4QZa1/AKgrnCMNj
-	 YLB4CboQAbReaCYGA+/rpQZaq7s7BqXSo0L9VwkgkXtN8TkutS1DdOLI/eXFCjN4Oo
-	 abtej6YfxHbN8gzGAThi2xlYKQPEm+Wx1hMrQMipBP1WNt4BnWiQH+DYnErzOwuE54
-	 D1XIz2QKi2xuzBcZAEE4hNpQTJIdpqSx+/IeSzxl0dGQvRpTCjrCerQzMPNaDkjEkm
-	 EDZQGSSrt3H2w==
-Date: Thu, 27 Apr 2023 17:58:20 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Alexander Larsson <alexl@redhat.com>
-Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org, amir73il@gmail.com,
-	tytso@mit.edu, fsverity@lists.linux.dev
-Subject: Re: [PATCH 5/6] ovl: Validate verity xattr when resolving lowerdata
-Message-ID: <ZEq3vN09rhEAr19w@gmail.com>
-References: <cover.1681917551.git.alexl@redhat.com>
- <df41e9dc96ddad9f9e1e684e39c28f4e097e9d9b.1681917551.git.alexl@redhat.com>
- <20230426214743.GA58528@sol.localdomain>
- <CAL7ro1EYZXUQM+Ygp3aO8-rWD0ULZyaJH4rN_+88LNS4h5p78w@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1455DED2
+	for <fsverity@lists.linux.dev>; Wed,  3 May 2023 08:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1683103918;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w0VxTZdYvYJJpJt4f1CWhQCMN6thwfx97+dJKO1TgUg=;
+	b=dJWRn0c0zywAKegE1amoWBwBxUuL1/MWnD2hSAK9D3dcpQgSxgQaD5vjijr3HbKXey1lT7
+	Fi1fWxCFoXqwoQKd3++d8xc9DLvsC1NZoCZn30KhxXq0pN0np6wS2XaJLyyLjSMUR6qci7
+	TApOW57asUYrD2crdV/ejjjthpdyecU=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-427-bqjhupYdOOagnGbabKF9rQ-1; Wed, 03 May 2023 04:51:57 -0400
+X-MC-Unique: bqjhupYdOOagnGbabKF9rQ-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2a8be1c1844so24029641fa.3
+        for <fsverity@lists.linux.dev>; Wed, 03 May 2023 01:51:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683103915; x=1685695915;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w0VxTZdYvYJJpJt4f1CWhQCMN6thwfx97+dJKO1TgUg=;
+        b=ZakxKXOFgIP++38sUh8JAgi4tMHxIjj9Ok786ZvPDioMOXM6vycaP2uhD/YXtjxSwo
+         Ru3sl68OMMp6EJYxalXWu6DT33LbXfLM0nUPDXwJVN02rQ9EdNQMF9AhTDD42TZma+XE
+         XqTkIjWL6dk6FaW/Idy2do6jmEilCdiCPgaJfaI1OLd8CLEAO3nz2s+DYnWxSynhutOy
+         Wvb7YZeXjX2Oqnd00NLoB+DVJ3VZaaURmwAxb/th1xEAEciVmeq5+fiSBfS2dr6ibf/v
+         1Kq8F5RaJDv/DLIfhxyHwLI8RPVbrc4BjZBCSY6Pd8BK/3VqXBMyxSLAT0WHfyNJMTV9
+         3QLA==
+X-Gm-Message-State: AC+VfDx6kgXtWiEsysMdSV7bKT57GZuFE5LYqxnG4KVBGQjqYlPTe/PS
+	p1XQIq0nrU+fo2zIiuSkdomMguq+uX3rsbWKo7DIE/PriA+rvWwemBAe9f9bDbCvMr4RYtFJLGI
+	G8A8N133wm64P100eG6o=
+X-Received: by 2002:ac2:410b:0:b0:4ec:8596:918b with SMTP id b11-20020ac2410b000000b004ec8596918bmr769944lfi.24.1683103915597;
+        Wed, 03 May 2023 01:51:55 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7s2nioBDBre/9YYc1rxWYzSkRPrtaIAepxt562IrVn/o804+eY82qdLC3B2qSUScqlyA+z5A==
+X-Received: by 2002:ac2:410b:0:b0:4ec:8596:918b with SMTP id b11-20020ac2410b000000b004ec8596918bmr769937lfi.24.1683103915310;
+        Wed, 03 May 2023 01:51:55 -0700 (PDT)
+Received: from localhost.localdomain (c-e6a5e255.022-110-73746f36.bbcust.telenor.se. [85.226.165.230])
+        by smtp.googlemail.com with ESMTPSA id j6-20020ac24546000000b004ed4fa5f20fsm5907089lfm.25.2023.05.03.01.51.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 May 2023 01:51:54 -0700 (PDT)
+From: Alexander Larsson <alexl@redhat.com>
+To: miklos@szeredi.hu
+Cc: linux-unionfs@vger.kernel.org,
+	amir73il@gmail.com,
+	ebiggers@kernel.org,
+	tytso@mit.edu,
+	fsverity@lists.linux.dev,
+	Alexander Larsson <alexl@redhat.com>
+Subject: [PATCH v2 1/6] fsverity: Export fsverity_get_digest
+Date: Wed,  3 May 2023 10:51:34 +0200
+Message-Id: <ff458c6bcf6bd9ab10dbcb80894ea24d34f9f7c6.1683102959.git.alexl@redhat.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1683102959.git.alexl@redhat.com>
+References: <cover.1683102959.git.alexl@redhat.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL7ro1EYZXUQM+Ygp3aO8-rWD0ULZyaJH4rN_+88LNS4h5p78w@mail.gmail.com>
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Thu, Apr 27, 2023 at 09:22:57AM +0200, Alexander Larsson wrote:
-> On Wed, Apr 26, 2023 at 11:47 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> >
-> > On Thu, Apr 20, 2023 at 09:44:04AM +0200, Alexander Larsson wrote:
-> > > +     err = fsverity_get_digest(d_inode(datapath->dentry), actual_digest, &verity_algo);
-> > > +     if (err < 0) {
-> > > +             pr_warn_ratelimited("lower file '%pd' has no fs-verity digest\n", datapath->dentry);
-> > > +             return -EIO;
-> > > +     }
-> > > +
-> > > +     if (digest_len != hash_digest_size[verity_algo] ||
-> > > +         memcmp(required_digest, actual_digest, digest_len) != 0) {
-> > > +             pr_warn_ratelimited("lower file '%pd' has the wrong fs-verity digest\n",
-> > > +                                 datapath->dentry);
-> > > +             return -EIO;
-> > > +     }
-> > > +
-> > > +     return 0;
-> >
-> > This is incorrect because the digest algorithm is not being compared.
-> 
-> This is actually an interesting question. How much are things weakened
-> by comparing the digest size, but not comparing the digest type. Like,
-> suppose the xattr has a sha256 digest (32 bytes), how likely is there
-> to be another new supported verity algorithm of the same digest size
-> where you can force it to produce matching digests?
+Overlayfs needs to call this when built in module form, so
+we need to export the symbol. This uses EXPORT_SYMBOL_GPL
+like the other fsverity functions do.
 
-It might actually be fairly likely, considering that whenever a system includes
-a choice of cryptographic algorithm, it tends to grow to include many different
-algorithms.  Some of the reasons for this include:
+Signed-off-by: Alexander Larsson <alexl@redhat.com>
+---
+ fs/verity/measure.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-  - Algorithms can become outdated and broken, yet systems often have to
-    continue to support such algorithms for backwards compatibility.
+diff --git a/fs/verity/measure.c b/fs/verity/measure.c
+index 5c79ea1b2468..875d143e0c7e 100644
+--- a/fs/verity/measure.c
++++ b/fs/verity/measure.c
+@@ -85,3 +85,4 @@ int fsverity_get_digest(struct inode *inode,
+ 	*alg = hash_alg->algo_id;
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(fsverity_get_digest);
+-- 
+2.39.2
 
-  - People sometimes insist on using "national pride" algorithms, e.g. due to
-    government regulations.  For example, in China people can be required to use
-    Chinese algorithms instead of the U.S. / NIST algorithms.  See e.g. the
-    existing support for SM3, SM4, Streebog, and Aria in the kernel crypto API
-    and various other kernel subsystems.
-
-  - Non-cryptographic algorithms might be added for use cases that don't
-    actually require cryptographic security, e.g. integrity-only.
-
-I'd strongly discourage you from building something whose security critically
-depends on every algorithm that may ever exist being cryptographically secure.
-
-Also, two hash algorithms that are each secure individually are not necessarily
-secure when used as alternatives sharing the same output space.  E.g. consider
-algorithm1 = SHA-256(data) and algorithm2 = SHA-256(data with all bits flipped).
-
-> 
-> I ask because ideally we want to minimize the size of the xattrs,
-> since they are stored for each file, and not having to specify the
-> type for each saves space. Currently the only two supported algorithms
-> (sha256 and sha512) are different sizes, so we essentially compare
-> type by comparing the size.
-> 
-> I see three options here:
-> 1) Only compare digest + size (like now)
-> 2) Assume size 32 means sha256, and 64 means sha512 and validate that
-> 3) Use more space in the xattr to store an algorithm type
-
-Just store the algorithm alongside the digest.  It's just 1 extra byte.
-
-- Eric
