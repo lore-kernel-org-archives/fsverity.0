@@ -1,134 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C4917C8
-	for <fsverity@lists.linux.dev>; Sun,  4 Jun 2023 02:23:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B6F8C433EF
-	for <fsverity@lists.linux.dev>; Sun,  4 Jun 2023 02:23:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685845439;
-	bh=nB2rS+Rmql9KmdUvOfLwy0+SNgXnPVimhEbXmWwd+Y0=;
-	h=From:To:Subject:Date:From;
-	b=UST/fKoRpN7CbiVExFW7vESZMnEPe497ef/+yvyav/r+5fQIyopibxK/p8VPsE0oJ
-	 HkW3rNsfeYYv4XFfSCAvulft1kBAQLJ1Ze0Ky/gu/i0cu06qySglE8D0su9RTTg9RQ
-	 qyrvMLquYGoQarIFNg3ckbIzORglzKZXTepq2FdaLz32VsTx64HpiD6dkYA6SQeITe
-	 9EqBiBvjKpQEcLSpeTQy37eyVxl8GEq+k+YM6rP3j8+UKFuO3q/RDttU9fIQ/jRK/B
-	 NWGFs8NjMBotu6zsqibj6azsIDcKCKA5YGrPr9EyHmhhvNSTaactlfBVFsaOjxoH3u
-	 TsOxDWu2HcDoQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: fsverity@lists.linux.dev
-Subject: [PATCH] fsverity: constify fsverity_hash_alg
-Date: Sat,  3 Jun 2023 19:23:48 -0700
-Message-ID: <20230604022348.48658-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.41.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4BD17F6
+	for <fsverity@lists.linux.dev>; Sun,  4 Jun 2023 03:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=yG53rDUNy32ApUZwULaYdrONbirFkZQd1ynfP3mjuCA=; b=nZGNqh9SIVAfF55CM22MIxezB1
+	3HCA3zNiwJ8piLAd7pq96fVk8T5xjWqLOZE7aiQGiRIpTu9EFNwyqesOZfJJCnmaMB/M15tCDAnd9
+	eD7AAPg94jppG2fL52f6FHzrCHJPbbv63IV3ygaWXwCIvredO6ygszXYk9AKRKVlVhB2HVwBhQcrz
+	3BpLChGF9yrRwMjgj4sv1d6pi9Qtag4p72doKeaN5bSUSly0Kmqb1RH1gJijGNBdOi+C+Z5GnmkM8
+	paPq6u2SWyyUf77iphsx+i/BDjTgtU2OaUwzN+8B1ObHJeONRqiui0EMhYM8gN/a6rK5Kcolbizrc
+	nKGH2SEg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1q5ePH-00Ahdg-JK; Sun, 04 Jun 2023 03:27:51 +0000
+Date: Sun, 4 Jun 2023 04:27:51 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fsverity: don't use bio_first_page_all() in
+ fsverity_verify_bio()
+Message-ID: <ZHwEty6ubvBnxIM+@casper.infradead.org>
+References: <20230604022101.48342-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230604022101.48342-1-ebiggers@kernel.org>
 
-From: Eric Biggers <ebiggers@google.com>
+On Sat, Jun 03, 2023 at 07:21:01PM -0700, Eric Biggers wrote:
+> bio_first_page_all(bio)->mapping->host is not compatible with large
+> folios, since the first page of the bio is not necessarily the head page
+> of the folio, and therefore it might not have the mapping pointer set.
 
-Now that fsverity_hash_alg doesn't have an embedded mempool, it can be
-'const' almost everywhere.  Add it.
+Yes, that's true.  It is going to depend on the filesystem, since these
+two bios are equivalent:
 
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- fs/verity/fsverity_private.h | 10 +++++-----
- fs/verity/hash_algs.c        |  8 ++++----
- fs/verity/open.c             |  4 ++--
- 3 files changed, 11 insertions(+), 11 deletions(-)
+(folio->page[0], offset=0x4000, len=0x300)
+(folio->page[4], offset=0, len=0x300)
 
-diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-index 8527beca2a454..49bf3a1eb2a02 100644
---- a/fs/verity/fsverity_private.h
-+++ b/fs/verity/fsverity_private.h
-@@ -33,7 +33,7 @@ struct fsverity_hash_alg {
- 
- /* Merkle tree parameters: hash algorithm, initial hash state, and topology */
- struct merkle_tree_params {
--	struct fsverity_hash_alg *hash_alg; /* the hash algorithm */
-+	const struct fsverity_hash_alg *hash_alg; /* the hash algorithm */
- 	const u8 *hashstate;		/* initial hash state or NULL */
- 	unsigned int digest_size;	/* same as hash_alg->digest_size */
- 	unsigned int block_size;	/* size of data and tree blocks */
-@@ -79,13 +79,13 @@ struct fsverity_info {
- 
- extern struct fsverity_hash_alg fsverity_hash_algs[];
- 
--struct fsverity_hash_alg *fsverity_get_hash_alg(const struct inode *inode,
--						unsigned int num);
--const u8 *fsverity_prepare_hash_state(struct fsverity_hash_alg *alg,
-+const struct fsverity_hash_alg *fsverity_get_hash_alg(const struct inode *inode,
-+						      unsigned int num);
-+const u8 *fsverity_prepare_hash_state(const struct fsverity_hash_alg *alg,
- 				      const u8 *salt, size_t salt_size);
- int fsverity_hash_block(const struct merkle_tree_params *params,
- 			const struct inode *inode, const void *data, u8 *out);
--int fsverity_hash_buffer(struct fsverity_hash_alg *alg,
-+int fsverity_hash_buffer(const struct fsverity_hash_alg *alg,
- 			 const void *data, size_t size, u8 *out);
- void __init fsverity_check_hash_algs(void);
- 
-diff --git a/fs/verity/hash_algs.c b/fs/verity/hash_algs.c
-index e7e982412e23a..c598d20354763 100644
---- a/fs/verity/hash_algs.c
-+++ b/fs/verity/hash_algs.c
-@@ -39,8 +39,8 @@ static DEFINE_MUTEX(fsverity_hash_alg_init_mutex);
-  *
-  * Return: pointer to the hash alg on success, else an ERR_PTR()
-  */
--struct fsverity_hash_alg *fsverity_get_hash_alg(const struct inode *inode,
--						unsigned int num)
-+const struct fsverity_hash_alg *fsverity_get_hash_alg(const struct inode *inode,
-+						      unsigned int num)
- {
- 	struct fsverity_hash_alg *alg;
- 	struct crypto_shash *tfm;
-@@ -108,7 +108,7 @@ struct fsverity_hash_alg *fsverity_get_hash_alg(const struct inode *inode,
-  * Return: NULL if the salt is empty, otherwise the kmalloc()'ed precomputed
-  *	   initial hash state on success or an ERR_PTR() on failure.
-  */
--const u8 *fsverity_prepare_hash_state(struct fsverity_hash_alg *alg,
-+const u8 *fsverity_prepare_hash_state(const struct fsverity_hash_alg *alg,
- 				      const u8 *salt, size_t salt_size)
- {
- 	u8 *hashstate = NULL;
-@@ -206,7 +206,7 @@ int fsverity_hash_block(const struct merkle_tree_params *params,
-  *
-  * Return: 0 on success, -errno on failure
-  */
--int fsverity_hash_buffer(struct fsverity_hash_alg *alg,
-+int fsverity_hash_buffer(const struct fsverity_hash_alg *alg,
- 			 const void *data, size_t size, u8 *out)
- {
- 	return crypto_shash_tfm_digest(alg->tfm, data, size, out);
-diff --git a/fs/verity/open.c b/fs/verity/open.c
-index 52048b7630dcc..f0383bef86eaa 100644
---- a/fs/verity/open.c
-+++ b/fs/verity/open.c
-@@ -32,7 +32,7 @@ int fsverity_init_merkle_tree_params(struct merkle_tree_params *params,
- 				     unsigned int log_blocksize,
- 				     const u8 *salt, size_t salt_size)
- {
--	struct fsverity_hash_alg *hash_alg;
-+	const struct fsverity_hash_alg *hash_alg;
- 	int err;
- 	u64 blocks;
- 	u64 blocks_in_level[FS_VERITY_MAX_LEVELS];
-@@ -158,7 +158,7 @@ int fsverity_init_merkle_tree_params(struct merkle_tree_params *params,
-  * Compute the file digest by hashing the fsverity_descriptor excluding the
-  * signature and with the sig_size field set to 0.
-  */
--static int compute_file_digest(struct fsverity_hash_alg *hash_alg,
-+static int compute_file_digest(const struct fsverity_hash_alg *hash_alg,
- 			       struct fsverity_descriptor *desc,
- 			       u8 *file_digest)
- {
+and we don't yet have a rule that filesystems must construct one or the
+other.  We probably _should_, but that was pretty low down my list of
+things to care about right now.
 
-base-commit: c61c38330e582e664fdb97bcb9faf9fa0e4ee175
--- 
-2.41.0
+> Therefore, move the dereference of ->mapping->host into
+> verify_data_blocks(), which works with a folio.
 
+Seems reasonable.
+
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+
+> @@ -320,7 +321,6 @@ EXPORT_SYMBOL_GPL(fsverity_verify_blocks);
+>   */
+>  void fsverity_verify_bio(struct bio *bio)
+>  {
+> -	struct inode *inode = bio_first_page_all(bio)->mapping->host;
+
+An alternative fix could be
+
+	struct folio *first = page_folio(bio_first_page_all(bio));
+	struct inode *inode = first->mapping->host;
+
+Or we could add a bio_first_folio_all() that wraps that for you.
