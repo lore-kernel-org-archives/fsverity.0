@@ -1,26 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAAC17C8
-	for <fsverity@lists.linux.dev>; Sun,  4 Jun 2023 02:22:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD8D8C433A0;
-	Sun,  4 Jun 2023 02:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8976D17C8
+	for <fsverity@lists.linux.dev>; Sun,  4 Jun 2023 02:23:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E134FC433D2
+	for <fsverity@lists.linux.dev>; Sun,  4 Jun 2023 02:23:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685845363;
-	bh=ZiSBZDkLcKmw75eFzau26ap+7KM3r4RIljqcwt+8ZvY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WRMY03XlxPjWUjdhXzJe2L6CZvyDwiObAFDahpwHj2lGjHxH3B8zijeRmfsm9niab
-	 xVgOIdzovx8paCIkpWKtdUHeC0m3tE0CJpzICgY12Ve5PIXWyxtmOX/82YBHlFbi8N
-	 zg79k5z8MV0y9kS+eQHFqbk67Dy+Wfoe2/3A9Rx+afjOqjn9OrqWquDIC0rPOx926x
-	 HL7n1Msa/HWhVkA8yA8gNeLI4CgNzxqINrFoC41/J2Yu3+2ngn/DOoXsTjQDaFgb/1
-	 om+p8eAh3rAlyH+mOp0971rqaJfOVa8vL25Dr8a4fFaveTNBk4FKIzRJiHzcaW4BkN
-	 bqBx8dJzkaBfA==
+	s=k20201202; t=1685845414;
+	bh=rqL+9lb7QdrGmRjHJgGD66ZY8fM4bjvb6Ck50A9LS9w=;
+	h=From:To:Subject:Date:From;
+	b=dm/nXDUVQjjuf2hXA80ynsV1CoV5atP095YfALhBvTI5hh6U/k8fh5E8MY1GHYrGx
+	 K7GMbd3PycN21UIDIImkXQzqgnzdphVo8vkDW2MqnXiqRgQAljtZksRcPo6ZL/IKVU
+	 nQUTP5dMzgI47dmgFxIj/KsO8KFbfRHr8Yc1uadbbWajCB6TeeAL8zMnWaZ7SWRxJb
+	 TF2C99rTCvXMMRr71GZt62uN070Gs0pP0v0Yx69s60FKfTs+Ye3h4A0e8pxVbl9bwQ
+	 aO93vMyXuCs6YrKEm8FZXyWNUIm1ZgeKq/F/sznGHH1u+0Yp2z8Wp7+mQit7OMUdag
+	 YL3vx9KFfUZZQ==
 From: Eric Biggers <ebiggers@kernel.org>
 To: fsverity@lists.linux.dev
-Cc: linux-fsdevel@vger.kernel.org
-Subject: [PATCH] fsverity: don't use bio_first_page_all() in fsverity_verify_bio()
-Date: Sat,  3 Jun 2023 19:21:01 -0700
-Message-ID: <20230604022101.48342-1-ebiggers@kernel.org>
+Subject: [PATCH] fsverity: simplify error handling in verify_data_block()
+Date: Sat,  3 Jun 2023 19:23:12 -0700
+Message-ID: <20230604022312.48532-1-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
@@ -32,66 +31,115 @@ Content-Transfer-Encoding: 8bit
 
 From: Eric Biggers <ebiggers@google.com>
 
-bio_first_page_all(bio)->mapping->host is not compatible with large
-folios, since the first page of the bio is not necessarily the head page
-of the folio, and therefore it might not have the mapping pointer set.
+Clean up the error handling in verify_data_block() to (a) eliminate the
+'err' variable which has caused some confusion because the function
+actually returns a bool, (b) reduce the compiled code size slightly, and
+(c) execute one fewer branch in the success case.
 
-Therefore, move the dereference of ->mapping->host into
-verify_data_blocks(), which works with a folio.
-
-(Like the commit that this Fixes, this hasn't actually been tested with
-large folios yet, since the filesystems that use fs/verity/ don't
-support that yet.  But based on code review, I think this is needed.)
-
-Fixes: 5d0f0e57ed90 ("fsverity: support verifying data from large folios")
 Signed-off-by: Eric Biggers <ebiggers@google.com>
 ---
- fs/verity/verify.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ fs/verity/verify.c | 55 ++++++++++++++++++----------------------------
+ 1 file changed, 21 insertions(+), 34 deletions(-)
 
 diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-index 702500ef1f348..0b54f94d763e6 100644
+index 702500ef1f348..48b8040750dda 100644
 --- a/fs/verity/verify.c
 +++ b/fs/verity/verify.c
-@@ -256,9 +256,10 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+@@ -12,23 +12,6 @@
+ 
+ static struct workqueue_struct *fsverity_read_workqueue;
+ 
+-static inline int cmp_hashes(const struct fsverity_info *vi,
+-			     const u8 *want_hash, const u8 *real_hash,
+-			     u64 data_pos, int level)
+-{
+-	const unsigned int hsize = vi->tree_params.digest_size;
+-
+-	if (memcmp(want_hash, real_hash, hsize) == 0)
+-		return 0;
+-
+-	fsverity_err(vi->inode,
+-		     "FILE CORRUPTED! pos=%llu, level=%d, want_hash=%s:%*phN, real_hash=%s:%*phN",
+-		     data_pos, level,
+-		     vi->tree_params.hash_alg->name, hsize, want_hash,
+-		     vi->tree_params.hash_alg->name, hsize, real_hash);
+-	return -EBADMSG;
+-}
+-
+ /*
+  * Returns true if the hash block with index @hblock_idx in the tree, located in
+  * @hpage, has already been verified.
+@@ -131,7 +114,6 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+ 	 * index of that block's hash within the current level.
+ 	 */
+ 	u64 hidx = data_pos >> params->log_blocksize;
+-	int err;
+ 
+ 	/* Up to 1 + FS_VERITY_MAX_LEVELS pages may be mapped at once */
+ 	BUILD_BUG_ON(1 + FS_VERITY_MAX_LEVELS > KM_MAX_IDX);
+@@ -191,11 +173,10 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+ 				hpage_idx, level == 0 ? min(max_ra_pages,
+ 					params->tree_pages - hpage_idx) : 0);
+ 		if (IS_ERR(hpage)) {
+-			err = PTR_ERR(hpage);
+ 			fsverity_err(inode,
+-				     "Error %d reading Merkle tree page %lu",
+-				     err, hpage_idx);
+-			goto out;
++				     "Error %ld reading Merkle tree page %lu",
++				     PTR_ERR(hpage), hpage_idx);
++			goto error;
+ 		}
+ 		haddr = kmap_local_page(hpage) + hblock_offset_in_page;
+ 		if (is_hash_block_verified(vi, hpage, hblock_idx)) {
+@@ -221,12 +202,10 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+ 		unsigned long hblock_idx = hblocks[level - 1].index;
+ 		unsigned int hoffset = hblocks[level - 1].hoffset;
+ 
+-		err = fsverity_hash_block(params, inode, haddr, real_hash);
+-		if (err)
+-			goto out;
+-		err = cmp_hashes(vi, want_hash, real_hash, data_pos, level - 1);
+-		if (err)
+-			goto out;
++		if (fsverity_hash_block(params, inode, haddr, real_hash) != 0)
++			goto error;
++		if (memcmp(want_hash, real_hash, hsize) != 0)
++			goto corrupted;
+ 		/*
+ 		 * Mark the hash block as verified.  This must be atomic and
+ 		 * idempotent, as the same hash block might be verified by
+@@ -243,16 +222,24 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+ 	}
+ 
+ 	/* Finally, verify the data block. */
+-	err = fsverity_hash_block(params, inode, data, real_hash);
+-	if (err)
+-		goto out;
+-	err = cmp_hashes(vi, want_hash, real_hash, data_pos, -1);
+-out:
++	if (fsverity_hash_block(params, inode, data, real_hash) != 0)
++		goto error;
++	if (memcmp(want_hash, real_hash, hsize) != 0)
++		goto corrupted;
++	return true;
++
++corrupted:
++	fsverity_err(inode,
++		     "FILE CORRUPTED! pos=%llu, level=%d, want_hash=%s:%*phN, real_hash=%s:%*phN",
++		     data_pos, level - 1,
++		     params->hash_alg->name, hsize, want_hash,
++		     params->hash_alg->name, hsize, real_hash);
++error:
+ 	for (; level > 0; level--) {
+ 		kunmap_local(hblocks[level - 1].addr);
+ 		put_page(hblocks[level - 1].page);
+ 	}
+-	return err == 0;
++	return false;
  }
  
  static bool
--verify_data_blocks(struct inode *inode, struct folio *data_folio,
--		   size_t len, size_t offset, unsigned long max_ra_pages)
-+verify_data_blocks(struct folio *data_folio, size_t len, size_t offset,
-+		   unsigned long max_ra_pages)
- {
-+	struct inode *inode = data_folio->mapping->host;
- 	struct fsverity_info *vi = inode->i_verity_info;
- 	const unsigned int block_size = vi->tree_params.block_size;
- 	u64 pos = (u64)data_folio->index << PAGE_SHIFT;
-@@ -298,7 +299,7 @@ verify_data_blocks(struct inode *inode, struct folio *data_folio,
-  */
- bool fsverity_verify_blocks(struct folio *folio, size_t len, size_t offset)
- {
--	return verify_data_blocks(folio->mapping->host, folio, len, offset, 0);
-+	return verify_data_blocks(folio, len, offset, 0);
- 
- }
- EXPORT_SYMBOL_GPL(fsverity_verify_blocks);
-@@ -320,7 +321,6 @@ EXPORT_SYMBOL_GPL(fsverity_verify_blocks);
-  */
- void fsverity_verify_bio(struct bio *bio)
- {
--	struct inode *inode = bio_first_page_all(bio)->mapping->host;
- 	struct folio_iter fi;
- 	unsigned long max_ra_pages = 0;
- 
-@@ -338,7 +338,7 @@ void fsverity_verify_bio(struct bio *bio)
- 	}
- 
- 	bio_for_each_folio_all(fi, bio) {
--		if (!verify_data_blocks(inode, fi.folio, fi.length, fi.offset,
-+		if (!verify_data_blocks(fi.folio, fi.length, fi.offset,
- 					max_ra_pages)) {
- 			bio->bi_status = BLK_STS_IOERR;
- 			break;
 
 base-commit: c61c38330e582e664fdb97bcb9faf9fa0e4ee175
 -- 
