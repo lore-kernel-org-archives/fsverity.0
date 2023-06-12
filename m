@@ -1,49 +1,49 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513BE18C38
-	for <fsverity@lists.linux.dev>; Mon, 12 Jun 2023 10:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C60818C35
+	for <fsverity@lists.linux.dev>; Mon, 12 Jun 2023 10:28:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686565659;
+	s=mimecast20190719; t=1686565711;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
 	bh=0mp6ds2De26/2K//5O82azy6nRH4SyaQ6cCRG30Yw5w=;
-	b=Ma3zzz0BF2MeyMkWWdIObiZTjZn7e0Kfai/3YPdQ6jE2VxAgZBWlLqkaewy4E5O+i2axrx
-	MjxFuSIkFcmoOi8YLiUCUsaWL4pD5qN6dcwrnfq/izarXNv+dlkKTUWlmeYn5ZMrSj/dtN
-	lmFy6Sv47aZdm2aaukA7zfauVlQ9bXk=
+	b=Zd+SrulL9dLkEd8K9YM+DbLYuuSTJ3jNmrDGrBt9YhQ/UWp4D/L67D2UsHwoihHN+g9XCp
+	hZiPXpLYFric/fXeFq2+/jLRnSLeKG9bEjQCSlzU4cks8F0j4PGBBJLJsromoHgIl7kJUK
+	T0bdovj4zVMUqkHH/Vbs3obs1+UyBP0=
 Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
  [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-343-T6M7UQhLMYedRjjZcrsGog-1; Mon, 12 Jun 2023 06:27:38 -0400
-X-MC-Unique: T6M7UQhLMYedRjjZcrsGog-1
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2b1b845cbdbso25341261fa.0
-        for <fsverity@lists.linux.dev>; Mon, 12 Jun 2023 03:27:37 -0700 (PDT)
+ us-mta-94-Bicl0DZeO4mTKSnf0fQHBQ-1; Mon, 12 Jun 2023 06:28:30 -0400
+X-MC-Unique: Bicl0DZeO4mTKSnf0fQHBQ-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2b1c9bb99a9so25257671fa.3
+        for <fsverity@lists.linux.dev>; Mon, 12 Jun 2023 03:28:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686565656; x=1689157656;
+        d=1e100.net; s=20221208; t=1686565709; x=1689157709;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=0mp6ds2De26/2K//5O82azy6nRH4SyaQ6cCRG30Yw5w=;
-        b=S1T8jBWEZ1zIIUv3C20vTOEVmZmTDVBaHOdLwFrhxNgI0u+ojLhndni5uROc6JLLWk
-         sRM7bwpvCCzLxNhiZptfQWccTDjb4i4nFWfVTTL3BIG9GTYQH/YvnydBFjnGVKCojW+/
-         +ZTMHh3Reju0YCILl7oYcnXaoG92rBgHSvxpRKuyxg1dCjzDreCJC+UT3KrxTJ2SItZ6
-         qGOvDnSjDKDmmRzm+LM2wdFzJG9Qbq1Y94fEIslQhA9Hhys4NB+4ugLrrQiDR95vLWdw
-         nRBByKT8t8Wb68LrCbK+dUfXwElAJIeY8T1PUPyCwGzYKA3Qn3PkoXr29WFnCv1i/AQz
-         EtFw==
-X-Gm-Message-State: AC+VfDwtiFAL4Gr4mbxKXPLzPWMSHdPW3fv3Ybmgcpi9dnU9QQCsAaz1
-	OLIf8ZWFN7OT0xgiD37JLJzxy5x401KucqSFIJgiQWwl5CxKNWNAUKR/apcdZ6X+psoY9ViM/Bo
-	CsGrzfS9S4dtYFFVZJFU=
-X-Received: by 2002:a2e:87c3:0:b0:2b1:a8e9:df4a with SMTP id v3-20020a2e87c3000000b002b1a8e9df4amr2739897ljj.6.1686565656353;
-        Mon, 12 Jun 2023 03:27:36 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7sIlSkVV2glWnfs1x/iEP+4Z4IjLWRyhFyHtbwoOW5ab9KZZQoYD8Th3/jhXkXlWtMaqa1SQ==
-X-Received: by 2002:a2e:87c3:0:b0:2b1:a8e9:df4a with SMTP id v3-20020a2e87c3000000b002b1a8e9df4amr2739887ljj.6.1686565656074;
-        Mon, 12 Jun 2023 03:27:36 -0700 (PDT)
+        b=iWpMcQCV+aw8plfIpV2FLHbD+lWX54BWZt1e9lkKtbKfM3WfuPQC5BsDrXVMb78Vy9
+         KLIVSfVDL4kjo2P8CRN3vxGYGJhaE1KhXOEZuGoTu7DT8zMER7Xik3EBksIwezsxA4Bs
+         fL5XNOV+EHvPvcsHvSu92ve9ANWnwAM8Gevj2w86rRvPvqwRv9i9H69CpCHhpJ3w0gnR
+         sXnkE7VaOzJbFb9b+H3OlPaEU650quRI/UOUCn3W/LpKWxoyibKQZGnNlIYjbzTwI4Vb
+         saMP3vIQIy51sJt6yO/ur6gy1JGSdUnojNSVQ/sfikPw1o/4zvjKj8luc/fxKNhQfZZc
+         /QpA==
+X-Gm-Message-State: AC+VfDzjndDXiLfa3Tl+8UxkkA2uFfA7HIJjO21tz4JIs5pkSwH4Tpia
+	IdulDo8Gs5JdTtOTNxNtrPcm5rrwARbAKvcfulHJXXNPBiAniWupvyTkAs7NnpRs0QnYMRXnIAn
+	nIqeCxxKbkkiLn+OJpwg=
+X-Received: by 2002:a2e:9692:0:b0:2b1:ba3d:605d with SMTP id q18-20020a2e9692000000b002b1ba3d605dmr2928288lji.41.1686565708584;
+        Mon, 12 Jun 2023 03:28:28 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5UjqjewWZC0SH23Bex+vP6eikPifygSrJfl8IFpD9LTnLbHEXDZOFsYAhDMBISqaSDghVHCA==
+X-Received: by 2002:a2e:9692:0:b0:2b1:ba3d:605d with SMTP id q18-20020a2e9692000000b002b1ba3d605dmr2928274lji.41.1686565708303;
+        Mon, 12 Jun 2023 03:28:28 -0700 (PDT)
 Received: from localhost.localdomain (c-e6a5e255.022-110-73746f36.bbcust.telenor.se. [85.226.165.230])
-        by smtp.googlemail.com with ESMTPSA id m25-20020a2e8719000000b002b1fc6e70a1sm1709095lji.21.2023.06.12.03.27.35
+        by smtp.googlemail.com with ESMTPSA id v2-20020a2ea442000000b002a7899eaf9csm1649156ljn.63.2023.06.12.03.28.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 03:27:35 -0700 (PDT)
+        Mon, 12 Jun 2023 03:28:27 -0700 (PDT)
 From: Alexander Larsson <alexl@redhat.com>
 To: miklos@szeredi.hu
 Cc: linux-unionfs@vger.kernel.org,
@@ -53,8 +53,8 @@ Cc: linux-unionfs@vger.kernel.org,
 	fsverity@lists.linux.dev,
 	Alexander Larsson <alexl@redhat.com>
 Subject: [PATCH v3 3/4] ovl: Validate verity xattr when resolving lowerdata
-Date: Mon, 12 Jun 2023 12:27:18 +0200
-Message-Id: <dd294a44e8f401e6b5140029d8355f88748cd8fd.1686565330.git.alexl@redhat.com>
+Date: Mon, 12 Jun 2023 12:28:17 +0200
+Message-ID: <dd294a44e8f401e6b5140029d8355f88748cd8fd.1686565330.git.alexl@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <cover.1686565330.git.alexl@redhat.com>
 References: <cover.1686565330.git.alexl@redhat.com>
@@ -68,6 +68,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Message-ID: <20230612102817.i42NlDaBnmQbdh6MQwmAoyP2GHVSoOhX22gfouGha5A@z>
 
 When accessing file data the first time we check the overlay.verity
 xattr on the metadata inode, and if set verify that the source
