@@ -1,188 +1,124 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E24115BE
-	for <fsverity@lists.linux.dev>; Sun, 11 Jun 2023 11:20:19 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-789c56ead4fso1316372241.1
-        for <fsverity@lists.linux.dev>; Sun, 11 Jun 2023 04:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686482418; x=1689074418;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rGF2bLvqUrQgx2/DoVjy72nkfwvcmnl5slEgEbFBtFc=;
-        b=iJkDzOcd8/o57NtG7UQY1F1sIeBqNoWQdgOSRs3ns9urbsYNBz1eYSKLIHibIpp+iI
-         wbBtZ/NZVT/dpOGt7k6T/jdCH7EYmSFYNf9BPbHxr867t0SEWZCno4BfJpqQwZ9dBJOW
-         WEB83ygVTgm+uygut0G/NyhH+gbmNu/eLKVpFiAqGwi5ekH/68dzjcmT29zyFG8u6MiX
-         960ViNDgIRzeo17ROXtGtMaMfbuGGw7QjreaOV7PttD+o+NfYCkI0hAOvLqWw8Sj3CaS
-         2FtMUIgXzinN5HGLhzuxKQ7Q8sLZXAO9ywTBP15a6nGsJ4R5Zv98goWFYvsno7TQWMjK
-         YFDQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6991618AE1
+	for <fsverity@lists.linux.dev>; Mon, 12 Jun 2023 10:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686565654;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nIopUTyQC6au4qt8cPbc4MGLTADYeT6LypbQFqATEMA=;
+	b=QxJ8awFXO5+6kMYqYd+w93YL/h4s8CANmWpV66NAubYq8FNWFs4oWOJk9pC0dPxNLPv7hJ
+	wlFF4VO/c9Wz7M1fIuO+NyUagbItbBLeS2uHHl+2BRDFlkvm8dYhkiA+7hivJQzUAdHaMb
+	+rw922zhj6r3tbeFKSAAoIkcXkFhoW4=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-646-vStrxnv8PE2wBFsORGFpOQ-1; Mon, 12 Jun 2023 06:27:32 -0400
+X-MC-Unique: vStrxnv8PE2wBFsORGFpOQ-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2b1b554e946so29636171fa.2
+        for <fsverity@lists.linux.dev>; Mon, 12 Jun 2023 03:27:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686482418; x=1689074418;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rGF2bLvqUrQgx2/DoVjy72nkfwvcmnl5slEgEbFBtFc=;
-        b=Hi0mzY+W39OKcltlsD2pWdBQbFQ5AWK/VmzpJlSdzC9S3RVLTOeGwU5Ohik83P4jNG
-         I5mz0h3xxy/LzF7C2AUIUowhWYN675NqyTRjkWy+C/ky//F8OM98mSNhnXfU0gsDCREs
-         3kxBNbZV+OO2Cv88KuBGgKtRZibrcyJoB6dgVS5kaltSA/FoWBV+HOcFMCEcAu7YJs+N
-         lGmWK+TrfX3UzscttJaXHu94nED2Ks0TEHcHKgUkEgZZK/RpClurdQPAsVVHCmyj9kZ8
-         S8KWiVZJWDZYPYWBRbLFYZYO7xSri6XKIcRb23knHHIAm87m2i2hlLYuPFQ5IfUIgz6U
-         Tofw==
-X-Gm-Message-State: AC+VfDwmns2rtDpxElCLt3HXj7x/YvZv6XrJQW2z81PYaqFSHQDLydA9
-	ldLab8Vs88FdJFRaGxb7EaCN0iar058qeMM57n4=
-X-Google-Smtp-Source: ACHHUZ6Uomhcg3MQgSadOCVtIlGUY4e78rLWi+46N5PdmxjLHyLW9WeB5GGeGorrVM8r4A4cHLc5endRn3LJZWzeugI=
-X-Received: by 2002:a67:f04c:0:b0:43b:4688:7fb0 with SMTP id
- q12-20020a67f04c000000b0043b46887fb0mr2522861vsm.16.1686482417812; Sun, 11
- Jun 2023 04:20:17 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686565651; x=1689157651;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nIopUTyQC6au4qt8cPbc4MGLTADYeT6LypbQFqATEMA=;
+        b=lOIvtH/UGrgHHGwC+dUVLUaSdp30UZuvbIdjn6bDqssZgbGshlsZBi/zHZkme4uE29
+         Z6GaYKILmyD3n/x+5P0wiu526xXwx20sO1K3KnsU92zsXEgG067JPxB9DnoJmLLA1tJs
+         RVn2DnL0qMq6T9uRiJtuVEJ2JU2hUf3A+q+KwtonACyIr80YMMn4kU7FcOXUoAFniv/K
+         R/eXqubuNtH4vvtoHWKIFuZrBO52+uTVlZmSrhjuPojdKyFYdzn/r5OiJGYzn1bHiM0r
+         2r6f0TFuUznfPXkqfQjNtbAHQNjf1Rk6nmaCJDXf9Gd64eAovjAqxjiTP6NiYFDH0on0
+         ZnpQ==
+X-Gm-Message-State: AC+VfDyHcRQsa/4tZ0GMPykgWsZGZRRxQk2ezPTkR0PzFv66gTnOJDmq
+	bFchvhfjvOxyvOC4dSvHFAAi3SDAYZJB/l3WWbzn8oPCTHbkUh5b/xZIKgcYh2cZ3FZwD03m7s0
+	kBUDR1ljF13qpzLZc2Jw=
+X-Received: by 2002:a2e:a0d6:0:b0:2b2:5d2:ce63 with SMTP id f22-20020a2ea0d6000000b002b205d2ce63mr2284405ljm.35.1686565651464;
+        Mon, 12 Jun 2023 03:27:31 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4nQkV7krvCUS5noWSCi/+YY7Mpv3aM8Bw9QBw1jPHWqpiUiKRpBdNmLX5+v5jh05Zn0VTOPQ==
+X-Received: by 2002:a2e:a0d6:0:b0:2b2:5d2:ce63 with SMTP id f22-20020a2ea0d6000000b002b205d2ce63mr2284389ljm.35.1686565651045;
+        Mon, 12 Jun 2023 03:27:31 -0700 (PDT)
+Received: from localhost.localdomain (c-e6a5e255.022-110-73746f36.bbcust.telenor.se. [85.226.165.230])
+        by smtp.googlemail.com with ESMTPSA id m25-20020a2e8719000000b002b1fc6e70a1sm1709095lji.21.2023.06.12.03.27.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 03:27:30 -0700 (PDT)
+From: Alexander Larsson <alexl@redhat.com>
+To: miklos@szeredi.hu
+Cc: linux-unionfs@vger.kernel.org,
+	amir73il@gmail.com,
+	ebiggers@kernel.org,
+	tytso@mit.edu,
+	fsverity@lists.linux.dev,
+	Alexander Larsson <alexl@redhat.com>
+Subject: [PATCH v3 0/4] ovl: Add support for fs-verity checking of lowerdata
+Date: Mon, 12 Jun 2023 12:27:15 +0200
+Message-Id: <cover.1686565330.git.alexl@redhat.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1683102959.git.alexl@redhat.com> <b58e57955e122b5d6c4e087cf2dd6ed664152c7b.1683102959.git.alexl@redhat.com>
- <20230514191647.GD9528@sol.localdomain> <CAOQ4uxhEq8u37YNnqQmLbybJy1Kkg3Qk0TVtRZQP-yHt8CMmWA@mail.gmail.com>
- <CAL7ro1Hqc29w-FuRuoEfcsxiXTnqqwHP73nwvmZRuKVRsz4D9w@mail.gmail.com>
- <CAOQ4uxh_y+YO3q7dB=ALCriq31RhapOHGt+jcXTQbOC7iVqYTw@mail.gmail.com> <CAL7ro1GTzJy5Nv1vH0buVEXUnUk7cXBhSJB2ap8Jt_hutk7nYw@mail.gmail.com>
-In-Reply-To: <CAL7ro1GTzJy5Nv1vH0buVEXUnUk7cXBhSJB2ap8Jt_hutk7nYw@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sun, 11 Jun 2023 14:20:06 +0300
-Message-ID: <CAOQ4uxgbMD2RdEqta7a2t3uVceLuZDxOWA9SBNDAgZSdO_532Q@mail.gmail.com>
-Subject: Re: [PATCH v2 5/6] ovl: Validate verity xattr when resolving lowerdata
-To: Alexander Larsson <alexl@redhat.com>
-Cc: Eric Biggers <ebiggers@kernel.org>, miklos@szeredi.hu, linux-unionfs@vger.kernel.org, 
-	tytso@mit.edu, fsverity@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Sat, Jun 10, 2023 at 6:02=E2=80=AFPM Alexander Larsson <alexl@redhat.com=
-> wrote:
->
-> On Fri, Jun 9, 2023 at 3:03=E2=80=AFPM Amir Goldstein <amir73il@gmail.com=
-> wrote:
-> >
-> > On Mon, May 15, 2023 at 9:15=E2=80=AFAM Alexander Larsson <alexl@redhat=
-.com> wrote:
-> > >
-> > > On Sun, May 14, 2023 at 11:00=E2=80=AFPM Amir Goldstein <amir73il@gma=
-il.com> wrote:
-> > > >
-> > > > On Sun, May 14, 2023 at 10:16=E2=80=AFPM Eric Biggers <ebiggers@ker=
-nel.org> wrote:
-> > > > >
-> > > > > On Wed, May 03, 2023 at 10:51:38AM +0200, Alexander Larsson wrote=
-:
-> > > > > > When resolving lowerdata (lazily or non-lazily) we check the
-> > > > > > overlay.verity xattr on the metadata inode, and if set verify t=
-hat the
-> > > > > > source lowerdata inode matches it (according to the verity opti=
-ons
-> > > > > > enabled).
-> > > > >
-> > > > > Keep in mind that the lifetime of an inode's fsverity digest is f=
-rom when it is
-> > > > > first opened to when the inode is evicted from the inode cache.
-> > > > >
-> > > > > If the inode gets evicted from cache and re-instantiated, it coul=
-d have been
-> > > > > arbitrarily changed.
-> > > > >
-> > > > > Given that, does this verification happen in the right place?  I =
-would have
-> > > > > expected it to happen whenever the file is opened, but it seems y=
-ou do it when
-> > > > > the dentry is looked up instead.  Maybe that works too, but I'd a=
-ppreciate an
-> > > > > explanation.
-> > > >
-> > > > Hmm. I do not think it is wrong because the overlay file cannot be =
-opened before
-> > > > the inode overlay is looked up and fsverity is verified on lookup.
-> > > > In theory, overlay inode with lower could have been instantiated by=
- decode_fh(),
-> > > > but verity=3Don and nfs_export=3Don are conflicting options.
-> > > >
-> > > > However, I agree that doing verify check on lookup is a bit too ear=
-ly, as
-> > > > ls -lR will incur the overhead of verifying all file's data even
-> > > > though their data
-> > > > is not accessed in a non-lazy-lower-data scenario.
-> > > >
-> > > > The intuition of doing verity check before file is opened (or copie=
-d up)
-> > > > when there is a realfile open is not wrong, it would have gotten ri=
-d of the
-> > > > dodgy ovl_ensure_verity_loaded(), but I think that will be a bit ha=
-rder to
-> > > > implement (not sure).
-> > > >
-> > > > My suggestion for Alexander:
-> > > > - Use ovl_set/test_flag(OVL_VERIFIED, inode) for lazy verify
-> > > > - Implement ovl_maybe_validate_verity() similar to
-> > > >   ovl_maybe_lookup_lowerdata()
-> > > > - Implement a helper ovl_verify_lowerdata()
-> > > >   that calls them both
-> > > > - Replace the ovl_maybe_lookup_lowerdata() calls with
-> > > >   ovl_verify_lowerdata() calls
-> > > >
-> > > > Then before opening (or copy up) a file, it could have either
-> > > > lazy lower data lookup or lazy lower data validate or both (or none=
-).
-> > > >
-> > > > This will not avoid ovl_ensure_verity_loaded(), but it will load fs=
-verity
-> > > > just before it is needed and it is a bit easier to take ovl_inode_l=
-ock
-> > > > unconditionally, in those call sites then deeper within copy_up, wh=
-ere
-> > > > ovl_inode_lock is already taken.
-> > > >
-> > > > I *think* this is a good idea, but we won't know until you try it,
-> > > > so please take my suggestion with a grain of salt.
-> > >
-> > > I'll have a look at it in a bit. It would make performance of
-> > > verity=3Don in the non-lazy-lookup case better.
-> > >
-> >
-> > Hi Alex,
-> >
-> > Now that lazy lookup is queued for next, I wanted to ask about the
-> > status of your patches.
-> >
-> > Is the issue above the only thing you still need to look at?
-> > No rush on my end, just wanted to be in sync.
->
-> I spent some time on friday doing the initial work on this rework. In
-> case you want to look at it  I just pushed it to:
->
-> https://github.com/alexlarsson/linux/tree/overlay-verity
->
-> The first 3 commits are the same as before, and the last one is the
-> new approach. It's turned out pretty nice, simplifying things
-> considerable.
+This patchset adds support for using fs-verity to validate lowerdata
+files by specifying an overlay.verity xattr on the metacopy
+files.
 
-It does look nicer :)
-I gave you a small review comment on github, but overall looks good.
+This is primarily motivated by the Composefs usecase, where there will
+be a read-only EROFS layer that contains redirect into a base data
+layer which has fs-verity enabled on all files. However, it is also
+useful in general if you want to ensure that the lowerdata files
+matches the expected content over time.
 
-> But I really haven't had time to do a full re-review and
-> test of it, so please don't merge it yet. I'll spend Monday ensuring
-> it is in a good state for upstream.
->
+I have also added some tests for this feature to xfstests[1].
 
-When you are done testing, please post v3 patches.
+I'm also CC:ing the fsverity list and maintainers because there is one
+(tiny) fsverity change, and there may be interest in this usecase.
 
-Note that I pushed a new version of ovl-lazy-lowerdata branch to
-fstests, with the minor :: syntax change.
+Changes since v2:
+ * Rebased on top of overlayfs-next
+ * We now alway do verity verification the first time the file content
+   is used, rather than doing it at lookup time for the non-lazy lookup
+   case.
 
-Not sure if Miklos will have time to review them this cycle or wait
-for the next one.
+Changes since v1:
+ * Rebased on v2 lazy lowerdata series
+ * Dropped the "validate" mount option variant. We now only support
+   "off", "on" and "require", where "off" is the default.
+ * We now store the digest algorithm used in the overlay.verity xattr.
+ * Dropped ability to configure default verity options, as this could
+   cause problems moving layers between machines.
+ * We now properly resolve dependent mount options by automatically
+   enabling metacopy and redirect_dir if verity is on, or failing
+   if the specified options conflict.
+ * Streamlined and fixed the handling of creds in ovl_ensure_verity_loaded().
+ * Renamed new helpers from ovl_entry_path_ to ovl_e_path_
 
-There are also the mount api changes from Christian that conflict
-with the new verify option.
+[1] https://github.com/alexlarsson/xfstests/commits/verity-tests
 
-If we want to have all of these changes for this cycle, some collaboration
-will be required.
+Alexander Larsson (4):
+  fsverity: Export fsverity_get_digest
+  ovl: Add framework for verity support
+  ovl: Validate verity xattr when resolving lowerdata
+  ovl: Handle verity during copy-up
 
-Thanks,
-Amir.
+ Documentation/filesystems/overlayfs.rst |  27 +++++
+ fs/overlayfs/copy_up.c                  |  33 +++++-
+ fs/overlayfs/file.c                     |   8 +-
+ fs/overlayfs/namei.c                    |  54 +++++++++-
+ fs/overlayfs/overlayfs.h                |  12 ++-
+ fs/overlayfs/ovl_entry.h                |   3 +
+ fs/overlayfs/super.c                    |  79 +++++++++++++-
+ fs/overlayfs/util.c                     | 133 ++++++++++++++++++++++++
+ fs/verity/measure.c                     |   1 +
+ 9 files changed, 340 insertions(+), 10 deletions(-)
+
+-- 
+2.40.1
+
