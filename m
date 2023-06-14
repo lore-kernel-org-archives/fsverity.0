@@ -1,114 +1,116 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BFE138E
-	for <fsverity@lists.linux.dev>; Wed, 14 Jun 2023 05:39:19 +0000 (UTC)
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4301281573aso720583137.3
-        for <fsverity@lists.linux.dev>; Tue, 13 Jun 2023 22:39:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262961843
+	for <fsverity@lists.linux.dev>; Wed, 14 Jun 2023 06:14:22 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-7841dc9871dso1252143241.0
+        for <fsverity@lists.linux.dev>; Tue, 13 Jun 2023 23:14:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686721158; x=1689313158;
+        d=gmail.com; s=20221208; t=1686723262; x=1689315262;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0JOto0oV1KbYIXydS1unCesgaw4Xm/o4kcrhMQN7gU0=;
-        b=FH9C+T6Bxk5czO7c6yApIJmidspEcPdBq2vduJ8rT+Z2Cb8S+ysQf7kPmhTBZCn7G8
-         Sp35Kd69u6QIEzk/Vt3+PtJubNfPwijGELlYLW0Vnf2KpllPcq1PvkiLX1tLynpIscIH
-         c+jHoYVmlTqNebRQZvLcMCwiDoK70Cx0CH6G4AryEHPZ4c8LJOp76AMOjJRL/cpY+cCS
-         KrS+/l0pyMM5LjQTPevAoPBA3SY9Tg1cGfrXdPTa9OXKC1A7NZeoDq5Qv1A/E1BLAWk5
-         TL5Ctg8vOwhwj1lNfbBbMeG8MIB8zfU37RjSuh6aXojxlFxN3WsC94V4JZyz9EbuEO8z
-         FZhQ==
+        bh=5X8LqfljrU+PrZzpVIfQqSqX4Zf57KzrOZh2lwpVjVY=;
+        b=HLS8Xcw1HHANF3zLbpjmkJnFHtJgSjU+Kw+VABcbtVxihx3nr8T2gGgEV81WbHDk94
+         7qraWKd41ajxAM8QqIXASfvasndOwOrwhwtS+csDTPALy20Bq/8W8Zq/DXktumEzfNwF
+         WdgKs/T7AqfUdtnDQvw/IWtnXn7bj3jJUP1qGyG6JvHC8rHkxzwBUzGECzl+R9ZrN2nW
+         vQeqLxwmwQjCV1ir7RAyheU6WnOqDfldHU4nLr86j1W+ap0Crfcr/HDwSnLLHdkt2Ybp
+         cCCcNgbIIq4x1wDOZszquuaseSyukJHBa8sAUg008Wi5MH1sVVlwvYnybgd1CXb0AsCw
+         gcWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686721158; x=1689313158;
+        d=1e100.net; s=20221208; t=1686723262; x=1689315262;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0JOto0oV1KbYIXydS1unCesgaw4Xm/o4kcrhMQN7gU0=;
-        b=iAtdd9LPHA2DmNtoz1nK/wxe3hfdMs+a6Ggf1PCWF2KYxBZwDlP+vDBMjf5qPs7Xtp
-         lLGjVJ2B7+9UfEYGriLEpLFpjE7FCUqlkd3FLSM3HZqZ3r/rczjWOBN+9IS78Osyo6ue
-         XYQGCG7S7D8cui+qzUqkTDFicL4rrwgskkYOf5ybnecRKPV4LO5WDdyo1CktcMR/py1E
-         RTkDkVFil9ENRvU/2OvZIhXNeTFtOT5iZGTZ49paderKQiP9xDAi2ZCxzL+kATO80F86
-         3diLL43pSvYQXNork7zBdmMZEsPI1he76MeGim+nZu6F/HVsZKvQ+MZ/WJ7tBJfyxQq2
-         aOgA==
-X-Gm-Message-State: AC+VfDxBhe20IrHuLZ4wrL+Ikhqkn90dHVVpccCJoJBcpkndgpp79kKR
-	bt5INo3SPzGWFW+agpHxTQy50vp4LaBrsw/Rpxs=
-X-Google-Smtp-Source: ACHHUZ6hzlkxJm8Et0uYbPgVEPBVMhFmphOWG9zzSZGc3yT/qQ7Jbwz2JdG9qP1msNbAt+Vlz+AWMr967nzli0af6VU=
-X-Received: by 2002:a67:f705:0:b0:439:31ec:8602 with SMTP id
- m5-20020a67f705000000b0043931ec8602mr5131231vso.27.1686721158556; Tue, 13 Jun
- 2023 22:39:18 -0700 (PDT)
+        bh=5X8LqfljrU+PrZzpVIfQqSqX4Zf57KzrOZh2lwpVjVY=;
+        b=h/JKEbIFXvVoJ/PyThpWoAjNYz3lfIpJpN6w16r/WgQktr3ZjkfNzKoYdvNHZN8IiC
+         DE5VVVWSPvRBwEAAmReauk+gkxNcAdNuRIzwOjchBNF+8ryFehWOCGCKcyDyPhhTxYCW
+         PJNCPLFjTRlLCsPVHPu5LDw4c105GWnpSVxjmzFJ73DEbDHk7AtgI/gdoF6UxHIuaqg3
+         sjMHci+kkkNFaXPUsb1s6C3AyoYfPwtsCvwdRh97reZIyXROagRe9xDaZFHISZ6Tc2yE
+         B77T0cxNTKJzovNhr2PQ2WhH32mnwnnFWvgnMfwd+cQEWmxBNxiU6D6F5YX05yPruh8c
+         HBsw==
+X-Gm-Message-State: AC+VfDzoZ7Erd273/0YvHRnZgZ7Za/LMHeg/MHz34jCevAYx+1gLpYF2
+	/jNxEKHl/uWo+IySHW4RdUpZFnbKONq3/bmnO8c=
+X-Google-Smtp-Source: ACHHUZ53Nnn+7QbkbpCe5wEepLUDpweMtHW/vktPbygIkeMsNE/y+jIvQefAWT8+S6pkZaXl5oY2L3DRWL3qQT/9yxU=
+X-Received: by 2002:a05:6102:160f:b0:434:5810:32a6 with SMTP id
+ cu15-20020a056102160f00b00434581032a6mr238422vsb.8.1686723261835; Tue, 13 Jun
+ 2023 23:14:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1686565330.git.alexl@redhat.com> <dd294a44e8f401e6b5140029d8355f88748cd8fd.1686565330.git.alexl@redhat.com>
- <20230612190944.GB847@sol.localdomain> <CAL7ro1Feep_aQimxEJzKk+4cv6-UNgco3VNDKZrrC3y2u04DCw@mail.gmail.com>
- <20230613175759.GA1139@sol.localdomain> <20230614032813.GA1146@sol.localdomain>
-In-Reply-To: <20230614032813.GA1146@sol.localdomain>
+References: <cover.1686565330.git.alexl@redhat.com> <CAOQ4uxgmV1KKCeq8=8FPkAciwqPpz8JiSM8WEuxDaZbVuYcQ7Q@mail.gmail.com>
+ <CAL7ro1EiYOOOqexrKy+UXRzmpGyCaNec3+LHGxnA0YfmoMDN3A@mail.gmail.com> <CAL7ro1FKwgUY4e7N_vYi0cFsuVx6St0-oKvcBkiRFnzLH8D1eQ@mail.gmail.com>
+In-Reply-To: <CAL7ro1FKwgUY4e7N_vYi0cFsuVx6St0-oKvcBkiRFnzLH8D1eQ@mail.gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 14 Jun 2023 08:39:07 +0300
-Message-ID: <CAOQ4uxh2jS=MsM-xs_fgFkBzN40ypADizw9tvsdizrXuVOXtVQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] ovl: Validate verity xattr when resolving lowerdata
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Alexander Larsson <alexl@redhat.com>, miklos@szeredi.hu, linux-unionfs@vger.kernel.org, 
-	tytso@mit.edu, fsverity@lists.linux.dev, Mimi Zohar <zohar@linux.ibm.com>
+Date: Wed, 14 Jun 2023 09:14:10 +0300
+Message-ID: <CAOQ4uxgVnv7wtwFZaBnEotFCwQD1EZcSK2KW4K4vRD8d9fzCiw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] ovl: Add support for fs-verity checking of lowerdata
+To: Alexander Larsson <alexl@redhat.com>
+Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org, ebiggers@kernel.org, 
+	tytso@mit.edu, fsverity@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 14, 2023 at 6:28=E2=80=AFAM Eric Biggers <ebiggers@kernel.org> =
-wrote:
+On Mon, Jun 12, 2023 at 5:54=E2=80=AFPM Alexander Larsson <alexl@redhat.com=
+> wrote:
 >
-> On Tue, Jun 13, 2023 at 10:57:59AM -0700, Eric Biggers wrote:
-> > On Tue, Jun 13, 2023 at 01:41:34PM +0200, Alexander Larsson wrote:
-> > > > Can you consider
-> > > > https://lore.kernel.org/r/20230612190047.59755-1-ebiggers@kernel.or=
-g which would
-> > > > make fsverity_get_digest() support both types of IDs?  Then you can=
- use
-> > > > FS_VERITY_HASH_ALG_*, which I think would make things slightly easi=
-er for you.
+> On Mon, Jun 12, 2023 at 1:09=E2=80=AFPM Alexander Larsson <alexl@redhat.c=
+om> wrote:
+> >
+> > On Mon, Jun 12, 2023 at 12:54=E2=80=AFPM Amir Goldstein <amir73il@gmail=
+.com> wrote:
 > > >
-> > > Sounds very good to me. I'll rebase the patchset on top of it. Not
-> > > sure how to best land this though, are you ok with this landing via
-> > > overlayfs-next?
+> > > On Mon, Jun 12, 2023 at 1:27=E2=80=AFPM Alexander Larsson <alexl@redh=
+at.com> wrote:
+> > > >
+> > > > This patchset adds support for using fs-verity to validate lowerdat=
+a
+> > > > files by specifying an overlay.verity xattr on the metacopy
+> > > > files.
+> > > >
+> > > > This is primarily motivated by the Composefs usecase, where there w=
+ill
+> > > > be a read-only EROFS layer that contains redirect into a base data
+> > > > layer which has fs-verity enabled on all files. However, it is also
+> > > > useful in general if you want to ensure that the lowerdata files
+> > > > matches the expected content over time.
+> > > >
+> > > > I have also added some tests for this feature to xfstests[1].
+> > >
+> > > I can't remember if there is a good reason why your test does
+> > > not include verify in a data-only layer.
+> > >
+> > > I think this test coverage needs to be added.
 > >
-> > If you're confident that this series will land in v6.4, then sure, you =
-can apply
-> > my patch "fsverity: rework fsverity_get_digest() again" to overlayfs-ne=
-xt,
-> > instead of me taking it through fsverity/for-next.  (Hopefully the IMA
-> > maintainer will ack it as well, as it touches security/integrity/.)
-
-Mimi,
-
-Can you please take a look:
-
-https://lore.kernel.org/linux-integrity/20230612190047.59755-1-ebiggers@ker=
-nel.org/
-
-> >
-> > Just be careful about being overly-optimistic about features landing in=
- the next
-> > release.  I've had experience with cases like this before, where I didn=
-'t apply
-> > something for a reason like this, but then the series didn't make it in=
- right
-> > away so it was worse than me just taking the patch in the first place.
-> >
-> > I do see that the other prerequisites were just applied to overlayfs-ne=
-xt, so
-> > maybe this is good to go now.  It's up to the other overlayfs folks.
+> > Yeah. I'll add that.
 >
-> I meant to say 6.5, not 6.4.
+> Updated the git branch with some lowerdata tests.
 >
-> Anyway, just let me know if I should apply it or not, before it gets too =
-late.
 
-If you want to make sure that your patch lands in 6.5, you'd better take
-it through your tree.
+What do I need to do in order to enable verity on ext4 besides
+enabling FS_VERITY in the kernel?
 
-If you provide a stable branch with the patch, Miklos will be able to merge
-your branch if he wishes to take Alex's patches for 6.5.
+I'm getting these on verity tests on ext4 in the default 4k config.
+_require_scratch_verity() doesn't mention any requirement other
+that 4K blocks and extent format files.
 
 Thanks,
 Amir.
+
+BEGIN TEST 4k (10 tests): Ext4 4k block Wed Jun 14 06:04:25 UTC 2023
+DEVICE: /dev/vdb
+EXT_MKFS_OPTIONS: -b 4096
+EXT_MOUNT_OPTIONS: -o block_validity
+FSTYP         -- ext4
+PLATFORM      -- Linux/x86_64 kvm-xfstests
+6.4.0-rc2-xfstests-00026-g35774ba7f07c #1596 SMP PREEMPT_DYNAMIC Tue
+Jun 13 18:16:59 IDT 2023
+MKFS_OPTIONS  -- -F -q -b 4096 /dev/vdc
+MOUNT_OPTIONS -- -o acl,user_xattr -o block_validity /dev/vdc /vdc
+
+generic/572        [06:04:42] [06:04:47] [not run]
+generic/572 -- ext4 verity isn't usable by default with these mkfs options
+...
