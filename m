@@ -1,216 +1,110 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BBC7F
-	for <fsverity@lists.linux.dev>; Wed, 14 Jun 2023 07:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686729483;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UfwReRdUWGYn4SV5oyK98sYbhf53ic2tI0fPucAMzX0=;
-	b=Y0ttgQIPlHpxoU/LRBlrZXUw+3hHuQuKFjq+xQNof/bhM//0bGH6NKBXUYvxR9+xbci4wD
-	cY6DlvL+EtPBSBI681Eva6QSWbZNvPE1yv8um+jA/r4+RZ9SCaV54j53K7l3o4hZAovx1/
-	d9UH5fJv14QY58f5/4i3ekxUHpMN9r8=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-474-iiLArYVVPDOlfmrYnu0Yxg-1; Wed, 14 Jun 2023 03:57:54 -0400
-X-MC-Unique: iiLArYVVPDOlfmrYnu0Yxg-1
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-76c5c78bc24so813097039f.2
-        for <fsverity@lists.linux.dev>; Wed, 14 Jun 2023 00:57:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686729473; x=1689321473;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UfwReRdUWGYn4SV5oyK98sYbhf53ic2tI0fPucAMzX0=;
-        b=ee1BjGKwvR0i1IDTMSjeSsmA+gU1NFpoRCVL/OK4qfPG2VzD7Snw3SAIz2HOfg0JK8
-         jYItK1sfJIKE8TtjVVIZ4CRG/tlqp+jpfV+VhIceTJTy15TFmVDQ9oPqwrnrsXINrNl3
-         ot6OmpWn5iFHqWVziQH/9h+jEjuFH5UI21lixT8FAk/DuwG1imOEa/NfOfJ0l4x6yXLp
-         UGTcmog4VurGZpqAIhqaRUhqXT0hqnY7hybW/hY4PS5dZchPJtj3ePPBHdnM3Z9FHP87
-         nYBBAsCUhHPk3+R0jbzMZBeczJapHHGlEqwcoVYEVTZ3tB5lKGq79vWldHp01rmdteiH
-         aBIw==
-X-Gm-Message-State: AC+VfDxUtpXv3UerKIJ7RRurVEciKRY9NNVun0Gg5HHsKpJWHevw6z97
-	YdEmcwO8b70WdVfXofB099JrP8Me5oCCTca/9kDeMAhmX6EtRmiZy6qbwetaAywIib0QqjUilCL
-	qVlrueNQeCZovtMdGKmH5aZF/ITpEkDH2fAWkrvDi0NAu5Q==
-X-Received: by 2002:a92:c851:0:b0:340:a4b0:1a35 with SMTP id b17-20020a92c851000000b00340a4b01a35mr730716ilq.8.1686729473014;
-        Wed, 14 Jun 2023 00:57:53 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6lt8V2laDcByMSpb8s2uPfTZzeal2kF+czt4/mn2l6B4Bea7i1EXfJz1mlAln5a59LSZZ9xd+zs8EegqX217Y=
-X-Received: by 2002:a92:c851:0:b0:340:a4b0:1a35 with SMTP id
- b17-20020a92c851000000b00340a4b01a35mr730712ilq.8.1686729472761; Wed, 14 Jun
- 2023 00:57:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63951613F
+	for <fsverity@lists.linux.dev>; Wed, 14 Jun 2023 13:30:15 +0000 (UTC)
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35EDLSuw027897;
+	Wed, 14 Jun 2023 13:30:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=ILVPSf3o9GLRJAOnBHDkXiB2yee3btVY+Xuw+FhOo0A=;
+ b=WByMOWqLiC+0BtwjIBqYUr3q4Bxa3K1A34gsYm6EH6jrd3gQmTJ6PMxeX6+skYOXENHY
+ fS7D9z0qI9k7kjn8cU85oAKwJsFcPcw2sZ2BYOwf+fZdxw5LRrgzDVtXCoCtsmI3BxVm
+ r9Xz5cXP2SonOsE2Gh6SfTVMxyRC5WyPC4gePKGSVGB86NaYLnuzUhsWM+lxtWqzDxok
+ 3j9EjaqQmrfrkLIF0QQBhEqzqB/hAg7QIXzhCpiMSub09x3nc9wn1GR0sDcdG6Auia/k
+ +xTc+yzG59L8NT8FP4uTcagP39/8VoijuEeNUgbENJXBJsS0ZGBakvBHO1f30ScHgLS8 jA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3r7ec0g78h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Jun 2023 13:30:04 +0000
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35EDNcKg002782;
+	Wed, 14 Jun 2023 13:30:04 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3r7ec0g77s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Jun 2023 13:30:03 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+	by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35ECx8A2014554;
+	Wed, 14 Jun 2023 13:30:03 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
+	by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3r4gt5nv4e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Jun 2023 13:30:03 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35EDU1Dv55575000
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Jun 2023 13:30:01 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3C1DA58067;
+	Wed, 14 Jun 2023 13:30:01 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E12A558069;
+	Wed, 14 Jun 2023 13:30:00 +0000 (GMT)
+Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.61.19.215])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 14 Jun 2023 13:30:00 +0000 (GMT)
+Message-ID: <a8e4d70d2b46f41827375d9290131ea93ad5830a.camel@linux.ibm.com>
+Subject: Re: [PATCH] fsverity: rework fsverity_get_digest() again
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Eric Biggers <ebiggers@kernel.org>, fsverity@lists.linux.dev
+Cc: linux-integrity@vger.kernel.org, linux-unionfs@vger.kernel.org,
+        Alexander Larsson
+	 <alexl@redhat.com>
+Date: Wed, 14 Jun 2023 09:30:00 -0400
+In-Reply-To: <20230612190047.59755-1-ebiggers@kernel.org>
+References: <20230612190047.59755-1-ebiggers@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _R_OBG5ealS_BdfMCy1swJOnlj1gRx0a
+X-Proofpoint-ORIG-GUID: K5PbRqElOIh5cgd4WnaMVzObC6uOOSie
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1686565330.git.alexl@redhat.com> <03ac0ffd82bc1edc3a9baa68d1125f5e8cad93fd.1686565330.git.alexl@redhat.com>
- <20230612163216.GA847@sol.localdomain> <CAOQ4uxjS5-7_PaoxM41YaXW+KxwLK_K8AyJMaoi1m-3P-vZ9Kw@mail.gmail.com>
- <20230613063704.GA879@sol.localdomain> <CAOQ4uxg6BD_RDtWob5q2eX6uQ5hcWrK7wEDcBhFVrGM3vsn=NA@mail.gmail.com>
- <20230613182233.GC1139@sol.localdomain> <CAOQ4uxhzJFpfuFLxK2s0JqS5qGQDGfndFPY7n2NDmZso4cG4Rg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhzJFpfuFLxK2s0JqS5qGQDGfndFPY7n2NDmZso4cG4Rg@mail.gmail.com>
-From: Alexander Larsson <alexl@redhat.com>
-Date: Wed, 14 Jun 2023 09:57:41 +0200
-Message-ID: <CAL7ro1FF2iUjPsXrha8tELYvi9MwW7WRhksqX7ahSXc4gPHraw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] ovl: Add framework for verity support
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Eric Biggers <ebiggers@kernel.org>, miklos@szeredi.hu, linux-unionfs@vger.kernel.org, 
-	tytso@mit.edu, fsverity@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-14_08,2023-06-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1011
+ bulkscore=0 impostorscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306140113
 
-On Wed, Jun 14, 2023 at 7:24=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
->
-> On Tue, Jun 13, 2023 at 9:22=E2=80=AFPM Eric Biggers <ebiggers@kernel.org=
-> wrote:
-> >
-> > On Tue, Jun 13, 2023 at 12:34:10PM +0300, Amir Goldstein wrote:
-> > > >
-> > > > In general the proposed documentation reads like the audience is ov=
-erlayfs
-> > > > developers.
-> > >
-> > > I never considered that overlayfs.rst is for an audience other than
-> > > overlayfs developers or people that want to become overlayfs
-> > > developers. It is not a user guide. If it were, it would have been a
-> > > very bad one.
-> > >
-> > > > It doesn't describe the motivation for the feature or how to use it
-> > > > in each of the two use cases.  Maybe that is intended, but it's not=
- what I had
-> > > > expected to see.
-> > > >
-> > >
-> > > Yeh, that's a valid point.
-> > > That is what I wanted to know - what exactly is missing.
-> > > I guess this is the documented motivation:
-> >
-> > Sure, but even if the document is just for kernel developers, it should=
- still
-> > describe motivation and use cases, as those are important for userstand=
-ing.
-> >
-> > > "This may then be used to verify the content of the source file at th=
-e time
-> > > the file is opened"
-> > >
-> > > but it does not tell a complete chain of trust story.
-> > >
-> > > How about something along the lines of:
-> > >
-> > > "In the case that the upper layer can be trusted not to be tampered
-> > > with while overlayfs is offline
-> >
-> > So *online* tampering of the upper layer is fine?
->
-> No, for the sake of this section, it would be easier to say
-> that upper is completely trusted and completely under our
-> control and that the feature only hardens overlayfs when
-> lower is not under our full control.
->
-> In the case of composefs it's actually two lower layers, one trusted
-> and one not trusted (and an optional trusted upper), but it does not
-> matter IMO for the sake of explaining the basic feature.
->
-> >
-> > > and some of the lower layers cannot
-> > > be trusted not to be tampered with, the "verity" feature can protect
-> > > against offline modification to lower files
-> >
-> > Data of lower files, not simply "lower files", right?
->
-> Right.
->
-> >
-> > Are *online* modifications to lower files indeed not in scope?
->
-> They are. doc should not mention online.
->
-> >
-> > If the feature "can protect", then under what circumstances does it pro=
-tect, and
-> > under what circumstances what does it not protect?
-> >
-> > It would also be helpful to explain what specifically is meant by "prot=
-ect".
-> > Does it mean that overlayfs prevents modifications to lower file data, =
-or does
-> > it mean that overlayfs detects modifications to lower file data after t=
-hey
-> > happen?  If the latter, what happens when overlayfs detects a modificat=
-ion?
-> > What do userspace programs experience?
-> >
-> > > , whose metadata has been
-> > > copied up to the upper layer (a.k.a "metacopy" files) ...."
-> > >
-> > > It's generic language that what the patches do, regardless of the
-> > > trust model of composefs and how it composes an overlayfs layers.
-> >
-> > It's better, but it could use some more detail.  See my comments above.
-> >
->
-> Fair enough.
->
-> Alex,
->
-> Please incorporate Eric's feedback above to come up with a more
-> detailed description than:
->
-> +This can be useful as a way to validate that a lower directory matches
-> +the correct upper when it is re-mounted later. In case you can
-> +guarantee that a overlayfs directory with verity xattrs is not
-> +tampered with (for example using dm-verity or fs-verity) this can even
-> +be used to guarantee the validity of an untrusted lower directory.
-> +
->
-> On the specific points that Eric mentioned.
+On Mon, 2023-06-12 at 12:00 -0700, Eric Biggers wrote:
+> From: Eric Biggers <ebiggers@google.com>
+> 
+> Address several issues with the calling convention and documentation of
+> fsverity_get_digest():
+> 
+> - Make it provide the hash algorithm as either a FS_VERITY_HASH_ALG_*
+>   value or HASH_ALGO_* value, at the caller's choice, rather than only a
+>   HASH_ALGO_* value as it did before.  This allows callers to work with
+>   the fsverity native algorithm numbers if they want to.  HASH_ALGO_* is
+>   what IMA uses, but other users (e.g. overlayfs) should use
+>   FS_VERITY_HASH_ALG_* to match fsverity-utils and the fsverity UAPI.
+> 
+> - Make it return the digest size so that it doesn't need to be looked up
+>   separately.  Use the return value for this, since 0 works nicely for
+>   the "file doesn't have fsverity enabled" case.  This also makes it
+>   clear that no other errors are possible.
+> 
+> - Rename the 'digest' parameter to 'raw_digest' and clearly document
+>   that it is only useful in combination with the algorithm ID.  This
+>   hopefully clears up a point of confusion.
+> 
+> - Export it to modules, since overlayfs will need it for checking the
+>   fsverity digests of lowerdata files
+>   (https://lore.kernel.org/r/dd294a44e8f401e6b5140029d8355f88748cd8fd.1686565330.git.alexl@redhat.com).
+> 
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
 
-I think maybe it's best we hash this out here first.
-What do you think about this version:
-
-fs-verity support
-----------------------
-
-During metadata copy up of a lower file, if the source file has
-fs-verity enabled and overlay verity support is enabled, then the
-"trusted.overlay.verity" xattr is set on the new metacopy file. This
-specifies the expected fs-verity digest of the lowerdata file, which is
-used to verify the content of the lower file at the time the metacopy
-file is opened.
-
-When a layer containing verity xattrs is used, it means that any
-such metacopy file in the upper layer is guaranteed to match the
-content that was in the lower at the time of the copy-up. If at any time
-(during a mount, after a remount, etc) such a file in the lower is
-replaced or modified in any way, then opening the corresponding file on
-overlayfs will result in EIO and a detailed error printed to the kernel log=
-s.
-(Actually, due to caching the overlayfs mount might still see the previous
-file contents after a lower file is replaced under an active mount, but
-it will never see the wrong data.)
-
-Verity can be used as a general robustness check to detect accidental
-changes in the overlayfs directories in use. But, with additional care
-it can also give more powerful guarantees. For example, if the upper layer
-is fully trusted (by using dm-verity or something similar), then an untrust=
-ed
-lower layer can be used to supply validated file content for all metacopy f=
-iles.
-If additionally the untrusted lower directories are specified as "Data-only=
-",
-then they can only supply such file content, and the entire mount can be
-trusted to match the upper layer.
-
---=20
-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D
- Alexander Larsson                                Red Hat, Inc
-       alexl@redhat.com         alexander.larsson@gmail.com
+Acked-by: Mimi Zohar <zohar@linux.ibm.com> for the IMA piece.
 
