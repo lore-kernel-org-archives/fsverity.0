@@ -1,167 +1,255 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26544627
-	for <fsverity@lists.linux.dev>; Fri, 16 Jun 2023 02:17:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72FD6C433C8;
-	Fri, 16 Jun 2023 02:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686881829;
-	bh=RDwrAfGJKYQ/d8/J++9rOAJk7PbSqAYC4oQisvSDjFM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XN9cDPFbLi9xSKxUtYlQt5LjXyklInB4pmPy02CMgWaZ9JDeDhK++nU2nfJ+GnZRT
-	 X4uhNO/LcQg+en8xpqmZPDQ9vLniLp7fGl+rqhbWcg4cETCgU3r0KLc72XG4NSxs7L
-	 BDj59C1aUxZpuQALj3h9sI50LVfF0wmW2PGXq2EGHpe7EbfGlHx8hpIUC1uZMixbQS
-	 nRWOi9qBBVfSc3AduK/w8r/A7Eo0HN2bb7LaYOQbIV+U4uTPjj/CXvYzisCAPaBEsk
-	 JiCT9I1CBZGJvt+v7xLMnvQn1u5+XCKJXULk105w+cEMPddq+TzbbmEiFZ96L0zUf0
-	 YQ8kRAuLW9qdw==
-Date: Thu, 15 Jun 2023 19:17:07 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Luca Boccassi <bluca@debian.org>
-Cc: fsverity@lists.linux.dev, linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>,
-	Alexander Larsson <alexl@redhat.com>,
-	Victor Hsieh <victorhsieh@google.com>
-Subject: Re: [PATCH] fsverity: improve documentation for builtin signature
- support
-Message-ID: <20230616021707.GA87129@sol.localdomain>
-References: <20230615230537.30429-1-ebiggers@kernel.org>
- <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919B27C
+	for <fsverity@lists.linux.dev>; Fri, 16 Jun 2023 05:07:56 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-43f582c2ec6so327341137.0
+        for <fsverity@lists.linux.dev>; Thu, 15 Jun 2023 22:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686892075; x=1689484075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5ws+eHY7s7LkyWOUmCbuftJqV5Cn/OHIr9fA4gaMF+s=;
+        b=W2eLhL9RuG0IzN7TN+jtJ6EVvXm/U1+bjcEKlakCkZq5zVIzHQIla0NWdB+CUY8Hrv
+         IiGksxFiFV0Lf+2nPTiropHOiP8JsfPHyauHKwaA4VR7u1gjJaLeKPswMx+B/3uXc9tD
+         tcJHWM3zbK4392tjbSRGBELYd9oaaDbCE1vidSbfepNhlmWcBZ9IA9kbocbWpgFB6iOL
+         DLVyGa0ngZMSNkoPOZxnK4XACF8hjYrx33jTX+lvUjEr2jx0pabg4v7Ew8YpzE8EzbOS
+         FiORQe8OkCA7oksvQo9yImu7DJ8LPsW66Fp2cJRriKCPwCWIX40/PV/mVtKqI5xn2QmY
+         pXbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686892075; x=1689484075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5ws+eHY7s7LkyWOUmCbuftJqV5Cn/OHIr9fA4gaMF+s=;
+        b=jk3ofvc/o3CqMtxuaXySsj1v+xB1Kh+z51bZegj4foqWmv+GF4Rm267LhwPm5jVXtS
+         WuZVK6bJZxhAdBhjjAG5PZSoFs0M28tE6aFu6XQ3CxStwUQhk4Vg4MgoylC/yMzuf8BR
+         7qqUjp4KhuQ577PJEC0qClCVwgUuFauAGeQrot56s45Hkp9vwvRlOkru+gtYJwm5XoS6
+         ws2+0G6r0+JfylFvGdD5jNRXbuNlZWfxMN749OklAtOjg7Gm5EQwPr37GmodSNqanaWc
+         go3J1JoO/WsXt/vcy0bTkbjANlyO+ZKWAtHZoTsz52xbRY7a8X982GtjaLLO6tNvj8+a
+         MzdA==
+X-Gm-Message-State: AC+VfDz5PAVGMax7vui3n8nFpBis5NgoKAy6eQ5HraoD1xJzu1recIQX
+	zMg43CHCG3yAsTFZMO0yYJrwqTpzIP1Iy0orlXgZnfQ4Gik=
+X-Google-Smtp-Source: ACHHUZ607fYouwSCylrAPq4aUtHmb57IoOjF0BkwWP6yoPNyDyrUK9KhtmodCHcsMdNgUjmRRaPshDuy8eSGLf5z47g=
+X-Received: by 2002:a05:6102:55a2:b0:430:13cb:8156 with SMTP id
+ dc34-20020a05610255a200b0043013cb8156mr3439749vsb.13.1686892075132; Thu, 15
+ Jun 2023 22:07:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
+References: <cover.1683102959.git.alexl@redhat.com> <b58e57955e122b5d6c4e087cf2dd6ed664152c7b.1683102959.git.alexl@redhat.com>
+ <20230514191647.GD9528@sol.localdomain> <CAOQ4uxhEq8u37YNnqQmLbybJy1Kkg3Qk0TVtRZQP-yHt8CMmWA@mail.gmail.com>
+ <CAL7ro1Hqc29w-FuRuoEfcsxiXTnqqwHP73nwvmZRuKVRsz4D9w@mail.gmail.com>
+ <CAOQ4uxh_y+YO3q7dB=ALCriq31RhapOHGt+jcXTQbOC7iVqYTw@mail.gmail.com>
+ <CAL7ro1GTzJy5Nv1vH0buVEXUnUk7cXBhSJB2ap8Jt_hutk7nYw@mail.gmail.com>
+ <CAOQ4uxgbMD2RdEqta7a2t3uVceLuZDxOWA9SBNDAgZSdO_532Q@mail.gmail.com> <CAL7ro1FF_q7FEJdevWrqvugkJ9S8bU5MxcoHHrLC3D834u4+zQ@mail.gmail.com>
+In-Reply-To: <CAL7ro1FF_q7FEJdevWrqvugkJ9S8bU5MxcoHHrLC3D834u4+zQ@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 16 Jun 2023 08:07:43 +0300
+Message-ID: <CAOQ4uxgo9LOM3minBH0vw3huxjrHmO5O-caGfhgOUGCuT0B9Vg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] ovl: Validate verity xattr when resolving lowerdata
+To: Alexander Larsson <alexl@redhat.com>
+Cc: Eric Biggers <ebiggers@kernel.org>, miklos@szeredi.hu, linux-unionfs@vger.kernel.org, 
+	tytso@mit.edu, fsverity@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Luca,
-
-On Fri, Jun 16, 2023 at 02:10:35AM +0100, Luca Boccassi wrote:
-> On Fri, 16 Jun 2023 at 00:07, Eric Biggers <ebiggers@kernel.org> wrote:
+On Mon, Jun 12, 2023 at 1:33=E2=80=AFPM Alexander Larsson <alexl@redhat.com=
+> wrote:
+>
+> On Sun, Jun 11, 2023 at 1:20=E2=80=AFPM Amir Goldstein <amir73il@gmail.co=
+m> wrote:
 > >
-> > From: Eric Biggers <ebiggers@google.com>
+> > On Sat, Jun 10, 2023 at 6:02=E2=80=AFPM Alexander Larsson <alexl@redhat=
+.com> wrote:
+> > >
+> > > On Fri, Jun 9, 2023 at 3:03=E2=80=AFPM Amir Goldstein <amir73il@gmail=
+.com> wrote:
+> > > >
+> > > > On Mon, May 15, 2023 at 9:15=E2=80=AFAM Alexander Larsson <alexl@re=
+dhat.com> wrote:
+> > > > >
+> > > > > On Sun, May 14, 2023 at 11:00=E2=80=AFPM Amir Goldstein <amir73il=
+@gmail.com> wrote:
+> > > > > >
+> > > > > > On Sun, May 14, 2023 at 10:16=E2=80=AFPM Eric Biggers <ebiggers=
+@kernel.org> wrote:
+> > > > > > >
+> > > > > > > On Wed, May 03, 2023 at 10:51:38AM +0200, Alexander Larsson w=
+rote:
+> > > > > > > > When resolving lowerdata (lazily or non-lazily) we check th=
+e
+> > > > > > > > overlay.verity xattr on the metadata inode, and if set veri=
+fy that the
+> > > > > > > > source lowerdata inode matches it (according to the verity =
+options
+> > > > > > > > enabled).
+> > > > > > >
+> > > > > > > Keep in mind that the lifetime of an inode's fsverity digest =
+is from when it is
+> > > > > > > first opened to when the inode is evicted from the inode cach=
+e.
+> > > > > > >
+> > > > > > > If the inode gets evicted from cache and re-instantiated, it =
+could have been
+> > > > > > > arbitrarily changed.
+> > > > > > >
+> > > > > > > Given that, does this verification happen in the right place?=
+  I would have
+> > > > > > > expected it to happen whenever the file is opened, but it see=
+ms you do it when
+> > > > > > > the dentry is looked up instead.  Maybe that works too, but I=
+'d appreciate an
+> > > > > > > explanation.
+> > > > > >
+> > > > > > Hmm. I do not think it is wrong because the overlay file cannot=
+ be opened before
+> > > > > > the inode overlay is looked up and fsverity is verified on look=
+up.
+> > > > > > In theory, overlay inode with lower could have been instantiate=
+d by decode_fh(),
+> > > > > > but verity=3Don and nfs_export=3Don are conflicting options.
+> > > > > >
+> > > > > > However, I agree that doing verify check on lookup is a bit too=
+ early, as
+> > > > > > ls -lR will incur the overhead of verifying all file's data eve=
+n
+> > > > > > though their data
+> > > > > > is not accessed in a non-lazy-lower-data scenario.
+> > > > > >
+> > > > > > The intuition of doing verity check before file is opened (or c=
+opied up)
+> > > > > > when there is a realfile open is not wrong, it would have gotte=
+n rid of the
+> > > > > > dodgy ovl_ensure_verity_loaded(), but I think that will be a bi=
+t harder to
+> > > > > > implement (not sure).
+> > > > > >
+> > > > > > My suggestion for Alexander:
+> > > > > > - Use ovl_set/test_flag(OVL_VERIFIED, inode) for lazy verify
+> > > > > > - Implement ovl_maybe_validate_verity() similar to
+> > > > > >   ovl_maybe_lookup_lowerdata()
+> > > > > > - Implement a helper ovl_verify_lowerdata()
+> > > > > >   that calls them both
+> > > > > > - Replace the ovl_maybe_lookup_lowerdata() calls with
+> > > > > >   ovl_verify_lowerdata() calls
+> > > > > >
+> > > > > > Then before opening (or copy up) a file, it could have either
+> > > > > > lazy lower data lookup or lazy lower data validate or both (or =
+none).
+> > > > > >
+> > > > > > This will not avoid ovl_ensure_verity_loaded(), but it will loa=
+d fsverity
+> > > > > > just before it is needed and it is a bit easier to take ovl_ino=
+de_lock
+> > > > > > unconditionally, in those call sites then deeper within copy_up=
+, where
+> > > > > > ovl_inode_lock is already taken.
+> > > > > >
+> > > > > > I *think* this is a good idea, but we won't know until you try =
+it,
+> > > > > > so please take my suggestion with a grain of salt.
+> > > > >
+> > > > > I'll have a look at it in a bit. It would make performance of
+> > > > > verity=3Don in the non-lazy-lookup case better.
+> > > > >
+> > > >
+> > > > Hi Alex,
+> > > >
+> > > > Now that lazy lookup is queued for next, I wanted to ask about the
+> > > > status of your patches.
+> > > >
+> > > > Is the issue above the only thing you still need to look at?
+> > > > No rush on my end, just wanted to be in sync.
+> > >
+> > > I spent some time on friday doing the initial work on this rework. In
+> > > case you want to look at it  I just pushed it to:
+> > >
+> > > https://github.com/alexlarsson/linux/tree/overlay-verity
+> > >
+> > > The first 3 commits are the same as before, and the last one is the
+> > > new approach. It's turned out pretty nice, simplifying things
+> > > considerable.
 > >
-> > fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
-> > the only way to do signatures with fsverity, and they have some major
-> > limitations.  Yet, more users have tried to use them, e.g. recently by
-> > https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
-> > to be because users aren't sufficiently familiar with the limitations of
-> > this feature and what the alternatives are.
+> > It does look nicer :)
+> > I gave you a small review comment on github, but overall looks good.
 > >
-> > Therefore, make some updates to the documentation to try to clarify the
-> > properties of this feature and nudge users in the right direction.
+> > > But I really haven't had time to do a full re-review and
+> > > test of it, so please don't merge it yet. I'll spend Monday ensuring
+> > > it is in a good state for upstream.
+> > >
 > >
-> > Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
-> > upstream, is planned to use the builtin signatures.  (This differs from
-> > IMA, which uses its own signature mechanism.)  For that reason, my
-> > earlier patch "fsverity: mark builtin signatures as deprecated"
-> > (https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
-> > which marked builtin signatures as "deprecated", was controversial.
+> > When you are done testing, please post v3 patches.
 > >
-> > This patch therefore stops short of marking the feature as deprecated.
-> > I've also revised the language to focus on better explaining the feature
-> > and what its alternatives are.
+> > Note that I pushed a new version of ovl-lazy-lowerdata branch to
+> > fstests, with the minor :: syntax change.
+>
+> I posted the patches, and I also had to make some small changes to the
+> xfstest commit:
+>
+> https://github.com/alexlarsson/xfstests/commits/verity-tests
+>
+> > Not sure if Miklos will have time to review them this cycle or wait
+> > for the next one.
 > >
-> > Signed-off-by: Eric Biggers <ebiggers@google.com>
-> > ---
+> > There are also the mount api changes from Christian that conflict
+> > with the new verify option.
 > >
-> > This patch applies to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
-> >
-> >  Documentation/filesystems/fsverity.rst | 176 ++++++++++++++++---------
-> >  fs/verity/Kconfig                      |  16 +--
-> >  fs/verity/enable.c                     |   2 +-
-> >  fs/verity/open.c                       |   8 +-
-> >  fs/verity/read_metadata.c              |   4 +-
-> >  fs/verity/signature.c                  |   8 ++
-> >  6 files changed, 139 insertions(+), 75 deletions(-)
-> >
-> > diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-> > index ede672dedf110..e990149cfdf5c 100644
-> > --- a/Documentation/filesystems/fsverity.rst
-> > +++ b/Documentation/filesystems/fsverity.rst
-> 
-> Most of the patch looks fine, two notes:
-> 
-> > +- Trusted userspace code.  When the accesses to a file happen in a
-> > +  well-defined way, userspace code can authenticate the file's
-> > +  fs-verity digest before accessing the file.  This can be done by
-> > +  verifying a signature of the fs-verity file digest using any
-> > +  userspace cryptographic library that supports digital signatures.
-> > +  Consider using `libsodium
-> > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_
-> > +  or `Tink <https://developers.google.com/tink/digitally-sign-data>`_.
-> > +  Other options include OpenSSL, JCA, and libgcrypt.
-> 
-> This should at least mention something like "depending on whether the
-> threat model allows trusting userspace with such tasks", because it is
-> by no means guaranteed that it is the case.
+> > If we want to have all of these changes for this cycle, some collaborat=
+ion
+> > will be required.
+>
+> I would really like to get the overlay.verity xattr support in
+> upstream pretty soon, because without it I can't release a stable
+> version of the composefs userspace code. I don't want to release
+> something that is using an xattr format that is not guaranteed to be
+> stable.
+>
 
-Sure, that's why it says "Trusted userspace code", but I can make it clearer.
+Alex,
 
-> 
-> > +- fs-verity builtin signatures are in PKCS#7 format, and the public
-> > +  keys are in X.509 format.  These data formats are complex and prone
-> > +  to vulnerabilities, so parsing them is preferably done in userspace.
-> > +  (fs-verity builtin signatures were made to use these formats because
-> > +  other kernel subsystems, such as the module loader, unfortunately
-> > +  used these formats already.)  Most cryptographic libraries also
-> > +  support working with raw keys and signatures, which are much
-> > +  simpler.  For example, consider using `libsodium
-> > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_.
-> > +
-> > +  IMA appraisal, which supports fs-verity, does not use PKCS#7, so it
-> > +  partially avoids this issue as well (though it does use X.509).
-> 
-> The kernel makes extensive use of PKCS7, it's the foundation of the
-> trust chain with secure boot (and kernel modules as noted) after all,
-> among other things, so this description looks very out of place as
-> part of the same project. Readers might be led to believe that using
-> secure boot or signed modules is useless, or worse, dangerous, and
-> that it's better not to, and I'm quite sure that's not something we
-> want.
-> 
+Pondering about this last sentence.
 
-Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
-it is a good idea.  Have you read the kernel code that implements these formats?
-A few years ago I went through some of it.  Here are some of the bugs I fixed:
+The overlay.verity xattr format is already in its 3rd revision since
+the beginning of development.
 
-    2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
-    624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
-    e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
-    81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
-    0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
-    54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
-    971b42c038dc ("PKCS#7: fix certificate chain verification")
-    29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
-    437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
-    4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig") 
+When it was bare digest, it might have made sense to have no
+header that describes the format.
 
-971b42c038dc is noteworthy; it turned out the kernel did not properly verify
-certificate chains in PKCS#7 messages.  That was fundamentally a PKCS#7-specific
-security bug that was directly caused by the complexity that is specific to
-PKCS#7.  Simple signatures do not have certificate chains.
+When the algo byte was added, that was already a very big hint
+that a proper header was in order.
 
-I hope the code is in slightly better shape now.  But I really haven't looked at
-it in several years.  In any case, the fact is that these formats are complex,
-which causes bugs.  I don't think we should be trying to pretend otherwise.
+Now that you had to change the meaning of the byte, it is very hard
+to argue that the xattr format is guaranteed to be stable - in the sense
+that it can never change again.
 
-As for under what circumstances these risks are worth taking anyway, it's an
-interesting question.  Part of my concern is actually about people who don't
-actually use any of these integrity/authenticity oriented kernel features at
-all.  They are getting no benefit from them, and we don't want to create
-problems for them.  But, by CONFIG_FS_VERITY_BUILTIN_SIGNATURES being in their
-kernel config, their system is potentially opened up to exploits by
-FS_IOC_ENABLE_VERITY(malicious_pkcs7_signature).  Or just by
-CONFIG_X509_CERTIFICATE_PARSER being in their kernel config, their system is
-potentially opened up to exploits by sys_add_key(malicious_X509_certificate).
-They could eliminate this risk by disabling these kernel config options.
+Please add a minimal header to the overlay.verity xattr format,
+similar to ovl_fb, that will allow composefs/overlayfs to be
+maintained as the separate projects that they are.
 
-So I think that mentioning the risks of processing these data formats in the
-kernel is useful.  Though it maybe should be made clear that attack surface
-mainly comes from these features being configured into the kernel, not whether
-they're actually being used.
+Something like this?
 
-- Eric
+/* On-disk format for "verity" xattr */
+struct ovl_verity {
+        u8 version;     /* 0 */
+        u8 len;          /* size of this header + size of digest */
+        u8 flags;
+        u8 algo;        /* digest algo */
+        u8 digest[];
+};
+
+I realize that digest size may be inferred from xattr size,
+but it is better to state the stored digest size explicitly and verify
+that it matches expected xattr size.
+
+Eric,
+
+Does the digest buffer passed to fsnotify helpers have any
+memory alignment requirements?
+
+Thanks,
+Amir.
