@@ -1,204 +1,124 @@
-Received: from frasgout13.his.huawei.com (unknown [14.137.139.46])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687F96117
-	for <fsverity@lists.linux.dev>; Fri, 16 Jun 2023 09:51:07 +0000 (UTC)
-Received: from mail02.huawei.com (unknown [172.18.147.227])
-	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4QjDDv1gRQz9y0TB
-	for <fsverity@lists.linux.dev>; Fri, 16 Jun 2023 17:21:35 +0800 (CST)
-Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwAHzlQALIxkAhhBAw--.16600S2;
-	Fri, 16 Jun 2023 10:31:55 +0100 (CET)
-Message-ID: <e213b58defcce0b49ee57cb27df591310eb09fd3.camel@huaweicloud.com>
-Subject: Re: [PATCH] fsverity: improve documentation for builtin signature
- support
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Eric Biggers <ebiggers@kernel.org>, Luca Boccassi <bluca@debian.org>
-Cc: fsverity@lists.linux.dev, linux-integrity@vger.kernel.org, 
- linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>, Alexander
- Larsson <alexl@redhat.com>, Victor Hsieh <victorhsieh@google.com>
-Date: Fri, 16 Jun 2023 11:31:38 +0200
-In-Reply-To: <20230616021707.GA87129@sol.localdomain>
-References: <20230615230537.30429-1-ebiggers@kernel.org>
-	 <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
-	 <20230616021707.GA87129@sol.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F1B6117
+	for <fsverity@lists.linux.dev>; Fri, 16 Jun 2023 11:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686915237;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hEgKL1iebVJmojI3Coxf5F0QBaEfl/n51D56oDQWgxM=;
+	b=dAYr4xmSRnfpTmIbpBJcF6CKYrskpqtvQubTpFlcYNHYEOzxzMJ5x94MK8WqwS0+zyeri6
+	tSumeYK3ao/u++lib/g//H4kWcpO8KI655BQsfruppQgRuQ9w8L8BXsqBsTzwFaOqX4JtH
+	jFd1KGkRf+Fc/Bcx/mFDAOvMVQFJnMA=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-367-rvx9hKmAMnSLNxWlIWLUOA-1; Fri, 16 Jun 2023 07:33:56 -0400
+X-MC-Unique: rvx9hKmAMnSLNxWlIWLUOA-1
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-77a1f4e92cdso124047639f.1
+        for <fsverity@lists.linux.dev>; Fri, 16 Jun 2023 04:33:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686915236; x=1689507236;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hEgKL1iebVJmojI3Coxf5F0QBaEfl/n51D56oDQWgxM=;
+        b=Mh8LXU0JEBKgbje0LSYX7xyRLztbxlnYKf1J9uxiG+ZVKTq+spmxiqr2Y3ibfOnVtG
+         nYg0dGXdiYa8y3oUb3Fv4o0Jq5M1ni0vTuOyLmTlKjzyaKuNaJn96q1qdNIYfa0hNQm4
+         RFOt1nq1107dSslwvq5EfZGU3cPUfXWwlGLwO+SHf3kysrs1fksyMhV1H7VLzmWokULH
+         BCEyPsyXdY/4iTXebOsWA4gMVsGk0N9lFU+xmSDxXdP5obffeG3szBtKeZ0NnGicGpzQ
+         7kWvQbWaOiw3Unan/5EBTKdvT1OiiP7ULYv5HNR1CdHuexHweCBvQNSnlZDojAedfcSU
+         5Gfg==
+X-Gm-Message-State: AC+VfDyeeEgV9QbGS1mpRVJvrK7IsL/wTa5lvJ0UNh5A1LS5fGVQC9ej
+	l9geytHH7PiTaxRWVqJ/x2aUjvYDp99LCInHPBEoUN5IUpu8127Q5q/YZQy8Ao2lNlNgV3Yoa8z
+	4YOBLsT7AQwEJQXxcq4vhjwgxisx26HHIlQc=
+X-Received: by 2002:a92:d492:0:b0:340:b8a8:cf68 with SMTP id p18-20020a92d492000000b00340b8a8cf68mr1555726ilg.11.1686915235811;
+        Fri, 16 Jun 2023 04:33:55 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ64AwDeERNhb8s+3/+4p9FrmoCu0sBtfoEpnmFy2EiVeb+5ao82tb5fwHGXrp6fNmemSmYMc8vyBLfdI3yGpME=
+X-Received: by 2002:a92:d492:0:b0:340:b8a8:cf68 with SMTP id
+ p18-20020a92d492000000b00340b8a8cf68mr1555723ilg.11.1686915235626; Fri, 16
+ Jun 2023 04:33:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:GxC2BwAHzlQALIxkAhhBAw--.16600S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Wr17XFyxJF1rKFy7Ww1ftFb_yoW3ZF43pF
-	WSkF45Kwn5Jr18Arn2v3WI9rWFy3yrXw45Wrn8JrWFy3Z8urnFvr4I9F4rua98CrykGw4j
-	vrWaqFyq934DAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUgKb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
-	6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
-	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr
-	1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
-	daVFxhVjvjDU0xZFpf9x07UWE__UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAKBF1jj4rCAgACs1
-X-CFilter-Loop: Reflected
+References: <cover.1683102959.git.alexl@redhat.com> <b58e57955e122b5d6c4e087cf2dd6ed664152c7b.1683102959.git.alexl@redhat.com>
+ <20230514191647.GD9528@sol.localdomain> <CAOQ4uxhEq8u37YNnqQmLbybJy1Kkg3Qk0TVtRZQP-yHt8CMmWA@mail.gmail.com>
+ <CAL7ro1Hqc29w-FuRuoEfcsxiXTnqqwHP73nwvmZRuKVRsz4D9w@mail.gmail.com>
+ <CAOQ4uxh_y+YO3q7dB=ALCriq31RhapOHGt+jcXTQbOC7iVqYTw@mail.gmail.com>
+ <CAL7ro1GTzJy5Nv1vH0buVEXUnUk7cXBhSJB2ap8Jt_hutk7nYw@mail.gmail.com>
+ <CAOQ4uxgbMD2RdEqta7a2t3uVceLuZDxOWA9SBNDAgZSdO_532Q@mail.gmail.com>
+ <CAL7ro1FF_q7FEJdevWrqvugkJ9S8bU5MxcoHHrLC3D834u4+zQ@mail.gmail.com>
+ <CAOQ4uxgo9LOM3minBH0vw3huxjrHmO5O-caGfhgOUGCuT0B9Vg@mail.gmail.com>
+ <20230616052444.GA181948@sol.localdomain> <CAOQ4uxjBfPvDb5921vV+jO1wtgoeWenEietmK6orP7Bh+gROqw@mail.gmail.com>
+ <CAL7ro1FSPYL=P+h_qUXw=NHzPx89vR24dbZc8UOtVeYMqg5xrw@mail.gmail.com>
+ <CAOQ4uxjSLwx3NsrXJAir5DLjY-Xo5e7Qs5NjK1gFygsbTO3E-g@mail.gmail.com>
+ <CAL7ro1EYAPZYcqAiiR7r6HX2kp4XiWby0OBCEjYodNjP4VD18A@mail.gmail.com> <CAOQ4uxig=DHThgTr97ga4oGmoGshxa5f+or9gbjxXZ=qTDHHgg@mail.gmail.com>
+In-Reply-To: <CAOQ4uxig=DHThgTr97ga4oGmoGshxa5f+or9gbjxXZ=qTDHHgg@mail.gmail.com>
+From: Alexander Larsson <alexl@redhat.com>
+Date: Fri, 16 Jun 2023 13:33:44 +0200
+Message-ID: <CAL7ro1FUPQnwiN43jRZWAgdczPgYKj2H6Scx081gS-V+sC7cqA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] ovl: Validate verity xattr when resolving lowerdata
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Eric Biggers <ebiggers@kernel.org>, miklos@szeredi.hu, linux-unionfs@vger.kernel.org, 
+	tytso@mit.edu, fsverity@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2023-06-15 at 19:17 -0700, Eric Biggers wrote:
-> Hi Luca,
-> 
-> On Fri, Jun 16, 2023 at 02:10:35AM +0100, Luca Boccassi wrote:
-> > On Fri, 16 Jun 2023 at 00:07, Eric Biggers <ebiggers@kernel.org> wrote:
-> > > From: Eric Biggers <ebiggers@google.com>
-> > > 
-> > > fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
-> > > the only way to do signatures with fsverity, and they have some major
-> > > limitations.  Yet, more users have tried to use them, e.g. recently by
-> > > https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
-> > > to be because users aren't sufficiently familiar with the limitations of
-> > > this feature and what the alternatives are.
-> > > 
-> > > Therefore, make some updates to the documentation to try to clarify the
-> > > properties of this feature and nudge users in the right direction.
-> > > 
-> > > Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
-> > > upstream, is planned to use the builtin signatures.  (This differs from
-> > > IMA, which uses its own signature mechanism.)  For that reason, my
-> > > earlier patch "fsverity: mark builtin signatures as deprecated"
-> > > (https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
-> > > which marked builtin signatures as "deprecated", was controversial.
-> > > 
-> > > This patch therefore stops short of marking the feature as deprecated.
-> > > I've also revised the language to focus on better explaining the feature
-> > > and what its alternatives are.
-> > > 
-> > > Signed-off-by: Eric Biggers <ebiggers@google.com>
-> > > ---
-> > > 
-> > > This patch applies to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
-> > > 
-> > >  Documentation/filesystems/fsverity.rst | 176 ++++++++++++++++---------
-> > >  fs/verity/Kconfig                      |  16 +--
-> > >  fs/verity/enable.c                     |   2 +-
-> > >  fs/verity/open.c                       |   8 +-
-> > >  fs/verity/read_metadata.c              |   4 +-
-> > >  fs/verity/signature.c                  |   8 ++
-> > >  6 files changed, 139 insertions(+), 75 deletions(-)
-> > > 
-> > > diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-> > > index ede672dedf110..e990149cfdf5c 100644
-> > > --- a/Documentation/filesystems/fsverity.rst
-> > > +++ b/Documentation/filesystems/fsverity.rst
-> > 
-> > Most of the patch looks fine, two notes:
-> > 
-> > > +- Trusted userspace code.  When the accesses to a file happen in a
-> > > +  well-defined way, userspace code can authenticate the file's
-> > > +  fs-verity digest before accessing the file.  This can be done by
-> > > +  verifying a signature of the fs-verity file digest using any
-> > > +  userspace cryptographic library that supports digital signatures.
-> > > +  Consider using `libsodium
-> > > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_
-> > > +  or `Tink <https://developers.google.com/tink/digitally-sign-data>`_.
-> > > +  Other options include OpenSSL, JCA, and libgcrypt.
-> > 
-> > This should at least mention something like "depending on whether the
-> > threat model allows trusting userspace with such tasks", because it is
-> > by no means guaranteed that it is the case.
-> 
-> Sure, that's why it says "Trusted userspace code", but I can make it clearer.
-> 
-> > > +- fs-verity builtin signatures are in PKCS#7 format, and the public
-> > > +  keys are in X.509 format.  These data formats are complex and prone
-> > > +  to vulnerabilities, so parsing them is preferably done in userspace.
-> > > +  (fs-verity builtin signatures were made to use these formats because
-> > > +  other kernel subsystems, such as the module loader, unfortunately
-> > > +  used these formats already.)  Most cryptographic libraries also
-> > > +  support working with raw keys and signatures, which are much
-> > > +  simpler.  For example, consider using `libsodium
-> > > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_.
-> > > +
-> > > +  IMA appraisal, which supports fs-verity, does not use PKCS#7, so it
-> > > +  partially avoids this issue as well (though it does use X.509).
-> > 
-> > The kernel makes extensive use of PKCS7, it's the foundation of the
-> > trust chain with secure boot (and kernel modules as noted) after all,
-> > among other things, so this description looks very out of place as
-> > part of the same project. Readers might be led to believe that using
-> > secure boot or signed modules is useless, or worse, dangerous, and
-> > that it's better not to, and I'm quite sure that's not something we
-> > want.
-> > 
-> 
-> Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
-> it is a good idea.  Have you read the kernel code that implements these formats?
-> A few years ago I went through some of it.  Here are some of the bugs I fixed:
-> 
->     2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
->     624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
->     e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
->     81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
->     0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
->     54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
->     971b42c038dc ("PKCS#7: fix certificate chain verification")
->     29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
->     437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
->     4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig") 
-> 
-> 971b42c038dc is noteworthy; it turned out the kernel did not properly verify
-> certificate chains in PKCS#7 messages.  That was fundamentally a PKCS#7-specific
-> security bug that was directly caused by the complexity that is specific to
-> PKCS#7.  Simple signatures do not have certificate chains.
-> 
-> I hope the code is in slightly better shape now.  But I really haven't looked at
-> it in several years.  In any case, the fact is that these formats are complex,
-> which causes bugs.  I don't think we should be trying to pretend otherwise.
+On Fri, Jun 16, 2023 at 11:28=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
+> wrote:
+>
+> On Fri, Jun 16, 2023 at 11:39=E2=80=AFAM Alexander Larsson <alexl@redhat.=
+com> wrote:
+> >
+> > On Fri, Jun 16, 2023 at 10:12=E2=80=AFAM Amir Goldstein <amir73il@gmail=
+.com> wrote:
+> > >
+> > >
+> > > > I don't believe this format will actually need to change much.
+> > > > However, I do agree
+> > > > with the general requirement for *some* ability to move forward wit=
+h
+> > > > this format,
+> > > > so I'm gonna go with a single version byte.
+> > > >
+> > >
+> > > I disagree.
+> > > If you present a real life use case why that really matters
+> > > then I can reconsider.
+> >
+> > I disagree, but I'll add them.
+> >
+>
+> Let's ask for a 3rd opinion.
+> don't add them for now, unless Miklos says that you should.
 
-That is a quite extensive explanation why is not a good idea to parse
-key/certificates in the kernel.
+I added them to the branch anyway for now. However, if we're going
+full header + flags anyway, I wonder if we really need the
+"overlay.digest" xattr at all? We could just put the header + optional
+digest in the "overlay.metacopy" xattr, and then just read/store one
+xattr. Right now metacopy is zero size, but adding some data to it
+would not break ovl_check_metacopy_xattr() in older kernels.
 
-Actually, I tried to address that with this patch set:
+Basically, during the lookup we get the metacopy xattr anyway, and
+when we do we could record in a flag that there is a digest in it,
+then during open we don't have to look for a separate digest xattr,
+just re-load the metacopy xattr if the flag is set. With this in place
+we can also easily add other flags to overlay.metacopy, which imho
+makes a ton more sense than adding flags to overlay.digest.
 
-https://lore.kernel.org/linux-kernel//20230425173557.724688-1-roberto.sassu@huaweicloud.com/
+I'll have a look at this.
 
-The idea was to develop an asymmetric key parser to forward the key
-material from the kernel to a user space process for parsing, and get
-back a well formatted key (basically the same fields of struct
-public_key).
-
-Maybe that would not work for X.509 certificates, as they are
-extensively used in kernel code, but for simpler formats like PGP,
-maybe. And the mechanism is interchangeable. If you want to support
-another key format, you need to change only user space.
-
-The challenge is if the user space process makes some security
-decisions, like for key expiration, etc. I thought that we could
-enforce strong isolation of that process by denying ptrace on it, but
-it is still work in progress...
-
-Roberto
-
-> As for under what circumstances these risks are worth taking anyway, it's an
-> interesting question.  Part of my concern is actually about people who don't
-> actually use any of these integrity/authenticity oriented kernel features at
-> all.  They are getting no benefit from them, and we don't want to create
-> problems for them.  But, by CONFIG_FS_VERITY_BUILTIN_SIGNATURES being in their
-> kernel config, their system is potentially opened up to exploits by
-> FS_IOC_ENABLE_VERITY(malicious_pkcs7_signature).  Or just by
-> CONFIG_X509_CERTIFICATE_PARSER being in their kernel config, their system is
-> potentially opened up to exploits by sys_add_key(malicious_X509_certificate).
-> They could eliminate this risk by disabling these kernel config options.
-> 
-> So I think that mentioning the risks of processing these data formats in the
-> kernel is useful.  Though it maybe should be made clear that attack surface
-> mainly comes from these features being configured into the kernel, not whether
-> they're actually being used.
-> 
-> - Eric
+--=20
+=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D
+ Alexander Larsson                                Red Hat, Inc
+       alexl@redhat.com         alexander.larsson@gmail.com
 
