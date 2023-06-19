@@ -1,165 +1,110 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D5A290E
-	for <fsverity@lists.linux.dev>; Mon, 19 Jun 2023 07:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687161550;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PttGsP00aRBaVy89CIKR6rFg9VqQnu6lyJb2FpOUizA=;
-	b=DgbEje2GiqjJCPpGMLzBK0jpxkNXHZaUnsHvquEg2HjJk0UwH1OaMG1vIsaNh9k9z3Kq4d
-	50QohMVKXHDThc99dpQ94xmnd29yMtV2t9m0Nm3tBtc5CBvLxKWaMnaZPtek1tR5GU8/Y0
-	BrlyYr5YBpa+xKXdBD/TPNc2q4ZBBn8=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-509-mAPeNQLNP3aRxJCNtvUtEg-1; Mon, 19 Jun 2023 03:59:08 -0400
-X-MC-Unique: mAPeNQLNP3aRxJCNtvUtEg-1
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3423e94cdfcso10866135ab.0
-        for <fsverity@lists.linux.dev>; Mon, 19 Jun 2023 00:59:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DE114283
+	for <fsverity@lists.linux.dev>; Mon, 19 Jun 2023 19:39:21 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-570284c7e61so44731847b3.1
+        for <fsverity@lists.linux.dev>; Mon, 19 Jun 2023 12:39:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687161548; x=1689753548;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PttGsP00aRBaVy89CIKR6rFg9VqQnu6lyJb2FpOUizA=;
-        b=aqu1IqtZ50Qyga1P3YixAyKBNjuFNhzP4CdrHsyrHhFJCbwQrhZSQZMphFqySGyr0N
-         uli5PDp+qr67SE805VqDPla5sYtGSedfsPeBMrynH2Mc4KjShxsHt3rkjaZ46U1IymVA
-         UsgYgF4eahudrTRKbin8Yr/pfE4LMWp8N1hKHIW7S9OnjlNb7Pkok7BR880yHWr+Pf/l
-         5d181/zUSX+qh7Vs2mFr1lBeWGv2c5Nl0wqtUu5/KGCKZwhhEMBwk+jKybVUJ8MSAXQd
-         sTjrjyz5vut0Yg1TB/TeYjtHs9Ew8UGWx6fw5OiYmP7Ez9LTrtQItIUJxzeGj69GIf0h
-         HxjA==
-X-Gm-Message-State: AC+VfDzrTGYyU/h71TtACxsP4MTibTXKb611+jCj1iVJmBzjZU/xoGDN
-	zFoMbUJRIBAHR67v3iRDF48CeTBPajI7dUlitQqnDO7tqVDaliJ3SPdNH5BsrKjqBqCKLsFRSJ8
-	1CNRFOTlpiFZ6CPRvEaDQQNkoCRVO5r5QY9s=
-X-Received: by 2002:a92:c989:0:b0:341:d9e7:9d94 with SMTP id y9-20020a92c989000000b00341d9e79d94mr4867834iln.25.1687161547825;
-        Mon, 19 Jun 2023 00:59:07 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7GMXqYzkPxBQhV1WNeUjID0xET/28y5LLauyHtHC+Hn0YMLlXYK1/ghA1EFdVLa0RQx3svyiIVJEKoiDwyAm4=
-X-Received: by 2002:a92:c989:0:b0:341:d9e7:9d94 with SMTP id
- y9-20020a92c989000000b00341d9e79d94mr4867826iln.25.1687161547563; Mon, 19 Jun
- 2023 00:59:07 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1687203560; x=1689795560;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PDcAVVMQ9o19+8vUm6LaUCIb17qoj1O3PntNqFtggj8=;
+        b=BeL5uvRggTOrpyH6FbBLN7ig+PiBG2YK9sIYnQhlGUPCW1n1H+is7GNRro90SEylLB
+         765u2cN77EdiKN6FSI5EvXGTkb4kbq4hbwtFsZfABHAhhSd/z5O33sDDNjy5FjVAs4uj
+         GEDZz60OWLiQn53U2A/le0eCexsEnYAjdYN4w9WibXsKWmjQMtlhMrRuTTo/pryWW2cP
+         bbSZKyUiyDmOBLNhfWWTOlyikIzH7/Ms2YnXaBQrxZFR/qmu9B4PieniijT25S98QPmr
+         IJkUzMFTdkHcyhTn1VphJi2hdMWr5fhZwnKwnaEzo0pIpUH0/MprJ366MmNR+Xq8jyYb
+         dLVQ==
+X-Gm-Message-State: AC+VfDwOAtMWok+qtBPyp3DJYFgEYHpXpR5ZT8317rmEI7LszbVCqJFj
+	bV9+OIIP8fejsw9m5JV9KwXfA02LQN1oFA==
+X-Google-Smtp-Source: ACHHUZ5W+rb7RNZmYslrJoU0HJZkDKNsf0rxPuUjA8PqG8LOX8UFDSmxfj/UfL52Mduz1dnQqr7JCA==
+X-Received: by 2002:a81:a115:0:b0:570:6654:68c8 with SMTP id y21-20020a81a115000000b00570665468c8mr9504978ywg.1.1687203560479;
+        Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id m9-20020a0dca09000000b00570589c5aedsm128138ywd.7.2023.06.19.12.39.20
+        for <fsverity@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5701e8f2b79so44789547b3.0
+        for <fsverity@lists.linux.dev>; Mon, 19 Jun 2023 12:39:20 -0700 (PDT)
+X-Received: by 2002:a81:4984:0:b0:570:6a11:9795 with SMTP id
+ w126-20020a814984000000b005706a119795mr11174985ywa.40.1687203559860; Mon, 19
+ Jun 2023 12:39:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <03ac0ffd82bc1edc3a9baa68d1125f5e8cad93fd.1686565330.git.alexl@redhat.com>
- <20230612163216.GA847@sol.localdomain> <CAOQ4uxjS5-7_PaoxM41YaXW+KxwLK_K8AyJMaoi1m-3P-vZ9Kw@mail.gmail.com>
- <20230613063704.GA879@sol.localdomain> <CAOQ4uxg6BD_RDtWob5q2eX6uQ5hcWrK7wEDcBhFVrGM3vsn=NA@mail.gmail.com>
- <20230613182233.GC1139@sol.localdomain> <CAOQ4uxhzJFpfuFLxK2s0JqS5qGQDGfndFPY7n2NDmZso4cG4Rg@mail.gmail.com>
- <CAL7ro1FF2iUjPsXrha8tELYvi9MwW7WRhksqX7ahSXc4gPHraw@mail.gmail.com>
- <20230615235229.GC25295@sol.localdomain> <CAL7ro1G+Dnet=M+CUY7e_9nJhOtD3rQm16C7bWkMBVnfcvm4Yg@mail.gmail.com>
- <20230617194735.GA4703@sol.localdomain>
-In-Reply-To: <20230617194735.GA4703@sol.localdomain>
-From: Alexander Larsson <alexl@redhat.com>
-Date: Mon, 19 Jun 2023 09:58:56 +0200
-Message-ID: <CAL7ro1G+rdRKvFcoOafvA=5us=RrA-rQ2kTvKP-_jWMiiXPCrg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] ovl: Add framework for verity support
+References: <20230615230537.30429-1-ebiggers@kernel.org> <CAMw=ZnR69AhMMQUOwKv9RtP85JzxQhMGO3yzyeEagWxaGiPAZg@mail.gmail.com>
+ <20230616021707.GA87129@sol.localdomain> <CAMw=ZnTEV=GuEE=wB0Z4E1x_uH5zzjyQkB1ycrYnWB2GCMaRTA@mail.gmail.com>
+ <20230617045103.GA1090@sol.localdomain>
+In-Reply-To: <20230617045103.GA1090@sol.localdomain>
+From: Luca Boccassi <bluca@debian.org>
+Date: Mon, 19 Jun 2023 20:39:08 +0100
+X-Gmail-Original-Message-ID: <CAMw=ZnQitwaR+oCKzxPxAZ1Ehs-86bfHbo0uPTeKe5a+5geV6A@mail.gmail.com>
+Message-ID: <CAMw=ZnQitwaR+oCKzxPxAZ1Ehs-86bfHbo0uPTeKe5a+5geV6A@mail.gmail.com>
+Subject: Re: [PATCH] fsverity: improve documentation for builtin signature support
 To: Eric Biggers <ebiggers@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, miklos@szeredi.hu, linux-unionfs@vger.kernel.org, 
-	tytso@mit.edu, fsverity@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Cc: fsverity@lists.linux.dev, linux-integrity@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>, 
+	Alexander Larsson <alexl@redhat.com>, Victor Hsieh <victorhsieh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 17, 2023 at 9:47=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
-wrote:
+On Sat, 17 Jun 2023 at 05:51, Eric Biggers <ebiggers@kernel.org> wrote:
 >
-> On Fri, Jun 16, 2023 at 10:11:06AM +0200, Alexander Larsson wrote:
-> > On Fri, Jun 16, 2023 at 1:52=E2=80=AFAM Eric Biggers <ebiggers@kernel.o=
-rg> wrote:
+> On Fri, Jun 16, 2023 at 02:27:28PM +0100, Luca Boccassi wrote:
+> > > Unfortunately just because PKCS#7, X.509, and ASN.1 is being used does not mean
+> > > it is a good idea.  Have you read the kernel code that implements these formats?
+> > > A few years ago I went through some of it.  Here are some of the bugs I fixed:
 > > >
-> > > On Wed, Jun 14, 2023 at 09:57:41AM +0200, Alexander Larsson wrote:
-> > > > When a layer containing verity xattrs is used, it means that any
-> > > > such metacopy file in the upper layer is guaranteed to match the
-> > > > content that was in the lower at the time of the copy-up. If at any=
- time
-> > > > (during a mount, after a remount, etc) such a file in the lower is
-> > > > replaced or modified in any way, then opening the corresponding fil=
-e on
-> > > > overlayfs will result in EIO and a detailed error printed to the ke=
-rnel logs.
-> > > > (Actually, due to caching the overlayfs mount might still see the p=
-revious
-> > > > file contents after a lower file is replaced under an active mount,=
- but
-> > > > it will never see the wrong data.)
-> > >
-> > > Well, the key point of fsverity is that data is not verified until it=
- is
-> > > actually read.  At open time, the fsverity file digest is made availa=
-ble in
-> > > constant time, and overlayfs will verify that.  However, invalid data=
- blocks are
-> > > not reported until the data is actually read.  The error that applica=
-tions get
-> > > is EIO for syscalls, and SIGBUS for memory-mapped reads, as mentioned=
- at
-> > > https://www.kernel.org/doc/html/latest/filesystems/fsverity.html#acce=
-ssing-verity-files
-> > >
-> > > So overlayfs might report EIO at open time, or it might not report an=
- error
-> > > until the modified data is read.  And in the latter case, presumably =
-the error
-> > > seen by the application matches the one for using fsverity natively?
+> > >     2eb9eabf1e86 ("KEYS: fix out-of-bounds read during ASN.1 parsing")
+> > >     624f5ab8720b ("KEYS: fix NULL pointer dereference during ASN.1 parsing [ver #2]")
+> > >     e0058f3a874e ("ASN.1: fix out-of-bounds read when parsing indefinite length item")
+> > >     81a7be2cd69b ("ASN.1: check for error from ASN1_OP_END__ACT actions")
+> > >     0f30cbea005b ("X.509: reject invalid BIT STRING for subjectPublicKey")
+> > >     54c1fb39fe04 ("X.509: fix comparisons of ->pkey_algo")
+> > >     971b42c038dc ("PKCS#7: fix certificate chain verification")
+> > >     29f4a67c17e1 ("PKCS#7: fix certificate blacklisting")
+> > >     437499eea429 ("X.509: fix BUG_ON() when hash algorithm is unsupported")
+> > >     4b34968e77ad ("X.509: fix NULL dereference when restricting key with unsupported_sig")
 > >
-> > Yes, I'm aware of that, but do we need to describe this in the
-> > overlayfs documentation?
-> > The text I wrote is describing the behaviour that overlayfs adds to
-> > the mix, and I sort of
-> > assumed the late validation from fs-verity itself would be known about
-> > if the file already
-> > has fs-verity enabled.
-> >
-> > > You can link to the fsverity documentation somewhere if it would be h=
-elpful, but
-> > > I'd still like the semantics of how this works on overlayfs to be doc=
-umented.
-> >
-> > I guess just adding a link to that is not that bad. What about:
-> >
-> > ----
-> > When a layer containing verity xattrs is used, it means that any such
-> > metacopy file in the upper layer is guaranteed to match the content
-> > that was in the lower at the time of the copy-up. If at any time
-> > (during a mount, after a remount, etc) such a file in the lower is
-> > replaced or modified in any way, then opening the corresponding file
-> > on overlayfs will result in EIO and a detailed error printed to the
-> > kernel logs.  (Actually, due to caching the overlayfs mount might
-> > still see the previous file contents after a lower file is replaced
-> > under an active mount, but it will never see the wrong data.)  In
-> > addition fs-verity will do late validation of the file content, as
-> > described in :ref:`Documentation/filesystems/fsverity.rst
-> > <accessing_verity_files>`.
+> > I have no doubt that there are bugs, as I have no doubts that there
+> > are bugs in every other subsystem, including fsverity, once you start
+> > looking hard enough.
 >
-> That still has the incorrect statement "If at any time (during a mount, a=
-fter a
-> remount, etc) such a file in the lower is replaced or modified in any way=
-, then
-> opening the corresponding file on overlayfs will result in EIO and a deta=
-iled
-> error printed to the kernel logs."  See my last email where I explained w=
-hy that
-> statement is not correct.
+> My point was not that there are bugs, but rather that there are *unnecessary*
+> bugs (many with possible security impact) that are directly caused by the
+> complexities of these formats versus the alternatives.
+>
+> > That's not the point. The point is that having
+> > the documentation of one kernel subsystem disparaging the mechanisms
+> > that are central to other kernel subsystems' functionality is weird
+> > and out of place. Something like that is fine to post on social media
+> > or a blog post or so. A user jumping from one page of kernel doc
+> > saying, paraphrasing heavily for the sake of argument, "use pkcs7 to
+> > ensure the security of your system via secure boot, measured boot and
+> > signed kernel modules" and another saying "pkcs7 is bad and broken,
+> > stay away from it" is just strange, confusing and incoherent from the
+> > point of view of a reader.
+>
+> I'll add a note that PKCS#7 and X.509 should still be used in situations where
+> they are the only option.  I think that would handle your main concern here,
+> which is that people might misunderstand the paragraph as recommending using no
+> signatures, instead of signatures using a PKCS#7 and X.509 based system.
+>
+> I don't think it would be appropriate to remove the paragraph entirely.  It
+> provides useful information that helps users decide what type of signatures to
+> use.  I understand that people who are invested greatly into PKCS#7 and X.509
+> based systems might be resistant to learning about the problems with these
+> formats, but that is to be expected.
 
-If the modification of the file happens via the kernel vfs API, then
-the new backing file will have either have no, or the wrong fs-verity
-digest, which will be reported by overlayfs on open. It is true that a
-modification on the block level which the vfs is unaware of will be
-reported at read time, by fs-verity (i.e. independent of overlayfs).
-This is what I meant by the "in addition .." part, but maybe that is
-not clear. I'll try to rephrase it.
+Given this is a kernel doc (as opposed to, say, fsverity-utils's
+readme), my concern is with having confusing and contradicting
+documentation. If you reword it to make it specific to fsverity or so,
+it would probably be fine.
 
-
---=20
-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D
- Alexander Larsson                                Red Hat, Inc
-       alexl@redhat.com         alexander.larsson@gmail.com
-
+Kind regards,
+Luca Boccassi
