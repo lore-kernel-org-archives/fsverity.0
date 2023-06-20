@@ -1,122 +1,189 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169112AB55
-	for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 19:15:55 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5700401acbeso55228647b3.0
-        for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 12:15:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E962AB55
+	for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 19:35:11 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5700401acbeso55410037b3.0
+        for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 12:35:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687288555; x=1689880555;
+        d=1e100.net; s=20221208; t=1687289710; x=1689881710;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J9aIQ0PjtPWDuZDbSrp1ylwlxr0L4BcJbt/NlFEzGjw=;
-        b=fh3s9z26xeGM3GSC4cdZUKuGHEIEt2sv/qBzF8dqbJe9B3IxlsKsrLZfE/eKNAANrB
-         nohYLpvjODI00MN9xL8tiYeV5SXyeUiVj1zAINQonnwq6huQMTTTKRLVSrLx7S0EkJ9H
-         mCWez4xkO32yWJ6037fR6zF8RS6n0y+VbOArEybwhRkZm0OewfT8pzIS32WflPZbihvL
-         ToAtxZyNLcocS+HxCgFU9jqpTNAp3niAkpWYq+cOuQGAEyX3aOkhrMa2TxDkGA8QJTle
-         KNg8Tw6BSl9QlLE+0PgMRVoA97nPT2u6pH8l91P6ZNrJTsUpifIkd13wrSaemTGfxi9J
-         0NWA==
-X-Gm-Message-State: AC+VfDwCrbmyTi8pZkNjQCGkzhzXU0jeAraKp1vNpgnVCaHal8bNB1Bf
-	xqfXvOR3YBvoRX3iA53KrABbIgNOD3Wjzg==
-X-Google-Smtp-Source: ACHHUZ5wzhYDEKPn/gqTbHaluReewgrMMuGcn+xcr36U3Z0Iu1oZ4qtghHYU0WWKOhGE8qj5Tgcv/A==
-X-Received: by 2002:a25:c785:0:b0:bb3:ae54:9fcd with SMTP id w127-20020a25c785000000b00bb3ae549fcdmr10594851ybe.23.1687288554727;
-        Tue, 20 Jun 2023 12:15:54 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id l1-20020a252501000000b00bccc2241e14sm516743ybl.28.2023.06.20.12.15.53
+        bh=Igs5MaDb++fkS356JMQlbeWGJAbuiJzA5fQAggLQCbs=;
+        b=YxtG32Y9inzfeSTeEcDRqpHJMj3e25RNXLYWV8dQibiYFpzKqQ2+u00DRY3ICAyAiN
+         hxS75KZbNI6PhN6fb3HjyWdKDYT1iKkX1oV+5Fltb1FOkwcKZZzJIuoJTFww5EDJl6IJ
+         7MB86fnZom6VtSO0U7nfWfvgYY+Kc5iWfTrueSdrtM6rrI5MoB0jBJUuYGj25bYQ05aS
+         jhAADIstnKakGNm/VvR6h398x5DH7Ez0wtCazT8fiQEdlxoRqGF6wRecH8t0TDiQdNIf
+         kac3BXr9A4B+f7V1/BEO9qlDR0mt4WFIAiOkv8OCBJz8vQ00Ri6gj2JfKVANX/8kToRI
+         sEUA==
+X-Gm-Message-State: AC+VfDxYSBLJcbGsdtpr5nR92RUbv/864JrHSljIwjJ3ZD74EYLMAkWO
+	HtopFi1QhOuvNI1OM06QffQSrjwMlMTDfw==
+X-Google-Smtp-Source: ACHHUZ594SvOyqehpmoO8Uf+mz4W5E92KZ7bF8SuLPOd0nRxSw09u5+RYk5UVrIIQbF6MTExdP836w==
+X-Received: by 2002:a81:84c4:0:b0:56f:ecc4:7dbe with SMTP id u187-20020a8184c4000000b0056fecc47dbemr14380275ywf.34.1687289710184;
+        Tue, 20 Jun 2023 12:35:10 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id l64-20020a0dc943000000b0055a7c2375dfsm635675ywd.101.2023.06.20.12.35.09
         for <fsverity@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 12:15:54 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-56ffd7d7fedso55024177b3.2
-        for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 12:15:53 -0700 (PDT)
-X-Received: by 2002:a25:ada2:0:b0:ba7:b933:9063 with SMTP id
- z34-20020a25ada2000000b00ba7b9339063mr11008259ybi.4.1687288553412; Tue, 20
- Jun 2023 12:15:53 -0700 (PDT)
+        Tue, 20 Jun 2023 12:35:09 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5700401acbeso55409867b3.0
+        for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 12:35:09 -0700 (PDT)
+X-Received: by 2002:a25:ae20:0:b0:bc4:515e:cb0f with SMTP id
+ a32-20020a25ae20000000b00bc4515ecb0fmr10813293ybj.1.1687289709261; Tue, 20
+ Jun 2023 12:35:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230620041937.5809-1-ebiggers@kernel.org>
-In-Reply-To: <20230620041937.5809-1-ebiggers@kernel.org>
+References: <20230619221048.10335-1-ebiggers@kernel.org> <CAMw=ZnQCBJM71wi-yO99yi+KTy=WtR2+jJxU2snvWgJTzTeeFw@mail.gmail.com>
+ <20230619234939.GA2320@sol.localdomain> <CAMw=ZnRVKQz9tY=DH9eoAMeEd07tdXMENW0Lhbx2tApH==5D_Q@mail.gmail.com>
+ <b2ee0120b5f3caec6ddd617c1594cc05d66a6687.camel@HansenPartnership.com>
+In-Reply-To: <b2ee0120b5f3caec6ddd617c1594cc05d66a6687.camel@HansenPartnership.com>
 From: Luca Boccassi <bluca@debian.org>
-Date: Tue, 20 Jun 2023 20:15:42 +0100
-X-Gmail-Original-Message-ID: <CAMw=ZnQg2dvdivEPdScMcgQQtj00T=EigpGn0ZRYHLMU=AKLMA@mail.gmail.com>
-Message-ID: <CAMw=ZnQg2dvdivEPdScMcgQQtj00T=EigpGn0ZRYHLMU=AKLMA@mail.gmail.com>
-Subject: Re: [PATCH v3] fsverity: improve documentation for builtin signature support
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev, linux-integrity@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>, 
-	Alexander Larsson <alexl@redhat.com>, Victor Hsieh <victorhsieh@google.com>
+Date: Tue, 20 Jun 2023 20:34:58 +0100
+X-Gmail-Original-Message-ID: <CAMw=ZnQiu09jBsdbxxzyE3j98GqnmxxML+dwOQQs9kct1KZhWA@mail.gmail.com>
+Message-ID: <CAMw=ZnQiu09jBsdbxxzyE3j98GqnmxxML+dwOQQs9kct1KZhWA@mail.gmail.com>
+Subject: Re: [PATCH v2] fsverity: improve documentation for builtin signature support
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Eric Biggers <ebiggers@kernel.org>, fsverity@lists.linux.dev, 
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Colin Walters <walters@verbum.org>, Alexander Larsson <alexl@redhat.com>, 
+	Victor Hsieh <victorhsieh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 20 Jun 2023 at 05:23, Eric Biggers <ebiggers@kernel.org> wrote:
+On Tue, 20 Jun 2023 at 13:59, James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
 >
-> From: Eric Biggers <ebiggers@google.com>
+> On Tue, 2023-06-20 at 01:42 +0100, Luca Boccassi wrote:
+> > On Tue, 20 Jun 2023 at 00:49, Eric Biggers <ebiggers@kernel.org>
+> > wrote:
+> > > On Tue, Jun 20, 2023 at 12:04:39AM +0100, Luca Boccassi wrote:
+> [...]
+> > > > > +- fs-verity builtin signatures are in PKCS#7 format, and the
+> > > > > public
+> > > > > +  keys are in X.509 format.  These data formats are
+> > > > > unnecessarily
+> > > > > +  complex and prone to vulnerabilities.  (fs-verity builtin
+> > > > > signatures
+> > > > > +  were made to use these formats because other kernel
+> > > > > subsystems, such
+> > > > > +  as the module loader, unfortunately used these formats
+> > > > > already.
+> > > > > +  Note, these formats should still be used when they are the
+> > > > > only
+> > > > > +  option to have signatures at all.)  Userspace signature
+> > > > > verification
+> > > > > +  avoids having to enable CONFIG_FS_VERITY_BUILTIN_SIGNATURES
+> > > > > and the
+> > > > > +  associated kernel attack surface.  Userspace also has the
+> > > > > +  flexibility to choose simpler formats.  For example,
+> > > > > consider using
+> > > > > +  straightforward Ed25519 keys and signatures with `libsodium
+> > > > > +
+> > > > > <https://libsodium.gitbook.io/doc/public-key_cryptography/publi
+> > > > > c-key_signatures>`_.
+> > > > > +
+> > > > > +  IMA appraisal, which supports fs-verity, does not use
+> > > > > PKCS#7, so it
+> > > > > +  partially avoids this issue as well (though it does use
+> > > > > X.509).
+> > > > > +
+> > > > > +  If you are considering making use of "advanced" features of
+> > > > > X.509
+> > > > > +  and/or PKCS#7, please also keep in mind that these
+> > > > > "advanced"
+> > > > > +  features do not always work as intended with the kernel.
+> > > > > For
+> > > > > +  example, the kernel does not check X.509 certificate
+> > > > > validity times.
+> > > >
+> > > > Sorry but this still reads as way too opinionated and generic,
+> > > > rather than being fsverity-specific.
+> > > >
+> > > > Please simplify to convey the same
+> > > > message in more concise way, perhaps something along these lines:
+> > > >
+> > > > - fs-verity builtin signatures are in PKCS#7 format, and the
+> > > > public keys are in X.509 format. IMA appraisal, which supports
+> > > > fs-verity, uses a custom signature format rather than PKCS#7 and
+> > > > X.509 for public keys. Alternative formats for signatures and
+> > > > public keys are not supported for builtin signatures or IMA
+> > > > appraisal. For fully flexible and customized signature and public
+> > > > keys formats, while also avoiding to expose the kernel to
+> > > > untrusted input, signature verification can be implemented by a
+> > > > trusted userspace component as described at <pointer to
+> > > > appropriate section>
+> > >
+> > > That is not the same message at all, as it omits the mention of the
+> > > disadvantages of PKCS#7 and X.509 compared to raw signatures, which
+> > > was the main point.  So no, I don't think your version would be
+> > > better.
+> >
+> > The 'disadvantages' are your personal opinions. It's fine to have
+> > opinions, it's less fine to present them as if they were industry
+> > consensus in public project-wide documentation.
+> >
+> > > It seems that what is going on here is that you are invested
+> > > heavily into existing X.509 and PKCS#7 based systems, and as a
+> > > result you do not want the problems with these formats to be
+> > > described anywhere in the kernel documentation.  That is
+> > > understandable, but that is a special interest that should not be
+> > > catered to here.  This documentation is trying to help users make
+> > > a decision of what type of signature to use in new systems.  And
+> > > yes, it is fsverity specific documentation, but there is no way for
+> > > it to make the needed point without dicussing the underlying data
+> > > formats.
+> >
+> > Industry standards are by very definition the opposite of 'special
+> > interests'. Look, I tried my best to provide constructive and
+> > actionable feedback in previous replies, but given you seem only
+> > interested in casting aspersions and hijacking kernel documentation
+> > to promote the latest proprietary google-toy-of-the-month:
 >
-> fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
-> the only way to do signatures with fsverity, and they have some major
-> limitations.  Yet, more users have tried to use them, e.g. recently by
-> https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
-> to be because users aren't sufficiently familiar with the limitations of
-> this feature and what the alternatives are.
+> OK, could I try to share the perspective of of someone who's worked in
+> security with users for a long time. I get that every security expert
+> thinks standard key formats are insecure, usually for two reasons
 >
-> Therefore, make some updates to the documentation to try to clarify the
-> properties of this feature and nudge users in the right direction.
+>    1. In security simpler is better
+>    2. They can always come up with a simple, totally secure, key
+>       representation
 >
-> Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
-> upstream, is planned to use the builtin signatures.  (This differs from
-> IMA, which uses its own signature mechanism.)  For that reason, my
-> earlier patch "fsverity: mark builtin signatures as deprecated"
-> (https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
-> which marked builtin signatures as "deprecated", was controversial.
+> The problem with the above is that it means every tool invented by a
+> different security expert has a different key format and we don't have
+> any interoperability between them. This is great from a security point
+> of view but terrible for usability: users want both interoperability
+> and pluggability (particularly the ability to use tokens or other
+> security devices in place of keys). Our security systems are not coded
+> for absolute security (otherwise they would be completely balkanized);
+> they're a tradeoff between usability and security. There's actually
+> even a security reason for this: a security tool no-one can use isn't
+> contributing to the security of the ecosystem, however internally
+> secure and up to date the tool is. It's not just Google who has a habit
+> of special coding security systems to work on Android (with Titan-M), I
+> can't use wireguard on Linux because I long ago mandated that critical
+> things like VPN keys should be in secure keystores and I use the TPM on
+> Linux for openvpn. Wireguard, because it has a simple and secure key
+> format, won't plug into the kernel TPM system without a whole load of
+> speciallised glue, so I'm stuck with openvpn.
 >
-> This patch therefore stops short of marking the feature as deprecated.
-> I've also revised the language to focus on better explaining the feature
-> and what its alternatives are.
->
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> ---
->
-> v3: fixed ioctl name, and more updates to address Luca's comments
-> v2: updated two paragraphs of fsverity.rst to address Luca's comments
->
->  Documentation/filesystems/fsverity.rst | 192 ++++++++++++++++---------
->  fs/verity/Kconfig                      |  16 +--
->  fs/verity/enable.c                     |   2 +-
->  fs/verity/open.c                       |   8 +-
->  fs/verity/read_metadata.c              |   4 +-
->  fs/verity/signature.c                  |   8 ++
->  6 files changed, 149 insertions(+), 81 deletions(-)
-<...>
-> +- fs-verity builtin signatures are in PKCS#7 format, and the public
-> +  keys are in X.509 format.  These formats are commonly used,
-> +  including by some other kernel features (which is why the fs-verity
-> +  builtin signatures use them), and are very feature rich.
-> +  Unfortunately, history has shown that code that parses and handles
-> +  these formats (which are from the 1990s and are based on ASN.1)
-> +  often has vulnerabilities as a result of their complexity.  This
-> +  complexity is not inherent to the cryptography itself.
-> +
-> +  fs-verity users who do not need advanced features of X.509 and
-> +  PKCS#7 should strongly consider using simpler formats, such as plain
-> +  Ed25519 keys and signatures, and verifying signatures in userspace.
-> +
-> +  fs-verity users who choose to use X.509 and PKCS#7 anyway should
-> +  still consider that verifying those signatures in userspace is more
-> +  flexible (for other reasons mentioned earlier in this document) and
-> +  eliminates the need to enable CONFIG_FS_VERITY_BUILTIN_SIGNATURES
-> +  and its associated increase in kernel attack surface.  In some cases
-> +  it can even be necessary, since advanced X.509 and PKCS#7 features
-> +  do not always work as intended with the kernel.  For example, the
-> +  kernel does not check X.509 certificate validity times.
-> +
-> +  Note: IMA appraisal, which supports fs-verity, does not use PKCS#7
-> +  for its signatures, so it partially avoids the issues discussed
-> +  here.  IMA appraisal does use X.509.
+> The debate you two are having now is about the most important thing we
+> can ever decide: where to draw the line between usability and security.
+> If you conduct it in a more constructive manner and try to see each
+> other's point of view (Eric: how would I use a TPM with fsverity on
+> Linux? and Luca: how much interoperability does fsverity really need
+> for debian?) because usability without security is as equally useless
+> as security without usability.
 
-Thank you for the update, I find this new version much better as it is
-clearly scoped for the specific case of fs-verity, hence:
+You make very good points, it's always about finding compromises. For
+my use case, interoperability is fundamental: if I needed to have a
+completely different infrastructure, signing, tooling and maintenance
+strategy for dm-verity, fs-verity, kernel modules, livepatching, UEFI,
+TPM signed policies and who knows what else, I'd lose my mind. But I
+am happy to compromise and ack the latest revision, and I've already
+done so.
 
-Reviewed-by: Luca Boccassi <bluca@debian.org>
+Kind regards,
+Luca Boccassi
