@@ -1,155 +1,122 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53752AB55
-	for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 19:15:41 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6b58788fc67so1697639a34.3
-        for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 12:15:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169112AB55
+	for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 19:15:55 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5700401acbeso55228647b3.0
+        for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 12:15:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687288540; x=1689880540;
+        d=1e100.net; s=20221208; t=1687288555; x=1689880555;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S5n/u8d/inDe24N1IpBkJh8btI238OScc6PefkBA8i8=;
-        b=NjV1a9Mf7DiKtIae+hOv/Ju2CDZIZfpOX+OixNY+m2h1bAm9l//lDdq8pGX5OL673I
-         5GPuA4FvJ/YzZew58ZbTkd7synJdCtQQ/Iu9XqgAAHf56Uk2Z8eh1lMJe8gRsGYv1Vaq
-         1V3N/jY0K5sUwiPiyznfta89oW7QLdC3HklRGUXhNOOgYYI4jtRxUfPCsbn9nd9a2P7d
-         uHyY9DCRhY+uYVFdFw13WqKPBwtMrIcwoANTdk6V4osXqr4H6I8/v5VrjP5yY7fb02ws
-         Pq2zRrfiUuZi6JeVJgISIRGPpUdMT5MZx64Z2Nel7gU4rXXEviL5j1q0t9fsQ/0X4+v2
-         K4EQ==
-X-Gm-Message-State: AC+VfDyrWf1zRr2NMp7Aqe5uPEFCOSjxUdmIPn/OWN7sNnFyPeXX7eu8
-	T/f4MVyR46+NfMDmyo8c7oy7sTGS8KCRhA==
-X-Google-Smtp-Source: ACHHUZ7w3HJsxIuVwX/J2png3/0XbwTIGWnRgUSTl7Nc7FqvbETSxXaXHL+Skwo/e69B68VslEfiWg==
-X-Received: by 2002:a9d:7acf:0:b0:6b2:91db:37 with SMTP id m15-20020a9d7acf000000b006b291db0037mr7083015otn.1.1687288540300;
-        Tue, 20 Jun 2023 12:15:40 -0700 (PDT)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
-        by smtp.gmail.com with ESMTPSA id i2-20020a9d6242000000b006a662e9f074sm1213569otk.58.2023.06.20.12.15.39
+        bh=J9aIQ0PjtPWDuZDbSrp1ylwlxr0L4BcJbt/NlFEzGjw=;
+        b=fh3s9z26xeGM3GSC4cdZUKuGHEIEt2sv/qBzF8dqbJe9B3IxlsKsrLZfE/eKNAANrB
+         nohYLpvjODI00MN9xL8tiYeV5SXyeUiVj1zAINQonnwq6huQMTTTKRLVSrLx7S0EkJ9H
+         mCWez4xkO32yWJ6037fR6zF8RS6n0y+VbOArEybwhRkZm0OewfT8pzIS32WflPZbihvL
+         ToAtxZyNLcocS+HxCgFU9jqpTNAp3niAkpWYq+cOuQGAEyX3aOkhrMa2TxDkGA8QJTle
+         KNg8Tw6BSl9QlLE+0PgMRVoA97nPT2u6pH8l91P6ZNrJTsUpifIkd13wrSaemTGfxi9J
+         0NWA==
+X-Gm-Message-State: AC+VfDwCrbmyTi8pZkNjQCGkzhzXU0jeAraKp1vNpgnVCaHal8bNB1Bf
+	xqfXvOR3YBvoRX3iA53KrABbIgNOD3Wjzg==
+X-Google-Smtp-Source: ACHHUZ5wzhYDEKPn/gqTbHaluReewgrMMuGcn+xcr36U3Z0Iu1oZ4qtghHYU0WWKOhGE8qj5Tgcv/A==
+X-Received: by 2002:a25:c785:0:b0:bb3:ae54:9fcd with SMTP id w127-20020a25c785000000b00bb3ae549fcdmr10594851ybe.23.1687288554727;
+        Tue, 20 Jun 2023 12:15:54 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
+        by smtp.gmail.com with ESMTPSA id l1-20020a252501000000b00bccc2241e14sm516743ybl.28.2023.06.20.12.15.53
         for <fsverity@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 12:15:39 -0700 (PDT)
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6b13e2af122so3779641a34.2
-        for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 12:15:39 -0700 (PDT)
-X-Received: by 2002:a05:6358:e820:b0:129:c3a3:5efd with SMTP id
- gi32-20020a056358e82000b00129c3a35efdmr5151361rwb.24.1687288538894; Tue, 20
- Jun 2023 12:15:38 -0700 (PDT)
+        Tue, 20 Jun 2023 12:15:54 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-56ffd7d7fedso55024177b3.2
+        for <fsverity@lists.linux.dev>; Tue, 20 Jun 2023 12:15:53 -0700 (PDT)
+X-Received: by 2002:a25:ada2:0:b0:ba7:b933:9063 with SMTP id
+ z34-20020a25ada2000000b00ba7b9339063mr11008259ybi.4.1687288553412; Tue, 20
+ Jun 2023 12:15:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230619221048.10335-1-ebiggers@kernel.org> <CAMw=ZnQCBJM71wi-yO99yi+KTy=WtR2+jJxU2snvWgJTzTeeFw@mail.gmail.com>
- <20230619234939.GA2320@sol.localdomain> <CAMw=ZnRVKQz9tY=DH9eoAMeEd07tdXMENW0Lhbx2tApH==5D_Q@mail.gmail.com>
- <20230620031813.GA1590@sol.localdomain>
-In-Reply-To: <20230620031813.GA1590@sol.localdomain>
+References: <20230620041937.5809-1-ebiggers@kernel.org>
+In-Reply-To: <20230620041937.5809-1-ebiggers@kernel.org>
 From: Luca Boccassi <bluca@debian.org>
-Date: Tue, 20 Jun 2023 20:15:27 +0100
-X-Gmail-Original-Message-ID: <CAMw=ZnQ0vyZTQ2f_9JdDbefTaJb42LRM++Fsg7jW8yH82n-5sw@mail.gmail.com>
-Message-ID: <CAMw=ZnQ0vyZTQ2f_9JdDbefTaJb42LRM++Fsg7jW8yH82n-5sw@mail.gmail.com>
-Subject: Re: [PATCH v2] fsverity: improve documentation for builtin signature support
+Date: Tue, 20 Jun 2023 20:15:42 +0100
+X-Gmail-Original-Message-ID: <CAMw=ZnQg2dvdivEPdScMcgQQtj00T=EigpGn0ZRYHLMU=AKLMA@mail.gmail.com>
+Message-ID: <CAMw=ZnQg2dvdivEPdScMcgQQtj00T=EigpGn0ZRYHLMU=AKLMA@mail.gmail.com>
+Subject: Re: [PATCH v3] fsverity: improve documentation for builtin signature support
 To: Eric Biggers <ebiggers@kernel.org>
 Cc: fsverity@lists.linux.dev, linux-integrity@vger.kernel.org, 
 	linux-doc@vger.kernel.org, Colin Walters <walters@verbum.org>, 
 	Alexander Larsson <alexl@redhat.com>, Victor Hsieh <victorhsieh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 20 Jun 2023 at 04:18, Eric Biggers <ebiggers@kernel.org> wrote:
+On Tue, 20 Jun 2023 at 05:23, Eric Biggers <ebiggers@kernel.org> wrote:
 >
-> On Tue, Jun 20, 2023 at 01:42:20AM +0100, Luca Boccassi wrote:
-> > On Tue, 20 Jun 2023 at 00:49, Eric Biggers <ebiggers@kernel.org> wrote:
-> > >
-> > > On Tue, Jun 20, 2023 at 12:04:39AM +0100, Luca Boccassi wrote:
-> > > > > diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-> > > > > index ede672dedf110..c33f783e74953 100644
-> > > > > --- a/Documentation/filesystems/fsverity.rst
-> > > > > +++ b/Documentation/filesystems/fsverity.rst
-> > > > <...>
-> > > > > +- Trusted userspace code.  Often, the userspace code that accesses
-> > > > > +  files can be trusted to authenticate them.  Consider e.g. an
-> > > > > +  application that wants to authenticate data files before using them,
-> > > > > +  or an application loader that is part of the operating system (which
-> > > > > +  is already authenticated in a different way, such as by being loaded
-> > > > > +  from a read-only partition that uses dm-verity) and that wants to
-> > > > > +  authenticate applications before loading them.  In these cases, this
-> > > > > +  trusted userspace code can authenticate a file's contents by
-> > > > > +  retrieving its fs-verity digest using `FS_IOC_ENABLE_VERITY`_, then
-> > > > > +  verifying a signature of it using any userspace cryptographic
-> > > > > +  library that supports digital signatures.  Consider using `libsodium
-> > > > > +  <https://libsodium.gitbook.io/doc/public-key_cryptography/public-key_signatures>`_
-> > > > > +  or `Tink <https://developers.google.com/tink/digitally-sign-data>`_.
-> > > > > +  Other options include OpenSSL, JCA, and libgcrypt.
-> > > >
-> > > > Text looks good to me now, but please just drop the last sentence with
-> > > > the external projects links, as it seems best left as an exercise for
-> > > > the reader to find their preferred tooling that is appropriate to be
-> > > > used at the time of reading, as this will get out of date fast.
-> > > >
-> > > > <...>
-> > >
-> > > Well, a significant part of the motivation for this patch is that the "exercise
-> > > for the reader" approach has already been tried, for several years, but it is
-> > > not working well.  People don't know what to use and need a little more help.
-> > >
-> > > I'm planning to add some example code to fsverity-utils, probably using
-> > > libsodium.  After that, I'll make this documentation link to there.  But for
-> > > now, I think the last two sentences of the above paragraph are helpful.
-> >
-> > That list does not help, quite the opposite - libsodium seems all but
-> > abandoned (last release 5 years ago, an unmaintained project is not
-> > exactly what you want for your crypto primitives)
+> From: Eric Biggers <ebiggers@google.com>
 >
-> libsodium has an active maintainer.  Last commit was 3 months ago.
+> fsverity builtin signatures (CONFIG_FS_VERITY_BUILTIN_SIGNATURES) aren't
+> the only way to do signatures with fsverity, and they have some major
+> limitations.  Yet, more users have tried to use them, e.g. recently by
+> https://github.com/ostreedev/ostree/pull/2640.  In most cases this seems
+> to be because users aren't sufficiently familiar with the limitations of
+> this feature and what the alternatives are.
 >
-> Also note that simple crypto libraries that focus on offering modern
-> cryptographic algorithms don't need to be updated often.  You actually *don't*
-> really want to have to constantly update your crypto library because they e.g.
-> messed up their ASN.1 parser.  If there is no ASN.1, that cannot happen.
+> Therefore, make some updates to the documentation to try to clarify the
+> properties of this feature and nudge users in the right direction.
+>
+> Note that the Integrity Policy Enforcement (IPE) LSM, which is not yet
+> upstream, is planned to use the builtin signatures.  (This differs from
+> IMA, which uses its own signature mechanism.)  For that reason, my
+> earlier patch "fsverity: mark builtin signatures as deprecated"
+> (https://lore.kernel.org/r/20221208033548.122704-1-ebiggers@kernel.org),
+> which marked builtin signatures as "deprecated", was controversial.
+>
+> This patch therefore stops short of marking the feature as deprecated.
+> I've also revised the language to focus on better explaining the feature
+> and what its alternatives are.
+>
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> ---
+>
+> v3: fixed ioctl name, and more updates to address Luca's comments
+> v2: updated two paragraphs of fsverity.rst to address Luca's comments
+>
+>  Documentation/filesystems/fsverity.rst | 192 ++++++++++++++++---------
+>  fs/verity/Kconfig                      |  16 +--
+>  fs/verity/enable.c                     |   2 +-
+>  fs/verity/open.c                       |   8 +-
+>  fs/verity/read_metadata.c              |   4 +-
+>  fs/verity/signature.c                  |   8 ++
+>  6 files changed, 149 insertions(+), 81 deletions(-)
+<...>
+> +- fs-verity builtin signatures are in PKCS#7 format, and the public
+> +  keys are in X.509 format.  These formats are commonly used,
+> +  including by some other kernel features (which is why the fs-verity
+> +  builtin signatures use them), and are very feature rich.
+> +  Unfortunately, history has shown that code that parses and handles
+> +  these formats (which are from the 1990s and are based on ASN.1)
+> +  often has vulnerabilities as a result of their complexity.  This
+> +  complexity is not inherent to the cryptography itself.
+> +
+> +  fs-verity users who do not need advanced features of X.509 and
+> +  PKCS#7 should strongly consider using simpler formats, such as plain
+> +  Ed25519 keys and signatures, and verifying signatures in userspace.
+> +
+> +  fs-verity users who choose to use X.509 and PKCS#7 anyway should
+> +  still consider that verifying those signatures in userspace is more
+> +  flexible (for other reasons mentioned earlier in this document) and
+> +  eliminates the need to enable CONFIG_FS_VERITY_BUILTIN_SIGNATURES
+> +  and its associated increase in kernel attack surface.  In some cases
+> +  it can even be necessary, since advanced X.509 and PKCS#7 features
+> +  do not always work as intended with the kernel.  For example, the
+> +  kernel does not check X.509 certificate validity times.
+> +
+> +  Note: IMA appraisal, which supports fs-verity, does not use PKCS#7
+> +  for its signatures, so it partially avoids the issues discussed
+> +  here.  IMA appraisal does use X.509.
 
-Maintenance is not only CVE-driven, no release for almost 5 years in a
-security-critical component to me looks like a red flag. And I
-maintain projects using libsodium (zeromq), so it's not like I've
-never seen it before. But when a package is shipped bit-by-bit
-identical across two different Debian releases it's usually not a sign
-of good health for the project.
+Thank you for the update, I find this new version much better as it is
+clearly scoped for the specific case of fs-verity, hence:
 
-> > tink appears to
-> > be one of those google's sources-available-proprietary projects, which
-> > means that, as with everything else that google throws over the wall,
-> > it's at permanent risk of getting killed with little notice, among
-> > many other problems.
->
-> Tink is an open source project licensed under the Apache license.  Non-Google
-> contributions to Tink are being accepted on GitHub.  If Google stops maintaining
-> Tink, it can be forked, like any other open source project.
-
-The website that was linked said a CLA was required. On top of that, I
-can't speak for this one in particular, but my experience with other
-google projects that were allegedly open source has been atrocious -
-the 'real' source tree being proprietary and private, with code
-occasionally synced to Github, and external contributors requiring an
-internal corporate 'sponsor' to get their changes merged internally
-first, passing invisible, private CI and getting reverted without much
-consideration when some more important, internal change conflicted,
-and with no way to find out till the internal real tree was thrown
-over the wall again at some point in the future. All of this while
-claiming it was just a normal open source project on Github. That's
-not open source, that's proprietary with sources-available.
-
-> Anyway, my intent was simply to list some modern crypto libraries.  One of them
-> just happens to be from Google.  I'm sorry if it may have appeared like I listed
-> a Google project because of it being from Google.  That was not my intent.
->
-> > If you really want to suggest something, OpenSSL
-> > seems like an appropriate choice of a widely available, supported and
-> > well-known solution that is the most likely to still be around and
-> > maintained in 5/10 years.
->
-> Sure.  Which is why I included OpenSSL in the list.
->
-> Anyway, I'll go ahead and take your suggestion to omit the mentions of any
-> specific crypto libraries.  I do agree that it could use some more thought, and
-> the main place for this information will be in fsverity-utils which will have
-> the example code.
-
-Thank you. It seems best to keep such recommendations, if any,
-together with the example code, yes.
+Reviewed-by: Luca Boccassi <bluca@debian.org>
