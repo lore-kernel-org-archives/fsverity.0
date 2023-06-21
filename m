@@ -1,227 +1,157 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549D2C2F0;
-	Wed, 21 Jun 2023 11:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687346281; x=1718882281;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=bNOOeYVCQ7poh+/POpUoy8h5Fc7oKKTV5NlBm31y8T8=;
-  b=HLDgmo/Az6NkgE+D6yL5JMGr2Pp1WVOXbzcdpTFcOQWQMf1scnfKLRsK
-   qcM0pd7y57FmT0H91DPqWk/q3XD7rX73oC4LMk6bQoLGXYxSMfup3x+4N
-   u+WxV2MaqV3ul8KHLuA9plVHlezkS4MxGbiBl56QdBEOxmpsWBotktuca
-   1xdZUEokxzpOa1y613kxEP3qDv8IBNz03kQMGCsX5X+kKPRaDc8gVBYhs
-   +S035kDarl9rPtjkZEcerIWYUyk2WSAqBMihZ6zJ/jOZbz7HwjJi8AZ7S
-   C5jtYbzTsaaZjtqBaFJpsTIWQ8LaVFEIU8hI731ciYI0TuD88/0uS6qjA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="339758015"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="339758015"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 04:17:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="664623042"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="664623042"
-Received: from unknown (HELO localhost) ([10.237.66.162])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 04:16:58 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Joel Granados <j.granados@samsung.com>, mcgrof@kernel.org, Russell King
- <linux@armlinux.org.uk>, Catalin
-	Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Michael
-	Ellerman <mpe@ellerman.id.au>, Heiko Carstens <hca@linux.ibm.com>, Vasily
-	Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Andy Lutomirski
- <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, Herbert Xu
- <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>,
- Russ
-	Weight <russell.h.weight@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>,
- Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, Corey
-	Minyard <minyard@acm.org>, Theodore Ts'o <tytso@mit.edu>, "Jason A.
- Donenfeld" <Jason@zx2c4.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "K. Y.
- Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei
-	Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Jason Gunthorpe
- <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Song Liu <song@kernel.org>, Robin Holt
- <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>, David Ahern
- <dsahern@kernel.org>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sudip Mukherjee
- <sudipm.mukherjee@gmail.com>, Mark Rutland <mark.rutland@arm.com>, "James
- E.J. Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Doug Gilbert <dgilbert@interlog.com>, Jiri
-	Slaby <jirislaby@kernel.org>, Juergen Gross <jgross@suse.com>, Stefano
-	Stabellini <sstabellini@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Benjamin
-	LaHaise <bcrl@kvack.org>, David Howells <dhowells@redhat.com>, Jan Harkes
- <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Trond Myklebust
- <trond.myklebust@hammerspace.com>, Anna Schumaker <anna@kernel.org>, Chuck
-	Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Jan Kara
- <jack@suse.cz>, Anton Altaparmakov <anton@tuxera.com>, Mark Fasheh
- <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
- <joseph.qi@linux.alibaba.com>, Kees Cook <keescook@chromium.org>, Iurii
-	Zaikin <yzaikin@google.com>, Eric Biggers <ebiggers@kernel.org>, "Darrick
- J.
- Wong" <djwong@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
-	Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Balbir
-	Singh <bsingharora@gmail.com>, Eric Biederman <ebiederm@xmission.com>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Anil S Keshavamurthy
- <anil.s.keshavamurthy@intel.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- John
-	Stultz <jstultz@google.com>, Steven Rostedt <rostedt@goodmis.org>, Andrew
-	Morton <akpm@linux-foundation.org>, Mike Kravetz <mike.kravetz@oracle.com>,
- Muchun Song <muchun.song@linux.dev>, Naoya Horiguchi
- <naoya.horiguchi@nec.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Joerg Reuter <jreuter@yaina.de>, Ralf Baechle
- <ralf@linux-mips.org>, Pablo
-	Neira Ayuso <pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>,
- Florian Westphal <fw@strlen.de>, Roopa Prabhu <roopa@nvidia.com>, Nikolay
-	Aleksandrov <razor@blackwall.org>, Alexander Aring <alex.aring@gmail.com>,
- Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
- <miquel.raynal@bootlin.com>, Steffen Klassert
- <steffen.klassert@secunet.com>, Matthieu Baerts
- <matthieu.baerts@tessares.net>, Mat Martineau <martineau@kernel.org>,
- Simon
-	Horman <horms@verge.net.au>, Julian Anastasov <ja@ssi.bg>, Remi
-	Denis-Courmont <courmisch@gmail.com>, Santosh Shilimkar
- <santosh.shilimkar@oracle.com>, Marc Dionne <marc.dionne@auristor.com>,
- Neil
-	Horman <nhorman@tuxdriver.com>, Marcelo Ricardo Leitner
- <marcelo.leitner@gmail.com>, Xin Long <lucien.xin@gmail.com>, Karsten
- Graul <kgraul@linux.ibm.com>, Wenjia Zhang <wenjia@linux.ibm.com>, Jan
- Karcher <jaka@linux.ibm.com>, Jon Maloy <jmaloy@redhat.com>, Ying Xue
- <ying.xue@windriver.com>, Martin Schiller <ms@dev.tdt.de>, John Johansen
- <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, James
-	Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jarkko
-	Sakkinen <jarkko@kernel.org>
-Cc: Joel Granados <j.granados@samsung.com>, Nicholas Piggin
- <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
- <svens@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Mike Travis <mike.travis@hpe.com>, Oleksandr
- Tyshchenko <oleksandr_tyshchenko@epam.com>, Amir Goldstein
- <amir73il@gmail.com>, Matthew Bobrowski <repnop@google.com>, John
- Fastabend <john.fastabend@gmail.com>, Martin KaFai Lau
- <martin.lau@linux.dev>, Yonghong Song <yhs@fb.com>, KP Singh
- <kpsingh@kernel.org>, Stanislav
-	Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Waiman Long <longman@redhat.com>, Boqun Feng
- <boqun.feng@gmail.com>, John Ogness <john.ogness@linutronix.de>, Dietmar
-	Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel
-	Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira <bristot@redhat.com>,
- Valentin Schneider <vschneid@redhat.com>, Andy Lutomirski
- <luto@amacapital.net>, Will Drewry <wad@chromium.org>, Stephen Boyd
- <sboyd@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-ia64@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-raid@vger.kernel.org,
- netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
- linux-aio@kvack.org, linux-cachefs@redhat.com, codalist@coda.cs.cmu.edu,
- linux-mm@kvack.org, linux-nfs@vger.kernel.org,
- linux-ntfs-dev@lists.sourceforge.net, ocfs2-devel@oss.oracle.com,
- fsverity@lists.linux.dev, linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
- kexec@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
- linux-hams@vger.kernel.org, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, bridge@lists.linux-foundation.org,
- dccp@vger.kernel.org, linux-wpan@vger.kernel.org, mptcp@lists.linux.dev,
- lvs-devel@vger.kernel.org, rds-devel@oss.oracle.com,
- linux-afs@lists.infradead.org, linux-sctp@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, linux-x25@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
- keyrings@vger.kernel.org
-Subject: Re: [PATCH 09/11] sysctl: Remove the end element in sysctl table
- arrays
-In-Reply-To: <20230621094817.433842-1-j.granados@samsung.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230621091000.424843-1-j.granados@samsung.com>
- <CGME20230621094824eucas1p2b6adfbd3f15ff3665674917f419b25d3@eucas1p2.samsung.com>
- <20230621094817.433842-1-j.granados@samsung.com>
-Date: Wed, 21 Jun 2023 14:16:55 +0300
-Message-ID: <87o7l92hg8.fsf@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE37DF5C
+	for <fsverity@lists.linux.dev>; Wed, 21 Jun 2023 11:18:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1687346325;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=IO5VVrvlt4yaLcBQDvZ3hx40/hKZEJoz2Z1VJGTPERo=;
+	b=daiAHlR7CNEEwb7+AndAPYXPz1jG9kYBTijISN+HBf8qTLZcJiBNM9fO/U1DcFtvIyF+qp
+	g1mGDUbbwy8wluNQj61EKd9U1X/jBCkXaUFV0VLADnlXtPwVbhROoxYxCCU5eiGCJN+72f
+	x3R02ZQxCgig44FyP2dDO2AWij8RAbE=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-4XTNHQCOPeWmFlo_H80WTw-1; Wed, 21 Jun 2023 07:18:44 -0400
+X-MC-Unique: 4XTNHQCOPeWmFlo_H80WTw-1
+Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2b1d8fa45a6so42871021fa.0
+        for <fsverity@lists.linux.dev>; Wed, 21 Jun 2023 04:18:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687346323; x=1689938323;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IO5VVrvlt4yaLcBQDvZ3hx40/hKZEJoz2Z1VJGTPERo=;
+        b=iERMzXWUOTxu1eaOs0nqrT85DOzKbhGGukqxfHQmR7e9A3Oz+1AwipNQfMZLgg4852
+         z/XqKUh+nqFAFLE/A7kNjWkSrVDvzMlDjQSZPDe5rrqtjBnpCte9lhNvfiAVLeBUJtIU
+         GSji9X5if3fQeLgtBCglbN4/B5/V1ybzxdlB9dFw+ZaMMWwPH8ouZb+xxvH7tjzNoPaz
+         ndzf3YhvB256Om4JwvRehOzwT8rrYLXFVG4Fsp/1uhjwjH49swLsWFwbUI1oGsJh7yPd
+         owSfGLlCWfZUhiptFbt4nEbB4rRmhod1xRKFaFFPUEUzh1xg1KpuwymWpKd0YwNhkn7M
+         kxqQ==
+X-Gm-Message-State: AC+VfDw1RVxc1N8l22nKRT4sCI/Nd2VgT9HsTKcKokfiBeY9UIeSQgaa
+	XA3XQgmVVLcGTAyaCTqUUJXHElp0R+vSj38VswdzB9VVVtnfufAtk/eHTHMHV/zic89eFLkIDkW
+	7hSs4avt3qQkmGjzSBvo=
+X-Received: by 2002:a2e:8654:0:b0:2b4:6c47:6258 with SMTP id i20-20020a2e8654000000b002b46c476258mr8277790ljj.21.1687346322940;
+        Wed, 21 Jun 2023 04:18:42 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ75STI+9YmMxhyOMTB2nW8t1lI8hVUiHvnl+SYoP8Cj8j7VpblaN//ktHoJZboKXjcN34nMPw==
+X-Received: by 2002:a2e:8654:0:b0:2b4:6c47:6258 with SMTP id i20-20020a2e8654000000b002b46c476258mr8277768ljj.21.1687346322575;
+        Wed, 21 Jun 2023 04:18:42 -0700 (PDT)
+Received: from localhost.localdomain (c-e6a5e255.022-110-73746f36.bbcust.telenor.se. [85.226.165.230])
+        by smtp.googlemail.com with ESMTPSA id 3-20020a05651c00c300b002b31ec01c97sm864436ljr.15.2023.06.21.04.18.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 04:18:42 -0700 (PDT)
+From: Alexander Larsson <alexl@redhat.com>
+To: miklos@szeredi.hu
+Cc: linux-unionfs@vger.kernel.org,
+	amir73il@gmail.com,
+	ebiggers@kernel.org,
+	tytso@mit.edu,
+	fsverity@lists.linux.dev,
+	Alexander Larsson <alexl@redhat.com>
+Subject: [PATCH v5 0/4] ovl: Add support for fs-verity checking of lowerdata
+Date: Wed, 21 Jun 2023 13:18:24 +0200
+Message-Id: <cover.1687345663.git.alexl@redhat.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Wed, 21 Jun 2023, Joel Granados <j.granados@samsung.com> wrote:
-> Remove the empty end element from all the arrays that are passed to the
-> register sysctl calls. In some files this means reducing the explicit
-> array size by one. Also make sure that we are using the size in
-> ctl_table_header instead of evaluating the .procname element.
+This patchset adds support for using fs-verity to validate lowerdata
+files by specifying an overlay.verity xattr on the metacopy
+files.
 
-Where's the harm in removing the end elements driver by driver? This is
-an unwieldy patch to handle.
+This is primarily motivated by the Composefs usecase, where there will
+be a read-only EROFS layer that contains redirect into a base data
+layer which has fs-verity enabled on all files. However, it is also
+useful in general if you want to ensure that the lowerdata files
+matches the expected content over time.
 
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index f43950219ffc..e4d7372afb10 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -4884,24 +4884,23 @@ int i915_perf_remove_config_ioctl(struct drm_device *dev, void *data,
->  
->  static struct ctl_table oa_table[] = {
->  	{
-> -	 .procname = "perf_stream_paranoid",
-> -	 .data = &i915_perf_stream_paranoid,
-> -	 .maxlen = sizeof(i915_perf_stream_paranoid),
-> -	 .mode = 0644,
-> -	 .proc_handler = proc_dointvec_minmax,
-> -	 .extra1 = SYSCTL_ZERO,
-> -	 .extra2 = SYSCTL_ONE,
-> -	 },
-> +		.procname = "perf_stream_paranoid",
-> +		.data = &i915_perf_stream_paranoid,
-> +		.maxlen = sizeof(i915_perf_stream_paranoid),
-> +		.mode = 0644,
-> +		.proc_handler = proc_dointvec_minmax,
-> +		.extra1 = SYSCTL_ZERO,
-> +		.extra2 = SYSCTL_ONE,
-> +	},
->  	{
-> -	 .procname = "oa_max_sample_rate",
-> -	 .data = &i915_oa_max_sample_rate,
-> -	 .maxlen = sizeof(i915_oa_max_sample_rate),
-> -	 .mode = 0644,
-> -	 .proc_handler = proc_dointvec_minmax,
-> -	 .extra1 = SYSCTL_ZERO,
-> -	 .extra2 = &oa_sample_rate_hard_limit,
-> -	 },
-> -	{}
-> +		.procname = "oa_max_sample_rate",
-> +		.data = &i915_oa_max_sample_rate,
-> +		.maxlen = sizeof(i915_oa_max_sample_rate),
-> +		.mode = 0644,
-> +		.proc_handler = proc_dointvec_minmax,
-> +		.extra1 = SYSCTL_ZERO,
-> +		.extra2 = &oa_sample_rate_hard_limit,
-> +	}
->  };
+I have also added some tests for this feature to xfstests[1].
 
-The existing indentation is off, but fixing it doesn't really belong in
-this patch.
+This series depends on commits from overlay-next, fs-verity-next and
+vfs.all, so I based it on:
 
-BR,
-Jani.
+  https://github.com/amir73il/linux/tree/next
 
+Which contains all of these
+
+This series is also available in git here:
+  https://github.com/alexlarsson/linux/tree/overlay-verity
+
+Changes since v4:
+ * Rebased also on vfs.all
+
+ * Refactored patch series with the new overlay.metadata versioned
+   xattr header in its own patch.
+
+ * Some documentation updates
+
+ * Fixes for issues reported in review from Amir.
+
+Changes since v3:
+ * Instead of using a overlay.digest xattr we extend the current
+   overlay.metacopy xattr with version, flags and digest. This makes
+   it flexible for later changes and allows us to use the existing
+   xattr lookup to know ahead of time whether a file needs to have
+   verity validated.
+
+   I've done some performance checks on this new layout, and the
+   results are essentially the same as before.
+
+ * This is rebased on top of the latest overlayfs-next, which includes
+   the changes to the new mount API, so that part has been redone.
+
+ * The documentation changes have been rewritten to try to be more
+   clear about the behaviour of i/o verification when verity is used.
+
+Changes since v2:
+ * Rebased on top of overlayfs-next
+ * We now alway do verity verification the first time the file content
+   is used, rather than doing it at lookup time for the non-lazy lookup
+   case.
+
+Changes since v1:
+ * Rebased on v2 lazy lowerdata series
+ * Dropped the "validate" mount option variant. We now only support
+   "off", "on" and "require", where "off" is the default.
+ * We now store the digest algorithm used in the overlay.verity xattr.
+ * Dropped ability to configure default verity options, as this could
+   cause problems moving layers between machines.
+ * We now properly resolve dependent mount options by automatically
+   enabling metacopy and redirect_dir if verity is on, or failing
+   if the specified options conflict.
+ * Streamlined and fixed the handling of creds in ovl_ensure_verity_loaded().
+ * Renamed new helpers from ovl_entry_path_ to ovl_e_path_
+
+[1] https://github.com/alexlarsson/xfstests/commits/verity-tests
+
+Alexander Larsson (4):
+  ovl: Add framework for verity support
+  ovl: Add versioned header for overlay.metacopy xattr
+  ovl: Validate verity xattr when resolving lowerdata
+  ovl: Handle verity during copy-up
+
+ Documentation/filesystems/fsverity.rst  |   2 +
+ Documentation/filesystems/overlayfs.rst |  47 +++++++
+ fs/overlayfs/copy_up.c                  |  47 ++++++-
+ fs/overlayfs/file.c                     |   8 +-
+ fs/overlayfs/namei.c                    |  82 +++++++++++-
+ fs/overlayfs/overlayfs.h                |  44 ++++++-
+ fs/overlayfs/ovl_entry.h                |   1 +
+ fs/overlayfs/super.c                    |  66 +++++++++-
+ fs/overlayfs/util.c                     | 158 +++++++++++++++++++++++-
+ 9 files changed, 432 insertions(+), 23 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.40.1
+
