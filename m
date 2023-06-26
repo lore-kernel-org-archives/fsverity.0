@@ -1,219 +1,86 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61271F182
-	for <fsverity@lists.linux.dev>; Thu, 22 Jun 2023 18:08:00 +0000 (UTC)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-78f1dd09289so2335673241.2
-        for <fsverity@lists.linux.dev>; Thu, 22 Jun 2023 11:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687457279; x=1690049279;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T3SpfpkSm7QX57pHLgtZxuZphS9HDEHPUEgYTbSXYgQ=;
-        b=d5tmVTlteVE2uhaktLMQmpndNI2gK0uso6qgDv42ujCy+BQT+UtREZrIYCSaSuYOSO
-         S1Aqs9fac0LxjuDr2lOlTouGuXEjBPQgfuXCxqgN540x0EatZ1MDlKkxTqHxPFE7r0JH
-         lwfrQt3aBRRT3eL9cUwleoXTV6IJqE/XEXHNFL79GVUrqSY34T8EH1Ei60AC7Bpk0wgV
-         9i2h1/BEw32MhwyfSxPJcW8paUU4+aLRE7DCTXR7bdXJd3+WGHG/85TXSb9aZ7/9s2RL
-         bTCT+z65g+IP+wylXSNu6snWq8y1UmkhplyFcWd2uo29i8dHfNkSxAC4nlQh1eEeBpKu
-         6v1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687457279; x=1690049279;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T3SpfpkSm7QX57pHLgtZxuZphS9HDEHPUEgYTbSXYgQ=;
-        b=d9ehT9HS2LsXdJcn8uNo4JAnKAsBgRkw/sS/rkIlif7EHZiZSkYZYP2j+k0cdMMQzd
-         JqdN7w5Q4vc0m+aRDsaIVmTwoSCYtBHC4stlzAiNGCcikQo78VAfoCOlSHXrCdcs/1i/
-         SJnsOyrXZcwK0yJDiGH2xaHx2nRymJcHFRKYNMiKGSUoXXMfo7Zu8o7Y1WACu4QgErvg
-         +vixjpcFD+0oxRILGdTrXHYax6l0SzLCZeEIBFnhXcTtwN4DBAWnneWA8cPXK890LBvk
-         mdbRjpEL3bgBIIy86E8TtJkQEcvFNouXk2wLORRrjvpqHJsC+5J/B6ZRXEKbPrIJYidR
-         KzaQ==
-X-Gm-Message-State: AC+VfDxA1vrc6APkId3TFoYL0xF7aOvy/M6rkmvUbXr/klyU1/VmmfBx
-	VRAwWacOhzRSZ3x/z+wk5OfSdk7fq8L6F/EL9lkdPpNjT2Y=
-X-Google-Smtp-Source: ACHHUZ7LQdaD7aw1S/p6MsQNbpDdLaPb6gLNjkAD1zXHfXVpL8vbux5IDPa+jjnd4BDp7kGFKLEALXSI2y8hdMLlLeU=
-X-Received: by 2002:a67:e3a6:0:b0:439:31ec:8602 with SMTP id
- j6-20020a67e3a6000000b0043931ec8602mr8276623vsm.27.1687457279262; Thu, 22 Jun
- 2023 11:07:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F93628
+	for <fsverity@lists.linux.dev>; Mon, 26 Jun 2023 01:54:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93038C433C0;
+	Mon, 26 Jun 2023 01:54:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687744456;
+	bh=5oeqP+MWXjh5TRebKQMUswKua+sGjBsaB33i76j0bxo=;
+	h=Date:From:To:Cc:Subject:From;
+	b=f6LGIex6z5K0RASvaouow8y8XMHsFXoUr7TZ2cVN0jTQhZ5CbZsJSJjkPCK82EaXb
+	 WHfnKAp5TSnsepIqO1p3s1SAmJiku6aewaNrrd87VPbThmmT/S4Ga01IoS9OjHJE20
+	 B09EP3Cz4HjqEmXElkhJYpdF4Jqe8u7PXQ1pMvxTa/05AdzLs4jvhT8Rb1yFzGsq2U
+	 7mBc9xEZTHIDlv+nXA0qT+x/WEWAnFQiD+5AzmtJ9OX4B/+/eox2gxUj/O0jY3Ga6u
+	 9g7sm5ShVE5ovqJDmng6IGODDnQIWY567sJ5ydCm5DMuhMP0bA131SUwh4MGJNFNTU
+	 FuhaSQE4Vft2Q==
+Date: Sun, 25 Jun 2023 18:54:15 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Theodore Ts'o <tytso@mit.edu>, Alexander Larsson <alexl@redhat.com>
+Subject: [GIT PULL] fsverity updates for 6.5
+Message-ID: <20230626015415.GB1024@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1686565330.git.alexl@redhat.com> <CAOQ4uxgmV1KKCeq8=8FPkAciwqPpz8JiSM8WEuxDaZbVuYcQ7Q@mail.gmail.com>
- <CAL7ro1EiYOOOqexrKy+UXRzmpGyCaNec3+LHGxnA0YfmoMDN3A@mail.gmail.com>
- <CAL7ro1FKwgUY4e7N_vYi0cFsuVx6St0-oKvcBkiRFnzLH8D1eQ@mail.gmail.com>
- <CAOQ4uxgVnv7wtwFZaBnEotFCwQD1EZcSK2KW4K4vRD8d9fzCiw@mail.gmail.com>
- <CAL7ro1FY6OmhypFGDjinOkkjyJzymntVje4nRA558dKY+KsgzQ@mail.gmail.com>
- <CAOQ4uxjuhzxgTxmRXxczJLDrMzKKr-jzS3R8ESwkw4XQ+UyAfQ@mail.gmail.com> <20230622161209.GA1191@sol.localdomain>
-In-Reply-To: <20230622161209.GA1191@sol.localdomain>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 22 Jun 2023 21:07:48 +0300
-Message-ID: <CAOQ4uxi+zRZRkZi_QQF22ygmJORXBfWw_mOTVe-jjvAaDWNhog@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] ovl: Add support for fs-verity checking of lowerdata
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Alexander Larsson <alexl@redhat.com>, tytso@mit.edu, miklos@szeredi.hu, 
-	linux-unionfs@vger.kernel.org, fsverity@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jun 22, 2023 at 7:12=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
-wrote:
->
-> Hi Amir,
->
-> On Thu, Jun 22, 2023 at 12:36:59PM +0300, Amir Goldstein wrote:
-> > > > What do I need to do in order to enable verity on ext4 besides
-> > > > enabling FS_VERITY in the kernel?
-> > > >
-> > > > I'm getting these on verity tests on ext4 in the default 4k config.
-> > > > _require_scratch_verity() doesn't mention any requirement other
-> > > > that 4K blocks and extent format files.
-> > > >
-> > > > Thanks,
-> > > > Amir.
-> > > >
-> > > > BEGIN TEST 4k (10 tests): Ext4 4k block Wed Jun 14 06:04:25 UTC 202=
-3
-> > > > DEVICE: /dev/vdb
-> > > > EXT_MKFS_OPTIONS: -b 4096
-> > > > EXT_MOUNT_OPTIONS: -o block_validity
-> > > > FSTYP         -- ext4
-> > > > PLATFORM      -- Linux/x86_64 kvm-xfstests
-> > > > 6.4.0-rc2-xfstests-00026-g35774ba7f07c #1596 SMP PREEMPT_DYNAMIC Tu=
-e
-> > > > Jun 13 18:16:59 IDT 2023
-> > > > MKFS_OPTIONS  -- -F -q -b 4096 /dev/vdc
-> > > > MOUNT_OPTIONS -- -o acl,user_xattr -o block_validity /dev/vdc /vdc
-> > > >
-> > > > generic/572        [06:04:42] [06:04:47] [not run]
-> > > > generic/572 -- ext4 verity isn't usable by default with these mkfs =
-options
-> > > > ...
-> > >
-> > > You need to "tune2fs -O verity" (or pass -O verity to mkfs.ext4).
-> > >
-> >
-> > That was indeed missing in my setup, but it did not fix the problem.
-> >
-> > Turned out that I had a very old version of fsverity installed in my
-> > kvm-xfstest test VM, where there is no --block-size option to
-> > fsverity enable would always fail.
->
-> That would do it.  So the tests were in fact skipping themselves as expec=
-ted;
-> just the skip message was not clear.
->
+The following changes since commit f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6:
 
-Right.
+  Linux 6.4-rc2 (2023-05-14 12:51:40 -0700)
 
-> >
-> > Eric,
-> >
-> > You may consider adding a check for minimal version of
-> > fsverity or check for support of --block-size option to make
-> > this error reason more clear for testers.
->
-> I'm thinking it wouldn't be worth bothering, as the --block-size option w=
-as in
-> the first actual release of fsverity-utils (v1.0).  You must have pulled =
-down a
-> work-in-progress version of fsverity-utils back in 2018 or early 2019, we=
-ll
-> before the kernel support for fsverity was upstreamed, and then never upd=
-ated
-> it.  I expect this issue affects very few people.
->
+are available in the Git repository at:
 
-Agree.
+  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
 
-> > Ted,
-> >
-> > FYI, FSVERITY_GIT in fstests-bld/config points to an out of date URL
->
-> It was already updated several months ago.  Please run 'git pull'.
->
+for you to fetch changes up to 672d6ef4c775cfcd2e00172e23df34e77e495e85:
 
-I thought I did. My bad.
-Sorry for the noise.
+  fsverity: improve documentation for builtin signature support (2023-06-20 22:47:55 -0700)
 
-> >
-> > How come there is no ext4/cfg/verity in fstests-bld?
->
-> xfstests has a verity test *group*, which contains the tests that were wr=
-itten
-> specifically to test verity.
->
-> An xfstests-bld test config is something that applies to all tests.  Feat=
-ures
-> like "encrypt" have an xfstests-bld test config since there is a way to
-> enable/use those features in all tests.  In the case of encrypt that mean=
-s
-> mounting the filesystem with "-o test_dummy_encryption".
->
-> In the case of verity, there is no way to enable/use verity in all tests.=
-  (It
-> would be possible to always enable "-O verity" on the filesystem, but tha=
-t does
-> nothing to make verity actually be used/tested.)  Hence, it doesn't have =
-an
-> xfstests-bld test config.
->
+----------------------------------------------------------------
 
-Got it.
+Several updates for fs/verity/:
 
-In case of overlayfs over ext4 (i.e. -c ext4:overlay/small) it is needed
-to format ext4 in the beginning with -O verity because overlayfs
-tests do not currently have support for formatting the base fs differently
-per test.
+- Do all hashing with the shash API instead of with the ahash API.  This
+  simplifies the code and reduces API overhead.  It should also make
+  things slightly easier for XFS's upcoming support for fsverity.  It
+  does drop fsverity's support for off-CPU hash accelerators, but that
+  support was incomplete and not known to be used.
 
-This is the patch I intend to post.
-Shout it you disagree:
+- Update and export fsverity_get_digest() so that it's ready for
+  overlayfs's upcoming support for fsverity checking of lowerdata.
 
-commit 28d65d957c25eab85eb80b06724b215770a734a1
-Author: Amir Goldstein <amir73il@gmail.com>
-Date:   Thu Jun 22 11:30:06 2023 +0300
+- Improve the documentation for builtin signature support.
 
-    test-appliance: enable verity for testing overlay over ext4
+- Fix a bug in the large folio support.
 
-    Add -O verity for ext4 formatted for overlay tests, so that overlay
-    verity feature could be tested.
+----------------------------------------------------------------
+Eric Biggers (6):
+      fsverity: use shash API instead of ahash API
+      fsverity: constify fsverity_hash_alg
+      fsverity: don't use bio_first_page_all() in fsverity_verify_bio()
+      fsverity: simplify error handling in verify_data_block()
+      fsverity: rework fsverity_get_digest() again
+      fsverity: improve documentation for builtin signature support
 
-    Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-
-diff --git a/test-appliance/files/root/fs/overlay/config
-b/test-appliance/files/root/fs/overlay/config
-index 7c50b19..f252a70 100644
---- a/test-appliance/files/root/fs/overlay/config
-+++ b/test-appliance/files/root/fs/overlay/config
-@@ -55,7 +55,7 @@ function __mkfs()
-
-        case "$BASE_FSTYPE" in
-            ext4)
--               /sbin/mke2fs -F -q -t ext4 "$dev"
-+               /sbin/mke2fs -F -q -t ext4 -O verity "$dev"
-                ;;
-            xfs)
-                mkfs.xfs -f -m rmapbt=3D1,reflink=3D1 "$dev"
-
-
-> > Are you guys not testing fsverity with fstests-bld?
->
-> We are.  The documented way to test fsverity is to use kvm-xfstests:
-> https://www.kernel.org/doc/html/latest/filesystems/fsverity.html#tests
->
-> > Should we just add fsverity config or add verity to ext4/cfg/encrypt
-> > instead to avoid growing the test matrix?
-> >
-> > I can send patches for fstests-bld fixing the above if you like.
->
-> As per the above, I don't think there is anything to fix.
->
-
-Right.
-Expect for the patch above which is needed for running Alex's
--g overlay/verity test
-
-Thanks,
-Amir.
+ Documentation/filesystems/fsverity.rst | 192 +++++++++++++++++++++------------
+ fs/verity/Kconfig                      |  16 +--
+ fs/verity/enable.c                     |  21 ++--
+ fs/verity/fsverity_private.h           |  23 ++--
+ fs/verity/hash_algs.c                  | 139 +++++-------------------
+ fs/verity/measure.c                    |  37 +++++--
+ fs/verity/open.c                       |  12 +--
+ fs/verity/read_metadata.c              |   4 +-
+ fs/verity/signature.c                  |   8 ++
+ fs/verity/verify.c                     | 164 +++++++++++-----------------
+ include/linux/fsverity.h               |  14 ++-
+ security/integrity/ima/ima_api.c       |  31 +++---
+ 12 files changed, 299 insertions(+), 362 deletions(-)
