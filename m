@@ -1,86 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F93628
-	for <fsverity@lists.linux.dev>; Mon, 26 Jun 2023 01:54:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93038C433C0;
-	Mon, 26 Jun 2023 01:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687744456;
-	bh=5oeqP+MWXjh5TRebKQMUswKua+sGjBsaB33i76j0bxo=;
-	h=Date:From:To:Cc:Subject:From;
-	b=f6LGIex6z5K0RASvaouow8y8XMHsFXoUr7TZ2cVN0jTQhZ5CbZsJSJjkPCK82EaXb
-	 WHfnKAp5TSnsepIqO1p3s1SAmJiku6aewaNrrd87VPbThmmT/S4Ga01IoS9OjHJE20
-	 B09EP3Cz4HjqEmXElkhJYpdF4Jqe8u7PXQ1pMvxTa/05AdzLs4jvhT8Rb1yFzGsq2U
-	 7mBc9xEZTHIDlv+nXA0qT+x/WEWAnFQiD+5AzmtJ9OX4B/+/eox2gxUj/O0jY3Ga6u
-	 9g7sm5ShVE5ovqJDmng6IGODDnQIWY567sJ5ydCm5DMuhMP0bA131SUwh4MGJNFNTU
-	 FuhaSQE4Vft2Q==
-Date: Sun, 25 Jun 2023 18:54:15 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Theodore Ts'o <tytso@mit.edu>, Alexander Larsson <alexl@redhat.com>
-Subject: [GIT PULL] fsverity updates for 6.5
-Message-ID: <20230626015415.GB1024@sol.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990D27F
+	for <fsverity@lists.linux.dev>; Mon, 26 Jun 2023 13:01:40 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4436dc265d6so173918137.0
+        for <fsverity@lists.linux.dev>; Mon, 26 Jun 2023 06:01:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687784499; x=1690376499;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WmCzRPzRcTg1NKOs+w+vHzLQv/9uj8XhgnwGLZnfWp0=;
+        b=Pyn+5ySoU2fm4WO5QNddAMphfHi5U06M8WWy+EMSnNBrfdDGmSc38BAWSJ4oeXxiuK
+         5UysN/vhKAu5gwCRr1P6KtS0vAblcl8b/tlvQDlF2Z9nsarIyDB+LS++OYxbmfVOSZEY
+         icTTAfXcH+khRFtWETQ1JjTidv12yX0vhrDPpDP6J4xs3ctVmVyNUo7rKt3LuVKwnbzt
+         k6kNRCAkt7YTA4uB3N16GQa+jeQHrB3NSi58J/tfkkZ/da1Onq3/10nfnklDCWijC1Bu
+         N6nidNDMf3bcdqMUYpzbHD559QRUszKI9TNA9YDGNkpL8hi+3CX19FDzbysLWRud7ePr
+         5P1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687784499; x=1690376499;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WmCzRPzRcTg1NKOs+w+vHzLQv/9uj8XhgnwGLZnfWp0=;
+        b=DghneBdkjN2HnQxHDU5ielglMg9Sh2J/TEWTQ1i6PMIFld9w3K56JSeznWC8NVKO94
+         lTWKeZViL9/J0sBX0IzmbGP1YzfeXiFdemjPWRdXZr6hFu1CeJTbqfNM28ubxqkJI8/r
+         jDJRfMTzJHrImq5Xv4yuJDmty6CEeUU60Mws3CvlDyZ1M6CMQkhGLn99rRwVTUPXe+3i
+         CdZcXVSnoFNq4vS+eJcvrtibnBL3ncy6RHQ7nmAR1UljUB3FoEKJwwQw72PycfQ6h6F0
+         uXNCUy/EnLwHXWu8PgNHqgXhnWOUHoAf/c4l4lZyHGuS6/yw2A6g5cN0S7l+W/3/20qs
+         NIeA==
+X-Gm-Message-State: AC+VfDzZsQJJtpyuMVFVm0f+/gSOH/Ieg4ThhDHLGqJgtPCrACP0j77+
+	O/B3RjYtwoTOhPeVQKwBvzAUUENJgFdDjgXyOF4=
+X-Google-Smtp-Source: ACHHUZ6cYnKNdhihXPX3jbprEGnNZnxHQYL6ie+bTRZ/0neTXabzJBSTR1gMDqCgEM53L4nl6DooMkjUQH439RnE4Ag=
+X-Received: by 2002:a67:f044:0:b0:43f:437e:da70 with SMTP id
+ q4-20020a67f044000000b0043f437eda70mr9300564vsm.0.1687784499246; Mon, 26 Jun
+ 2023 06:01:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <cover.1686565330.git.alexl@redhat.com> <CAOQ4uxgmV1KKCeq8=8FPkAciwqPpz8JiSM8WEuxDaZbVuYcQ7Q@mail.gmail.com>
+ <CAL7ro1EiYOOOqexrKy+UXRzmpGyCaNec3+LHGxnA0YfmoMDN3A@mail.gmail.com>
+ <CAL7ro1FKwgUY4e7N_vYi0cFsuVx6St0-oKvcBkiRFnzLH8D1eQ@mail.gmail.com>
+ <CAOQ4uxgVnv7wtwFZaBnEotFCwQD1EZcSK2KW4K4vRD8d9fzCiw@mail.gmail.com>
+ <CAL7ro1FY6OmhypFGDjinOkkjyJzymntVje4nRA558dKY+KsgzQ@mail.gmail.com>
+ <CAOQ4uxjuhzxgTxmRXxczJLDrMzKKr-jzS3R8ESwkw4XQ+UyAfQ@mail.gmail.com>
+ <CAL7ro1GYEdMvjn+e8Y8CmMC-s_5NZOXjsj=iv7s5NbnpTZz+Cg@mail.gmail.com> <CAOQ4uxjS9mTjCCTS9eS1HmZqKAQV97mh1wpkqJuShCHP_MKqag@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjS9mTjCCTS9eS1HmZqKAQV97mh1wpkqJuShCHP_MKqag@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 26 Jun 2023 16:01:28 +0300
+Message-ID: <CAOQ4uxjNMJG6TQcZiT2sx8eLTyybf+iLR3GtOKaaj7QydVr_0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] ovl: Add support for fs-verity checking of lowerdata
+To: Alexander Larsson <alexl@redhat.com>
+Cc: ebiggers@kernel.org, tytso@mit.edu, miklos@szeredi.hu, 
+	linux-unionfs@vger.kernel.org, fsverity@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6:
+On Thu, Jun 22, 2023 at 2:45=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+>
+> On Thu, Jun 22, 2023 at 12:52=E2=80=AFPM Alexander Larsson <alexl@redhat.=
+com> wrote:
+> >
+> > On Thu, Jun 22, 2023 at 11:37=E2=80=AFAM Amir Goldstein <amir73il@gmail=
+.com> wrote:
+...
+> > > Alex,
+> > >
+> > > Verified that your verity-tests2 work as expected with v5 patches.
+> >
+> > To be honest I have not validated that my changes to the shared verity
+> > code still works with the non-overlayfs tests. If you have a setup for
+> > it it would be great if you could try the regular ext4 w/ fs-veriy
+> > tests on top of the verity-test2 branch.
+> >
+>
+> There is no problem with "./check -g verity" on ext4
+> those tests pass.
+>
+> However, "./check -overlay -g generic/verity" fails several test:
+> Failures: generic/572 generic/573 generic/574 generic/575 generic/577
+> because _require_scratch_verity falsely claims that overlay (over ext4)
+> supports verify, but then FS_IOC_ENABLE_VERITY actually fails
+> during the test.
+>
+> Instead of changing _require_scratch_verity() as you did,
+> you should consider passing optional arguments, e.g.:
+>   local fstyp=3D${1:-$FSTYP}
+> and calling it from _require_scratch_overlay_verity() with the
+> $OVL_BASE_* values.
+>
 
-  Linux 6.4-rc2 (2023-05-14 12:51:40 -0700)
+FWIW, I pushed this solution to
+https://github.com/amir73il/xfstests/commits/verity-tests
 
-are available in the Git repository at:
+It's ugly, but it works.
 
-  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
-
-for you to fetch changes up to 672d6ef4c775cfcd2e00172e23df34e77e495e85:
-
-  fsverity: improve documentation for builtin signature support (2023-06-20 22:47:55 -0700)
-
-----------------------------------------------------------------
-
-Several updates for fs/verity/:
-
-- Do all hashing with the shash API instead of with the ahash API.  This
-  simplifies the code and reduces API overhead.  It should also make
-  things slightly easier for XFS's upcoming support for fsverity.  It
-  does drop fsverity's support for off-CPU hash accelerators, but that
-  support was incomplete and not known to be used.
-
-- Update and export fsverity_get_digest() so that it's ready for
-  overlayfs's upcoming support for fsverity checking of lowerdata.
-
-- Improve the documentation for builtin signature support.
-
-- Fix a bug in the large folio support.
-
-----------------------------------------------------------------
-Eric Biggers (6):
-      fsverity: use shash API instead of ahash API
-      fsverity: constify fsverity_hash_alg
-      fsverity: don't use bio_first_page_all() in fsverity_verify_bio()
-      fsverity: simplify error handling in verify_data_block()
-      fsverity: rework fsverity_get_digest() again
-      fsverity: improve documentation for builtin signature support
-
- Documentation/filesystems/fsverity.rst | 192 +++++++++++++++++++++------------
- fs/verity/Kconfig                      |  16 +--
- fs/verity/enable.c                     |  21 ++--
- fs/verity/fsverity_private.h           |  23 ++--
- fs/verity/hash_algs.c                  | 139 +++++-------------------
- fs/verity/measure.c                    |  37 +++++--
- fs/verity/open.c                       |  12 +--
- fs/verity/read_metadata.c              |   4 +-
- fs/verity/signature.c                  |   8 ++
- fs/verity/verify.c                     | 164 +++++++++++-----------------
- include/linux/fsverity.h               |  14 ++-
- security/integrity/ima/ima_api.c       |  31 +++---
- 12 files changed, 299 insertions(+), 362 deletions(-)
+Thanks,
+Amir.
