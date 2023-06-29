@@ -1,22 +1,22 @@
 Received: from box.fidei.email (box.fidei.email [71.19.144.250])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9945AFBF1
-	for <fsverity@lists.linux.dev>; Thu, 29 Jun 2023 22:17:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21C3FC1B
+	for <fsverity@lists.linux.dev>; Thu, 29 Jun 2023 22:25:33 +0000 (UTC)
 Received: from authenticated-user (box.fidei.email [71.19.144.250])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by box.fidei.email (Postfix) with ESMTPSA id 067A5809D5;
-	Thu, 29 Jun 2023 18:17:44 -0400 (EDT)
+	by box.fidei.email (Postfix) with ESMTPSA id AE32980702;
+	Thu, 29 Jun 2023 18:17:31 -0400 (EDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
-	t=1688077065; bh=s9IkOPswFcoMbSUPlHIx6NlUBPocYX+B+nK2H9PE4AU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MAlqqSWscwBcr8WOLjtTPx1/YFsQfdyqL/1NtKBq/Dj74Zn0WWltXR0T0RaHQbntM
-	 zu4mqa3UaFN7Sz2TpJhX5dU4aBOpwuqDdTfKHIHuWXGArhHUvrfhI9tW+Wi3fWXcku
-	 wpVIxQyCDbSb6T8AqfzXejfunhVqtS5PjHlZTR234WbI9+sGaCdY16HrEuaH+b5pxJ
-	 Vi0SJsdPTIpu9q2OpXtGPYVd5jUK5LulEeAuNQRlLcUo7y57Vsh8Uu+BR5YAhGsD8s
-	 gpwD+R/RJK0FmXJfgvgLnGjeBelT2sedNILdkiZf/mv4ik8s8pzyNk3wJ+RaGg13Ww
-	 WCLctJLwlM+kg==
+	t=1688077052; bh=tSjVvle2uSxcOZ/ckvaZRLq6Jdqi0bIN8G3EChW8wBU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sEJkDDgR2OCWn0nd0/afpZx/xb8Yo/cGdaIZHU7qg19lsZ+eiFuTpwZwo4rBH1m2h
+	 SCabloxgV2GaU6L23WzFX4/qcXSMsthivJGxwH1/aliL+1cNwLoEwcCFulbDegJYCF
+	 RLqWLWUTHcQFOYMPl03VTGkFxurdIGIRWW5/7uPej8iDzbcmj1s82n835TPnhrOokW
+	 Tfvzas9n11HjFapO3d8/NMPhCa5vUAakCeZ6hTeVlR/Tch1nIUWExIzsNYOYhqRo3m
+	 GWCudfjkEZBgtaTxXsRe8j0si5tn5UFrs36fpK6AzxzwH2e7aJXJJxJoD10hET4K5C
+	 p0Y2ifVObxE/Q==
 From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
 To: linux-btrfs@vger.kernel.org,
 	fstests@vger.kernel.org,
@@ -28,11 +28,9 @@ To: linux-btrfs@vger.kernel.org,
 	fsverity@lists.linux.dev,
 	zlang@kernel.org
 Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-Subject: [RFC PATCH 8/8] btrfs: add simple test of reflink of encrypted data
-Date: Thu, 29 Jun 2023 18:17:23 -0400
-Message-Id: <dbf938dfa6828b9307759c89a48237b16dbcb5a3.1688076612.git.sweettea-kernel@dorminy.me>
-In-Reply-To: <cover.1688076612.git.sweettea-kernel@dorminy.me>
-References: <cover.1688076612.git.sweettea-kernel@dorminy.me>
+Subject: [RFC PATCH 0/8] fstests: add btrfs encryption testing
+Date: Thu, 29 Jun 2023 18:17:15 -0400
+Message-Id: <cover.1688076612.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -41,104 +39,41 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make sure that we succeed at reflinking encrypted data.
+This is a preliminary fstests side of the btrfs encryption feature;
+more tests are needed, but this gets the existing encryption tests
+working with btrfs. This requires the progs and the kernel changes: [1]
+[2].
 
-Test deliberately numbered with a high number so it won't conflict with
-tests between now and merge.
----
- tests/btrfs/613     | 62 +++++++++++++++++++++++++++++++++++++++++++++
- tests/btrfs/613.out | 13 ++++++++++
- 2 files changed, 75 insertions(+)
+Marked as RFC because they're not ready to merge until all its
+dependencies finish landing.
+
+[1] https://lore.kernel.org/linux-btrfs/cover.1688068420.git.sweettea-kernel@dorminy.me/T/#t
+[2] https://lore.kernel.org/linux-btrfs/cover.1687988380.git.sweettea-kernel@dorminy.me/T/#t
+
+Sweet Tea Dorminy (8):
+  common/encrypt: separate data and inode nonces
+  common/encrypt: add btrfs to get_encryption_*nonce
+  common/encrypt: add btrfs to get_ciphertext_filename
+  common/encrypt: enable making a encrypted btrfs filesystem
+  generic/613: write some actual data for btrfs
+  tests: adjust encryption tests for extent encryption
+  common/verity: explicitly don't allow btrfs encryption
+  btrfs: add simple test of reflink of encrypted data
+
+ common/encrypt      | 86 +++++++++++++++++++++++++++++++++++++++++----
+ common/verity       |  4 +++
+ tests/btrfs/613     | 62 ++++++++++++++++++++++++++++++++
+ tests/btrfs/613.out | 13 +++++++
+ tests/generic/429   |  6 ++++
+ tests/generic/580   |  4 +++
+ tests/generic/595   |  4 +++
+ tests/generic/613   | 12 ++++---
+ 8 files changed, 180 insertions(+), 11 deletions(-)
  create mode 100755 tests/btrfs/613
  create mode 100644 tests/btrfs/613.out
 
-diff --git a/tests/btrfs/613 b/tests/btrfs/613
-new file mode 100755
-index 00000000..93c209c4
---- /dev/null
-+++ b/tests/btrfs/613
-@@ -0,0 +1,62 @@
-+#! /bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (c) 2023 YOUR NAME HERE.  All Rights Reserved.
-+#
-+# FS QA Test 613
-+#
-+# Check if reflinking one encrypted file on btrfs succeeds.
-+#
-+. ./common/preamble
-+_begin_fstest auto encrypt
-+
-+# Import common functions.
-+. ./common/encrypt
-+. ./common/filter
-+. ./common/reflink
-+
-+# real QA test starts here
-+
-+# Modify as appropriate.
-+_supported_fs btrfs
-+
-+_require_test
-+_require_scratch
-+_require_cp_reflink
-+_require_scratch_encryption -v 2
-+_require_command "$KEYCTL_PROG" keyctl
-+
-+_scratch_mkfs_encrypted &>> $seqres.full
-+_scratch_mount
-+
-+dir=$SCRATCH_MNT/dir
-+mkdir $dir
-+_set_encpolicy $dir $TEST_KEY_IDENTIFIER
-+_add_enckey $SCRATCH_MNT "$TEST_RAW_KEY"
-+echo "Creating and reflinking a file"
-+$XFS_IO_PROG -t -f -c "pwrite 0 33k" $dir/test > /dev/null
-+sync
-+cp --reflink=always $dir/test $dir/test2
-+sync
-+
-+echo "Can't reflink encrypted and unencrypted"
-+cp --reflink=always $dir/test $SCRATCH_MNT/fail |& _filter_scratch
-+
-+echo "Diffing the file and its copy"
-+diff $dir/test $dir/test2
-+
-+echo "Verifying the files are reflinked"
-+_verify_reflink $dir/test $dir/test2
-+
-+echo "Diffing the files after remount"
-+_scratch_cycle_mount
-+_add_enckey $SCRATCH_MNT "$TEST_RAW_KEY"
-+diff $dir/test $dir/test2
-+
-+echo "Diffing the files after key remove"
-+echo 2 > /proc/sys/vm/drop_caches
-+_rm_enckey $SCRATCH_MNT $TEST_KEY_IDENTIFIER
-+diff $dir/test $dir/test2 |& _filter_scratch
-+
-+# success, all done
-+status=0
-+exit
-diff --git a/tests/btrfs/613.out b/tests/btrfs/613.out
-new file mode 100644
-index 00000000..4895d6dd
---- /dev/null
-+++ b/tests/btrfs/613.out
-@@ -0,0 +1,13 @@
-+QA output created by 613
-+Added encryption key with identifier 69b2f6edeee720cce0577937eb8a6751
-+Creating and reflinking a file
-+Can't reflink encrypted and unencrypted
-+cp: failed to clone 'SCRATCH_MNT/fail' from 'SCRATCH_MNT/dir/test': Invalid argument
-+Diffing the file and its copy
-+Verifying the files are reflinked
-+Diffing the files after remount
-+Added encryption key with identifier 69b2f6edeee720cce0577937eb8a6751
-+Diffing the files after key remove
-+Removed encryption key with identifier 69b2f6edeee720cce0577937eb8a6751
-+diff: SCRATCH_MNT/dir/test: No such file or directory
-+diff: SCRATCH_MNT/dir/test2: No such file or directory
+
+base-commit: 87f90a2dae7a4adb7a0a314e27abae9aa1de78fb
 -- 
 2.40.1
 
