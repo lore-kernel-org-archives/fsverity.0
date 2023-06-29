@@ -1,53 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.fidei.email (box.fidei.email [71.19.144.250])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BD914263
-	for <fsverity@lists.linux.dev>; Mon, 26 Jun 2023 20:02:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EDF64C433C0;
-	Mon, 26 Jun 2023 20:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687809759;
-	bh=NxxnjZZAxPhJTnl5+BHG9TFV/wjyN/XPRp2AViKTMf8=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=cMm8pK+d6eXxtRqk/jrRlOFhw7pPyCTXL/gbz7yWi5bWYEVwz1SmPBkhUZUxua+d7
-	 wvFQ7rzw9nzDHaiE0byDaUobvJGwXHItEG2kBEACEphBj8w5VpygisndylpLxHXYsE
-	 9eLytnF7Q8p2fttQKr1h5m3RkMINVGvlPC+oY5lEaJ2Lz3U1JbfUoyzJdspt4PeRts
-	 BVWqo+gq7BEciZToZTm7XkiUItTv0gNUqf8T0Bd9O/QmhIHPL9/6DP2KmrlWEJCM4e
-	 9D4bcc5iQV0TeHZTuy9p0e8VKMCMBJ1DuRFKsh7raLFy5lRr3E/9FNGRoOxYPQEyjC
-	 qCt+NuMB/AXdw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D6C75C43170;
-	Mon, 26 Jun 2023 20:02:38 +0000 (UTC)
-Subject: Re: [GIT PULL] fsverity updates for 6.5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20230626015415.GB1024@sol.localdomain>
-References: <20230626015415.GB1024@sol.localdomain>
-X-PR-Tracked-List-Id: <fsverity.lists.linux.dev>
-X-PR-Tracked-Message-Id: <20230626015415.GB1024@sol.localdomain>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
-X-PR-Tracked-Commit-Id: 672d6ef4c775cfcd2e00172e23df34e77e495e85
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 74774e243c5ff0903df22dff67be01f2d4a7f00c
-Message-Id: <168780975887.7651.4555094720412338997.pr-tracker-bot@kernel.org>
-Date: Mon, 26 Jun 2023 20:02:38 +0000
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Alexander Larsson <alexl@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F5AFBF1
+	for <fsverity@lists.linux.dev>; Thu, 29 Jun 2023 22:17:38 +0000 (UTC)
+Received: from authenticated-user (box.fidei.email [71.19.144.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by box.fidei.email (Postfix) with ESMTPSA id 4858980845;
+	Thu, 29 Jun 2023 18:17:38 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
+	t=1688077058; bh=Glc1SgrRxVy/DWhD2BYtb2GOsC9vCs2yRmXOeAyo0vc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=cj7HBJkkM+s4x6SPaSzMhtnCp95yaZa5mLrhItfZjeLx7m42d3mNpgnY9ZsmhIaIi
+	 kUECWxeXBM+lixPEXiNCtqt+5s6Pg3KNMMC65q257zNB4JYgD4kDEOqDDtwjKttv44
+	 8NlY1ZshIy/vUH4MnA7/6Qf+E6iPcrpWem7OHO71bzioai1gkD7QC4ck/j5bSS/Rn0
+	 f6lSnNtvpwkrJSozgLYHc4jFAlowdl3HGXqEUpYaVRWEE1VyIkH2YIo011lNKpdjUf
+	 MoHdz7CMvMacnCyxxYaz+eAbatmySR8XWcL3aty6nil9A45DqNVE/fkoggNB2Hhhjx
+	 02R4DDHtLhHxA==
+From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+To: linux-btrfs@vger.kernel.org,
+	fstests@vger.kernel.org,
+	kernel-team@meta.com,
+	ebiggers@google.com,
+	anand.jain@oracle.com,
+	fdmanana@suse.com,
+	linux-fscrypt@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	zlang@kernel.org
+Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Subject: [RFC PATCH 4/8] common/encrypt: enable making a encrypted btrfs filesystem
+Date: Thu, 29 Jun 2023 18:17:19 -0400
+Message-Id: <ade755dbe4a98c52acaa88fcf9799c7c9976d7ca.1688076612.git.sweettea-kernel@dorminy.me>
+In-Reply-To: <cover.1688076612.git.sweettea-kernel@dorminy.me>
+References: <cover.1688076612.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Sun, 25 Jun 2023 18:54:15 -0700:
+Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+---
+ common/encrypt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/74774e243c5ff0903df22dff67be01f2d4a7f00c
-
-Thank you!
-
+diff --git a/common/encrypt b/common/encrypt
+index 2c1925da..1372af66 100644
+--- a/common/encrypt
++++ b/common/encrypt
+@@ -153,6 +153,9 @@ _scratch_mkfs_encrypted()
+ 		# erase the UBI volume; reformated automatically on next mount
+ 		$UBIUPDATEVOL_PROG ${SCRATCH_DEV} -t
+ 		;;
++	btrfs)
++		_scratch_mkfs
++		;;
+ 	ceph)
+ 		_scratch_cleanup_files
+ 		;;
+@@ -168,6 +171,9 @@ _scratch_mkfs_sized_encrypted()
+ 	ext4|f2fs)
+ 		MKFS_OPTIONS="$MKFS_OPTIONS -O encrypt" _scratch_mkfs_sized $*
+ 		;;
++	btrfs)
++		_scratch_mkfs_sized $*
++		;;
+ 	*)
+ 		_notrun "Filesystem $FSTYP not supported in _scratch_mkfs_sized_encrypted"
+ 		;;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.40.1
+
