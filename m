@@ -1,129 +1,131 @@
-Received: from box.fidei.email (box.fidei.email [71.19.144.250])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49E9101C4
-	for <fsverity@lists.linux.dev>; Thu, 29 Jun 2023 22:25:33 +0000 (UTC)
-Received: from authenticated-user (box.fidei.email [71.19.144.250])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by box.fidei.email (Postfix) with ESMTPSA id 255AA80763;
-	Thu, 29 Jun 2023 18:17:35 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
-	t=1688077055; bh=iI6ZwOHoI19L/nPNrvE1QEJ+K/w9Ln/uTFXd1qMKHMU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WNM6kWJifTF48FQh3o/mrl1k7QKsexucF421VvDsScGTshKAWOF2C+DiMQSTv5eyS
-	 HNylriLCAlJ2C4pTJoC5vh/c0V2W/3bFK58Ndcp1dypmqhB3dxPZRtP8a0uU3q1axg
-	 SORnAH44U4nW6TG75yDAm3217DJr32shNcPzPxH2tRYo5NXL12CHx//gljW1D89VLz
-	 rIXaxdcLIphM9b+3ZVQJopB/nTRyo0i70mPCIEfOeef5zrEb6fhGzUtFYid//TyHE+
-	 cXX//Tamw9CHjFnQgT1enfaNYgGyZrmldro+2IjxpM8DbZf6/BYgzMMLW2LmJ+qXcm
-	 VbnJsNQaYmNGw==
-From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-To: linux-btrfs@vger.kernel.org,
-	fstests@vger.kernel.org,
-	kernel-team@meta.com,
-	ebiggers@google.com,
-	anand.jain@oracle.com,
-	fdmanana@suse.com,
-	linux-fscrypt@vger.kernel.org,
-	fsverity@lists.linux.dev,
-	zlang@kernel.org
-Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-Subject: [RFC PATCH 2/8] common/encrypt: add btrfs to get_encryption_*nonce
-Date: Thu, 29 Jun 2023 18:17:17 -0400
-Message-Id: <af373fe31ffa2e2b41d0c9022299f8d60c14a5d9.1688076612.git.sweettea-kernel@dorminy.me>
-In-Reply-To: <cover.1688076612.git.sweettea-kernel@dorminy.me>
-References: <cover.1688076612.git.sweettea-kernel@dorminy.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DEBA52
+	for <fsverity@lists.linux.dev>; Mon,  3 Jul 2023 08:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1688371886;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jX+9rLub5+S3pVYr3zrONhnGJNN9nYHDWhiAdapEMRQ=;
+	b=getWt8hARDxY2KeCt6WuyO3aTsUIIPruJhR8qCNGUIay0vs/pz8ZDmCjZFTW/dDxInQ44O
+	ihqvzJYI2wCcoJISKgy9glHrUfKfXQmL4U5A8+MYV9BczDkYatGI2XoP9thTp1+g3YVgqU
+	++5qe9lsgT06naJ9fnVfLczyeUWJzhE=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-63-fFJ79qhmN0u4M_KJA4fm6g-1; Mon, 03 Jul 2023 04:11:25 -0400
+X-MC-Unique: fFJ79qhmN0u4M_KJA4fm6g-1
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-345a75b1624so18060145ab.1
+        for <fsverity@lists.linux.dev>; Mon, 03 Jul 2023 01:11:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688371884; x=1690963884;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jX+9rLub5+S3pVYr3zrONhnGJNN9nYHDWhiAdapEMRQ=;
+        b=LZkB5tLasH2G6djUvOdFv4EyHcJGKgbvBgcMFp740auwKHlYhPdSrO2ErIo8VmL7qB
+         zFmHR5CFTWGajxzBJ9SE98aORdfsLob3ccPLRjRxi3eD6KneCVDZi1eH3PEo91zkUGEL
+         E59jkMhOuoEHiBhJa8tpcv+7kFwVvY2a5p3EAuOrORFNeCKeUalUQvv2Xj1XJ7ZaZebk
+         fzDsERT+PtrcC/tfFJHYgRATuIH79Q1sxERllJ6x/JP+93EwrcIjsBxbppxXQuvU1WsS
+         BV6WW6+WiMz7Drt+VUBippF31dOspfLF6sZt5mjcOi0qebOaSIIpvbHeA0BSewyjxCul
+         1VsQ==
+X-Gm-Message-State: ABy/qLZCR5QYa8KQxM+DGCeFlQCoehGnQrSa8dvoJalIXHuSSpr+vo4T
+	Hs6sBxOnk8nl/cGSTThyV6HeS7qTfFsW6n49D6sllyxybCXMcRsbiFcQ77Co/8p3+pl9E3f8X/4
+	6NjDgpdebq224JqyBhox8MLMi9kJm5mCZtPE=
+X-Received: by 2002:a92:c904:0:b0:345:69c8:7a41 with SMTP id t4-20020a92c904000000b0034569c87a41mr9414131ilp.1.1688371884502;
+        Mon, 03 Jul 2023 01:11:24 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGbbsXziZ6aUgGE50Kgdn+1m5trosLGjQV4132BVUXrtsgu+8y2cuoqCAH10Ke1vX87vdxZHTC7c5GsvWBwYxU=
+X-Received: by 2002:a92:c904:0:b0:345:69c8:7a41 with SMTP id
+ t4-20020a92c904000000b0034569c87a41mr9414118ilp.1.1688371884302; Mon, 03 Jul
+ 2023 01:11:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1686565330.git.alexl@redhat.com> <CAOQ4uxgmV1KKCeq8=8FPkAciwqPpz8JiSM8WEuxDaZbVuYcQ7Q@mail.gmail.com>
+ <CAL7ro1EiYOOOqexrKy+UXRzmpGyCaNec3+LHGxnA0YfmoMDN3A@mail.gmail.com>
+ <CAL7ro1FKwgUY4e7N_vYi0cFsuVx6St0-oKvcBkiRFnzLH8D1eQ@mail.gmail.com>
+ <CAOQ4uxgVnv7wtwFZaBnEotFCwQD1EZcSK2KW4K4vRD8d9fzCiw@mail.gmail.com>
+ <CAL7ro1FY6OmhypFGDjinOkkjyJzymntVje4nRA558dKY+KsgzQ@mail.gmail.com>
+ <CAOQ4uxjuhzxgTxmRXxczJLDrMzKKr-jzS3R8ESwkw4XQ+UyAfQ@mail.gmail.com>
+ <CAL7ro1GYEdMvjn+e8Y8CmMC-s_5NZOXjsj=iv7s5NbnpTZz+Cg@mail.gmail.com>
+ <CAOQ4uxjS9mTjCCTS9eS1HmZqKAQV97mh1wpkqJuShCHP_MKqag@mail.gmail.com> <CAOQ4uxjNMJG6TQcZiT2sx8eLTyybf+iLR3GtOKaaj7QydVr_0Q@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjNMJG6TQcZiT2sx8eLTyybf+iLR3GtOKaaj7QydVr_0Q@mail.gmail.com>
+From: Alexander Larsson <alexl@redhat.com>
+Date: Mon, 3 Jul 2023 10:11:13 +0200
+Message-ID: <CAL7ro1GhLcPK-xahOVmJAtL5pbgMVm0GVd2xW7tgO+_R4dbD5Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] ovl: Add support for fs-verity checking of lowerdata
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: ebiggers@kernel.org, tytso@mit.edu, miklos@szeredi.hu, 
+	linux-unionfs@vger.kernel.org, fsverity@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the modes of getting the encryption nonces, either inode or extent,
-to the various get_encryption_nonce functions. For now, no encrypt test
-makes a file with more than one extent, so we can just grab the first
-extent's nonce for the data nonce; when we write a bigger file test,
-we'll need to change that.
+Cool, I wanted to look at this, but was on PTO last week.
+It looks good to me, and I synced this to:
+  https://github.com/alexlarsson/xfstests/commits/verity-tests
+To avoid drift.
 
-Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
----
- common/encrypt    | 31 +++++++++++++++++++++++++++++++
- tests/generic/613 |  4 ++++
- 2 files changed, 35 insertions(+)
+On Mon, Jun 26, 2023 at 3:14=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+>
+> On Thu, Jun 22, 2023 at 2:45=E2=80=AFPM Amir Goldstein <amir73il@gmail.co=
+m> wrote:
+> >
+> > On Thu, Jun 22, 2023 at 12:52=E2=80=AFPM Alexander Larsson <alexl@redha=
+t.com> wrote:
+> > >
+> > > On Thu, Jun 22, 2023 at 11:37=E2=80=AFAM Amir Goldstein <amir73il@gma=
+il.com> wrote:
+> ...
+> > > > Alex,
+> > > >
+> > > > Verified that your verity-tests2 work as expected with v5 patches.
+> > >
+> > > To be honest I have not validated that my changes to the shared verit=
+y
+> > > code still works with the non-overlayfs tests. If you have a setup fo=
+r
+> > > it it would be great if you could try the regular ext4 w/ fs-veriy
+> > > tests on top of the verity-test2 branch.
+> > >
+> >
+> > There is no problem with "./check -g verity" on ext4
+> > those tests pass.
+> >
+> > However, "./check -overlay -g generic/verity" fails several test:
+> > Failures: generic/572 generic/573 generic/574 generic/575 generic/577
+> > because _require_scratch_verity falsely claims that overlay (over ext4)
+> > supports verify, but then FS_IOC_ENABLE_VERITY actually fails
+> > during the test.
+> >
+> > Instead of changing _require_scratch_verity() as you did,
+> > you should consider passing optional arguments, e.g.:
+> >   local fstyp=3D${1:-$FSTYP}
+> > and calling it from _require_scratch_overlay_verity() with the
+> > $OVL_BASE_* values.
+> >
+>
+> FWIW, I pushed this solution to
+> https://github.com/amir73il/xfstests/commits/verity-tests
+>
+> It's ugly, but it works.
+>
+> Thanks,
+> Amir.
+>
 
-diff --git a/common/encrypt b/common/encrypt
-index 04b6e5ac..fc1c8cc7 100644
---- a/common/encrypt
-+++ b/common/encrypt
-@@ -531,6 +531,17 @@ _get_encryption_file_nonce()
- 				found = 0;
- 			}'
- 		;;
-+	btrfs)
-+		# Retrieve the fscrypt context for an inode as a hex string.
-+		# btrfs prints these like:
-+		#        item 14 key ($inode FSCRYPT_CTXT_ITEM 0) itemoff 15491 itemsize 40
-+		#                value: 02010400000000008fabf3dd745d41856e812458cd765bf0140f41d62853f4c0351837daff4dcc8f
-+
-+		$BTRFS_UTIL_PROG inspect-internal dump-tree $device | \
-+			grep -A 1 "key ($inode FSCRYPT_CTXT_ITEM 0)" | \
-+			grep --only-matching 'value: [[:xdigit:]]\+' | \
-+			tr -d ' \n' | tail -c 32
-+		;;
- 	*)
- 		_fail "_get_encryption_file_nonce() isn't implemented on $FSTYP"
- 		;;
-@@ -550,6 +561,23 @@ _get_encryption_data_nonce()
- 	ext4|f2fs)
- 		_get_encryption_file_nonce $device $inode
- 		;;
-+	btrfs)
-+		# Retrieve the encryption IV of the first file extent in an inode as a hex
-+		# string. btrfs prints the file extents (for simple unshared
-+		# inodes) like:
-+		#         item 21 key ($inode EXTENT_DATA 0) itemoff 2534 itemsize 69
-+		#                generation 7 type 1 (regular)
-+                #		 extent data disk byte 5304320 nr 1048576
-+                #		 extent data offset 0 nr 1048576 ram 1048576
-+                #		 extent compression 0 (none)
-+                #		 extent encryption 161 ((1, 40: context 0201040200000000116a77667261d7422a4b1ed8c427e685edb7a0d370d0c9d40030333033333330))
-+
-+
-+		$BTRFS_UTIL_PROG inspect-internal dump-tree $device | \
-+			grep -A 5 "key ($inode EXTENT_DATA 0)" | \
-+			grep --only-matching 'context [[:xdigit:]]\+' | \
-+			tr -d ' \n' | tail -c 32
-+		;;
- 	*)
- 		_fail "_get_encryption_data_nonce() isn't implemented on $FSTYP"
- 		;;
-@@ -572,6 +600,9 @@ _require_get_encryption_nonce_support()
- 		# Otherwise the xattr is incorrectly parsed as v1.  But just let
- 		# the test fail in that case, as it was an f2fs-tools bug...
- 		;;
-+	btrfs)
-+		_require_command "$BTRFS_UTIL_PROG" btrfs
-+		;;
- 	*)
- 		_notrun "_get_encryption_*nonce() isn't implemented on $FSTYP"
- 		;;
-diff --git a/tests/generic/613 b/tests/generic/613
-index 47c60e9c..279b1bfb 100755
---- a/tests/generic/613
-+++ b/tests/generic/613
-@@ -69,6 +69,10 @@ echo -n > $tmp.nonces_hex
- echo -n > $tmp.nonces_bin
- for inode in "${inodes[@]}"; do
- 	nonce=$(_get_encryption_data_nonce $SCRATCH_DEV $inode)
-+	if [ "$FSTYP" == "btrfs" ] && [ "$nonce" == "" ]
-+	then
-+		nonce=$(_get_encryption_file_nonce $SCRATCH_DEV $inode)
-+	fi
- 	if (( ${#nonce} != 32 )) || [ -n "$(echo "$nonce" | tr -d 0-9a-fA-F)" ]
- 	then
- 		_fail "Expected nonce for inode $inode to be 16 bytes (32 hex characters), but got \"$nonce\""
--- 
-2.40.1
+
+--=20
+=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D
+ Alexander Larsson                                Red Hat, Inc
+       alexl@redhat.com         alexander.larsson@gmail.com
 
