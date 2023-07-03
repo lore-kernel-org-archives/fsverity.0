@@ -1,168 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD073101C0
-	for <fsverity@lists.linux.dev>; Mon,  3 Jul 2023 17:13:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1979BC433CC
-	for <fsverity@lists.linux.dev>; Mon,  3 Jul 2023 17:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C51100BC
+	for <fsverity@lists.linux.dev>; Mon,  3 Jul 2023 19:09:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC6C6C433C8;
+	Mon,  3 Jul 2023 19:09:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688404405;
-	bh=IIWEycHmAGwur8gE2BWQqjWuVqDrIpZbsg6767sTTOU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=o5PNCEracJf6h70UQ4Ko1v1bVaj350QBqijSzTifzWd+drzOA4TMGapvYxcxFh4UI
-	 csdK4kpXv+prQENqVC942oUiCJbYhGcfNMsa6zb6lccHjVkNPYTyt6eFalNbHbM1IO
-	 SasFakniWlN8YdY7Dj4kGnE4KtgYh+O/riuv1+GHNG90oTErKSQRnS16SUuGZ44YAH
-	 2C0BKhVPAK5GDKzOmx9M7BlWtmYvnu3otNAauyqD5UPFGsCb7DSMfC5iNg/H+1swz4
-	 nvgueD16Z2Uh1pO4f6EwepnqY8SsbbloR7vJR9xy2veMD93AwBt3XAxELXZ2tSxbDl
-	 RPfzS1nyI6N0A==
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-19674cab442so4189544fac.3
-        for <fsverity@lists.linux.dev>; Mon, 03 Jul 2023 10:13:25 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxu+UYVxgzPj9dtDmhwI1wkUp2+Z5kBb+QmcUTdKUP8TQV7UyDS
-	ujiYG9GdGP0HGMdSwSh6PwrNRIMXISJDBdugVQg=
-X-Google-Smtp-Source: APBJJlHtTz2oI6ap4OzfR6Bnh8VdUAq3RK4Gf41ZXbOjhDeSIVwA4bbzvAJqZ/IrWv1EYnRrN7CrmvRfXmQgwG/N/SI=
-X-Received: by 2002:a05:6870:e0cb:b0:1b0:c99:fd1e with SMTP id
- a11-20020a056870e0cb00b001b00c99fd1emr9539293oab.4.1688404404152; Mon, 03 Jul
- 2023 10:13:24 -0700 (PDT)
+	s=k20201202; t=1688411340;
+	bh=WjILfPLuDalAzQP1xRPS3ChkeLQUCRh1hiQ9Xuf8lL4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qx2Nt4dIvBem2MGCxSDWvqkxolCtdbCyq8+lKDMJ2UPaUxytQORrfdPL/iU4q3n97
+	 l1Vl+jbzTljrHHtXDMUM38Z3lMuTMOUUUJZmp1dFIpKthwiwX8MnmWL1FtD5JwRSaI
+	 o0XPFLKwK7IUi/ecXpVYycv6eW/qFogznUwU+LDi4+nBUD4SYCabO6IxdBojw/wqMV
+	 uHQE0zMxUoKBOCrBsMgzZGyZK5vmtuMiro5ESOxBtRK9ZRKIXJYG5+jISchpxouMK2
+	 25IzRIYExZAx/m90g6+5NSfJHs8WUM4cGggoCaf37hYy5MbvA8RPD7J6rDZmSQ2SNV
+	 queb89SpsAaCA==
+Date: Mon, 3 Jul 2023 12:08:59 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Alexander Larsson <alexl@redhat.com>
+Cc: miklos@szeredi.hu, linux-unionfs@vger.kernel.org, amir73il@gmail.com,
+	tytso@mit.edu, fsverity@lists.linux.dev
+Subject: Re: [PATCH v4 1/4] ovl: Add framework for verity support
+Message-ID: <20230703190859.GB1194@sol.localdomain>
+References: <cover.1687345663.git.alexl@redhat.com>
+ <8bbfe13980cc9aa70e347811280b62eba930ffd2.1687345663.git.alexl@redhat.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1688076612.git.sweettea-kernel@dorminy.me> <dbf938dfa6828b9307759c89a48237b16dbcb5a3.1688076612.git.sweettea-kernel@dorminy.me>
-In-Reply-To: <dbf938dfa6828b9307759c89a48237b16dbcb5a3.1688076612.git.sweettea-kernel@dorminy.me>
-From: Filipe Manana <fdmanana@kernel.org>
-Date: Mon, 3 Jul 2023 18:12:48 +0100
-X-Gmail-Original-Message-ID: <CAL3q7H6TM-0a6aaJz6SNdU5Ke28Fk-TMeS1zS47H=KSNGfxkXQ@mail.gmail.com>
-Message-ID: <CAL3q7H6TM-0a6aaJz6SNdU5Ke28Fk-TMeS1zS47H=KSNGfxkXQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 8/8] btrfs: add simple test of reflink of encrypted data
-To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-Cc: linux-btrfs@vger.kernel.org, fstests@vger.kernel.org, kernel-team@meta.com, 
-	ebiggers@google.com, anand.jain@oracle.com, linux-fscrypt@vger.kernel.org, 
-	fsverity@lists.linux.dev, zlang@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8bbfe13980cc9aa70e347811280b62eba930ffd2.1687345663.git.alexl@redhat.com>
 
-On Thu, Jun 29, 2023 at 11:26=E2=80=AFPM Sweet Tea Dorminy
-<sweettea-kernel@dorminy.me> wrote:
->
-> Make sure that we succeed at reflinking encrypted data.
->
-> Test deliberately numbered with a high number so it won't conflict with
-> tests between now and merge.
-> ---
->  tests/btrfs/613     | 62 +++++++++++++++++++++++++++++++++++++++++++++
->  tests/btrfs/613.out | 13 ++++++++++
->  2 files changed, 75 insertions(+)
->  create mode 100755 tests/btrfs/613
->  create mode 100644 tests/btrfs/613.out
->
-> diff --git a/tests/btrfs/613 b/tests/btrfs/613
-> new file mode 100755
-> index 00000000..93c209c4
-> --- /dev/null
-> +++ b/tests/btrfs/613
-> @@ -0,0 +1,62 @@
-> +#! /bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) 2023 YOUR NAME HERE.  All Rights Reserved.
+On Wed, Jun 21, 2023 at 01:18:25PM +0200, Alexander Larsson wrote:
+> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+> index eb7d2c88ddec..b63e0db03631 100644
+> --- a/Documentation/filesystems/overlayfs.rst
+> +++ b/Documentation/filesystems/overlayfs.rst
+> @@ -405,6 +405,53 @@ when a "metacopy" file in one of the lower layers above it, has a "redirect"
+>  to the absolute path of the "lower data" file in the "data-only" lower layer.
+>  
+>  
+> +fs-verity support
+> +----------------------
+> +
+> +During metadata copy up of a lower file, if the source file has
+> +fs-verity enabled and overlay verity support is enabled, then the
+> +digest of the lower file is added to the "trusted.overlay.metacopy"
+> +xattr. This is then used to verify the content of the lower file
+> +each the time the metacopy file is opened.
+> +
+> +When a layer containing verity xattrs is used, it means that any such
+> +metacopy file in the upper layer is guaranteed to match the content
+> +that was in the lower at the time of the copy-up. If at any time
+> +(during a mount, after a remount, etc) such a file in the lower is
+> +replaced or modified in any way, access to the corresponding file in
+> +overlayfs will result in EIO errors (either on open, due to overlayfs
+> +digest check, or from a later read due to fs-verity) and a detailed
+> +error is printed to the kernel logs. For more details of how fs-verity
+> +file access works, see :ref:`Documentation/filesystems/fsverity.rst
+> +<accessing_verity_files>`.
+> +
+> +Verity can be used as a general robustness check to detect accidental
+> +changes in the overlayfs directories in use. But, with additional care
+> +it can also give more powerful guarantees. For example, if the upper
+> +layer is fully trusted (by using dm-verity or something similar), then
+> +an untrusted lower layer can be used to supply validated file content
+> +for all metacopy files.  If additionally the untrusted lower
+> +directories are specified as "Data-only", then they can only supply
+> +such file content, and the entire mount can be trusted to match the
+> +upper layer.
+> +
+> +This feature is controlled by the "verity" mount option, which
+> +supports these values:
+> +
+> +- "off":
+> +    The metacopy digest is never generated or used. This is the
+> +    default if verity option is not specified.
+> +- "on":
+> +    Whenever a metacopy files specifies an expected digest, the
+> +    corresponding data file must match the specified digest. When
+> +    generating a metacopy file the verity digest will be set in it
+> +    based on the source file (if it has one).
+> +- "require":
+> +    Same as "on", but additionally all metacopy files must specify a
+> +    digest (or EIO is returned on open). This means metadata copy up
+> +    will only be used if the data file has fs-verity enabled,
+> +    otherwise a full copy-up is used.
+> +
 
-Don't forget to fill this...
+Thanks, it's not perfect but it's much improved.
 
-> +#
-> +# FS QA Test 613
-> +#
-> +# Check if reflinking one encrypted file on btrfs succeeds.
-> +#
-> +. ./common/preamble
-> +_begin_fstest auto encrypt
-> +
-> +# Import common functions.
-> +. ./common/encrypt
-> +. ./common/filter
-> +. ./common/reflink
-> +
-> +# real QA test starts here
-> +
-> +# Modify as appropriate.
-> +_supported_fs btrfs
-> +
-> +_require_test
-> +_require_scratch
-> +_require_cp_reflink
-> +_require_scratch_encryption -v 2
-> +_require_command "$KEYCTL_PROG" keyctl
-> +
-> +_scratch_mkfs_encrypted &>> $seqres.full
-> +_scratch_mount
-> +
-> +dir=3D$SCRATCH_MNT/dir
-> +mkdir $dir
-> +_set_encpolicy $dir $TEST_KEY_IDENTIFIER
-> +_add_enckey $SCRATCH_MNT "$TEST_RAW_KEY"
-> +echo "Creating and reflinking a file"
-> +$XFS_IO_PROG -t -f -c "pwrite 0 33k" $dir/test > /dev/null
+Acked-by: Eric Biggers <ebiggers@google.com>
 
-Why the -t (truncate)? We are creating the file on a brand new fs.
-
-> +sync
-
-What's this sync for? The reflink code flushes delalloc (for both
-source and destination inodes, always).
-Is this really necessary? If so please add a comment explaining why
-it's needed, otherwise remove it.
-
-> +cp --reflink=3Dalways $dir/test $dir/test2
-> +sync
-
-Same here. What is this sync for?
-Please add a comment explaining why it's needed, otherwise remove it.
-
-Thanks.
-
-> +
-> +echo "Can't reflink encrypted and unencrypted"
-> +cp --reflink=3Dalways $dir/test $SCRATCH_MNT/fail |& _filter_scratch
-> +
-> +echo "Diffing the file and its copy"
-> +diff $dir/test $dir/test2
-> +
-> +echo "Verifying the files are reflinked"
-> +_verify_reflink $dir/test $dir/test2
-> +
-> +echo "Diffing the files after remount"
-> +_scratch_cycle_mount
-> +_add_enckey $SCRATCH_MNT "$TEST_RAW_KEY"
-> +diff $dir/test $dir/test2
-> +
-> +echo "Diffing the files after key remove"
-> +echo 2 > /proc/sys/vm/drop_caches
-> +_rm_enckey $SCRATCH_MNT $TEST_KEY_IDENTIFIER
-> +diff $dir/test $dir/test2 |& _filter_scratch
-> +
-> +# success, all done
-> +status=3D0
-> +exit
-> diff --git a/tests/btrfs/613.out b/tests/btrfs/613.out
-> new file mode 100644
-> index 00000000..4895d6dd
-> --- /dev/null
-> +++ b/tests/btrfs/613.out
-> @@ -0,0 +1,13 @@
-> +QA output created by 613
-> +Added encryption key with identifier 69b2f6edeee720cce0577937eb8a6751
-> +Creating and reflinking a file
-> +Can't reflink encrypted and unencrypted
-> +cp: failed to clone 'SCRATCH_MNT/fail' from 'SCRATCH_MNT/dir/test': Inva=
-lid argument
-> +Diffing the file and its copy
-> +Verifying the files are reflinked
-> +Diffing the files after remount
-> +Added encryption key with identifier 69b2f6edeee720cce0577937eb8a6751
-> +Diffing the files after key remove
-> +Removed encryption key with identifier 69b2f6edeee720cce0577937eb8a6751
-> +diff: SCRATCH_MNT/dir/test: No such file or directory
-> +diff: SCRATCH_MNT/dir/test2: No such file or directory
-> --
-> 2.40.1
->
+- Eric
