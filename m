@@ -1,31 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4169156DD
-	for <fsverity@lists.linux.dev>; Wed,  5 Jul 2023 21:29:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 486A1C433C9;
-	Wed,  5 Jul 2023 21:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E75B377
+	for <fsverity@lists.linux.dev>; Thu,  6 Jul 2023 00:18:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0D9B4C433B6;
+	Thu,  6 Jul 2023 00:18:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688592546;
-	bh=KcNEa0zEiaEU6adJH2JZRqZUV1g2aY4t4BXK14QkSmw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rs6e5/ndV1WaPwfswIkjuHGZxkg5AVKmKpXjLnwXxXibLnuHHJEhP1lX0FWTpn9HB
-	 Hq1GyTvdKLiXXCLsBW8oHJLz/ufssuniOOad3yvjnkre0e8v6X/mRKGN4SgMCeM4kR
-	 4RkmA2kjsip5GEeN1sdYhXtD/DLl83n8dt9jrQsGIFTqqkHh1fgSDkzYUoUdz6LXfg
-	 NWwlkAKgodqMpO0oW0cUfiMiXpIl4Mlud0zxy+0EwFPpnrBjfJTRRGP0rZVD6AzRBQ
-	 hSqLswU0tITxTNlv4bVlwjrMUbBL50XwtDDRTf3iaYvcJPFHpeesbkqu8RHeQeK1bS
-	 TqIhNxqR27m5g==
-From: Eric Biggers <ebiggers@kernel.org>
-To: fsverity@lists.linux.dev
-Cc: linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org
-Subject: [PATCH 2/2] fsverity: move sysctl registration out of signature.c
-Date: Wed,  5 Jul 2023 14:27:43 -0700
-Message-ID: <20230705212743.42180-3-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230705212743.42180-1-ebiggers@kernel.org>
-References: <20230705212743.42180-1-ebiggers@kernel.org>
+	s=k20201202; t=1688602695;
+	bh=QMrYJdg+aOWaiyZfZoVZY2OuILKdY/U5yz1KaTAkd7U=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=vCD4uGNUUhLG/V6I5lQjxVsUYosjHRyPmUV7k4XnRL8wBajrzjoJeO3ghL7rZecnt
+	 6/J1ZVlHr8/XIGXsEx/6/TU/U2Vh5GTfECRxfk7mIF/ed1nnHkRC9hreSdE4aAribH
+	 qxebfqc1G6XMmOFK4Qa9+Cheaw2tte+FdMBTY+dLa3gcEQqlz8gsjKyxd1UgR4+5nB
+	 6xQvUwe2G2aQ4pZSQs3pfHnETzGrzgwRgqzJd1EeAFSBxDAkNsm85SCe4E5Ns/+Qcy
+	 63BVtANWNnsg+w2LcUqPs84jjE64U3dFxwnJOStzHgP5Dkb26lOzt20CgFACLVFjed
+	 cYz8f9mT0B0FQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E8DE5C40C5E;
+	Thu,  6 Jul 2023 00:18:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -33,150 +26,42 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [PATCH v2] fsverity: use shash API instead of ahash API
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <168860269495.29151.10455269448863933897.git-patchwork-notify@kernel.org>
+Date: Thu, 06 Jul 2023 00:18:14 +0000
+References: <20230516052306.99600-1-ebiggers@kernel.org>
+In-Reply-To: <20230516052306.99600-1-ebiggers@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: fsverity@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
+ linux-xfs@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-btrfs@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
+Hello:
 
-Currently the registration of the fsverity sysctls happens in
-signature.c, which couples it to CONFIG_FS_VERITY_BUILTIN_SIGNATURES.
+This patch was applied to jaegeuk/f2fs.git (dev)
+by Eric Biggers <ebiggers@google.com>:
 
-This makes it hard to add new sysctls unrelated to builtin signatures.
+On Mon, 15 May 2023 22:23:06 -0700 you wrote:
+> From: Eric Biggers <ebiggers@google.com>
+> 
+> The "ahash" API, like the other scatterlist-based crypto APIs such as
+> "skcipher", comes with some well-known limitations.  First, it can't
+> easily be used with vmalloc addresses.  Second, the request struct can't
+> be allocated on the stack.  This adds complexity and a possible failure
+> point that needs to be worked around, e.g. using a mempool.
+> 
+> [...]
 
-Also, some users have started checking whether the directory
-/proc/sys/fs/verity exists as a way to tell whether fsverity is
-supported.  This isn't the intended method; instead, the existence of
-/sys/fs/$fstype/features/verity should be checked, or users should just
-try to use the fsverity ioctls.  Regardlesss, it should be made to work
-as expected without a dependency on CONFIG_FS_VERITY_BUILTIN_SIGNATURES.
+Here is the summary with links:
+  - [f2fs-dev,v2] fsverity: use shash API instead of ahash API
+    https://git.kernel.org/jaegeuk/f2fs/c/8fcd94add6c5
 
-Therefore, move the sysctl registration into init.c.  With
-CONFIG_FS_VERITY_BUILTIN_SIGNATURES, nothing changes.  Without it, but
-with CONFIG_FS_VERITY, an empty list of sysctls is now registered.
-
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- fs/verity/fsverity_private.h |  1 +
- fs/verity/init.c             | 32 ++++++++++++++++++++++++++++++++
- fs/verity/signature.c        | 33 +--------------------------------
- 3 files changed, 34 insertions(+), 32 deletions(-)
-
-diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-index c5ab9023dd2d3..d071a6e32581e 100644
---- a/fs/verity/fsverity_private.h
-+++ b/fs/verity/fsverity_private.h
-@@ -123,6 +123,7 @@ void __init fsverity_init_info_cache(void);
- /* signature.c */
- 
- #ifdef CONFIG_FS_VERITY_BUILTIN_SIGNATURES
-+extern int fsverity_require_signatures;
- int fsverity_verify_signature(const struct fsverity_info *vi,
- 			      const u8 *signature, size_t sig_size);
- 
-diff --git a/fs/verity/init.c b/fs/verity/init.c
-index bcd11d63eb1ca..a29f062f6047b 100644
---- a/fs/verity/init.c
-+++ b/fs/verity/init.c
-@@ -9,6 +9,37 @@
- 
- #include <linux/ratelimit.h>
- 
-+#ifdef CONFIG_SYSCTL
-+static struct ctl_table_header *fsverity_sysctl_header;
-+
-+static struct ctl_table fsverity_sysctl_table[] = {
-+#ifdef CONFIG_FS_VERITY_BUILTIN_SIGNATURES
-+	{
-+		.procname       = "require_signatures",
-+		.data           = &fsverity_require_signatures,
-+		.maxlen         = sizeof(int),
-+		.mode           = 0644,
-+		.proc_handler   = proc_dointvec_minmax,
-+		.extra1         = SYSCTL_ZERO,
-+		.extra2         = SYSCTL_ONE,
-+	},
-+#endif
-+	{ }
-+};
-+
-+static void __init fsverity_init_sysctl(void)
-+{
-+	fsverity_sysctl_header = register_sysctl("fs/verity",
-+						 fsverity_sysctl_table);
-+	if (!fsverity_sysctl_header)
-+		panic("fsverity sysctl registration failed");
-+}
-+#else /* CONFIG_SYSCTL */
-+static inline void fsverity_init_sysctl(void)
-+{
-+}
-+#endif /* !CONFIG_SYSCTL */
-+
- void fsverity_msg(const struct inode *inode, const char *level,
- 		  const char *fmt, ...)
- {
-@@ -36,6 +67,7 @@ static int __init fsverity_init(void)
- 	fsverity_check_hash_algs();
- 	fsverity_init_info_cache();
- 	fsverity_init_workqueue();
-+	fsverity_init_sysctl();
- 	fsverity_init_signature();
- 	return 0;
- }
-diff --git a/fs/verity/signature.c b/fs/verity/signature.c
-index ec75ffec069ed..b95acae64eac6 100644
---- a/fs/verity/signature.c
-+++ b/fs/verity/signature.c
-@@ -24,7 +24,7 @@
-  * /proc/sys/fs/verity/require_signatures
-  * If 1, all verity files must have a valid builtin signature.
-  */
--static int fsverity_require_signatures;
-+int fsverity_require_signatures;
- 
- /*
-  * Keyring that contains the trusted X.509 certificates.
-@@ -93,35 +93,6 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
- 	return 0;
- }
- 
--#ifdef CONFIG_SYSCTL
--static struct ctl_table_header *fsverity_sysctl_header;
--
--static struct ctl_table fsverity_sysctl_table[] = {
--	{
--		.procname       = "require_signatures",
--		.data           = &fsverity_require_signatures,
--		.maxlen         = sizeof(int),
--		.mode           = 0644,
--		.proc_handler   = proc_dointvec_minmax,
--		.extra1         = SYSCTL_ZERO,
--		.extra2         = SYSCTL_ONE,
--	},
--	{ }
--};
--
--static void __init fsverity_sysctl_init(void)
--{
--	fsverity_sysctl_header = register_sysctl("fs/verity",
--						 fsverity_sysctl_table);
--	if (!fsverity_sysctl_header)
--		panic("fsverity sysctl registration failed");
--}
--#else /* !CONFIG_SYSCTL */
--static inline void fsverity_sysctl_init(void)
--{
--}
--#endif /* !CONFIG_SYSCTL */
--
- void __init fsverity_init_signature(void)
- {
- 	fsverity_keyring =
-@@ -132,6 +103,4 @@ void __init fsverity_init_signature(void)
- 			      KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
- 	if (IS_ERR(fsverity_keyring))
- 		panic("failed to allocate \".fs-verity\" keyring");
--
--	fsverity_sysctl_init();
- }
+You are awesome, thank you!
 -- 
-2.41.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
