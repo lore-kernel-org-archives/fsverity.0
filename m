@@ -1,91 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217AFA48
-	for <fsverity@lists.linux.dev>; Tue,  1 Aug 2023 05:09:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5027CC433C7;
-	Tue,  1 Aug 2023 05:09:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690866545;
-	bh=erFyHPkFzUaKQZWyMrsZygmMCnR3AvgrkSfnViTNgrM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ADoWAYOrSNgHN2SAwv21aWdd70EVNQfj1xITQPCIzFrJ1K0TfPelT5V7hjXKhwc75
-	 6XeyMKnh9XyFw/3J64ppWcmq1I55t/YblOIYnneO/vgqhHVz5r8Y8t4yxZxUji7m/j
-	 jfvxB9T4isqeGy6XaPOciLNqGSQgO1Znwg/fkpyf01hDaOFdSlSZ26aCsBw2priH5/
-	 tl30ukQHTMZk6DlQ5SW08JIt64JCHyLuKAwC/6V3tyLkDBZeDSZqzq/djfeavVLm1Q
-	 enWKSG5IvM/gpMQOFOsw5mUfT+0UP6VvCq+6Gi76HZvDt5kIM+RP8lajEkbPz/Gu12
-	 sHIdXJ0UfGLLA==
-From: Eric Biggers <ebiggers@kernel.org>
-To: fsverity@lists.linux.dev
-Cc: keyrings@vger.kernel.org,
-	Victor Hsieh <victorhsieh@google.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] fsverity: skip PKCS#7 parser when keyring is empty
-Date: Mon, 31 Jul 2023 22:07:14 -0700
-Message-ID: <20230801050714.28974-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.41.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6281ADD9
+	for <fsverity@lists.linux.dev>; Tue,  1 Aug 2023 16:07:56 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-768054797f7so515216785a.2
+        for <fsverity@lists.linux.dev>; Tue, 01 Aug 2023 09:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1690906076; x=1691510876;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/k92ZHvqcMDEEn2PMICpqw+YFYats7fBIresqkxLI9s=;
+        b=sS66kgoJddsynyo1UV0ieyYMcA9voQhStth5bDRPXBk1MVejV3/iWWy1kxQL4qY3Y0
+         Az2pHu5ZUsfqKYrZeia5MvMsEuQ9WhHRyqHg216RJG/m+4OTPZs9v6vrj9RQcw8tI7V3
+         FJQMp97WGOpc46OvCU+2JLcfbBcEkRO7KA3VKNdLvWeD7jSfWcD+NHkCq+kQ6GCRsq48
+         /hIDK4hr9MAxULLomYvIdTGsbRCtaIBo5Ycm7SNRR+s8WdKVrKD4nqJxpRxeXSNnOv6P
+         35zJ4H4mJd+HUTBdmKNqSoQi1KBUEwYp69UZoCuCJSHWjHRBKok4L+lCxXfTWkQxlSRQ
+         V4tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690906076; x=1691510876;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/k92ZHvqcMDEEn2PMICpqw+YFYats7fBIresqkxLI9s=;
+        b=AlPjX5ZmROw52JuzjJlN1WYdIxy9qv8K0nCdOG+it2Bi0QVVqhvNJLWZ15764kZqjS
+         mCvgteCapDIhgfHN77TImsM/awoHgRybeV3qjuQ+qw0GqbmGa2mwSjgRpai/xlmVEGL3
+         N+wsTJfgOiyAfqkVpyoT0Fz4apXeSX/bJCfor8stPSCI5B6Pm8F0X8Ca9RIa+mLN+OOI
+         NQXR0ZW6a5UXR3TRIiDNqY2G8Oney31emP37dUV6hwwqgY8L5PUKszZAH60XDsLx8bEs
+         xtugPOTBlogHrbAIzq1eSwBlU4RhktFTyoLxV6p1iBblVJPn+G9AtU0a4mKXp4sQ7Pba
+         emhA==
+X-Gm-Message-State: ABy/qLYcoDPi3oXZw+x8d+kV+Jh+YHzeCfSadMhhcsyCz7O9KbuBwlw/
+	WP1P1AYldOY9E775fZR8XyFGFLEbFFka7sf6cPKSpQ==
+X-Google-Smtp-Source: APBJJlFCv8rnnQQkeN4DoY3CihEHr2mytwUwbh3PC3qFHxKRFc2KTxnhyrho6l5eJYWtCxApzjcmyUd/sNqmjVPj354=
+X-Received: by 2002:a05:6214:311:b0:63c:f979:b810 with SMTP id
+ i17-20020a056214031100b0063cf979b810mr14002062qvu.46.1690906075647; Tue, 01
+ Aug 2023 09:07:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230801050714.28974-1-ebiggers@kernel.org>
+In-Reply-To: <20230801050714.28974-1-ebiggers@kernel.org>
+From: Victor Hsieh <victorhsieh@google.com>
+Date: Tue, 1 Aug 2023 09:07:44 -0700
+Message-ID: <CAFCauYMrQf4TJJ+8atPrsihDa9+nKb5zn-rCKqB3081d8ZvZoA@mail.gmail.com>
+Subject: Re: [PATCH] fsverity: skip PKCS#7 parser when keyring is empty
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: fsverity@lists.linux.dev, keyrings@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Eric Biggers <ebiggers@google.com>
+Should the whole use of "d" be moved into the else block?
 
-If an fsverity builtin signature is given for a file but the
-".fs-verity" keyring is empty, there's no real reason to run the PKCS#7
-parser.  Skip this to avoid the PKCS#7 attack surface when builtin
-signature support is configured into the kernel but is not being used.
 
-This is a hardening improvement, not a fix per se, but I've added
-Fixes and Cc stable to get it out to more users.
-
-Fixes: 432434c9f8e1 ("fs-verity: support builtin file signatures")
-Cc: stable@vger.kernel.org
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- fs/verity/signature.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
-
-diff --git a/fs/verity/signature.c b/fs/verity/signature.c
-index b95acae64eac6..f6668d92d8151 100644
---- a/fs/verity/signature.c
-+++ b/fs/verity/signature.c
-@@ -70,10 +70,26 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
- 	d->digest_size = cpu_to_le16(hash_alg->digest_size);
- 	memcpy(d->digest, vi->file_digest, hash_alg->digest_size);
- 
--	err = verify_pkcs7_signature(d, sizeof(*d) + hash_alg->digest_size,
--				     signature, sig_size, fsverity_keyring,
--				     VERIFYING_UNSPECIFIED_SIGNATURE,
--				     NULL, NULL);
-+	if (fsverity_keyring->keys.nr_leaves_on_tree == 0) {
-+		/*
-+		 * The ".fs-verity" keyring is empty, due to builtin signatures
-+		 * being supported by the kernel but not actually being used.
-+		 * In this case, verify_pkcs7_signature() would always return an
-+		 * error, usually ENOKEY.  It could also be EBADMSG if the
-+		 * PKCS#7 is malformed, but that isn't very important to
-+		 * distinguish.  So, just skip to ENOKEY to avoid the attack
-+		 * surface of the PKCS#7 parser, which would otherwise be
-+		 * reachable by any task able to execute FS_IOC_ENABLE_VERITY.
-+		 */
-+		err = -ENOKEY;
-+	} else {
-+		err = verify_pkcs7_signature(d,
-+					     sizeof(*d) + hash_alg->digest_size,
-+					     signature, sig_size,
-+					     fsverity_keyring,
-+					     VERIFYING_UNSPECIFIED_SIGNATURE,
-+					     NULL, NULL);
-+	}
- 	kfree(d);
- 
- 	if (err) {
-
-base-commit: 456ae5fe9b448f44ebe98b391a3bae9c75df465e
--- 
-2.41.0
-
+On Mon, Jul 31, 2023 at 10:09=E2=80=AFPM Eric Biggers <ebiggers@kernel.org>=
+ wrote:
+>
+> From: Eric Biggers <ebiggers@google.com>
+>
+> If an fsverity builtin signature is given for a file but the
+> ".fs-verity" keyring is empty, there's no real reason to run the PKCS#7
+> parser.  Skip this to avoid the PKCS#7 attack surface when builtin
+> signature support is configured into the kernel but is not being used.
+>
+> This is a hardening improvement, not a fix per se, but I've added
+> Fixes and Cc stable to get it out to more users.
+>
+> Fixes: 432434c9f8e1 ("fs-verity: support builtin file signatures")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> ---
+>  fs/verity/signature.c | 24 ++++++++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+> index b95acae64eac6..f6668d92d8151 100644
+> --- a/fs/verity/signature.c
+> +++ b/fs/verity/signature.c
+> @@ -70,10 +70,26 @@ int fsverity_verify_signature(const struct fsverity_i=
+nfo *vi,
+>         d->digest_size =3D cpu_to_le16(hash_alg->digest_size);
+>         memcpy(d->digest, vi->file_digest, hash_alg->digest_size);
+>
+> -       err =3D verify_pkcs7_signature(d, sizeof(*d) + hash_alg->digest_s=
+ize,
+> -                                    signature, sig_size, fsverity_keyrin=
+g,
+> -                                    VERIFYING_UNSPECIFIED_SIGNATURE,
+> -                                    NULL, NULL);
+> +       if (fsverity_keyring->keys.nr_leaves_on_tree =3D=3D 0) {
+> +               /*
+> +                * The ".fs-verity" keyring is empty, due to builtin sign=
+atures
+> +                * being supported by the kernel but not actually being u=
+sed.
+> +                * In this case, verify_pkcs7_signature() would always re=
+turn an
+> +                * error, usually ENOKEY.  It could also be EBADMSG if th=
+e
+> +                * PKCS#7 is malformed, but that isn't very important to
+> +                * distinguish.  So, just skip to ENOKEY to avoid the att=
+ack
+> +                * surface of the PKCS#7 parser, which would otherwise be
+> +                * reachable by any task able to execute FS_IOC_ENABLE_VE=
+RITY.
+> +                */
+> +               err =3D -ENOKEY;
+> +       } else {
+> +               err =3D verify_pkcs7_signature(d,
+> +                                            sizeof(*d) + hash_alg->diges=
+t_size,
+> +                                            signature, sig_size,
+> +                                            fsverity_keyring,
+> +                                            VERIFYING_UNSPECIFIED_SIGNAT=
+URE,
+> +                                            NULL, NULL);
+> +       }
+>         kfree(d);
+>
+>         if (err) {
+>
+> base-commit: 456ae5fe9b448f44ebe98b391a3bae9c75df465e
+> --
+> 2.41.0
+>
