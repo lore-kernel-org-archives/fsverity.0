@@ -1,22 +1,22 @@
 Received: from box.fidei.email (box.fidei.email [71.19.144.250])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF351B7DB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3B21B7FE
 	for <fsverity@lists.linux.dev>; Tue,  8 Aug 2023 17:31:27 +0000 (UTC)
 Received: from authenticated-user (box.fidei.email [71.19.144.250])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by box.fidei.email (Postfix) with ESMTPSA id 3385E809D8;
-	Tue,  8 Aug 2023 13:22:12 -0400 (EDT)
+	by box.fidei.email (Postfix) with ESMTPSA id C48E280281;
+	Tue,  8 Aug 2023 13:22:07 -0400 (EDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
-	t=1691515332; bh=YBYT5+wjFCkvsFKr1anN5MPIlgnu4aucZknFt5kUKMw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SqV+z961XpUFSRkO1ScWO5VvlCHhN3yH0Ks8QgG5pbUgaPnj5PQZRX64o1gwzport
-	 KF7GoAx9BdjtW6xrlvTSnzsJtfqenNFsLEANEP8H7lM64mjUWHCZ+3MD0+Ofg1ECHI
-	 mlM1Kb20BqVk501xAhiNPu48GBEoyD/JYlMNUhSrp6FdVfp/adgXzVJX+Pco2Y0beK
-	 KxOwMhw3dfvB06Xy2CyLX9Xd+PDuFXvq51ZuXiimVEI93KRDJ41xigKpa9KUZXoSEB
-	 5Mc3QGfp6khVM0mAADUy5sVbs2wLooV/cuCjzvJSNf7Uogleof2KCGlX0H28hM81DQ
-	 7h1CFpv+FDing==
+	t=1691515328; bh=olh/IabzO6GOzB5svMvsvjY1MrZsZZeekcwwHyDB70k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BSltcF9jF2SvLKHRet0WJH2GHukmTiqhy5mEkq151kEgjxjwxFo2phn4M6IVKGsul
+	 npniGxv1PfIN9OXOMmLOtsdk2k3Pr09z3qA/y286BtOzOBGym9WYVFbaWuDmFV7K4d
+	 wkbjsoaFjUtLxqsLs9xk6NSJ3lPpT5AFLCPRx5HpwhpNridgxUa2MANZ5oXmfABnAg
+	 sooT5v4nzQ8Z654XeLkqoAIK7YxpjEF5hIlfT/V1iNJb4LXNjfuVs9GeLLW1NWWyQL
+	 QWK2PKriTrI2/DsmuWlsmvII7Axe15JvsMuV1tgQ0LhhJbf4nwI6OtWQs7K7XCobMm
+	 tBnh+V7ySvKfg==
 From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
 To: linux-btrfs@vger.kernel.org,
 	fstests@vger.kernel.org,
@@ -28,11 +28,9 @@ To: linux-btrfs@vger.kernel.org,
 	fsverity@lists.linux.dev,
 	zlang@kernel.org
 Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-Subject: [RFC PATCH v3 3/9] common/encrypt: add btrfs to get_ciphertext_filename
-Date: Tue,  8 Aug 2023 13:21:22 -0400
-Message-ID: <3e0ebf7a15ff15818f3188fd757f396284ddbc3a.1691530000.git.sweettea-kernel@dorminy.me>
-In-Reply-To: <cover.1691530000.git.sweettea-kernel@dorminy.me>
-References: <cover.1691530000.git.sweettea-kernel@dorminy.me>
+Subject: [RFC PATCH v3 0/9] fstests: add btrfs encryption testing
+Date: Tue,  8 Aug 2023 13:21:19 -0400
+Message-ID: <cover.1691530000.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -41,47 +39,59 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the relevant call to get an encrypted filename from btrfs.
+This is a preliminary fstests side of the btrfs encryption feature. This
+requires the latest related progs and kernel changesets.
 
-Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
----
- common/encrypt | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Marked as RFC because they're not ready to merge until all its
+dependencies finish landing; this is primarily to demonstrate that
+extent encryption, between fscrypt and btrfs, does not significantly
+change user-visible behavior.
 
-diff --git a/common/encrypt b/common/encrypt
-index fc1c8cc7..2c1925da 100644
---- a/common/encrypt
-+++ b/common/encrypt
-@@ -618,6 +618,19 @@ _get_ciphertext_filename()
- 	local dir_inode=$3
- 
- 	case $FSTYP in
-+	btrfs)
-+		# Extract the filename from the inode_ref object, similar to:
-+		# item 24 key (259 INODE_REF 257) itemoff 14826 itemsize 26
-+		# 	index 3 namelen 16 name: J\xf7\x15tD\x8eL\xae/\x98\x9f\x09\xc1\xb6\x09>
-+		#
-+		$BTRFS_UTIL_PROG inspect-internal dump-tree $device | \
-+			grep -A 1 "key ($inode INODE_REF " | tail -n 1 | \
-+			perl -ne '
-+				s/.*?name: //;
-+				chomp;
-+				s/\\x([[:xdigit:]]{2})/chr hex $1/eg;
-+				print;'
-+		;;
- 	ext4)
- 		# Extract the filename from the debugfs output line like:
- 		#
-@@ -715,6 +728,9 @@ _require_get_ciphertext_filename_support()
- 			_notrun "dump.f2fs (f2fs-tools) is too old; doesn't support showing unambiguous on-disk filenames"
- 		fi
- 		;;
-+	btrfs)
-+		_require_command "$BTRFS_UTIL_PROG" btrfs
-+		;;
- 	*)
- 		_notrun "_get_ciphertext_filename() isn't implemented on $FSTYP"
- 		;;
+Changelog:
+
+RFC v3:
+- add test of snapshotting encrypted subvol
+- updated f2fs/002 to match edits to common/encrypt, thanks Anand.
+
+RFC v2:
+- https://lore.kernel.org/linux-btrfs/cover.1688929294.git.sweettea-kernel@dorminy.me/
+- Reverted changes to generic/580 and generic/595 to match the new
+  'soft-delete' behavior introduced in v2 of kernel patchset
+  "fscrypt: add extent encryption". (change 6)
+- Removed extraneous syncs/drop_caches and added copyright to new test
+  (change 8), as per Filipe's comments.
+
+RFC v1:
+- https://lore.kernel.org/linux-btrfs/cover.1688076612.git.sweettea-kernel@dorminy.me/T/#t
+
+Sweet Tea Dorminy (9):
+  common/encrypt: separate data and inode nonces
+  common/encrypt: add btrfs to get_encryption_*nonce
+  common/encrypt: add btrfs to get_ciphertext_filename
+  common/encrypt: enable making a encrypted btrfs filesystem
+  generic/613: write some actual data for btrfs
+  tests: adjust generic/429 for extent encryption
+  common/verity: explicitly don't allow btrfs encryption
+  btrfs: add simple test of reflink of encrypted data
+  btrfs: test snapshotting encrypted subvol
+
+ common/encrypt      |  86 +++++++++++++++++++++++++++++++---
+ common/verity       |   4 ++
+ tests/btrfs/613     |  59 +++++++++++++++++++++++
+ tests/btrfs/613.out |  13 ++++++
+ tests/btrfs/614     |  76 ++++++++++++++++++++++++++++++
+ tests/btrfs/614.out | 111 ++++++++++++++++++++++++++++++++++++++++++++
+ tests/f2fs/002      |   2 +-
+ tests/generic/429   |   6 +++
+ tests/generic/613   |  12 +++--
+ 9 files changed, 357 insertions(+), 12 deletions(-)
+ create mode 100755 tests/btrfs/613
+ create mode 100644 tests/btrfs/613.out
+ create mode 100755 tests/btrfs/614
+ create mode 100644 tests/btrfs/614.out
+
+
+base-commit: 8de535c53887bb49adae74a1b2e83e77d7e8457d
 -- 
 2.41.0
 
