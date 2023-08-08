@@ -1,22 +1,22 @@
 Received: from box.fidei.email (box.fidei.email [71.19.144.250])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEA414F6B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31A914F6E
 	for <fsverity@lists.linux.dev>; Tue,  8 Aug 2023 17:31:27 +0000 (UTC)
 Received: from authenticated-user (box.fidei.email [71.19.144.250])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by box.fidei.email (Postfix) with ESMTPSA id B1571809E9;
-	Tue,  8 Aug 2023 13:22:13 -0400 (EDT)
+	by box.fidei.email (Postfix) with ESMTPSA id D0F97803AF;
+	Tue,  8 Aug 2023 13:22:10 -0400 (EDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
-	t=1691515333; bh=726Inc6P68BCi0kM+SUSni3m2wN66ATgsTZpdV1YXhA=;
+	t=1691515331; bh=HJHfEC2utk1cT+5gy9FZrT+lWxfLUWWvrcTsspJsx8o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=w2iw0OWh+nUjaKDkhWMKMEaHCUJawApxUAUe/nrDey15oXBcy2yG3RjrFIwfIKt8F
-	 pFSpf/AT+avhEWMfnWOmaYswBMTJDEJs18SbdCMKua579tjYZf2FrFFmYYMVHkWVnk
-	 Bm1zBhLLx8XlN2lS/V76bO4jUujZTnjpbHYepR13pzH35WA2C/iY4EI0r68FJbV+I8
-	 88/poEu/zzBw6nh7rV/UpCJslz70ATeq1Z++e3i3UUWlBZD9ykSXWoLyGoYOWAxlB9
-	 gAfxCQHl0feLgtOS5vLV0DsvIzfjz6ICKtvVs87/Zqh04CHZ3CluUSMEKWn3hL4x9a
-	 LGzme54L6kTsQ==
+	b=IAOTX6hDO3oSDCTKQhbvj44A4DCZReh40FzcvOoLgZqLZuLyUoFfAQk+/sx++ILYF
+	 yZ46K7lXTxpC9I0p87zVtte5WQbhguhD93b+1m/ekmS2nAizJH5JxgeYKJDzUKlV/L
+	 wJATGXDG+SZC0tWdDmfw2CY+TXVk7zsbhxFn780MDea1P173atgczECY8imkeGyV5z
+	 dywPb4l6mPD1a1qN7ulAc1xqV8xmNSQekWebmmnOdEblUSmh3VdD/ZZLDOkqIiLU4N
+	 K39JaR5+e7U7+A8+FjTN1QfS3A6jfFEDCVsBxYMEisvMeKSajDtO2eEFkqJdyLdGcV
+	 JoqUJ6nIP/t4Q==
 From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
 To: linux-btrfs@vger.kernel.org,
 	fstests@vger.kernel.org,
@@ -28,9 +28,9 @@ To: linux-btrfs@vger.kernel.org,
 	fsverity@lists.linux.dev,
 	zlang@kernel.org
 Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-Subject: [RFC PATCH v3 4/9] common/encrypt: enable making a encrypted btrfs filesystem
-Date: Tue,  8 Aug 2023 13:21:23 -0400
-Message-ID: <810d879650dd3bd8da1df2e4611d55adaf670ae4.1691530000.git.sweettea-kernel@dorminy.me>
+Subject: [RFC PATCH v3 2/9] common/encrypt: add btrfs to get_encryption_*nonce
+Date: Tue,  8 Aug 2023 13:21:21 -0400
+Message-ID: <dd7c1bbeb443fbb6d0836fe2b5be394c991dc4d0.1691530000.git.sweettea-kernel@dorminy.me>
 In-Reply-To: <cover.1691530000.git.sweettea-kernel@dorminy.me>
 References: <cover.1691530000.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
@@ -41,35 +41,89 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Add the modes of getting the encryption nonces, either inode or extent,
+to the various get_encryption_nonce functions. For now, no encrypt test
+makes a file with more than one extent, so we can just grab the first
+extent's nonce for the data nonce; when we write a bigger file test,
+we'll need to change that.
+
 Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
 ---
- common/encrypt | 6 ++++++
- 1 file changed, 6 insertions(+)
+ common/encrypt    | 31 +++++++++++++++++++++++++++++++
+ tests/generic/613 |  4 ++++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/common/encrypt b/common/encrypt
-index 2c1925da..1372af66 100644
+index 04b6e5ac..fc1c8cc7 100644
 --- a/common/encrypt
 +++ b/common/encrypt
-@@ -153,6 +153,9 @@ _scratch_mkfs_encrypted()
- 		# erase the UBI volume; reformated automatically on next mount
- 		$UBIUPDATEVOL_PROG ${SCRATCH_DEV} -t
+@@ -531,6 +531,17 @@ _get_encryption_file_nonce()
+ 				found = 0;
+ 			}'
  		;;
 +	btrfs)
-+		_scratch_mkfs
-+		;;
- 	ceph)
- 		_scratch_cleanup_files
- 		;;
-@@ -168,6 +171,9 @@ _scratch_mkfs_sized_encrypted()
- 	ext4|f2fs)
- 		MKFS_OPTIONS="$MKFS_OPTIONS -O encrypt" _scratch_mkfs_sized $*
- 		;;
-+	btrfs)
-+		_scratch_mkfs_sized $*
++		# Retrieve the fscrypt context for an inode as a hex string.
++		# btrfs prints these like:
++		#        item 14 key ($inode FSCRYPT_CTXT_ITEM 0) itemoff 15491 itemsize 40
++		#                value: 02010400000000008fabf3dd745d41856e812458cd765bf0140f41d62853f4c0351837daff4dcc8f
++
++		$BTRFS_UTIL_PROG inspect-internal dump-tree $device | \
++			grep -A 1 "key ($inode FSCRYPT_CTXT_ITEM 0)" | \
++			grep --only-matching 'value: [[:xdigit:]]\+' | \
++			tr -d ' \n' | tail -c 32
 +		;;
  	*)
- 		_notrun "Filesystem $FSTYP not supported in _scratch_mkfs_sized_encrypted"
+ 		_fail "_get_encryption_file_nonce() isn't implemented on $FSTYP"
  		;;
+@@ -550,6 +561,23 @@ _get_encryption_data_nonce()
+ 	ext4|f2fs)
+ 		_get_encryption_file_nonce $device $inode
+ 		;;
++	btrfs)
++		# Retrieve the encryption IV of the first file extent in an inode as a hex
++		# string. btrfs prints the file extents (for simple unshared
++		# inodes) like:
++		#         item 21 key ($inode EXTENT_DATA 0) itemoff 2534 itemsize 69
++		#                generation 7 type 1 (regular)
++                #		 extent data disk byte 5304320 nr 1048576
++                #		 extent data offset 0 nr 1048576 ram 1048576
++                #		 extent compression 0 (none)
++                #		 extent encryption 161 ((1, 40: context 0201040200000000116a77667261d7422a4b1ed8c427e685edb7a0d370d0c9d40030333033333330))
++
++
++		$BTRFS_UTIL_PROG inspect-internal dump-tree $device | \
++			grep -A 5 "key ($inode EXTENT_DATA 0)" | \
++			grep --only-matching 'context [[:xdigit:]]\+' | \
++			tr -d ' \n' | tail -c 32
++		;;
+ 	*)
+ 		_fail "_get_encryption_data_nonce() isn't implemented on $FSTYP"
+ 		;;
+@@ -572,6 +600,9 @@ _require_get_encryption_nonce_support()
+ 		# Otherwise the xattr is incorrectly parsed as v1.  But just let
+ 		# the test fail in that case, as it was an f2fs-tools bug...
+ 		;;
++	btrfs)
++		_require_command "$BTRFS_UTIL_PROG" btrfs
++		;;
+ 	*)
+ 		_notrun "_get_encryption_*nonce() isn't implemented on $FSTYP"
+ 		;;
+diff --git a/tests/generic/613 b/tests/generic/613
+index 47c60e9c..279b1bfb 100755
+--- a/tests/generic/613
++++ b/tests/generic/613
+@@ -69,6 +69,10 @@ echo -n > $tmp.nonces_hex
+ echo -n > $tmp.nonces_bin
+ for inode in "${inodes[@]}"; do
+ 	nonce=$(_get_encryption_data_nonce $SCRATCH_DEV $inode)
++	if [ "$FSTYP" == "btrfs" ] && [ "$nonce" == "" ]
++	then
++		nonce=$(_get_encryption_file_nonce $SCRATCH_DEV $inode)
++	fi
+ 	if (( ${#nonce} != 32 )) || [ -n "$(echo "$nonce" | tr -d 0-9a-fA-F)" ]
+ 	then
+ 		_fail "Expected nonce for inode $inode to be 16 bytes (32 hex characters), but got \"$nonce\""
 -- 
 2.41.0
 
