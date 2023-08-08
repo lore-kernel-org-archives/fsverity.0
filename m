@@ -1,119 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.fidei.email (box.fidei.email [71.19.144.250])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE12E4C8F
-	for <fsverity@lists.linux.dev>; Wed,  2 Aug 2023 07:43:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82271C433CA;
-	Wed,  2 Aug 2023 07:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690962191;
-	bh=uliLFqbyfAo8ZWX8SKLjPrgv/IXg23iwEndg0QZY4NE=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=BBV4dJjCqOVG5TcNj0S/19UTgWEwPQmIUTarzCPUbgVhaALhKERTC0cYDc+r0xaLy
-	 IC4n2ymPEsesVEKYK78KfLCJozVt4XNCYvASWYdZCVcini0GY8qVDbpvaM7OsYRxC+
-	 7v90t9YDyV0EBdFkYNKUyOXKRQWqG1JL3APDJe5Dmk6QoOZIg91zohVYlz+6pSfuuJ
-	 Dkn94uDQTaBMdy1ThqVrpM0XR23HKdY8vsQWXYfFRInEWGE5VJYcu4jEQYYoOSu5bZ
-	 3BLFiuTdiZm5cE//ujN+IimL0uisdPWLnV4zUfwjdXKkujOVvc/CnLBuN0TVkKrRNd
-	 8xgimMD7NETWA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF28A14A8E
+	for <fsverity@lists.linux.dev>; Tue,  8 Aug 2023 17:22:15 +0000 (UTC)
+Received: from authenticated-user (box.fidei.email [71.19.144.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by box.fidei.email (Postfix) with ESMTPSA id 1542F83548;
+	Tue,  8 Aug 2023 13:22:15 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
+	t=1691515335; bh=k80BosUuOf3+UJm9EFkXHB69AfR7v14eADYsDzCRrm8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ehjjsu3wu1rmbMIsG8YnYBgeZrV5ixD8xbUyncG5Ux1jx2ZVVq5OpekqEcHmbqtPE
+	 RsROO5EZclETdFRvSgxUyKu9/YEM5mwY6E1pfA5yfsfr//lIKcofAI5hGn2RXOIrUE
+	 DgEGAmstfmbkgy7t2ae8akFhm+0P3yE1C/HRVvOitL3YfrAhWhzBRI7mdlcpoSJH4M
+	 MyZ/1I3AQ1TpghdvWyzIvBanGvwcbnyfJ0Ixmj5cfYJ2Dc2/C/pK4uadaOSAFSsxJB
+	 AljBYxqlJrMzoarmJM9bXIecmQ34GfJmoqqeX19XHAi7MxwSUSyP1ahqZYrsNyOwgn
+	 G71014MWyEG0w==
+From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+To: linux-btrfs@vger.kernel.org,
+	fstests@vger.kernel.org,
+	kernel-team@meta.com,
+	ebiggers@google.com,
+	anand.jain@oracle.com,
+	fdmanana@suse.com,
+	linux-fscrypt@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	zlang@kernel.org
+Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Subject: [RFC PATCH v3 5/9] generic/613: write some actual data for btrfs
+Date: Tue,  8 Aug 2023 13:21:24 -0400
+Message-ID: <200c306794a620f1ff7db0dddf304ec5997e4456.1691530000.git.sweettea-kernel@dorminy.me>
+In-Reply-To: <cover.1691530000.git.sweettea-kernel@dorminy.me>
+References: <cover.1691530000.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Aug 2023 10:43:06 +0300
-Message-Id: <CUHW2GFPQ5KC.3SOJM5AMOZ9T0@suppilovahvero>
-Cc: <fsverity@lists.linux.dev>, <keyrings@vger.kernel.org>, "Victor Hsieh"
- <victorhsieh@google.com>, <stable@vger.kernel.org>
-Subject: Re: [PATCH v2] fsverity: skip PKCS#7 parser when keyring is empty
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Eric Biggers" <ebiggers@kernel.org>
-X-Mailer: aerc 0.14.0
-References: <20230802041503.11530-1-ebiggers@kernel.org>
- <CUHRWHU485NB.19OIDMLF4WY5G@suppilovahvero>
- <20230802043158.GC1543@sol.localdomain>
-In-Reply-To: <20230802043158.GC1543@sol.localdomain>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Aug 2, 2023 at 7:31 AM EEST, Eric Biggers wrote:
-> On Wed, Aug 02, 2023 at 07:27:15AM +0300, Jarkko Sakkinen wrote:
-> > On Wed Aug 2, 2023 at 7:15 AM EEST, Eric Biggers wrote:
-> > > From: Eric Biggers <ebiggers@google.com>
-> > >
-> > > If an fsverity builtin signature is given for a file but the
-> > > ".fs-verity" keyring is empty, there's no real reason to run the PKCS=
-#7
-> > > parser.  Skip this to avoid the PKCS#7 attack surface when builtin
-> > > signature support is configured into the kernel but is not being used=
-.
-> > >
-> > > This is a hardening improvement, not a fix per se, but I've added
-> > > Fixes and Cc stable to get it out to more users.
-> > >
-> > > Fixes: 432434c9f8e1 ("fs-verity: support builtin file signatures")
-> > > Cc: stable@vger.kernel.org
-> > > Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
-> > > Signed-off-by: Eric Biggers <ebiggers@google.com>
-> > > ---
-> > >
-> > > v2: check keyring and return early before allocating formatted digest
-> > >
-> > >  fs/verity/signature.c | 15 +++++++++++++++
-> > >  1 file changed, 15 insertions(+)
-> > >
-> > > diff --git a/fs/verity/signature.c b/fs/verity/signature.c
-> > > index b95acae64eac6..8f474702aa249 100644
-> > > --- a/fs/verity/signature.c
-> > > +++ b/fs/verity/signature.c
-> > > @@ -62,6 +62,21 @@ int fsverity_verify_signature(const struct fsverit=
-y_info *vi,
-> > >  		return 0;
-> > >  	}
-> > > =20
-> > > +	if (fsverity_keyring->keys.nr_leaves_on_tree =3D=3D 0) {
-> > > +		/*
-> > > +		 * The ".fs-verity" keyring is empty, due to builtin signatures
-> > > +		 * being supported by the kernel but not actually being used.
-> > > +		 * In this case, verify_pkcs7_signature() would always return an
-> > > +		 * error, usually ENOKEY.  It could also be EBADMSG if the
-> > > +		 * PKCS#7 is malformed, but that isn't very important to
-> > > +		 * distinguish.  So, just skip to ENOKEY to avoid the attack
-> > > +		 * surface of the PKCS#7 parser, which would otherwise be
-> > > +		 * reachable by any task able to execute FS_IOC_ENABLE_VERITY.
-> > > +		 */
-> > > +		fsverity_err(inode, "fs-verity keyring is empty");
-> > > +		return -ENOKEY;
-> > > +	}
-> > > +
-> > >  	d =3D kzalloc(sizeof(*d) + hash_alg->digest_size, GFP_KERNEL);
-> > >  	if (!d)
-> > >  		return -ENOMEM;
-> > >
-> > > base-commit: 456ae5fe9b448f44ebe98b391a3bae9c75df465e
-> > > --=20
-> > > 2.41.0
-> >=20
-> > Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
-> >=20
-> > applied
-> >=20
-> > BR, Jarkko
->
-> Hi Jarkko, thanks for the review!
->
-> I actually intended to take this through the fsverity tree.  Is that okay=
-?
->
-> BTW, we could actually make this change to verify_pkcs7_signature() itsel=
-f.
-> I wasn't sure it would be appropriate for all callers, though.  Any thoug=
-hts?
+Currently, the test touches a file and assumes that that is sufficient
+to generate a new nonce to test for that file. However, btrfs doesn't
+store an encryption context for a leaf inode, and doesn't store an
+encryption context for data within a leaf inode until data is actually
+written. Thus, merely touching the file on btrfs doesn't actually
+generate a testable nonce.
 
-It is OK for me. I just wanted make sure that I don't get yelled let's
-say month from now, why I haven't picked it already. That's why the
-"more eager" approach :-)
+Instead, write a trivial bit of data to each file, which provokes btrfs
+to generate a encryption context for the data and thus a testable nonce.
 
-I'll drop it from my master branch today.
+Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+---
+ tests/generic/613 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-BR, Jarkko
+diff --git a/tests/generic/613 b/tests/generic/613
+index 279b1bfb..11f28c74 100755
+--- a/tests/generic/613
++++ b/tests/generic/613
+@@ -53,11 +53,11 @@ for i in {1..50}; do
+ done
+ for i in {1..50}; do
+ 	file=$SCRATCH_MNT/v1_policy_dir_1/$i
+-	touch $file
++	echo "0" > $file
+ 	inodes+=("$(stat -c %i $file)")
+ 
+ 	file=$SCRATCH_MNT/v2_policy_dir_1/$i
+-	touch $file
++	echo "0" > $file
+ 	inodes+=("$(stat -c %i $file)")
+ done
+ _scratch_unmount
+-- 
+2.41.0
+
