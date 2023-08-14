@@ -1,114 +1,117 @@
-Received: from box.fidei.email (box.fidei.email [71.19.144.250])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215F513AFA
-	for <fsverity@lists.linux.dev>; Tue,  8 Aug 2023 18:46:29 +0000 (UTC)
-Received: from authenticated-user (box.fidei.email [71.19.144.250])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	by box.fidei.email (Postfix) with ESMTPSA id 5BD3580C15;
-	Tue,  8 Aug 2023 14:46:28 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
-	t=1691520389; bh=zboWyX3LOqJT54iC6p239R9WSjBQ9u2mjNYR6izqaxw=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=YTboS0nEd5b0R7WsONge72lwyMWoG8E8DpBn0OTG5htDaLIGa5AAjcXkNKqmpGG3v
-	 YPvTCUxG76My5eWBV1d703zsOBLQzsnoogNlDEquv8PieKLeVRafS5/BlSnAFe6aW6
-	 RndnupZ2+KnMm1rMO+jVQBjA3y+4ILRv6bVAdJhO4E/++L5YH3pWMIM5375LveK+A4
-	 QQOU2NvxIehNSDsQZ1Qm8QbHsZOJeOwd2K7qb8Xd0s122taP0HiC9e0hvyliVLag+l
-	 V9xYRwmz9l34rKHfpOMcbnvNZTvKypUefmoMcqGUqmvAyPVdoXzncKskNmvouaeOG8
-	 wI/RwM93PXvgQ==
-Message-ID: <1b838929-f349-559c-5f69-560c635c1d24@dorminy.me>
-Date: Tue, 8 Aug 2023 14:46:27 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8626CA43
+	for <fsverity@lists.linux.dev>; Mon, 14 Aug 2023 08:30:51 +0000 (UTC)
+Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
+	id 1qVSyQ-00Gl99-2u
+	for fsverity@lists.linux.dev;
+	Mon, 14 Aug 2023 03:30:50 -0500
+X-Failed-Recipients: fsverity@lists.linux.dev
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
+To: fsverity@lists.linux.dev
+References: <20230814093047.3B521F5FA66C0D10@lists.linux.dev>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1692001850-eximdsn-642040980
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH v3 9/9] btrfs: test snapshotting encrypted subvol
-Content-Language: en-US
-To: linux-btrfs@vger.kernel.org, fstests@vger.kernel.org,
- kernel-team@meta.com, ebiggers@google.com, anand.jain@oracle.com,
- fdmanana@suse.com, linux-fscrypt@vger.kernel.org, fsverity@lists.linux.dev,
- zlang@kernel.org
-References: <cover.1691530000.git.sweettea-kernel@dorminy.me>
- <400435f749f54e07a23e8e3c67bb717646747cc4.1691530000.git.sweettea-kernel@dorminy.me>
-From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-In-Reply-To: <400435f749f54e07a23e8e3c67bb717646747cc4.1691530000.git.sweettea-kernel@dorminy.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1qVSyQ-00Gl99-2u@ns-196.awsdns-24.com>
+Date: Mon, 14 Aug 2023 03:30:50 -0500
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
+--1692001850-eximdsn-642040980
+Content-type: text/plain; charset=us-ascii
 
+This message was created automatically by mail delivery software.
 
-On 8/8/23 13:21, Sweet Tea Dorminy wrote:
-> Make sure that snapshots of encrypted data are readable and writeable.
-> 
-> Test deliberately high-numbered to not conflict.
-> 
-> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-> ---
->   tests/btrfs/614     |  76 ++++++++++++++++++++++++++++++
->   tests/btrfs/614.out | 111 ++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 187 insertions(+)
->   create mode 100755 tests/btrfs/614
->   create mode 100644 tests/btrfs/614.out
-> 
-> diff --git a/tests/btrfs/614 b/tests/btrfs/614
-> new file mode 100755
-> index 00000000..87dd27f9
-> --- /dev/null
-> +++ b/tests/btrfs/614
-> @@ -0,0 +1,76 @@
-> +#! /bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) 2023 Meta Platforms, Inc.  All Rights Reserved.
-> +#
-> +# FS QA Test 614
-> +#
-> +# Try taking a snapshot of an encrypted subvolume. Make sure the snapshot is
-> +# still readable. Rewrite part of the subvol with the same data; make sure it's
-> +# still readable.
-> +#
-> +. ./common/preamble
-> +_begin_fstest auto encrypt
-> +
-> +# Import common functions.
-> +. ./common/encrypt
-> +. ./common/filter
-> +
-> +# real QA test starts here
-> +_supported_fs btrfs
-> +
-> +_require_test
-> +_require_scratch
-> +_require_scratch_encryption -v 2
-> +_require_command "$KEYCTL_PROG" keyctl
-> +
-> +_scratch_mkfs_encrypted &>> $seqres.full
-> +_scratch_mount
-> +
-> +udir=$SCRATCH_MNT/reference
-> +dir=$SCRATCH_MNT/subvol
-> +dir2=$SCRATCH_MNT/subvol2
-> +$BTRFS_UTIL_PROG subvolume create $dir >> $seqres.full
-> +mkdir $udir
-> +
-> +_set_encpolicy $dir $TEST_KEY_IDENTIFIER
-> +_add_enckey $SCRATCH_MNT "$TEST_RAW_KEY"
-> +
-> +# get files with lots of extents by using backwards writes.
-> +for j in `seq 0 50`; do
-> +	for i in `seq 20 -1 1`; do
-> +		$XFS_IO_PROG -f -d -c "pwrite $(($i * 4096)) 4096" \
-> +		$dir/foo-$j >> $seqres.full | _filter_xfs_io
-> +		$XFS_IO_PROG -f -d -c "pwrite $(($i * 4096)) 4096" \
-> +		$udir/foo-$j >> $seqres.full | _filter_xfs_io
-> +	done
-> +done
-> +
-> +$BTRFS_UTIL_PROG subvolume snapshot $dir $dir2 | _filter_scratch
-> +
-> +_scratch_remount
-> +_add_enckey $SCRATCH_MNT "$TEST_RAW_KEY"
-> +sleep 30
-Just noticed this sleep, will remove it in the next version.
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
+
+  fsverity@lists.linux.dev
+    host smtp.subspace.kernel.org [44.238.234.78]
+    SMTP error from remote mail server after end of data:
+    550 5.7.1 Blocked by SpamAssassin
+
+--1692001850-eximdsn-642040980
+Content-type: message/delivery-status
+
+Reporting-MTA: dns; ns-196.awsdns-24.com
+
+Action: failed
+Final-Recipient: rfc822;fsverity@lists.linux.dev
+Status: 5.0.0
+Remote-MTA: dns; smtp.subspace.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--1692001850-eximdsn-642040980
+Content-type: message/rfc822
+
+Return-path: <fsverity@lists.linux.dev>
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:51248)
+	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <fsverity@lists.linux.dev>)
+	id 1qVSyO-00Gk06-0q
+	for fsverity@lists.linux.dev;
+	Mon, 14 Aug 2023 03:30:48 -0500
+From: lists.linux.devAdministrator<fsverity@lists.linux.dev>
+To: fsverity@lists.linux.dev
+Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
+Date: 14 Aug 2023 09:30:47 +0100
+Message-ID: <20230814093047.3B521F5FA66C0D10@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+
+<html><head><title></title>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
+or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
+/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
+ined Messages Report</b> </font>&nbsp;</font><br>fsverity@lists.linux.dev<d=
+iv>14-08-2023, 08:00AM <br>&nbsp;<br>Dear fsverity,</div><div><br>
+4 messages addressed to you are currently on hold awaiting your further act=
+ion. You can release all of your held messages and permit or block future e=
+mails from the senders, or manage messages individually.<br><br>
+<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
+nxX?clientID=3Dfsverity@lists.linux.dev" target=3D"_blank" data-saferedirec=
+turl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-=
+%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZW=
+fJX-xB2LHrk7CvessvAOsg">Review all</a>
+&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
+cFJkycxN8DaPanxX?clientID=3Dfsverity@lists.linux.dev" target=3D"_blank" dat=
+a-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23=
+%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=
+=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
+&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
+bcFJkycxN8DaPanxX?clientID=3Dfsverity@lists.linux.dev" target=3D"_blank" da=
+ta-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%2=
+3%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=
+=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Informa=
+tion: <br>
+To view your entire quarantine inbox or manage your preferences, <a href=3D=
+"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
+ID=3Dfsverity@lists.linux.dev" target=3D"_blank" data-saferedirecturl=3D"ht=
+tps://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&amp=
+;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LHr=
+k7CvessvAOsg">Click Here</a><br><br>The system generated this notice on 14-=
+08-2023, at 09:00AM<br>Do not reply to this automated message.<br>
+&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
+</body></html>
+
+--1692001850-eximdsn-642040980--
