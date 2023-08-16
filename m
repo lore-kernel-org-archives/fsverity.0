@@ -1,18 +1,18 @@
 Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8626CA43
-	for <fsverity@lists.linux.dev>; Mon, 14 Aug 2023 08:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559E45CBC
+	for <fsverity@lists.linux.dev>; Wed, 16 Aug 2023 11:05:54 +0000 (UTC)
 Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
-	id 1qVSyQ-00Gl99-2u
+	id 1qWELZ-00EHU3-1t
 	for fsverity@lists.linux.dev;
-	Mon, 14 Aug 2023 03:30:50 -0500
+	Wed, 16 Aug 2023 06:05:53 -0500
 X-Failed-Recipients: fsverity@lists.linux.dev
 Auto-Submitted: auto-replied
 From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
 To: fsverity@lists.linux.dev
-References: <20230814093047.3B521F5FA66C0D10@lists.linux.dev>
-Content-Type: multipart/report; report-type=delivery-status; boundary=1692001850-eximdsn-642040980
+References: <20230816120550.67970145FA271048@lists.linux.dev>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1692183953-eximdsn-589579592
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -20,8 +20,8 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Subject: Mail delivery failed: returning message to sender
-Message-Id: <E1qVSyQ-00Gl99-2u@ns-196.awsdns-24.com>
-Date: Mon, 14 Aug 2023 03:30:50 -0500
+Message-Id: <E1qWELZ-00EHU3-1t@ns-196.awsdns-24.com>
+Date: Wed, 16 Aug 2023 06:05:53 -0500
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
 X-AntiAbuse: Original Domain - lists.linux.dev
@@ -30,7 +30,7 @@ X-AntiAbuse: Sender Address Domain -
 X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
 X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
---1692001850-eximdsn-642040980
+--1692183953-eximdsn-589579592
 Content-type: text/plain; charset=us-ascii
 
 This message was created automatically by mail delivery software.
@@ -43,7 +43,7 @@ recipients. This is a permanent error. The following address(es) failed:
     SMTP error from remote mail server after end of data:
     550 5.7.1 Blocked by SpamAssassin
 
---1692001850-eximdsn-642040980
+--1692183953-eximdsn-589579592
 Content-type: message/delivery-status
 
 Reporting-MTA: dns; ns-196.awsdns-24.com
@@ -54,22 +54,22 @@ Status: 5.0.0
 Remote-MTA: dns; smtp.subspace.kernel.org
 Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
 
---1692001850-eximdsn-642040980
+--1692183953-eximdsn-589579592
 Content-type: message/rfc822
 
 Return-path: <fsverity@lists.linux.dev>
-Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:51248)
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:53401)
 	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <fsverity@lists.linux.dev>)
-	id 1qVSyO-00Gk06-0q
+	id 1qWELX-00EHCn-0x
 	for fsverity@lists.linux.dev;
-	Mon, 14 Aug 2023 03:30:48 -0500
+	Wed, 16 Aug 2023 06:05:51 -0500
 From: lists.linux.devAdministrator<fsverity@lists.linux.dev>
 To: fsverity@lists.linux.dev
 Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
-Date: 14 Aug 2023 09:30:47 +0100
-Message-ID: <20230814093047.3B521F5FA66C0D10@lists.linux.dev>
+Date: 16 Aug 2023 12:05:50 +0100
+Message-ID: <20230816120550.67970145FA271048@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
@@ -84,7 +84,7 @@ Content-Transfer-Encoding: quoted-printable
 or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
 /i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
 ined Messages Report</b> </font>&nbsp;</font><br>fsverity@lists.linux.dev<d=
-iv>14-08-2023, 08:00AM <br>&nbsp;<br>Dear fsverity,</div><div><br>
+iv>16-08-2023, 08:00AM <br>&nbsp;<br>Dear fsverity,</div><div><br>
 4 messages addressed to you are currently on hold awaiting your further act=
 ion. You can release all of your held messages and permit or block future e=
 mails from the senders, or manage messages individually.<br><br>
@@ -109,9 +109,9 @@ To view your entire quarantine inbox or manage your preferences, <a href=3D=
 ID=3Dfsverity@lists.linux.dev" target=3D"_blank" data-saferedirecturl=3D"ht=
 tps://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&amp=
 ;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LHr=
-k7CvessvAOsg">Click Here</a><br><br>The system generated this notice on 14-=
+k7CvessvAOsg">Click Here</a><br><br>The system generated this notice on 16-=
 08-2023, at 09:00AM<br>Do not reply to this automated message.<br>
 &copy; 2023 lists.linux.dev. All rights reserved.</div></div>
 </body></html>
 
---1692001850-eximdsn-642040980--
+--1692183953-eximdsn-589579592--
