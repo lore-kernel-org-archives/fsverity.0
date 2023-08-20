@@ -1,117 +1,102 @@
-Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559E45CBC
-	for <fsverity@lists.linux.dev>; Wed, 16 Aug 2023 11:05:54 +0000 (UTC)
-Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
-	id 1qWELZ-00EHU3-1t
-	for fsverity@lists.linux.dev;
-	Wed, 16 Aug 2023 06:05:53 -0500
-X-Failed-Recipients: fsverity@lists.linux.dev
-Auto-Submitted: auto-replied
-From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EE6256D
+	for <fsverity@lists.linux.dev>; Sun, 20 Aug 2023 17:33:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3E6BC433C8;
+	Sun, 20 Aug 2023 17:33:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1692552794;
+	bh=WENwwukqvqLnh0i70wqLdjnC9+i3wzyAPZzzsBwu9GM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eK/Pj2PDOw6jbR+ynm+yECSoWnkZi9Rc3RDtiMFJFwqkdk18F5shl80G1K3gaUhh1
+	 hEdJriIWbIxefsn5Jcn1ai/Fe0pFfibiEBRlVdz+N/UhVfJJtpr48OkuO5vC5tD9z0
+	 7nf3mWpQwAgQ6wJCYC3bvPhwyqfrpej6as3YI4/sdZZMpMHSFb98waMAS7F3HY+hOg
+	 gFLw65u0yb4zhJ85XhLme3By0rS6Ql7Ae1rlUHn9+/robFW7syDT/sR1iYnb2EmVUV
+	 7FNeTRfgsJwiMrTBahR5RywGoXA7ezpYINelM8MCdAkM5DB0hpu1ThYtdmfUdvnFvR
+	 +DT9QDvFLjmjA==
+From: Eric Biggers <ebiggers@kernel.org>
 To: fsverity@lists.linux.dev
-References: <20230816120550.67970145FA271048@lists.linux.dev>
-Content-Type: multipart/report; report-type=delivery-status; boundary=1692183953-eximdsn-589579592
+Cc: Victor Hsieh <victorhsieh@google.com>,
+	stable@vger.kernel.org,
+	Jarkko Sakkinen <jarkko@kernel.org>
+Subject: [PATCH v3] fsverity: skip PKCS#7 parser when keyring is empty
+Date: Sun, 20 Aug 2023 10:32:36 -0700
+Message-ID: <20230820173237.2579-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Mail delivery failed: returning message to sender
-Message-Id: <E1qWELZ-00EHU3-1t@ns-196.awsdns-24.com>
-Date: Wed, 16 Aug 2023 06:05:53 -0500
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - 
-X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
-X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
+Content-Transfer-Encoding: 8bit
 
---1692183953-eximdsn-589579592
-Content-type: text/plain; charset=us-ascii
+From: Eric Biggers <ebiggers@google.com>
 
-This message was created automatically by mail delivery software.
+If an fsverity builtin signature is given for a file but the
+".fs-verity" keyring is empty, there's no real reason to run the PKCS#7
+parser.  Skip this to avoid the PKCS#7 attack surface when builtin
+signature support is configured into the kernel but is not being used.
 
-A message that you sent could not be delivered to one or more of its
-recipients. This is a permanent error. The following address(es) failed:
+This is a hardening improvement, not a fix per se, but I've added
+Fixes and Cc stable to get it out to more users.
 
-  fsverity@lists.linux.dev
-    host smtp.subspace.kernel.org [44.238.234.78]
-    SMTP error from remote mail server after end of data:
-    550 5.7.1 Blocked by SpamAssassin
+Fixes: 432434c9f8e1 ("fs-verity: support builtin file signatures")
+Cc: stable@vger.kernel.org
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
 
---1692183953-eximdsn-589579592
-Content-type: message/delivery-status
+v3: improve the error message slightly
+v2: check keyring and return early before allocating formatted digest
 
-Reporting-MTA: dns; ns-196.awsdns-24.com
+ fs/verity/signature.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Action: failed
-Final-Recipient: rfc822;fsverity@lists.linux.dev
-Status: 5.0.0
-Remote-MTA: dns; smtp.subspace.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+index b95acae64eac6..90c07573dd77b 100644
+--- a/fs/verity/signature.c
++++ b/fs/verity/signature.c
+@@ -55,20 +55,36 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
+ 
+ 	if (sig_size == 0) {
+ 		if (fsverity_require_signatures) {
+ 			fsverity_err(inode,
+ 				     "require_signatures=1, rejecting unsigned file!");
+ 			return -EPERM;
+ 		}
+ 		return 0;
+ 	}
+ 
++	if (fsverity_keyring->keys.nr_leaves_on_tree == 0) {
++		/*
++		 * The ".fs-verity" keyring is empty, due to builtin signatures
++		 * being supported by the kernel but not actually being used.
++		 * In this case, verify_pkcs7_signature() would always return an
++		 * error, usually ENOKEY.  It could also be EBADMSG if the
++		 * PKCS#7 is malformed, but that isn't very important to
++		 * distinguish.  So, just skip to ENOKEY to avoid the attack
++		 * surface of the PKCS#7 parser, which would otherwise be
++		 * reachable by any task able to execute FS_IOC_ENABLE_VERITY.
++		 */
++		fsverity_err(inode,
++			     "fs-verity keyring is empty, rejecting signed file!");
++		return -ENOKEY;
++	}
++
+ 	d = kzalloc(sizeof(*d) + hash_alg->digest_size, GFP_KERNEL);
+ 	if (!d)
+ 		return -ENOMEM;
+ 	memcpy(d->magic, "FSVerity", 8);
+ 	d->digest_algorithm = cpu_to_le16(hash_alg - fsverity_hash_algs);
+ 	d->digest_size = cpu_to_le16(hash_alg->digest_size);
+ 	memcpy(d->digest, vi->file_digest, hash_alg->digest_size);
+ 
+ 	err = verify_pkcs7_signature(d, sizeof(*d) + hash_alg->digest_size,
+ 				     signature, sig_size, fsverity_keyring,
 
---1692183953-eximdsn-589579592
-Content-type: message/rfc822
+base-commit: 456ae5fe9b448f44ebe98b391a3bae9c75df465e
+-- 
+2.41.0
 
-Return-path: <fsverity@lists.linux.dev>
-Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:53401)
-	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <fsverity@lists.linux.dev>)
-	id 1qWELX-00EHCn-0x
-	for fsverity@lists.linux.dev;
-	Wed, 16 Aug 2023 06:05:51 -0500
-From: lists.linux.devAdministrator<fsverity@lists.linux.dev>
-To: fsverity@lists.linux.dev
-Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
-Date: 16 Aug 2023 12:05:50 +0100
-Message-ID: <20230816120550.67970145FA271048@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html>
-
-<html><head><title></title>
-<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
-<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-</head>
-<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
-or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
-/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
-ined Messages Report</b> </font>&nbsp;</font><br>fsverity@lists.linux.dev<d=
-iv>16-08-2023, 08:00AM <br>&nbsp;<br>Dear fsverity,</div><div><br>
-4 messages addressed to you are currently on hold awaiting your further act=
-ion. You can release all of your held messages and permit or block future e=
-mails from the senders, or manage messages individually.<br><br>
-<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
-nxX?clientID=3Dfsverity@lists.linux.dev" target=3D"_blank" data-saferedirec=
-turl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-=
-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZW=
-fJX-xB2LHrk7CvessvAOsg">Review all</a>
-&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
-cFJkycxN8DaPanxX?clientID=3Dfsverity@lists.linux.dev" target=3D"_blank" dat=
-a-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23=
-%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=
-=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
-&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
-bcFJkycxN8DaPanxX?clientID=3Dfsverity@lists.linux.dev" target=3D"_blank" da=
-ta-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%2=
-3%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=
-=3DAFQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Informa=
-tion: <br>
-To view your entire quarantine inbox or manage your preferences, <a href=3D=
-"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
-ID=3Dfsverity@lists.linux.dev" target=3D"_blank" data-saferedirecturl=3D"ht=
-tps://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&amp=
-;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LHr=
-k7CvessvAOsg">Click Here</a><br><br>The system generated this notice on 16-=
-08-2023, at 09:00AM<br>Do not reply to this automated message.<br>
-&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
-</body></html>
-
---1692183953-eximdsn-589579592--
