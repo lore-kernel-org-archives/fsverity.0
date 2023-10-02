@@ -1,197 +1,220 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350DA1A718
-	for <fsverity@lists.linux.dev>; Wed, 13 Sep 2023 13:57:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694613446;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uSu+wfKI0COvYUFOUN1quOmzaqRDB5SntbfHwbLUiWw=;
-	b=P0WDvIyrExD89FKFxkCQsnyBpg1gGKD5B+USfa4c6IvOAay5JlkYEIariUUU4q18xnNEt4
-	a1YU6RfSTB8UCG0ItBMl5Oi5aJciS6oEWyHiAwdv6hh5bCJhdapzPaicLYqdcI0KJ0Mcx3
-	yO1QMzHB0f6821+YN+cprtp581qnFhE=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-BAeqrNlxOzadyRsNQDEgGg-1; Wed, 13 Sep 2023 09:57:24 -0400
-X-MC-Unique: BAeqrNlxOzadyRsNQDEgGg-1
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-3ab7fb11711so5203686b6e.2
-        for <fsverity@lists.linux.dev>; Wed, 13 Sep 2023 06:57:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694613444; x=1695218244;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uSu+wfKI0COvYUFOUN1quOmzaqRDB5SntbfHwbLUiWw=;
-        b=icHbzRjp9oLc4YtJqHgxXe0+0ITo5nrXIEhw7eMUxHB4GNMwRbZbzMzMYhANaEOolN
-         DkBkj4Eu8mgZWRZXt1ciWl25KxuGB46q8iqkDtuwnTk++3WqFuBqqB0aF2lCAiNPKyay
-         GD9HXLraBc0trg+Q1UrQF63F0JPp7ZPNEOQfX97/nq1gpFnboSj7lEYN/7PCoe9wWom8
-         52NFYSgptnsDjqRE89UbnLoJ2lINLWtOdAjgTyB8UxZUaMHhbdfz4nPKKFZ3oF0FtYoJ
-         bvTMJyGNlrx0TNTM/IyMwVrT2p3X2oE3rTI5vgZFH3MUBXVl0JHcMo0+pBwggGAImj5r
-         bM/A==
-X-Gm-Message-State: AOJu0YyNmcrJE/K88svqyfMvFiFEDCXp0Pm5IHsAVZerBUfAfYW3rfq+
-	JB4tZydm0E4Ebey6HVExi2FU5nBgNPcVLWyawZTv91akLCQLEi8gPTEWWK9QExpvk/qyFMzClj2
-	oE016TbUrBMZHcItvF5A=
-X-Received: by 2002:a05:6808:2187:b0:3a7:238a:143e with SMTP id be7-20020a056808218700b003a7238a143emr3559885oib.2.1694613443911;
-        Wed, 13 Sep 2023 06:57:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFl9TR07hpfDdoxDYwgnaZ4bY8I6EOLvfZtBROeXDswTJ1ZOxx4u+NagkZ5tyR3ZpX3Fx7F0g==
-X-Received: by 2002:a05:6808:2187:b0:3a7:238a:143e with SMTP id be7-20020a056808218700b003a7238a143emr3559871oib.2.1694613443687;
-        Wed, 13 Sep 2023 06:57:23 -0700 (PDT)
-Received: from zlang-mailbox ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id b75-20020a63344e000000b005776446f7cbsm5839609pga.66.2023.09.13.06.57.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 06:57:23 -0700 (PDT)
-Date: Wed, 13 Sep 2023 21:57:19 +0800
-From: Zorro Lang <zlang@redhat.com>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, fstests@vger.kernel.org,
-	fsverity@lists.linux.dev
-Subject: Re: [PATCH] common/rc: make _get_max_file_size find file size on
- mount point
-Message-ID: <20230913135719.yrv7kzulfnom7ahw@zlang-mailbox>
-References: <20230911200617.777985-1-aalbersh@redhat.com>
- <20230912124213.q5irip4lbhoasg5i@zlang-mailbox>
- <20230912145625.GD28170@frogsfrogsfrogs>
- <ihs7k3gvnoa5bii5ugng6k3xlr3gerdtrkmkqkxq7yekmnydhf@7v53tjceewuh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38EA9CA4F
+	for <fsverity@lists.linux.dev>; Mon,  2 Oct 2023 11:21:22 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3928XS0r027203;
+	Mon, 2 Oct 2023 11:21:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=dd37BmDQgCf4bqr2TuLgKtinIycZ27TJhv2TxXjYYjk=;
+ b=IZFPSSuL1lgxdIUqOZ+ly6TFCd7esNLiENzu9mgdrwt4geXE87b5asW737br89C/eZjg
+ xktS8gJRRREFhccpPSMSw0ISEiSNYDEUht3HyO13dP4G+qiwhuxCNYU/J99GnmSIuqve
+ 6fOCJBw+kZGh7V+m9wje/3X3Tp3D/zfXQXg8YI1LqeMhsYUBPLda7oUzA+DKaRZ0V9DO
+ 9VAg/UmlqKBvMpCAxvWPMr0f9QoB2KhYZfh0mdh8aD8+exKla00j2ruBn1Z0SgNG9AAx
+ 4Uv3Eds+pNWXHmCtXl3kYVEuedS4we8CL2HzNkBrMwgvibVTCF82qfn+GbN13rQ5I6SU sA== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3tea3ea9yw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 02 Oct 2023 11:21:09 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 392AWOLp025752;
+	Mon, 2 Oct 2023 11:21:09 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3tea4aw0tc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 02 Oct 2023 11:21:09 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JvPhYALBixjuLgvuQ2rFFKwU/KkcsEX7RcNM1h2NQ52L9lM7zq+hGn5RLO/tecWPOtV8k2p2IIV3LPOSohOZ+1iXd3JZ3EDYEtGebrpwL+u3KfEguozXLlXIFJaQks1oO5wf3YRkANktPYKqT/hrfNQJYhFteBJDOHFfjEMG6Gf5eiYzgLcTDLj+XZrpBmdtJdgkN38zJsuxVxF/i1cVMGnQynBu/mmXJwmMLgeolT/efKYc4SamG+4n4Vk4usPXMG3uV6Tcfk1B20sKBfQygHBVY2+AhW41DNQH7fkZdRO+FNN4k5F8suGtdzZVhd7zL/qGXJGplJTfq2lj2ztR/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dd37BmDQgCf4bqr2TuLgKtinIycZ27TJhv2TxXjYYjk=;
+ b=kSaECrOzKgd+Za5xS8mJoc7U6D95ZJwq69edScn68LCGkX5jbeQXUuqozN582mBbWwN38/LltYsF3bD3rZIppevXc9MIcJd03Ft4AQuhSp8vz0AcVUXmqvyBmXhsbHeH51lMrTfFN+3cj76VDJ/GtHUQpWCHEEUeyraIpDaCNMaaVNUgA/CDI0dwTNOaDf15cYVeUaobPmKmKxcOtbm8s+vi2grjfjT7ka4Zmvg9nU9JBiFFpWuUoVbWvLW04AlYcZb3nwJ9+tMZBiHReSlsKroVXaS3qitvBFbGkPMRydaRE9O7AWosFQHTFQsEx+m7WfsgylatwZZvMR3aJDJnUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dd37BmDQgCf4bqr2TuLgKtinIycZ27TJhv2TxXjYYjk=;
+ b=LTiUtyN12mCwV62KKPKt+HlD0h2RCpNn8HwHrzCukdvvEJ+d/se+KBFbY2hbm9e7yar/DyQBrZGoU6HBniFtA4iANy3iEp8nCAnsYoYxu+55At0MZnoYbCpi2cNwn5R7Mx+LG73hxFz9xBWLMwB/6UWEpl5ti0dUjpMXXIQiR80=
+Received: from PH0PR10MB5706.namprd10.prod.outlook.com (2603:10b6:510:148::10)
+ by SJ0PR10MB6429.namprd10.prod.outlook.com (2603:10b6:a03:486::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.27; Mon, 2 Oct
+ 2023 11:21:07 +0000
+Received: from PH0PR10MB5706.namprd10.prod.outlook.com
+ ([fe80::2bbc:60da:ba6c:f685]) by PH0PR10MB5706.namprd10.prod.outlook.com
+ ([fe80::2bbc:60da:ba6c:f685%2]) with mapi id 15.20.6813.017; Mon, 2 Oct 2023
+ 11:21:06 +0000
+Message-ID: <a8634ac9-cadb-0aca-d079-6b6bac77935d@oracle.com>
+Date: Mon, 2 Oct 2023 19:20:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [RFC PATCH v3 6/9] tests: adjust generic/429 for extent
+ encryption
+Content-Language: en-US
+To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
+        linux-btrfs@vger.kernel.org, fstests@vger.kernel.org,
+        kernel-team@meta.com, ebiggers@google.com, fdmanana@suse.com,
+        linux-fscrypt@vger.kernel.org, fsverity@lists.linux.dev,
+        zlang@kernel.org
+References: <cover.1691530000.git.sweettea-kernel@dorminy.me>
+ <0952e60c8e73a41a0448e3ada8172744a6882550.1691530000.git.sweettea-kernel@dorminy.me>
+From: Anand Jain <anand.jain@oracle.com>
+In-Reply-To: <0952e60c8e73a41a0448e3ada8172744a6882550.1691530000.git.sweettea-kernel@dorminy.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR01CA0013.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::9) To PH0PR10MB5706.namprd10.prod.outlook.com
+ (2603:10b6:510:148::10)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ihs7k3gvnoa5bii5ugng6k3xlr3gerdtrkmkqkxq7yekmnydhf@7v53tjceewuh>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5706:EE_|SJ0PR10MB6429:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d34e598-7c6b-4d89-5a2b-08dbc339a015
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	uvzfu4ZzKY94DtZgiKshr8cp8wiykVwF7uLsbWHPg8N6z1lSevNOQ67WIKxpx5XJYV8QFRTzhSKeHHoZglTUOwnn2zzGwZEk8IZY8UQzR35lizr8V9GyknOCXNCFSj0JunP+wwxWAIsmK9TxcXrlmDcd26KomFD+kzaGFXWILneGdsNkVr27s6A8GRj79fGOdcKzMrRODdrtEXXyNli1wvGNIAzMN5T180mGkXi29c6o8ltHXA+mT0UvDQ8/tLakw61YR8NqycmFVdMs/UAyCIAo3kKgYCQf8I+9icsUP7yqxuDM7rCzU/DkKDbBU+DdfYzGBQtl669Lu/0YFEaKYltKLiaHMhtrCAEIUpf8UI9QNNQuF2e1WSZSO44y5uSXn7BHzdx6BKPpnjC0zI4cu05It4YYAQL0b7k1x7HF0ZiAfKkrueiFh3eu4Oee+k+snPgsIWqlbqGrP8aP/QjdsT2XrbDhCRmDeDlTYRD/XINCb/pTo86s7sYk04vE7VUaTbgTxLQyKM9Iu0GZk3NXaxUc9Qp5yv5nXHUD2paZgkjPvcs3We4uC4PAuBLJSr2U1B3oFlxjnx+ehZYgF8CPxjnaoI7oAzO+Cfg91UUAI9446p0+zBqzG/hHd96wLWkqY4/ydcdKVSkHqlbhDW1dww8ZOL8PL6UiOD7DHWWpp7s=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5706.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(376002)(366004)(39860400002)(396003)(230922051799003)(186009)(451199024)(1800799009)(64100799003)(316002)(5660300002)(44832011)(41300700001)(8936002)(8676002)(31686004)(66556008)(66476007)(66946007)(2906002)(6512007)(6506007)(6486002)(2616005)(53546011)(86362001)(478600001)(38100700002)(31696002)(26005)(6666004)(36756003)(83380400001)(41533002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?a08zNnRmUHFUN29WcGd5UForbXpTWDlQd2R5NmpZcjdPWXk1bktCSGtpRUJY?=
+ =?utf-8?B?Tm5OM3JaVisyRVh5b3o1RzQ2YUtQYU9uL1JLWks2Yjk0UmQvSlVxZ1VOaGZZ?=
+ =?utf-8?B?YTBESzNOYlpGUlEzY3dHaldvNDRVN29CalNwVyt1VTFQQ3F2aU9pTFZpeWN2?=
+ =?utf-8?B?VktkdVR6VS96VitSa3RVTFM1MGoyOGhhem1NS05WbW1IV1dzVHFWVkh6TTgy?=
+ =?utf-8?B?QUMyMm1vY2hZdm5tMy9aUzluQ1k1cGpIV3JkR2hyTys1Yi9GNXd2dWdZRDVM?=
+ =?utf-8?B?VGd5V29MenJFTTRlaWpIMzlBbmo4dUlXSUJrZVp6UG0yZlNiZTZkWWVrYzNJ?=
+ =?utf-8?B?bkxjakRyTHJBeEZKMThXWDcwMDRtUksxcG0yanhFbTNTTEl3YVh1ZHNFaVc5?=
+ =?utf-8?B?ejQ4eCtwemVWRHAvNFJqMXNYS2FQZzE1NVY2aCtWb1RKSmVLTDJXbXdzQVZK?=
+ =?utf-8?B?WkRwMUpGd0hnbjZUSCtlQ1RzUldRS0VrWEpjbzhBMmpYdnc1UUFLTWF3Q1ZC?=
+ =?utf-8?B?Tk80QitnVzNUZkx5dDNlTU4vakgzOGJXU0RpMGpCSHg5V3Nwc0JCZU1rRFp4?=
+ =?utf-8?B?WWU2b0dvNHdpam1PTkt4aXRaTzhMYzVxVDZvY0IvTll6VG5WN1dBZjhKdUJw?=
+ =?utf-8?B?UkpIam9xajJPRzdhK0NiOWdOczRyZjlOM2plRzB3UVo4Q3VLdjUweW0rQXB4?=
+ =?utf-8?B?aWRPYjl2c1A5KzBzNjh1bGFaSFRkd1pTdjBNUmtMazBKNnE4ZEJlcU5hdkFY?=
+ =?utf-8?B?NUdORnNxR25UMW1zanUreTV4YTFzVGNmVmtaWUFYME5SbmMvRVVJT3JZR0dq?=
+ =?utf-8?B?QjMxL1lONjJPUysrMW8vQURrTGdKMVBCelpzeS9CM1dDUUMyVWEzbE9IUU40?=
+ =?utf-8?B?M05Lc1NmWHFGYStudWtTL3BKTlR5aTF4d3RBN3VBZWdNTEt5VExWNzA4bkJM?=
+ =?utf-8?B?dEppaGZKZnZHSzlUNjM5NFI0Q0ZMT0swRlBaZDR4Z2JnNHJyVzN2MFpjZW4r?=
+ =?utf-8?B?b1dMRWV5dVlFRDNFUEdmWVovcHdENUFsaG5Lc0ZFLzU0dEd2SXdsTmthU1NT?=
+ =?utf-8?B?TjFTTkdkYkVUcnVqSzk4c09HL3MwYXNtZHdMREZmclU4VmhDOUJhOURnRUN2?=
+ =?utf-8?B?QkttNEVoL3k4a2ZiZjlaemY3cU45R2tLamQyMW9kS01QblZidnIvb0hKb1lZ?=
+ =?utf-8?B?akVVTkVYOU1JdjhDUUVueE1VSXA0UUI3NXIzY0hteUNsUURYVU16eSs1dmZ1?=
+ =?utf-8?B?M0NacTBmd092emFWNFZwdEZGMnY1RmdJeVFLQjRkVmFuVzBFV3dURk9tUFR4?=
+ =?utf-8?B?WWZsb0o4VWNTRXJVVVgvOTUxUEJqeTJYMEM1UTNxZWZOOGFha1p3M1ZYQWhB?=
+ =?utf-8?B?YWJxRGhVT01BQ3l4S3NQaUd0Zk56NGhXMDVITTlsb3Y2K3FDNUNWWEhGQWhI?=
+ =?utf-8?B?S3dNR3pIdWhybmc3RWF5ME53QmtkKy9ML3ZRSFJMTW1zaVR5TWxJdmVPcXQv?=
+ =?utf-8?B?bUVTakthbXN5MTlBbHhScEZYc091L0RNUU95ejRuYzd6N1hlYWEwc2hLa1Rr?=
+ =?utf-8?B?NE1nZWl0emh1UmVQVEJCdCtRR0NsR29sUjlFeGZGVXhHUGp3L0RWTVA0b3Q0?=
+ =?utf-8?B?eDVvS3pQVWNXd0hzRTI5bjZZZlJYR3FkS1cwMy9EYVVFMEN1SldFYTdoUDZj?=
+ =?utf-8?B?Z2s3cmFPYjNSaW8yeExma014RzdqTkxwUU1mVGZzOFpCeVQ1SmEyOEpoeGQx?=
+ =?utf-8?B?VitidDg5MEpEbGlqeXpydVlvN1NQQ1lybUlmazludVJrYUoreWdwdUhydlFS?=
+ =?utf-8?B?dGpoNHpmcTBHUnJCUjlORk0zNnM2V3VuaTVyWWhYVk54LzNwRFl3K0FiZnFE?=
+ =?utf-8?B?N2doeVpsQVk0Rk04Z3dtak5pSVNuUnliSFp4elQ5REZpRkxsTk10ckxMRDZo?=
+ =?utf-8?B?M0tPcWYrWDhGSXFrTGRWTm4zUGhobUxiR0VCRWhZYkY5U1drTTBQMGpuc2JV?=
+ =?utf-8?B?bU9GY1oxOGJzMC9CbEN3R3o2Q2ppbVJLNHkwUXNlTXpVNzgwSTZxcHdXTy8z?=
+ =?utf-8?B?R3FURFhhMSttR0UxQ1V6YVc5ZG9RSWprZHQwa1FzMnVmL0pJOWI1azhVVXBi?=
+ =?utf-8?Q?z56u7Hq80/dZrH6u+n5JP6hvZ?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	=?utf-8?B?a1hrNEh3ZG1yb3N6VU9KUXV1aStmRFUvei83cmdJVjB0RVRVMnRMdEoyR2hY?=
+ =?utf-8?B?bVlZcCt3ampWR1psMDJ0OEF0RUlDMTQ2V0tBZlZQZWp2VTlPMFRKKzZ2Snhh?=
+ =?utf-8?B?Q3Q5emdjaW5wKzBOY3k5aSs4dFovczdmdFJOYWN5Vk9PdnJrQk1mb3JpV1pw?=
+ =?utf-8?B?dHZnb3ZYRHlUTmxPR2hCRXZUK2NUd1grQlkwTnl6REttYmdEWHo2TVN6Smxl?=
+ =?utf-8?B?bnllRU9ONTc3L1ZQQjJuMXphN1AvNDA3ZEFrSG1rZUFWNXZnNUtZYSt6NTQv?=
+ =?utf-8?B?YnpsU1YwcWtIWTArNy8yVTBDaWRiM2xpR3ErdERFS01SSWJOWkZzYmJrNG9t?=
+ =?utf-8?B?Sk8yMTduaUx6cENucDg5TnMvZWtvRzdISEJxUHhUakRnVndFQlZpNVF6Vzhy?=
+ =?utf-8?B?RDhTaUdDT1hadXFidDFET2pIWFJxR3hYZm9UMDQxVDIwWms0d1dsNit2dFlX?=
+ =?utf-8?B?SCtBY3hyQkZTYUFraXhFN1FBVFhMT2MyZ1JiZEw3RUR4NTg1UDlRQThjWVRO?=
+ =?utf-8?B?UlIxaVpYdDN5WG9QaDZrcS9YaW9TS1dLUkxOMjAxVCtjcEIyTXJMU0k0NVU1?=
+ =?utf-8?B?Ynd4VTE4bGkzaEs2WWhvMGNuNTk3MUJVOTlMMlBFZ29pNWtRVlR0TVNtZTBY?=
+ =?utf-8?B?ZHZWb2t6aVFhZkVnUUFtMWRFVm5ERmM1Rm5jU2JKajNzMWxGbktkbEpFVlMx?=
+ =?utf-8?B?SnpjcXlicGtkQnBBem1zeHByNzlFMjlhUGNxdlJ1dHhZRnkvUWZJaTZmanZH?=
+ =?utf-8?B?cWlSaUw1SE82UUFLQ3Bwbk1FcHc3NVoyOXJFY1dydUxZYVRodDk0c3NRekV4?=
+ =?utf-8?B?UGlYZmJEZDkzT0FKZHVlRHpxaEZUM3hGdDdFZ2ZuaHFWQTNHTFBiSzVSZWJw?=
+ =?utf-8?B?N1ozSFNUWEloNEl6U3Y2WVJpSUt3UVN2N0piNVFvSHpVU3Q5ck5zR2tVaTY0?=
+ =?utf-8?B?NzJnK1prQklOaDJNQ1dQTDY1K0ZycEpLb2FlRjY1SFl6dEkxUzMrQWNPRjgz?=
+ =?utf-8?B?TlFTTFJnNFBsc3UyRTNFU3FHQTdKZHlteTB2dmJqb0ZNN2dKSTFBanI1M0JC?=
+ =?utf-8?B?NzNiZ0ZxTmpYWEhvUW5UREFLWEJ1M1IzbnVNTER1YlRJSWFiT1h4aXNhYlI2?=
+ =?utf-8?B?bC9IWG1rejdWRFR4Z3Q3OElEd3hNWnM1VmlGRExzbThQQkRoNis1UlRLSitQ?=
+ =?utf-8?B?eHhoc0Z0Y0d0aGhVS0xvOXlwSktxK1drUXUzdE9ua1BzSUcrMHpvRTkvV0tT?=
+ =?utf-8?Q?w57F8PA+uUo8GHc?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d34e598-7c6b-4d89-5a2b-08dbc339a015
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5706.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2023 11:21:06.4289
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OSxBmO1VBwSVbqI1P7d7bGARsVNhDhOnB/TVz+U8C12EHnQsskxjawkdoHls31jP7Bg9G1k8OyNsF5PrVEDsTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB6429
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-02_04,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 bulkscore=0 spamscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2310020084
+X-Proofpoint-ORIG-GUID: Z0kN4ma1bve8wzLuhjF0temoyaJlbgXB
+X-Proofpoint-GUID: Z0kN4ma1bve8wzLuhjF0temoyaJlbgXB
 
-On Wed, Sep 13, 2023 at 10:44:50AM +0200, Andrey Albershteyn wrote:
-> On 2023-09-12 07:56:25, Darrick J. Wong wrote:
-> > On Tue, Sep 12, 2023 at 08:42:13PM +0800, Zorro Lang wrote:
-> > > On Mon, Sep 11, 2023 at 10:06:17PM +0200, Andrey Albershteyn wrote:
-> > > > Currently, _get_max_file_size finds max file size on $TEST_DIR.
-> > > > The tests/generic/692 uses this function to detect file size and
-> > > > then tries to create a file on $SCRATCH_MNT.
-> > > > 
-> > > > This works fine when test and scratch filesystems have the same
-> > > > block size. However, it will fail if they differ, for example, TEST
-> > > > is 4k and SCRATCH is 1k (file will be too big).
-> > > 
-> > > I thought we generally use same mkfs options on TEST_DEV and SCRATCH_DEV.
-> > > If you'd like to test 1k blocksize ext4, shouldn't you make 1k blocksize
-> > > ext4 on TEST_DEV before testing.
-> > 
-> > Agreed, TEST_DEV (AFAIK) is supposed to have the same options as
-> > SCRATCH_MNT.
+On 09/08/2023 01:21, Sweet Tea Dorminy wrote:
+> Extent encryption is different from the existing inode-based encryption
+> insofar as it only generates encryption keys for data encryption at the
+> moment at which the data is written. This means that when a session key is
+> removed, even if there's an open file using it, that file immediately
+> becomes unreadable and unwritable.
 > 
-> Make sense but I didn't know that this is required, would it make
-> sense to add a check for at least block size? I was running -s
-> ext4_1k -s ext4_4k without recreating the TEST_DEV and that wasn't
-> obvious where the problem is as test is using SCRATCH.
+> This isn't an issue for non-session keys, which are soft deleted by
+> fscrypt and stick around until there are no more open files with extent
+> encryption using them. But for session keys, which are managed by the
+> kernel keyring directly instead of through fscrypt, when they're removed
+> they're removed.
+> 
+> generic/429 uses session keys and expects to use the written data after
+> key removal; while it's not quite what the test means for other
+> filesystems, most of the test is still meaningful if we push the dirty
+> data into the filesystem with a sync before dropping the key.
+> 
+> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+> ---
+>   tests/generic/429 | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/tests/generic/429 b/tests/generic/429
+> index 2cf12316..1d26deda 100755
+> --- a/tests/generic/429
+> +++ b/tests/generic/429
+> @@ -68,6 +68,12 @@ show_directory_with_key()
+>   	show_file_contents
+>   }
+>   
+> +# btrfs needs to have dirty data pushed into it before session keyring
 
-I remembered there's a global parameter named "RECREATE_TEST_DEV", if it's
-"true", the TEST_DEV will be recreated after a section testing done. You can
-check if it works :)
+> +# is unlinked, as it doesn't set up the data encryption key until then.	
 
-> 
-> > 
-> > That said, I support adding the flexibility to supply a mount point,
-> > since that would be generally useful given the number of tests that add
-> > things to MKFS_OPTIONS...
-> > 
-> > > Thanks,
-> > > Zorro
-> > > 
-> > > > 
-> > > > Found this by running generic/692 on ext4 with -b 1024.
-> > > > 
-> > > > Make _get_max_file_size accept mount point on which to detect max
-> > > > file size.
-> > > > 
-> > > > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> > > > ---
-> > > >  common/rc         | 8 +++++++-
-> > > >  tests/generic/299 | 2 +-
-> > > >  tests/generic/485 | 2 +-
-> > > >  tests/generic/692 | 2 +-
-> > > >  4 files changed, 10 insertions(+), 4 deletions(-)
-> > > > 
-> > > > diff --git a/common/rc b/common/rc
-> > > > index 68d2ad04..d17ec73a 100644
-> > > > --- a/common/rc
-> > > > +++ b/common/rc
-> > > > @@ -4809,7 +4809,13 @@ _require_scratch_feature()
-> > > >  # be UINT32_MAX * block_size, but other filesystems may allow up to LLONG_MAX.
-> > > >  _get_max_file_size()
-> > > >  {
-> > > > -	local testfile=$TEST_DIR/maxfilesize.$seq
-> > > > +	if [ -z $1 ] || [ ! -d $1 ]; then
-> > > > +		echo "Missing mount point argument for _get_max_file_size"
-> > > > +		exit 1
-> > > > +	fi
-> > > > +
-> > > > +	local mnt=$1
-> > > > +	local testfile=$mnt/maxfilesize.$seq
-> > > >  	local l=0
-> > > >  	local r=9223372036854775807 # LLONG_MAX
-> > > >  
-> > > > diff --git a/tests/generic/299 b/tests/generic/299
-> > > > index d8ecff53..0cd12202 100755
-> > > > --- a/tests/generic/299
-> > > > +++ b/tests/generic/299
-> > > > @@ -30,7 +30,7 @@ NUM_JOBS=$((4*LOAD_FACTOR))
-> > > >  BLK_DEV_SIZE=`blockdev --getsz $SCRATCH_DEV`
-> > > >  FILE_SIZE=$((BLK_DEV_SIZE * 512))
-> > > >  
-> > > > -max_file_size=$(_get_max_file_size)
-> > > > +max_file_size=$(_get_max_file_size $TEST_DIR)
-> > > >  if [ $max_file_size -lt $FILE_SIZE ]; then
-> > > >  	FILE_SIZE=$max_file_size
-> > > >  fi
-> > > > diff --git a/tests/generic/485 b/tests/generic/485
-> > > > index 3f7749ff..8bab450b 100755
-> > > > --- a/tests/generic/485
-> > > > +++ b/tests/generic/485
-> > > > @@ -30,7 +30,7 @@ _require_xfs_io_command "finsert"
-> > > >  _require_xfs_io_command "truncate"
-> > > >  
-> > > >  block_size=$(_get_file_block_size $TEST_DIR)
-> > > > -max_file_size=$(_get_max_file_size)
-> > > > +max_file_size=$(_get_max_file_size $TEST_DIR)
-> > > >  max_blocks=$((max_file_size / block_size))
-> > > >  testfile=$TEST_DIR/testfile.$seq
-> > > >  
-> > > > diff --git a/tests/generic/692 b/tests/generic/692
-> > > > index 95f6ec04..3fb8ac01 100755
-> > > > --- a/tests/generic/692
-> > > > +++ b/tests/generic/692
-> > > > @@ -40,7 +40,7 @@ _scratch_mount
-> > > >  
-> > > >  fsv_file=$SCRATCH_MNT/file.fsv
-> > > >  
-> > > > -max_sz=$(_get_max_file_size)
-> > > > +max_sz=$(_get_max_file_size $SCRATCH_MNT)
-> > 
-> > ...LGTM, so
-> > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> > 
-> 
-> Thanks!
-> 
-> > --D
-> > 
-> > > >  _fsv_scratch_begin_subtest "way too big: fail on first merkle block"
-> > > >  truncate -s $max_sz $fsv_file
-> > > >  _fsv_enable $fsv_file |& _filter_scratch
-> > > > -- 
-> > > > 2.40.1
-> > > > 
-> > > 
-> > 
-> 
-> -- 
-> - Andrey
-> 
+
+  A whitespace error in this line.
+
+
+
+> +if [ "$FSTYP" = "btrfs" ]; then
+> +	sync
+> +fi
+> +
+>   # View the directory without the encryption key.  The plaintext names shouldn't
+>   # exist, but 'cat' each to verify this, which also should create negative
+>   # dentries.  The no-key names are unpredictable by design, but verify that the
 
