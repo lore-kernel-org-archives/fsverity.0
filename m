@@ -1,53 +1,53 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3E038FA0
-	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBB938F98
+	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ResmF1PB"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="btcgCWWB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1696618347;
+	s=mimecast20190719; t=1696618348;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nu0z1c/0eDrJgBAtNTkFM1hnZGQ4PO6Tjoiby57zXqo=;
-	b=ResmF1PB3ktb/NacBibiDOM5RKaLVIhIdGPp6TxfuB/oTvB77CaCpx1fken+rIlyrgg9jb
-	IE5/lERBq2C8W2dfXlrEhFJixdz0zfA4r3LMA1IryyXhcAOI3Z9QI5MlheeCxWAZjXfrF+
-	3h32+usuuyMnlvERII1g+4tWOi2vql4=
+	bh=wj5hMGaY9RCgF1kuAnCk/NqRYGmG4WFEtNC/8xLzEio=;
+	b=btcgCWWB5tDqGfFyrzotdT1F400NtH97YZPYZAErBXcdUtlEBGumu64s4CDef6XvjTX6N6
+	BVRPeXvDXlWoPKCoiV/FJr0KifqLLxuNqq5RF5jIXSXEjjEM5lJznFpM6QSStK16bT1p3G
+	oKAa/ne1TkThyThp6QdyIRtlf9WIBRg=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-607-KcMwViabMZi41KRtoIZStQ-1; Fri, 06 Oct 2023 14:52:26 -0400
-X-MC-Unique: KcMwViabMZi41KRtoIZStQ-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9ae42088b4bso195962066b.3
-        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:52:26 -0700 (PDT)
+ us-mta-211-bjbk1S4NPU6uTKZNz3aEPg-1; Fri, 06 Oct 2023 14:52:27 -0400
+X-MC-Unique: bjbk1S4NPU6uTKZNz3aEPg-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9b98bbf130cso207020366b.2
+        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:52:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696618345; x=1697223145;
+        d=1e100.net; s=20230601; t=1696618346; x=1697223146;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nu0z1c/0eDrJgBAtNTkFM1hnZGQ4PO6Tjoiby57zXqo=;
-        b=KqmmAB88nSJrlxJzcf8T0yo3zJLqCriMiwd7l+tDwJQyrlZM3bvoWb/CsqE/VRq7Mt
-         dBxedaTjVLxGq9I6fMmkEfA39qZJpRLSQlE+V/JwULPC9yJy1YCZypZ5diGHqzHxK0+x
-         DyD4EfDiGpBa0wxRkSHXv3tdRk0ot15sePlOcgW8s1CgJoBC8WZr9WwDyLI3M28sxSGs
-         TbSSfhupyCzA90bPL18ClVxdajdIyEhMjGvjpsNHlubHDfcnvQd8T1bcMs8RHa3cEoYY
-         iM5p4jHeUxVImahMFBNhJbne7WwBf8LZ7ce9DrcVgXHzB0rHGx05Xeo70I4/BOVtRZS3
-         hzNQ==
-X-Gm-Message-State: AOJu0YwufMt+a4pAvm7R5PioE/USLfBUkqCQGiNe1HerhZ+3qIwb9BJ5
-	wPubf1x99BzlVXe++xhhE0dWklxdbIfvSZ8p5FT1RCPhauyECE5LBS38uf1aTOir9Xkn1f8vClQ
-	fp/wvvsZDDJsUPIc1mg==
-X-Received: by 2002:a17:907:763b:b0:9b6:582e:be5e with SMTP id jy27-20020a170907763b00b009b6582ebe5emr8346626ejc.60.1696618345072;
+        bh=wj5hMGaY9RCgF1kuAnCk/NqRYGmG4WFEtNC/8xLzEio=;
+        b=cli1L0BTethdQhQ26QaNESq4CY3hvbPsV3sgfdHqTxDJXpjk4jl8AKOhZKZbq44Obd
+         ZcFQfIKoVdQtEKniUfjTVYZaiK9IUVKLf7yPlNhN3M+RM0ULAW2BuxMb672kTEIp31k3
+         OK5eWtYdZbmaDbHt2XpT/qGi4ZZ3lY+gkAwQ0rMU4bnE8+HjpN2f223YBEaoAbevo2zQ
+         CuMhI2k4wv95YutKxd/NNtISMW5IR8FVUgg4LGgSprFa+NZ6iKFH5CeiHkLWZTRGhLNc
+         nCW4VqhrEYidRCJxxZJl/F0Vpt+mXl1UprP0PbiDK2J2yCxwGafGtaIKRIsHjLBcdfB5
+         1FFg==
+X-Gm-Message-State: AOJu0YxBmGAvEtIXKM7/6JyEd7jNCqgPnxeJ/Ve8vreaNFqJhtp2s/FP
+	uRsaTIYeQtTVUaPiNIGvaRDlo9vHbp9P8B/QzwXzB6xRTAa9Xy2K7Ygw4pDE0FjpSmBishh1BkY
+	iTuqzWQAIIJVrVVE7qA==
+X-Received: by 2002:a17:907:d047:b0:9ae:6744:4591 with SMTP id vb7-20020a170907d04700b009ae67444591mr7570429ejc.43.1696618346108;
+        Fri, 06 Oct 2023 11:52:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEZsbXSDA5dCU5U470HWiK746cPDwE1tLcX0vn7uqd8EYCM3Rp8th3S69Fttrk14CPUXhcckw==
+X-Received: by 2002:a17:907:d047:b0:9ae:6744:4591 with SMTP id vb7-20020a170907d04700b009ae67444591mr7570420ejc.43.1696618345847;
         Fri, 06 Oct 2023 11:52:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IENatGxYpE7Tp1bpesC4eUgkJNnUC/i6HuVX71rQKaEwcb3B5NgFaf4ClmswaYc3r8y8XAfKA==
-X-Received: by 2002:a17:907:763b:b0:9b6:582e:be5e with SMTP id jy27-20020a170907763b00b009b6582ebe5emr8346617ejc.60.1696618344867;
-        Fri, 06 Oct 2023 11:52:24 -0700 (PDT)
 Received: from localhost.localdomain ([109.183.6.197])
         by smtp.gmail.com with ESMTPSA id os5-20020a170906af6500b009b947f81c4asm3304741ejb.155.2023.10.06.11.52.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 11:52:24 -0700 (PDT)
+        Fri, 06 Oct 2023 11:52:25 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
@@ -57,9 +57,9 @@ Cc: djwong@kernel.org,
 	david@fromorbit.com,
 	dchinner@redhat.com,
 	Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v3 07/28] fsverity: always use bitmap to track verified status
-Date: Fri,  6 Oct 2023 20:49:01 +0200
-Message-Id: <20231006184922.252188-8-aalbersh@redhat.com>
+Subject: [PATCH v3 08/28] fsverity: pass Merkle tree block size to ->read_merkle_tree_page()
+Date: Fri,  6 Oct 2023 20:49:02 +0200
+Message-Id: <20231006184922.252188-9-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231006184922.252188-1-aalbersh@redhat.com>
 References: <20231006184922.252188-1-aalbersh@redhat.com>
@@ -74,197 +74,106 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-The bitmap is used to track verified status of the Merkle tree
-blocks which are smaller than a PAGE. Blocks which fits exactly in a
-page - use PageChecked() for tracking "verified" status.
-
-This patch switches to always use bitmap to track verified status.
-This is needed to move fs-verity away from page management and work
-only with Merkle tree blocks.
-
-Also, this patch removes spinlock. The lock was used to reset bits
-in bitmap belonging to one page. This patch works only with one
-Merkle tree block and won't reset other blocks status.
+XFS will need to know size of Merkle tree block as these blocks
+will not be stored consecutively in fs blocks. Therefore, they could
+not be obtained in PAGEs like in ext4. Rather, they are stored under
+offsets used as name in extended attributes. The size is needed to
+calculate the offset.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
 ---
- fs/verity/fsverity_private.h |  1 -
- fs/verity/open.c             | 49 ++++++++++++-------------
- fs/verity/verify.c           | 71 +++++-------------------------------
- 3 files changed, 33 insertions(+), 88 deletions(-)
+ fs/btrfs/verity.c         | 3 ++-
+ fs/ext4/verity.c          | 3 ++-
+ fs/f2fs/verity.c          | 3 ++-
+ fs/verity/read_metadata.c | 3 ++-
+ fs/verity/verify.c        | 3 ++-
+ include/linux/fsverity.h  | 3 ++-
+ 6 files changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-index d071a6e32581..9611eeae3527 100644
---- a/fs/verity/fsverity_private.h
-+++ b/fs/verity/fsverity_private.h
-@@ -69,7 +69,6 @@ struct fsverity_info {
- 	u8 file_digest[FS_VERITY_MAX_DIGEST_SIZE];
- 	const struct inode *inode;
- 	unsigned long *hash_block_verified;
--	spinlock_t hash_page_init_lock;
- };
- 
- #define FS_VERITY_MAX_SIGNATURE_SIZE	(FS_VERITY_MAX_DESCRIPTOR_SIZE - \
-diff --git a/fs/verity/open.c b/fs/verity/open.c
-index 6c31a871b84b..dfb9fe6aaae9 100644
---- a/fs/verity/open.c
-+++ b/fs/verity/open.c
-@@ -182,6 +182,7 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
+diff --git a/fs/btrfs/verity.c b/fs/btrfs/verity.c
+index 744f4f4d4c68..b39199b57a69 100644
+--- a/fs/btrfs/verity.c
++++ b/fs/btrfs/verity.c
+@@ -713,7 +713,8 @@ int btrfs_get_verity_descriptor(struct inode *inode, void *buf, size_t buf_size)
+  */
+ static struct page *btrfs_read_merkle_tree_page(struct inode *inode,
+ 						pgoff_t index,
+-						unsigned long num_ra_pages)
++						unsigned long num_ra_pages,
++						u8 log_blocksize)
  {
- 	struct fsverity_info *vi;
- 	int err;
-+	unsigned long num_bits;
+ 	struct folio *folio;
+ 	u64 off = (u64)index << PAGE_SHIFT;
+diff --git a/fs/ext4/verity.c b/fs/ext4/verity.c
+index 2f37e1ea3955..4eb77cefdbe1 100644
+--- a/fs/ext4/verity.c
++++ b/fs/ext4/verity.c
+@@ -359,7 +359,8 @@ static int ext4_get_verity_descriptor(struct inode *inode, void *buf,
  
- 	vi = kmem_cache_zalloc(fsverity_info_cachep, GFP_KERNEL);
- 	if (!vi)
-@@ -213,33 +214,29 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
- 	if (err)
- 		goto fail;
+ static struct page *ext4_read_merkle_tree_page(struct inode *inode,
+ 					       pgoff_t index,
+-					       unsigned long num_ra_pages)
++					       unsigned long num_ra_pages,
++					       u8 log_blocksize)
+ {
+ 	struct folio *folio;
  
--	if (vi->tree_params.block_size != PAGE_SIZE) {
--		/*
--		 * When the Merkle tree block size and page size differ, we use
--		 * a bitmap to keep track of which hash blocks have been
--		 * verified.  This bitmap must contain one bit per hash block,
--		 * including alignment to a page boundary at the end.
--		 *
--		 * Eventually, to support extremely large files in an efficient
--		 * way, it might be necessary to make pages of this bitmap
--		 * reclaimable.  But for now, simply allocating the whole bitmap
--		 * is a simple solution that works well on the files on which
--		 * fsverity is realistically used.  E.g., with SHA-256 and 4K
--		 * blocks, a 100MB file only needs a 24-byte bitmap, and the
--		 * bitmap for any file under 17GB fits in a 4K page.
--		 */
--		unsigned long num_bits =
--			vi->tree_params.tree_pages <<
--			vi->tree_params.log_blocks_per_page;
-+	/*
-+	 * We use a bitmap to keep track of which hash blocks have been
-+	 * verified.  This bitmap must contain one bit per hash block,
-+	 * including alignment to a page boundary at the end.
-+	 *
-+	 * Eventually, to support extremely large files in an efficient
-+	 * way, it might be necessary to make pages of this bitmap
-+	 * reclaimable.  But for now, simply allocating the whole bitmap
-+	 * is a simple solution that works well on the files on which
-+	 * fsverity is realistically used.  E.g., with SHA-256 and 4K
-+	 * blocks, a 100MB file only needs a 24-byte bitmap, and the
-+	 * bitmap for any file under 17GB fits in a 4K page.
-+	 */
-+	num_bits =
-+		vi->tree_params.tree_pages <<
-+		vi->tree_params.log_blocks_per_page;
+diff --git a/fs/f2fs/verity.c b/fs/f2fs/verity.c
+index 4fc95f353a7a..bb354ab8ca5a 100644
+--- a/fs/f2fs/verity.c
++++ b/fs/f2fs/verity.c
+@@ -256,7 +256,8 @@ static int f2fs_get_verity_descriptor(struct inode *inode, void *buf,
  
--		vi->hash_block_verified = kvcalloc(BITS_TO_LONGS(num_bits),
--						   sizeof(unsigned long),
--						   GFP_KERNEL);
--		if (!vi->hash_block_verified) {
--			err = -ENOMEM;
--			goto fail;
--		}
--		spin_lock_init(&vi->hash_page_init_lock);
-+	vi->hash_block_verified = kvcalloc(BITS_TO_LONGS(num_bits),
-+					   sizeof(unsigned long),
-+					   GFP_KERNEL);
-+	if (!vi->hash_block_verified) {
-+		err = -ENOMEM;
-+		goto fail;
- 	}
+ static struct page *f2fs_read_merkle_tree_page(struct inode *inode,
+ 					       pgoff_t index,
+-					       unsigned long num_ra_pages)
++					       unsigned long num_ra_pages,
++					       u8 log_blocksize)
+ {
+ 	struct page *page;
  
- 	return vi;
+diff --git a/fs/verity/read_metadata.c b/fs/verity/read_metadata.c
+index 8bd4b29a9a95..197624cab43e 100644
+--- a/fs/verity/read_metadata.c
++++ b/fs/verity/read_metadata.c
+@@ -44,7 +44,8 @@ static int fsverity_read_merkle_tree(struct inode *inode,
+ 		struct page *page;
+ 		const void *virt;
+ 
+-		page = vops->read_merkle_tree_page(inode, index, num_ra_pages);
++		page = vops->read_merkle_tree_page(inode, index, num_ra_pages,
++						   vi->tree_params.log_blocksize);
+ 		if (IS_ERR(page)) {
+ 			err = PTR_ERR(page);
+ 			fsverity_err(inode,
 diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-index 2fe7bd57b16e..e7b13d143ae9 100644
+index e7b13d143ae9..f556336ebd8d 100644
 --- a/fs/verity/verify.c
 +++ b/fs/verity/verify.c
-@@ -13,69 +13,18 @@
- static struct workqueue_struct *fsverity_read_workqueue;
+@@ -120,7 +120,8 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
  
- /*
-- * Returns true if the hash block with index @hblock_idx in the tree, located in
-- * @hpage, has already been verified.
-+ * Returns true if the hash block with index @hblock_idx in the tree has
-+ * already been verified.
-  */
--static bool is_hash_block_verified(struct fsverity_info *vi, struct page *hpage,
--				   unsigned long hblock_idx)
-+static bool is_hash_block_verified(struct fsverity_info *vi,
-+				   unsigned long hblock_idx,
-+				   bool block_cached)
- {
--	bool verified;
--	unsigned int blocks_per_page;
--	unsigned int i;
--
--	/*
--	 * When the Merkle tree block size and page size are the same, then the
--	 * ->hash_block_verified bitmap isn't allocated, and we use PG_checked
--	 * to directly indicate whether the page's block has been verified.
--	 *
--	 * Using PG_checked also guarantees that we re-verify hash pages that
--	 * get evicted and re-instantiated from the backing storage, as new
--	 * pages always start out with PG_checked cleared.
--	 */
--	if (!vi->hash_block_verified)
--		return PageChecked(hpage);
--
--	/*
--	 * When the Merkle tree block size and page size differ, we use a bitmap
--	 * to indicate whether each hash block has been verified.
--	 *
--	 * However, we still need to ensure that hash pages that get evicted and
--	 * re-instantiated from the backing storage are re-verified.  To do
--	 * this, we use PG_checked again, but now it doesn't really mean
--	 * "checked".  Instead, now it just serves as an indicator for whether
--	 * the hash page is newly instantiated or not.
--	 *
--	 * The first thread that sees PG_checked=0 must clear the corresponding
--	 * bitmap bits, then set PG_checked=1.  This requires a spinlock.  To
--	 * avoid having to take this spinlock in the common case of
--	 * PG_checked=1, we start with an opportunistic lockless read.
--	 */
--	if (PageChecked(hpage)) {
--		/*
--		 * A read memory barrier is needed here to give ACQUIRE
--		 * semantics to the above PageChecked() test.
--		 */
--		smp_rmb();
-+	if (block_cached)
- 		return test_bit(hblock_idx, vi->hash_block_verified);
--	}
--	spin_lock(&vi->hash_page_init_lock);
--	if (PageChecked(hpage)) {
--		verified = test_bit(hblock_idx, vi->hash_block_verified);
--	} else {
--		blocks_per_page = vi->tree_params.blocks_per_page;
--		hblock_idx = round_down(hblock_idx, blocks_per_page);
--		for (i = 0; i < blocks_per_page; i++)
--			clear_bit(hblock_idx + i, vi->hash_block_verified);
--		/*
--		 * A write memory barrier is needed here to give RELEASE
--		 * semantics to the below SetPageChecked() operation.
--		 */
--		smp_wmb();
--		SetPageChecked(hpage);
--		verified = false;
--	}
--	spin_unlock(&vi->hash_page_init_lock);
--	return verified;
-+
-+	clear_bit(hblock_idx, vi->hash_block_verified);
-+	return false;
- }
+ 		hpage = inode->i_sb->s_vop->read_merkle_tree_page(inode,
+ 				hpage_idx, level == 0 ? min(max_ra_pages,
+-					params->tree_pages - hpage_idx) : 0);
++					params->tree_pages - hpage_idx) : 0,
++				params->log_blocksize);
+ 		if (IS_ERR(hpage)) {
+ 			fsverity_err(inode,
+ 				     "Error %ld reading Merkle tree page %lu",
+diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
+index 6514ed6b09b4..252b2668894c 100644
+--- a/include/linux/fsverity.h
++++ b/include/linux/fsverity.h
+@@ -103,7 +103,8 @@ struct fsverity_operations {
+ 	 */
+ 	struct page *(*read_merkle_tree_page)(struct inode *inode,
+ 					      pgoff_t index,
+-					      unsigned long num_ra_pages);
++					      unsigned long num_ra_pages,
++					      u8 log_blocksize);
  
- /*
-@@ -179,7 +128,7 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 			goto error;
- 		}
- 		haddr = kmap_local_page(hpage) + hblock_offset_in_page;
--		if (is_hash_block_verified(vi, hpage, hblock_idx)) {
-+		if (is_hash_block_verified(vi, hblock_idx, PageChecked(hpage))) {
- 			memcpy(_want_hash, haddr + hoffset, hsize);
- 			want_hash = _want_hash;
- 			kunmap_local(haddr);
+ 	/**
+ 	 * Write a Merkle tree block to the given inode.
 -- 
 2.40.1
 
