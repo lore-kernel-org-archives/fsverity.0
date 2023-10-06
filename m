@@ -1,53 +1,53 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B091C328BC
-	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:52:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F235B26E04
+	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GEKHT9ML"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QFzEF1i8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1696618357;
+	s=mimecast20190719; t=1696618359;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FacLpp81lSt+NTXvvuxgBTv7hQsOCppHOs10C3hHLzU=;
-	b=GEKHT9MLRre6Mdl/pNWyYw6ATAUDbzHMifgESBbOTnrzVbkSbSNfexbQJ7LcVJ9smtRUyJ
-	QmlVJc5oM78QOPlmsMzEshesEYYDa7BExLE2OWLtDlFOgjVw1FknNqlF8sXqGHBI3g9T40
-	VnkbEPl0FpEeX3XhDeb1S/4+2iSWC1g=
+	bh=E/AveBNSqmjIJtYI3+6LuAlhQmhnFexTVHM7C0k2E9s=;
+	b=QFzEF1i8PVsDHVwkUgcqZgGMnvmFZvGq8v0OTQhF5TDYe1eG2Lm/Rfcbpa4E2DDD7iau7v
+	/KgIHKmFM0IMo4W0w3ZPyZmTTu+uGjLEE8b0F15bpaGqOJ7I+b4fPktfzz7aZ1Ks9BqVG3
+	pAZB6JKA/yTmQkP0GaJ+NvADJ9pfoj4=
 Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
  [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-60-GPGXkawZPGCZ40eH4Ri9SQ-1; Fri, 06 Oct 2023 14:52:35 -0400
-X-MC-Unique: GPGXkawZPGCZ40eH4Ri9SQ-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9b65d7079faso190365366b.1
-        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:52:35 -0700 (PDT)
+ us-mta-113-5j1lzD_-Mda-3lFJ5aA0gQ-1; Fri, 06 Oct 2023 14:52:36 -0400
+X-MC-Unique: 5j1lzD_-Mda-3lFJ5aA0gQ-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9adad8f306fso197848666b.0
+        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:52:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696618354; x=1697223154;
+        d=1e100.net; s=20230601; t=1696618355; x=1697223155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FacLpp81lSt+NTXvvuxgBTv7hQsOCppHOs10C3hHLzU=;
-        b=hWp7ohhL3+tluBpS+s0xWRm9o64xuPMiV8cuXv75MOnRkMSssQ6jiFjabqChSBIYXt
-         Aw9QVVcP3mf5V+OmKusCwVOsQFNyA5oVVZ99dyqfnst+volT6gjaYJ4e2gS6dNrU2IvZ
-         S93ibs1Er8Op0nuxdzouIddK72Vm5OA4c0PFodDYegy89XdLLwt++HOhsUfbc/Parq0y
-         F22HFK083GFay3AFZGw5FAkeeN/K0AdkjgI0wYjPYen9oXK13pd39pzd8zj9+6CJjxXg
-         ijJUIoG61JFwPlWZ4CXZpCfkpPPw7jK5oPaUS0G6QvezD6ThxSK5eqLaQ2JiguzI3H8l
-         PZVg==
-X-Gm-Message-State: AOJu0YwN9f7LokO/2RJv5qHK3Sd8BhEHHXFbY6+1KLqZemx4xNu+T+tT
-	5uENB4sJaCCE8kXpaf6Kb7sEyQYJDqlVcvdz34i1QSBc7UwHUYkBh4b9ZxvU51IpThlyffgSz0r
-	6EWeiMYLmXYzWYlB+pg==
-X-Received: by 2002:a17:906:32c7:b0:9a3:c4f4:12de with SMTP id k7-20020a17090632c700b009a3c4f412demr7809802ejk.37.1696618354476;
-        Fri, 06 Oct 2023 11:52:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFKWZrR/0CaRj96MI7dxLSBRW5Bpl/4ewBkwPmazbEv8rlNH/nLOY8UUhBgrhB9XkE7sr/NkA==
-X-Received: by 2002:a17:906:32c7:b0:9a3:c4f4:12de with SMTP id k7-20020a17090632c700b009a3c4f412demr7809795ejk.37.1696618354303;
-        Fri, 06 Oct 2023 11:52:34 -0700 (PDT)
+        bh=E/AveBNSqmjIJtYI3+6LuAlhQmhnFexTVHM7C0k2E9s=;
+        b=AzgIAxsd/bWaUSLMBCF1vR73bO/4qslYKWGVJGlSIH9qP7s1YtxG+dEw/+bYJTd3qc
+         gAtb/1kqcbjt+wR2ILjfv/svy89yO+qDkGh1jHRB+G3b0QVNO/NdQnvGwADE0PL/WCok
+         RXESRd4lyop54rPbiRLQ0M8ohhH6eNFwNDeBo/Sr1tLAJgGUvpBkUB4y+h127/ylM4vv
+         qw9anaKrUT4LwLqKZDWKEQ+EZhw2dnvy2mAam6NZV0kLaHjOzlC99rrTmkwtO10+HwIq
+         +cFOB3o6t3NRWWewOfdl/sKSQdc6eavzbVLM6K2LLVAwMoPfiLigSpXLwb+UrExv4m+/
+         dnNw==
+X-Gm-Message-State: AOJu0Yxefg4IvL9GKXJfv12u0l3SpWpmUITAPlPyNmeK7kECnpNSsl1u
+	KaXVaDIRO5GvGNxCXL2jYNe36zVNSPUvJYL7lljFzO7bWL+T+sni+moDVw3+ynuYTA6Uw02/U4p
+	/JsoKEz/b/9ecq5hKoBsmNGyL+Q==
+X-Received: by 2002:a17:906:9c1:b0:9ae:5aa4:9fa with SMTP id r1-20020a17090609c100b009ae5aa409famr8090644eje.42.1696618355318;
+        Fri, 06 Oct 2023 11:52:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHOVx3rLvVBE5QUfisMFkx2Pla6kAmWa2HIAK3od296Wuq43rVklqeW33wJg0+k4bCeT0eC3A==
+X-Received: by 2002:a17:906:9c1:b0:9ae:5aa4:9fa with SMTP id r1-20020a17090609c100b009ae5aa409famr8090638eje.42.1696618355160;
+        Fri, 06 Oct 2023 11:52:35 -0700 (PDT)
 Received: from localhost.localdomain ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id os5-20020a170906af6500b009b947f81c4asm3304741ejb.155.2023.10.06.11.52.33
+        by smtp.gmail.com with ESMTPSA id os5-20020a170906af6500b009b947f81c4asm3304741ejb.155.2023.10.06.11.52.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 11:52:33 -0700 (PDT)
+        Fri, 06 Oct 2023 11:52:34 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
@@ -57,9 +57,9 @@ Cc: djwong@kernel.org,
 	david@fromorbit.com,
 	dchinner@redhat.com,
 	Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v3 17/28] xfs: add attribute type for fs-verity
-Date: Fri,  6 Oct 2023 20:49:11 +0200
-Message-Id: <20231006184922.252188-18-aalbersh@redhat.com>
+Subject: [PATCH v3 18/28] xfs: make xfs_buf_get() to take XBF_* flags
+Date: Fri,  6 Oct 2023 20:49:12 +0200
+Message-Id: <20231006184922.252188-19-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231006184922.252188-1-aalbersh@redhat.com>
 References: <20231006184922.252188-1-aalbersh@redhat.com>
@@ -74,118 +74,60 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-The Merkle tree blocks and descriptor are stored in the extended
-attributes of the inode. Add new attribute type for fs-verity
-metadata. Add XFS_ATTR_INTERNAL_MASK to skip parent pointer and
-fs-verity attributes as those are only for internal use. While we're
-at it add a few comments in relevant places that internally visible
-attributes are not suppose to be handled via interface defined in
-xfs_xattr.c.
+Allow passing XBF_* buffer flags from xfs_buf_get(). This will allow
+fs-verity to specify flag for increased buffer size.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
 ---
- fs/xfs/libxfs/xfs_da_format.h  | 10 +++++++++-
- fs/xfs/libxfs/xfs_log_format.h |  1 +
- fs/xfs/xfs_ioctl.c             |  5 +++++
- fs/xfs/xfs_trace.h             |  1 +
- fs/xfs/xfs_xattr.c             |  9 +++++++++
- 5 files changed, 25 insertions(+), 1 deletion(-)
+ fs/xfs/libxfs/xfs_attr_remote.c | 2 +-
+ fs/xfs/libxfs/xfs_sb.c          | 2 +-
+ fs/xfs/xfs_buf.h                | 3 ++-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/fs/xfs/libxfs/xfs_da_format.h b/fs/xfs/libxfs/xfs_da_format.h
-index 6deefe03207f..b56bdae83563 100644
---- a/fs/xfs/libxfs/xfs_da_format.h
-+++ b/fs/xfs/libxfs/xfs_da_format.h
-@@ -699,14 +699,22 @@ struct xfs_attr3_leafblock {
- #define	XFS_ATTR_ROOT_BIT	1	/* limit access to trusted attrs */
- #define	XFS_ATTR_SECURE_BIT	2	/* limit access to secure attrs */
- #define	XFS_ATTR_PARENT_BIT	3	/* parent pointer attrs */
-+#define	XFS_ATTR_VERITY_BIT	4	/* verity merkle tree and descriptor */
- #define	XFS_ATTR_INCOMPLETE_BIT	7	/* attr in middle of create/delete */
- #define XFS_ATTR_LOCAL		(1u << XFS_ATTR_LOCAL_BIT)
- #define XFS_ATTR_ROOT		(1u << XFS_ATTR_ROOT_BIT)
- #define XFS_ATTR_SECURE		(1u << XFS_ATTR_SECURE_BIT)
- #define XFS_ATTR_PARENT		(1u << XFS_ATTR_PARENT_BIT)
-+#define XFS_ATTR_VERITY		(1u << XFS_ATTR_VERITY_BIT)
- #define XFS_ATTR_INCOMPLETE	(1u << XFS_ATTR_INCOMPLETE_BIT)
- #define XFS_ATTR_NSP_ONDISK_MASK \
--			(XFS_ATTR_ROOT | XFS_ATTR_SECURE | XFS_ATTR_PARENT)
-+			(XFS_ATTR_ROOT | XFS_ATTR_SECURE | XFS_ATTR_PARENT | \
-+			 XFS_ATTR_VERITY)
-+
-+/*
-+ * Internal attributes not exposed to the user
-+ */
-+#define XFS_ATTR_INTERNAL_MASK (XFS_ATTR_PARENT | XFS_ATTR_VERITY)
+diff --git a/fs/xfs/libxfs/xfs_attr_remote.c b/fs/xfs/libxfs/xfs_attr_remote.c
+index 72908e0e1c86..5762135dc2a6 100644
+--- a/fs/xfs/libxfs/xfs_attr_remote.c
++++ b/fs/xfs/libxfs/xfs_attr_remote.c
+@@ -521,7 +521,7 @@ xfs_attr_rmtval_set_value(
+ 		dblkno = XFS_FSB_TO_DADDR(mp, map.br_startblock),
+ 		dblkcnt = XFS_FSB_TO_BB(mp, map.br_blockcount);
  
- /*
-  * Alignment for namelist and valuelist entries (since they are mixed
-diff --git a/fs/xfs/libxfs/xfs_log_format.h b/fs/xfs/libxfs/xfs_log_format.h
-index 0bc1749fb7bb..c42cc58cd152 100644
---- a/fs/xfs/libxfs/xfs_log_format.h
-+++ b/fs/xfs/libxfs/xfs_log_format.h
-@@ -975,6 +975,7 @@ struct xfs_icreate_log {
- #define XFS_ATTRI_FILTER_MASK		(XFS_ATTR_ROOT | \
- 					 XFS_ATTR_SECURE | \
- 					 XFS_ATTR_PARENT | \
-+					 XFS_ATTR_VERITY | \
- 					 XFS_ATTR_INCOMPLETE)
+-		error = xfs_buf_get(mp->m_ddev_targp, dblkno, dblkcnt, &bp);
++		error = xfs_buf_get(mp->m_ddev_targp, dblkno, dblkcnt, 0, &bp);
+ 		if (error)
+ 			return error;
+ 		bp->b_ops = &xfs_attr3_rmt_buf_ops;
+diff --git a/fs/xfs/libxfs/xfs_sb.c b/fs/xfs/libxfs/xfs_sb.c
+index 6264daaab37b..4191da4fb669 100644
+--- a/fs/xfs/libxfs/xfs_sb.c
++++ b/fs/xfs/libxfs/xfs_sb.c
+@@ -1096,7 +1096,7 @@ xfs_update_secondary_sbs(
  
- /*
-diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
-index 55bb01173cde..3d6d680b6cf3 100644
---- a/fs/xfs/xfs_ioctl.c
-+++ b/fs/xfs/xfs_ioctl.c
-@@ -351,6 +351,11 @@ static unsigned int
- xfs_attr_filter(
- 	u32			ioc_flags)
+ 		error = xfs_buf_get(mp->m_ddev_targp,
+ 				 XFS_AG_DADDR(mp, pag->pag_agno, XFS_SB_DADDR),
+-				 XFS_FSS_TO_BB(mp, 1), &bp);
++				 XFS_FSS_TO_BB(mp, 1), 0, &bp);
+ 		/*
+ 		 * If we get an error reading or writing alternate superblocks,
+ 		 * continue.  xfs_repair chooses the "best" superblock based
+diff --git a/fs/xfs/xfs_buf.h b/fs/xfs/xfs_buf.h
+index d0fadb6d4b59..e79bfe548952 100644
+--- a/fs/xfs/xfs_buf.h
++++ b/fs/xfs/xfs_buf.h
+@@ -243,11 +243,12 @@ xfs_buf_get(
+ 	struct xfs_buftarg	*target,
+ 	xfs_daddr_t		blkno,
+ 	size_t			numblks,
++	xfs_buf_flags_t		flags,
+ 	struct xfs_buf		**bpp)
  {
-+	/*
-+	 * Only externally visible attributes should be specified here.
-+	 * Internally used attributes (such as parent pointers or fs-verity)
-+	 * should not be exposed to userspace.
-+	 */
- 	if (ioc_flags & XFS_IOC_ATTR_ROOT)
- 		return XFS_ATTR_ROOT;
- 	if (ioc_flags & XFS_IOC_ATTR_SECURE)
-diff --git a/fs/xfs/xfs_trace.h b/fs/xfs/xfs_trace.h
-index 3926cf7f2a6e..3696709907bf 100644
---- a/fs/xfs/xfs_trace.h
-+++ b/fs/xfs/xfs_trace.h
-@@ -82,6 +82,7 @@ struct xfs_perag;
- #define XFS_ATTR_FILTER_FLAGS \
- 	{ XFS_ATTR_ROOT,	"ROOT" }, \
- 	{ XFS_ATTR_SECURE,	"SECURE" }, \
-+	{ XFS_ATTR_VERITY,	"VERITY" }, \
- 	{ XFS_ATTR_INCOMPLETE,	"INCOMPLETE" }
+ 	DEFINE_SINGLE_BUF_MAP(map, blkno, numblks);
  
- DECLARE_EVENT_CLASS(xfs_attr_list_class,
-diff --git a/fs/xfs/xfs_xattr.c b/fs/xfs/xfs_xattr.c
-index a3975f325f4e..56f7f4122fcb 100644
---- a/fs/xfs/xfs_xattr.c
-+++ b/fs/xfs/xfs_xattr.c
-@@ -20,6 +20,12 @@
+-	return xfs_buf_get_map(target, &map, 1, 0, bpp);
++	return xfs_buf_get_map(target, &map, 1, flags, bpp);
+ }
  
- #include <linux/posix_acl_xattr.h>
- 
-+/*
-+ * This file defines interface to work with externally visible extended
-+ * attributes, such as those in system or security namespaces. This interface
-+ * should not be used for internally used attributes (consider xfs_attr.c).
-+ */
-+
- /*
-  * Get permission to use log-assisted atomic exchange of file extents.
-  *
-@@ -241,6 +247,9 @@ xfs_xattr_put_listent(
- 
- 	ASSERT(context->count >= 0);
- 
-+	if (flags & XFS_ATTR_INTERNAL_MASK)
-+		return;
-+
- 	if (flags & XFS_ATTR_ROOT) {
- #ifdef CONFIG_XFS_POSIX_ACL
- 		if (namelen == SGI_ACL_FILE_SIZE &&
+ static inline int
 -- 
 2.40.1
 
