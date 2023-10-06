@@ -1,121 +1,138 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D84626E04
-	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7790C4734F;
+	Fri,  6 Oct 2023 23:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BXGcQUmj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1696618384;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y62cirHyxw1nxIK5GngI9l6eX0UynAIUbjFVCcsuark=;
-	b=BXGcQUmj9kn69YmziLarC6SGVkSDRYW6GeeK4DjjinP0KssoxVcEApm8UYu/6wmLid8udc
-	JomeQ3BK61Dr2IoHeQRIYlP0CMe6g9+cTlqTGIe5bcZENlT6/gpNiBhREpkbGyO54Y8ffA
-	SPkV7Ud1Z+7zV0Cq8X8PNcYCs0aNWXk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-252-Hgf3mnUMPiK-eGGisHyhqA-1; Fri, 06 Oct 2023 14:53:03 -0400
-X-MC-Unique: Hgf3mnUMPiK-eGGisHyhqA-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5344aaf2703so2121542a12.0
-        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:53:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696618382; x=1697223182;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y62cirHyxw1nxIK5GngI9l6eX0UynAIUbjFVCcsuark=;
-        b=J/Zoymwiakh1qY3YUHfJka8P+fylhRGoxpZJtIA+2ExM4n8YxUP8PSfv1Ym5NOISZ8
-         /PJ/S4i//LTdjZs8usPktbDZva9C+P+XASDZEjMwOTVOBWsxHbGL2ziMEjxNqThlAXwf
-         gCQ7O8ZN/h5z5/oLqHpzfE3mwzy4rVzE2ArX+wF1KtF5yBISc/CE/oIk5LsHotWRe/LW
-         lGMPDqRC4WArWJfKy18HSk6Ia88JKBzbVkDGBYQ+FzOIvOst31seMiw4pIWaPjacO7i4
-         qJd7JYuJYj9u5E/x/5cACLrgFyHFhRzptiUevMb2fZTYJiLFDks6gJbJzMWlpjyqsX4x
-         587Q==
-X-Gm-Message-State: AOJu0Yx5JIqtqIEsOjQ607QRqex6u+CU0db2ifDZ8Dxg0CVDm47z1K0O
-	Lfpgi1UzDI1FdX2wdU2n7ZRHCuh4P/q8oOENv8ZEtHLG1UhqxtJp8DVjgrv0G31JZjQoUqsjjrt
-	QqUQM5P4keKTp4ji10x9qp34DXw==
-X-Received: by 2002:a05:6402:344a:b0:523:4025:49f0 with SMTP id l10-20020a056402344a00b00523402549f0mr7657522edc.26.1696618381783;
-        Fri, 06 Oct 2023 11:53:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFVZ+8RYyWx/WXsHj7JKes+e1LLF/dLUz0XxHhOXmY4bfEBU5dLyL1gt2j4iCnrrEatFiiqNw==
-X-Received: by 2002:a17:906:3ca9:b0:9ba:7f5:3602 with SMTP id b9-20020a1709063ca900b009ba07f53602mr583721ejh.60.1696618360843;
-        Fri, 06 Oct 2023 11:52:40 -0700 (PDT)
-Received: from localhost.localdomain ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id os5-20020a170906af6500b009b947f81c4asm3304741ejb.155.2023.10.06.11.52.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 11:52:40 -0700 (PDT)
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	fsverity@lists.linux.dev
-Cc: djwong@kernel.org,
-	ebiggers@kernel.org,
-	david@fromorbit.com,
-	dchinner@redhat.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TwLvKPx4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696635719; x=1728171719;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MXFKuN98ax1sJBYhFSUvy6stQK/fA6fvQV+pQnQmono=;
+  b=TwLvKPx4xM2UOvmgspmxX9pqyGFw/3s8wBkIM7Kp+RtJpEqr2S6Qx7q+
+   cn8X23Btwf5Z4NRe1w7xRcM6dg3QY8AgEGqeMNauybGo0AMrWfJirmgFT
+   U+pOIf0p6jqHWHN43w8boZs0m2SgHKT1sUO8OIDBEOKF806RTy1A0MPCJ
+   I2+rGJjcE4zvm0JeM8Y1SWhoPrFidqyNG+7819q2PYPtzpr9d4qYL3SnW
+   2xFRoxsIyDMqOSRezpoPblmpLv+mRc+/JdlLgGFO5pR5UpHlnHjrr5rNy
+   q3dsP+RLnIpxxaOzV3OkLHfHDb4sykCvpCIRJnMaEWThC8xP/Cnio4reg
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="374191555"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="374191555"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2023 16:41:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10855"; a="818170706"
+X-IronPort-AV: E=Sophos;i="6.03,204,1694761200"; 
+   d="scan'208";a="818170706"
+Received: from lkp-server01.sh.intel.com (HELO 8a3a91ad4240) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 06 Oct 2023 16:41:36 -0700
+Received: from kbuild by 8a3a91ad4240 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qouRq-0003kL-0c;
+	Fri, 06 Oct 2023 23:41:34 +0000
+Date: Sat, 7 Oct 2023 07:40:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrey Albershteyn <aalbersh@redhat.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, djwong@kernel.org, ebiggers@kernel.org,
+	david@fromorbit.com, dchinner@redhat.com,
 	Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v3 24/28] xfs: disable direct read path for fs-verity sealed files
-Date: Fri,  6 Oct 2023 20:49:18 +0200
-Message-Id: <20231006184922.252188-25-aalbersh@redhat.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231006184922.252188-1-aalbersh@redhat.com>
-References: <20231006184922.252188-1-aalbersh@redhat.com>
+Subject: Re: [PATCH v3 25/28] xfs: add fs-verity support
+Message-ID: <202310070701.WiXRnofP-lkp@intel.com>
+References: <20231006184922.252188-26-aalbersh@redhat.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231006184922.252188-26-aalbersh@redhat.com>
 
-The direct path is not supported on verity files. Attempts to use direct
-I/O path on such files should fall back to buffered I/O path.
+Hi Andrey,
 
-Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
----
- fs/xfs/xfs_file.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index a92c8197c26a..7363cbdff803 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -244,7 +244,8 @@ xfs_file_dax_read(
- 	struct kiocb		*iocb,
- 	struct iov_iter		*to)
- {
--	struct xfs_inode	*ip = XFS_I(iocb->ki_filp->f_mapping->host);
-+	struct inode		*inode = iocb->ki_filp->f_mapping->host;
-+	struct xfs_inode	*ip = XFS_I(inode);
- 	ssize_t			ret = 0;
- 
- 	trace_xfs_file_dax_read(iocb, to);
-@@ -297,10 +298,17 @@ xfs_file_read_iter(
- 
- 	if (IS_DAX(inode))
- 		ret = xfs_file_dax_read(iocb, to);
--	else if (iocb->ki_flags & IOCB_DIRECT)
-+	else if (iocb->ki_flags & IOCB_DIRECT && !fsverity_active(inode))
- 		ret = xfs_file_dio_read(iocb, to);
--	else
-+	else {
-+		/*
-+		 * In case fs-verity is enabled, we also fallback to the
-+		 * buffered read from the direct read path. Therefore,
-+		 * IOCB_DIRECT is set and need to be cleared
-+		 */
-+		iocb->ki_flags &= ~IOCB_DIRECT;
- 		ret = xfs_file_buffered_read(iocb, to);
-+	}
- 
- 	if (ret > 0)
- 		XFS_STATS_ADD(mp, xs_read_bytes, ret);
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on kdave/for-next tytso-ext4/dev jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev linus/master v6.6-rc4 next-20231006]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Albershteyn/xfs-Add-new-name-to-attri-d/20231007-025742
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20231006184922.252188-26-aalbersh%40redhat.com
+patch subject: [PATCH v3 25/28] xfs: add fs-verity support
+config: powerpc64-randconfig-002-20231007 (https://download.01.org/0day-ci/archive/20231007/202310070701.WiXRnofP-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070701.WiXRnofP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310070701.WiXRnofP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/xfs/xfs_verity.c:165:1: warning: no previous prototype for 'xfs_read_merkle_tree_block' [-Wmissing-prototypes]
+     165 | xfs_read_merkle_tree_block(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/xfs_read_merkle_tree_block +165 fs/xfs/xfs_verity.c
+
+   163	
+   164	int
+ > 165	xfs_read_merkle_tree_block(
+   166		struct inode		*inode,
+   167		unsigned int		pos,
+   168		struct fsverity_block	*block,
+   169		unsigned long		num_ra_pages)
+   170	{
+   171		struct xfs_inode	*ip = XFS_I(inode);
+   172		struct xfs_fsverity_merkle_key name;
+   173		int			error = 0;
+   174		struct xfs_da_args	args = {
+   175			.dp		= ip,
+   176			.attr_filter	= XFS_ATTR_VERITY,
+   177			.namelen	= sizeof(struct xfs_fsverity_merkle_key),
+   178		};
+   179		xfs_fsverity_merkle_key_to_disk(&name, pos);
+   180		args.name = (const uint8_t *)&name.merkleoff;
+   181	
+   182		error = xfs_attr_get(&args);
+   183		if (error)
+   184			goto out;
+   185	
+   186		WARN_ON_ONCE(!args.valuelen);
+   187	
+   188		/* now we also want to get underlying xfs_buf */
+   189		args.op_flags = XFS_DA_OP_BUFFER;
+   190		error = xfs_attr_get(&args);
+   191		if (error)
+   192			goto out;
+   193	
+   194		block->kaddr = args.value;
+   195		block->len = args.valuelen;
+   196		block->cached = args.bp->b_flags & XBF_VERITY_CHECKED;
+   197		block->context = args.bp;
+   198	
+   199		return error;
+   200	
+   201	out:
+   202		kmem_free(args.value);
+   203		if (args.bp)
+   204			xfs_buf_rele(args.bp);
+   205		return error;
+   206	}
+   207	
+
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
