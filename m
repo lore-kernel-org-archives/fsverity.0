@@ -1,53 +1,53 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422F826E04
-	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBF7328BC
+	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cYUZFCZT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e4V0qk9x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1696618352;
+	s=mimecast20190719; t=1696618353;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VJUiSpfPMzcl28TFVJjzzuncoLSne12d470beZMPYcY=;
-	b=cYUZFCZT937cELapulAuPAS8qKQksR8I2mTij4SCIl4InwxcZmrTEfqZUh8AlOPFLMLb5U
-	z8pirwv1qAkCCXnjQXFJAAoZ+PlEtlPfQteJkyk2YkgCyVb8OmlOPed/S5bzFepUC7vU6j
-	Rm0w1Zu7qMqCIluVR6ouUFGVZiGqyKU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=cbAra3ZTi+LxukZ164wISWciUbvDI2f96hncpD1Yjx0=;
+	b=e4V0qk9xTzGYrXXGrwg1t6jdDYh6cS2OdmvFpOJH0v7pHQWVfrOwgHGRQTu85TqJe5nZX/
+	TwBwhUA0VzdCfXqMNv2X40zCyRhcC02EY+Y1PZllRp9Tav9LuxE9Yq0kiXyyqV6SS15pyG
+	mxRzddPStoNc2ibORo72BGJgZsjeveQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-458-TqErIQD1Pv6iwl5Yw0purg-1; Fri, 06 Oct 2023 14:52:29 -0400
-X-MC-Unique: TqErIQD1Pv6iwl5Yw0purg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9b65b6bcfb7so207318466b.2
-        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:52:29 -0700 (PDT)
+ us-mta-500-ZuOM7fAkNh-JDbzyRyLBGQ-1; Fri, 06 Oct 2023 14:52:32 -0400
+X-MC-Unique: ZuOM7fAkNh-JDbzyRyLBGQ-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9ae686dafedso221658466b.3
+        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:52:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696618349; x=1697223149;
+        d=1e100.net; s=20230601; t=1696618351; x=1697223151;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VJUiSpfPMzcl28TFVJjzzuncoLSne12d470beZMPYcY=;
-        b=Ox9t++ZEwoewgi0F2ewn4II3kx2eBSideZBj8dtILzTkAYOnXtTCWaJzSbpR7MXsy1
-         OiakKdCLHhMliBfhUA66mMZ0XTGmMfId75IPhOmWm1ZNlo9b+863V3WKz2y9b96kztRI
-         ck8XrwQaUQR7e4D8/jzKnF6AhKeo8id1OUgG2thYsD6hY/akTlJQzX02nmFEXGkSSfRy
-         KcG50jXKk2i5HQ+EgTfxok8+Tgnz35YZp0dhUxzhZYgxN93K/bCiIOv5JX74pwoRL3g7
-         Hc5WmUCj81vPDcn5hrpVLpwMN+3pO6pzW4haMSbyhg8ENFvmDTf2g7Xuj61KWGqG5u87
-         cKeQ==
-X-Gm-Message-State: AOJu0YyU1vyGOlln3qRiZ6IlluVxK6peb4GzfkrMpLiDOvT+Ga+pmVS/
-	cie1+Ys6r2ihoYulBjP6H59DIQJiRgHVYlW9zyEKxStqJZMNChUDVsUSY9sNScYj4MiijkLLvDn
-	d6uQNPPs/NW6/5W1uWQ==
-X-Received: by 2002:a17:907:7891:b0:9b9:325f:9be9 with SMTP id ku17-20020a170907789100b009b9325f9be9mr6905138ejc.73.1696618348754;
-        Fri, 06 Oct 2023 11:52:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6693S4s/pd1mNyLR7i5gSJ+yywVELtJcWxdgdXWVai6POFCFoxzt5ozN8gK51meBnXnTb8A==
-X-Received: by 2002:a17:907:7891:b0:9b9:325f:9be9 with SMTP id ku17-20020a170907789100b009b9325f9be9mr6905129ejc.73.1696618348563;
-        Fri, 06 Oct 2023 11:52:28 -0700 (PDT)
+        bh=cbAra3ZTi+LxukZ164wISWciUbvDI2f96hncpD1Yjx0=;
+        b=YGu8CaDmjpurF7axUIwXCwPoFirsD3s/M/CUugmBBd3+WwvZslwQ9/bJY8Ji6APMYg
+         j4ZpJ4kOJQi/iKNTw0ktvVfnem9eGhm/ZcGH7iNJif8HgGd22dlT67EQLkx88WCLwPsP
+         4vJwEXNrBEgMiXdBy6GSFFjmdfpIkwbIdBwXzZ+wcTcBwzyJI9XsBjPwfuQXfqoltviA
+         nPst1CVuyu9HWicWgtYHAuk7QoWPJtEn+5xIAmuWZXVpd1So8f8mFj+oZzadlNCQWf4I
+         p/8ICyFn2cpnMfmxgr76eRE94U6xLWTziHDJocRxhW2uOkEF215UF6KPbi9PpvYzOXlj
+         Klsw==
+X-Gm-Message-State: AOJu0YwtucKFuj38eZmk3cR/WXa6Jl+drlhCXRQaR2H8aIPfshV5K9/r
+	hEMG8p2PmPb+m9yjrvLmcRf5wbkWsz8G6lmQYKHRJFXt6ljMqLaY1eY+mVJovVuWpT7dHgYU85U
+	5si9e3GxnBxogPSwGLA==
+X-Received: by 2002:a17:906:29a:b0:9aa:23c9:aa52 with SMTP id 26-20020a170906029a00b009aa23c9aa52mr8067387ejf.20.1696618350853;
+        Fri, 06 Oct 2023 11:52:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGAvtFtJNnveu1/9BEXcBJfWoGBg75gg0idvpFq2vl8+1sN7jevtwQabTLBIM8w3mhGcmlywA==
+X-Received: by 2002:a17:906:29a:b0:9aa:23c9:aa52 with SMTP id 26-20020a170906029a00b009aa23c9aa52mr8067378ejf.20.1696618350585;
+        Fri, 06 Oct 2023 11:52:30 -0700 (PDT)
 Received: from localhost.localdomain ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id os5-20020a170906af6500b009b947f81c4asm3304741ejb.155.2023.10.06.11.52.27
+        by smtp.gmail.com with ESMTPSA id os5-20020a170906af6500b009b947f81c4asm3304741ejb.155.2023.10.06.11.52.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 11:52:28 -0700 (PDT)
+        Fri, 06 Oct 2023 11:52:29 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
@@ -57,9 +57,9 @@ Cc: djwong@kernel.org,
 	david@fromorbit.com,
 	dchinner@redhat.com,
 	Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v3 11/28] iomap: pass readpage operation to read path
-Date: Fri,  6 Oct 2023 20:49:05 +0200
-Message-Id: <20231006184922.252188-12-aalbersh@redhat.com>
+Subject: [PATCH v3 13/28] xfs: add XBF_VERITY_CHECKED xfs_buf flag
+Date: Fri,  6 Oct 2023 20:49:07 +0200
+Message-Id: <20231006184922.252188-14-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231006184922.252188-1-aalbersh@redhat.com>
 References: <20231006184922.252188-1-aalbersh@redhat.com>
@@ -74,208 +74,66 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Preparation for allowing filesystems to provide bio_set and
-->submit_io() for read path. This will allow fs to do an additional
-processing of ioend on ioend completion.
+One of essential ideas of fs-verity is that pages which are already
+verified won't need to be re-verified if they still in page cache.
 
-Make iomap_read_end_io() exportable, so, it can be called back from
-filesystem callout after verification is done.
+XFS will store Merkle tree blocks in extended attributes. Each
+attribute has one Merkle tree block. When read extended attribute
+data is put into xfs_buf.
+
+The data in the buffer is not aligned with xfs_buf pages and we
+don't have a reference to these pages. Moreover, these pages are
+released when value is copied out in xfs_attr code. In other words,
+we can not directly mark underlying xfs_buf's pages as verified.
+
+One way to track that these pages were verified is to mark xattr's
+buffer as verified instead. If buffer is evicted the incore
+XBF_VERITY_CHECKED flag is lost. When the xattr is read again
+xfs_attr_get() returns new buffer without the flag. The xfs_buf's
+flag is then used to tell fs-verity if it's new page or cached one.
+
+The meaning of the flag is that value of the extended attribute in
+the buffer is verified.
+
+Note that, the underlying pages have PageChecked() == false (the way
+fs-verity identifies verified pages).
+
+The flag is being used later to SetPageChecked() on pages handed to
+the fs-verity.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
 ---
- fs/erofs/data.c        |  4 ++--
- fs/gfs2/aops.c         |  4 ++--
- fs/iomap/buffered-io.c | 13 ++++++++++---
- fs/xfs/xfs_aops.c      |  4 ++--
- fs/zonefs/file.c       |  4 ++--
- include/linux/iomap.h  | 21 +++++++++++++++++++--
- 6 files changed, 37 insertions(+), 13 deletions(-)
+ fs/xfs/xfs_buf.h | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/fs/erofs/data.c b/fs/erofs/data.c
-index 0c2c99c58b5e..3f5482d6cedb 100644
---- a/fs/erofs/data.c
-+++ b/fs/erofs/data.c
-@@ -357,12 +357,12 @@ int erofs_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
-  */
- static int erofs_read_folio(struct file *file, struct folio *folio)
- {
--	return iomap_read_folio(folio, &erofs_iomap_ops);
-+	return iomap_read_folio(folio, &erofs_iomap_ops, NULL);
- }
+diff --git a/fs/xfs/xfs_buf.h b/fs/xfs/xfs_buf.h
+index df8f47953bb4..d0fadb6d4b59 100644
+--- a/fs/xfs/xfs_buf.h
++++ b/fs/xfs/xfs_buf.h
+@@ -24,14 +24,15 @@ struct xfs_buf;
  
- static void erofs_readahead(struct readahead_control *rac)
- {
--	return iomap_readahead(rac, &erofs_iomap_ops);
-+	return iomap_readahead(rac, &erofs_iomap_ops, NULL);
- }
+ #define XFS_BUF_DADDR_NULL	((xfs_daddr_t) (-1LL))
  
- static sector_t erofs_bmap(struct address_space *mapping, sector_t block)
-diff --git a/fs/gfs2/aops.c b/fs/gfs2/aops.c
-index c26d48355cc2..9c09ff75e586 100644
---- a/fs/gfs2/aops.c
-+++ b/fs/gfs2/aops.c
-@@ -456,7 +456,7 @@ static int gfs2_read_folio(struct file *file, struct folio *folio)
+-#define XBF_READ	 (1u << 0) /* buffer intended for reading from device */
+-#define XBF_WRITE	 (1u << 1) /* buffer intended for writing to device */
+-#define XBF_READ_AHEAD	 (1u << 2) /* asynchronous read-ahead */
+-#define XBF_NO_IOACCT	 (1u << 3) /* bypass I/O accounting (non-LRU bufs) */
+-#define XBF_ASYNC	 (1u << 4) /* initiator will not wait for completion */
+-#define XBF_DONE	 (1u << 5) /* all pages in the buffer uptodate */
+-#define XBF_STALE	 (1u << 6) /* buffer has been staled, do not find it */
+-#define XBF_WRITE_FAIL	 (1u << 7) /* async writes have failed on this buffer */
++#define XBF_READ		(1u << 0) /* buffer intended for reading from device */
++#define XBF_WRITE		(1u << 1) /* buffer intended for writing to device */
++#define XBF_READ_AHEAD		(1u << 2) /* asynchronous read-ahead */
++#define XBF_NO_IOACCT		(1u << 3) /* bypass I/O accounting (non-LRU bufs) */
++#define XBF_ASYNC		(1u << 4) /* initiator will not wait for completion */
++#define XBF_DONE		(1u << 5) /* all pages in the buffer uptodate */
++#define XBF_STALE		(1u << 6) /* buffer has been staled, do not find it */
++#define XBF_WRITE_FAIL		(1u << 7) /* async writes have failed on this buffer */
++#define XBF_VERITY_CHECKED	(1u << 8) /* buffer was verified by fs-verity*/
  
- 	if (!gfs2_is_jdata(ip) ||
- 	    (i_blocksize(inode) == PAGE_SIZE && !folio_buffers(folio))) {
--		error = iomap_read_folio(folio, &gfs2_iomap_ops);
-+		error = iomap_read_folio(folio, &gfs2_iomap_ops, NULL);
- 	} else if (gfs2_is_stuffed(ip)) {
- 		error = stuffed_readpage(ip, &folio->page);
- 		folio_unlock(folio);
-@@ -534,7 +534,7 @@ static void gfs2_readahead(struct readahead_control *rac)
- 	else if (gfs2_is_jdata(ip))
- 		mpage_readahead(rac, gfs2_block_map);
- 	else
--		iomap_readahead(rac, &gfs2_iomap_ops);
-+		iomap_readahead(rac, &gfs2_iomap_ops, NULL);
- }
- 
- /**
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 644479ccefbd..ca78c7f62527 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -264,7 +264,7 @@ static void iomap_finish_folio_read(struct folio *folio, size_t offset,
- 		folio_unlock(folio);
- }
- 
--static void iomap_read_end_io(struct bio *bio)
-+void iomap_read_end_io(struct bio *bio)
- {
- 	int error = blk_status_to_errno(bio->bi_status);
- 	struct folio_iter fi;
-@@ -273,12 +273,14 @@ static void iomap_read_end_io(struct bio *bio)
- 		iomap_finish_folio_read(fi.folio, fi.offset, fi.length, error);
- 	bio_put(bio);
- }
-+EXPORT_SYMBOL_GPL(iomap_read_end_io);
- 
- struct iomap_readpage_ctx {
- 	struct folio		*cur_folio;
- 	bool			cur_folio_in_bio;
- 	struct bio		*bio;
- 	struct readahead_control *rac;
-+	const struct iomap_readpage_ops *ops;
- };
- 
- /**
-@@ -402,7 +404,8 @@ static loff_t iomap_readpage_iter(const struct iomap_iter *iter,
- 	return pos - orig_pos + plen;
- }
- 
--int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops)
-+int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops,
-+		const struct iomap_readpage_ops *readpage_ops)
- {
- 	struct iomap_iter iter = {
- 		.inode		= folio->mapping->host,
-@@ -411,6 +414,7 @@ int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops)
- 	};
- 	struct iomap_readpage_ctx ctx = {
- 		.cur_folio	= folio,
-+		.ops		= readpage_ops,
- 	};
- 	int ret;
- 
-@@ -468,6 +472,7 @@ static loff_t iomap_readahead_iter(const struct iomap_iter *iter,
-  * iomap_readahead - Attempt to read pages from a file.
-  * @rac: Describes the pages to be read.
-  * @ops: The operations vector for the filesystem.
-+ * @readpage_ops: Filesystem supplied folio processiong operation
-  *
-  * This function is for filesystems to call to implement their readahead
-  * address_space operation.
-@@ -479,7 +484,8 @@ static loff_t iomap_readahead_iter(const struct iomap_iter *iter,
-  * function is called with memalloc_nofs set, so allocations will not cause
-  * the filesystem to be reentered.
-  */
--void iomap_readahead(struct readahead_control *rac, const struct iomap_ops *ops)
-+void iomap_readahead(struct readahead_control *rac, const struct iomap_ops *ops,
-+		const struct iomap_readpage_ops *readpage_ops)
- {
- 	struct iomap_iter iter = {
- 		.inode	= rac->mapping->host,
-@@ -488,6 +494,7 @@ void iomap_readahead(struct readahead_control *rac, const struct iomap_ops *ops)
- 	};
- 	struct iomap_readpage_ctx ctx = {
- 		.rac	= rac,
-+		.ops	= readpage_ops,
- 	};
- 
- 	trace_iomap_readahead(rac->mapping->host, readahead_count(rac));
-diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-index 465d7630bb21..b413a2dbcc18 100644
---- a/fs/xfs/xfs_aops.c
-+++ b/fs/xfs/xfs_aops.c
-@@ -553,14 +553,14 @@ xfs_vm_read_folio(
- 	struct file		*unused,
- 	struct folio		*folio)
- {
--	return iomap_read_folio(folio, &xfs_read_iomap_ops);
-+	return iomap_read_folio(folio, &xfs_read_iomap_ops, NULL);
- }
- 
- STATIC void
- xfs_vm_readahead(
- 	struct readahead_control	*rac)
- {
--	iomap_readahead(rac, &xfs_read_iomap_ops);
-+	iomap_readahead(rac, &xfs_read_iomap_ops, NULL);
- }
- 
- static int
-diff --git a/fs/zonefs/file.c b/fs/zonefs/file.c
-index b2c9b35df8f7..29428c012150 100644
---- a/fs/zonefs/file.c
-+++ b/fs/zonefs/file.c
-@@ -112,12 +112,12 @@ static const struct iomap_ops zonefs_write_iomap_ops = {
- 
- static int zonefs_read_folio(struct file *unused, struct folio *folio)
- {
--	return iomap_read_folio(folio, &zonefs_read_iomap_ops);
-+	return iomap_read_folio(folio, &zonefs_read_iomap_ops, NULL);
- }
- 
- static void zonefs_readahead(struct readahead_control *rac)
- {
--	iomap_readahead(rac, &zonefs_read_iomap_ops);
-+	iomap_readahead(rac, &zonefs_read_iomap_ops, NULL);
- }
- 
- /*
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index 96dd0acbba44..3565c449f3c9 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -262,8 +262,25 @@ int iomap_file_buffered_write_punch_delalloc(struct inode *inode,
- 		struct iomap *iomap, loff_t pos, loff_t length, ssize_t written,
- 		int (*punch)(struct inode *inode, loff_t pos, loff_t length));
- 
--int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops);
--void iomap_readahead(struct readahead_control *, const struct iomap_ops *ops);
-+struct iomap_readpage_ops {
-+	/*
-+	 * Filesystems wishing to attach private information to a direct io bio
-+	 * must provide a ->submit_io method that attaches the additional
-+	 * information to the bio and changes the ->bi_end_io callback to a
-+	 * custom function.  This function should, at a minimum, perform any
-+	 * relevant post-processing of the bio and end with a call to
-+	 * iomap_read_end_io.
-+	 */
-+	void (*submit_io)(const struct iomap_iter *iter, struct bio *bio,
-+			loff_t file_offset);
-+	struct bio_set *bio_set;
-+};
-+
-+void iomap_read_end_io(struct bio *bio);
-+int iomap_read_folio(struct folio *folio, const struct iomap_ops *ops,
-+		const struct iomap_readpage_ops *readpage_ops);
-+void iomap_readahead(struct readahead_control *, const struct iomap_ops *ops,
-+		const struct iomap_readpage_ops *readpage_ops);
- bool iomap_is_partially_uptodate(struct folio *, size_t from, size_t count);
- struct folio *iomap_get_folio(struct iomap_iter *iter, loff_t pos, size_t len);
- bool iomap_release_folio(struct folio *folio, gfp_t gfp_flags);
+ /* buffer type flags for write callbacks */
+ #define _XBF_INODES	 (1u << 16)/* inode buffer */
 -- 
 2.40.1
 
