@@ -1,53 +1,53 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9269228DCF
-	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A5F38FA1
+	for <fsverity@lists.linux.dev>; Fri,  6 Oct 2023 18:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WQyRgE16"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KNAvR1AB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1696618365;
+	s=mimecast20190719; t=1696618366;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UWcs9SrNpmcSvDrcidpI6DOh7inrMPlH2bbWKy/g+Tc=;
-	b=WQyRgE16dUNULXpEphmVEiK5zUuBYl+RtvinJD0fGUTnk2NPzyjlyNWuDyttsphCbIaA5o
-	Us4lnlKk7MXJR53ihQWIuAvoI48LugF485kDq7DVTGun3SbObTQgwGGLn113l0EPf1q1qo
-	u+OG1SPuX0ekYaEpaHhyoE+ACIeNOnQ=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=h+hERDddpeeIHe4DM9B5TqIjpvoGQYj+Dd7I5rMKZNk=;
+	b=KNAvR1ABKujgntzNxOEVp2opAqPRxh7I9qcwHQCjoUd10+vb+4+NH7JOUJYBhZus3whE2M
+	K9ZPvZsTYcDprcLw+fiRh7x62HB0uKRRiz5Cxq94sPOKowGn90ByAwRWfR3uxa2SUqRUe3
+	+UjU78ZoqJSaAe3/gvRHI0fxeofKCpU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-qTrvrl3-Ny66iRdlIdsqpg-1; Fri, 06 Oct 2023 14:52:34 -0400
-X-MC-Unique: qTrvrl3-Ny66iRdlIdsqpg-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9ae42088b4bso195971766b.3
-        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:52:34 -0700 (PDT)
+ us-mta-588-BR-PwS3PPHu2h-SMMpkKOw-1; Fri, 06 Oct 2023 14:52:44 -0400
+X-MC-Unique: BR-PwS3PPHu2h-SMMpkKOw-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-99bca0b9234so206619466b.2
+        for <fsverity@lists.linux.dev>; Fri, 06 Oct 2023 11:52:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696618353; x=1697223153;
+        d=1e100.net; s=20230601; t=1696618363; x=1697223163;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UWcs9SrNpmcSvDrcidpI6DOh7inrMPlH2bbWKy/g+Tc=;
-        b=MMKpr1RWAdqnwFr67+Llr2RD+4ZL4Xv+ZxiXzRBRPT+nDUopNHU6keL4YR7NpVBfcr
-         VtiUJMiXhQUJhRffviUgbzjlgTAV4WwNzq9x/wRoxXdkbGffufy6DIWvOc07c2/hX7iE
-         09ebfCOP4ECVfDQodaxFPuNQgcWf2eoLfRdBl6ba9nJi0oJTPsSzEKAAfN0L5EOnQFkN
-         XturmFp/oh/joEVkYx3b1+p32xqO0sDTGU+iDHo+3wcu8TjiK2v3QjvGVNIqNZ+HixEQ
-         vCecBT4337ZF0z5mGfctifZsMnXxnknBFy8Xq+Yjf+wCnmVIwEONFRdKiNoGJ4kpN6oe
-         mXAg==
-X-Gm-Message-State: AOJu0Yzm/B596mQnzHmdWu2p48JH/cWndXjr0nkmomv/KYewPtp1u2tO
-	AjwB++eEv5KF/+B2AoKNKDNT+owN5Qy3apbmHDczgsDZQEn26ZcIJmgYAJYCjBGbfnnolmAs61d
-	55EdQsBC2WgG1HMLyRQ==
-X-Received: by 2002:a17:906:53:b0:9ae:738b:86d0 with SMTP id 19-20020a170906005300b009ae738b86d0mr7651945ejg.66.1696618353540;
-        Fri, 06 Oct 2023 11:52:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHdagM+opy7rXcNtWvd0CvvXwFThJ35jMAyomOLpjoWKe3Lj27i5d7fquRXV2FvmC3HqgU7lQ==
-X-Received: by 2002:a17:906:53:b0:9ae:738b:86d0 with SMTP id 19-20020a170906005300b009ae738b86d0mr7651934ejg.66.1696618353283;
-        Fri, 06 Oct 2023 11:52:33 -0700 (PDT)
+        bh=h+hERDddpeeIHe4DM9B5TqIjpvoGQYj+Dd7I5rMKZNk=;
+        b=kHS+Tm7PsNE1MgSColmqC+o7pwUB4SnKx7fEQKAtHuTq9KRBATEk92MxbrrtgaCpk3
+         bR3M3EF1ttJAZEBVhLCRb1XudnKwj1qK6KOJwWP+y0djqZF5EMjIZ1zzEzAGt8a4HpGH
+         rdcZTWYoQj66j2vLRyDEloqhYdGUAs1RWV4ir6w0g0QCCha/RSCc3M65E1W4wuK7SrDW
+         krZh8nJTEKn3k21NNW7XSljF8qRRT+moel6BnoJKBlk4hzHt74ajVsW7uSbFzDn5c0M3
+         udSVPjy2UC/O6E+oSJnaOgMSf9pJvRrFsFs1wPzQJuYPyaN2oPBkueK26e+QxU2gsUU7
+         X9pg==
+X-Gm-Message-State: AOJu0YyhtIULM7KZ4bpjktJG4s5LSGXWnFuSy5PLO8+VpxpOpw71iKcu
+	DghbzSCF/hb2jsnbJDqEuGXPrTFO6bIHmx07iN35mKKLe8oJs57Q4bdcVXsQv+RbiUs0uARM1kr
+	ebTee3fKr/khtFcwxeA==
+X-Received: by 2002:a17:906:31c7:b0:9ae:673a:88c8 with SMTP id f7-20020a17090631c700b009ae673a88c8mr8463907ejf.21.1696618363789;
+        Fri, 06 Oct 2023 11:52:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGj4mxEdfFg60CQgUH6Kl9WUvjEgQ0RS1ocFOzUW2NWuCD/0V4jWL98MJ2Rk4lHCKYOiP5xjQ==
+X-Received: by 2002:a17:906:31c7:b0:9ae:673a:88c8 with SMTP id f7-20020a17090631c700b009ae673a88c8mr8463904ejf.21.1696618363632;
+        Fri, 06 Oct 2023 11:52:43 -0700 (PDT)
 Received: from localhost.localdomain ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id os5-20020a170906af6500b009b947f81c4asm3304741ejb.155.2023.10.06.11.52.32
+        by smtp.gmail.com with ESMTPSA id os5-20020a170906af6500b009b947f81c4asm3304741ejb.155.2023.10.06.11.52.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 11:52:32 -0700 (PDT)
+        Fri, 06 Oct 2023 11:52:43 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
@@ -57,9 +57,9 @@ Cc: djwong@kernel.org,
 	david@fromorbit.com,
 	dchinner@redhat.com,
 	Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v3 16/28] xfs: add bio_set and submit_io for ioend post-processing
-Date: Fri,  6 Oct 2023 20:49:10 +0200
-Message-Id: <20231006184922.252188-17-aalbersh@redhat.com>
+Subject: [PATCH v3 27/28] xfs: add fs-verity ioctls
+Date: Fri,  6 Oct 2023 20:49:21 +0200
+Message-Id: <20231006184922.252188-28-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231006184922.252188-1-aalbersh@redhat.com>
 References: <20231006184922.252188-1-aalbersh@redhat.com>
@@ -74,194 +74,49 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-The read IO path provides callout for configuring ioend. This allows
-filesystem to add verification of completed BIOs. One of such tasks
-is verification against fs-verity tree when pages were read. iomap
-allows using custom bio_set with submit_bio() to add ioend
-processing. The xfs_prepare_read_ioend() configures bio->bi_end_io
-which places verification task in the workqueue. The task does
-fs-verity verification and then call back to the iomap to finish IO.
-
-This patch adds callouts implementation to verify pages with
-fs-verity. Also implements folio operation .verify_folio for direct
-folio verification by fs-verity.
+Add fs-verity ioctls to enable, dump metadata (descriptor and Merkle
+tree pages) and obtain file's digest.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
 ---
- fs/xfs/xfs_aops.c  | 84 ++++++++++++++++++++++++++++++++++++++++++++--
- fs/xfs/xfs_aops.h  |  2 ++
- fs/xfs/xfs_linux.h |  1 +
- fs/xfs/xfs_super.c |  9 ++++-
- 4 files changed, 93 insertions(+), 3 deletions(-)
+ fs/xfs/xfs_ioctl.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-index b413a2dbcc18..fceb0c3de61f 100644
---- a/fs/xfs/xfs_aops.c
-+++ b/fs/xfs/xfs_aops.c
-@@ -26,6 +26,8 @@ struct xfs_writepage_ctx {
- 	unsigned int		cow_seq;
- };
- 
-+static struct bio_set xfs_read_ioend_bioset;
-+
- static inline struct xfs_writepage_ctx *
- XFS_WPC(struct iomap_writepage_ctx *ctx)
- {
-@@ -548,19 +550,97 @@ xfs_vm_bmap(
- 	return iomap_bmap(mapping, block, &xfs_read_iomap_ops);
- }
- 
-+static void
-+xfs_read_work_end_io(
-+	struct work_struct *work)
-+{
-+	struct iomap_read_ioend *ioend =
-+		container_of(work, struct iomap_read_ioend, work);
-+	struct bio *bio = &ioend->read_inline_bio;
-+
-+	fsverity_verify_bio(bio);
-+	iomap_read_end_io(bio);
-+	/*
-+	 * The iomap_read_ioend has been freed by bio_put() in
-+	 * iomap_read_end_io()
-+	 */
-+}
-+
-+static void
-+xfs_read_end_io(
-+	struct bio *bio)
-+{
-+	struct iomap_read_ioend *ioend =
-+		container_of(bio, struct iomap_read_ioend, read_inline_bio);
-+	struct xfs_inode	*ip = XFS_I(ioend->io_inode);
-+
-+	WARN_ON_ONCE(!queue_work(ip->i_mount->m_postread_workqueue,
-+					&ioend->work));
-+}
-+
-+static int
-+xfs_verify_folio(
-+	struct folio	*folio,
-+	loff_t		pos,
-+	unsigned int	len)
-+{
-+	if (fsverity_verify_blocks(folio, len, pos))
-+		return 0;
-+	return -EFSCORRUPTED;
-+}
-+
-+int
-+xfs_init_iomap_bioset(void)
-+{
-+	return bioset_init(&xfs_read_ioend_bioset,
-+			   4 * (PAGE_SIZE / SECTOR_SIZE),
-+			   offsetof(struct iomap_read_ioend, read_inline_bio),
-+			   BIOSET_NEED_BVECS);
-+}
-+
-+void
-+xfs_free_iomap_bioset(void)
-+{
-+	bioset_exit(&xfs_read_ioend_bioset);
-+}
-+
-+static void
-+xfs_submit_read_bio(
-+	const struct iomap_iter *iter,
-+	struct bio *bio,
-+	loff_t file_offset)
-+{
-+	struct iomap_read_ioend *ioend;
-+
-+	ioend = container_of(bio, struct iomap_read_ioend, read_inline_bio);
-+	ioend->io_inode = iter->inode;
-+	if (fsverity_active(ioend->io_inode)) {
-+		INIT_WORK(&ioend->work, &xfs_read_work_end_io);
-+		ioend->read_inline_bio.bi_end_io = &xfs_read_end_io;
-+	}
-+
-+	submit_bio(bio);
-+}
-+
-+static const struct iomap_readpage_ops xfs_readpage_ops = {
-+	.verify_folio		= &xfs_verify_folio,
-+	.submit_io		= &xfs_submit_read_bio,
-+	.bio_set		= &xfs_read_ioend_bioset,
-+};
-+
- STATIC int
- xfs_vm_read_folio(
- 	struct file		*unused,
- 	struct folio		*folio)
- {
--	return iomap_read_folio(folio, &xfs_read_iomap_ops, NULL);
-+	return iomap_read_folio(folio, &xfs_read_iomap_ops, &xfs_readpage_ops);
- }
- 
- STATIC void
- xfs_vm_readahead(
- 	struct readahead_control	*rac)
- {
--	iomap_readahead(rac, &xfs_read_iomap_ops, NULL);
-+	iomap_readahead(rac, &xfs_read_iomap_ops, &xfs_readpage_ops);
- }
- 
- static int
-diff --git a/fs/xfs/xfs_aops.h b/fs/xfs/xfs_aops.h
-index e0bd68419764..fa7c512b2717 100644
---- a/fs/xfs/xfs_aops.h
-+++ b/fs/xfs/xfs_aops.h
-@@ -10,5 +10,7 @@ extern const struct address_space_operations xfs_address_space_operations;
- extern const struct address_space_operations xfs_dax_aops;
- 
- int	xfs_setfilesize(struct xfs_inode *ip, xfs_off_t offset, size_t size);
-+int	xfs_init_iomap_bioset(void);
-+void	xfs_free_iomap_bioset(void);
- 
- #endif /* __XFS_AOPS_H__ */
-diff --git a/fs/xfs/xfs_linux.h b/fs/xfs/xfs_linux.h
-index e9d317a3dafe..ee213c6dfcaf 100644
---- a/fs/xfs/xfs_linux.h
-+++ b/fs/xfs/xfs_linux.h
-@@ -64,6 +64,7 @@ typedef __u32			xfs_nlink_t;
- #include <linux/xattr.h>
- #include <linux/mnt_idmapping.h>
- #include <linux/debugfs.h>
+diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+index 3d6d680b6cf3..ffa04f0aed4a 100644
+--- a/fs/xfs/xfs_ioctl.c
++++ b/fs/xfs/xfs_ioctl.c
+@@ -42,6 +42,7 @@
+ #include <linux/mount.h>
+ #include <linux/namei.h>
+ #include <linux/fileattr.h>
 +#include <linux/fsverity.h>
  
- #include <asm/page.h>
- #include <asm/div64.h>
-diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index 5e1ec5978176..3cdb642961f4 100644
---- a/fs/xfs/xfs_super.c
-+++ b/fs/xfs/xfs_super.c
-@@ -2375,11 +2375,17 @@ init_xfs_fs(void)
- 	if (error)
- 		goto out_remove_dbg_kobj;
+ /*
+  * xfs_find_handle maps from userspace xfs_fsop_handlereq structure to
+@@ -2154,6 +2155,22 @@ xfs_file_ioctl(
+ 		return error;
+ 	}
  
--	error = register_filesystem(&xfs_fs_type);
-+	error = xfs_init_iomap_bioset();
- 	if (error)
- 		goto out_qm_exit;
++	case FS_IOC_ENABLE_VERITY:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_enable(filp, (const void __user *)arg);
 +
-+	error = register_filesystem(&xfs_fs_type);
-+	if (error)
-+		goto out_iomap_bioset;
- 	return 0;
- 
-+ out_iomap_bioset:
-+	xfs_free_iomap_bioset();
-  out_qm_exit:
- 	xfs_qm_exit();
-  out_remove_dbg_kobj:
-@@ -2412,6 +2418,7 @@ init_xfs_fs(void)
- STATIC void __exit
- exit_xfs_fs(void)
- {
-+	xfs_free_iomap_bioset();
- 	xfs_qm_exit();
- 	unregister_filesystem(&xfs_fs_type);
- #ifdef DEBUG
++	case FS_IOC_MEASURE_VERITY:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_measure(filp, (void __user *)arg);
++
++	case FS_IOC_READ_VERITY_METADATA:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_read_metadata(filp,
++						    (const void __user *)arg);
++
+ 	default:
+ 		return -ENOTTY;
+ 	}
 -- 
 2.40.1
 
