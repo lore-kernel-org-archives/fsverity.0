@@ -1,147 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153A0EA6;
-	Fri, 13 Oct 2023 03:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cm8OSBhz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E13C433C8;
-	Fri, 13 Oct 2023 03:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697166730;
-	bh=NYHI34uOZW76WOHd3rPCVjTdBM893fhqz6wst0gmhdg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cm8OSBhzNy2O8iproEg02gP1ZCrhhtALvbD5HsU056LgPHKrtaUqknpifaMnelL9q
-	 2TwwYIvrxlo57G4x8QKhW4KNTwcLk2+SprfASeebo9BBx5L9hzZdrnpCuiynVYWGM9
-	 1RbHpayuQ+gRV2yl9yDPSrhsJkYV6pHHhxZCQKR83gEH8yo3oxncoMlNhnqVFCp9my
-	 vlVBOng5/Oqc6+eca0fRXopdbozveiZ1kCUziYr2IZ50BwhnF0Nay2wbL/CKZFSGOI
-	 UOHh3xpUxWbodZCGSNXHXY1fhiocPDQDPXuh/jmipEGfw7v33dED7xPfZCEA3D1v3F
-	 EDx9cdjAsfW3w==
-Date: Thu, 12 Oct 2023 20:12:09 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@redhat.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev,
-	david@fromorbit.com, dchinner@redhat.com
-Subject: Re: [PATCH v3 07/28] fsverity: always use bitmap to track verified
- status
-Message-ID: <20231013031209.GS21298@frogsfrogsfrogs>
-References: <20231006184922.252188-1-aalbersh@redhat.com>
- <20231006184922.252188-8-aalbersh@redhat.com>
- <20231011031543.GB1185@sol.localdomain>
- <q75t2etmyq2zjskkquikatp4yg7k2yoyt4oab4grhlg7yu4wyi@6eax4ysvavyk>
- <20231012072746.GA2100@sol.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE47723751
+	for <fsverity@lists.linux.dev>; Fri, 13 Oct 2023 18:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39DGthJx009156
+	for <fsverity@lists.linux.dev>; Fri, 13 Oct 2023 11:29:34 -0700
+Received: from maileast.thefacebook.com ([163.114.130.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3tq4q6c3ud-6
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <fsverity@lists.linux.dev>; Fri, 13 Oct 2023 11:29:34 -0700
+Received: from twshared29562.14.frc2.facebook.com (2620:10d:c0a8:1b::2d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 13 Oct 2023 11:29:31 -0700
+Received: by devbig932.frc1.facebook.com (Postfix, from userid 4523)
+	id 1EAEB25F40253; Fri, 13 Oct 2023 11:27:01 -0700 (PDT)
+From: Song Liu <song@kernel.org>
+To: <bpf@vger.kernel.org>, <fsverity@lists.linux.dev>
+CC: <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
+        <martin.lau@kernel.org>, <kernel-team@meta.com>, <ebiggers@kernel.org>,
+        <tytso@mit.edu>, <roberto.sassu@huaweicloud.com>,
+        Song Liu <song@kernel.org>
+Subject: [PATCH bpf-next 0/5] bpf: file verification with LSM and fsverity
+Date: Fri, 13 Oct 2023 11:26:39 -0700
+Message-ID: <20231013182644.2346458-1-song@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231012072746.GA2100@sol.localdomain>
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: EDbrec2ucuYp8F8hmca6wx2DI1oIGPgu
+X-Proofpoint-GUID: EDbrec2ucuYp8F8hmca6wx2DI1oIGPgu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-13_09,2023-10-12_01,2023-05-22_02
 
-Hi Eric,
+This set enables file verification with BPF LSM and fsverity.
 
-[Please excuse my ignorance, this is only the third time I've dived
-into fsverity.]
+In this solution, fsverity is used to provide reliable and efficient hash
+of files; and BPF LSM is used to implement signature verification (agains=
+t
+asymmetric keys), and to enforce access control.
 
-On Thu, Oct 12, 2023 at 12:27:46AM -0700, Eric Biggers wrote:
-> On Wed, Oct 11, 2023 at 03:03:55PM +0200, Andrey Albershteyn wrote:
-> > > How complicated would it be to keep supporting using the page bit when
-> > > merkle_tree_block_size == page_size and the filesystem supports it?  It's an
-> > > efficient solution, so it would be a shame to lose it.  Also it doesn't have the
-> > > max file size limit that the bitmap has.
+This solution can be used to implement access control in complicated case=
+s.
+For example: only signed python binary and signed python script and acces=
+s
+special files/devices/ports.
 
-How complex would it be to get rid of the bitmap entirely, and validate
-all the verity tree blocks within a page all at once instead of
-individual blocks within a page?
+Thanks,
+Song
 
-Assuming willy isn't grinding his axe to get rid of PGchecked,
-obviously. ;)
+Song Liu (5):
+  bpf: Add kfunc bpf_get_file_xattr
+  bpf, fsverity: Add kfunc bpf_get_fsverity_digest
+  selftests/bpf: Sort config in alphabetic order
+  selftests/bpf: Add tests for filesystem kfuncs
+  selftests/bpf: Add test that use fsverity and xattr to sign a file
 
-> > Well, I think it's possible but my motivation was to step away from
-> > page manipulation as much as possible with intent to not affect other
-> > filesystems too much. I can probably add handling of this case to
-> > fsverity_read_merkle_tree_block() but fs/verity still will create
-> > bitmap and have a limit. The other way is basically revert changes
-> > done in patch 09, then, it probably will be quite a mix of page/block
-> > handling in fs/verity/verify.c
-> 
-> The page-based caching still has to be supported anyway, since that's what the
-> other filesystems that support fsverity use, and it seems you don't plan to
-> change that.
+ fs/verity/measure.c                           |  66 +++++++
+ include/linux/bpf.h                           |  12 ++
+ kernel/trace/bpf_trace.c                      |  44 +++++
+ tools/testing/selftests/bpf/bpf_kfuncs.h      |  10 ++
+ tools/testing/selftests/bpf/config            |   3 +-
+ .../selftests/bpf/prog_tests/fs_kfuncs.c      | 132 ++++++++++++++
+ .../bpf/prog_tests/verify_pkcs7_sig.c         | 163 +++++++++++++++++-
+ .../selftests/bpf/progs/test_fsverity.c       |  46 +++++
+ .../selftests/bpf/progs/test_get_xattr.c      |  39 +++++
+ .../selftests/bpf/progs/test_sig_in_xattr.c   |  84 +++++++++
+ .../bpf/progs/test_verify_pkcs7_sig.c         |   8 +-
+ .../testing/selftests/bpf/verify_sig_setup.sh |  25 +++
+ 12 files changed, 623 insertions(+), 9 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/fs_kfuncs.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_fsverity.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_get_xattr.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_sig_in_xattr.c
 
-I frankly have been asking myself why /this/ patchset adds so much extra
-code and flags and whatnot to XFS and fs/verity.  From what I can tell,
-the xfs buffer cache has been extended to allocate double the memory so
-that xattr contents can be shadowed.  getxattr for merkle tree contents
-then pins the buffer, shadows the contents, and hands both back to the
-caller (aka xfs_read_merkle_tree_block).   The shadow memory is then
-handed to fs/verity to do its magic; following that, fsverity releases
-the reference and we can eventually drop the xfs_buf reference.
-
-But this seems way overcomplicated to me.  ->read_merkle_tree_page hands
-us a pgoff_t and a suggestion for page readahead, and wants us to return
-an uptodate locked page, right?
-
-Why can't xfs allocate a page, walk the requested range to fill the page
-with merkle tree blocks that were written to the xattr structure (or
-zero the page contents if there is no xattr), and hand that page to
-fsverity?  (It helps to provide the merkle tree block size to
-xfs_read_merkle_tree_page, thanks for adding that).
-
-Assuming fsverity also wants some caching, we could augment the
-xfs_inode to point to a separate address_space for cached merkle tree
-pages, and then xfs_read_merkle_tree_page can use __filemap_get_folio to
-find uptodate cached pages, or instantiate one and make it uptodate.
-Even better, we can pretty easily use multipage folios for this, though
-AFAICT the fs/verity code isn't yet up to handling that.
-
-The only thing I can't quite figure out is how to get memory reclaim to
-scan the extra address_space when it wants to try to reclaim pages.
-That part ext4 and f2fs got for free because they stuffed the merkle
-tree in the posteof space.
-
-But wouldn't that solve /all/ the plumbing problems without scattering
-bits of new code and flags into the xfs buffer cache, the extended
-attributes code, and elsewhere?  And then xfs would not need to burn up
-vmap space to allocate 8K memory blocks just to provide 4k merkel tree
-blocks to fs/verity.
-
-That's just my 2 cents from spending a couple of hours hypothesizing how
-I would fill out the fsverity_operations.
-
-> The question is where the "block verified" flags should be stored.
-> Currently there are two options: PG_checked and the separate bitmap.  I'm not
-> yet convinced that removing the support for the PG_checked method is a good
-> change.  PG_checked is a nice solution for the cases where it can be used; it
-> requires no extra memory, no locking, and has no max file size.  Also, this
-> change seems mostly orthogonal to what you're actually trying to accomplish.
-
-That scheme sounds way better to me than the bitmap. ;)
-
---D
-
-> > > > Also, this patch removes spinlock. The lock was used to reset bits
-> > > > in bitmap belonging to one page. This patch works only with one
-> > > > Merkle tree block and won't reset other blocks status.
-> > > 
-> > > The spinlock is needed when there are multiple Merkle tree blocks per page and
-> > > the filesystem is using the page-based caching.  So I don't think you can remove
-> > > it.  Can you elaborate on why you feel it can be removed?
-> > 
-> > With this patch is_hash_block_verified() doesn't reset bits for
-> > blocks belonging to the same page. Even if page is re-instantiated
-> > only one block is checked in this case. So, when other blocks are
-> > checked they are reset.
-> > 
-> > 	if (block_cached)
-> > 		return test_bit(hblock_idx, vi->hash_block_verified);
-> 
-> When part of the Merkle tree cache is evicted and re-instantiated, whether that
-> part is a "page" or something else, the verified status of all the blocks
-> contained in that part need to be invalidated so that they get re-verified.  The
-> existing code does that.  I don't see how your proposed code does that.
-> 
-> - Eric
+--
+2.34.1
