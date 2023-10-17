@@ -1,186 +1,125 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5849CA47
-	for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 18:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC19EBE
+	for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 19:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQxPtYOr"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5079eed8bfbso5569856e87.1
-        for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 11:58:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dPwuXcwJ"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32d9b507b00so4009031f8f.1
+        for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 12:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697569123; x=1698173923; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697569711; x=1698174511; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YcSCete3RhbZYHvD2wFvMNaSSxKHdQNRC4K1hU+Bvpw=;
-        b=SQxPtYOrVSGvSAwVKpcxAeCtGVtEj++10QceYy6JUm8CDypgK7IG0WgTcQy9YbRhqo
-         Ynp75C2CnztsQ48pYaAzaQl1lEPyIis6YHBxmGQirZfLkrc1ZJq8EeJmZ8O6glGyvlcx
-         fVCeQifUomcbMZ+UHpckBvyDM+henTSJWcmE/N6FFA2HXvLbAXDmZR9Z1SzxdoV497Xn
-         hy4aaBhkMIJKryZU9VqomxXA7FbXR3/SJNNlPzidet7W0cRh5uRpaHeiY3fCmXBZYvA5
-         kyrQE8EJxOjk+xq2opdWjnfQmt4QP5VPMxB73pA3J7eA/3OtZx8b9GBgEHB2Q/H6UFWu
-         gnrQ==
+        bh=ZUrM/usGu4HOCVcsQ2mLRiy1RX8lnnPjKL1N16nu/qY=;
+        b=dPwuXcwJKbQdTzKpKvhMYN9x9bCilyYM8JeCDdpBKiJYB042LJ9jpmSf1POMS7EPvu
+         VKsxKX8zipdS29kfdm9MrsvKjS4tahzeRs7FNA8OZVgcYAmsvao2HzScsluT12b+HKHM
+         DjUx49tA6cCytzndNQrdlwdGV2ex71barD/4uB839MBm2LnU5RIKGtcACtFwX6KYxFjn
+         wWcqveAeU2Iolk6OV2I16ACOGe4z9gl33FYva4LQx05D9E5BaeZcIIKyK80GvJ9OAIWT
+         hAyoRjWbqhW2PwJrfZwu+lmzwfkBHlGWSeHu5JtdjRlVtW+SqcBBLUCYgs0DFSGmqJZv
+         X6XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697569123; x=1698173923;
+        d=1e100.net; s=20230601; t=1697569711; x=1698174511;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YcSCete3RhbZYHvD2wFvMNaSSxKHdQNRC4K1hU+Bvpw=;
-        b=XBQ+gWqLgw5ZePZD3/uC/yaLg2hXBbRAKRILRbhp90i6PkvaBkdCn+Xg9g9/2tYSnC
-         rEKwa665XhVG59D+/98SdNKbLbB1eSLOLta9mx16XueGg4kGdlUvazJV4VGZWCgcyX4M
-         7PMJtg/BlCY+VYpg9pvZA0IBSFL+kzJwnpTOQtvu6B8130MeB4DOEsrecmMmmds1tD+y
-         DvAEyseDsAq54W2HeIfVQOB15EcsL+DmpSITgZpFdWD2rk9UK8si58Xlh4a31vKcyxGH
-         aUKV5bCIb4dE9FTDsTQvFYUEXbBv+iTlUfSr3fCoZIzjcyP2e/FJJqToaOlihyCN13yB
-         XYvA==
-X-Gm-Message-State: AOJu0YxCcWgrszsStyakfMg6Sa/r/vSE8htq3l4y0wntxQtHAB17H4/s
-	1XaV+odFXVyNSOAtCspGNiGEGd9RjdAQRzVhc4xdGX62
-X-Google-Smtp-Source: AGHT+IEDkcsQ/iUsfpI1fK31VO/CRI+hnBngDdQ9zQYTdmLRo73mcBmeP9k3EdydsDmNOr0NINHSCPN1/k1czkG0Jv4=
-X-Received: by 2002:a19:7506:0:b0:503:3680:6726 with SMTP id
- y6-20020a197506000000b0050336806726mr2260835lfe.6.1697569122925; Tue, 17 Oct
- 2023 11:58:42 -0700 (PDT)
+        bh=ZUrM/usGu4HOCVcsQ2mLRiy1RX8lnnPjKL1N16nu/qY=;
+        b=DGiF2ujSYBUb4SDEkUHpG/pUqfg31AiNXPKF7ILzHiX3f+G15M3o3zvKLaUnfytzZ7
+         B2vIdAftRZVfE2j2XeJQaxQeD8UaXy7/fw/Ws2EtXIfC4dj3LWabivroM7E5H1v+TMK6
+         kgRlv31/QuVwRyV6FqQVnLsKp+dpHEODqbho1Br5WWLL/TBuE/hOc3YOOuxwuVxBE2Ei
+         45N5V6i7V/1Dtp34gGwtP3jFgJkI3u9Hlsu8o//Wi0zNJ1E14OUJLH8+z72A7ok3aaQf
+         Yfk2tnWvylwKNubkz684kvpKL3dvsHYpyHzuUVRb1Jpoysk2DBM9eRBEsSQDD7tliGvx
+         6h5A==
+X-Gm-Message-State: AOJu0YyNxFP8h1OM7nA7B50JAXR+qVSWdqRMXDY09XA/iQRLWHBLeE6t
+	/so7WQkbs4e38MTNSagUKQ9lH4sTTT5sUjJnU9M=
+X-Google-Smtp-Source: AGHT+IE9M3SEfRDyt0OfJhXlaNkLhtVKKI7gDp+yX9RGs1+JLKM9bAnGrCz/BwjW53iKyDGA6hHLqa3+uMhmIciVs6g=
+X-Received: by 2002:a5d:6ad0:0:b0:32d:b9c5:82fc with SMTP id
+ u16-20020a5d6ad0000000b0032db9c582fcmr2800191wrw.36.1697569710521; Tue, 17
+ Oct 2023 12:08:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231013182644.2346458-1-song@kernel.org> <20231013182644.2346458-2-song@kernel.org>
-In-Reply-To: <20231013182644.2346458-2-song@kernel.org>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Tue, 17 Oct 2023 11:58:31 -0700
-Message-ID: <CAEf4BzYbQzMU4T6KYt4UudXvZiPg4nQdQCxD9zqzoJLgqOE9bQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/5] bpf: Add kfunc bpf_get_file_xattr
+References: <20231013182644.2346458-1-song@kernel.org> <20231013182644.2346458-6-song@kernel.org>
+In-Reply-To: <20231013182644.2346458-6-song@kernel.org>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 17 Oct 2023 12:08:19 -0700
+Message-ID: <CAADnVQK6_RNn3Bt=BKLecNrwS4pi2JOMq-h9O5qnE6EJhpitXw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 5/5] selftests/bpf: Add test that use fsverity
+ and xattr to sign a file
 To: Song Liu <song@kernel.org>
-Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org, 
-	kernel-team@meta.com, ebiggers@kernel.org, tytso@mit.edu, 
-	roberto.sassu@huaweicloud.com
+Cc: bpf <bpf@vger.kernel.org>, fsverity@lists.linux.dev, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@kernel.org>, 
+	Kernel Team <kernel-team@meta.com>, Eric Biggers <ebiggers@kernel.org>, 
+	"Theodore Ts'o" <tytso@mit.edu>, Roberto Sassu <roberto.sassu@huaweicloud.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, Oct 13, 2023 at 11:29=E2=80=AFAM Song Liu <song@kernel.org> wrote:
 >
-> This kfunc can be used to read xattr of a file.
->
-> Since vfs_getxattr() requires null-terminated string as input "name", a n=
-ew
-> helper bpf_dynptr_is_string() is added to check the input before calling
-> vfs_getxattr().
->
-> Signed-off-by: Song Liu <song@kernel.org>
-> ---
->  include/linux/bpf.h      | 12 +++++++++++
->  kernel/trace/bpf_trace.c | 44 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 56 insertions(+)
->
-> diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-> index 61bde4520f5c..f14fae45e13d 100644
-> --- a/include/linux/bpf.h
-> +++ b/include/linux/bpf.h
-> @@ -2472,6 +2472,13 @@ static inline bool has_current_bpf_ctx(void)
->         return !!current->bpf_ctx;
->  }
->
-> +static inline bool bpf_dynptr_is_string(struct bpf_dynptr_kern *ptr)
-
-is_zero_terminated would be more accurate? though there is nothing
-really dynptr-specific here...
-
+> +#define MAGIC_SIZE 8
+> +char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_=
+SIZE];
+> +
+> +__u32 monitored_pid;
+> +char xattr_name[] =3D "user.sig";
+> +char sig[MAX_SIG_SIZE];
+> +__u32 sig_size;
+> +__u32 user_keyring_serial;
+> +
+> +SEC("lsm.s/file_open")
+> +int BPF_PROG(test_file_open, struct file *f)
 > +{
-> +       char *str =3D ptr->data;
+> +       struct bpf_dynptr digest_ptr, sig_ptr, name_ptr;
+> +       struct bpf_key *trusted_keyring;
+> +       __u32 pid;
+> +       int ret;
 > +
-> +       return str[__bpf_dynptr_size(ptr) - 1] =3D=3D '\0';
+> +       pid =3D bpf_get_current_pid_tgid() >> 32;
+> +       if (pid !=3D monitored_pid)
+> +               return 0;
+> +
+> +       /* digest_ptr points to fsverity_digest */
+> +       bpf_dynptr_from_mem(digest + MAGIC_SIZE, sizeof(digest) - MAGIC_S=
+IZE, 0, &digest_ptr);
+> +
+> +       ret =3D bpf_get_fsverity_digest(f, &digest_ptr);
+> +       /* No verity, allow access */
+> +       if (ret < 0)
+> +               return 0;
+> +
+> +       /* Move digest_ptr to fsverity_formatted_digest */
+> +       bpf_dynptr_from_mem(digest, sizeof(digest), 0, &digest_ptr);
+> +
+> +       /* Read signature from xattr */
+> +       bpf_dynptr_from_mem(sig, sizeof(sig), 0, &sig_ptr);
+> +       bpf_dynptr_from_mem(xattr_name, sizeof(xattr_name), 0, &name_ptr)=
+;
+> +       ret =3D bpf_get_file_xattr(f, &name_ptr, &sig_ptr);
+> +       /* No signature, reject access */
+> +       if (ret < 0)
+> +               return -EPERM;
+> +
+> +       trusted_keyring =3D bpf_lookup_user_key(user_keyring_serial, 0);
+> +       if (!trusted_keyring)
+> +               return -ENOENT;
+> +
+> +       /* Verify signature */
+> +       ret =3D bpf_verify_pkcs7_signature(&digest_ptr, &sig_ptr, trusted=
+_keyring);
+> +
+> +       bpf_key_put(trusted_keyring);
+> +       return ret;
 > +}
-> +
->  void notrace bpf_prog_inc_misses_counter(struct bpf_prog *prog);
->
->  void bpf_dynptr_init(struct bpf_dynptr_kern *ptr, void *data,
-> @@ -2708,6 +2715,11 @@ static inline bool has_current_bpf_ctx(void)
->         return false;
->  }
->
-> +static inline bool bpf_dynptr_is_string(struct bpf_dynptr_kern *ptr)
-> +{
-> +       return false;
-> +}
-> +
->  static inline void bpf_prog_inc_misses_counter(struct bpf_prog *prog)
->  {
->  }
-> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-> index df697c74d519..946268574e05 100644
-> --- a/kernel/trace/bpf_trace.c
-> +++ b/kernel/trace/bpf_trace.c
-> @@ -24,6 +24,7 @@
->  #include <linux/key.h>
->  #include <linux/verification.h>
->  #include <linux/namei.h>
-> +#include <linux/fileattr.h>
->
->  #include <net/bpf_sk_storage.h>
->
-> @@ -1429,6 +1430,49 @@ static int __init bpf_key_sig_kfuncs_init(void)
->  late_initcall(bpf_key_sig_kfuncs_init);
->  #endif /* CONFIG_KEYS */
->
-> +/* filesystem kfuncs */
-> +__diag_push();
-> +__diag_ignore_all("-Wmissing-prototypes",
-> +                 "kfuncs which will be used in BPF programs");
-> +
-> +/**
-> + * bpf_get_file_xattr - get xattr of a file
-> + * @name_ptr: name of the xattr
-> + * @value_ptr: output buffer of the xattr value
-> + *
-> + * Get xattr *name_ptr* of *file* and store the output in *value_ptr*.
-> + *
-> + * Return: 0 on success, a negative value on error.
-> + */
-> +__bpf_kfunc int bpf_get_file_xattr(struct file *file, struct bpf_dynptr_=
-kern *name_ptr,
-> +                                  struct bpf_dynptr_kern *value_ptr)
-> +{
-> +       if (!bpf_dynptr_is_string(name_ptr))
-> +               return -EINVAL;
 
-so dynptr can be invalid and name_ptr->data will be NULL, you should
-account for that
-
-and there could also be special dynptrs that don't have contiguous
-memory region, so somehow you'd need to take care of that as well
-
-> +
-> +       return vfs_getxattr(mnt_idmap(file->f_path.mnt), file_dentry(file=
-), name_ptr->data,
-> +                           value_ptr->data, __bpf_dynptr_size(value_ptr)=
-);
-> +}
-> +
-> +__diag_pop();
-> +
-> +BTF_SET8_START(fs_kfunc_set)
-> +BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
-> +BTF_SET8_END(fs_kfunc_set)
-> +
-> +const struct btf_kfunc_id_set bpf_fs_kfunc_set =3D {
-> +       .owner =3D THIS_MODULE,
-> +       .set =3D &fs_kfunc_set,
-> +};
-> +
-> +static int __init bpf_fs_kfuncs_init(void)
-> +{
-> +       return register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING,
-> +                                        &bpf_fs_kfunc_set);
-> +}
-> +
-> +late_initcall(bpf_fs_kfuncs_init);
-> +
->  static const struct bpf_func_proto *
->  bpf_tracing_func_proto(enum bpf_func_id func_id, const struct bpf_prog *=
-prog)
->  {
-> --
-> 2.34.1
->
+I think the UX is cumbersome.
+Putting a NULL terminated string into dynptr not only a source
+code ugliness, but it adds run-time overhead too.
+We better add proper C style string support in the verifier,
+so that bpf_get_file_xattr() can look like normal C.
