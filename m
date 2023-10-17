@@ -1,58 +1,57 @@
 Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC19EBE
-	for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 19:08:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E62EBE
+	for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 19:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dPwuXcwJ"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32d9b507b00so4009031f8f.1
-        for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 12:08:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mV2+fNSx"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-317c3ac7339so5305045f8f.0
+        for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 12:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697569711; x=1698174511; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1697569867; x=1698174667; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZUrM/usGu4HOCVcsQ2mLRiy1RX8lnnPjKL1N16nu/qY=;
-        b=dPwuXcwJKbQdTzKpKvhMYN9x9bCilyYM8JeCDdpBKiJYB042LJ9jpmSf1POMS7EPvu
-         VKsxKX8zipdS29kfdm9MrsvKjS4tahzeRs7FNA8OZVgcYAmsvao2HzScsluT12b+HKHM
-         DjUx49tA6cCytzndNQrdlwdGV2ex71barD/4uB839MBm2LnU5RIKGtcACtFwX6KYxFjn
-         wWcqveAeU2Iolk6OV2I16ACOGe4z9gl33FYva4LQx05D9E5BaeZcIIKyK80GvJ9OAIWT
-         hAyoRjWbqhW2PwJrfZwu+lmzwfkBHlGWSeHu5JtdjRlVtW+SqcBBLUCYgs0DFSGmqJZv
-         X6XA==
+        bh=sDvAFyKusjYaaaVBW3+d3CTDtEmXV52SJOeZ4ehAiVY=;
+        b=mV2+fNSxVYdeSECcLOp667DlMItITrLAWG9+Bkp6ptNHH07xyTkseBOYQFqULdWQTW
+         XgaCddkygaagaF1enIGY2ooSXUdEQKA6tLhJKtn3pGcj0UVOx/Y1vSBCyL6QMmHleiJL
+         CVYzkFNnss58wB5fEM2I7nmRX0PLS5RB3L3Ps//5zBFmrCWlu+4R6SIVz1Dpi5UMfgww
+         FKU+Y7J37dqYTBZP7LBnPK7vhatnMXOj7FZLU5ATyZktXRBFWU7MeV9EkI/7BfWLepL2
+         xdGbbeUUAw2OFLzMprxPYhM4p3EPknd2o8Wd5RHiBPg1oMS93r0+/t5ECAKccgvcnr2g
+         6aMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697569711; x=1698174511;
+        d=1e100.net; s=20230601; t=1697569867; x=1698174667;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZUrM/usGu4HOCVcsQ2mLRiy1RX8lnnPjKL1N16nu/qY=;
-        b=DGiF2ujSYBUb4SDEkUHpG/pUqfg31AiNXPKF7ILzHiX3f+G15M3o3zvKLaUnfytzZ7
-         B2vIdAftRZVfE2j2XeJQaxQeD8UaXy7/fw/Ws2EtXIfC4dj3LWabivroM7E5H1v+TMK6
-         kgRlv31/QuVwRyV6FqQVnLsKp+dpHEODqbho1Br5WWLL/TBuE/hOc3YOOuxwuVxBE2Ei
-         45N5V6i7V/1Dtp34gGwtP3jFgJkI3u9Hlsu8o//Wi0zNJ1E14OUJLH8+z72A7ok3aaQf
-         Yfk2tnWvylwKNubkz684kvpKL3dvsHYpyHzuUVRb1Jpoysk2DBM9eRBEsSQDD7tliGvx
-         6h5A==
-X-Gm-Message-State: AOJu0YyNxFP8h1OM7nA7B50JAXR+qVSWdqRMXDY09XA/iQRLWHBLeE6t
-	/so7WQkbs4e38MTNSagUKQ9lH4sTTT5sUjJnU9M=
-X-Google-Smtp-Source: AGHT+IE9M3SEfRDyt0OfJhXlaNkLhtVKKI7gDp+yX9RGs1+JLKM9bAnGrCz/BwjW53iKyDGA6hHLqa3+uMhmIciVs6g=
-X-Received: by 2002:a5d:6ad0:0:b0:32d:b9c5:82fc with SMTP id
- u16-20020a5d6ad0000000b0032db9c582fcmr2800191wrw.36.1697569710521; Tue, 17
- Oct 2023 12:08:30 -0700 (PDT)
+        bh=sDvAFyKusjYaaaVBW3+d3CTDtEmXV52SJOeZ4ehAiVY=;
+        b=F3xtmyW72HSBDz3ffd9MsFgEdZIcm7SRR3jNijcg3VOuwgefj6vTtjM/eKHK2IpN4s
+         h75frchqTtxCVw/d4k6CWZdcLpomo8II1H2GbXwTfmaNnZKgKEOfb1EH1WrSxIRgojig
+         Ti1IjzuB1AVP4ojjs9sUa+fMAew9d0Nba3p7uqHAAxD/hetugwZZyACVcAXzJOioNZMV
+         pw9ioAAU7eI8iDCzHnWGlsMyT/vjHkdcwb2ZItHon2Se6XWtewcdEw4IurEeDpf2H7GB
+         FveQznbzkXYJ8vw1+s5pXcGRPaVgBJkJWtZN3BCuukDJl7cqeMkJscmR6zVCpcD/THl4
+         j3gw==
+X-Gm-Message-State: AOJu0YzcfH4xES4KEEl1SRCcKAd3SGIoRsZLN7rjtXrGy6pYMFLrZVCG
+	Xp6POXl2rMyZeBd4A6hW6+T3d/T5W6PTy3oNWew=
+X-Google-Smtp-Source: AGHT+IFTswGL7KEaRVV6S0ufVLT5CxSMmXDZSBKHyFjVMcpvS3n2YhqOrw7MJABLIZBfGAvxtVrpvmFPYoM6Q/a4ryY=
+X-Received: by 2002:a5d:4e0c:0:b0:32d:9a1b:5d80 with SMTP id
+ p12-20020a5d4e0c000000b0032d9a1b5d80mr2503784wrt.35.1697569867506; Tue, 17
+ Oct 2023 12:11:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231013182644.2346458-1-song@kernel.org> <20231013182644.2346458-6-song@kernel.org>
-In-Reply-To: <20231013182644.2346458-6-song@kernel.org>
+References: <20231013182644.2346458-1-song@kernel.org> <20231013182644.2346458-2-song@kernel.org>
+In-Reply-To: <20231013182644.2346458-2-song@kernel.org>
 From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 17 Oct 2023 12:08:19 -0700
-Message-ID: <CAADnVQK6_RNn3Bt=BKLecNrwS4pi2JOMq-h9O5qnE6EJhpitXw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 5/5] selftests/bpf: Add test that use fsverity
- and xattr to sign a file
-To: Song Liu <song@kernel.org>
+Date: Tue, 17 Oct 2023 12:10:56 -0700
+Message-ID: <CAADnVQLcrxLatupH=i2Q-K8KRF72PqB8wayC=UEKvuMMn3ie7A@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/5] bpf: Add kfunc bpf_get_file_xattr
+To: Song Liu <song@kernel.org>, KP Singh <kpsingh@kernel.org>
 Cc: bpf <bpf@vger.kernel.org>, fsverity@lists.linux.dev, 
 	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
 	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@kernel.org>, 
@@ -61,65 +60,29 @@ Cc: bpf <bpf@vger.kernel.org>, fsverity@lists.linux.dev,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 13, 2023 at 11:29=E2=80=AFAM Song Liu <song@kernel.org> wrote:
->
-> +#define MAGIC_SIZE 8
-> +char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_=
-SIZE];
-> +
-> +__u32 monitored_pid;
-> +char xattr_name[] =3D "user.sig";
-> +char sig[MAX_SIG_SIZE];
-> +__u32 sig_size;
-> +__u32 user_keyring_serial;
-> +
-> +SEC("lsm.s/file_open")
-> +int BPF_PROG(test_file_open, struct file *f)
+On Fri, Oct 13, 2023 at 11:30=E2=80=AFAM Song Liu <song@kernel.org> wrote:
+> +__bpf_kfunc int bpf_get_file_xattr(struct file *file, struct bpf_dynptr_=
+kern *name_ptr,
+> +                                  struct bpf_dynptr_kern *value_ptr)
 > +{
-> +       struct bpf_dynptr digest_ptr, sig_ptr, name_ptr;
-> +       struct bpf_key *trusted_keyring;
-> +       __u32 pid;
-> +       int ret;
+> +       if (!bpf_dynptr_is_string(name_ptr))
+> +               return -EINVAL;
 > +
-> +       pid =3D bpf_get_current_pid_tgid() >> 32;
-> +       if (pid !=3D monitored_pid)
-> +               return 0;
-> +
-> +       /* digest_ptr points to fsverity_digest */
-> +       bpf_dynptr_from_mem(digest + MAGIC_SIZE, sizeof(digest) - MAGIC_S=
-IZE, 0, &digest_ptr);
-> +
-> +       ret =3D bpf_get_fsverity_digest(f, &digest_ptr);
-> +       /* No verity, allow access */
-> +       if (ret < 0)
-> +               return 0;
-> +
-> +       /* Move digest_ptr to fsverity_formatted_digest */
-> +       bpf_dynptr_from_mem(digest, sizeof(digest), 0, &digest_ptr);
-> +
-> +       /* Read signature from xattr */
-> +       bpf_dynptr_from_mem(sig, sizeof(sig), 0, &sig_ptr);
-> +       bpf_dynptr_from_mem(xattr_name, sizeof(xattr_name), 0, &name_ptr)=
-;
-> +       ret =3D bpf_get_file_xattr(f, &name_ptr, &sig_ptr);
-> +       /* No signature, reject access */
-> +       if (ret < 0)
-> +               return -EPERM;
-> +
-> +       trusted_keyring =3D bpf_lookup_user_key(user_keyring_serial, 0);
-> +       if (!trusted_keyring)
-> +               return -ENOENT;
-> +
-> +       /* Verify signature */
-> +       ret =3D bpf_verify_pkcs7_signature(&digest_ptr, &sig_ptr, trusted=
-_keyring);
-> +
-> +       bpf_key_put(trusted_keyring);
-> +       return ret;
+> +       return vfs_getxattr(mnt_idmap(file->f_path.mnt), file_dentry(file=
+), name_ptr->data,
+> +                           value_ptr->data, __bpf_dynptr_size(value_ptr)=
+);
 > +}
+> +
+> +__diag_pop();
+> +
+> +BTF_SET8_START(fs_kfunc_set)
+> +BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
 
-I think the UX is cumbersome.
-Putting a NULL terminated string into dynptr not only a source
-code ugliness, but it adds run-time overhead too.
-We better add proper C style string support in the verifier,
-so that bpf_get_file_xattr() can look like normal C.
+I suspect it needs to be allowlisted too.
+Sleepable might not be enough.
+
+KP proposed such kfunc in the past and there were recursion issues.
+
+KP,
+do you remember the details?
