@@ -1,75 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096E8BE58
-	for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 05:35:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CF27497;
+	Tue, 17 Oct 2023 05:46:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X0poQWVZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90610C433C8
-	for <fsverity@lists.linux.dev>; Tue, 17 Oct 2023 05:35:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z8pdVmYW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7894EC433C7;
+	Tue, 17 Oct 2023 05:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697520930;
-	bh=C1tokE0LRGEedDukFY72J8Rbpsi2aFNpgcICl03O/pA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=X0poQWVZahx11gvOjAAtQ976elcf8cGAUJ2wTkmro1BMrPVWj+v4ejhI7L7QZPHkb
-	 UNGefYpUmfmxSsCMPVF21xmjiEUDIzlYi/jzJrAETckYj98tagDzdnLTA+2adj1OdE
-	 IH4CElgbEGBaVqYuOryUtkh/VyBl2aQiHmap2MdEvOahba6c7ax0yxKNzjRm3CQEX+
-	 nKxmA4E5HtFmWUfGXg+DsM8cmKkzrbLHs8oiWREZBqy9jEf+HokXXLdJN5BRc5XuKp
-	 URwW7gfxm3XGVARKIOv49iXPkcahH1w0HAc0UcMFwzItC71LP51r8k3+B+shCVAGPE
-	 0/lALAPOrjGMA==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-507a772ed97so3143084e87.3
-        for <fsverity@lists.linux.dev>; Mon, 16 Oct 2023 22:35:30 -0700 (PDT)
-X-Gm-Message-State: AOJu0YycD+vBpQuhygIuB/S7B7phVNrx4sb2Z3TdH67XvrX2y0DuKWG4
-	r7KuzxIbW47858as/2ms857W1W0vdfW4DXhwruQ=
-X-Google-Smtp-Source: AGHT+IGO5kJQMyZJo8AOLh0R5+fANiUPYY7irO+xj8qtyak2MSHTxtatKn1Vjha+ESrI69V5ScixefNyCAc67TaiVmw=
-X-Received: by 2002:a05:6512:3195:b0:503:34b8:20b with SMTP id
- i21-20020a056512319500b0050334b8020bmr1328164lfe.65.1697520928765; Mon, 16
- Oct 2023 22:35:28 -0700 (PDT)
+	s=k20201202; t=1697521599;
+	bh=m5LpdaG4f66VMAb3UY3k5aiyDLslELQ/vGC63Fq37hA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z8pdVmYWVJVh5JxS0TFitm4TvGodej9NloolCvCPVhtnK4BRfk0t/l1VNqEc44fHS
+	 OXJkAqJ1k45PFpTnx323weVk01TSIm+c1jyXsbkMIFGXVhsOJvw557llAb3+SDQsHT
+	 jcb3H9T0YniVM6M/I9cOGNpXvHiT+GzEMWBHx2cd1wiu+1bTEJElV+yD+fatKP51ym
+	 JXu1YFGmPVcXTpLYNu54HG0s9YtK8Mqm2AMiwflltGACBY5Lg/ilifL484bufZWPmw
+	 BiKDvxd0wvcOlUn/Eq9kSAoXSULWClA46z5FoktvGC6my1wECyRNv38s4sW2XUwHjH
+	 hRk6GFRa70Ycw==
+Date: Mon, 16 Oct 2023 22:46:37 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Song Liu <song@kernel.org>
+Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org,
+	kernel-team@meta.com, tytso@mit.edu, roberto.sassu@huaweicloud.com
+Subject: Re: [PATCH bpf-next 2/5] bpf, fsverity: Add kfunc
+ bpf_get_fsverity_digest
+Message-ID: <20231017054637.GH1907@sol.localdomain>
+References: <20231013182644.2346458-1-song@kernel.org>
+ <20231013182644.2346458-3-song@kernel.org>
+ <20231015070714.GF10525@sol.localdomain>
+ <CAPhsuW42L6cfyxLR30kc1zSWQr8_JyxoUv1EuRVZpoAix3bm8A@mail.gmail.com>
+ <20231017031206.GA1907@sol.localdomain>
+ <CAPhsuW4u2GNL8BmEPPtYjc1KtP4Dx+wqtX1fc2eMPYB_6LmrRA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231013182644.2346458-1-song@kernel.org> <20231013182644.2346458-3-song@kernel.org>
- <20231015070714.GF10525@sol.localdomain> <CAPhsuW42L6cfyxLR30kc1zSWQr8_JyxoUv1EuRVZpoAix3bm8A@mail.gmail.com>
- <20231017031206.GA1907@sol.localdomain>
-In-Reply-To: <20231017031206.GA1907@sol.localdomain>
-From: Song Liu <song@kernel.org>
-Date: Mon, 16 Oct 2023 22:35:16 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW4u2GNL8BmEPPtYjc1KtP4Dx+wqtX1fc2eMPYB_6LmrRA@mail.gmail.com>
-Message-ID: <CAPhsuW4u2GNL8BmEPPtYjc1KtP4Dx+wqtX1fc2eMPYB_6LmrRA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 2/5] bpf, fsverity: Add kfunc bpf_get_fsverity_digest
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org, 
-	kernel-team@meta.com, tytso@mit.edu, roberto.sassu@huaweicloud.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPhsuW4u2GNL8BmEPPtYjc1KtP4Dx+wqtX1fc2eMPYB_6LmrRA@mail.gmail.com>
 
-On Mon, Oct 16, 2023 at 8:12=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
-wrote:
->
-> On Mon, Oct 16, 2023 at 01:10:40PM -0700, Song Liu wrote:
-> > On Sun, Oct 15, 2023 at 12:07=E2=80=AFAM Eric Biggers <ebiggers@kernel.=
-org> wrote:
-> > >
-> > [...]
-> > > > + */
-> > > > +__bpf_kfunc int bpf_get_fsverity_digest(struct file *file, struct =
-bpf_dynptr_kern *digest_ptr)
-> > > > +{
-> > > > +     const struct inode *inode =3D file_inode(file);
-> > > > +     struct fsverity_digest *arg =3D digest_ptr->data;
-> > >
-> > > What alignment is guaranteed here?
+On Mon, Oct 16, 2023 at 10:35:16PM -0700, Song Liu wrote:
+> On Mon, Oct 16, 2023 at 8:12 PM Eric Biggers <ebiggers@kernel.org> wrote:
 > >
-> > drnptr doesn't not provide alignment guarantee for digest_ptr->data.
-> > If we need alignment guarantee, we need to add it here.
->
-> So technically it's wrong to cast it to struct fsverity_digest, then.
+> > On Mon, Oct 16, 2023 at 01:10:40PM -0700, Song Liu wrote:
+> > > On Sun, Oct 15, 2023 at 12:07 AM Eric Biggers <ebiggers@kernel.org> wrote:
+> > > >
+> > > [...]
+> > > > > + */
+> > > > > +__bpf_kfunc int bpf_get_fsverity_digest(struct file *file, struct bpf_dynptr_kern *digest_ptr)
+> > > > > +{
+> > > > > +     const struct inode *inode = file_inode(file);
+> > > > > +     struct fsverity_digest *arg = digest_ptr->data;
+> > > >
+> > > > What alignment is guaranteed here?
+> > >
+> > > drnptr doesn't not provide alignment guarantee for digest_ptr->data.
+> > > If we need alignment guarantee, we need to add it here.
+> >
+> > So technically it's wrong to cast it to struct fsverity_digest, then.
+> 
+> We can enforce alignment here. Would __aligned(2) be sufficient?
+> 
 
-We can enforce alignment here. Would __aligned(2) be sufficient?
+Do you mean something like the following:
 
-Thanks,
-Song
+	if (!IS_ALIGNED((uintptr_t)digest_ptr->data, __alignof__(*arg)))
+		return -EINVAL;
