@@ -1,173 +1,146 @@
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E199315A2
-	for <fsverity@lists.linux.dev>; Wed, 18 Oct 2023 02:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from mail02.huawei.com (unknown [172.30.67.169])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4S9D9c3MBLz4f3jLP
-	for <fsverity@lists.linux.dev>; Wed, 18 Oct 2023 09:42:12 +0800 (CST)
-Received: from [10.174.176.117] (unknown [10.174.176.117])
-	by APP3 (Coremail) with SMTP id _Ch0CgAHYVDzNy9ltvBADA--.61326S2;
-	Wed, 18 Oct 2023 09:42:15 +0800 (CST)
-Subject: Re: [PATCH bpf-next 1/5] bpf: Add kfunc bpf_get_file_xattr
-To: Song Liu <songliubraving@meta.com>,
- Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Song Liu <song@kernel.org>, bpf <bpf@vger.kernel.org>,
- "fsverity@lists.linux.dev" <fsverity@lists.linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@kernel.org>, Kernel Team <kernel-team@meta.com>,
- Eric Biggers <ebiggers@kernel.org>, "tytso@mit.edu" <tytso@mit.edu>,
- "roberto.sassu@huaweicloud.com" <roberto.sassu@huaweicloud.com>
-References: <20231013182644.2346458-1-song@kernel.org>
- <20231013182644.2346458-2-song@kernel.org>
- <CAEf4BzYbQzMU4T6KYt4UudXvZiPg4nQdQCxD9zqzoJLgqOE9bQ@mail.gmail.com>
- <0ABF7860-A331-4161-9599-C781E9650283@fb.com>
-From: Hou Tao <houtao@huaweicloud.com>
-Message-ID: <33c93c8d-5da9-01ac-b72a-c3f62965ad1b@huaweicloud.com>
-Date: Wed, 18 Oct 2023 09:42:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67B98F4B;
+	Wed, 18 Oct 2023 02:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gCds61gu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C61C433C8;
+	Wed, 18 Oct 2023 02:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1697596511;
+	bh=cMmfYKKoIIFRbudaqkTzyaO4jlPkLRxzqxupVt0Gkhc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gCds61guNDo/3Dw2aL1s3gLBwFlVzSLUGch7eBwDeKgolUm4sJgEgJsdD+ZFBN66c
+	 yX/XOISW/VrbvdmVe4ysezdagdkY+lqFpEcY/dIliRRzbk+16N3ok/+N95957CRLEW
+	 9DwrxUENc2sPqwi0ZeiwKz2QUzg2uE8zZhvjb9lSDrveRoec714QTLNaxv6We7r1n0
+	 IcJWsMTgWOLekzIe6k0J0l64g5Q9A4oazqXMudJPzj1jCXeBy44XTeEHLZhdAYc9iz
+	 MWThUMbVIiqBAgDXT1YdYNW4FKxuGxRvhzkk34bS7/3csy5uz2NeJ+fHTDxHZUXETO
+	 YDTMHT7CVulog==
+Date: Tue, 17 Oct 2023 19:35:09 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev,
+	david@fromorbit.com, dchinner@redhat.com
+Subject: Re: [PATCH v3 07/28] fsverity: always use bitmap to track verified
+ status
+Message-ID: <20231018023509.GD3195650@frogsfrogsfrogs>
+References: <20231006184922.252188-1-aalbersh@redhat.com>
+ <20231006184922.252188-8-aalbersh@redhat.com>
+ <20231011031543.GB1185@sol.localdomain>
+ <q75t2etmyq2zjskkquikatp4yg7k2yoyt4oab4grhlg7yu4wyi@6eax4ysvavyk>
+ <20231012072746.GA2100@sol.localdomain>
+ <20231013031209.GS21298@frogsfrogsfrogs>
+ <20231017045834.GC1907@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <0ABF7860-A331-4161-9599-C781E9650283@fb.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:_Ch0CgAHYVDzNy9ltvBADA--.61326S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAw4kKry8Ww43tFWkWrW7Arb_yoWrGw1kpF
-	W8GFWYkr48JFW7Jry2qF4xZ3Z09w40gr12gF97K340yryqvr97ur1jgr1UurnYyrWqgrW2
-	vF4jgFW3ury3ZrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
-	e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-	6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-	kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
-	14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
-	9x07UWE__UUUUU=
-X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231017045834.GC1907@sol.localdomain>
 
-Hi,
+On Mon, Oct 16, 2023 at 09:58:34PM -0700, Eric Biggers wrote:
+> On Thu, Oct 12, 2023 at 08:12:09PM -0700, Darrick J. Wong wrote:
+> > Hi Eric,
+> > 
+> > [Please excuse my ignorance, this is only the third time I've dived
+> > into fsverity.]
+> > 
+> > On Thu, Oct 12, 2023 at 12:27:46AM -0700, Eric Biggers wrote:
+> > > On Wed, Oct 11, 2023 at 03:03:55PM +0200, Andrey Albershteyn wrote:
+> > > > > How complicated would it be to keep supporting using the page bit when
+> > > > > merkle_tree_block_size == page_size and the filesystem supports it?  It's an
+> > > > > efficient solution, so it would be a shame to lose it.  Also it doesn't have the
+> > > > > max file size limit that the bitmap has.
+> > 
+> > How complex would it be to get rid of the bitmap entirely, and validate
+> > all the verity tree blocks within a page all at once instead of
+> > individual blocks within a page?
+> > 
+> > Assuming willy isn't grinding his axe to get rid of PGchecked,
+> > obviously. ;)
+> 
+> See what I wrote earlier at
+> https://lore.kernel.org/linux-xfs/Y5ltzp6yeMo1oDSk@sol.localdomain.
+> Basically it would increase the worst-case latency by a lot.
 
-On 10/18/2023 4:31 AM, Song Liu wrote:
->
->> On Oct 17, 2023, at 11:58 AM, Andrii Nakryiko <andrii.nakryiko@gmail.com> wrote:
->>
->> On Fri, Oct 13, 2023 at 11:29 AM Song Liu <song@kernel.org> wrote:
->>> This kfunc can be used to read xattr of a file.
->>>
->>> Since vfs_getxattr() requires null-terminated string as input "name", a new
->>> helper bpf_dynptr_is_string() is added to check the input before calling
->>> vfs_getxattr().
->>>
->>> Signed-off-by: Song Liu <song@kernel.org>
->>> ---
->>> include/linux/bpf.h      | 12 +++++++++++
->>> kernel/trace/bpf_trace.c | 44 ++++++++++++++++++++++++++++++++++++++++
->>> 2 files changed, 56 insertions(+)
->>>
->>> diff --git a/include/linux/bpf.h b/include/linux/bpf.h
->>> index 61bde4520f5c..f14fae45e13d 100644
->>> --- a/include/linux/bpf.h
->>> +++ b/include/linux/bpf.h
->>> @@ -2472,6 +2472,13 @@ static inline bool has_current_bpf_ctx(void)
->>>        return !!current->bpf_ctx;
->>> }
->>>
->>> +static inline bool bpf_dynptr_is_string(struct bpf_dynptr_kern *ptr)
->> is_zero_terminated would be more accurate? though there is nothing
->> really dynptr-specific here...
-> is_zero_terminated sounds better. 
->
->>> +{
->>> +       char *str = ptr->data;
->>> +
->>> +       return str[__bpf_dynptr_size(ptr) - 1] == '\0';
->>> +}
->>> +
->>> void notrace bpf_prog_inc_misses_counter(struct bpf_prog *prog);
->>>
->>> void bpf_dynptr_init(struct bpf_dynptr_kern *ptr, void *data,
->>> @@ -2708,6 +2715,11 @@ static inline bool has_current_bpf_ctx(void)
->>>        return false;
->>> }
->>>
->>> +static inline bool bpf_dynptr_is_string(struct bpf_dynptr_kern *ptr)
->>> +{
->>> +       return false;
->>> +}
->>> +
->>> static inline void bpf_prog_inc_misses_counter(struct bpf_prog *prog)
->>> {
->>> }
->>> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
->>> index df697c74d519..946268574e05 100644
->>> --- a/kernel/trace/bpf_trace.c
->>> +++ b/kernel/trace/bpf_trace.c
->>> @@ -24,6 +24,7 @@
->>> #include <linux/key.h>
->>> #include <linux/verification.h>
->>> #include <linux/namei.h>
->>> +#include <linux/fileattr.h>
->>>
->>> #include <net/bpf_sk_storage.h>
->>>
->>> @@ -1429,6 +1430,49 @@ static int __init bpf_key_sig_kfuncs_init(void)
->>> late_initcall(bpf_key_sig_kfuncs_init);
->>> #endif /* CONFIG_KEYS */
->>>
->>> +/* filesystem kfuncs */
->>> +__diag_push();
->>> +__diag_ignore_all("-Wmissing-prototypes",
->>> +                 "kfuncs which will be used in BPF programs");
->>> +
->>> +/**
->>> + * bpf_get_file_xattr - get xattr of a file
->>> + * @name_ptr: name of the xattr
->>> + * @value_ptr: output buffer of the xattr value
->>> + *
->>> + * Get xattr *name_ptr* of *file* and store the output in *value_ptr*.
->>> + *
->>> + * Return: 0 on success, a negative value on error.
->>> + */
->>> +__bpf_kfunc int bpf_get_file_xattr(struct file *file, struct bpf_dynptr_kern *name_ptr,
->>> +                                  struct bpf_dynptr_kern *value_ptr)
->>> +{
->>> +       if (!bpf_dynptr_is_string(name_ptr))
->>> +               return -EINVAL;
->> so dynptr can be invalid and name_ptr->data will be NULL, you should
->> account for that
-> We can add a NULL check (or size check) here. 
->
->> and there could also be special dynptrs that don't have contiguous
->> memory region, so somehow you'd need to take care of that as well
-> We can require the dynptr to be BPF_DYNPTR_TYPE_LOCAL. I don't think
-> we need this for dynptr of skb or xdp. Would this be sufficient?
+Ahh.  Yeah, ok, got it, you don't necessarily want to prefault a bunch
+more merkle tree blocks all at once just to read a single byte. :)
 
-I think bpf_dynptr_is_rdonly() is also needed. Because the content of
-dynptr may be modified by other bpf program and the zero-terminated
-condition will not true. As suggested by Alexei, add string support in
-verifier is a better choice.
->
-> Thanks,
-> Song
->
->>> +
->>> +       return vfs_getxattr(mnt_idmap(file->f_path.mnt), file_dentry(file), name_ptr->data,
->>> +                           value_ptr->data, __bpf_dynptr_size(value_ptr));
->>> +}
+> > 
+> > > > Well, I think it's possible but my motivation was to step away from
+> > > > page manipulation as much as possible with intent to not affect other
+> > > > filesystems too much. I can probably add handling of this case to
+> > > > fsverity_read_merkle_tree_block() but fs/verity still will create
+> > > > bitmap and have a limit. The other way is basically revert changes
+> > > > done in patch 09, then, it probably will be quite a mix of page/block
+> > > > handling in fs/verity/verify.c
+> > > 
+> > > The page-based caching still has to be supported anyway, since that's what the
+> > > other filesystems that support fsverity use, and it seems you don't plan to
+> > > change that.
+> > 
+> > I frankly have been asking myself why /this/ patchset adds so much extra
+> > code and flags and whatnot to XFS and fs/verity.  From what I can tell,
+> > the xfs buffer cache has been extended to allocate double the memory so
+> > that xattr contents can be shadowed.  getxattr for merkle tree contents
+> > then pins the buffer, shadows the contents, and hands both back to the
+> > caller (aka xfs_read_merkle_tree_block).   The shadow memory is then
+> > handed to fs/verity to do its magic; following that, fsverity releases
+> > the reference and we can eventually drop the xfs_buf reference.
+> > 
+> > But this seems way overcomplicated to me.  ->read_merkle_tree_page hands
+> > us a pgoff_t and a suggestion for page readahead, and wants us to return
+> > an uptodate locked page, right?
+> > 
+> > Why can't xfs allocate a page, walk the requested range to fill the page
+> > with merkle tree blocks that were written to the xattr structure (or
+> > zero the page contents if there is no xattr), and hand that page to
+> > fsverity?  (It helps to provide the merkle tree block size to
+> > xfs_read_merkle_tree_page, thanks for adding that).
+> 
+> Earlier versions of this patchset did that.  But, it's only really feasible if
+> the pages are actually cached.  Otherwise it's very inefficient and can result
+> in random ENOMEM.
+> 
+> > Assuming fsverity also wants some caching, we could augment the
+> > xfs_inode to point to a separate address_space for cached merkle tree
+> > pages, and then xfs_read_merkle_tree_page can use __filemap_get_folio to
+> > find uptodate cached pages, or instantiate one and make it uptodate.
+> > Even better, we can pretty easily use multipage folios for this, though
+> > AFAICT the fs/verity code isn't yet up to handling that.
+> > 
+> > The only thing I can't quite figure out is how to get memory reclaim to
+> > scan the extra address_space when it wants to try to reclaim pages.
+> > That part ext4 and f2fs got for free because they stuffed the merkle
+> > tree in the posteof space.
+> > 
+> > But wouldn't that solve /all/ the plumbing problems without scattering
+> > bits of new code and flags into the xfs buffer cache, the extended
+> > attributes code, and elsewhere?  And then xfs would not need to burn up
+> > vmap space to allocate 8K memory blocks just to provide 4k merkel tree
+> > blocks to fs/verity.
+> > 
+> > That's just my 2 cents from spending a couple of hours hypothesizing how
+> > I would fill out the fsverity_operations.
+> 
+> That might work.  I'm not sure about the details though, e.g. can mapping->host
+> point to the file's inode or would it need to be a fake one.
 
+Me neither.  I /think/ invalidate_mapping_pages would do the job, though
+one would probably want to have a custom shrinker so we could find out
+just how many pages are desired by reclaim, and then try to invalidate
+only that many pages.  Not sure what happens if there are multiple
+mappings whose ->host pointers point to the same inode.
+
+Alternately I wonder if we could make a tmpfs file that would evict live
+contents instead of writing them to the paging file... ;)
+
+--D
+
+> 
+> - Eric
