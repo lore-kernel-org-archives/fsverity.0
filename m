@@ -1,56 +1,58 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C3863AD
-	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 17:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9721CA82
+	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 17:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZU6TbKd"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9d10972e63eso177736766b.2
-        for <fsverity@lists.linux.dev>; Thu, 02 Nov 2023 10:01:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OlibAuG0"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-991c786369cso188606066b.1
+        for <fsverity@lists.linux.dev>; Thu, 02 Nov 2023 10:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698944489; x=1699549289; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1698944977; x=1699549777; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UzN09WMIaiF3E7sVQSKmv7RLms1wIPYoqtDBzP7/1kw=;
-        b=KZU6TbKdrb824PmrcL+9CqrnvwAcBSkaBXTebPEDCuI4RafiD8b6/+IO3+rRQpNtYv
-         L1Ul46nWgO8M+UC35KuEuv42GODP5RQxakKN8NgOtfkGQeHxCuM4ROHUf3+XTInm1JD/
-         2o89Xji2yIfL+DIl1XzZolCRmljSDvfShnMsxqym00jEShv+38s+bDxraUxSyOuWJXB4
-         XtmPSP1OhZzAMLsTTt0C8YXk04UttdNFDcnOXxXB5FMhWNL8OUn4SpVydb1DOszXrOv4
-         2UQ5NIp8FK11J6giDQOqCZS6DJYCUSEyqrVbfuTEDaCOf9NvyuwbWwv0CDKPGM54UAJd
-         LFZg==
+        bh=jLma4XbyH5frF0gB6JBr2iynMB57cgWiVUGmlemzqIc=;
+        b=OlibAuG0etT2FfkD+t7o0dgT513jkKHBQbNPuOgu9vp1m9Q/kpBlVotQaJ6mnFY/Uv
+         JDXFoC96hXWXDy0RtSXgBQy80jnd1HQSEZYizogsY3C1+qCmjvErUEcfWYn5EgiYw8PV
+         W1LUHfWVpbZ3NlOoZVURefNsFF2rCTcKsEQ6O5Y6Gw4k6ihoCSvdkWqKHREs6L0/lms4
+         vF1JeTml7peP/vI+ddmGqo3HEdYqPdZU2BZtSqaFumezZzQP80qHV1e/hCSWDeiAXUPy
+         GgvGf5nKMU/EwG3fOGHa9nwXzAkwOITXRTK3V/0hPHmTUYk3CsxbG5UCyScqXKKnMolJ
+         0F8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698944489; x=1699549289;
+        d=1e100.net; s=20230601; t=1698944977; x=1699549777;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UzN09WMIaiF3E7sVQSKmv7RLms1wIPYoqtDBzP7/1kw=;
-        b=nrZqdBGZLzVQjdLuK1ZHSMiN4XCdfyK4dA98XXSukn05nV5FE9FxIIkyPC6AYwOd5a
-         l/87XF5UCEwnztyFJ3H87wJbf0xY2yVK4Re1yl//0a9tZpMDicnfNMgX9YKEffKw53SP
-         MQW1Xoo4zcRXxWZmHClSapDLRQT8qvXQ/fxXBDDUoJI76FUQPqhfhT/G4RGhuDNrJqIy
-         lmVujG5rGOQMmE/y40Yg8wcEKzZfbH97HMiHo77Rr9iYMRHlQqvemReUXkTvBK/iMTAe
-         iHEQkdYmuxJi5jUtCfdPWGbqlQzB/6mHUSpO3gEfng5W5RXJmI5GDvqlp/GxRSmtaJXI
-         QqmA==
-X-Gm-Message-State: AOJu0YxH+jHMJJK5DAId8f05RH6bhjTJYWQ4H/mJ4NejqsZWSIMDFs8M
-	I2RFIYkrlcmgfOEubwjOU162uZ92O6/trrD1EMo=
-X-Google-Smtp-Source: AGHT+IGG5vWpdJsyZGD7QM+4RAIrmNWizY3RRRubkvSE/zlMLNeESHvZHrCpQUstCH0lKZSlcSJ55k+sSn3bgi2UPF8=
-X-Received: by 2002:a17:906:51ce:b0:9ae:52fb:2202 with SMTP id
- v14-20020a17090651ce00b009ae52fb2202mr4397459ejk.40.1698944489036; Thu, 02
- Nov 2023 10:01:29 -0700 (PDT)
+        bh=jLma4XbyH5frF0gB6JBr2iynMB57cgWiVUGmlemzqIc=;
+        b=lHvXy9goe7Nl5F+77iYrzXsOwMsD0SdQ4CTFt+08Wo7TeiUHlgYJlsXRnHrdQvtp6Q
+         oA8+z23JyF1969mYTpHtO9qlZPHaJ+o+3wYzZLsqxLb6NFLhF5UmjGsu3n/y5GWCNtBk
+         eZ1Rxp4Bf11eTYaccpZXwPg29/2ziggZiu0BsQb7sBhw0oACIIwq9JLAwTC+6p3oVm87
+         F7Nx+5mTmrdRCuRewabJQj/zw1KZlz7+iMkKNDnB2Fy/WtlsnvSMyj/Q7dMze/tWlclJ
+         QT7vWg4WHQifWs4tUfaDFjGRzjsPLz7sMICauW7Xi80wCxgL7wrgfVRtqWrRSZAJgyf2
+         V1uw==
+X-Gm-Message-State: AOJu0Yzvkm/3BBAYGESY/+ZcRAoOrH3LJ/lYHPEhjpZClMQQljX4dldX
+	ixDFkGB4fJ6aqxeCT0ONN59Ow1gxEFL6lgQWuvw=
+X-Google-Smtp-Source: AGHT+IE4IFU1ccSX3s2vS0J7AaA1f2GyvvO/ldP8wXadKTxVb+cv2Aj/lyv36ZEFPrS4LtWJghLTRp+Ijs2T5tEfJUs=
+X-Received: by 2002:a17:906:dc91:b0:9c5:7f8b:bafc with SMTP id
+ cs17-20020a170906dc9100b009c57f8bbafcmr5226811ejc.22.1698944976729; Thu, 02
+ Nov 2023 10:09:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231024235551.2769174-1-song@kernel.org> <20231024235551.2769174-5-song@kernel.org>
-In-Reply-To: <20231024235551.2769174-5-song@kernel.org>
+References: <20231024235551.2769174-1-song@kernel.org> <20231024235551.2769174-2-song@kernel.org>
+ <CAEf4Bzbr8dgksh2z+4nEkAFdV9gquhR+HROULKdTkWrUpSM9-Q@mail.gmail.com>
+In-Reply-To: <CAEf4Bzbr8dgksh2z+4nEkAFdV9gquhR+HROULKdTkWrUpSM9-Q@mail.gmail.com>
 From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Thu, 2 Nov 2023 10:01:17 -0700
-Message-ID: <CAEf4Bzbu2YruzOnWDTkua=VTDMJi8P+BZYC_ntrLOC6QkG3oSA@mail.gmail.com>
-Subject: Re: [PATCH v6 bpf-next 4/9] bpf: Add kfunc bpf_get_file_xattr
+Date: Thu, 2 Nov 2023 10:09:25 -0700
+Message-ID: <CAEf4BzbDFDX30Y_Hcmd__hgDp+m6X+htr-wTeBtaoauEnrEdLw@mail.gmail.com>
+Subject: Re: [PATCH v6 bpf-next 1/9] bpf: Expose bpf_dynptr_slice* kfuncs for
+ in kernel use
 To: Song Liu <song@kernel.org>
 Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org, 
 	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org, 
@@ -59,112 +61,164 @@ Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 24, 2023 at 4:56=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+On Thu, Nov 2, 2023 at 9:56=E2=80=AFAM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
 >
-> It is common practice for security solutions to store tags/labels in
-> xattrs. To implement similar functionalities in BPF LSM, add new kfunc
-> bpf_get_file_xattr().
+> On Tue, Oct 24, 2023 at 4:56=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+> >
+> > kfuncs bpf_dynptr_slice and bpf_dynptr_slice_rdwr are used by BPF progr=
+ams
+> > to access the dynptr data. They are also useful for in kernel functions
+> > that access dynptr data, for example, bpf_verify_pkcs7_signature.
+> >
+> > Add bpf_dynptr_slice and bpf_dynptr_slice_rdwr to bpf.h so that kernel
+> > functions can use them instead of accessing dynptr->data directly.
+> >
+> > Update bpf_verify_pkcs7_signature to use bpf_dynptr_slice instead of
+> > dynptr->data.
+> >
+> > Also, update the comments for bpf_dynptr_slice and bpf_dynptr_slice_rdw=
+r
+> > that they may return error pointers for BPF_DYNPTR_TYPE_XDP.
+> >
+> > Signed-off-by: Song Liu <song@kernel.org>
+> > ---
+> >  include/linux/bpf.h      |  4 ++++
+> >  kernel/bpf/helpers.c     | 16 ++++++++--------
+> >  kernel/trace/bpf_trace.c | 15 +++++++++++----
+> >  3 files changed, 23 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/include/linux/bpf.h b/include/linux/bpf.h
+> > index b4825d3cdb29..3ed3ae37cbdf 100644
+> > --- a/include/linux/bpf.h
+> > +++ b/include/linux/bpf.h
+> > @@ -1222,6 +1222,10 @@ enum bpf_dynptr_type {
+> >
+> >  int bpf_dynptr_check_size(u32 size);
+> >  u32 __bpf_dynptr_size(const struct bpf_dynptr_kern *ptr);
+> > +void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, u32 offset,
+> > +                      void *buffer__opt, u32 buffer__szk);
+> > +void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *ptr, u32 off=
+set,
+> > +                           void *buffer__opt, u32 buffer__szk);
+> >
+> >  #ifdef CONFIG_BPF_JIT
+> >  int bpf_trampoline_link_prog(struct bpf_tramp_link *link, struct bpf_t=
+rampoline *tr);
+> > diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+> > index e46ac288a108..af5059f11e83 100644
+> > --- a/kernel/bpf/helpers.c
+> > +++ b/kernel/bpf/helpers.c
+> > @@ -2270,10 +2270,10 @@ __bpf_kfunc struct task_struct *bpf_task_from_p=
+id(s32 pid)
+> >   * bpf_dynptr_slice will not invalidate any ctx->data/data_end pointer=
+s in
+> >   * the bpf program.
+> >   *
+> > - * Return: NULL if the call failed (eg invalid dynptr), pointer to a r=
+ead-only
+> > - * data slice (can be either direct pointer to the data or a pointer t=
+o the user
+> > - * provided buffer, with its contents containing the data, if unable t=
+o obtain
+> > - * direct pointer)
+> > + * Return: NULL or error pointer if the call failed (eg invalid dynptr=
+), pointer
 >
-> To avoid recursion, bpf_get_file_xattr can be only called from LSM hooks.
->
-> Signed-off-by: Song Liu <song@kernel.org>
-> ---
->  kernel/trace/bpf_trace.c | 59 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 59 insertions(+)
->
-> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-> index 2626706b6387..802181986ad3 100644
-> --- a/kernel/trace/bpf_trace.c
-> +++ b/kernel/trace/bpf_trace.c
-> @@ -24,6 +24,7 @@
->  #include <linux/key.h>
->  #include <linux/verification.h>
->  #include <linux/namei.h>
-> +#include <linux/fileattr.h>
->
->  #include <net/bpf_sk_storage.h>
->
-> @@ -1436,6 +1437,64 @@ static int __init bpf_key_sig_kfuncs_init(void)
->  late_initcall(bpf_key_sig_kfuncs_init);
->  #endif /* CONFIG_KEYS */
->
-> +/* filesystem kfuncs */
-> +__diag_push();
-> +__diag_ignore_all("-Wmissing-prototypes",
-> +                 "kfuncs which will be used in BPF programs");
+> Hold on, nope, this one shouldn't return error pointer because it's
+> used from BPF program side and BPF program is checking for NULL only.
+> Does it actually return error pointer, though?
 
-Dave just added convenient macros for kfunc definition regions, please
-use them for new code.
+So I just checked the code (should have done it before replying,
+sorry). It is a bug that slipped through when adding bpf_xdp_pointer()
+usage. We should always return NULL from this kfunc on error
+conditions. Let's fix it separately, but please don't change the
+comments.
 
-> +
-> +/**
-> + * bpf_get_file_xattr - get xattr of a file
-> + * @file: file to get xattr from
-> + * @name__const_str: name of the xattr
-> + * @value_ptr: output buffer of the xattr value
-> + *
-> + * Get xattr *name__const_str* of *file* and store the output in *value_=
-ptr*.
-> + *
-> + * Return: 0 on success, a negative value on error.
-> + */
-> +__bpf_kfunc int bpf_get_file_xattr(struct file *file, const char *name__=
-const_str,
-> +                                  struct bpf_dynptr_kern *value_ptr)
-> +{
-> +       struct dentry *dentry;
-> +       void *value;
-> +
-> +       value =3D bpf_dynptr_slice_rdwr(value_ptr, 0, NULL, 0);
-
-This is very confusing and looks wrong. You are passing requested size
-0, which is certainly not the intent of this API.
-As I mentioned in previous patch, let's add internal-only dynptr
-helper that will return pointer and separately we already have a
-helper to get dynptr size, and do that explicitly.
-
-> +       if (IS_ERR_OR_NULL(value))
-> +               return PTR_ERR(value);
-> +
-> +       dentry =3D file_dentry(file);
-> +       return __vfs_getxattr(dentry, dentry->d_inode, name__const_str,
-> +                             value, __bpf_dynptr_size(value_ptr));
-> +}
-> +
-> +__diag_pop();
-> +
-> +BTF_SET8_START(fs_kfunc_set_ids)
-> +BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
-> +BTF_SET8_END(fs_kfunc_set_ids)
-> +
-> +static int bpf_get_file_xattr_filter(const struct bpf_prog *prog, u32 kf=
-unc_id)
-> +{
-> +       if (!btf_id_set8_contains(&fs_kfunc_set_ids, kfunc_id))
-> +               return 0;
-> +
-> +       /* Only allow to attach from LSM hooks, to avoid recursion */
-> +       return prog->type !=3D BPF_PROG_TYPE_LSM ? -EACCES : 0;
-> +}
-> +
-> +const struct btf_kfunc_id_set bpf_fs_kfunc_set =3D {
-> +       .owner =3D THIS_MODULE,
-> +       .set =3D &fs_kfunc_set_ids,
-> +       .filter =3D bpf_get_file_xattr_filter,
-> +};
-> +
-> +static int __init bpf_fs_kfuncs_init(void)
-> +{
-> +       return register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM, &bpf_fs_kfunc=
-_set);
-> +}
-> +
-> +late_initcall(bpf_fs_kfuncs_init);
-> +
->  static const struct bpf_func_proto *
->  bpf_tracing_func_proto(enum bpf_func_id func_id, const struct bpf_prog *=
-prog)
->  {
-> --
-> 2.34.1
 >
+> I'm generally skeptical of allowing to call kfuncs directly from
+> internal kernel code, tbh, and concerns like this are one reason why.
+> BPF verifier sets up various conditions that kfuncs have to follow,
+> and it seems error-prone to mix this up with internal kernel usage.
+>
+
+Reading bpf_dynptr_slice_rdwr code, it does look exactly like what you
+want, despite the confusingly-looking 0, NULL, 0 arguments. So I guess
+I'm fine exposing it directly, but it still feels like it will bite us
+at some point later.
+
+
+> > + * to a read-only data slice (can be either direct pointer to the data=
+ or a
+> > + * pointer to the user provided buffer, with its contents containing t=
+he data,
+> > + * if unable to obtain direct pointer)
+> >   */
+> >  __bpf_kfunc void *bpf_dynptr_slice(const struct bpf_dynptr_kern *ptr, =
+u32 offset,
+> >                                    void *buffer__opt, u32 buffer__szk)
+> > @@ -2354,10 +2354,10 @@ __bpf_kfunc void *bpf_dynptr_slice(const struct=
+ bpf_dynptr_kern *ptr, u32 offset
+> >   * bpf_dynptr_slice_rdwr will not invalidate any ctx->data/data_end po=
+inters in
+> >   * the bpf program.
+> >   *
+> > - * Return: NULL if the call failed (eg invalid dynptr), pointer to a
+> > - * data slice (can be either direct pointer to the data or a pointer t=
+o the user
+> > - * provided buffer, with its contents containing the data, if unable t=
+o obtain
+> > - * direct pointer)
+> > + * Return: NULL or error pointer if the call failed (eg invalid dynptr=
+), pointer
+> > + * to a data slice (can be either direct pointer to the data or a poin=
+ter to the
+> > + * user provided buffer, with its contents containing the data, if una=
+ble to
+> > + * obtain direct pointer)
+> >   */
+> >  __bpf_kfunc void *bpf_dynptr_slice_rdwr(const struct bpf_dynptr_kern *=
+ptr, u32 offset,
+> >                                         void *buffer__opt, u32 buffer__=
+szk)
+> > diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+> > index df697c74d519..2626706b6387 100644
+> > --- a/kernel/trace/bpf_trace.c
+> > +++ b/kernel/trace/bpf_trace.c
+> > @@ -1378,6 +1378,7 @@ __bpf_kfunc int bpf_verify_pkcs7_signature(struct=
+ bpf_dynptr_kern *data_ptr,
+> >                                struct bpf_dynptr_kern *sig_ptr,
+> >                                struct bpf_key *trusted_keyring)
+> >  {
+> > +       void *data, *sig;
+> >         int ret;
+> >
+> >         if (trusted_keyring->has_ref) {
+> > @@ -1394,10 +1395,16 @@ __bpf_kfunc int bpf_verify_pkcs7_signature(stru=
+ct bpf_dynptr_kern *data_ptr,
+> >                         return ret;
+> >         }
+> >
+> > -       return verify_pkcs7_signature(data_ptr->data,
+> > -                                     __bpf_dynptr_size(data_ptr),
+> > -                                     sig_ptr->data,
+> > -                                     __bpf_dynptr_size(sig_ptr),
+> > +       data =3D bpf_dynptr_slice(data_ptr, 0, NULL, 0);
+> > +       if (IS_ERR(data))
+> > +               return PTR_ERR(data);
+> > +
+> > +       sig =3D bpf_dynptr_slice(sig_ptr, 0, NULL, 0);
+> > +       if (IS_ERR(sig))
+> > +               return PTR_ERR(sig);
+> > +
+> > +       return verify_pkcs7_signature(data, __bpf_dynptr_size(data_ptr)=
+,
+> > +                                     sig, __bpf_dynptr_size(sig_ptr),
+> >                                       trusted_keyring->key,
+> >                                       VERIFYING_UNSPECIFIED_SIGNATURE, =
+NULL,
+> >                                       NULL);
+> > --
+> > 2.34.1
+> >
+> >
