@@ -1,152 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4370110A
-	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 01:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1001849;
+	Thu,  2 Nov 2023 03:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fp6fqneF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39952C433CB
-	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 01:27:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYd9cZhO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB859C433C8;
+	Thu,  2 Nov 2023 03:11:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698888471;
-	bh=/MTeM9OXTTKZ4ju4/4YY4chRCXEamfIwXV7Rv7qDHBw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fp6fqneFN+UhXbcy2dexdHhPjgIFau5BLdQR0N1rfUUCwcEqgX3/+JXbQIa7aMgoA
-	 zC0STOF59U/5UVdA4GKgGkWQ3YDAyCE6i3kEp8lFede+j15vg+7G9CSm2a4WQQiS82
-	 LWhFa+wdWN/C9W3wmefIX350YScYoYGgDvADUSg19ua7qiE8ESPa5Cx7uYUqO0FdZ4
-	 0vVWSXFgBT5qSGgDcsWNBdRqA274bFSK18ea13F95CuWSwhsEaq8aMRCyL9JDwBJHl
-	 LGyKBK/xtlV3zUoqvHAL8o1nYvRHfg2JGsShr1kVTJdc5BkdP5V6XqXP+0tYEBM5ql
-	 3Wvuls/HAKRcA==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5079f9675c6so439516e87.2
-        for <fsverity@lists.linux.dev>; Wed, 01 Nov 2023 18:27:51 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yxitcx+ZrNRLMkRn2nEWXsLR+wzdNLalskuJk+ScLQ5Q2ml4qQh
-	amO4oPzLEbKuq6CO3J+B8jorRzxsMgUix9aps2I0Gg==
-X-Google-Smtp-Source: AGHT+IGl+owG4HyE+kq6BBVOXDiFxSFk1o2PQKEGPiU38rVzSstMo8Yqq9ZlAR9kvKYw/VN4FezIyMmMoi+YJYTvMAQ=
-X-Received: by 2002:a05:6512:2248:b0:4fe:7e7f:1328 with SMTP id
- i8-20020a056512224800b004fe7e7f1328mr16546233lfu.16.1698888469382; Wed, 01
- Nov 2023 18:27:49 -0700 (PDT)
+	s=k20201202; t=1698894666;
+	bh=kAPcSMt8OUh/dCTT2VwfzkumHtVdA53H4OZtTBBAJ4E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dYd9cZhO/uq1fz7S4G6zxzoa+9BM3HfxA/tyWTojAPbC+AZjUJyy5YNrR7PBC9Zm5
+	 GZemJ6jwQXaGvySwkA93PNOdYbLjyX3Q+kZguTm5bMMRTcu7wLpmkgR+Xl4jE1L02g
+	 my7CWM5PVLxpw5wGzapOxorc/PFkZq5IvyuzBXyuYxC94+szN4C2b5jhgS2z1AKSr6
+	 q6hj0SY3/tD23zAkgUKNYzjcKJ0hZ3ubHxYGnvyZ19qF5fkQnaDu72D8C+SzIvrlk9
+	 FpGjMsMDaMpIox4wPZq+6qFwj2iWRvkfsBHjyrtHRVh2JfrXQEKJbtBK/6nkwlRCor
+	 u0h5WfRUFG+aA==
+Date: Wed, 1 Nov 2023 20:11:04 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Song Liu <song@kernel.org>
+Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org,
+	kernel-team@meta.com, tytso@mit.edu, roberto.sassu@huaweicloud.com
+Subject: Re: [PATCH v6 bpf-next 5/9] bpf, fsverity: Add kfunc
+ bpf_get_fsverity_digest
+Message-ID: <20231102031104.GB1498@sol.localdomain>
+References: <20231024235551.2769174-1-song@kernel.org>
+ <20231024235551.2769174-6-song@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231023061354.941552-1-song@kernel.org> <20231023061354.941552-5-song@kernel.org>
-In-Reply-To: <20231023061354.941552-5-song@kernel.org>
-From: KP Singh <kpsingh@kernel.org>
-Date: Thu, 2 Nov 2023 02:27:38 +0100
-X-Gmail-Original-Message-ID: <CACYkzJ7mz91WuvC=9CWA-ewh6ywCHseiH5-dY0jOA0Piw3jQ-g@mail.gmail.com>
-Message-ID: <CACYkzJ7mz91WuvC=9CWA-ewh6ywCHseiH5-dY0jOA0Piw3jQ-g@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-next 4/9] bpf: Add kfunc bpf_get_file_xattr
-To: Song Liu <song@kernel.org>
-Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org, 
-	kernel-team@meta.com, ebiggers@kernel.org, tytso@mit.edu, 
-	roberto.sassu@huaweicloud.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231024235551.2769174-6-song@kernel.org>
 
-On Mon, Oct 23, 2023 at 8:14=E2=80=AFAM Song Liu <song@kernel.org> wrote:
->
-> This kfunc can be used to read xattr of a file. To avoid recursion, only
-> allow calling this kfunc from LSM hooks.
-
-I think this needs a bit more explanation in the commit message (some
-details on what it could be used for, we can explain the use case
-about persistent LSM policy and LSM signatures with FSVerity). I know
-you add a selftest but some more details in the commit message would
-help.
-
-What about adding the KF_TRUSTED_ARGS for the kfunc?
-
-
-
->
+On Tue, Oct 24, 2023 at 04:55:47PM -0700, Song Liu wrote:
+> fsverity provides fast and reliable hash of files, namely fsverity_digest.
+> The digest can be used by security solutions to verify file contents.
+> 
+> Add new kfunc bpf_get_fsverity_digest() so that we can access fsverity from
+> BPF LSM programs. This kfunc is added to fs/verity/measure.c because some
+> data structure used in the function is private to fsverity
+> (fs/verity/fsverity_private.h).
+> 
+> To avoid recursion, bpf_get_fsverity_digest is only allowed in BPF LSM
+> programs.
+> 
 > Signed-off-by: Song Liu <song@kernel.org>
-> ---
->  kernel/trace/bpf_trace.c | 56 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
->
-> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-> index 43ed45a83ee2..4178d0e339d3 100644
-> --- a/kernel/trace/bpf_trace.c
-> +++ b/kernel/trace/bpf_trace.c
-> @@ -24,6 +24,7 @@
->  #include <linux/key.h>
->  #include <linux/verification.h>
->  #include <linux/namei.h>
-> +#include <linux/fileattr.h>
->
->  #include <net/bpf_sk_storage.h>
->
-> @@ -1436,6 +1437,61 @@ static int __init bpf_key_sig_kfuncs_init(void)
->  late_initcall(bpf_key_sig_kfuncs_init);
->  #endif /* CONFIG_KEYS */
->
-> +/* filesystem kfuncs */
-> +__diag_push();
-> +__diag_ignore_all("-Wmissing-prototypes",
-> +                 "kfuncs which will be used in BPF programs");
-> +
-> +/**
-> + * bpf_get_file_xattr - get xattr of a file
-> + * @file: file to get xattr from
-> + * @name__const_str: name of the xattr
-> + * @value_ptr: output buffer of the xattr value
-> + *
-> + * Get xattr *name__const_str* of *file* and store the output in *value_=
-ptr*.
-> + *
-> + * Return: 0 on success, a negative value on error.
-> + */
-> +__bpf_kfunc int bpf_get_file_xattr(struct file *file, const char *name__=
-const_str,
-> +                                  struct bpf_dynptr_kern *value_ptr)
-> +{
-> +       struct dentry *dentry;
-> +       void *value;
-> +
-> +       value =3D bpf_dynptr_slice_rdwr(value_ptr, 0, NULL, 0);
-> +       if (IS_ERR_OR_NULL(value))
-> +               return PTR_ERR(value);
-> +
-> +       dentry =3D file_dentry(file);
-> +       return __vfs_getxattr(dentry, dentry->d_inode, name__const_str,
-> +                             value, __bpf_dynptr_size(value_ptr));
-> +}
-> +
-> +__diag_pop();
-> +
-> +static int bpf_get_file_xattr_filter(const struct bpf_prog *prog, u32 kf=
-unc_id)
-> +{
-> +       /* Only allow to attach from LSM hooks, to avoid recursion */
-> +       return prog->type !=3D BPF_PROG_TYPE_LSM ? -EACCES : 0;
-> +}
-> +
-> +BTF_SET8_START(fs_kfunc_set)
-> +BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
-> +BTF_SET8_END(fs_kfunc_set)
-> +
-> +const struct btf_kfunc_id_set bpf_fs_kfunc_set =3D {
-> +       .owner =3D THIS_MODULE,
-> +       .set =3D &fs_kfunc_set,
-> +       .filter =3D bpf_get_file_xattr_filter,
-> +};
-> +
-> +static int __init bpf_fs_kfuncs_init(void)
-> +{
-> +       return register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM, &bpf_fs_kfunc=
-_set);
-> +}
-> +
-> +late_initcall(bpf_fs_kfuncs_init);
-> +
->  static const struct bpf_func_proto *
->  bpf_tracing_func_proto(enum bpf_func_id func_id, const struct bpf_prog *=
-prog)
->  {
-> --
-> 2.34.1
->
->
+
+Acked-by: Eric Biggers <ebiggers@google.com>
+
+- Eric
