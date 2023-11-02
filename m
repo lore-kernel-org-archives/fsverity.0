@@ -1,87 +1,152 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61199110A
-	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 01:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4370110A
+	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 01:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dq3t6X3V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81CCC433C9
-	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 01:19:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fp6fqneF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39952C433CB
+	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 01:27:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698887985;
-	bh=L/oIBZWNwYWfO9paAjPVkqSlKsZsAbx1VcI8buvd3Mg=;
+	s=k20201202; t=1698888471;
+	bh=/MTeM9OXTTKZ4ju4/4YY4chRCXEamfIwXV7Rv7qDHBw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dq3t6X3VtYVBiMxbzKe9okGWfrQnPh017oHW3numUXW46HpRtOEFf1zM9srNWS10s
-	 HGJzd/oxgVWI4m0JhsbKzrfKVjUotc4WwBZAHML5CacKqf+22Jsj72Z61csALDiqFg
-	 LdNj889eXyzoEJOJCP0M8JIXy1EGOqUbKSVYCVrS1+3/ztxO4wohv+WE9bXfC3DIHy
-	 hi2C8uJ9JRY9nzrrAHLQqpV6Wpm1QaDvNft46k6GvimjDM4GAVqAmtS2cOYY2BnW4/
-	 uB0Vn8EDtO+GqfNvnql+ur2Htf2B/vpZhhY5fXV6vKq3FIr7q7ehEekjKWmErAel8K
-	 xxSBfsaDB3sZA==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-540c54944c4so815592a12.1
-        for <fsverity@lists.linux.dev>; Wed, 01 Nov 2023 18:19:45 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yz+xuR/QZzyiBWTbgCJ61vobFAuOjMIF9pXp09IjXGuDq6rLnAb
-	5stQzk28cDJPZX6F8KryBCGjnHLpW/jVb2+ZqCIExw==
-X-Google-Smtp-Source: AGHT+IHRwnrYCM8u0Xkx7s8wzLF8rI7K+5LthsF0HLjZNf92tBCMzXU35cQWCtPEHuewuI5pK9cewkWwT6jVtb0Hhe8=
-X-Received: by 2002:a05:6402:3482:b0:52b:db44:79e3 with SMTP id
- v2-20020a056402348200b0052bdb4479e3mr4224453edc.4.1698887984323; Wed, 01 Nov
- 2023 18:19:44 -0700 (PDT)
+	b=fp6fqneFN+UhXbcy2dexdHhPjgIFau5BLdQR0N1rfUUCwcEqgX3/+JXbQIa7aMgoA
+	 zC0STOF59U/5UVdA4GKgGkWQ3YDAyCE6i3kEp8lFede+j15vg+7G9CSm2a4WQQiS82
+	 LWhFa+wdWN/C9W3wmefIX350YScYoYGgDvADUSg19ua7qiE8ESPa5Cx7uYUqO0FdZ4
+	 0vVWSXFgBT5qSGgDcsWNBdRqA274bFSK18ea13F95CuWSwhsEaq8aMRCyL9JDwBJHl
+	 LGyKBK/xtlV3zUoqvHAL8o1nYvRHfg2JGsShr1kVTJdc5BkdP5V6XqXP+0tYEBM5ql
+	 3Wvuls/HAKRcA==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5079f9675c6so439516e87.2
+        for <fsverity@lists.linux.dev>; Wed, 01 Nov 2023 18:27:51 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yxitcx+ZrNRLMkRn2nEWXsLR+wzdNLalskuJk+ScLQ5Q2ml4qQh
+	amO4oPzLEbKuq6CO3J+B8jorRzxsMgUix9aps2I0Gg==
+X-Google-Smtp-Source: AGHT+IGl+owG4HyE+kq6BBVOXDiFxSFk1o2PQKEGPiU38rVzSstMo8Yqq9ZlAR9kvKYw/VN4FezIyMmMoi+YJYTvMAQ=
+X-Received: by 2002:a05:6512:2248:b0:4fe:7e7f:1328 with SMTP id
+ i8-20020a056512224800b004fe7e7f1328mr16546233lfu.16.1698888469382; Wed, 01
+ Nov 2023 18:27:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231013182644.2346458-1-song@kernel.org> <20231013182644.2346458-2-song@kernel.org>
- <CAADnVQLcrxLatupH=i2Q-K8KRF72PqB8wayC=UEKvuMMn3ie7A@mail.gmail.com>
-In-Reply-To: <CAADnVQLcrxLatupH=i2Q-K8KRF72PqB8wayC=UEKvuMMn3ie7A@mail.gmail.com>
+References: <20231023061354.941552-1-song@kernel.org> <20231023061354.941552-5-song@kernel.org>
+In-Reply-To: <20231023061354.941552-5-song@kernel.org>
 From: KP Singh <kpsingh@kernel.org>
-Date: Thu, 2 Nov 2023 02:19:33 +0100
-X-Gmail-Original-Message-ID: <CACYkzJ4=8TwRS4xGm3G81LtkYLWtwZY0G2OvK25TTrF5Fyppwg@mail.gmail.com>
-Message-ID: <CACYkzJ4=8TwRS4xGm3G81LtkYLWtwZY0G2OvK25TTrF5Fyppwg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/5] bpf: Add kfunc bpf_get_file_xattr
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Song Liu <song@kernel.org>, bpf <bpf@vger.kernel.org>, fsverity@lists.linux.dev, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@kernel.org>, 
-	Kernel Team <kernel-team@meta.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Roberto Sassu <roberto.sassu@huaweicloud.com>
+Date: Thu, 2 Nov 2023 02:27:38 +0100
+X-Gmail-Original-Message-ID: <CACYkzJ7mz91WuvC=9CWA-ewh6ywCHseiH5-dY0jOA0Piw3jQ-g@mail.gmail.com>
+Message-ID: <CACYkzJ7mz91WuvC=9CWA-ewh6ywCHseiH5-dY0jOA0Piw3jQ-g@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 4/9] bpf: Add kfunc bpf_get_file_xattr
+To: Song Liu <song@kernel.org>
+Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org, 
+	kernel-team@meta.com, ebiggers@kernel.org, tytso@mit.edu, 
+	roberto.sassu@huaweicloud.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 17, 2023 at 9:11=E2=80=AFPM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On Mon, Oct 23, 2023 at 8:14=E2=80=AFAM Song Liu <song@kernel.org> wrote:
 >
-> On Fri, Oct 13, 2023 at 11:30=E2=80=AFAM Song Liu <song@kernel.org> wrote=
-:
-> > +__bpf_kfunc int bpf_get_file_xattr(struct file *file, struct bpf_dynpt=
-r_kern *name_ptr,
-> > +                                  struct bpf_dynptr_kern *value_ptr)
-> > +{
-> > +       if (!bpf_dynptr_is_string(name_ptr))
-> > +               return -EINVAL;
-> > +
-> > +       return vfs_getxattr(mnt_idmap(file->f_path.mnt), file_dentry(fi=
-le), name_ptr->data,
-> > +                           value_ptr->data, __bpf_dynptr_size(value_pt=
-r));
-> > +}
-> > +
-> > +__diag_pop();
-> > +
-> > +BTF_SET8_START(fs_kfunc_set)
-> > +BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
->
-> I suspect it needs to be allowlisted too.
-> Sleepable might not be enough.
->
-> KP proposed such kfunc in the past and there were recursion issues.
->
-> KP,
-> do you remember the details?
+> This kfunc can be used to read xattr of a file. To avoid recursion, only
+> allow calling this kfunc from LSM hooks.
 
-yeah, have a look at Al's reply:
+I think this needs a bit more explanation in the commit message (some
+details on what it could be used for, we can explain the use case
+about persistent LSM policy and LSM signatures with FSVerity). I know
+you add a selftest but some more details in the commit message would
+help.
 
-https://lore.kernel.org/bpf/Yrs4+ThR4ACb5eD%2F@ZenIV/
+What about adding the KF_TRUSTED_ARGS for the kfunc?
 
-it can create deadlocks and potentially UAFs (similar to the situation
-Jann mentioned). This will need to be allowlisted.
+
+
+>
+> Signed-off-by: Song Liu <song@kernel.org>
+> ---
+>  kernel/trace/bpf_trace.c | 56 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>
+> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+> index 43ed45a83ee2..4178d0e339d3 100644
+> --- a/kernel/trace/bpf_trace.c
+> +++ b/kernel/trace/bpf_trace.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/key.h>
+>  #include <linux/verification.h>
+>  #include <linux/namei.h>
+> +#include <linux/fileattr.h>
+>
+>  #include <net/bpf_sk_storage.h>
+>
+> @@ -1436,6 +1437,61 @@ static int __init bpf_key_sig_kfuncs_init(void)
+>  late_initcall(bpf_key_sig_kfuncs_init);
+>  #endif /* CONFIG_KEYS */
+>
+> +/* filesystem kfuncs */
+> +__diag_push();
+> +__diag_ignore_all("-Wmissing-prototypes",
+> +                 "kfuncs which will be used in BPF programs");
+> +
+> +/**
+> + * bpf_get_file_xattr - get xattr of a file
+> + * @file: file to get xattr from
+> + * @name__const_str: name of the xattr
+> + * @value_ptr: output buffer of the xattr value
+> + *
+> + * Get xattr *name__const_str* of *file* and store the output in *value_=
+ptr*.
+> + *
+> + * Return: 0 on success, a negative value on error.
+> + */
+> +__bpf_kfunc int bpf_get_file_xattr(struct file *file, const char *name__=
+const_str,
+> +                                  struct bpf_dynptr_kern *value_ptr)
+> +{
+> +       struct dentry *dentry;
+> +       void *value;
+> +
+> +       value =3D bpf_dynptr_slice_rdwr(value_ptr, 0, NULL, 0);
+> +       if (IS_ERR_OR_NULL(value))
+> +               return PTR_ERR(value);
+> +
+> +       dentry =3D file_dentry(file);
+> +       return __vfs_getxattr(dentry, dentry->d_inode, name__const_str,
+> +                             value, __bpf_dynptr_size(value_ptr));
+> +}
+> +
+> +__diag_pop();
+> +
+> +static int bpf_get_file_xattr_filter(const struct bpf_prog *prog, u32 kf=
+unc_id)
+> +{
+> +       /* Only allow to attach from LSM hooks, to avoid recursion */
+> +       return prog->type !=3D BPF_PROG_TYPE_LSM ? -EACCES : 0;
+> +}
+> +
+> +BTF_SET8_START(fs_kfunc_set)
+> +BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
+> +BTF_SET8_END(fs_kfunc_set)
+> +
+> +const struct btf_kfunc_id_set bpf_fs_kfunc_set =3D {
+> +       .owner =3D THIS_MODULE,
+> +       .set =3D &fs_kfunc_set,
+> +       .filter =3D bpf_get_file_xattr_filter,
+> +};
+> +
+> +static int __init bpf_fs_kfuncs_init(void)
+> +{
+> +       return register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM, &bpf_fs_kfunc=
+_set);
+> +}
+> +
+> +late_initcall(bpf_fs_kfuncs_init);
+> +
+>  static const struct bpf_func_proto *
+>  bpf_tracing_func_proto(enum bpf_func_id func_id, const struct bpf_prog *=
+prog)
+>  {
+> --
+> 2.34.1
+>
+>
