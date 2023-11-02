@@ -1,79 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC075233
-	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 06:09:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6DA1FC8
+	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 06:43:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XC4z5hZ/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3618EC433CA
-	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 06:09:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nbLAiE1l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABEB1C433CB
+	for <fsverity@lists.linux.dev>; Thu,  2 Nov 2023 06:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1698905388;
-	bh=TblzIDLypza3g6ycR/vbxulyfiXjkFNobs+94S5fM10=;
+	s=k20201202; t=1698907437;
+	bh=JZC8owDBelQHN+vVxyY7bnfOIM1BeEJV3J70IF+MQbE=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=XC4z5hZ/tRMCrJ3ObeSTIprXRykwLCphz390UqAk838p3yPA/NYRocOabzfFpyaGV
-	 FUY3Lk+GUTsM8w2PPAoTlKK9f4GFC4cHUyMDNrO4yV+l0GgohvAXR8NlctyFWMZJiv
-	 0O4uuWkbXxUSkeBaQYT5MsgdzuWc66GLWskSuHdFPur+wIrZkf+N88kQlhSbQSN/Zl
-	 preDQgf+swbMpdnMDAqo3ka5jinWwEksYhb+dYkQEwaTOoHlIYqjqTKfrH3MewyvuH
-	 3jLVciW4gqKmu9U8axMyUP6NR6xI06u/9fIDWXPiYp9gSndTWqu9qv+Wqld/ukny/y
-	 DChZXRoeaVIFw==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50931355d48so645263e87.3
-        for <fsverity@lists.linux.dev>; Wed, 01 Nov 2023 23:09:48 -0700 (PDT)
-X-Gm-Message-State: AOJu0Ywcs1CwdaJ5vg7oFsd/RxBsmCiI1r7I5POOfLftw/y6Uy9HDL+5
-	IJwc2ExjzRx5m9taXi8LXXEMSJs88Nq9oLkf9og=
-X-Google-Smtp-Source: AGHT+IG1gwNHXqEhZ61zlRvIzJxIIB8C63lcqLbpz7H/S7hS5sSK8hoSRPW10trvT2BtDth/7mba7U4ODLXjsFelx5g=
-X-Received: by 2002:a05:6512:1081:b0:507:a5e7:724 with SMTP id
- j1-20020a056512108100b00507a5e70724mr15258731lfg.38.1698905386393; Wed, 01
- Nov 2023 23:09:46 -0700 (PDT)
+	b=nbLAiE1li+8dfQtIpGABw8eiX3Qgtu+vyYnZbxqjaoe2JWt3jWiraR1T4HmyC9pb6
+	 YymR1MocjQYQXpkP+1MDY3QSdamHPGmwtdqRFW67pKMJw4zj2VPIiT+8uzI7GyJdd/
+	 wEF5G6s0Tw0z4gmeX09eB32+DP5FBXz7cTY61NhCfRTo1rcGdu22ZMgSKgSEx3Dc6T
+	 9o+xrrYbT7QTfys88zyRSkgNRxQbRMLWcatVHZ+gtQekBJKKzNY646UDMWapUfsDrd
+	 21cKF1R55a9oSxeRIlBS7BgMJZngWJQnK4ZVnX2dJ9vx8q0OR6dBhDyLU8+LOzbbm9
+	 7dzY0VVxB1MHQ==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-507a0907896so616359e87.2
+        for <fsverity@lists.linux.dev>; Wed, 01 Nov 2023 23:43:57 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwYdNZXId6uC/wQ7mYP3KJY3wjefk950WEfjurC8lb4kzaBn4CR
+	Y0BZHmfgRRmDm6VYl52798bxUNl6X5Hfog6ku/A=
+X-Google-Smtp-Source: AGHT+IEEqLDUYVuGWl0Tr3VtOWf4BuAVkatX4W2eVJlC/CSRNJferNi6GJmnTETA/eu3zR+hPOT/HETtEe5GwcKQXFU=
+X-Received: by 2002:a05:6512:3c85:b0:509:4864:1b3a with SMTP id
+ h5-20020a0565123c8500b0050948641b3amr1178569lfv.64.1698907435908; Wed, 01 Nov
+ 2023 23:43:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231024235551.2769174-1-song@kernel.org> <20231024235551.2769174-4-song@kernel.org>
- <CAADnVQ+rqwPARuwkuRJLJSYN45m7vC1sLkiVX=BQbP0ho+3DJQ@mail.gmail.com>
-In-Reply-To: <CAADnVQ+rqwPARuwkuRJLJSYN45m7vC1sLkiVX=BQbP0ho+3DJQ@mail.gmail.com>
+References: <20231023061354.941552-1-song@kernel.org> <20231023061354.941552-5-song@kernel.org>
+ <CACYkzJ7mz91WuvC=9CWA-ewh6ywCHseiH5-dY0jOA0Piw3jQ-g@mail.gmail.com>
+In-Reply-To: <CACYkzJ7mz91WuvC=9CWA-ewh6ywCHseiH5-dY0jOA0Piw3jQ-g@mail.gmail.com>
 From: Song Liu <song@kernel.org>
-Date: Wed, 1 Nov 2023 23:09:32 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW6r_XAyXZ89zEi=63w=Li0OcQRXBKLn8HXNqYiHPzPEtQ@mail.gmail.com>
-Message-ID: <CAPhsuW6r_XAyXZ89zEi=63w=Li0OcQRXBKLn8HXNqYiHPzPEtQ@mail.gmail.com>
-Subject: Re: [PATCH v6 bpf-next 3/9] bpf: Introduce KF_ARG_PTR_TO_CONST_STR
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: bpf <bpf@vger.kernel.org>, fsverity@lists.linux.dev, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@kernel.org>, 
-	Kernel Team <kernel-team@meta.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Roberto Sassu <roberto.sassu@huaweicloud.com>
+Date: Wed, 1 Nov 2023 23:43:41 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW5_P7R5mcv6hYfC_7JAp8Arrf2UdErgqKy+FLG=57yFMA@mail.gmail.com>
+Message-ID: <CAPhsuW5_P7R5mcv6hYfC_7JAp8Arrf2UdErgqKy+FLG=57yFMA@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 4/9] bpf: Add kfunc bpf_get_file_xattr
+To: KP Singh <kpsingh@kernel.org>
+Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org, 
+	kernel-team@meta.com, ebiggers@kernel.org, tytso@mit.edu, 
+	roberto.sassu@huaweicloud.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 1, 2023 at 10:59=E2=80=AFPM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On Wed, Nov 1, 2023 at 6:27=E2=80=AFPM KP Singh <kpsingh@kernel.org> wrote:
 >
-> On Tue, Oct 24, 2023 at 4:56=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+> On Mon, Oct 23, 2023 at 8:14=E2=80=AFAM Song Liu <song@kernel.org> wrote:
 > >
-> >
-> > +2.2.5 __const_str Annotation
-> > +----------------------------
-> > +This annotation is used to indicate that the argument is a constant st=
-ring.
-> > +
-> > +An example is given below::
-> > +
-> > +        __bpf_kfunc bpf_get_file_xattr(..., const char *name__const_st=
-r, ...)
+> > This kfunc can be used to read xattr of a file. To avoid recursion, onl=
+y
+> > allow calling this kfunc from LSM hooks.
 >
-> After sleeping on it this still looks too verbose to me.
-> 'const' is repeated back to back.
-> Let's use __str suffix?
+> I think this needs a bit more explanation in the commit message (some
+> details on what it could be used for, we can explain the use case
+> about persistent LSM policy and LSM signatures with FSVerity). I know
+> you add a selftest but some more details in the commit message would
+> help.
 
-Yeah, the first const should be enough. Let's use __str.
+Sure, I will add a short description here.
+
+> What about adding the KF_TRUSTED_ARGS for the kfunc?
+
+Yeah, I was thinking about this. Adding it to the next version.
 
 Thanks,
 Song
 
->
-> > +                       ret =3D check_reg_const_str(env, reg, regno);
->
-> I don't mind that helper has a more verbose name.
+[...]
