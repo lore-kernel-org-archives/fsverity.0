@@ -1,185 +1,238 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E9D23778
-	for <fsverity@lists.linux.dev>; Fri,  3 Nov 2023 22:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB5324201
+	for <fsverity@lists.linux.dev>; Fri,  3 Nov 2023 22:13:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cHNcRp1D"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-9adb9fa7200so507812766b.0
-        for <fsverity@lists.linux.dev>; Fri, 03 Nov 2023 15:10:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uk34P9Zp"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-9d10f94f70bso373698466b.3
+        for <fsverity@lists.linux.dev>; Fri, 03 Nov 2023 15:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699049423; x=1699654223; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1699049594; x=1699654394; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=48eapHSqB9XT8NL/KrM14oWKGu50UEgduwEpKQtsqT8=;
-        b=cHNcRp1D1eCQgNlNzmB3ru+xrzDiHg4P0nuc+axF2iSEHyH7QmqmPZiD/tC+jVYHM8
-         eZcHPk/nWnue2urrXQZ+u78/iSJmVtcShkS4juHzShWE1ffiTyUvodbfieEaz31Ao7/D
-         VXlxdus+5GDROEojewARj8Dl6vo7SuRyFdRBsAfUpM+q3Eyw2I02F7AbGOpfYzPwGsU4
-         sCvCekXSUx58A8yd3Y2O6iyqtAJs/AUnQtUrZUVP4ys/5e6erR43bZe35k6wvrekcJ9p
-         eZeVYZGKe/zBwkc4sw/4A018yB8kZqEhRr1n9wGlicXtSgTKdadutHHrigfYfeD+xCXH
-         zxkw==
+        bh=0smAkhzWi7LQB4O+bnHLFjKF0X/wdZ2cGiNse1b9Nr8=;
+        b=Uk34P9ZpTZKt37bParOPBwuSFVlfe+DhpzF3X7vRLLRfkE190w7VccPwIaTWvjktT9
+         KPrfHAQs+jfK0EzZtx514amDef9ggvLqxrCc7Zh9CoCG9QNY5jzsVAmrArnUcFVMLzEh
+         OGGrRBrTPm8OlTgtG1R9EciXmzBPzOEE0THxKjDJ1h0E1/2dwjnJmmXpnE6NCNb4MlVl
+         2Vh31M1b6TE+dY2AIew3FaSNJvhT96+9qWB4uz0zQ7VOLavNr5fuRNC7Z4hK/1IKHCj4
+         ekDzIdiNUZWsy64T9BTMOVDa6tx5y5EhuFeGN39H4e0SjcFqIy2A1QQHrpirTQ8yf7s5
+         bUlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699049423; x=1699654223;
+        d=1e100.net; s=20230601; t=1699049594; x=1699654394;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=48eapHSqB9XT8NL/KrM14oWKGu50UEgduwEpKQtsqT8=;
-        b=aFEGELIdnbt6PJ6cueu7shqH1pFMER5AfcOgEyrN6x6KW5OkalAnfagHwdFV8T6TJg
-         QMVVc8CiE4zpcuCF97hNBw8estdbAaSRA0OY4blAKhTETMvSLVqdRQogxNS34/rifsfn
-         E3EkgMcLASKRWNhfZzKutYtC2FK9/MBfbKY99yZYU+YEADnI+xJ09dSTIwRhrzx20B7/
-         D95QWFp0EQPQvz/o9scOfJOpYXPAUXQZydxYY4fgmSOEbUdtxxyEnSGGO5oHlrFpAPZI
-         ZYHSLnHKbQipVIHTT2xtv4p0//9a5+8w1Z3WYdrGmVJJu1e1Gj5R8tuRsKxeQc2yTfCG
-         YgnA==
-X-Gm-Message-State: AOJu0YxNmKuMttfuilYSbsK3vBWdfJhB08gshZoHmDZGgxrMb88l/1hY
-	YOuG+/XeXMgrmWDUXREQc+WOK4S8VjGeROdgtFQ=
-X-Google-Smtp-Source: AGHT+IFqeA5asuXAa8GEZgAmj23Dr/EkPdEF8Uw4igJcN/p2nkWaBVtK/aY1zJNG4MN+4LxIVna/jGHIIms4+QCCy24=
-X-Received: by 2002:a17:907:3e14:b0:9dd:e124:4b39 with SMTP id
- hp20-20020a1709073e1400b009dde1244b39mr734692ejc.10.1699049422615; Fri, 03
- Nov 2023 15:10:22 -0700 (PDT)
+        bh=0smAkhzWi7LQB4O+bnHLFjKF0X/wdZ2cGiNse1b9Nr8=;
+        b=ZpFj2cNq0n42lUuh7Ebo/Lb8snCj2BNfAsUxfGkyK5Fvzl1DC/xdrbPCKvLkvSkWNs
+         xmi8KyJHh3zBYB4CRy/gTh8q3zbuh0d5dt3JqHOly8ld8C2obD6gh5j8k8sLDnqdxj7y
+         DbpY/Z9epZFDWiMGHJiZj9vhCEdcdP7CXxss1q7D5BU9VLKtuvC8QgeG2vl8vtdJovwY
+         rROyS+EaQ9XAkV21hNGquOkuKsb0LeEChYXXRU7K02F4dAPSgITNgRTRfqy//3yQBntU
+         mnGvcwfftJgQcSumMnvSDZqo7aXG1U8ld783Xtb7LdGomQl9coUAWzMMUCVPQPMg1ueV
+         RNGg==
+X-Gm-Message-State: AOJu0Yz0H8AMJF9skSndWu0vkLYOYyMOCIgeH7iK3GdctaRy/VzToTZl
+	Rz9ma+z5KjgnkK64zQjXkIbxtGLo+8Z/QEOQvjY=
+X-Google-Smtp-Source: AGHT+IGxcj9zlsTnn23D7rMoNKSCm46NGjxZY9GtKO3L7ajg44Ok3mmi9fe1bXtWaT4kXlcpGz/Ziu3kTiWu58o0yjk=
+X-Received: by 2002:a17:907:3685:b0:9bd:a7a5:3a5a with SMTP id
+ bi5-20020a170907368500b009bda7a53a5amr8464669ejc.36.1699049593900; Fri, 03
+ Nov 2023 15:13:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231103214535.2674059-1-song@kernel.org> <20231103214535.2674059-5-song@kernel.org>
-In-Reply-To: <20231103214535.2674059-5-song@kernel.org>
+References: <20231103214535.2674059-1-song@kernel.org> <20231103214535.2674059-6-song@kernel.org>
+In-Reply-To: <20231103214535.2674059-6-song@kernel.org>
 From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 3 Nov 2023 15:10:11 -0700
-Message-ID: <CAEf4BzY2V1Q_V=JMV4uYqHCSnV0ZDsAaLNq6cm0CPt2d8E4XGA@mail.gmail.com>
-Subject: Re: [PATCH v10 bpf-next 4/9] bpf: Add kfunc bpf_get_file_xattr
+Date: Fri, 3 Nov 2023 15:13:02 -0700
+Message-ID: <CAEf4BzbRrVcHxEdR89UMv6aPpF+478WCpCMx7RFknNMexpUGpw@mail.gmail.com>
+Subject: Re: [PATCH v10 bpf-next 5/9] bpf, fsverity: Add kfunc bpf_get_fsverity_digest
 To: Song Liu <song@kernel.org>
 Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org, 
 	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org, 
 	kernel-team@meta.com, ebiggers@kernel.org, tytso@mit.edu, 
-	roberto.sassu@huaweicloud.com, kpsingh@kernel.org, vadfed@meta.com
+	roberto.sassu@huaweicloud.com, kpsingh@kernel.org, vadfed@meta.com, 
+	Eric Biggers <ebiggers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, Nov 3, 2023 at 2:46=E2=80=AFPM Song Liu <song@kernel.org> wrote:
 >
-> It is common practice for security solutions to store tags/labels in
-> xattrs. To implement similar functionalities in BPF LSM, add new kfunc
-> bpf_get_file_xattr().
->
-> The first use case of bpf_get_file_xattr() is to implement file
-> verifications with asymmetric keys. Specificially, security applications
-> could use fsverity for file hashes and use xattr to store file signatures=
+> fsverity provides fast and reliable hash of files, namely fsverity_digest=
 .
-> (kfunc for fsverity hash will be added in a separate commit.)
+> The digest can be used by security solutions to verify file contents.
 >
-> Currently, only xattrs with "user." prefix can be read with kfunc
-> bpf_get_file_xattr(). As use cases evolve, we may add a dedicated prefix
-> for bpf_get_file_xattr().
+> Add new kfunc bpf_get_fsverity_digest() so that we can access fsverity fr=
+om
+> BPF LSM programs. This kfunc is added to fs/verity/measure.c because some
+> data structure used in the function is private to fsverity
+> (fs/verity/fsverity_private.h).
 >
-> To avoid recursion, bpf_get_file_xattr can be only called from LSM hooks.
+> To avoid recursion, bpf_get_fsverity_digest is only allowed in BPF LSM
+> programs.
 >
 > Signed-off-by: Song Liu <song@kernel.org>
+> Acked-by: Eric Biggers <ebiggers@google.com>
 > ---
->  kernel/trace/bpf_trace.c | 64 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
+>  fs/verity/fsverity_private.h | 10 +++++
+>  fs/verity/init.c             |  1 +
+>  fs/verity/measure.c          | 85 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 96 insertions(+)
 >
-> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-> index bfe6fb83e8d0..82eaa099053b 100644
-> --- a/kernel/trace/bpf_trace.c
-> +++ b/kernel/trace/bpf_trace.c
-> @@ -24,6 +24,7 @@
->  #include <linux/key.h>
->  #include <linux/verification.h>
->  #include <linux/namei.h>
-> +#include <linux/fileattr.h>
+> diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
+> index d071a6e32581..a6a6b2749241 100644
+> --- a/fs/verity/fsverity_private.h
+> +++ b/fs/verity/fsverity_private.h
+> @@ -100,6 +100,16 @@ fsverity_msg(const struct inode *inode, const char *=
+level,
+>  #define fsverity_err(inode, fmt, ...)          \
+>         fsverity_msg((inode), KERN_ERR, fmt, ##__VA_ARGS__)
 >
->  #include <net/bpf_sk_storage.h>
+> +/* measure.c */
+> +
+> +#ifdef CONFIG_BPF_SYSCALL
+> +void __init fsverity_init_bpf(void);
+> +#else
+> +static inline void fsverity_init_bpf(void)
+> +{
+> +}
+> +#endif
+> +
+>  /* open.c */
 >
-> @@ -1431,6 +1432,69 @@ static int __init bpf_key_sig_kfuncs_init(void)
->  late_initcall(bpf_key_sig_kfuncs_init);
->  #endif /* CONFIG_KEYS */
+>  int fsverity_init_merkle_tree_params(struct merkle_tree_params *params,
+> diff --git a/fs/verity/init.c b/fs/verity/init.c
+> index a29f062f6047..1e207c0f71de 100644
+> --- a/fs/verity/init.c
+> +++ b/fs/verity/init.c
+> @@ -69,6 +69,7 @@ static int __init fsverity_init(void)
+>         fsverity_init_workqueue();
+>         fsverity_init_sysctl();
+>         fsverity_init_signature();
+> +       fsverity_init_bpf();
+>         return 0;
+>  }
+>  late_initcall(fsverity_init)
+> diff --git a/fs/verity/measure.c b/fs/verity/measure.c
+> index eec5956141da..a08177eda96e 100644
+> --- a/fs/verity/measure.c
+> +++ b/fs/verity/measure.c
+> @@ -7,6 +7,8 @@
 >
-> +/* filesystem kfuncs */
+>  #include "fsverity_private.h"
+>
+> +#include <linux/bpf.h>
+> +#include <linux/btf.h>
+>  #include <linux/uaccess.h>
+>
+>  /**
+> @@ -100,3 +102,86 @@ int fsverity_get_digest(struct inode *inode,
+>         return hash_alg->digest_size;
+>  }
+>  EXPORT_SYMBOL_GPL(fsverity_get_digest);
+> +
+> +#ifdef CONFIG_BPF_SYSCALL
+> +
+> +/* bpf kfuncs */
 > +__diag_push();
 > +__diag_ignore_all("-Wmissing-prototypes",
 > +                 "kfuncs which will be used in BPF programs");
 > +
 
-please use __bpf_kfunc_{start,end}_defs macros, from [0]
+same as in previous patch, we have dedicated macros for this, please use th=
+em
 
-  [0] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/commit/?i=
-d=3D391145ba2acc
 
 > +/**
-> + * bpf_get_file_xattr - get xattr of a file
-> + * @file: file to get xattr from
-> + * @name__str: name of the xattr
-> + * @value_ptr: output buffer of the xattr value
+> + * bpf_get_fsverity_digest: read fsverity digest of file
+> + * @file: file to get digest from
+> + * @digest_ptr: (out) dynptr for struct fsverity_digest
 > + *
-> + * Get xattr *name__str* of *file* and store the output in *value_ptr*.
-> + *
-> + * For security reasons, only *name__str* with prefix "user." is allowed=
-.
+> + * Read fsverity_digest of *file* into *digest_ptr*.
 > + *
 > + * Return: 0 on success, a negative value on error.
 > + */
-> +__bpf_kfunc int bpf_get_file_xattr(struct file *file, const char *name__=
-str,
-> +                                  struct bpf_dynptr_kern *value_ptr)
+> +__bpf_kfunc int bpf_get_fsverity_digest(struct file *file, struct bpf_dy=
+nptr_kern *digest_ptr)
 > +{
-> +       struct dentry *dentry;
-> +       void *value;
+> +       const struct inode *inode =3D file_inode(file);
+> +       struct fsverity_digest *arg;
+> +       const struct fsverity_info *vi;
+> +       const struct fsverity_hash_alg *hash_alg;
+> +       int out_digest_sz;
 > +
-> +       if (strncmp(name__str, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN))
-> +               return -EPERM;
-> +
-> +       value =3D __bpf_dynptr_data_rw(value_ptr, __bpf_dynptr_size(value=
+> +       arg =3D __bpf_dynptr_data_rw(digest_ptr, __bpf_dynptr_size(digest=
 _ptr));
-> +       if (!value)
+> +       if (!arg)
 > +               return -EINVAL;
 > +
-> +       dentry =3D file_dentry(file);
-> +       return __vfs_getxattr(dentry, dentry->d_inode, name__str,
-> +                             value, __bpf_dynptr_size(value_ptr));
+> +       if (!IS_ALIGNED((uintptr_t)arg, __alignof__(*arg)))
+> +               return -EINVAL;
+> +
+> +       if (__bpf_dynptr_size(digest_ptr) < sizeof(struct fsverity_digest=
+))
+> +               return -EINVAL;
+> +
 
-nit: probably cleaner to get size once into local variable and use
-that throughout
+similar nit, you call __bpf_dynptr_size(digest_ptr) many times, let's
+use `u32 len =3D __bpf_dynptr_size(digest_ptr);` ?
 
+> +       vi =3D fsverity_get_info(inode);
+> +       if (!vi)
+> +               return -ENODATA; /* not a verity file */
+> +
+> +       hash_alg =3D vi->tree_params.hash_alg;
+> +
+> +       arg->digest_algorithm =3D hash_alg - fsverity_hash_algs;
+> +       arg->digest_size =3D hash_alg->digest_size;
+> +
+> +       out_digest_sz =3D __bpf_dynptr_size(digest_ptr) - sizeof(struct f=
+sverity_digest);
+> +
+> +       /* copy digest */
+> +       memcpy(arg->digest, vi->file_digest,  min_t(int, hash_alg->digest=
+_size, out_digest_sz));
+> +
+> +       /* fill the extra buffer with zeros */
+> +       if (out_digest_sz > hash_alg->digest_size)
+> +               memset(arg->digest + arg->digest_size, 0, out_digest_sz -=
+ hash_alg->digest_size);
+> +
+> +       return 0;
 > +}
 > +
 > +__diag_pop();
 > +
-> +BTF_SET8_START(fs_kfunc_set_ids)
-> +BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE | KF_TRUSTED_ARGS)
-> +BTF_SET8_END(fs_kfunc_set_ids)
+> +BTF_SET8_START(fsverity_set_ids)
+> +BTF_ID_FLAGS(func, bpf_get_fsverity_digest, KF_TRUSTED_ARGS)
+> +BTF_SET8_END(fsverity_set_ids)
 > +
-> +static int bpf_get_file_xattr_filter(const struct bpf_prog *prog, u32 kf=
-unc_id)
+> +static int bpf_get_fsverity_digest_filter(const struct bpf_prog *prog, u=
+32 kfunc_id)
 > +{
-> +       if (!btf_id_set8_contains(&fs_kfunc_set_ids, kfunc_id))
+> +       if (!btf_id_set8_contains(&fsverity_set_ids, kfunc_id))
 > +               return 0;
 > +
 > +       /* Only allow to attach from LSM hooks, to avoid recursion */
 > +       return prog->type !=3D BPF_PROG_TYPE_LSM ? -EACCES : 0;
 > +}
 > +
-> +const struct btf_kfunc_id_set bpf_fs_kfunc_set =3D {
+> +static const struct btf_kfunc_id_set bpf_fsverity_set =3D {
 > +       .owner =3D THIS_MODULE,
-> +       .set =3D &fs_kfunc_set_ids,
-> +       .filter =3D bpf_get_file_xattr_filter,
+> +       .set =3D &fsverity_set_ids,
+> +       .filter =3D bpf_get_fsverity_digest_filter,
 > +};
 > +
-> +static int __init bpf_fs_kfuncs_init(void)
+> +void __init fsverity_init_bpf(void)
 > +{
-> +       return register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM, &bpf_fs_kfunc=
-_set);
+> +       register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM, &bpf_fsverity_set);
 > +}
 > +
-> +late_initcall(bpf_fs_kfuncs_init);
-> +
->  static const struct bpf_func_proto *
->  bpf_tracing_func_proto(enum bpf_func_id func_id, const struct bpf_prog *=
-prog)
->  {
+> +#endif /* CONFIG_BPF_SYSCALL */
 > --
 > 2.34.1
 >
