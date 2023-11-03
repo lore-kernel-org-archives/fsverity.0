@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD99224A05
-	for <fsverity@lists.linux.dev>; Fri,  3 Nov 2023 22:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F89124210
+	for <fsverity@lists.linux.dev>; Fri,  3 Nov 2023 22:38:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZteZuTLU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 681BEC433CB
-	for <fsverity@lists.linux.dev>; Fri,  3 Nov 2023 22:31:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="piq2Xbfc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9481AC43391
+	for <fsverity@lists.linux.dev>; Fri,  3 Nov 2023 22:38:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699050672;
-	bh=WPM6k9kn/HmBf0/BCbOY3f2M3fZaAB9WusEqUoIe2kE=;
+	s=k20201202; t=1699051109;
+	bh=rwZYuCDTu3QKq02PnV+Y8+YL8wJQD1ZL3YtkXrfKlaM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ZteZuTLUDvu102CClYSpTljC7ZgR4a8TaoGplB2rlBfTCn3izIR3rqtCY/quCXa/h
-	 Vrl5Iqrbec35koprF74w3PwnPhOvIeYaEf/X4wvZMIjU2o1+EtbA2Wub6Bx6kBbCaB
-	 ftvKHDiFkrT02D0GHpTTBVdwjj56bzcCadQ5ZR2WzfqF98nDX0qGNHUy46QOEHIsCE
-	 nZFTrZUe1ejNko9uBVoWhWVHeU9sV9cyCUupT1lTP+Xc9VX4jhUZuXmUHlllhDbnXT
-	 1ZWlxBo6gSjop6tUiLYRzN+Re1olEyqPo7gxNTLxA3LXUM0yL8t0+cqsgwVwFyQSL3
-	 8kNyirSm/LidQ==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5079f9675c6so3299596e87.2
-        for <fsverity@lists.linux.dev>; Fri, 03 Nov 2023 15:31:12 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyO2diOuqgrS0vFJ6Ywt1E+SMz4g42+4yzUE9Sq+pDXYMFr+Tls
-	Lfsh4o5bXhRtDm9XhVW9vq1eKhZtSfH+q3U0W9A=
-X-Google-Smtp-Source: AGHT+IEPzgZH3k8F9rp7SzaHtyZamcutA298rWa6T7g6/zXjun0PPInW97S1guGu+5fKJ1VfRAjS+P16yEA4xu48hhA=
-X-Received: by 2002:a05:6512:108e:b0:507:9d71:2a77 with SMTP id
- j14-20020a056512108e00b005079d712a77mr20657143lfg.17.1699050670456; Fri, 03
- Nov 2023 15:31:10 -0700 (PDT)
+	b=piq2Xbfca6c0LozRQm3uA2++cKtx4JjdcQC7IM22DeUTT7lNW1H7Dvv/b+UqQN8am
+	 lDzI4EoBd1B6Rh1YtZ+EG7n4AF2jjxPqtfpeKwiIzL0k2SV0p5Nxb2HIPh8AluIq+w
+	 cM4Y0tggAcFKvi8+AwunhTVwRQGEGsPE0KRGFa7Cvd0tbxz4lfcVUNg6X7xH5WbDvr
+	 6W6JBktnsVyL8WkwiZ7/htXE5DfcssqQrlUr5xeAQO8uqhQCzbpEu6h7PmIF3J6TZj
+	 lE55Pe0d2IX8amTfBhZl6RJpG2rmH/NKOO7P1Tk/FFQGJ76qCCFeO2uQXS3JREAj6b
+	 1A5FQEg4P/Iew==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-507b96095abso3186587e87.3
+        for <fsverity@lists.linux.dev>; Fri, 03 Nov 2023 15:38:29 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yyu0Q8xNfhqIbwXOWJidgoYh4ATNTuKqyte3dAzrKZE12xNik9X
+	KA2yMofmYE7udmpLjuMbIy1vYipk37ccYHQXgrg=
+X-Google-Smtp-Source: AGHT+IGv0APfyo/yc82yo4pqN1mIhmcEo77o8b1SEMjnWnl14p4htkDs/Xq3+71y6JnRczMNHJObjh8J/PQLmAnUZ38=
+X-Received: by 2002:a05:6512:3282:b0:503:28cb:c087 with SMTP id
+ p2-20020a056512328200b0050328cbc087mr16556506lfe.29.1699051107766; Fri, 03
+ Nov 2023 15:38:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -32,12 +32,12 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20231103214535.2674059-1-song@kernel.org> <20231103214535.2674059-5-song@kernel.org>
- <CAEf4BzY2V1Q_V=JMV4uYqHCSnV0ZDsAaLNq6cm0CPt2d8E4XGA@mail.gmail.com>
-In-Reply-To: <CAEf4BzY2V1Q_V=JMV4uYqHCSnV0ZDsAaLNq6cm0CPt2d8E4XGA@mail.gmail.com>
+ <CAEf4BzY2V1Q_V=JMV4uYqHCSnV0ZDsAaLNq6cm0CPt2d8E4XGA@mail.gmail.com> <CAPhsuW6yG8zL12KcjZQOB5Q9YbUdf5T3cxyzMx_GF3v_uw=LXA@mail.gmail.com>
+In-Reply-To: <CAPhsuW6yG8zL12KcjZQOB5Q9YbUdf5T3cxyzMx_GF3v_uw=LXA@mail.gmail.com>
 From: Song Liu <song@kernel.org>
-Date: Fri, 3 Nov 2023 15:30:58 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW6yG8zL12KcjZQOB5Q9YbUdf5T3cxyzMx_GF3v_uw=LXA@mail.gmail.com>
-Message-ID: <CAPhsuW6yG8zL12KcjZQOB5Q9YbUdf5T3cxyzMx_GF3v_uw=LXA@mail.gmail.com>
+Date: Fri, 3 Nov 2023 15:38:15 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW5Y4=e5Zhhcc2J+O55AVuuSAF=YfajqOiuE8VZyXbxvkQ@mail.gmail.com>
+Message-ID: <CAPhsuW5Y4=e5Zhhcc2J+O55AVuuSAF=YfajqOiuE8VZyXbxvkQ@mail.gmail.com>
 Subject: Re: [PATCH v10 bpf-next 4/9] bpf: Add kfunc bpf_get_file_xattr
 To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
 Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org, 
@@ -47,67 +47,76 @@ Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, ast@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 3, 2023 at 3:10=E2=80=AFPM Andrii Nakryiko
-<andrii.nakryiko@gmail.com> wrote:
+On Fri, Nov 3, 2023 at 3:30=E2=80=AFPM Song Liu <song@kernel.org> wrote:
 >
-> On Fri, Nov 3, 2023 at 2:46=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+> On Fri, Nov 3, 2023 at 3:10=E2=80=AFPM Andrii Nakryiko
+> <andrii.nakryiko@gmail.com> wrote:
 > >
-> > It is common practice for security solutions to store tags/labels in
-> > xattrs. To implement similar functionalities in BPF LSM, add new kfunc
-> > bpf_get_file_xattr().
+> > On Fri, Nov 3, 2023 at 2:46=E2=80=AFPM Song Liu <song@kernel.org> wrote=
+:
+> > >
+> > > It is common practice for security solutions to store tags/labels in
+> > > xattrs. To implement similar functionalities in BPF LSM, add new kfun=
+c
+> > > bpf_get_file_xattr().
+> > >
+> > > The first use case of bpf_get_file_xattr() is to implement file
+> > > verifications with asymmetric keys. Specificially, security applicati=
+ons
+> > > could use fsverity for file hashes and use xattr to store file signat=
+ures.
+> > > (kfunc for fsverity hash will be added in a separate commit.)
+> > >
+> > > Currently, only xattrs with "user." prefix can be read with kfunc
+> > > bpf_get_file_xattr(). As use cases evolve, we may add a dedicated pre=
+fix
+> > > for bpf_get_file_xattr().
+> > >
+> > > To avoid recursion, bpf_get_file_xattr can be only called from LSM ho=
+oks.
+> > >
+> > > Signed-off-by: Song Liu <song@kernel.org>
+> > > ---
+> > >  kernel/trace/bpf_trace.c | 64 ++++++++++++++++++++++++++++++++++++++=
+++
+> > >  1 file changed, 64 insertions(+)
+> > >
+> > > diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+> > > index bfe6fb83e8d0..82eaa099053b 100644
+> > > --- a/kernel/trace/bpf_trace.c
+> > > +++ b/kernel/trace/bpf_trace.c
+> > > @@ -24,6 +24,7 @@
+> > >  #include <linux/key.h>
+> > >  #include <linux/verification.h>
+> > >  #include <linux/namei.h>
+> > > +#include <linux/fileattr.h>
+> > >
+> > >  #include <net/bpf_sk_storage.h>
+> > >
+> > > @@ -1431,6 +1432,69 @@ static int __init bpf_key_sig_kfuncs_init(void=
+)
+> > >  late_initcall(bpf_key_sig_kfuncs_init);
+> > >  #endif /* CONFIG_KEYS */
+> > >
+> > > +/* filesystem kfuncs */
+> > > +__diag_push();
+> > > +__diag_ignore_all("-Wmissing-prototypes",
+> > > +                 "kfuncs which will be used in BPF programs");
+> > > +
 > >
-> > The first use case of bpf_get_file_xattr() is to implement file
-> > verifications with asymmetric keys. Specificially, security application=
-s
-> > could use fsverity for file hashes and use xattr to store file signatur=
-es.
-> > (kfunc for fsverity hash will be added in a separate commit.)
+> > please use __bpf_kfunc_{start,end}_defs macros, from [0]
 > >
-> > Currently, only xattrs with "user." prefix can be read with kfunc
-> > bpf_get_file_xattr(). As use cases evolve, we may add a dedicated prefi=
-x
-> > for bpf_get_file_xattr().
-> >
-> > To avoid recursion, bpf_get_file_xattr can be only called from LSM hook=
-s.
-> >
-> > Signed-off-by: Song Liu <song@kernel.org>
-> > ---
-> >  kernel/trace/bpf_trace.c | 64 ++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 64 insertions(+)
-> >
-> > diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-> > index bfe6fb83e8d0..82eaa099053b 100644
-> > --- a/kernel/trace/bpf_trace.c
-> > +++ b/kernel/trace/bpf_trace.c
-> > @@ -24,6 +24,7 @@
-> >  #include <linux/key.h>
-> >  #include <linux/verification.h>
-> >  #include <linux/namei.h>
-> > +#include <linux/fileattr.h>
-> >
-> >  #include <net/bpf_sk_storage.h>
-> >
-> > @@ -1431,6 +1432,69 @@ static int __init bpf_key_sig_kfuncs_init(void)
-> >  late_initcall(bpf_key_sig_kfuncs_init);
-> >  #endif /* CONFIG_KEYS */
-> >
-> > +/* filesystem kfuncs */
-> > +__diag_push();
-> > +__diag_ignore_all("-Wmissing-prototypes",
-> > +                 "kfuncs which will be used in BPF programs");
-> > +
+> >   [0] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/commi=
+t/?id=3D391145ba2acc
 >
-> please use __bpf_kfunc_{start,end}_defs macros, from [0]
+> Nice! I was thinking about the same issue (-Wmissing-declarations).
 >
->   [0] https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/commit/=
-?id=3D391145ba2acc
+> But this patch is not pulled into bpf-next yet (only in bpf). How about w=
+e keep
+> __diag_ignore_all() etc for now?
 
-Nice! I was thinking about the same issue (-Wmissing-declarations).
-
-But this patch is not pulled into bpf-next yet (only in bpf). How about we =
-keep
-__diag_ignore_all() etc for now?
+I will add __diag_ignore_all("-Wmissing-declarations",) so it is
+equivalent to the marcos.
 
 Thanks,
 Song
