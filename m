@@ -1,134 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB31315486
-	for <fsverity@lists.linux.dev>; Sat,  4 Nov 2023 14:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C0529406
+	for <fsverity@lists.linux.dev>; Mon,  6 Nov 2023 16:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o5z234Va"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AB24C433C8
-	for <fsverity@lists.linux.dev>; Sat,  4 Nov 2023 14:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699107625;
-	bh=wZpOCAU5mY7uFfo9DV98+jAKBckA2RTB7y7ZgaNtx6c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=o5z234VaMJBz7suMBtcKHsVOLTg23kjAnfPqXscJAnazGXfvzcWBJMA7stFTdPsv2
-	 GW/xIk35SQ49DG+gOPmIHqcLZL/URNvpcqls2ec8JdXe7OU0/Gxurs5cPZy4iTSVj8
-	 aSa0RqbO7Bd6CcCN05v5AVt/1ANhq1UnW+rrLHN7asRwwZJKy7XFdeFoVnUq+rvKkS
-	 12ge45ISZknYpOuor01xU6HCubc4dVxF6H4XQwSNDGpbPmk6hoXSWqJvQZpAAGMIje
-	 hE52to7juLuVZLm//5YPZQp2nsHFs1D4G1T5Z5g0K3Sl7hLOizIYRXKX2XX20VrLJX
-	 I2KHKFTA/CW5g==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-507cd62472dso4400344e87.0
-        for <fsverity@lists.linux.dev>; Sat, 04 Nov 2023 07:20:25 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxqvMffoDHrYo5mlmKNpu6cdUphh4byF5Buz1N45oWPpe1R8yW5
-	PwfR3kwpenULlA6hjjtPoEW5gqb6mT2WhQQwmmA=
-X-Google-Smtp-Source: AGHT+IH60DHhtEiSeA0J868tqohhwMKB1L+HEPn1/tOmFiUiL+j8HDOny2rPXCqd3v1ghchNr7MVEWeA3LxlC7FdKNs=
-X-Received: by 2002:ac2:4d96:0:b0:504:879c:34ac with SMTP id
- g22-20020ac24d96000000b00504879c34acmr1978732lfe.31.1699107623491; Sat, 04
- Nov 2023 07:20:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="b3+YCjG1"
+Message-ID: <bc0a0262-31e3-404e-8e45-e1d09ab8ad29@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1699288790;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oN9A869VZHCBy48m5tePmOYoJKbQb+kLiJFQutRmqPQ=;
+	b=b3+YCjG1D3/OMasxPQ3TVixojodUlNjX2S0fLv8KGgr72FzTRnd4/DDWhL5W428pId3nvv
+	qsbijvUaho/aG5vSGdiy4wlE8Rzzumxyt4eMm9prMiHdh81IUSk9zPUtmvjiahR2CqCNfa
+	V2/qepoxPkiL96qdazO6xow95ByHh54=
+Date: Mon, 6 Nov 2023 16:39:46 +0000
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231104001313.3538201-1-song@kernel.org> <20231104001313.3538201-5-song@kernel.org>
- <CAADnVQJX8E_2vdacqrwgQ9+Hj0ogQJN80UGvOtjxNTQBpZ+eHA@mail.gmail.com>
-In-Reply-To: <CAADnVQJX8E_2vdacqrwgQ9+Hj0ogQJN80UGvOtjxNTQBpZ+eHA@mail.gmail.com>
-From: Song Liu <song@kernel.org>
-Date: Sat, 4 Nov 2023 07:20:11 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW6L8W+L33LWW667=fb=RgCdrPu6tBXEuRpg4E3NUXj6MQ@mail.gmail.com>
-Message-ID: <CAPhsuW6L8W+L33LWW667=fb=RgCdrPu6tBXEuRpg4E3NUXj6MQ@mail.gmail.com>
-Subject: Re: [PATCH v12 bpf-next 4/9] bpf: Add kfunc bpf_get_file_xattr
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: bpf <bpf@vger.kernel.org>, fsverity@lists.linux.dev, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@kernel.org>, 
-	Kernel Team <kernel-team@meta.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Roberto Sassu <roberto.sassu@huaweicloud.com>, 
-	KP Singh <kpsingh@kernel.org>, Vadim Fedorenko <vadfed@meta.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v12 bpf-next 1/9] bpf: Add __bpf_dynptr_data* for in
+ kernel use
+Content-Language: en-US
+To: Song Liu <song@kernel.org>, bpf@vger.kernel.org, fsverity@lists.linux.dev
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ martin.lau@kernel.org, kernel-team@meta.com, ebiggers@kernel.org,
+ tytso@mit.edu, roberto.sassu@huaweicloud.com, kpsingh@kernel.org,
+ vadfed@meta.com
+References: <20231104001313.3538201-1-song@kernel.org>
+ <20231104001313.3538201-2-song@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+In-Reply-To: <20231104001313.3538201-2-song@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Alexei,
+On 04/11/2023 00:13, Song Liu wrote:
+> Different types of bpf dynptr have different internal data storage.
+> Specifically, SKB and XDP type of dynptr may have non-continuous data.
+> Therefore, it is not always safe to directly access dynptr->data.
+> 
+> Add __bpf_dynptr_data and __bpf_dynptr_data_rw to replace direct access to
+> dynptr->data.
+> 
+> Update bpf_verify_pkcs7_signature to use __bpf_dynptr_data instead of
+> dynptr->data.
+> 
+> Signed-off-by: Song Liu <song@kernel.org>
+> ---
+>   include/linux/bpf.h      |  2 ++
+>   kernel/bpf/helpers.c     | 47 ++++++++++++++++++++++++++++++++++++++++
+>   kernel/trace/bpf_trace.c | 12 ++++++----
+>   3 files changed, 57 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/bpf.h b/include/linux/bpf.h
+> index b4825d3cdb29..eb84caf133df 100644
+> --- a/include/linux/bpf.h
+> +++ b/include/linux/bpf.h
+> @@ -1222,6 +1222,8 @@ enum bpf_dynptr_type {
+>   
+>   int bpf_dynptr_check_size(u32 size);
+>   u32 __bpf_dynptr_size(const struct bpf_dynptr_kern *ptr);
+> +const void *__bpf_dynptr_data(const struct bpf_dynptr_kern *ptr, u32 len);
+> +void *__bpf_dynptr_data_rw(const struct bpf_dynptr_kern *ptr, u32 len);
+>   
+>   #ifdef CONFIG_BPF_JIT
+>   int bpf_trampoline_link_prog(struct bpf_tramp_link *link, struct bpf_trampoline *tr);
+> diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+> index e46ac288a108..c569c4c43bde 100644
+> --- a/kernel/bpf/helpers.c
+> +++ b/kernel/bpf/helpers.c
+> @@ -2611,3 +2611,50 @@ static int __init kfunc_init(void)
+>   }
+>   
+>   late_initcall(kfunc_init);
+> +
+> +/* Get a pointer to dynptr data up to len bytes for read only access. If
+> + * the dynptr doesn't have continuous data up to len bytes, return NULL.
+> + */
+> +const void *__bpf_dynptr_data(const struct bpf_dynptr_kern *ptr, u32 len)
+> +{
+> +	enum bpf_dynptr_type type;
+> +	int err;
+> +
+> +	if (!ptr->data)
+> +		return NULL;
+> +
+> +	err = bpf_dynptr_check_off_len(ptr, 0, len);
+> +	if (err)
+> +		return NULL;
+> +	type = bpf_dynptr_get_type(ptr);
+> +
+> +	switch (type) {
+> +	case BPF_DYNPTR_TYPE_LOCAL:
+> +	case BPF_DYNPTR_TYPE_RINGBUF:
+> +		return ptr->data + ptr->offset;
+> +	case BPF_DYNPTR_TYPE_SKB:
+> +		return skb_pointer_if_linear(ptr->data, ptr->offset, len);
+> +	case BPF_DYNPTR_TYPE_XDP:
+> +	{
+> +		void *xdp_ptr = bpf_xdp_pointer(ptr->data, ptr->offset, len);
+> +
+> +		if (IS_ERR_OR_NULL(xdp_ptr))
+> +			return NULL;
+> +		return xdp_ptr;
+> +	}
+> +	default:
+> +		WARN_ONCE(true, "unknown dynptr type %d\n", type);
+> +		return NULL;
+> +	}
+> +}
+> +
+> +/* Get a pointer to dynptr data up to len bytes for read write access. If
+> + * the dynptr doesn't have continuous data up to len bytes, or the dynptr
+> + * is read only, return NULL.
+> + */
+> +void *__bpf_dynptr_data_rw(const struct bpf_dynptr_kern *ptr, u32 len)
+> +{
+> +	if (__bpf_dynptr_is_rdonly(ptr))
+> +		return NULL;
+> +	return (void *)__bpf_dynptr_data(ptr, len);
+> +}
+> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
+> index df697c74d519..d525a22b8d56 100644
+> --- a/kernel/trace/bpf_trace.c
+> +++ b/kernel/trace/bpf_trace.c
+> @@ -1378,6 +1378,8 @@ __bpf_kfunc int bpf_verify_pkcs7_signature(struct bpf_dynptr_kern *data_ptr,
+>   			       struct bpf_dynptr_kern *sig_ptr,
+>   			       struct bpf_key *trusted_keyring)
+>   {
+> +	const void *data, *sig;
+> +	u32 data_len, sig_len;
+>   	int ret;
+>   
+>   	if (trusted_keyring->has_ref) {
+> @@ -1394,10 +1396,12 @@ __bpf_kfunc int bpf_verify_pkcs7_signature(struct bpf_dynptr_kern *data_ptr,
+>   			return ret;
+>   	}
+>   
+> -	return verify_pkcs7_signature(data_ptr->data,
+> -				      __bpf_dynptr_size(data_ptr),
+> -				      sig_ptr->data,
+> -				      __bpf_dynptr_size(sig_ptr),
+> +	data_len = __bpf_dynptr_size(data_ptr);
+> +	data = __bpf_dynptr_data(data_ptr, data_len);
+> +	sig_len = __bpf_dynptr_size(sig_ptr);
+> +	sig = __bpf_dynptr_data(sig_ptr, sig_len);
+> +
+> +	return verify_pkcs7_signature(data, data_len, sig, sig_len,
+>   				      trusted_keyring->key,
+>   				      VERIFYING_UNSPECIFIED_SIGNATURE, NULL,
+>   				      NULL);
 
-On Sat, Nov 4, 2023 at 2:11=E2=80=AFAM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Fri, Nov 3, 2023 at 5:13=E2=80=AFPM Song Liu <song@kernel.org> wrote:
-> >
-> > It is common practice for security solutions to store tags/labels in
-> > xattrs. To implement similar functionalities in BPF LSM, add new kfunc
-> > bpf_get_file_xattr().
-> >
-> > The first use case of bpf_get_file_xattr() is to implement file
-> > verifications with asymmetric keys. Specificially, security application=
-s
-> > could use fsverity for file hashes and use xattr to store file signatur=
-es.
-> > (kfunc for fsverity hash will be added in a separate commit.)
-> >
-> > Currently, only xattrs with "user." prefix can be read with kfunc
-> > bpf_get_file_xattr(). As use cases evolve, we may add a dedicated prefi=
-x
-> > for bpf_get_file_xattr().
-> >
-> > To avoid recursion, bpf_get_file_xattr can be only called from LSM hook=
-s.
->
-> Song,
->
-> have you studied the prior attempt to add this kfunc?
-> https://lore.kernel.org/bpf/20220628161948.475097-1-kpsingh@kernel.org/
-
-I studied this thread, and I think I addressed the concerns.
-
-> file instead of (dentry,inode) pair makes sense,
-> and restricting to "user." prefix makes sense to me as well,
-> but you need to cc vfs experts in the future.
-
-I will cc vfs experts and lists for future versions.
-
->
-> > + * For security reasons, only *name__str* with prefix "user." is allow=
-ed.
-> > + *
-> > + * Return: 0 on success, a negative value on error.
-> > + */
-> > +__bpf_kfunc int bpf_get_file_xattr(struct file *file, const char *name=
-__str,
-> > +                                  struct bpf_dynptr_kern *value_ptr)
-> > +{
-> > +       struct dentry *dentry;
-> > +       u32 value_len;
-> > +       void *value;
-> > +
-> > +       if (strncmp(name__str, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN=
-))
-> > +               return -EPERM;
-> > +
-> > +       value_len =3D __bpf_dynptr_size(value_ptr);
-> > +       value =3D __bpf_dynptr_data_rw(value_ptr, value_len);
-> > +       if (!value)
-> > +               return -EINVAL;
-> > +
-> > +       dentry =3D file_dentry(file);
-> > +       return __vfs_getxattr(dentry, dentry->d_inode, name__str, value=
-, value_len);
-> > +}
-> > +
-> > +__diag_pop();
-> > +
-> > +BTF_SET8_START(fs_kfunc_set_ids)
-> > +BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE | KF_TRUSTED_ARGS)
->
-> See earlier Al's point. Just sleepable is not enough.
-
-In bpf_get_file_xattr_filter() we only allow calling
-bpf_get_file_xattr from LSM hooks.
-AFAICT, this is enough to avoid deadlock. We still need KF_SLEEPABLE here
-because xattr_handler->get() may block (lock xattr_sem).
-
-Did I miss something?
-
-Thanks,
-Song
+Acked-by: Vadim Fedorenko <vadim.fedorenko@linux.dev>
