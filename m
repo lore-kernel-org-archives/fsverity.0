@@ -1,167 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57700364B1
-	for <fsverity@lists.linux.dev>; Fri, 24 Nov 2023 17:07:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7C73C46A;
+	Fri, 24 Nov 2023 21:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EHfGx7AA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB2D4C433C7
-	for <fsverity@lists.linux.dev>; Fri, 24 Nov 2023 17:07:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700845667;
-	bh=cnsIeUB3QWfjt+PPATu/fFPdUe8LeGe+3jxHVgdEdwE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=EHfGx7AAatARRcfU+6WWe8TQOVA8irrUSOs22TkTQH/kmu19FcFePN+Ek2j0sZIS8
-	 UUkb1qY599ngUgnlMi22YIwIQB7MFPYXg+Z5XI8MmUQBCS8JwDbUWK0pDhGt5YivMv
-	 Fpap6EqQcQclwIV/3kfssgNkeaiTOZJ20WollKWi8g34UYBH3d5iryBEdDSXlBJqrU
-	 2Ezu5t8Y+m9gXpu3mHB6mlcdS7/BMUUSQErYQYD0/QdulGLVQ0xiC8jefm0q27NLMA
-	 a7cemUXEV1gloCekfJQkstXmDQlqAw/vDfIJJXFWz/vn52MlGnvtBUkY5CXpt5/ZHN
-	 f3tki/A3CGh3A==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c871890c12so27745111fa.2
-        for <fsverity@lists.linux.dev>; Fri, 24 Nov 2023 09:07:47 -0800 (PST)
-X-Gm-Message-State: AOJu0YyHi9nShFl1MZJZqnAvnjtnoMusGcvoJaoU9CqO8c9H2tVjjrCe
-	XV1U14V2LxzTb9PMK/zVsrhikxoGBxxoEPdVVWo=
-X-Google-Smtp-Source: AGHT+IEnxzHxnp7pO7/lcj86dKEOjoxyqJGpnUjkhlmbDBvY9baA9RBd0DTJkLfmgVjbeQl4yVF9iIJsodkqcgX+fFg=
-X-Received: by 2002:a2e:93cf:0:b0:2c5:6e01:58b8 with SMTP id
- p15-20020a2e93cf000000b002c56e0158b8mr2491614ljh.37.1700845666059; Fri, 24
- Nov 2023 09:07:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bw9VZkrv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700862895; x=1732398895;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jGRZBAZBF364mV5fItFOiFIV3VjaPOBDqkOVnrlj6us=;
+  b=Bw9VZkrvJVcXdJklBvjfhvygTDlKBdYy2fnsY1L1BWEtKBrsURqTBDgT
+   DxA4v95RnMJWgonakbUlzi5DB815K9+XeypYR+/ff+0AqfyNm4aPqEvf1
+   qDEqxsFiN8Is9dz7akDJvFtd7+2PQzkuubtGW+R2l22rMKbvrx5jMGU/s
+   ByvLA+jqP+Luk2EgspudQ4LwplliB+772XJUrE9cVX3w8S8AabDvbw48F
+   N4Lion8we1TqJ/dboCWx2R3l73zgnEUhzJZwtuXwG6fH78YAQ1vlG69nc
+   d9vKCHs4mLHqK+B2z+KD3J1YgbhyT/6YkG/sK57CarT5ppgiW9Rnem/Wx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="391344093"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="391344093"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 13:54:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="802229620"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="802229620"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 24 Nov 2023 13:54:50 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r6e8N-0003Jb-30;
+	Fri, 24 Nov 2023 21:54:47 +0000
+Date: Sat, 25 Nov 2023 05:54:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Song Liu <song@kernel.org>, bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, ebiggers@kernel.org, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+	brauner@kernel.org, viro@zeniv.linux.org.uk, casey@schaufler-ca.com,
+	amir73il@gmail.com, kpsingh@kernel.org, roberto.sassu@huawei.com,
+	Song Liu <song@kernel.org>
+Subject: Re: [PATCH v13 bpf-next 6/6] selftests/bpf: Add test that uses
+ fsverity and xattr to sign a file
+Message-ID: <202311250314.KGxKh0fm-lkp@intel.com>
+References: <20231123233936.3079687-7-song@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231123233936.3079687-1-song@kernel.org> <20231123233936.3079687-2-song@kernel.org>
- <20231124-heilung-wohnumfeld-6b7797c4d41a@brauner>
-In-Reply-To: <20231124-heilung-wohnumfeld-6b7797c4d41a@brauner>
-From: Song Liu <song@kernel.org>
-Date: Fri, 24 Nov 2023 09:07:33 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW7BFzsBv48xgbY4-2xhG1-GazBuQq_pnaUrJqY1q_H27w@mail.gmail.com>
-Message-ID: <CAPhsuW7BFzsBv48xgbY4-2xhG1-GazBuQq_pnaUrJqY1q_H27w@mail.gmail.com>
-Subject: Re: [PATCH v13 bpf-next 1/6] bpf: Add kfunc bpf_get_file_xattr
-To: Christian Brauner <brauner@kernel.org>
-Cc: bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev, ebiggers@kernel.org, 
-	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	viro@zeniv.linux.org.uk, casey@schaufler-ca.com, amir73il@gmail.com, 
-	kpsingh@kernel.org, roberto.sassu@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231123233936.3079687-7-song@kernel.org>
 
-On Fri, Nov 24, 2023 at 12:44=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
->
-> On Thu, Nov 23, 2023 at 03:39:31PM -0800, Song Liu wrote:
-> > It is common practice for security solutions to store tags/labels in
-> > xattrs. To implement similar functionalities in BPF LSM, add new kfunc
-> > bpf_get_file_xattr().
-> >
-> > The first use case of bpf_get_file_xattr() is to implement file
-> > verifications with asymmetric keys. Specificially, security application=
-s
-> > could use fsverity for file hashes and use xattr to store file signatur=
-es.
-> > (kfunc for fsverity hash will be added in a separate commit.)
-> >
-> > Currently, only xattrs with "user." prefix can be read with kfunc
-> > bpf_get_file_xattr(). As use cases evolve, we may add a dedicated prefi=
-x
-> > for bpf_get_file_xattr().
-> >
-> > To avoid recursion, bpf_get_file_xattr can be only called from LSM hook=
-s.
-> >
-> > Signed-off-by: Song Liu <song@kernel.org>
-> > ---
->
-> Looks ok to me. But see below for a question.
->
-> If you ever allow the retrieval of additional extended attributes
-> through bfs_get_file_xattr() or other bpf interfaces we would like to be
-> Cced, please. The xattr stuff is (/me looks for suitable words)...
->
-> Over the last months we've moved POSIX_ACL retrieval out of these
-> low-level functions. They now have a dedicated api. The same is going to
-> happen for fscaps as well.
->
-> But even with these out of the way we would want the bpf helpers to
-> always maintain an allowlist of retrievable attributes.
+Hi Song,
 
-Agreed. We will be very specific which attributes are available to bpf
-helpers/kfuncs.
+kernel test robot noticed the following build errors:
 
->
-> >  kernel/trace/bpf_trace.c | 63 ++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 63 insertions(+)
-> >
-> > diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-> > index f0b8b7c29126..55758a6fbe90 100644
-> > --- a/kernel/trace/bpf_trace.c
-> > +++ b/kernel/trace/bpf_trace.c
-> > @@ -24,6 +24,7 @@
-> >  #include <linux/key.h>
-> >  #include <linux/verification.h>
-> >  #include <linux/namei.h>
-> > +#include <linux/fileattr.h>
-> >
-> >  #include <net/bpf_sk_storage.h>
-> >
-> > @@ -1431,6 +1432,68 @@ static int __init bpf_key_sig_kfuncs_init(void)
-> >  late_initcall(bpf_key_sig_kfuncs_init);
-> >  #endif /* CONFIG_KEYS */
-> >
-> > +/* filesystem kfuncs */
-> > +__bpf_kfunc_start_defs();
-> > +
-> > +/**
-> > + * bpf_get_file_xattr - get xattr of a file
-> > + * @file: file to get xattr from
-> > + * @name__str: name of the xattr
-> > + * @value_ptr: output buffer of the xattr value
-> > + *
-> > + * Get xattr *name__str* of *file* and store the output in *value_ptr*=
-.
-> > + *
-> > + * For security reasons, only *name__str* with prefix "user." is allow=
-ed.
-> > + *
-> > + * Return: 0 on success, a negative value on error.
-> > + */
-> > +__bpf_kfunc int bpf_get_file_xattr(struct file *file, const char *name=
-__str,
-> > +                                struct bpf_dynptr_kern *value_ptr)
-> > +{
-> > +     struct dentry *dentry;
-> > +     u32 value_len;
-> > +     void *value;
-> > +
-> > +     if (strncmp(name__str, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN))
-> > +             return -EPERM;
-> > +
-> > +     value_len =3D __bpf_dynptr_size(value_ptr);
-> > +     value =3D __bpf_dynptr_data_rw(value_ptr, value_len);
-> > +     if (!value)
-> > +             return -EINVAL;
-> > +
-> > +     dentry =3D file_dentry(file);
-> > +     return __vfs_getxattr(dentry, dentry->d_inode, name__str, value, =
-value_len);
->
-> By calling __vfs_getxattr() from bpf_get_file_xattr() you're skipping at
-> least inode_permission() from xattr_permission(). I'm probably just
-> missing or forgot the context. But why is that ok?
+[auto build test ERROR on bpf-next/master]
 
-AFAICT, the XATTR_USER_PREFIX above is equivalent to the prefix
-check in xattr_permission().
+url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/bpf-Add-kfunc-bpf_get_file_xattr/20231124-074239
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231123233936.3079687-7-song%40kernel.org
+patch subject: [PATCH v13 bpf-next 6/6] selftests/bpf: Add test that uses fsverity and xattr to sign a file
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311250314.KGxKh0fm-lkp@intel.com/reproduce)
 
-For inode_permission(), I think it is not required because we already
-have the "struct file" of  the target file. Did I misunderstand something
-here?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311250314.KGxKh0fm-lkp@intel.com/
 
-Thanks,
-Song
+All errors (new ones prefixed by >>):
 
-> > +}
-> > +
+>> progs/test_sig_in_xattr.c:36:26: error: invalid application of 'sizeof' to an incomplete type 'struct fsverity_digest'
+      36 | char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_SIZE];
+         |                          ^     ~~~~~~~~~~~~~~~~~~~~~~~~
+   progs/test_sig_in_xattr.c:36:40: note: forward declaration of 'struct fsverity_digest'
+      36 | char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_SIZE];
+         |                                        ^
+   1 error generated.
 
-[...]
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
