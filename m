@@ -1,92 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7C73C46A;
-	Fri, 24 Nov 2023 21:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2096A10F3
+	for <fsverity@lists.linux.dev>; Mon, 27 Nov 2023 02:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bw9VZkrv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700862895; x=1732398895;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jGRZBAZBF364mV5fItFOiFIV3VjaPOBDqkOVnrlj6us=;
-  b=Bw9VZkrvJVcXdJklBvjfhvygTDlKBdYy2fnsY1L1BWEtKBrsURqTBDgT
-   DxA4v95RnMJWgonakbUlzi5DB815K9+XeypYR+/ff+0AqfyNm4aPqEvf1
-   qDEqxsFiN8Is9dz7akDJvFtd7+2PQzkuubtGW+R2l22rMKbvrx5jMGU/s
-   ByvLA+jqP+Luk2EgspudQ4LwplliB+772XJUrE9cVX3w8S8AabDvbw48F
-   N4Lion8we1TqJ/dboCWx2R3l73zgnEUhzJZwtuXwG6fH78YAQ1vlG69nc
-   d9vKCHs4mLHqK+B2z+KD3J1YgbhyT/6YkG/sK57CarT5ppgiW9Rnem/Wx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="391344093"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="391344093"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 13:54:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="802229620"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="802229620"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 24 Nov 2023 13:54:50 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r6e8N-0003Jb-30;
-	Fri, 24 Nov 2023 21:54:47 +0000
-Date: Sat, 25 Nov 2023 05:54:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, ebiggers@kernel.org, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, casey@schaufler-ca.com,
-	amir73il@gmail.com, kpsingh@kernel.org, roberto.sassu@huawei.com,
-	Song Liu <song@kernel.org>
-Subject: Re: [PATCH v13 bpf-next 6/6] selftests/bpf: Add test that uses
- fsverity and xattr to sign a file
-Message-ID: <202311250314.KGxKh0fm-lkp@intel.com>
-References: <20231123233936.3079687-7-song@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Su5QRyKk"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-332e3ad436cso2139791f8f.3
+        for <fsverity@lists.linux.dev>; Sun, 26 Nov 2023 18:09:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701050949; x=1701655749; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hp+jJgrzxsF5GIt+zmavYWarAYFX/wlGlTSYDEYR/Xw=;
+        b=Su5QRyKkud7yZHc1h4enCGP5BDupBimJPcwvwL4IUwk67guFp7JvNmjWEsIV0cMfDt
+         Q7KVHaKq+RO7YoCiNSmDA2r7SD6C+Ke9ut8ZMuLsPT/q8WhRQVLiN+vRa62hcHB3/bGI
+         KVGt/CdTA6rnQza8/W8qDifFIswe4rFWUVrGqbsSOzjAUVaaV5ri3KSA4dmIoHUMVvIZ
+         QrKz8zI3hRAdwZjQBUDGumuNwnlPuUKEfa22LG/wev2In25bBBamiIxDdWjcfrf2nXn8
+         FFJOwKWp3ioWLJs757fZ00LqY2grxxdJ+58oaa/XW9K1P4BDchv08v94S1r8V6oSsYuw
+         3b6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701050949; x=1701655749;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Hp+jJgrzxsF5GIt+zmavYWarAYFX/wlGlTSYDEYR/Xw=;
+        b=sB++r2BkCxopDnDCgTzvXo+vQnrzL9H7BndKJIMxiovzfRlrQ9bIHImXX8P2MS0SdJ
+         XLmwgWApR5JAaHLtRW98VApjEqvuu7ZGGJ/fX12BujN00K/KnTEXDnEeXRmQPgq0b5HK
+         9b7cUv+/pMl1b+3CJCBRCNjXIfDaHMr45prVXDEUVCbFCon2iZv3EXt7q7N5TZYZ9rdY
+         X/DNKR4J22tlOiTTz1F3w1vmVUmzN9DXRKdo6MlTgcODi8gf8OXgWIgfP0Rotct7jZh0
+         RoQf0WclKJX0oiAGdPuHPUsEfXbFIt1spqcXvznmrRXRPoSL5lP/Fpmy4pUcXcovuqvV
+         xh5A==
+X-Gm-Message-State: AOJu0YzOQTHLWwxA8Esy9VOxohh+y3NfV/pKccvpDV36n3Ndw15nljE+
+	JlyxQQxoAjvxj4NB2PLUTuDrbvP5yIiZcJ2mjPU=
+X-Google-Smtp-Source: AGHT+IF+V8Dn2B1tQYO/Rk1PtkKfTrXFcS4SOKAbYP9DCz6k+PF4QmNnszGsyC4SI3u77CVNwk5ab+PikCOyNx1WOKE=
+X-Received: by 2002:adf:ef82:0:b0:32d:b2cf:8ccd with SMTP id
+ d2-20020adfef82000000b0032db2cf8ccdmr8050356wro.47.1701050949018; Sun, 26 Nov
+ 2023 18:09:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231123233936.3079687-7-song@kernel.org>
+References: <20231123233936.3079687-1-song@kernel.org> <20231123233936.3079687-6-song@kernel.org>
+In-Reply-To: <20231123233936.3079687-6-song@kernel.org>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Sun, 26 Nov 2023 18:08:57 -0800
+Message-ID: <CAADnVQKHTdGiBFh_sVr+jdsA8di8i4HHivp98QCOnHZGoHAW5Q@mail.gmail.com>
+Subject: Re: [PATCH v13 bpf-next 5/6] selftests/bpf: Add tests for filesystem kfuncs
+To: Song Liu <song@kernel.org>
+Cc: bpf <bpf@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>, 
+	Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, fsverity@lists.linux.dev, 
+	Eric Biggers <ebiggers@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Amir Goldstein <amir73il@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Roberto Sassu <roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Song,
+On Thu, Nov 23, 2023 at 3:40=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+>
+> +static const char expected_value[] =3D "hello";
+> +char value[32];
+> +
+> +SEC("lsm.s/file_open")
+> +int BPF_PROG(test_file_open, struct file *f)
+> +{
+> +       struct bpf_dynptr value_ptr;
+> +       __u32 pid;
+> +       int ret;
+> +
+> +       pid =3D bpf_get_current_pid_tgid() >> 32;
+> +       if (pid !=3D monitored_pid)
+> +               return 0;
+> +
+> +       bpf_dynptr_from_mem(value, sizeof(value), 0, &value_ptr);
+> +
+> +       ret =3D bpf_get_file_xattr(f, "user.kfuncs", &value_ptr);
+> +       if (ret !=3D sizeof(expected_value))
+> +               return 0;
+> +       if (bpf_strncmp(value, ret, expected_value))
 
-kernel test robot noticed the following build errors:
+Hmm. It doesn't work like:
+if (bpf_strncmp(value, ret, "hello"))
 
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/bpf-Add-kfunc-bpf_get_file_xattr/20231124-074239
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231123233936.3079687-7-song%40kernel.org
-patch subject: [PATCH v13 bpf-next 6/6] selftests/bpf: Add test that uses fsverity and xattr to sign a file
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311250314.KGxKh0fm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311250314.KGxKh0fm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> progs/test_sig_in_xattr.c:36:26: error: invalid application of 'sizeof' to an incomplete type 'struct fsverity_digest'
-      36 | char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_SIZE];
-         |                          ^     ~~~~~~~~~~~~~~~~~~~~~~~~
-   progs/test_sig_in_xattr.c:36:40: note: forward declaration of 'struct fsverity_digest'
-      36 | char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_SIZE];
-         |                                        ^
-   1 error generated.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+?
