@@ -1,44 +1,30 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DFD186A
-	for <fsverity@lists.linux.dev>; Wed, 29 Nov 2023 06:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448CE1C6BA
+	for <fsverity@lists.linux.dev>; Wed, 29 Nov 2023 11:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U8i9LmDh"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-332ed02ccd9so3130753f8f.0
-        for <fsverity@lists.linux.dev>; Tue, 28 Nov 2023 22:47:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701240462; x=1701845262; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uoQz0W1zrsabXG6C9p+w20DAO2gb0rfGAOA6XEqMdok=;
-        b=U8i9LmDhcbbXrwgONzQ1Vn/QVJ+TKoh06DNwtPyiN695kw6pOItxGwiIBVigDbMnTl
-         jvQDPZwMGQ9bktrFYpF5kWAkNWcxSSPzz+FXo7LkrchsBRA4nViTCth3HNMGpUeICcBb
-         JNyz7JRU9CgJCK6nsr6KXrEhQgI7Su7EPrDQluBmydNxiq1oLgNPI2sVZVsTAdGzAdDT
-         GR75rNga+flo6tOGEII1z8Wttflfv4Gc2/v/9G+ipEsgDjrP0lW//94v7lpMaNQrkTR6
-         Z3VKCzrcIKp3By90Rh/FHRldBRh5+S11qnSP38LpDqXBBA8FFIbiEvK4bTAXmjk1aVFY
-         DpnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701240462; x=1701845262;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uoQz0W1zrsabXG6C9p+w20DAO2gb0rfGAOA6XEqMdok=;
-        b=ONivP5ECwW94vmJ/qqe/2c/MXPC5qLwUEd/77muqtZt4isJI3ND1ramOmBrDrH9zTE
-         d8Fajg93scrwfS8IX4cuaBwlnXMV1uK85Zkaea53RiX/6riof4v6jWUgNDX1Hhh7YU4W
-         415fuvFA2viINHNXgiIcZZL8QNwYILuC0I1ShSIlHpZHC6g4TwJOvBgdyd8eUm1YViub
-         siLYlSQTZNhPQO0kHsv7cEmrXJ7b8/5lBXDUNvfif5gPDUFJU4z9cfIMnQwoCtFhMvjy
-         TypStVh/xdCopGdmx49wquzAbB3P8IKlrSmzu8y0bipkgoyyaabHUNfiX+uNa2ivGPOc
-         i1FA==
-X-Gm-Message-State: AOJu0YyTxwPQtomVMMzEHo01WRvM3aJ/q2c6Jm0qLWBADo0/dpmynQ9m
-	LEzlauGQuYgq5SO04cRVUb9EfQmuAIz6esr3edw=
-X-Google-Smtp-Source: AGHT+IFN+lb5qvDxfIaWhrx1aSH/XLg8D+DoimtQZ2lwqG3I1fCwH1BzVpWtfsFQfVvr8RIBHZUK6gYVD0WhHS8je20=
-X-Received: by 2002:a05:6000:225:b0:332:ce72:d589 with SMTP id
- l5-20020a056000022500b00332ce72d589mr11654697wrz.3.1701240462397; Tue, 28 Nov
- 2023 22:47:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjYPeSRD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCBECC433CC
+	for <fsverity@lists.linux.dev>; Wed, 29 Nov 2023 11:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701256838;
+	bh=KUFCyIKDrWkKpHdCK1qNaFg2Eg/KOUrc6RUjBFQbwIo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BjYPeSRDNWOs+hUKEKp2KWFQSrSjNEQbOM83PXCggZSbxw5i7GCmb9p0aPc2RlRtM
+	 Zx5Z6TXu22Lf8gFlzQOw7T5RkIXw3muK73LzHH0fQc8WSeccEpZtgY/zgkVS86D85G
+	 hndBmAqkfapKu54uzibKM3zeds+IRGsZmpwpH652UpPAJZ9OW3DAtCwhkmmJbu8KT1
+	 uZZaeVfY1TkwXrlvgG3gtlVW4BsjrOe6efYZb2LLN5DraJxF9tBVKiEy1E1GNGkUvt
+	 z9OT5NQP4lHZjxeH9QroeNW0/yE97vBbBQGWDCiEWutqzQAG5TN5O7V41dRGuaREAq
+	 DjtvBf8NI9P6Q==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2c9bbb30c34so11550621fa.1
+        for <fsverity@lists.linux.dev>; Wed, 29 Nov 2023 03:20:38 -0800 (PST)
+X-Gm-Message-State: AOJu0YzLpW6jHM6tEGNtkCrKcy/zs5ngh/XLeIeZdPz/HuQgLwOYA3MD
+	06X/vIlzpeqxerW8i5qG9w0YHxd2Em8g1yhHZNE=
+X-Google-Smtp-Source: AGHT+IEjdhP/jWajvm2a3me+Nb8Q/i1sz23TsNWjlSfv7oJFBl/SAzvensNAtTmNXoX9t96FXxBT3dwxmHMvrVy3Jb8=
+X-Received: by 2002:a05:651c:1214:b0:2c9:c05b:9870 with SMTP id
+ i20-20020a05651c121400b002c9c05b9870mr857219lja.23.1701256837010; Wed, 29 Nov
+ 2023 03:20:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -46,13 +32,15 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20231129003656.1165061-1-song@kernel.org> <20231129003656.1165061-7-song@kernel.org>
-In-Reply-To: <20231129003656.1165061-7-song@kernel.org>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 28 Nov 2023 22:47:31 -0800
-Message-ID: <CAADnVQJb3Ur--A8jaiVqpea1kFXMCd46uP+X4ydcOVG3a5Ve3Q@mail.gmail.com>
+ <CAADnVQJb3Ur--A8jaiVqpea1kFXMCd46uP+X4ydcOVG3a5Ve3Q@mail.gmail.com>
+In-Reply-To: <CAADnVQJb3Ur--A8jaiVqpea1kFXMCd46uP+X4ydcOVG3a5Ve3Q@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Wed, 29 Nov 2023 03:20:23 -0800
+X-Gmail-Original-Message-ID: <CAPhsuW5Kvcj8cOFf0ZeLZ428+=pjXQfCqx7aYBCthVgtRN2J3g@mail.gmail.com>
+Message-ID: <CAPhsuW5Kvcj8cOFf0ZeLZ428+=pjXQfCqx7aYBCthVgtRN2J3g@mail.gmail.com>
 Subject: Re: [PATCH v14 bpf-next 6/6] selftests/bpf: Add test that uses
  fsverity and xattr to sign a file
-To: Song Liu <song@kernel.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
 Cc: bpf <bpf@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>, 
 	Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, fsverity@lists.linux.dev, 
 	Eric Biggers <ebiggers@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
@@ -64,18 +52,33 @@ Cc: bpf <bpf@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 28, 2023 at 4:37=E2=80=AFPM Song Liu <song@kernel.org> wrote:
-> +char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_=
-SIZE];
+On Tue, Nov 28, 2023 at 10:47=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Tue, Nov 28, 2023 at 4:37=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+> > +char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGES=
+T_SIZE];
+>
+> when vmlinux is built without CONFIG_FS_VERITY the above fails
+> in a weird way:
+>   CLNG-BPF [test_maps] test_sig_in_xattr.bpf.o
+> progs/test_sig_in_xattr.c:36:26: error: invalid application of
+> 'sizeof' to an incomplete type 'struct fsverity_digest'
+>    36 | char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) +
+> SHA256_DIGEST_SIZE];
+>       |                          ^     ~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Is there a way to somehow print a hint during the build what
+> configs users need to enable to pass the build ?
 
-when vmlinux is built without CONFIG_FS_VERITY the above fails
-in a weird way:
-  CLNG-BPF [test_maps] test_sig_in_xattr.bpf.o
-progs/test_sig_in_xattr.c:36:26: error: invalid application of
-'sizeof' to an incomplete type 'struct fsverity_digest'
-   36 | char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) +
-SHA256_DIGEST_SIZE];
-      |                          ^     ~~~~~~~~~~~~~~~~~~~~~~~~
+Patch 5/6 added CONFIG_FS_VERITY to tools/testing/selftests/bpf/config.
+This is a more general question for all required CONFIG_* specified in the
+file (and the config files for other selftests).
 
-Is there a way to somehow print a hint during the build what
-configs users need to enable to pass the build ?
+In selftests/bpf/Makefile, we have logic to find vmlinux. We can add simila=
+r
+logic to find .config used to build the vmlinux, and grep for each required
+CONFIG_* from the .config file. Does this sound like a viable solution?
+
+Thanks,
+Song
