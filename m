@@ -1,81 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186F3184C;
-	Sat,  2 Dec 2023 00:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849BED2E3;
+	Tue,  5 Dec 2023 05:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ui97RVvl"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 69DA7C433C9;
-	Sat,  2 Dec 2023 00:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701477028;
-	bh=3ICprJ3TFXtLAmaVlFtLTPb2DecozWP4JkU+7Qj6t9E=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Ui97RVvl8y2bI7hVscQWlOaMyv+dVQwjZlcNd0Wn3AthNx25EITMr2LoV3pdhpljB
-	 bbGHlvcPak3Z8Wu9LZZCWvLAvsm8CS651EkpTvAoFzXHbutn0vQBpKFHtdbtgv6jwH
-	 lqb/x7BcpIS4eyQHtjYGDPoifk/IUIx1e+Vd/UYaR2qup8UT7WQ6yQKF5aJiBJoepR
-	 efwrGtvxJ19Hi4SZOPJgm14FsdtBRazjTks3zLpRKrIXVJQqtuEfjcWa5krLx4SqCr
-	 aXCaPBta2DFSzUQ7FM0Thm1RuICPEozBnVR1QZFGPiSn7h9yYTeJtsoOCu4t0bpX2z
-	 GOnRCkGUbXzEw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4D512DFAA94;
-	Sat,  2 Dec 2023 00:30:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qOb9FyCp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Q4Xwwf+R6mg0IVTeK/i6oqCoh3sFn0GWCi0J13JBtfc=; b=qOb9FyCpYK/4KobvP2uwty+RVC
+	aKcs8RCIM1GaB+jEVQmkuGJdy+OoBGLcX1doQi0if7JBzag9665/MK5OtORAivTDbIIcdyUq2OKzV
+	Xx9UbaJnUzGeeh5RsPVPgY4YqT0DJlxUw1VN1F2mTNvBjhpShrX42o5RXnUV/cXjSQUrRLToGUZSE
+	FmCu84mXqdwf31dZ+O2oxaY3dpe0YxR2cKwZT0rDW7WEmsffmHSRy5nKQqPyOJ72usqptScFFNBh6
+	rYGN3D8F7qyjExbcouVqdX/XtjSmjlnWSxIY2bpgheRYBytg9CEj+V1w3MZOcvh3sPXc3Hqk7855F
+	MMIPMB3g==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1rAOEM-006KRP-0r;
+	Tue, 05 Dec 2023 05:44:26 +0000
+Date: Mon, 4 Dec 2023 21:44:26 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: j.granados@samsung.com, willy@infradead.org, josh@joshtriplett.org,
+	Kees Cook <keescook@chromium.org>,
+	David Howells <dhowells@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Benjamin LaHaise <bcrl@kvack.org>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, Neil Brown <neilb@suse.de>,
+	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>, Jan Kara <jack@suse.cz>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Matthew Bobrowski <repnop@google.com>,
+	Anton Altaparmakov <anton@tuxera.com>,
+	Namjae Jeon <linkinjeon@kernel.org>, Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Iurii Zaikin <yzaikin@google.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+	linux-cachefs@redhat.com, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+	linux-mm@kvack.org, linux-nfs@vger.kernel.org,
+	linux-ntfs-dev@lists.sourceforge.net, ocfs2-devel@lists.linux.dev,
+	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org,
+	codalist@coda.cs.cmu.edu
+Subject: Re: [PATCH v2 0/4] sysctl: Remove sentinel elements from fs dir
+Message-ID: <ZW64um8/nJaxBw5i@bombadil.infradead.org>
+References: <20231121-jag-sysctl_remove_empty_elem_fs-v2-0-39eab723a034@samsung.com>
+ <20231122-undifferenziert-weitschuss-a5d8cc56fbd1@brauner>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v15 bpf-next 0/6] bpf: File verification with LSM and fsverity
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170147702831.23135.7635663186480885379.git-patchwork-notify@kernel.org>
-Date: Sat, 02 Dec 2023 00:30:28 +0000
-References: <20231129234417.856536-1-song@kernel.org>
-In-Reply-To: <20231129234417.856536-1-song@kernel.org>
-To: Song Liu <song@kernel.org>
-Cc: bpf@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev, ebiggers@kernel.org,
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, brauner@kernel.org, viro@zeniv.linux.org.uk,
- casey@schaufler-ca.com, amir73il@gmail.com, kpsingh@kernel.org,
- roberto.sassu@huawei.com, kernel-team@meta.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231122-undifferenziert-weitschuss-a5d8cc56fbd1@brauner>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
-Hello:
+On Wed, Nov 22, 2023 at 03:00:29PM +0100, Christian Brauner wrote:
+> Looks fine,
+> Acked-by: Christian Brauner <brauner@kernel.org>
 
-This series was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+Series applied, thanks!
 
-On Wed, 29 Nov 2023 15:44:11 -0800 you wrote:
-> Changes v14 => v15:
-> 1. Fix selftest build without CONFIG_FS_VERITY. (Alexei)
-> 2. Add Acked-by from KP.
-> 
-> Changes v13 => v14:
-> 1. Add "static" for bpf_fs_kfunc_set.
-> 2. Add Acked-by from Christian Brauner.
-> 
-> [...]
-
-Here is the summary with links:
-  - [v15,bpf-next,1/6] bpf: Add kfunc bpf_get_file_xattr
-    https://git.kernel.org/bpf/bpf-next/c/ac9c05e0e453
-  - [v15,bpf-next,2/6] bpf, fsverity: Add kfunc bpf_get_fsverity_digest
-    https://git.kernel.org/bpf/bpf-next/c/67814c00de31
-  - [v15,bpf-next,3/6] Documentation/bpf: Add documentation for filesystem kfuncs
-    https://git.kernel.org/bpf/bpf-next/c/0de267d9ec65
-  - [v15,bpf-next,4/6] selftests/bpf: Sort config in alphabetic order
-    https://git.kernel.org/bpf/bpf-next/c/6b0ae4566aba
-  - [v15,bpf-next,5/6] selftests/bpf: Add tests for filesystem kfuncs
-    https://git.kernel.org/bpf/bpf-next/c/341f06fdddf7
-  - [v15,bpf-next,6/6] selftests/bpf: Add test that uses fsverity and xattr to sign a file
-    https://git.kernel.org/bpf/bpf-next/c/1030e9154258
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+  Luis
