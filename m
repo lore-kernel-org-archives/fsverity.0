@@ -1,146 +1,146 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4ED72E84A
-	for <fsverity@lists.linux.dev>; Fri,  5 Jan 2024 16:55:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F88D514
+	for <fsverity@lists.linux.dev>; Sat,  6 Jan 2024 18:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="Acz4kIcq";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="K9BYb8iT"
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 643F82B002FE;
-	Fri,  5 Jan 2024 11:55:50 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 05 Jan 2024 11:55:54 -0500
+	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="nSlxfYqt";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="b3+3KpJV"
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id BEEB15C01F7;
+	Sat,  6 Jan 2024 13:24:49 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sat, 06 Jan 2024 13:24:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1704473749; x=1704480949; bh=QW7jt9Lu7f
-	ke8mG4lP5bYmPmDvOXPBpGzIUDBHIekTk=; b=Acz4kIcq6y/rMD3GdA7cQZFH/X
-	t+UCDk8kiRTwuEzv4ajq3EDfufkIZkO8rGAkbX3sbhxHt16W2NOVO6gW2gQHxnZr
-	G4znBN6j8ey0yPSzv+AlK6ZSJwteCnfW3d+5qDl/eg2aJTqU9Tgdw3YjZEKbWiiA
-	xDjCkNbH8TatuNfFUavrE+ffldAtLl1v9baWSzFGVpUeiYCRlCeZGSoqIOyzPHvn
-	QzvCgTBrCyaLUW/MlTUJL8Udfek55UMpp0KfgTZyqMYearp0x1HoJW30AG1RainQ
-	7jUdJb7RD7OtoMFP4EUhEya/MWTwpfUkkKqXxvWzEKPyF0P6ySZ4aWmCm73g==
+	:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1704565489; x=1704651889; bh=O+QqJr2WAb6rnS5d3f3K/
+	DUa8bao3pdF0ZTmvmSXi54=; b=nSlxfYqtTJQDcbNuLTrQgszS9JWQG78owNAi+
+	zSEhkctan19C4FEG6xx31H7/uqLhr7cesA1k19u3yPWoTqEsjFQ9yXkYWzOwcrCc
+	uVFm073ba2P4po8CIj0KsQmKiUvyewqrtgGGHYuCsQh9sG9wTVHadAUo0quCq9nh
+	3wn4b3d1hbj+B/ZBZzqNQciP6TjHgoc98zJcDMj167R+hteCx5QxTdQFWmXVzzZW
+	dLZHp2yX3SB79f2KkARUikb1eP9u23YNh795fdJ0UznpK3VR5tdEnA4s15gPY+yc
+	m8kLTyYiJGEIqc1JEboSKWqEtD7xjep48oIUYT69ow17Gai6A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1704473749; x=1704480949; bh=QW7jt9Lu7fke8mG4lP5bYmPmDvOX
-	PBpGzIUDBHIekTk=; b=K9BYb8iThvNsRc3uDbU2A4HF+NqmpozLE145a0RZM6s+
-	HlSs93vsFRPOZ4j+D7yanP8AH1MORLgVIUDI/smsj0tgQHb1QcdzskIXumAkTdaI
-	aYWKtH9GM5E2idjjTXJdHaRlRm+zABDB8nY9iGIO+T3ni/GGWRr3B/rAtlNxTMAa
-	442AnTkTIKtZDG71QbRbhfRDzlUBII9A+3MGR239UuUry3gcSCza/5J8eBt8YfDp
-	qSaUg0ncHYhXvJ5JLZQ2x+uSxOHpqddfG6B+3/DQ4dtJ8Bvy8Eo4uJ9FwtXpOXbS
-	lAKesJFuhuTY1UEqKamWKqMwsebhP2LexY2pyWEAjQ==
-X-ME-Sender: <xms:kzSYZaaAy3dR9G7HtiXxWg4Zxmeum0A9kFX20liLaKbR07SHFcyxcg>
-    <xme:kzSYZdYGOayfCataHnEAMMKquFtux6p39JzrR3A07WSDo0A-s4okO5JaDREMOkZsI
-    mghom6qS61yd_6_bg>
-X-ME-Received: <xmr:kzSYZU-FFGlFxqtZW9JrU1DfOghSBraArHdWeqKl_bYBn4B9XbhJJcaTjNPSd7Gh34QiYd3oUUZRytJdmx23CPk7Jxq8EIEzMnNLQ-s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdegledgleduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdljedtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdfstddt
-    tddvnecuhfhrohhmpeffrghnihgvlhcuighuuceougiguhesugiguhhuuhdrgiihiieqne
-    cuggftrfgrthhtvghrnhepvdefkeetuddufeeigedtheefffekuedukeehudffudfffffg
-    geeitdetgfdvhfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:kzSYZcooOdkX-X1KqvlBh60yFjwUF6ho3KRoF4sCW1I-TfmvCqZcQA>
-    <xmx:kzSYZVqed9r_UIcFbBgVtpyedquDrgSmBEtX74gK0NVzOv-CO9t0Wg>
-    <xmx:kzSYZaTkEQUWNf-X1GtvBv5FK6CVlonQJvKyRbPer6PmkJB9Vt_cTA>
-    <xmx:lTSYZXSsnZAjmPDbBJ3T6sdwqsgrrVfZBsEsu-lv1wIgRfR5oMP26phlS_0>
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:date:feedback-id:feedback-id:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704565489; x=1704651889; bh=O+QqJr2WAb6rnS5d3f3K/DUa8bao
+	3pdF0ZTmvmSXi54=; b=b3+3KpJVeWQPqqPw2/XyIgSWVprhEDWFog7zIhj7juCB
+	2fghtEDXjtChsmjRYm5But8IKubV1CNa4oc4t8RnFO9oYn0LRNPBXCZSj+uBMyoS
+	hqCbZqfAaWnezgz2I9YNwPlBKGmW+OwMM5TKxf+m1k5XACoJwnYaulFkWJXWIeuC
+	G4wTyt1bBYVR3EFQPep8tJMmwO2Z8w/GPAloXq3sTltOn9ht5D9dBpVImQ3kjoaF
+	Kl0wD++fiJfxAfJraal4lPmjZxrlq5azZ6HzjJk0lPs0xKwIWbnwmcNllJA6r0i8
+	Bziwb2eIGshtU8+n9i4yL+sn1ttsvey9hwKh4kj2eQ==
+X-ME-Sender: <xms:8JqZZTa2LWzgZ0-GmgqS5LmLiABXTJV-q6m5pw2KEf52kA-_v2wfMA>
+    <xme:8JqZZSY16TYAWdOZIuP8yKWF5XRgyCIaZj9hCtazJgvb_WXDJT9OoLmN_FIlP23Tb
+    sL0h3wKj1DmLsm58g>
+X-ME-Received: <xmr:8JqZZV8ddNHA1F0_QGF1cpRCX1fLuMSzgKqs_Fg3sXfaUgOpYFT_S3HHautwyc1OmhIwEyCsPi3RRo61vZxpwY8y-vSDxy2GkEZ98QEvFqVpPA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdehuddguddutdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecufghrlhcuvffnffculdefhedmnecujfgurhephf
+    fvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceougig
+    uhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepffffgeejudehlefgtdduke
+    eijefggeehheejgfeijeevveetieevueekgfehkeejnecuffhomhgrihhnpehgihhthhhu
+    sgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:8JqZZZpHSzujnehtNM-9w6SM6ebZxdJiLRzNQZcPYUXvIr1FXoFm8Q>
+    <xmx:8JqZZeqcnauyVxfA1Rp6P8hO1PAbhin9VwCYuUjW_KX7IU7bSpqbDg>
+    <xmx:8JqZZfSntMFC9PDiV8fngNBCBp68lp9CgFnySiCgnfTcNGT64YxhQQ>
+    <xmx:8ZqZZSZbzVDin2kRmp_SLX1xW7XThP5VlZBJyX2zJfv-05ftzvGpwQ>
 Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 Jan 2024 11:55:44 -0500 (EST)
-Date: Fri, 5 Jan 2024 09:55:43 -0700
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 6 Jan 2024 13:24:47 -0500 (EST)
 From: Daniel Xu <dxu@dxuuu.xyz>
-To: Jiri Olsa <olsajiri@gmail.com>
-Cc: alexandre.torgue@foss.st.com, benjamin.tissoires@redhat.com,
- 	lizefan.x@bytedance.com, Herbert Xu <herbert@gondor.apana.org.au>,
- dsahern@kernel.org, 	hannes@cmpxchg.org, rostedt@goodmis.org,
- mcoquelin.stm32@gmail.com, 	pablo@netfilter.org, martin.lau@linux.dev,
- edumazet@google.com, daniel@iogearbox.net, 	ebiggers@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, 	hawk@kernel.org,
- steffen.klassert@secunet.com, jikos@kernel.org, kuba@kernel.org,
- 	fw@strlen.de, ast@kernel.org, song@kernel.org, pabeni@redhat.com,
- 	shuah@kernel.org, tytso@mit.edu, tj@kernel.org, kadlec@netfilter.org,
- 	davem@davemloft.net, mhiramat@kernel.org, andrii@kernel.org,
- 	alexei.starovoitov@gmail.com, quentin@isovalent.com,
- alan.maguire@oracle.com, memxor@gmail.com, 	kpsingh@kernel.org,
- sdf@google.com, haoluo@google.com, 	mathieu.desnoyers@efficios.com,
- mykolal@fb.com, linux-input@vger.kernel.org,
- 	linux-kernel@vger.kernel.org, fsverity@lists.linux.dev,
- bpf@vger.kernel.org, 	cgroups@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
- 	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- linux-kselftest@vger.kernel.org,
- 	linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH bpf-next v2 3/3] bpf: treewide: Annotate BPF kfuncs in BTF
-Message-ID: <4tsn6x45gh3vgdst3ozzmxori5gzylvpx6btxue6sbsmx7siok@6wajzdgwxfpa>
-References: <cover.1704422454.git.dxu@dxuuu.xyz>
- <a923e3809955bdfd2bc8d6a103c20e01f1636dbc.1704422454.git.dxu@dxuuu.xyz>
- <ZZgcJTdwMZHglPtr@krava>
+To: linux-input@vger.kernel.org,
+	coreteam@netfilter.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	bpf@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	cgroups@vger.kernel.org,
+	alexei.starovoitov@gmail.com,
+	olsajiri@gmail.com,
+	quentin@isovalent.com,
+	alan.maguire@oracle.com,
+	memxor@gmail.com
+Subject: [PATCH bpf-next v3 0/3] Annotate kfuncs in .BTF_ids section
+Date: Sat,  6 Jan 2024 11:24:07 -0700
+Message-ID: <cover.1704565248.git.dxu@dxuuu.xyz>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZZgcJTdwMZHglPtr@krava>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 05, 2024 at 04:11:33PM +0100, Jiri Olsa wrote:
-> On Thu, Jan 04, 2024 at 07:45:49PM -0700, Daniel Xu wrote:
-> 
-> SNIP
-> 
-> > diff --git a/fs/verity/measure.c b/fs/verity/measure.c
-> > index bf7a5f4cccaf..3969d54158d1 100644
-> > --- a/fs/verity/measure.c
-> > +++ b/fs/verity/measure.c
-> > @@ -159,9 +159,9 @@ __bpf_kfunc int bpf_get_fsverity_digest(struct file *file, struct bpf_dynptr_ker
-> >  
-> >  __bpf_kfunc_end_defs();
-> >  
-> > -BTF_SET8_START(fsverity_set_ids)
-> > +BTF_KFUNCS_START(fsverity_set_ids)
-> >  BTF_ID_FLAGS(func, bpf_get_fsverity_digest, KF_TRUSTED_ARGS)
-> > -BTF_SET8_END(fsverity_set_ids)
-> > +BTF_KFUNCS_END(fsverity_set_ids)
-> >  
-> >  static int bpf_get_fsverity_digest_filter(const struct bpf_prog *prog, u32 kfunc_id)
-> >  {
-> > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> > index 51e8b4bee0c8..8cc718f37a9d 100644
-> > --- a/kernel/bpf/btf.c
-> > +++ b/kernel/bpf/btf.c
-> > @@ -7802,6 +7802,10 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
-> >  {
-> >  	enum btf_kfunc_hook hook;
-> >  
-> > +	/* All kfuncs need to be tagged as such in BTF */
-> > +	if (WARN_ON(!(kset->set->flags & BTF_SET8_KFUNCS)))
-> > +		return -EINVAL;
-> 
-> having the warning for module with wrong set8 flags seems wrong to me,
-> I think we should trigger the warn only for kernel calls.. by adding
-> kset->owner check in the condition above
+=== Description ===
 
-Just checking:
+This is a bpf-treewide change that annotates all kfuncs as such inside
+.BTF_ids. This annotation eventually allows us to automatically generate
+kfunc prototypes from bpftool.
 
-The reasoning is that =m and out-of-tree modules can and should check
-return code, right?
+We store this metadata inside a yet-unused flags field inside struct
+btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
 
-And =y modules or vmlinux-based registrations do not check return code,
-so WARN() is necessary?
+More details about the full chain of events are available in commit 3's
+description.
 
-If so, I'd agree.
+The accompanying pahole changes (still needs some cleanup) can be viewed
+here on this "frozen" branch [0].
 
-[..]
+[0]: https://github.com/danobi/pahole/tree/kfunc_btf-mailed
 
-Thanks,
-Daniel
+=== Changelog ===
+
+Changes from v2:
+* Only WARN() for vmlinux kfuncs
+
+Changes from v1:
+* Move WARN_ON() up a call level
+* Also return error when kfunc set is not properly tagged
+* Use BTF_KFUNCS_START/END instead of flags
+* Rename BTF_SET8_KFUNC to BTF_SET8_KFUNCS
+
+Daniel Xu (3):
+  bpf: btf: Support flags for BTF_SET8 sets
+  bpf: btf: Add BTF_KFUNCS_START/END macro pair
+  bpf: treewide: Annotate BPF kfuncs in BTF
+
+ drivers/hid/bpf/hid_bpf_dispatch.c            |  8 +++----
+ fs/verity/measure.c                           |  4 ++--
+ include/linux/btf_ids.h                       | 21 +++++++++++++++----
+ kernel/bpf/btf.c                              |  8 +++++++
+ kernel/bpf/cpumask.c                          |  4 ++--
+ kernel/bpf/helpers.c                          |  8 +++----
+ kernel/bpf/map_iter.c                         |  4 ++--
+ kernel/cgroup/rstat.c                         |  4 ++--
+ kernel/trace/bpf_trace.c                      |  8 +++----
+ net/bpf/test_run.c                            |  8 +++----
+ net/core/filter.c                             | 16 +++++++-------
+ net/core/xdp.c                                |  4 ++--
+ net/ipv4/bpf_tcp_ca.c                         |  4 ++--
+ net/ipv4/fou_bpf.c                            |  4 ++--
+ net/ipv4/tcp_bbr.c                            |  4 ++--
+ net/ipv4/tcp_cubic.c                          |  4 ++--
+ net/ipv4/tcp_dctcp.c                          |  4 ++--
+ net/netfilter/nf_conntrack_bpf.c              |  4 ++--
+ net/netfilter/nf_nat_bpf.c                    |  4 ++--
+ net/xfrm/xfrm_interface_bpf.c                 |  4 ++--
+ net/xfrm/xfrm_state_bpf.c                     |  4 ++--
+ .../selftests/bpf/bpf_testmod/bpf_testmod.c   |  8 +++----
+ 22 files changed, 81 insertions(+), 60 deletions(-)
+
+-- 
+2.42.1
+
