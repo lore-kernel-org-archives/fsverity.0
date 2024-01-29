@@ -1,103 +1,160 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFD522F14
-	for <fsverity@lists.linux.dev>; Thu, 25 Jan 2024 10:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0567DD512
+	for <fsverity@lists.linux.dev>; Mon, 29 Jan 2024 01:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706179372; cv=none; b=mF1sxP9bK3baGJBu9RFUtNuEEqEu48kF3kmM2LlT1bG1S0qGUBJq+3Y4WhaRo8hZoQif3QgMPG15GnljZyo6EEezl2cHqanMJ8MEI2lMMj8u6tQTWJveYYwb2H/v6UbVGwr9hUnUZ7qL4ErmACQfILaJhVSLhw2ufzEzcjsQ6Nw=
+	t=1706491464; cv=none; b=k7nF5f0u5nzgQc4LyZsEGJ0r62sZaaPT6e04HS1OQEP0xoCS1OCgJhCCM43IkXVmWHNt+qDt5z0g4URljhVjn8dwM0kxgBEqzU1Yg8O4Lg1fqHBO7Nrk9FWwB865n09YrOaBZiYVvZyGZtowuwj/U/n/Bj1TnorL4M8UEAiVLg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706179372; c=relaxed/simple;
-	bh=sssU2EIRoLMxdL7echHmySckRaYYRyB98B1yKCabsdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=DVcIc6KP7WXP7rDGKM71wjFNDx6ufK5eW6IppSDW4BuIXNYPBkucW7I2jCFWhLRlnSRYkH1k3oDOsrmUodFEzobSLgPhqsCyErxhMjqBPQ/P5uKdqPZIGWRfjw8iVpFDo6T6hFMm4HjsLde+dev2XDi5n1dwaXConeF9hf22zi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KcBHHU7p; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1706491464; c=relaxed/simple;
+	bh=kQEe3sxHRS25R01Huae1wLO1VdyUa7hma2vI+TmJQuw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=exqo8w9XMcTruA7bYtaIu9paCGKyTt8AILpdfuy4KCx/c1TKaqn/3151u44By+F2Jc5rM+IQbQ7gU+HZHVDhAVhfaMep8Rq6YmN9KM0qi4BQ+fUHTKxBEOckf7uD7NoqtuA1KiEN6+STIyWhCBKebAsmhLArA8IUCA61Qv/uYKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz; spf=pass smtp.mailfrom=dxuuu.xyz; dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b=Sp/P9ZFJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=toSTS5fI; arc=none smtp.client-ip=64.147.123.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KcBHHU7p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706179366;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x5bvQCzbh6snBQ7Q4SSIxdvNE5S/XqmZN2h4FyrdOKw=;
-	b=KcBHHU7paRfNMfi+jdFKJx9LNAWNaq5/u0J+K5XFi/HNzf5s6m3hrQkWq5THO+Zw7249Vi
-	7TTBQ8wmyUto/Cjnua1qHVEzDrw0iVvgEYeNfMKteCefr3M6TNr2e4Ktf9T0TPwDRT2RPZ
-	jLR8kAk16XAjGbJ+0RVsJKNxmjgn/lE=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-456-sYUjNvBtPCiBdFkryQZd6Q-1; Thu, 25 Jan 2024 05:42:45 -0500
-X-MC-Unique: sYUjNvBtPCiBdFkryQZd6Q-1
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2cf1634c94bso19623861fa.2
-        for <fsverity@lists.linux.dev>; Thu, 25 Jan 2024 02:42:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706179363; x=1706784163;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x5bvQCzbh6snBQ7Q4SSIxdvNE5S/XqmZN2h4FyrdOKw=;
-        b=ZUrFJAXHqS+S6g8SST4jXvXBdsp3UCpTsesLHyl/PKckx5k2VpIoRnaZBv04dX/qn8
-         HTNboaRIskiDlwj9/jfoWgYRBzpqSg3GkGCSMzv4AGz1nM7vRpcR2lpTfC9E9+N15RRg
-         m9mqXDafGUaGTh0pdZjFJb9dwaLuvNVYg7bCmzOP0YPDF/sJm6Xe+Qva0DM6TbPw82jQ
-         oFRQWXqOlOD+/bQPaFk7UxfMSlLQG02ZzoSyrgvua5XYZD4zIfdzINtKd8dOA6Ty6nsZ
-         BgFN9bACVTkRB/GAGhNbsOE7thulxrdx48Aghcrvyer+jmxqFLUT36uN1cKe3y/tOikw
-         F2KA==
-X-Gm-Message-State: AOJu0YyuzO5llOW65aZQQzniQEEfyoh9Bw3EXY+h7EK2vhKrvN0p7P3X
-	vRwH9GD9jyBk+DZJVsf2GpRfV0EuETw4P2bIbmhrYX4KT6yA1dsXQKG1EaTpcS9vjWVYpAUAlCP
-	IeX8Fiu0r4/vJyPW5lWd9V3Yud+gwckQEqIocXhcZfe817z4Fdd0In9k=
-X-Received: by 2002:a2e:9649:0:b0:2ce:3d5:99e4 with SMTP id z9-20020a2e9649000000b002ce03d599e4mr441586ljh.75.1706179363691;
-        Thu, 25 Jan 2024 02:42:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHuNOFoFusbSTdg9Tq0KRM9HtAoT3JKueaUJKJ+uJnSV7NkYF1UbIntDXDEXmhVRuSGFYjk+w==
-X-Received: by 2002:a2e:9649:0:b0:2ce:3d5:99e4 with SMTP id z9-20020a2e9649000000b002ce03d599e4mr441581ljh.75.1706179363363;
-        Thu, 25 Jan 2024 02:42:43 -0800 (PST)
-Received: from thinky ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id dc25-20020a170906c7d900b00a28116285e0sm876854ejb.165.2024.01.25.02.42.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 02:42:43 -0800 (PST)
-Date: Thu, 25 Jan 2024 11:42:42 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev
-Subject: Re: fs-verity spinlock in is_hash_block_verified()
-Message-ID: <btyieqmpsljzw5ldlepdpyxc2ssvvknnjvfluivzthbliyfsip@ppne3o67hsnw>
-References: <vry5tz5aaqaewaaei4e6yux7knb27zf4sm774hqqyisgfj6go7@7x2htyodqfjc>
- <20240125020838.GH1088@sol.localdomain>
+	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="Sp/P9ZFJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="toSTS5fI"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 9954E3200ABB;
+	Sun, 28 Jan 2024 20:24:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Sun, 28 Jan 2024 20:24:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+	:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1706491459; x=1706577859; bh=UASoXhX4PTY3QDklhg97M
+	HiJ1GxNYruI0l1hSTsM1IQ=; b=Sp/P9ZFJkQIEHfcvNH4pxlWQcJTVOu3NARJrb
+	QU0vlJmpM4nohk3iDeQEo/Uuk1NtXdRe9TzUPuLVLZwihZ2nMpR1SaHdOFYdPeJr
+	zyyOLJHWmQv7wFfiklp11U0lm+k97FGE2W734EFNtr2HA1l0VDW6mjxCvSRt+cv2
+	Jz2l6Sncb1dytEyLi2GEvXGQ8aodcH4vddVYUfcqlyPdggq74hiSUGoZkM9NARAL
+	grjLqJgJe/RfIVPH+Fxq0yr0PsDuKjMfahjqvFerrDmJPT3klD1YJQ4f8hx5H2my
+	hiIvvxRm3KeWyQfKVuh8g6GeiEUxoxvfTxyklE1gB/WGbzKRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:date:feedback-id:feedback-id:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706491459; x=1706577859; bh=UASoXhX4PTY3QDklhg97MHiJ1GxN
+	YruI0l1hSTsM1IQ=; b=toSTS5fIeqME+j6fCgQl7sXWi2TbaNbgcEYAv/FUpQCi
+	ojINcUtIFRCemYQFFUCw9KMt6lbUje5JxS9ppMq3UONrtbV910ynaSb71OoD+HR9
+	MskHaANtEDpX/5ZHaX0tU+6v3twRjwEl6fh9aWg3iJaQzjt41KBNs7OnsV5nkZUf
+	9Gf8uMy5g2kYfJaAOtwMMELWFbjTIAF79KrHS0lZ5rR+jWV+YW/iswh8WhA3oYi3
+	iEncy2kWOFdpaGrtvFoMJ0nG9xynxVzhhwcsP7Sl9yD5qe/JLLH1f5gG1Q8jBSZK
+	VLY7S7aDF71kp6q6/qfmcapQgHbU65dYB5oHy/DKQw==
+X-ME-Sender: <xms:Qv62ZdjsQSYWbTlKTLSEqMzzeUVWsCelA_UpwRQPxO1pbHXMb9VtDw>
+    <xme:Qv62ZSAE8nNVyjnQSVjZrXsWge5dcgOFoP5891x2RYn4LJanvbYpqiM9jdLBQJ1P_
+    62DAc7xuFK7DVJxvA>
+X-ME-Received: <xmr:Qv62ZdHZoFIBgCnLzmLD3S7ZxEXX2DyqstxMiOMW2vy6EYK23Jj0mlqAdYVy07CZeSgvbkqi47Kp8joEaorqp0d-f4OR9TxCKAtWAHu_Fqg1hA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfedtfedgfeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlfeehmdenucfjughrpefhvf
+    fufffkofgggfestdekredtredttdenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihu
+    segugihuuhhurdighiiiqeenucggtffrrghtthgvrhhnpeffffegjeduheelgfdtudekie
+    ejgfegheehjefgieejveevteeiveeukefgheekjeenucffohhmrghinhepghhithhhuhgs
+    rdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epugiguhesugiguhhuuhdrgiihii
+X-ME-Proxy: <xmx:Qv62ZSTwvQHw03v-B2f1Bae6pN4fJB-3Qs8pCTG6pZi9wB0IlqrCtg>
+    <xmx:Qv62ZaxbEzm0olNmw8XT6u5Hgp2K4DFcOrRD_Mo1YqOS2_wuDmHRhA>
+    <xmx:Qv62ZY4sEd0MomoUDEp5-KW2l923PFpKcPYCM2P57eJmietEO2dsGA>
+    <xmx:Q_62Zfhc89QQ1-UiKEW_sidKxkm0BIiyi8TNBF-Dz_bCocdzYVhFcg>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 28 Jan 2024 20:24:17 -0500 (EST)
+From: Daniel Xu <dxu@dxuuu.xyz>
+To: linux-trace-kernel@vger.kernel.org,
+	coreteam@netfilter.org,
+	bpf@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	netfilter-devel@vger.kernel.org,
+	alexei.starovoitov@gmail.com,
+	olsajiri@gmail.com,
+	quentin@isovalent.com,
+	alan.maguire@oracle.com,
+	memxor@gmail.com
+Subject: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
+Date: Sun, 28 Jan 2024 18:24:05 -0700
+Message-ID: <cover.1706491398.git.dxu@dxuuu.xyz>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240125020838.GH1088@sol.localdomain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-> I think you're correct that the spin lock isn't actually needed, considering
-> that all the operations are atomic and are properly ordered.  It does seem a
-> little weird that without the spinlock, one thread can be clearing a block's
-> verified bit concurrently with another thread setting it.  (That can happen if
-> the threads enter is_hash_block_verified() at the same time and both see
-> !PageChecked, and then one thread gets scheduled out before it clears the bits.)
-> But it works out because at worst the block gets verified more than once.  That
-> case should be super rare, so removing the spinlock should be better
-> performance-wise.  Are you interested in sending a patch that does that?
-> 
-> - Eric
-> 
+=== Description ===
 
-Thanks for quick reply, yes, I will prepare the patch.
+This is a bpf-treewide change that annotates all kfuncs as such inside
+.BTF_ids. This annotation eventually allows us to automatically generate
+kfunc prototypes from bpftool.
 
-I suppose the rare case you described happens with spinlock too. If
-one thread is waiting for spinlock while the second one resets the
-bits. If the second thread is rescheduled immediately after spinlock
-is unlocked the first thread will see PG_checked=1 bit=0 (same as
-the first one) -> both do verification. So, I suppose it should not
-be a problem to remove it
+We store this metadata inside a yet-unused flags field inside struct
+btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
+
+More details about the full chain of events are available in commit 3's
+description.
+
+The accompanying pahole and bpftool changes can be viewed
+here on these "frozen" branches [0][1].
+
+[0]: https://github.com/danobi/pahole/tree/kfunc_btf-v3-mailed
+[1]: https://github.com/danobi/linux/tree/kfunc_bpftool-mailed
+
+=== Changelog ===
+
+Changes from v3:
+* Rebase to bpf-next and add missing annotation on new kfunc
+
+Changes from v2:
+* Only WARN() for vmlinux kfuncs
+
+Changes from v1:
+* Move WARN_ON() up a call level
+* Also return error when kfunc set is not properly tagged
+* Use BTF_KFUNCS_START/END instead of flags
+* Rename BTF_SET8_KFUNC to BTF_SET8_KFUNCS
+
+Daniel Xu (3):
+  bpf: btf: Support flags for BTF_SET8 sets
+  bpf: btf: Add BTF_KFUNCS_START/END macro pair
+  bpf: treewide: Annotate BPF kfuncs in BTF
+
+ Documentation/bpf/kfuncs.rst                  |  8 +++----
+ drivers/hid/bpf/hid_bpf_dispatch.c            |  8 +++----
+ fs/verity/measure.c                           |  4 ++--
+ include/linux/btf_ids.h                       | 21 +++++++++++++++----
+ kernel/bpf/btf.c                              |  8 +++++++
+ kernel/bpf/cpumask.c                          |  4 ++--
+ kernel/bpf/helpers.c                          |  8 +++----
+ kernel/bpf/map_iter.c                         |  4 ++--
+ kernel/cgroup/rstat.c                         |  4 ++--
+ kernel/trace/bpf_trace.c                      |  8 +++----
+ net/bpf/test_run.c                            |  8 +++----
+ net/core/filter.c                             | 20 +++++++++---------
+ net/core/xdp.c                                |  4 ++--
+ net/ipv4/bpf_tcp_ca.c                         |  4 ++--
+ net/ipv4/fou_bpf.c                            |  4 ++--
+ net/ipv4/tcp_bbr.c                            |  4 ++--
+ net/ipv4/tcp_cubic.c                          |  4 ++--
+ net/ipv4/tcp_dctcp.c                          |  4 ++--
+ net/netfilter/nf_conntrack_bpf.c              |  4 ++--
+ net/netfilter/nf_nat_bpf.c                    |  4 ++--
+ net/xfrm/xfrm_interface_bpf.c                 |  4 ++--
+ net/xfrm/xfrm_state_bpf.c                     |  4 ++--
+ .../selftests/bpf/bpf_testmod/bpf_testmod.c   |  8 +++----
+ 23 files changed, 87 insertions(+), 66 deletions(-)
 
 -- 
-- Andrey
+2.42.1
 
