@@ -1,232 +1,280 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB33D15AABD
-	for <fsverity@lists.linux.dev>; Thu,  1 Feb 2024 10:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E6E8061F
+	for <fsverity@lists.linux.dev>; Fri,  2 Feb 2024 23:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706783125; cv=none; b=Zj2BAp98XDZbmCJY7bRFg67EvOxcqbLB0XkWuhiUjLfLlXqoDshKN7Y5g699iYJOcR0zLU+KrRkSxfGI/0yVIhIS+kKDyEvpRsiFqWZeLJ1gGMhtCVUFqaQf0qqFbSXgWZlrdjW8n2Cg1mNwSzl2S48cpy32kZ8MhuUsZS57Q2U=
+	t=1706915351; cv=none; b=l8b7vVigHhJHe7sIOauxR2jTyxCxyQO5TzfkNHz5ceKq1b1mwkmghnAbEY9aYP2ojno2xHfiTRFgN2aqJWtolrJ6U6XLhvT1IVYwFj5iRERAon+aTWliKDwoIDVHUOFTNXt2ZxszHk7HH4W/AKUtfJduaYJz2pJnfu56vcbe5vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706783125; c=relaxed/simple;
-	bh=Sgli+mvEghyxxcrAMgn+BqWLNDfXHM4Mvef9bMKLak4=;
+	s=arc-20240116; t=1706915351; c=relaxed/simple;
+	bh=Wo7+jDfk5sZHf8MlrGXUXrmEpHHugcRqmAit0yROqao=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=qsuLzdEvbVd0YsRddqmwQUCshq3G/KDccaAb7/BZqA/0lN4Ye67e5BYfxeA9c9DuZoAnK4s01iP3afMxoR+T6db6RZNb5/OvN9HAo6o1NqVp3j67k3D2ow/7z602480ETK+7m41crm/W/wnBb0zWY6CzwYKnJlyIig24l0kkVR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YDK2cR2q; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=SAk5EXHev6d39bB0XVN6DpaLApfwzIgpZk4fKpGuQhiAWLmGQqgNCUlr0MlKDKv9/AZaZPwvIo8/S1/2u3aq+QKykL91aZAiWKe3X7EeRvJj3KX8PLzJSIUOHKwzt6EfJwZdRPyulMbiLx8WqUN9gvXgWwAmxnx7w4VhAq6YOtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+4Tuukb; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YDK2cR2q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706783122;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jOtf7mtNbAdb12Y7lACWJQQNjQvVvmCDZUHpQwG38sQ=;
-	b=YDK2cR2q+sEcDZua0dgb561Y7LV+yqS/OaxTPNWUY1Wi9OcyRQZ5xdDQIzmQXjCtzjuPp4
-	KWUw4hdCOjkuDrokxMAMtU8Kka6N5mxvi3rn22BJEG4UlXu8qBj4FXEavslG+/B5dfxyR0
-	LxZTTfhPbIkYDVegeo9ZL6myRL0AY0A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-259-59ViG-J2MmyVYlSompiOwA-1; Thu, 01 Feb 2024 05:25:21 -0500
-X-MC-Unique: 59ViG-J2MmyVYlSompiOwA-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33b12b75b70so277722f8f.3
-        for <fsverity@lists.linux.dev>; Thu, 01 Feb 2024 02:25:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+4Tuukb"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d751bc0c15so22693265ad.2
+        for <fsverity@lists.linux.dev>; Fri, 02 Feb 2024 15:09:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706915349; x=1707520149; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ns/bvPkKWqK4cT5hwWAJS7KQis8SRbW6Visd6BLTiUI=;
+        b=b+4Tuukb7Ky2rZV6XCX/BL4BK2csymMlaKWXIFpA4ANI9WiZ4rRAf63JBNpN330pIs
+         dmWr0lFhlRWmirmeK2OcU8KwGUKzPLy+HR+LsLxmib/g0qyZ1G6BG//ml3TTGzkO3WIP
+         27886ShBqI1M1yOMMo0b2VBKbozWb4rVbpJcC+4PMlNIn4Zqe3LBU1XLMHM32Msbds/2
+         1N00eKMXS0+MEu5i7gyb4E7vY6FyYZBboYrnUSblAMtywFioYE6ym3uzoiqz11iejQXo
+         gX3pFY4T5lp8LshAtJcBIyU/XNA9EPBNrLChvXzfv80wiabcaNDI69RLIZqHuUhCxR8Y
+         gK0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706783120; x=1707387920;
+        d=1e100.net; s=20230601; t=1706915349; x=1707520149;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jOtf7mtNbAdb12Y7lACWJQQNjQvVvmCDZUHpQwG38sQ=;
-        b=PF90AmLEmbP4l71CBafKgYmFzm5QWVpvok922jf6ZPBZAghd8aS+fHrpKXR120Fxlv
-         BjPKoqzpdJEjNBY7Aru2KXVGOQkNwMgxT5ZjNGKwZEPW84RhXlm6n855Bo3l3bsdAWNs
-         A7E0cBfq400XMSoAYuTZJu5DDhzGf7Ymf1GZJ1vUkTwBmp48dnYd0+qQLQdI4DWZJtI1
-         HloPGBnJOa6YGBnzmNlasXl9XfLwp/s3MYNq1RA/GvS5gUlFvbQdvXk7PJNF2BOVscr8
-         74yK5eSGWTqu9fbE4sV5A8+Wjd25VURvFbxpnbvgfm3qxitkgt4nBClgB9jo+Am6WdEC
-         ByBw==
-X-Gm-Message-State: AOJu0Yy5+EnbUjEZbbmi+I/PZHZiTH3mcGOQDpbYu5iV8qD2ehkavswr
-	3M68tVmQ+QgcEl6NuJeuyxucNJrbTFsARtgq71Kxmc2GBgI+o4x7gTtuNQjmPzQ1FWkW71oPKwG
-	CeBKUGOMm9ZOHY+J8fWEgd9v/COeDnFsCf4UIl8M6OddNvrkTQBQlo+5MIWGuq8o=
-X-Received: by 2002:a5d:55cb:0:b0:33b:1624:f15d with SMTP id i11-20020a5d55cb000000b0033b1624f15dmr784402wrw.25.1706783119969;
-        Thu, 01 Feb 2024 02:25:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE8vLEadlWIyOXR1PBkukpFIOQTi+A2FnpWa4BYcxEd9rsuuAKCWtecvZ4Gcdgy6ykakLjLeQ==
-X-Received: by 2002:a5d:55cb:0:b0:33b:1624:f15d with SMTP id i11-20020a5d55cb000000b0033b1624f15dmr784387wrw.25.1706783119565;
-        Thu, 01 Feb 2024 02:25:19 -0800 (PST)
-Received: from thinky ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id ba15-20020a0560001c0f00b0033ae54cdd97sm13456336wrb.100.2024.02.01.02.25.19
+        bh=ns/bvPkKWqK4cT5hwWAJS7KQis8SRbW6Visd6BLTiUI=;
+        b=WAduu1OlM5pRl2cTbWZYpffPALp+nVrMAfO60yTUpmRkQ9IWdcbVIvTIbJxCoJaIqT
+         tv73Ai7UwOG7/2fVrJ64B417kRqg4Al18Q7cD40iffUcBoYbv2jZsD6Uzf2PdjbHyrET
+         zwTYpqtlYouiESVAvXRUTBza3qYKsdIg4QoDJjrtWmBM7cKMM+rG+u9i0t2J7KWSFDPX
+         5cRfqf54WTFglvSwIZ+pe5iEyRt9oum/6sQDE3wFtZKZDF8cOwSh0aKpnHYJmjjGo2sr
+         QaFqkTP8MbeeCROmF+bTM3nUa2OpXDa1CPd5cyMcQie7h9nD8KLN47ui3+Hd0sInfaV4
+         tMLA==
+X-Gm-Message-State: AOJu0YzN4HjIdvK0hNenOt3OX5IFUC3P0pr55sYZM41o6FjRBg04SyHX
+	h6QQdBq4Y5mny8uZERnTmhES5AYdOeyVW/HxElRLXPg+NXFbASHD
+X-Google-Smtp-Source: AGHT+IFxxTOrsdYhKRWr9e6jHbv8TCklGcEQIE8BSnW/BV4FuD23/hWYjE901pv5pKGyJLGFlLZjBQ==
+X-Received: by 2002:a17:902:b194:b0:1d5:c08e:52eb with SMTP id s20-20020a170902b19400b001d5c08e52ebmr8168069plr.65.1706915348583;
+        Fri, 02 Feb 2024 15:09:08 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXh8AopKfi/YqWmfKiAwlQ/PCijITod0oFhPh7EZgbe4IqqVCTYplEzVZLk725jsEN7/jjrF3+q6jwqjZIAWgtFJwhn9qmdKmzSh1WTQWyzKIR3Vu1RR9VOQ/mVdMEOrdQtYnhjryw1mdCQexA9JgKi6G6x/jm8n0qLhDny1Uyh9vw8IV8OyRb46UVpGGduitQ9ram54QIx/Q4+QDflTEF+IDMbGP6LDutZoBqdGyGeIDaHWDuGJjeQGgpi3kWxY6Mxokz3ztlOAqOGqeQDd+PFxUQapdW8eUtWM9krlaYdDID3UIGv6Ao+xrLQWDCxkdxkdWrDdbxlfq5IiqlrLk7HA0UnJpJ4jkFfgWd75iHDEi8ZdxAD0XE06DRBlvejpEon3X1Owg03SqEYrAL6rJdyOqiuNnhveN6rok4raRhfJSFqktdoCqF5aru6yMErGbiCNxd0+0aDnqt1T1XYbEGqcirlu5DKCtQ6o6ulW7Vylya1gXBRqZMMo8UuNV9ealWnc8Uf9Vfw1XOhHZ4j41gYSibJO6X/qQ9m3wUuH/DVujlBkGxKAkVqWMc+Wc4KsIxm/EtloqOHI0LTPMMffFTsW5xMa5t9igm/5IU1NvJ0UaL1KXIbvnzxQdLod4WO3cP7eM+SLAzmpsRCYZ37BA3OS0HH2DSw/vYCAqccICCfyklhIqIq0wBZrEXbqubqWvBOtecAaQ==
+Received: from surya ([70.134.61.176])
+        by smtp.gmail.com with ESMTPSA id c9-20020a170902d48900b001d9557f6c04sm2086428plg.267.2024.02.02.15.09.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Feb 2024 02:25:19 -0800 (PST)
-Date: Thu, 1 Feb 2024 11:25:18 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev
-Subject: Re: [PATCH v2] fsverity: remove hash page spin lock
-Message-ID: <kkgu2qxuuhrqctuvnttfakojfkumrl6zvdarqpqrw7xqlvqjp4@qhwox5kqi7se>
-References: <20240201052813.68380-1-ebiggers@kernel.org>
+        Fri, 02 Feb 2024 15:09:08 -0800 (PST)
+Date: Fri, 2 Feb 2024 15:09:05 -0800
+From: Manu Bretelle <chantr4@gmail.com>
+To: Daniel Xu <dxu@dxuuu.xyz>
+Cc: linux-trace-kernel@vger.kernel.org, coreteam@netfilter.org,
+	bpf@vger.kernel.org, linux-input@vger.kernel.org,
+	cgroups@vger.kernel.org, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	netfilter-devel@vger.kernel.org, alexei.starovoitov@gmail.com,
+	olsajiri@gmail.com, quentin@isovalent.com, alan.maguire@oracle.com,
+	memxor@gmail.com, vmalik@redhat.com
+Subject: Re: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
+Message-ID: <Zb12EZt0BAKOPBk/@surya>
+References: <cover.1706491398.git.dxu@dxuuu.xyz>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240201052813.68380-1-ebiggers@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1706491398.git.dxu@dxuuu.xyz>
 
-On 2024-01-31 21:28:13, Eric Biggers wrote:
-> From: Andrey Albershteyn <aalbersh@redhat.com>
+On Sun, Jan 28, 2024 at 06:24:05PM -0700, Daniel Xu wrote:
+> === Description ===
 > 
-> The spin lock is not necessary here as it can be replaced with
-> memory barrier which should be better performance-wise.
+> This is a bpf-treewide change that annotates all kfuncs as such inside
+> .BTF_ids. This annotation eventually allows us to automatically generate
+> kfunc prototypes from bpftool.
 > 
-> When Merkle tree block size differs from page size, in
-> is_hash_block_verified() two things are modified during check - a
-> bitmap and PG_checked flag of the page.
+> We store this metadata inside a yet-unused flags field inside struct
+> btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
 > 
-> Each bit in the bitmap represent verification status of the Merkle
-> tree blocks. PG_checked flag tells if page was just re-instantiated
-> or was in pagecache. Both of this states are shared between
-> verification threads. Page which was re-instantiated can not have
-> already verified blocks (bit set in bitmap).
+> More details about the full chain of events are available in commit 3's
+> description.
 > 
-> The spin lock was used to allow only one thread to modify both of
-> these states and keep order of operations. The only requirement here
-> is that PG_Checked is set strictly after bitmap is updated.
-> This way other threads which see that PG_Checked=1 (page cached)
-> knows that bitmap is up-to-date. Otherwise, if PG_Checked is set
-> before bitmap is cleared, other threads can see bit=1 and therefore
-> will not perform verification of that Merkle tree block.
+> The accompanying pahole and bpftool changes can be viewed
+> here on these "frozen" branches [0][1].
 > 
-> However, there's still the case when one thread is setting a bit in
-> verify_data_block() and other thread is clearing it in
-> is_hash_block_verified(). This can happen if two threads get to
-> !PageChecked branch and one of the threads is rescheduled before
-> resetting the bitmap. This is fine as at worst blocks are
-> re-verified in each thread.
-> 
-> Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> [ebiggers: improved the comment and removed the 'verified' variable]
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> ---
->  fs/verity/fsverity_private.h |  1 -
->  fs/verity/open.c             |  1 -
->  fs/verity/verify.c           | 48 ++++++++++++++++++------------------
->  3 files changed, 24 insertions(+), 26 deletions(-)
-> 
-> diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-> index a6a6b27492414..b3506f56e180b 100644
-> --- a/fs/verity/fsverity_private.h
-> +++ b/fs/verity/fsverity_private.h
-> @@ -62,21 +62,20 @@ struct merkle_tree_params {
->   * caches information about the Merkle tree that's needed to efficiently verify
->   * data read from the file.  It also caches the file digest.  The Merkle tree
->   * pages themselves are not cached here, but the filesystem may cache them.
->   */
->  struct fsverity_info {
->  	struct merkle_tree_params tree_params;
->  	u8 root_hash[FS_VERITY_MAX_DIGEST_SIZE];
->  	u8 file_digest[FS_VERITY_MAX_DIGEST_SIZE];
->  	const struct inode *inode;
->  	unsigned long *hash_block_verified;
-> -	spinlock_t hash_page_init_lock;
->  };
->  
->  #define FS_VERITY_MAX_SIGNATURE_SIZE	(FS_VERITY_MAX_DESCRIPTOR_SIZE - \
->  					 sizeof(struct fsverity_descriptor))
->  
->  /* hash_algs.c */
->  
->  extern struct fsverity_hash_alg fsverity_hash_algs[];
->  
->  const struct fsverity_hash_alg *fsverity_get_hash_alg(const struct inode *inode,
-> diff --git a/fs/verity/open.c b/fs/verity/open.c
-> index 6c31a871b84bc..fdeb95eca3af3 100644
-> --- a/fs/verity/open.c
-> +++ b/fs/verity/open.c
-> @@ -232,21 +232,20 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
->  			vi->tree_params.tree_pages <<
->  			vi->tree_params.log_blocks_per_page;
->  
->  		vi->hash_block_verified = kvcalloc(BITS_TO_LONGS(num_bits),
->  						   sizeof(unsigned long),
->  						   GFP_KERNEL);
->  		if (!vi->hash_block_verified) {
->  			err = -ENOMEM;
->  			goto fail;
->  		}
-> -		spin_lock_init(&vi->hash_page_init_lock);
->  	}
->  
->  	return vi;
->  
->  fail:
->  	fsverity_free_info(vi);
->  	return ERR_PTR(err);
->  }
->  
->  void fsverity_set_info(struct inode *inode, struct fsverity_info *vi)
-> diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-> index 904ccd7e8e162..4fcad0825a120 100644
-> --- a/fs/verity/verify.c
-> +++ b/fs/verity/verify.c
-> @@ -12,21 +12,20 @@
->  
->  static struct workqueue_struct *fsverity_read_workqueue;
->  
->  /*
->   * Returns true if the hash block with index @hblock_idx in the tree, located in
->   * @hpage, has already been verified.
->   */
->  static bool is_hash_block_verified(struct fsverity_info *vi, struct page *hpage,
->  				   unsigned long hblock_idx)
->  {
-> -	bool verified;
->  	unsigned int blocks_per_page;
->  	unsigned int i;
->  
->  	/*
->  	 * When the Merkle tree block size and page size are the same, then the
->  	 * ->hash_block_verified bitmap isn't allocated, and we use PG_checked
->  	 * to directly indicate whether the page's block has been verified.
->  	 *
->  	 * Using PG_checked also guarantees that we re-verify hash pages that
->  	 * get evicted and re-instantiated from the backing storage, as new
-> @@ -36,53 +35,54 @@ static bool is_hash_block_verified(struct fsverity_info *vi, struct page *hpage,
->  		return PageChecked(hpage);
->  
->  	/*
->  	 * When the Merkle tree block size and page size differ, we use a bitmap
->  	 * to indicate whether each hash block has been verified.
->  	 *
->  	 * However, we still need to ensure that hash pages that get evicted and
->  	 * re-instantiated from the backing storage are re-verified.  To do
->  	 * this, we use PG_checked again, but now it doesn't really mean
->  	 * "checked".  Instead, now it just serves as an indicator for whether
-> -	 * the hash page is newly instantiated or not.
-> +	 * the hash page is newly instantiated or not.  If the page is new, as
-> +	 * indicated by PG_checked=0, we clear the bitmap bits for the page's
-> +	 * blocks since they are untrustworthy, then set PG_checked=1.
-> +	 * Otherwise we return the bitmap bit for the requested block.
->  	 *
-> -	 * The first thread that sees PG_checked=0 must clear the corresponding
-> -	 * bitmap bits, then set PG_checked=1.  This requires a spinlock.  To
-> -	 * avoid having to take this spinlock in the common case of
-> -	 * PG_checked=1, we start with an opportunistic lockless read.
-> +	 * Multiple threads may execute this code concurrently on the same page.
-> +	 * This is safe because we use memory barriers to ensure that if a
-> +	 * thread sees PG_checked=1, then it also sees the associated bitmap
-> +	 * clearing to have occurred.  Also, all writes and their corresponding
-> +	 * reads are atomic, and all writes are safe to repeat in the event that
-> +	 * multiple threads get into the PG_checked=0 section.  (Clearing a
-> +	 * bitmap bit again at worst causes a hash block to be verified
-> +	 * redundantly.  That event should be very rare, so it's not worth using
-> +	 * a lock to avoid.  Setting PG_checked again has no effect.)
+> [0]: https://github.com/danobi/pahole/tree/kfunc_btf-v3-mailed
+> [1]: https://github.com/danobi/linux/tree/kfunc_bpftool-mailed
 
-Thanks! That's much more clear now. LGTM
-Reviewed-by: Andrey Albershteyn <aalbersh@redhat.com>
 
--- 
-- Andrey
+I hit a similar issue to [0] on master
+943b043aeecc ("selftests/bpf: Fix bench runner SIGSEGV")
+ when cross-compiling on x86_64 (LE) to s390x (BE).
+I do have CONFIG_DEBUG_INFO_BTF enable and the issue would not trigger if
+I disabled CONFIG_DEBUG_INFO_BTF (and with the fix mentioned in [0]).
 
+What seems to happen is that `tools/resolve_btfids` is ran in the context of the
+host endianess and if I printk before the WARN_ON:
+diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+index ef380e546952..a9ed7a1a4936 100644
+  --- a/kernel/bpf/btf.c
+  +++ b/kernel/bpf/btf.c
+  @@ -8128,6 +8128,7 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
+           * WARN() for initcall registrations that do not check errors.
+           */
+          if (!(kset->set->flags & BTF_SET8_KFUNCS)) {
+  +        printk("Flag 0x%08X, expected 0x%08X\n", kset->set->flags, BTF_SET8_KFUNCS);
+                  WARN_ON(!kset->owner);
+                  return -EINVAL;
+          }
+
+the boot logs would show:
+  Flag 0x01000000, expected 0x00000001
+
+The issue did not happen prior to
+6f3189f38a3e ("bpf: treewide: Annotate BPF kfuncs in BTF")
+has only 0 was written before.
+
+It seems [1] will be addressing cross-compilation, but it did not fix it as is
+by just applying on top of master, so probably some of the changes will also need
+to be ported to `tools/include/linux/btf_ids.h`?
+
+A hacky workaround to cross-compilation I have is to apply:
+
+  diff --git a/tools/bpf/resolve_btfids/Makefile b/tools/bpf/resolve_btfids/Makefile
+  index 4b8079f294f6..b706e7ab066f 100644
+  --- a/tools/bpf/resolve_btfids/Makefile
+  +++ b/tools/bpf/resolve_btfids/Makefile
+  @@ -22,10 +22,10 @@ HOST_OVERRIDES := AR="$(HOSTAR)" CC="$(HOSTCC)" LD="$(HOSTLD)" ARCH="$(HOSTARCH)
+                    CROSS_COMPILE="" EXTRA_CFLAGS="$(HOSTCFLAGS)"
+   RM      ?= rm
+  -HOSTCC  ?= gcc
+  -HOSTLD  ?= ld
+  -HOSTAR  ?= ar
+  -CROSS_COMPILE =
+  +HOSTCC  = $(CC)
+  +HOSTLD  = $(LD)
+  +HOSTAR  = $(AR)
+  +#CROSS_COMPILE =
+   OUTPUT ?= $(srctree)/tools/bpf/resolve_btfids/
+  @@ -56,16 +56,16 @@ $(OUTPUT) $(OUTPUT)/libsubcmd $(LIBBPF_OUT):
+   $(SUBCMDOBJ): fixdep FORCE | $(OUTPUT)/libsubcmd
+          $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(SUBCMD_OUT) \
+  -                   DESTDIR=$(SUBCMD_DESTDIR) $(HOST_OVERRIDES) prefix= subdir= \
+  +                   DESTDIR=$(SUBCMD_DESTDIR) prefix= subdir= \
+                      $(abspath $@) install_headers
+   $(BPFOBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(LIBBPF_OUT)
+          $(Q)$(MAKE) $(submake_extras) -C $(LIBBPF_SRC) OUTPUT=$(LIBBPF_OUT)    \
+  -                   DESTDIR=$(LIBBPF_DESTDIR) $(HOST_OVERRIDES) prefix= subdir= \
+  +                   DESTDIR=$(LIBBPF_DESTDIR) prefix= subdir= \
+                      $(abspath $@) install_headers
+  -LIBELF_FLAGS := $(shell $(HOSTPKG_CONFIG) libelf --cflags 2>/dev/null)
+  -LIBELF_LIBS  := $(shell $(HOSTPKG_CONFIG) libelf --libs 2>/dev/null || echo -lelf)
+  +LIBELF_FLAGS := $(shell $(PKG_CONFIG) libelf --cflags 2>/dev/null)
+  +LIBELF_LIBS  := $(shell $(PKG_CONFIG) libelf --libs 2>/dev/null || echo -lelf)
+   HOSTCFLAGS_resolve_btfids += -g \
+             -I$(srctree)/tools/include \
+  @@ -84,7 +84,7 @@ $(BINARY_IN): fixdep FORCE prepare | $(OUTPUT)
+   $(BINARY): $(BPFOBJ) $(SUBCMDOBJ) $(BINARY_IN)
+          $(call msg,LINK,$@)
+  -       $(Q)$(HOSTCC) $(BINARY_IN) $(KBUILD_HOSTLDFLAGS) -o $@ $(BPFOBJ) $(SUBCMDOBJ) $(LIBS)
+  +       $(Q)$(CC) $(BINARY_IN) $(KBUILD_HOSTLDFLAGS) -o $@ $(BPFOBJ) $(SUBCMDOBJ) $(LIBS)
+   clean_objects := $(wildcard $(OUTPUT)/*.o                \
+                               $(OUTPUT)/.*.o.cmd           \
+  diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+  index a38a3001527c..5cd193c04448 100644
+  --- a/tools/testing/selftests/bpf/Makefile
+  +++ b/tools/testing/selftests/bpf/Makefile
+  @@ -171,7 +171,7 @@ INCLUDE_DIR := $(SCRATCH_DIR)/include
+   BPFOBJ := $(BUILD_DIR)/libbpf/libbpf.a
+   ifneq ($(CROSS_COMPILE),)
+   HOST_BUILD_DIR         := $(BUILD_DIR)/host
+  -HOST_SCRATCH_DIR       := $(OUTPUT)/host-tools
+  +HOST_SCRATCH_DIR       := $(SCRATCH_DIR)
+   HOST_INCLUDE_DIR       := $(HOST_SCRATCH_DIR)/include
+   else
+   HOST_BUILD_DIR         := $(BUILD_DIR)
+
+This causes `resolve_btfids` to be compiled in the target endianess and gets
+magically run provided that the hosts has `qemu-s390x-static` and a functional
+binfmt_misc [2] on the host, but having this using host architecture per [1]
+is likely better.
+
+Here are steps to reproduce the issue on Ubuntu 23.10 and assuming
+danobi/vmtest [3] is installed:
+
+  XPLATFORM="s390x"
+  XARCH="s390"
+  # Set up repo for s390x
+  cat <<EOF >> /etc/apt/sources.list.d/s390x.list
+  deb [arch=s390x] http://ports.ubuntu.com/ubuntu-ports  mantic main restricted
+  deb [arch=s390x] http://ports.ubuntu.com/ubuntu-ports  mantic-updates main restricted
+  EOF
+  sudo dpkg --add-architecture s390x
+  
+  apt install qemu-system-s390x qemu-user-static g{cc,++}-"${XARCH}-linux-gnu" {libelf-dev,libssl-dev,pkgconf}:s390x
+  
+  KBUILD_OUTPUT_DIR="/tmp/kbuild-${XPLATFORM}"
+  mkdir "${KBUILD_OUTPUT_DIR}"
+  cat tools/testing/selftests/bpf/config{,.vm,.${XPLATFORM}} > ${KBUILD_OUTPUT_DIR}/.config
+  
+  make ARCH="${XARCH}" CROSS_COMPILE="${XPLATFORM}-linux-gnu-" O="${KBUILD_OUTPUT_DIR}"  -j$((4 * $(nproc))) olddefconfig
+  make ARCH="${XARCH}" CROSS_COMPILE="${XPLATFORM}-linux-gnu-" O="${KBUILD_OUTPUT_DIR}"  -j$((4 * $(nproc))) all
+  
+  # No need for a s390x ubuntu 23.10 rootfs, we only care about booting the kernel
+  vmtest -k "${KBUILD_OUTPUT_DIR}/arch/s390/boot/bzImage" -a s390x "uname -m" | cat
+
+
+For the chroot route, see [4].
+
+[0] https://lore.kernel.org/linux-kernel/20240201155339.2b5936be@canb.auug.org.au/T/
+[1] https://lore.kernel.org/bpf/cover.1706717857.git.vmalik@redhat.com/
+[2] https://en.wikipedia.org/wiki/Binfmt_misc
+[3] https://github.com/danobi/vmtest
+[4] https://chantra.github.io/bpfcitools/bpf-cross-compile.html
+
+Manu
+
+> 
+> === Changelog ===
+> 
+> Changes from v3:
+> * Rebase to bpf-next and add missing annotation on new kfunc
+> 
+> Changes from v2:
+> * Only WARN() for vmlinux kfuncs
+> 
+> Changes from v1:
+> * Move WARN_ON() up a call level
+> * Also return error when kfunc set is not properly tagged
+> * Use BTF_KFUNCS_START/END instead of flags
+> * Rename BTF_SET8_KFUNC to BTF_SET8_KFUNCS
+> 
+> Daniel Xu (3):
+>   bpf: btf: Support flags for BTF_SET8 sets
+>   bpf: btf: Add BTF_KFUNCS_START/END macro pair
+>   bpf: treewide: Annotate BPF kfuncs in BTF
+> 
+>  Documentation/bpf/kfuncs.rst                  |  8 +++----
+>  drivers/hid/bpf/hid_bpf_dispatch.c            |  8 +++----
+>  fs/verity/measure.c                           |  4 ++--
+>  include/linux/btf_ids.h                       | 21 +++++++++++++++----
+>  kernel/bpf/btf.c                              |  8 +++++++
+>  kernel/bpf/cpumask.c                          |  4 ++--
+>  kernel/bpf/helpers.c                          |  8 +++----
+>  kernel/bpf/map_iter.c                         |  4 ++--
+>  kernel/cgroup/rstat.c                         |  4 ++--
+>  kernel/trace/bpf_trace.c                      |  8 +++----
+>  net/bpf/test_run.c                            |  8 +++----
+>  net/core/filter.c                             | 20 +++++++++---------
+>  net/core/xdp.c                                |  4 ++--
+>  net/ipv4/bpf_tcp_ca.c                         |  4 ++--
+>  net/ipv4/fou_bpf.c                            |  4 ++--
+>  net/ipv4/tcp_bbr.c                            |  4 ++--
+>  net/ipv4/tcp_cubic.c                          |  4 ++--
+>  net/ipv4/tcp_dctcp.c                          |  4 ++--
+>  net/netfilter/nf_conntrack_bpf.c              |  4 ++--
+>  net/netfilter/nf_nat_bpf.c                    |  4 ++--
+>  net/xfrm/xfrm_interface_bpf.c                 |  4 ++--
+>  net/xfrm/xfrm_state_bpf.c                     |  4 ++--
+>  .../selftests/bpf/bpf_testmod/bpf_testmod.c   |  8 +++----
+>  23 files changed, 87 insertions(+), 66 deletions(-)
+> 
+> -- 
+> 2.42.1
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
