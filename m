@@ -1,80 +1,72 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84335524C
-	for <fsverity@lists.linux.dev>; Sat,  3 Feb 2024 01:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E922A5F56A
+	for <fsverity@lists.linux.dev>; Sat,  3 Feb 2024 14:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706924086; cv=none; b=uxF92wkQN6lZR9Bt16ECUxpWQtLR3vcXqib1AD5UOyRBMyPTvIXu+bebXLaxGYYneM8B+GrzjhUh+wQZmHkB2aFUmRXR+gmrkBx3Q6g4XO+qBLE2hY3La/+A83B4FnxOJGIe8sOnLjDjvIPMsYjoURrxlIpM593t7eKaSBNDe2o=
+	t=1706971230; cv=none; b=dZ/v50+x6C51RbFswB5g8n3KvjA9suNRCKFX+xxAh0db6hpO8WZjA+l2rYZDCkwBQmGSpCtuQw1KKOJqydiXWfXH0g2WqsOwO8QprVU97u6DVwI9pzoy1eskXvSS9+en2REJbQ1V3k6gEpiAep2ZWDOKE2Oz86gO7uFLByUOa5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706924086; c=relaxed/simple;
-	bh=X0Ojwdr7D0Pc16RpTgvTbb5pPVX5ib05jZoeLOX6oAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D/23coyGz8yt23KnokS1/sGf6R1nsvO58KdmeC1IrwJLzhwYRjanHBQONip7DHZb94cmYZ6YCR+8WkMkZ/xsDOmau5jfhR5r+MQWMQxQcKUrOEmQKRr39FprFICDiB1EHeAK1v7pVpDirxdSNWDylR+Vp0YL2kqVVgW/9MQDt+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz; spf=pass smtp.mailfrom=dxuuu.xyz; dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b=MFj+jqKB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T9nM7Hgl; arc=none smtp.client-ip=66.111.4.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
+	s=arc-20240116; t=1706971230; c=relaxed/simple;
+	bh=SPKOQmi1SsVFGhL9v4LuEf82ltj3tIdZn1v6O9SXQyc=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kFSkTJN6UMQtgszv+b6HBOYanUw2XngxjgzwM8cIPH4PBNbo2V95LWnQ+fnYGrklbMXkSLMs4eYH2z3HiJy+Gsz8uk9BzOPI9LNkkl1hyjNbliisvrWIZmQSM0de2tk7LicF27gyM0rG+wStdG90SVAR+ausO2uyc0bo5I5zqHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nCVI+6U7; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="MFj+jqKB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="T9nM7Hgl"
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 68EE95C0050;
-	Fri,  2 Feb 2024 20:34:43 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 02 Feb 2024 20:34:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1706924083; x=1707010483; bh=NnnIMmc9MZ
-	3IASFiC5hqBjgW0tly7YEQAd6Bpm7OEMI=; b=MFj+jqKBnhouCKmuAELuyDh+rJ
-	jjWg9fl6r38OJwM0JajDa19hxTMqhi96t3TnnPaYGdfmgNWhYY3LsvK10Ukp3II7
-	YNUGkCfMkfhY/kT4TFXH2vcmxai3Y1BBxFe38eq/IlAUxeRT7gMDdb75kIfdZqYM
-	veuS70k5okuJnl2gi5hvk1jZORe2UnrADy7GQA0g2LrfO6Rnx0q0OqTZb8SszW5f
-	fclWJVdCzlx1cBeSRwcZn0og3LYu0jPbegzVLQwrKvHMQU4nHoZ52fx822mhBhei
-	9jZrUJMlIwmznZImKPxo1m6+ZbYzLPJ7uzN01xOEN7fJpbzmXKtJxdYuRcvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1706924083; x=1707010483; bh=NnnIMmc9MZ3IASFiC5hqBjgW0tly
-	7YEQAd6Bpm7OEMI=; b=T9nM7Hgled/XXm0WO8ytjfKSfgvTMNqwCAdHrZCKieNE
-	ZdTXViyMt3xFNfdTQClCr8YvYCWDxTGW10izkQcRraa5Fqv/9KazkyXYKQbb4ArD
-	pQS3a3ngwFZKj3eIFu3j050thBZaZRjrueMX/vOJ9eA/zbRUA6+7WH2TGSYencPK
-	Vrj3dXNYtrUc56bqd4iSkyaEWlVtijxpzM6u0IE/lSDQXOk+eEquQljN5OwShxVi
-	438zZyXh+dLUiBclUWI/EAkOIXP4aIrfgzGn6OQryQNzJuGl9If6JihcfdnPDBpZ
-	19JVKlpfjZQrZZ1LCdmnA5qubEMUh5Kku68u/9kdxQ==
-X-ME-Sender: <xms:Mpi9ZZ_HORM30B-rZD9-PypTMISUhuaWob6e5Wr0Gy6zQmE3lAR-Fg>
-    <xme:Mpi9Zdv0fEmt8gWlYrSjAyqq1te_2_HCGned0HkOJ7RZc4xfuZILeij_wuZrNxxWv
-    arBz5iyY-q5FXHEfg>
-X-ME-Received: <xmr:Mpi9ZXBbdSkULMNSJ7-MNs28J3bgwT1SfJ5sK7gPjUiarKu_M-KZPWdpC-GAyptHOz-WH8xm8IpOwJbTCimuziKtGzvuclg1y4Lhooc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrfeduhedgfeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlvdefmdenucfjughrpeffhf
-    fvvefukfhfgggtuggjsehttdfstddttddvnecuhfhrohhmpeffrghnihgvlhcuighuuceo
-    ugiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepieffjedujeehtdduhe
-    ffgeeiveehleevffdvudethfdugedtleduhffhhfejfffgnecuffhomhgrihhnpehgihht
-    hhhusgdrtghomhdpjhgvmhgrrhgthhdrnhgvthenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:M5i9Zdf6QcdOMMRg-j-oLkZ4PFYKCR7jHEcrxzNZru59PuTTDVbMiQ>
-    <xmx:M5i9ZeO77Ara2IObUaPffrjYy0QFmjbxP1SobyzzVW4sr3vvWnWagg>
-    <xmx:M5i9ZfmNxOeGwxBxjy5unm-E-9gBhW7ppyYukJwATDjRczPVMGUlFQ>
-    <xmx:M5i9ZZFLO67t1PQsu3Ogmj-PHiCAuqCf6Ncak8C10MmIgpjIZlhIMw>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 2 Feb 2024 20:34:41 -0500 (EST)
-Date: Fri, 2 Feb 2024 18:34:40 -0700
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: Manu Bretelle <chantr4@gmail.com>
-Cc: linux-trace-kernel@vger.kernel.org, coreteam@netfilter.org, 
-	bpf@vger.kernel.org, linux-input@vger.kernel.org, cgroups@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	netfilter-devel@vger.kernel.org, alexei.starovoitov@gmail.com, olsajiri@gmail.com, 
-	quentin@isovalent.com, alan.maguire@oracle.com, memxor@gmail.com, vmalik@redhat.com
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nCVI+6U7"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a370e63835cso186511566b.1
+        for <fsverity@lists.linux.dev>; Sat, 03 Feb 2024 06:40:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706971227; x=1707576027; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DCI9UWtJp+usKJeSEd4tLIOfQSn4XLwL0p08Rua3AYo=;
+        b=nCVI+6U7Jq9lUAjQA3Lb5LMnGM4cdNtoFhOK372zf4yGitoHxpIR4wlYO2ldWUqtND
+         P84kBqUPuE0t2cqi6RV9tN6pD4SrsL0hgUs6g5CmcfjM/CsCecOCS/nsihwiQUADlzcn
+         AIt26ABQmBiAm+PMqHxgWXjp+4Af2Ztu77F+m22i3EdkyNSqp2mNwuKi0dbamrRG0/aC
+         3n6Xb6ZCSzzMZa5y9mj7UTqt+mARnNmVYktPOSW7dVaOn0179YkEx8FwIevyvEj4xwkN
+         wF+irqlSGruSIj7VDksSQFVhQYD9lRf2X68xjkcTmTj+7J/WUf05a67AtFAWISPn0+2U
+         JDbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706971227; x=1707576027;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DCI9UWtJp+usKJeSEd4tLIOfQSn4XLwL0p08Rua3AYo=;
+        b=kz6nl3W8GCJ4E5X/7GyEDZrWDjishJtp8IRHxWM0kPjtbwwU+CFYr616q/0YcVCQKU
+         yxaINbxUnrc4dYazuTNMWw0Yp3MCc1pa6FQ30Dwj04bKtr4Rq4G1mJo+xGI66BMbx8Wi
+         UfPc1qwx4izb00Ob+A7hrKuuBDeav3Avo07Yb5IcpYdb6SKK8umwK3Cnvklvq4boQKHg
+         6hF7t2mgLNOiH8kWsNhPYCOg48m38TriwvE7pxykFElhzWu+knlvSVyyVDrg0wA+A4eQ
+         JrRoPDPXI7LSPBUJDHhDuhTfDOO38WjXCYQpt1xtsaXmJPO5sdIZH8whDXUKOkBtAoEa
+         1QTA==
+X-Gm-Message-State: AOJu0Yy/4ZDcs6PU0vhK35N47tFPhcfGLU2/6d+eJNqWfYTzh0lXNOz0
+	E453fW4VdlxQdWjVMenxqXm0XsReGsoucOsqW5zb+/EapJOcb7Q5
+X-Google-Smtp-Source: AGHT+IEfOssooYznIaR2j16FsW2he+A402wuOVjq8GOI1Sazb6h644eVgsUtw+TPqcVbkCVfbhPGQA==
+X-Received: by 2002:a17:906:354a:b0:a31:13ce:d64f with SMTP id s10-20020a170906354a00b00a3113ced64fmr5985082eja.55.1706971226841;
+        Sat, 03 Feb 2024 06:40:26 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCW7p53u42FKalV0Q8kOQDCNk7cTeLg/1cDc8Cl36yTh9GgvqcIr7fJ1NjvQ9ua0CqgYnxR364aNQxpFyOm6CIQ0gb9ekMkZLMnjtffuGBFh7/SwbH8A2V4Cto4Z9t7SqkmhNtnZmDkok1c2qd1RfFQDOV150RgiWxpx8rW8jY5HLX59sjRzhCf0WZbk8j3VHdC4Sk5wajn+aECyMMWAsCXsV0KXGT9nWKLpndPx21SX0bgrfqsTNDIPc/iWNxlXMe/DNTkkaJcZjDrROOhF8GBSmYltznkX/eFhz02CpOi/clBOZqQ2m7tq4HA+58OgX9RRJh+QxZkjkG1leXs9iMcJoOKpvzfAKZxDkrG3th72183EyPHJBq6CNncj849pVaX5+wJ93GXZQcSm5ct9Dek5rZgTh6Ss5o1FzRDuRwoi3fovr7rKMbJKbB327QFLO2b/nbpZPWDmDzvujZLA5i4ncjCgM6tUbMGXZl+68sXucayOr2hT4jmrSx53tV0CYc6As03CrbYkckRd85cXsKMzDz+dAJELylyLaMfykRuH8inh+RjSqtvUsHgRfElsOAJb14rOVfNvZsO0dGP79zCSO3eJlpMEb8wd1VKU3N6H4PiYLsoSqmFiRXTWbU+BuJlXrn6MnPpb5AI5MkVhkEx2ncNcJTGLK32JV16SYsg6cHrjz7ZucNA/U8hIVvKytd/DSE0QRQhZKktMiJbC2gVMDDLn0pVu1FPtuswFLZWasa+yhutDIWOpmg==
+Received: from krava ([83.240.62.96])
+        by smtp.gmail.com with ESMTPSA id ty5-20020a170907c70500b00a3628e91119sm2039491ejc.180.2024.02.03.06.40.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Feb 2024 06:40:26 -0800 (PST)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Sat, 3 Feb 2024 15:40:24 +0100
+To: Manu Bretelle <chantr4@gmail.com>, vmalik@redhat.com
+Cc: Daniel Xu <dxu@dxuuu.xyz>, linux-trace-kernel@vger.kernel.org,
+	coreteam@netfilter.org, bpf@vger.kernel.org,
+	linux-input@vger.kernel.org, cgroups@vger.kernel.org,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	netfilter-devel@vger.kernel.org, alexei.starovoitov@gmail.com,
+	olsajiri@gmail.com, quentin@isovalent.com, alan.maguire@oracle.com,
+	memxor@gmail.com
 Subject: Re: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
-Message-ID: <fq7iecmqkibtexsbgvv5gyu5nva6ig7gcww56oskk2rvmoxfno@uohfy2x57tch>
+Message-ID: <Zb5QWCw3Tg26_MDa@krava>
 References: <cover.1706491398.git.dxu@dxuuu.xyz>
  <Zb12EZt0BAKOPBk/@surya>
 Precedence: bulk
@@ -86,8 +78,6 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <Zb12EZt0BAKOPBk/@surya>
-
-Hi Manu,
 
 On Fri, Feb 02, 2024 at 03:09:05PM -0800, Manu Bretelle wrote:
 > On Sun, Jan 28, 2024 at 06:24:05PM -0700, Daniel Xu wrote:
@@ -141,78 +131,27 @@ On Fri, Feb 02, 2024 at 03:09:05PM -0800, Manu Bretelle wrote:
 > It seems [1] will be addressing cross-compilation, but it did not fix it as is
 > by just applying on top of master, so probably some of the changes will also need
 > to be ported to `tools/include/linux/btf_ids.h`?
-> 
-> A hacky workaround to cross-compilation I have is to apply:
-> 
->   diff --git a/tools/bpf/resolve_btfids/Makefile b/tools/bpf/resolve_btfids/Makefile
->   index 4b8079f294f6..b706e7ab066f 100644
->   --- a/tools/bpf/resolve_btfids/Makefile
->   +++ b/tools/bpf/resolve_btfids/Makefile
->   @@ -22,10 +22,10 @@ HOST_OVERRIDES := AR="$(HOSTAR)" CC="$(HOSTCC)" LD="$(HOSTLD)" ARCH="$(HOSTARCH)
->                     CROSS_COMPILE="" EXTRA_CFLAGS="$(HOSTCFLAGS)"
->    RM      ?= rm
->   -HOSTCC  ?= gcc
->   -HOSTLD  ?= ld
->   -HOSTAR  ?= ar
->   -CROSS_COMPILE =
->   +HOSTCC  = $(CC)
->   +HOSTLD  = $(LD)
->   +HOSTAR  = $(AR)
->   +#CROSS_COMPILE =
->    OUTPUT ?= $(srctree)/tools/bpf/resolve_btfids/
->   @@ -56,16 +56,16 @@ $(OUTPUT) $(OUTPUT)/libsubcmd $(LIBBPF_OUT):
->    $(SUBCMDOBJ): fixdep FORCE | $(OUTPUT)/libsubcmd
->           $(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(SUBCMD_OUT) \
->   -                   DESTDIR=$(SUBCMD_DESTDIR) $(HOST_OVERRIDES) prefix= subdir= \
->   +                   DESTDIR=$(SUBCMD_DESTDIR) prefix= subdir= \
->                       $(abspath $@) install_headers
->    $(BPFOBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(LIBBPF_OUT)
->           $(Q)$(MAKE) $(submake_extras) -C $(LIBBPF_SRC) OUTPUT=$(LIBBPF_OUT)    \
->   -                   DESTDIR=$(LIBBPF_DESTDIR) $(HOST_OVERRIDES) prefix= subdir= \
->   +                   DESTDIR=$(LIBBPF_DESTDIR) prefix= subdir= \
->                       $(abspath $@) install_headers
->   -LIBELF_FLAGS := $(shell $(HOSTPKG_CONFIG) libelf --cflags 2>/dev/null)
->   -LIBELF_LIBS  := $(shell $(HOSTPKG_CONFIG) libelf --libs 2>/dev/null || echo -lelf)
->   +LIBELF_FLAGS := $(shell $(PKG_CONFIG) libelf --cflags 2>/dev/null)
->   +LIBELF_LIBS  := $(shell $(PKG_CONFIG) libelf --libs 2>/dev/null || echo -lelf)
->    HOSTCFLAGS_resolve_btfids += -g \
->              -I$(srctree)/tools/include \
->   @@ -84,7 +84,7 @@ $(BINARY_IN): fixdep FORCE prepare | $(OUTPUT)
->    $(BINARY): $(BPFOBJ) $(SUBCMDOBJ) $(BINARY_IN)
->           $(call msg,LINK,$@)
->   -       $(Q)$(HOSTCC) $(BINARY_IN) $(KBUILD_HOSTLDFLAGS) -o $@ $(BPFOBJ) $(SUBCMDOBJ) $(LIBS)
->   +       $(Q)$(CC) $(BINARY_IN) $(KBUILD_HOSTLDFLAGS) -o $@ $(BPFOBJ) $(SUBCMDOBJ) $(LIBS)
->    clean_objects := $(wildcard $(OUTPUT)/*.o                \
->                                $(OUTPUT)/.*.o.cmd           \
->   diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
->   index a38a3001527c..5cd193c04448 100644
->   --- a/tools/testing/selftests/bpf/Makefile
->   +++ b/tools/testing/selftests/bpf/Makefile
->   @@ -171,7 +171,7 @@ INCLUDE_DIR := $(SCRATCH_DIR)/include
->    BPFOBJ := $(BUILD_DIR)/libbpf/libbpf.a
->    ifneq ($(CROSS_COMPILE),)
->    HOST_BUILD_DIR         := $(BUILD_DIR)/host
->   -HOST_SCRATCH_DIR       := $(OUTPUT)/host-tools
->   +HOST_SCRATCH_DIR       := $(SCRATCH_DIR)
->    HOST_INCLUDE_DIR       := $(HOST_SCRATCH_DIR)/include
->    else
->    HOST_BUILD_DIR         := $(BUILD_DIR)
-> 
-> This causes `resolve_btfids` to be compiled in the target endianess and gets
-> magically run provided that the hosts has `qemu-s390x-static` and a functional
-> binfmt_misc [2] on the host, but having this using host architecture per [1]
-> is likely better.
 
-This is kinda surprising to me. I don't recall seeing any code inside
-resolve_btfids that touches the set8 flags field -- only the ids in the
-flexible array member. Would be interested to see what the value of the
-set8 flags field is before resolve_btfids is run.
+the fix in [1] is fixing flags in set8's pairs, but not the global flags
 
-I'm a bit busy until Sunday afternoon but I'll try to take a look around
-then. Might be a good opportunity to play with poke [0].
+it looks like Viktor's fix should now also swap that as well? like in the
+change below on top of Viktor's changes (untested)
 
-Thanks,
-Daniel
+jirka
 
 
-[0]: http://www.jemarch.net/poke
+---
+diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
+index d01603ef6283..c44d57fec390 100644
+--- a/tools/bpf/resolve_btfids/main.c
++++ b/tools/bpf/resolve_btfids/main.c
+@@ -706,6 +706,8 @@ static int sets_patch(struct object *obj)
+ 			 * correctly translate everything.
+ 			 */
+ 			if (need_bswap) {
++				set8->flags = bswap_32(set8->flags);
++
+ 				for (i = 0; i < cnt; i++) {
+ 					set8->pairs[i].flags =
+ 						bswap_32(set8->pairs[i].flags);
+
