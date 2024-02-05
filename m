@@ -1,189 +1,365 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DBE5FBB4
-	for <fsverity@lists.linux.dev>; Sat,  3 Feb 2024 18:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706985950; cv=none; b=o5bPP51Yh43b5qT4DGfMA5Y/KB9Df9EJq/pEPu9oXJaLTgyESa4Bgi1YwXIyggZBqPMhG1kOeeTzihQ/do+EppD/EpkpZsNIvFiYApZy7V9f/hMH7wWPw6ACkWHXxAKQZzreauUhl/hCNswYCUv9mXwpLaHiIvKOMCN/IdDv5q4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706985950; c=relaxed/simple;
-	bh=QLmB+a7rMrDFXLv1SPoxkXPhzSnXnhs+odqRkVdXqM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SUIfgjatNeBHevZlEPN6Pq8Qex26BkcGZ3H1t3hTwFUwLQh/zxss8eWvma7Z8kot4ugvOk+8fLeSmS7Wjtm2jJc7m2zswAX1lJA4CodsgtM7AQdEN3foPEK25eDpeXls9bSjlBfHFcDsWRM/GOMoqj5+guJ8ai1pTdjJK68cITs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MGe5PkSt; arc=none smtp.client-ip=209.85.160.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D548F40;
+	Mon,  5 Feb 2024 02:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707100921; cv=fail; b=q0YIAaAQQUE9cGBnuZnBOiZrrK+OzU1HlkmQa6FlAJLtjqyOGCNvtvq5diM2PWRfHrwL8WkW49W800ECJ2jtwUUTtss+jkx9QPFsAP68UZJQnGV14KTRSXgDPw14j8d7D7F5KRklznJj+YLZciP93vR3BaJcK5NUgwO2gD56lqA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707100921; c=relaxed/simple;
+	bh=ycY4hKpYeIZO91CgqNGoNcOUuG0qrRtnbwisMn0Gric=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=mGlZ5hNgS+AE/P6suF1A/ppN/jeiLu4CLk0//BPpUQHhUY08QueirGrs8dQJf9LHc1Wa5fsvCm/wR8EbS85vlNLZPRw7kxoBX1vkL9aPgaFRFs79oBAEQZ/lKdgPcMv+rCgolddCdTzfwRZyd6dUBMZQSMWw4sYLqNNYu0og8h8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVXsJFHK; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MGe5PkSt"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-21432e87455so1262663fac.1
-        for <fsverity@lists.linux.dev>; Sat, 03 Feb 2024 10:45:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706985938; x=1707590738; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y0N/TxnXN2qBHJ/dkfZVj0nsBZc+7pjCqkkafHOcTPY=;
-        b=MGe5PkSt4afW8LJpnGFWoCHEuaIbLoc6gBUwuUmxQuBB1U5DFXaokzhaxxJDELrbo/
-         7UHqT83EFDs+Q/n8hFIIpXp3NvLrQpoAERKymi6kGUT7IIy2RoZ+lZPiljvLaMM4oUep
-         ZNzTPEAjT2N2Ppk6vlQ3HKk8FbaQq3EpRguSyzcZObhDtGbzB1zGe0L8x9ZdNcwGSzrM
-         ds1mNGsvRxoXp1uxJC1nhhhapXHOAhDoCEVbdhcsfBfKvFdYoE55KmRzIyv8KtoMO5MM
-         nD930VgkUaQOo3l8AM4rxsKtINUwU3NraeT+pkmqjHZYPqQOio39Hg28pSWdrExPH+JV
-         A63w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706985938; x=1707590738;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y0N/TxnXN2qBHJ/dkfZVj0nsBZc+7pjCqkkafHOcTPY=;
-        b=pAGAx1oULdypC+RgFAuXeCpDXPIpE7lzCzfZHe1SXjNuyDitsjd1BNVfvA+ZETVcp1
-         urnRJgkECA/JOvA9kjgyVWlomjO7i1dTSUmTcJp1Znhojw7FbMPdgvU2+XQZXmRdT3Uq
-         1XPs+zIKXODe8T80UP2JWmX60M3kBMXgfElGUNlnSKiAxp++oXZw5zosuP4dE9FjpmqT
-         2uUkVTSFUWme9hajBFlPPcjPcukgf7RMpccqNM6u0BH5aJPqHOmGtDpHasVVSrYiR1xs
-         3759yvSzJN8jY+jzh8OMa5fj5wnQ4ypuzCG4ahcyKJi48un75CUJW8ZiBo0+tmiFzdNE
-         xh+g==
-X-Gm-Message-State: AOJu0YwAgN4tWDChiqgawehS75BW6DFFihY794ZtKUXuqlWR5aUJ8K16
-	0AXFB6SihbPhU3XkudrcMUcl6bA8uqsabMF6Z6g/Al1W+mEllkIO
-X-Google-Smtp-Source: AGHT+IE6cTsFsYxec6Cc2Nv8r8Wv7UwdJ2OkD0GT9fp4iaKTaMhjHiWk6mQDIasAcDiqRAsVsbikAg==
-X-Received: by 2002:a05:6870:4149:b0:214:ff12:3dda with SMTP id r9-20020a056870414900b00214ff123ddamr3816197oad.2.1706985938425;
-        Sat, 03 Feb 2024 10:45:38 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUQOTzlsO8lgt6pTwZLPw4119LfUrIfiaPa1wTTfdoxvsVTK1OcV2Dhbg5b2iobZcoC99Y+nA1mfBlqm8ccNuDEZ9ovSOSxF3dHJJoFa8pVW2wvNSbjP7RHN1nQlbwYiR+ZGUGPHsYbVIKUu/kExr3+mBS2LyoL7EMCy0RKTBCwZmgSJAnm8YjNjZATBXumi5rZ1guYYVe6tbB3apJ1FiMecZeZOLFGPHLSIm9lMMnedLrSL5LR+ITrAlKqzgfOzWbsLuUM4d0ufoM4ZdW8uS+lgajFrBnb5Unl8KMrPo5f7fVRDTzb+mpkXuSEfXp+VxBl9aBdT1X4Pu6RO2Vb+J9irkfLOt6ydfNho4jZIfhH5e7RejlM3xop2REcBU+7Ep2QxW6BfVclBjRvfADINXaS9e2RfWdRXu9F1/Yl7W4aoQMsEnydZd5izTj9tgYTVMJznLUUlABQlG1XUF+lALvWG6wGjF/JBqJwIeKsgiHWrSlTkPAQMEc11zIv9TBj/SgdR+1IGkyuC42IrbIYBRA6Lh1HyFcyKl9okR8mk02mHyKzcQcLfR3w3JL3Ur9d5SVkncclHqL1PxkDpGPOs3dE++/rIX2sEot24DS//9lxdPUpALKMpt4xa0iv27eylxppX5U6yH5xrfrThO7kAWWBey3QFiyYH1/6c0o0YhJJldRm9x6QOyyQUBjy8xYN3sw+NkNgjLDcwTs+DRby93OBGQ==
-Received: from surya ([70.134.61.176])
-        by smtp.gmail.com with ESMTPSA id g37-20020a635665000000b005d748902a01sm3945514pgm.43.2024.02.03.10.45.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 10:45:37 -0800 (PST)
-Date: Sat, 3 Feb 2024 10:45:11 -0800
-From: Manu Bretelle <chantr4@gmail.com>
-To: Jiri Olsa <olsajiri@gmail.com>
-Cc: vmalik@redhat.com, Daniel Xu <dxu@dxuuu.xyz>,
-	linux-trace-kernel@vger.kernel.org, coreteam@netfilter.org,
-	bpf@vger.kernel.org, linux-input@vger.kernel.org,
-	cgroups@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	netfilter-devel@vger.kernel.org, alexei.starovoitov@gmail.com,
-	quentin@isovalent.com, alan.maguire@oracle.com, memxor@gmail.com
-Subject: Re: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
-Message-ID: <Zb6Jt30bNcNhM6zR@surya>
-References: <cover.1706491398.git.dxu@dxuuu.xyz>
- <Zb12EZt0BAKOPBk/@surya>
- <Zb5QWCw3Tg26_MDa@krava>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVXsJFHK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707100919; x=1738636919;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=ycY4hKpYeIZO91CgqNGoNcOUuG0qrRtnbwisMn0Gric=;
+  b=TVXsJFHKHYpwLC5dUcULpXPaS+wbZ5LQHJUAwcjKfqZ2qsSPAxObWrri
+   8uHWz/tdFfaTnqMLiicYuvg7ZCfpqA6g3Y4tZ9yV7c4W2peAPM0FDAhpY
+   bdSvbsUfd3aS5Iacf7hpnTPvc0FpOzwfqKu7rMsYXHsswHkhMSebTI1Zz
+   AnbYUk4d3Yl9IBkSPzcJwEee1KZ4+NwIz47hkKS/iR0DKJQgzug6q5+YH
+   EvI5JmffqCzFv1sH9qW6YJqtKqlb5Mdfauk3SBj/+7PApzovPv7gZwGJ6
+   mDPdxOsfA59QGakwj1OJ+TW/B8UYRpjnD7a8qiuN97f1t/PiOrSE3g2TU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10974"; a="11177016"
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="11177016"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2024 18:41:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,242,1701158400"; 
+   d="scan'208";a="889155"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Feb 2024 18:41:57 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 4 Feb 2024 18:41:57 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 4 Feb 2024 18:41:56 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Sun, 4 Feb 2024 18:41:56 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Sun, 4 Feb 2024 18:41:56 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GzPHhnR6JE5bB6IphjSn1E+7H1kcwsSsNCNBIVnJBHJk614oCsgYxfcuxo8/Tb6htEKBTp7Lp8IxkfL/FkFf0+H8VZP01/va6kNkrzJVeoV/TdtP8XaniYwj9lp4/54GlWgqV//aD3eWQZzoikqN3cHlivK7IXL1GgPsuumUIP0GZeaTMMYCQ5Hm/bt3GNUJdIsVP4beFWssop2iKHKCs/t085lrHeZI8bTwwlyeEj7L8toj1ZxLxzBRdgHHlt4+XU/4hmZm1LbxSCERxiCGeGNaDVnMuh3esbDl9YRZV4N8/Ifj7rCUpJxPVNwcWEuBDcwZT/YgIAkgcMFW2epP3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RYcUoBy50ypOiAy6g2auz49a2CAnZaCrr5sccIfAU+Q=;
+ b=c/TlGMI+YBZZ5UB8KEdqt79RBgvwe5LVgVEYiW7ONXPVAjBm3+9yQUpDo+UX0EerDj6JpJkw3sGqlCGWNCQ1qESa4uXvHrsrYPbR9fKKQiVG3KM/DJyiaemMahdPAvEctzu2JTPN5ATl1aLbv4ebDo8/bh0hF0snoG/UzmrFvCxJbit9APv4GRFJP23xm6532d5XznGoJTOZtmV5xSzDjwd0kS1opLD+n/VbaCtHBqlcrXW+THQ1M4GcWLF3XbHj8UkImaqalaLCieAtYXgw4EoMzpjSiKWTt/wuw+qUtPr2BhltCaTzdgblMwtwuckBaGuMvVwe9rDVjmOvCTKOpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by DM8PR11MB5591.namprd11.prod.outlook.com (2603:10b6:8:38::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.34; Mon, 5 Feb
+ 2024 02:41:54 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::a026:574d:dab0:dc8e]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::a026:574d:dab0:dc8e%3]) with mapi id 15.20.7249.032; Mon, 5 Feb 2024
+ 02:41:54 +0000
+Date: Mon, 5 Feb 2024 10:41:30 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Daniel Xu <dxu@dxuuu.xyz>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <bpf@vger.kernel.org>,
+	<linux-input@vger.kernel.org>, <fsverity@lists.linux.dev>,
+	<cgroups@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>,
+	<mhiramat@kernel.org>, <daniel@iogearbox.net>, <edumazet@google.com>,
+	<fw@strlen.de>, <hannes@cmpxchg.org>, <tytso@mit.edu>, <ast@kernel.org>,
+	<eddyz87@gmail.com>, <kuba@kernel.org>, <tj@kernel.org>,
+	<steffen.klassert@secunet.com>, <yonghong.song@linux.dev>, <hawk@kernel.org>,
+	<rostedt@goodmis.org>, <john.fastabend@gmail.com>, <pablo@netfilter.org>,
+	<pabeni@redhat.com>, <jikos@kernel.org>, <davem@davemloft.net>,
+	<alexandre.torgue@foss.st.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+	<song@kernel.org>, <dsahern@kernel.org>, <mcoquelin.stm32@gmail.com>,
+	<corbet@lwn.net>, <lizefan.x@bytedance.com>, <andrii@kernel.org>,
+	<martin.lau@linux.dev>, <benjamin.tissoires@redhat.com>,
+	<ebiggers@kernel.org>, <kadlec@netfilter.org>, <shuah@kernel.org>,
+	<alexei.starovoitov@gmail.com>, <olsajiri@gmail.com>,
+	<quentin@isovalent.com>, <alan.maguire@oracle.com>, <memxor@gmail.com>,
+	<kpsingh@kernel.org>, <sdf@google.com>, <haoluo@google.com>,
+	<jolsa@kernel.org>, <mathieu.desnoyers@efficios.com>, <mykolal@fb.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>,
+	<linux-arm-kernel@lists.infradead.org>, <oliver.sang@intel.com>
+Subject: Re: [PATCH bpf-next v4 3/3] bpf: treewide: Annotate BPF kfuncs in BTF
+Message-ID: <202402041610.775e7f75-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <e55150ceecbf0a5d961e608941165c0bee7bc943.1706491398.git.dxu@dxuuu.xyz>
+X-ClientProxiedBy: SI2P153CA0029.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::16) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zb5QWCw3Tg26_MDa@krava>
-
-On Sat, Feb 03, 2024 at 03:40:24PM +0100, Jiri Olsa wrote:
-> On Fri, Feb 02, 2024 at 03:09:05PM -0800, Manu Bretelle wrote:
-> > On Sun, Jan 28, 2024 at 06:24:05PM -0700, Daniel Xu wrote:
-> > > === Description ===
-> > > 
-> > > This is a bpf-treewide change that annotates all kfuncs as such inside
-> > > .BTF_ids. This annotation eventually allows us to automatically generate
-> > > kfunc prototypes from bpftool.
-> > > 
-> > > We store this metadata inside a yet-unused flags field inside struct
-> > > btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
-> > > 
-> > > More details about the full chain of events are available in commit 3's
-> > > description.
-> > > 
-> > > The accompanying pahole and bpftool changes can be viewed
-> > > here on these "frozen" branches [0][1].
-> > > 
-> > > [0]: https://github.com/danobi/pahole/tree/kfunc_btf-v3-mailed
-> > > [1]: https://github.com/danobi/linux/tree/kfunc_bpftool-mailed
-> > 
-> > 
-> > I hit a similar issue to [0] on master
-> > 943b043aeecc ("selftests/bpf: Fix bench runner SIGSEGV")
-> >  when cross-compiling on x86_64 (LE) to s390x (BE).
-> > I do have CONFIG_DEBUG_INFO_BTF enable and the issue would not trigger if
-> > I disabled CONFIG_DEBUG_INFO_BTF (and with the fix mentioned in [0]).
-> > 
-> > What seems to happen is that `tools/resolve_btfids` is ran in the context of the
-> > host endianess and if I printk before the WARN_ON:
-> > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> > index ef380e546952..a9ed7a1a4936 100644
-> >   --- a/kernel/bpf/btf.c
-> >   +++ b/kernel/bpf/btf.c
-> >   @@ -8128,6 +8128,7 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
-> >            * WARN() for initcall registrations that do not check errors.
-> >            */
-> >           if (!(kset->set->flags & BTF_SET8_KFUNCS)) {
-> >   +        printk("Flag 0x%08X, expected 0x%08X\n", kset->set->flags, BTF_SET8_KFUNCS);
-> >                   WARN_ON(!kset->owner);
-> >                   return -EINVAL;
-> >           }
-> > 
-> > the boot logs would show:
-> >   Flag 0x01000000, expected 0x00000001
-> > 
-> > The issue did not happen prior to
-> > 6f3189f38a3e ("bpf: treewide: Annotate BPF kfuncs in BTF")
-> > has only 0 was written before.
-> > 
-> > It seems [1] will be addressing cross-compilation, but it did not fix it as is
-> > by just applying on top of master, so probably some of the changes will also need
-> > to be ported to `tools/include/linux/btf_ids.h`?
-> 
-> the fix in [1] is fixing flags in set8's pairs, but not the global flags
-> 
-> it looks like Viktor's fix should now also swap that as well? like in the
-> change below on top of Viktor's changes (untested)
-> 
-> jirka
-> 
-> 
-> ---
-> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
-> index d01603ef6283..c44d57fec390 100644
-> --- a/tools/bpf/resolve_btfids/main.c
-> +++ b/tools/bpf/resolve_btfids/main.c
-> @@ -706,6 +706,8 @@ static int sets_patch(struct object *obj)
->  			 * correctly translate everything.
->  			 */
->  			if (need_bswap) {
-> +				set8->flags = bswap_32(set8->flags);
-> +
->  				for (i = 0; i < cnt; i++) {
->  					set8->pairs[i].flags =
->  						bswap_32(set8->pairs[i].flags);
-> 
-
-That should work. Here are a few tests I ran:
-
-$ md5sum /tmp/kbuild-s390x/vmlinux.*
-eb658e51e089f3c5b2c8909a29dc9997  /tmp/kbuild-s390x/vmlinux.a
-# plain vmlinux before running resolv_btfids (all 0s)
-ea907cd46a1a73b8276b5f2a82af00ca  /tmp/kbuild-s390x/vmlinux.before_resolv
-# x86_64 resolv_btfids on master without Viktor's patch
-980a40c3a3ff563d1c2d1ebdd5071a23  /tmp/kbuild-s390x/vmlinux.resolv_native
-# x86_64 resolv_btfids on master with Viktor's patch
-b986d19e242719ebea41c578235da662  /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor
-# x86_64 resolv_btfids on master with Viktor's patch and your suggested patch
-4edd8752ff01129945bd442689b1927b  /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor_patched
-# s390x resolv_btfids run with qemu-s390x-static
-4edd8752ff01129945bd442689b1927b  /tmp/kbuild-s390x/vmlinux.resolv_s390x
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|DM8PR11MB5591:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5175dfda-ce58-40ad-aac6-08dc25f40388
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: njr9lqjXR/1kwT6DrvgfWhtUOv4jGh9g/cLQ32lEgEpi2+sRJn5/U90oF/Rrb/iAUZ7SLOhiS9BQ5m83rkfscp7zY/qicAkNm0KGl2C6hjzOTHrdmVuzPMxfRyIX/kkzV7ekEkxO1Ylma//kBZGvMBvv/a8fJPUTT/YGZI90699JeKBaAhEC4hRoNzrL+kNRr4Ciz5VEaDwE5zWU3WgR09EPNTA8XApi7RXeiKMqzYUoYK9PkWjVGsuE033zfPHiEdXzOo0zWHt5HS0l+urN2NmJwCnY5nI7ZSMjg0OAoqzjI522R4PZUY9n6oSPc9U0z7xV3JZJDDo0zHdLWc7Q4KatOn09XbpJL2WNwG1Y6yKFs9YqH6jRKFUzhUff8CT51x0IBd5n2YbseBphOPhwmQYowifBTXjzLBPN/gjX4hf7IosJWBbyYOOAqRJt2dbreuPrMyXlgDc45ePFXhdYDYPiW1D/kHE6/grPV3009LivkiJc1vGJK0vADD4/L5xkMTxt+C3AXgfSy50DRpd/TVJLiIchtt7rToMuVbQT62g=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(376002)(136003)(366004)(346002)(230273577357003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(7366002)(7416002)(7406005)(5660300002)(2906002)(41300700001)(8936002)(8676002)(4326008)(66556008)(316002)(66476007)(6916009)(66946007)(36756003)(478600001)(82960400001)(86362001)(45080400002)(6512007)(2616005)(83380400001)(107886003)(6666004)(6506007)(1076003)(26005)(6486002)(966005)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?auJoDDvMgJS1SHHNAWfTwPTw5LwYfskwHc1K/dcymG+3hDWEQ7XWAqGoPES5?=
+ =?us-ascii?Q?z3TQ40vi6qa8i86vxeEnjp6mqaBm+U/Nel+WYjTEat4mro5y2JuO7v/tDyma?=
+ =?us-ascii?Q?3otA5W1ZAt4sJkFX3OycC7UVwk5NrzJbLQn19/OC06ztH+spt17cAvqNwIhS?=
+ =?us-ascii?Q?gNIRVV28kwf8K9eqcPTRHNCIKq/qd99MuDDUpB//WUDb1Qbq+NBMSFBOnZZa?=
+ =?us-ascii?Q?frUOdxgMtLp54w+RUmXcaQ75SHNcmHJGA8X4xaa3/gxH6Lor616RjgT0T58e?=
+ =?us-ascii?Q?NXy499Y57ZsJXLb1a0gH6kXuXwtHXUk+G/a5KmHJ0QtSaCYLw8OrN8gdCPOJ?=
+ =?us-ascii?Q?+ACSr2T7Hc2g69ugzY1NqXrmVY2WdOEuTqKedJB2sbTir89dQsH1G4iePqpC?=
+ =?us-ascii?Q?lMlzMlEw6wy/ETGz9Tm88JYKmegciyFAJmra4W6BTh7KfCbRkPYuj3m2NaT7?=
+ =?us-ascii?Q?Ov5tSf5wl2sliA5Xz5/iszb+nrAsl9bP0msIBdR0tiWOTXq/0iOAkQe4q5PF?=
+ =?us-ascii?Q?nSu2YQfiP5dfHwlivLiY6xFXb4Bu2z/hiEhMXWkkVygL/dwRumLo4jDruCul?=
+ =?us-ascii?Q?ZmGTII+6Jc5wTQb/a2eswyPTEUDG3UdjSApTTN78I8VlhSTMu5qgpcy/Ri2G?=
+ =?us-ascii?Q?IpM+h4+JDVZY/4VDuVfI0jjgk44TVlEXdY5btGNw88wH/3l2lyU+ZALojTsb?=
+ =?us-ascii?Q?Kx5BT9f9sO59NXOFy993afc41n0kVuZ5b5W0wySlUQNhkra5TeIfTVdmFTjb?=
+ =?us-ascii?Q?i4xlHf/BbixpnfI5kWLIkCXt25fwDVrJMkIya0V60l3YuMih8qLTZFk9SEGd?=
+ =?us-ascii?Q?vXw7jPalRtJWky5bw7+z7KSRechIRpsyFrgdq/lLP0Ce/CbPGZ4t3mjMNZF3?=
+ =?us-ascii?Q?7ArAny5EoKkgOuQOlwj/EYKIlQu0FkZsa6MMLl/rhr+uJyuiH4evfT+dlDDi?=
+ =?us-ascii?Q?VCCBzjkgZhXT5qOoB6kv0cmBidw0RZnMwce3OZjR2aR4BxAVWnm3jsVrx1vM?=
+ =?us-ascii?Q?xp0pTVciwiykQaE54SNvz1gurEq7ghdCfzyFT0919tvtxqlnSZXmgvhlCILs?=
+ =?us-ascii?Q?OjMm73Kxioa9HYl0+OIGGNjkgiBwwWJg9uX1Vo/l9GVO3igMM4SOVCiOtKTC?=
+ =?us-ascii?Q?sGozuULs+pXoE9kMJfftEr9bkx4YOXGej9bromtG1RnEmUMT+mk6DtsJqepE?=
+ =?us-ascii?Q?gv5cmkHufzt8GqbsCOaUEVHdDjykKjzBmZiyyPPBGe03acanNwp9+fMMnF1n?=
+ =?us-ascii?Q?CjyNUR0+/qMwFku+67zv9jf4jwkrsWRONXcxsxpQHdFx+Bs+akP0wGOr0R5r?=
+ =?us-ascii?Q?ETxY6CNAzCP2KAluMfscODK5ayBaGpF4OHcRm/gqsUQZNYryXJggPxt6iqcX?=
+ =?us-ascii?Q?egRo1Dek8VrfW2TrvE+gdnkDcVCfTbY4u58X3kXNxQIub3CdqTIdQifSJ9GR?=
+ =?us-ascii?Q?hjSXdNBjQjwsIEQ4p0BbuNDYpvNJF9YUsehKZi+EjMR/NPyeCastPY2/PF78?=
+ =?us-ascii?Q?ZPCD24jycl1zF+FYnUoJn0+DY+tquk017pwG9a8oF/YHg9D08wPItgLknbVl?=
+ =?us-ascii?Q?6r6Yn8poJGAyQ+ymCxrr5pooAAdubhLpLxRVVSkwDZLtXh+2nJEgQAtNQZ4P?=
+ =?us-ascii?Q?Rw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5175dfda-ce58-40ad-aac6-08dc25f40388
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2024 02:41:54.4648
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WSjhYORdrMxziW80Rys8IUXvPbEXg5W2F3vnd4NC3CfsPymIsJcrOKTCvnXeZq0jPmOrM8ymkNWtvruKwaB/Jw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5591
+X-OriginatorOrg: intel.com
 
 
-and some hexdiff of those binaries:
+
+Hello,
+
+kernel test robot noticed "WARNING:at_kernel/bpf/btf.c:#register_btf_kfunc_id_set" on:
+
+commit: 918c4c7dda155568c619b4082fa83ca90ab578a6 ("[PATCH bpf-next v4 3/3] bpf: treewide: Annotate BPF kfuncs in BTF")
+url: https://github.com/intel-lab-lkp/linux/commits/Daniel-Xu/bpf-btf-Support-flags-for-BTF_SET8-sets/20240129-092732
+base: https://git.kernel.org/cgit/linux/kernel/git/bpf/bpf-next.git master
+patch link: https://lore.kernel.org/all/e55150ceecbf0a5d961e608941165c0bee7bc943.1706491398.git.dxu@dxuuu.xyz/
+patch subject: [PATCH bpf-next v4 3/3] bpf: treewide: Annotate BPF kfuncs in BTF
+
+in testcase: boot
+
+compiler: clang-17
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
 
 
-# difference between master's native build and s390x build.... has byte swapping for set8 and others
-diff -ruN <(xxd /tmp/kbuild-s390x/vmlinux.resolv_s390x) <(xxd /tmp/kbuild-s390x/vmlinux.resolv_native) > diff_s390x_native.diff
-https://gist.github.com/chantra/c3d58637a08a6f7340953dc155bb18cc
++-----------------------------------------------------------------+------------+------------+
+|                                                                 | 05221438c4 | 918c4c7dda |
++-----------------------------------------------------------------+------------+------------+
+| WARNING:at_kernel/bpf/btf.c:#register_btf_kfunc_id_set          | 0          | 7          |
+| EIP:register_btf_kfunc_id_set                                   | 0          | 7          |
+| calltrace:do_softirq_own_stack                                  | 0          | 7          |
++-----------------------------------------------------------------+------------+------------+
 
-# difference betwee Viktor's version and  s390x build.... squinting my eyes I only see the global set8 is missing
-diff -ruN <(xxd /tmp/kbuild-s390x/vmlinux.resolv_s390x) <(xxd /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor) > diff_s390x_native_viktor.diff
-https://gist.github.com/chantra/61cfff02b456ae72d3c0161ce1897097
 
-Have a good weekend all!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202402041610.775e7f75-lkp@intel.com
 
-Manu
+
+[   49.044594][    T1] ------------[ cut here ]------------
+[ 49.045857][ T1] WARNING: CPU: 1 PID: 1 at kernel/bpf/btf.c:8048 register_btf_kfunc_id_set (??:?) 
+[   49.048024][    T1] Modules linked in:
+[   49.048925][    T1] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G        W          6.8.0-rc1-00457-g918c4c7dda15 #6
+[   49.051230][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[ 49.053616][ T1] EIP: register_btf_kfunc_id_set (??:?) 
+[ 49.054969][ T1] Code: 04 01 75 0b b8 ea ff ff ff 83 3a 00 74 1c c3 b9 0d 00 00 00 83 f8 20 77 07 8b 0c 85 28 a2 71 d7 55 89 e5 e8 13 00 00 00 5d c3 <0f> 0b c3 90 90 90 90 90 90 90 90 90 90 90 90 90 90 55 89 e5 53 57
+All code
+========
+   0:	04 01                	add    $0x1,%al
+   2:	75 0b                	jne    0xf
+   4:	b8 ea ff ff ff       	mov    $0xffffffea,%eax
+   9:	83 3a 00             	cmpl   $0x0,(%rdx)
+   c:	74 1c                	je     0x2a
+   e:	c3                   	retq   
+   f:	b9 0d 00 00 00       	mov    $0xd,%ecx
+  14:	83 f8 20             	cmp    $0x20,%eax
+  17:	77 07                	ja     0x20
+  19:	8b 0c 85 28 a2 71 d7 	mov    -0x288e5dd8(,%rax,4),%ecx
+  20:	55                   	push   %rbp
+  21:	89 e5                	mov    %esp,%ebp
+  23:	e8 13 00 00 00       	callq  0x3b
+  28:	5d                   	pop    %rbp
+  29:	c3                   	retq   
+  2a:*	0f 0b                	ud2    		<-- trapping instruction
+  2c:	c3                   	retq   
+  2d:	90                   	nop
+  2e:	90                   	nop
+  2f:	90                   	nop
+  30:	90                   	nop
+  31:	90                   	nop
+  32:	90                   	nop
+  33:	90                   	nop
+  34:	90                   	nop
+  35:	90                   	nop
+  36:	90                   	nop
+  37:	90                   	nop
+  38:	90                   	nop
+  39:	90                   	nop
+  3a:	90                   	nop
+  3b:	55                   	push   %rbp
+  3c:	89 e5                	mov    %esp,%ebp
+  3e:	53                   	push   %rbx
+  3f:	57                   	push   %rdi
+
+Code starting with the faulting instruction
+===========================================
+   0:	0f 0b                	ud2    
+   2:	c3                   	retq   
+   3:	90                   	nop
+   4:	90                   	nop
+   5:	90                   	nop
+   6:	90                   	nop
+   7:	90                   	nop
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	90                   	nop
+   c:	90                   	nop
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	55                   	push   %rbp
+  12:	89 e5                	mov    %esp,%ebp
+  14:	53                   	push   %rbx
+  15:	57                   	push   %rdi
+[   49.059550][    T1] EAX: ffffffea EBX: 00000000 ECX: d9356fb0 EDX: d7c2b154
+[   49.061229][    T1] ESI: 00000000 EDI: 0000019a EBP: c028dc48 ESP: c028dc38
+[   49.062886][    T1] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010246
+[   49.064685][    T1] CR0: 80050033 CR2: 00000000 CR3: 189ab000 CR4: 000406f0
+[   49.066358][    T1] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[   49.068020][    T1] DR6: fffe0ff0 DR7: 00000400
+[   49.069132][    T1] Call Trace:
+[ 49.069902][ T1] ? show_regs (??:?) 
+[ 49.070890][ T1] ? register_btf_kfunc_id_set (??:?) 
+[ 49.072187][ T1] ? __warn (??:?) 
+[ 49.073151][ T1] ? register_btf_kfunc_id_set (??:?) 
+[ 49.074480][ T1] ? register_btf_kfunc_id_set (??:?) 
+[ 49.075751][ T1] ? report_bug (??:?) 
+[ 49.076858][ T1] ? exc_overflow (??:?) 
+[ 49.077925][ T1] ? handle_bug (traps.c:?) 
+[ 49.078947][ T1] ? exc_invalid_op (??:?) 
+[ 49.080030][ T1] ? handle_exception (init_task.c:?) 
+[ 49.081174][ T1] ? get_seg_base_limit (insn-eval.c:?) 
+[ 49.082393][ T1] ? mutex_lock_killable_nested (??:?) 
+[ 49.083707][ T1] ? exc_overflow (??:?) 
+[ 49.084782][ T1] ? register_btf_kfunc_id_set (??:?) 
+[ 49.086126][ T1] ? mutex_lock_killable_nested (??:?) 
+[ 49.087468][ T1] ? exc_overflow (??:?) 
+[ 49.088520][ T1] ? register_btf_kfunc_id_set (??:?) 
+[ 49.089864][ T1] ? cubictcp_register (tcp_cubic.c:?) 
+[ 49.090991][ T1] do_one_initcall (??:?) 
+[ 49.092136][ T1] ? pvclock_clocksource_read_nowd (??:?) 
+[ 49.093607][ T1] ? __lock_acquire (lockdep.c:?) 
+[ 49.094756][ T1] ? kvm_sched_clock_read (kvmclock.c:?) 
+[ 49.095985][ T1] ? sched_clock_noinstr (??:?) 
+[ 49.097144][ T1] ? local_clock_noinstr (??:?) 
+[ 49.098393][ T1] ? __lock_acquire (lockdep.c:?) 
+[ 49.099575][ T1] ? sched_clock_noinstr (??:?) 
+[ 49.100746][ T1] ? local_clock_noinstr (??:?) 
+[ 49.101997][ T1] ? pvclock_clocksource_read_nowd (??:?) 
+[ 49.103439][ T1] ? kvm_sched_clock_read (kvmclock.c:?) 
+[ 49.104673][ T1] ? pvclock_clocksource_read_nowd (??:?) 
+[ 49.106095][ T1] ? kvm_sched_clock_read (kvmclock.c:?) 
+[ 49.107310][ T1] ? sched_clock_noinstr (??:?) 
+[ 49.109773][ T1] ? local_clock_noinstr (??:?) 
+[ 49.111018][ T1] ? __this_cpu_preempt_check (??:?) 
+[ 49.112289][ T1] ? irqtime_account_irq (??:?) 
+[ 49.113534][ T1] ? irqtime_account_delta (build_policy.c:?) 
+[ 49.114812][ T1] ? irqentry_exit (??:?) 
+[ 49.115860][ T1] ? __this_cpu_preempt_check (??:?) 
+[ 49.117126][ T1] ? lockdep_hardirqs_on (??:?) 
+[ 49.118370][ T1] ? sysvec_reboot (??:?) 
+[ 49.119450][ T1] ? trace_hardirqs_on (??:?) 
+[ 49.120623][ T1] ? irqentry_exit (??:?) 
+[ 49.121703][ T1] ? sysvec_reschedule_ipi (??:?) 
+[ 49.122962][ T1] ? handle_exception (init_task.c:?) 
+[ 49.124130][ T1] ? strlen (??:?) 
+[ 49.125054][ T1] ? next_arg (??:?) 
+[ 49.126086][ T1] ? parse_args (??:?) 
+[ 49.127134][ T1] ? tcp_diag_init (tcp_cubic.c:?) 
+[ 49.128257][ T1] do_initcall_level (main.c:?) 
+[ 49.129398][ T1] ? kernel_init (main.c:?) 
+[ 49.130474][ T1] do_initcalls (main.c:?) 
+[ 49.131494][ T1] do_basic_setup (main.c:?) 
+[ 49.132558][ T1] kernel_init_freeable (main.c:?) 
+[ 49.133781][ T1] ? rest_init (main.c:?) 
+[ 49.134848][ T1] ? rest_init (main.c:?) 
+[ 49.135885][ T1] kernel_init (main.c:?) 
+[ 49.136958][ T1] ret_from_fork (??:?) 
+[ 49.137979][ T1] ret_from_fork_asm (??:?) 
+[ 49.139078][ T1] entry_INT80_32 (init_task.c:?) 
+[   49.140171][    T1] irq event stamp: 16737757
+[ 49.141202][ T1] hardirqs last enabled at (16737765): console_unlock (??:?) 
+[ 49.143298][ T1] hardirqs last disabled at (16737774): console_unlock (??:?) 
+[ 49.145355][ T1] softirqs last enabled at (16737610): do_softirq_own_stack (??:?) 
+[ 49.147553][ T1] softirqs last disabled at (16737605): do_softirq_own_stack (??:?) 
+[   49.149757][    T1] ---[ end trace 0000000000000000 ]---
+[   49.151671][    T1] NET: Registered PF_INET6 protocol family
+[   49.156896][    T1] Segment Routing with IPv6
+[   49.158068][    T1] In-situ OAM (IOAM) with IPv6
+[   49.159300][    T1] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[   49.162798][    T1] NET: Registered PF_PACKET protocol family
+[   49.164686][    T1] 9pnet: Installing 9P2000 support
+[   49.166257][    T1] start plist test
+[   49.168281][    T1] end plist test
+[   49.173855][    T1] IPI shorthand broadcast: enabled
+[   49.175165][    C0] ... APIC ID:      00000000 (0)
+[   49.176383][    C0] ... APIC VERSION: 00050014
+[   49.177486][    C0] 0000000000000000000000000000000000000000000000000000000000000000
+[   49.177486][    C0] 0000000000000000000000000000000000000000000000000000000008001000
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20240204/202402041610.775e7f75-lkp@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
