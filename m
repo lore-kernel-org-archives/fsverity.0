@@ -1,62 +1,64 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9D93D54D
-	for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 16:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00693D3A5
+	for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 16:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707757195; cv=none; b=WstsW78Ou/c1EgQmvQJMKhoo/GbUCDmYHCTc1G2lWbTZMXD/06SPFVw5A6wTS1U9xHwsIGcKZO/me4Jp4IY8Aywo9XukW0x9aVMIs702bkH4bu5k4vP2rI3wnk7iG8Xq7ynwAKTvRzpFyzNVUQQiQVBq8VW3YLUYkbt2B7i0kVQ=
+	t=1707757197; cv=none; b=ks38uCrStm3wBHn8mzW/FU/HYegcZMvJgRgGneVQUIwH/tQWL55JyC1QJfvywrYtKQ9DAJ6HxUqR85+n8s0idc+53lbcT4C8WUipmWn7Uo8fAU8Y6F0eU4IS4f4BW3r8OoV+HFf4klcezVGP/AN1Yw+prSOBqyq/zW62hLkXYPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707757195; c=relaxed/simple;
-	bh=qWyOYgUJ7yXrKklC61LmyR4Nml6VAji65hLkpbOuRUo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=qPbbonwJluJXRBK82RQMkMbACYte/Y3lhkh0d9lM/Xj5uD+bECaTpAIBxjyyESbddm5aIlYr5OuSyZ6+nDhxzhvoyfTuFp96j7AiItlNQSQh5YjvI7zIOx0cxX81mlsZWVEbgZceAGhW1ZZZpuEvjnmtojUZpSIylEPWVA06XUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cUc+EZAq; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1707757197; c=relaxed/simple;
+	bh=87EPGtfLnNyrrHm7LdrhSWDHeKqbwuyh0xK6FyLRPoU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ke3f9HpUX/iEMEXWga2b/2PVEyjxZyeri6ar2YvFdIPs/CTe825mipQaa9fPPfFNQn9XMDm24VdwRrE/EQ7UnmW3Qz0F4AlWLwwnpTUiAqhrN/n34qRCM7l+hb+hhC8AlagVYFV43xVMBu8Kq1i7zg5d3IQxnpj1VPpzixeIvy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HrxwRAXn; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cUc+EZAq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HrxwRAXn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707757192;
+	s=mimecast20190719; t=1707757194;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=61D4IN0Kt7iuELlNRFVN1CWOL5uOtv1g99NthtfKGpM=;
-	b=cUc+EZAquUefPqX5SvjWufu6tgq7hvZ3gjRWzHx07v6O/aLtlmQApoR1i8wo96JSqeHQw1
-	hX7LVHRV6b3NnuMQDxmdaXEXL14cTRxq2VDTHFLvKRLKi3/V5ADhwq+MKbdUuWXNrVvJDa
-	jNUH9Uz1kyxo7s4wVpTrrS6qKZSH2BY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HwoEMzof6tyueQTnUsTnW4349H23j9VoC/QRGqyWkKM=;
+	b=HrxwRAXnnyGQgiAbRekd0sQgdD30m+KOWtaAibvPe3T+M61r0WsV/xIqovK9yykIj6XTOh
+	D+Onm7JC47yijnSnvEctBHsFleOAneWIGIP8O9LRdL35IKYkOYln12dQcrqsjKUHZuUsir
+	Kjk1XBdnULkFAGvfK6aZGZ2AYLGxLHE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-PzhAq979MwOitNdYsfJ6ng-1; Mon, 12 Feb 2024 11:59:51 -0500
-X-MC-Unique: PzhAq979MwOitNdYsfJ6ng-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-559555e38b0so3140318a12.3
-        for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 08:59:51 -0800 (PST)
+ us-mta-78-SnffbE2SMqK9G8w2tA2Udg-1; Mon, 12 Feb 2024 11:59:53 -0500
+X-MC-Unique: SnffbE2SMqK9G8w2tA2Udg-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-55ffcfed2ffso4899044a12.0
+        for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 08:59:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707757190; x=1708361990;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=61D4IN0Kt7iuELlNRFVN1CWOL5uOtv1g99NthtfKGpM=;
-        b=j0JmvDa770VSMCFFbIgnN3sVqhCt1X8PbOTYwGVoHF/cLw8bqsiSKS8s8fk0viwhvI
-         6bIG7KvQC+P/DK6wx2GpYTLwHD2fAAR2qi1hMMnctFDan5zIwLjHDenLV+e41k7vv4Wt
-         h+fUojbZmybprN6WWxgKGTSEi4wL32oTtvnus0IuD+VPAQC7pqrPZ6gAbyeXgmVu/lcO
-         8hK1VHcKhmC6Xwtl730DHZeeqU2j2u8Ckdo8K4YJzAwuzTdpEfDMTcWA0Oop6k9i9t/Q
-         A+fBltNn2aio9gdY8/WRwlJxbtITKlSdcXOrQJOqtLxAlOA5WTJuSY996eZW9Sb3z0op
-         k8qg==
-X-Gm-Message-State: AOJu0YyWHitmoKOX0mQooib8fi6dXBee/FA0E9f5B97KgjePEAgm7wxm
-	YNABSDTeSyHPuy2YT8KFstHf0qY0RjbHCOUUs5Fdd/VO3Z3m/6yRhd5u1q62FKEqVgUbzjh+F1T
-	jwskXccLcWb/xUVmEFRq72Va/N4W1vMH4KMZQfSmz17cXLzhIaaN6tO1/qSOPxauZkaOFRTD4pJ
-	l70SZFpP/3bUFga84vyLWrNdofSnO1g8gFOYxnti4=
-X-Received: by 2002:a05:6402:1a41:b0:55f:c9cb:208a with SMTP id bf1-20020a0564021a4100b0055fc9cb208amr4875130edb.35.1707757190064;
-        Mon, 12 Feb 2024 08:59:50 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHePths5qWvlMb4oKFzl9++euPqyv1mGTDHXW6ewp1zfKccZScCC64OtrHm7TzqTX72FfTw6Q==
-X-Received: by 2002:a05:6402:1a41:b0:55f:c9cb:208a with SMTP id bf1-20020a0564021a4100b0055fc9cb208amr4875098edb.35.1707757189665;
-        Mon, 12 Feb 2024 08:59:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVUlQDV3j/MHYGQfQ9ooeGDYx+O10qS/QYnnlsEeu8KTobbwyQqmetkAxmDSXf3aFj+GYnT6YMDKcSXIlTFLIoNNdk1X0e2HWJ71t0bMTMCyndsannx6y/5xW8gzleTihtCLKlXEHWABMr3Ds8FBAdq1Qxjs5nPYylrGRbfY6fgkjzfclPTD6zbf+hJ6wagKQv0P+9dykz4um7ln05GTbMe9RcGX24uEIjj
+        d=1e100.net; s=20230601; t=1707757192; x=1708361992;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HwoEMzof6tyueQTnUsTnW4349H23j9VoC/QRGqyWkKM=;
+        b=r2KFMH3pV9COiWm/QYWAMkhjKa4vCiNbSHF5jKUyNPam7aaF0MjSiqkjom+0wcO7V1
+         rxKX63lmvFsYWsnfsxqLvhXN2bHs3xWn/ZiXOxIg0FYN8ye1U3WMhCT+L4ayqLGGJ1ox
+         d4Z2BtL5jIoNS9XZFlLC7Rr3DCH2XN1uJp1FJaHHB0CsSW/3J4vFecjp9Zv84LPx/MhI
+         QwJ8t8xjj3JJbESf6UXVRRCzvVTXXTYWQXoRdlR5UN6J1gC7AN1xCJwQ02xLxC0vMdV4
+         O5ZWl3nFaC6dWBAMu1r3MPANp1WiHaocDWJWkwL8xkWDDmvXN7K4jOlIajYs4WDIUzTX
+         dCsQ==
+X-Gm-Message-State: AOJu0YzmiZsih1U/23CSmZSasuOO3AJLTph4cjcWbljk7oTzmsY2eMQF
+	JqEbHS/p8xc6bKqlANXFmMU3tzLjO9ceGsWILNSvIWUeSMkJkAFqogviPz8vNog03350skBk91i
+	IL/ykbdjCwdoirZVEdU8KMEqhLv3UE8wm3ZJZ/v+X+m2qK5dlKud18h6hXSmYJznwKut4FzQq23
+	epx5y159XHbdhksJU5C+0mf96ABnv1SXq5ukZ+KGw=
+X-Received: by 2002:aa7:d981:0:b0:560:f90e:4da3 with SMTP id u1-20020aa7d981000000b00560f90e4da3mr98359eds.0.1707757192171;
+        Mon, 12 Feb 2024 08:59:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHfoUglQy6VQsrJO7Bagpl3UpwVFuud3MHrG+CNzln++dGXQv+WdUFa5OXovBNIauYyQ9cb3w==
+X-Received: by 2002:aa7:d981:0:b0:560:f90e:4da3 with SMTP id u1-20020aa7d981000000b00560f90e4da3mr98331eds.0.1707757191771;
+        Mon, 12 Feb 2024 08:59:51 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXhqGB6LbMhOcQTOQgMj83RdGTEaY3whGVGA8PGqFvwppxAzy8CpFHJkl6rYQf2kAItMH8HOxTUL6AGyf+3FSY2zvJsR/pI04kLc506uc4/aJwM48k67gNBX62vrEnp4WvkoJxC7o6d+vBiHtYj0hTnoc5ObmWXKh4xKDS8jI5CkjTcQvGZk8kwP+thsw+hRdRPVWZSlSpcD56gF6LDBDXIw4kTlNenUcMBMLN++ug0Xu4lNlSPOI2gA0xs9/NG9dVt9+p1cKx9JUmsoeI31hAT
 Received: from thinky.redhat.com ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id 14-20020a0564021f4e00b0056176e95a88sm2620261edz.32.2024.02.12.08.59.48
+        by smtp.gmail.com with ESMTPSA id 14-20020a0564021f4e00b0056176e95a88sm2620261edz.32.2024.02.12.08.59.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 08:59:49 -0800 (PST)
+        Mon, 12 Feb 2024 08:59:51 -0800 (PST)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: fsverity@lists.linux.dev,
 	linux-xfs@vger.kernel.org,
@@ -64,11 +66,15 @@ To: fsverity@lists.linux.dev,
 	chandan.babu@oracle.com,
 	djwong@kernel.org,
 	ebiggers@kernel.org
-Cc: Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v4 00/25] fs-verity support for XFS
-Date: Mon, 12 Feb 2024 17:57:57 +0100
-Message-Id: <20240212165821.1901300-1-aalbersh@redhat.com>
+Cc: Allison Henderson <allison.henderson@oracle.com>,
+	Mark Tinguely <tinguely@sgi.com>,
+	Dave Chinner <dchinner@redhat.com>
+Subject: [PATCH v4 02/25] xfs: add parent pointer support to attribute code
+Date: Mon, 12 Feb 2024 17:57:59 +0100
+Message-Id: <20240212165821.1901300-3-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20240212165821.1901300-1-aalbersh@redhat.com>
+References: <20240212165821.1901300-1-aalbersh@redhat.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -80,186 +86,98 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Hi all,
+From: Allison Henderson <allison.henderson@oracle.com>
 
-Here's v4 of my patchset of adding fs-verity support to XFS.
+Add the new parent attribute type. XFS_ATTR_PARENT is used only for parent pointer
+entries; it uses reserved blocks like XFS_ATTR_ROOT.
 
-This implementation uses extended attributes to store fs-verity
-metadata. The Merkle tree blocks are stored in the remote extended
-attributes. The names are offsets into the tree.
+Signed-off-by: Mark Tinguely <tinguely@sgi.com>
+Signed-off-by: Dave Chinner <dchinner@redhat.com>
+Signed-off-by: Allison Henderson <allison.henderson@oracle.com>
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+---
+ fs/xfs/libxfs/xfs_attr.c       | 3 ++-
+ fs/xfs/libxfs/xfs_da_format.h  | 5 ++++-
+ fs/xfs/libxfs/xfs_log_format.h | 1 +
+ fs/xfs/scrub/attr.c            | 2 +-
+ fs/xfs/xfs_trace.h             | 3 ++-
+ 5 files changed, 10 insertions(+), 4 deletions(-)
 
-A few key points of this patchset:
-- fs-verity can work with Merkle tree blocks based caching (xfs) and
-  PAGE caching (ext4, f2fs, btrfs)
-- iomap does fs-verity verification. Filesystem has to provide
-  workqueue only.
-- In XFS, fs-verity metadata is stored in extended attributes
-- New global XFS workqueue for verification processing
-- Inodes with fs-verity have new on-disk diflag
-- xfs_attr_get() can return a buffer with an extended attribute
-- xfs_buf can allocate double space for Merkle tree blocks. Part of
-  the space is used to store  the extended attribute data without
-  leaf headers
-- xfs_buf tracks verified status of merkle tree blocks
-
-The patchset consists of five parts:
-- [1]: fs-verity spinlock removal pending in fsverity/for-next
-- [2..4]: Parent pointers adding binary xattr names
-- [5]: Expose FS_XFLAG_VERITY for fs-verity files
-- [6..9]: Changes to fs-verity core
-- [10]: Integrate fs-verity to iomap
-- [11-25]: Add fs-verity support to XFS
-
-Testing:
-The patchset is tested with xfstests -g quick on xfs_1k, xfs_4k,
-xfs_1k_quota, xfs_4k_quota, ext4_4k, and ext4_4k_quota. With
-KMEMLEAK and KASAN enabled. More testing on the way.
-
-Changes from V3:
-- redone changes to fs-verity core as previous version had an issue
-  on ext4
-- add blocks invalidation interface to fs-verity
-- move memory ordering primitives out of block status check to fs
-  read block function
-- add fs-verity verification to iomap instead of general post read
-  processing
-Changes from V2:
-- FS_XFLAG_VERITY extended attribute flag
-- Change fs-verity to use Merkle tree blocks instead of expecting
-  PAGE references from filesystem
-- Change approach in iomap to filesystem provided bio_set and
-  submit_io instead of just callouts to filesystem
-- Add possibility for xfs_buf allocate more space for fs-verity
-  extended attributes
-- Make xfs_attr module to copy fs-verity blocks inside the xfs_buf,
-  so XFS can get data without leaf headers
-- Add Merkle tree removal for error path
-- Makae scrub aware of new dinode flag
-Changes from V1:
-- Added parent pointer patches for easier testing
-- Many issues and refactoring points fixed from the V1 review
-- Adjusted for recent changes in fs-verity core (folios, non-4k)
-- Dropped disabling of large folios
-- Completely new fsverity patches (fix, callout, log_blocksize)
-- Change approach to verification in iomap to the same one as in
-  write path. Callouts to fs instead of direct fs-verity use.
-- New XFS workqueue for post read folio verification
-- xfs_attr_get() can return underlying xfs_buf
-- xfs_bufs are marked with XBF_VERITY_CHECKED to track verified
-  blocks
-
-kernel:
-[1]: https://github.com/alberand/linux/tree/fsverity-v4
-
-xfsprogs:
-[2]: https://github.com/alberand/xfsprogs/tree/fsverity-v4
-
-xfstests:
-[3]: https://github.com/alberand/xfstests/tree/fsverity-v4
-
-v1:
-[4]: https://lore.kernel.org/linux-xfs/20221213172935.680971-1-aalbersh@redhat.com/
-
-v2:
-[5]: https://lore.kernel.org/linux-xfs/20230404145319.2057051-1-aalbersh@redhat.com/
-
-v3:
-[6]: https://lore.kernel.org/all/20231006184922.252188-1-aalbersh@redhat.com/
-
-fs-verity:
-[7]: https://www.kernel.org/doc/html/latest/filesystems/fsverity.html
-
-Thanks,
-Andrey
-
-Allison Henderson (3):
-  xfs: add parent pointer support to attribute code
-  xfs: define parent pointer ondisk extended attribute format
-  xfs: add parent pointer validator functions
-
-Andrey Albershteyn (22):
-  fsverity: remove hash page spin lock
-  fs: add FS_XFLAG_VERITY for verity files
-  fsverity: pass log_blocksize to end_enable_verity()
-  fsverity: support block-based Merkle tree caching
-  fsverity: calculate readahead in bytes instead of pages
-  fsverity: add tracepoints
-  iomap: integrate fsverity verification into iomap's read path
-  xfs: add XBF_VERITY_SEEN xfs_buf flag
-  xfs: add XFS_DA_OP_BUFFER to make xfs_attr_get() return buffer
-  xfs: introduce workqueue for post read IO work
-  xfs: add attribute type for fs-verity
-  xfs: make xfs_buf_get() to take XBF_* flags
-  xfs: add XBF_DOUBLE_ALLOC to increase size of the buffer
-  xfs: add fs-verity ro-compat flag
-  xfs: add inode on-disk VERITY flag
-  xfs: initialize fs-verity on file open and cleanup on inode
-    destruction
-  xfs: don't allow to enable DAX on fs-verity sealsed inode
-  xfs: disable direct read path for fs-verity files
-  xfs: add fs-verity support
-  xfs: make scrub aware of verity dinode flag
-  xfs: add fs-verity ioctls
-  xfs: enable ro-compat fs-verity flag
-
- Documentation/filesystems/fsverity.rst |  12 +
- fs/btrfs/verity.c                      |   4 +-
- fs/erofs/data.c                        |   4 +-
- fs/ext4/verity.c                       |   3 +-
- fs/f2fs/verity.c                       |   3 +-
- fs/gfs2/aops.c                         |   4 +-
- fs/ioctl.c                             |  11 +
- fs/iomap/buffered-io.c                 | 102 +++++++-
- fs/verity/enable.c                     |   9 +-
- fs/verity/fsverity_private.h           |  30 ++-
- fs/verity/init.c                       |   1 +
- fs/verity/open.c                       |   9 +-
- fs/verity/read_metadata.c              |  48 ++--
- fs/verity/signature.c                  |   2 +
- fs/verity/verify.c                     | 315 +++++++++++++++-------
- fs/xfs/Makefile                        |   2 +
- fs/xfs/libxfs/xfs_attr.c               |  31 ++-
- fs/xfs/libxfs/xfs_attr.h               |   3 +-
- fs/xfs/libxfs/xfs_attr_leaf.c          |  24 +-
- fs/xfs/libxfs/xfs_attr_remote.c        |  39 ++-
- fs/xfs/libxfs/xfs_da_btree.h           |   5 +-
- fs/xfs/libxfs/xfs_da_format.h          |  68 ++++-
- fs/xfs/libxfs/xfs_format.h             |  14 +-
- fs/xfs/libxfs/xfs_log_format.h         |   2 +
- fs/xfs/libxfs/xfs_ondisk.h             |   4 +
- fs/xfs/libxfs/xfs_parent.c             | 113 ++++++++
- fs/xfs/libxfs/xfs_parent.h             |  19 ++
- fs/xfs/libxfs/xfs_sb.c                 |   4 +-
- fs/xfs/scrub/attr.c                    |   4 +-
- fs/xfs/xfs_aops.c                      |  15 +-
- fs/xfs/xfs_attr_item.c                 |   6 +-
- fs/xfs/xfs_attr_list.c                 |  14 +-
- fs/xfs/xfs_buf.c                       |   6 +-
- fs/xfs/xfs_buf.h                       |  23 +-
- fs/xfs/xfs_file.c                      |  23 +-
- fs/xfs/xfs_inode.c                     |   2 +
- fs/xfs/xfs_inode.h                     |   3 +-
- fs/xfs/xfs_ioctl.c                     |  22 ++
- fs/xfs/xfs_iops.c                      |   4 +
- fs/xfs/xfs_linux.h                     |   1 +
- fs/xfs/xfs_mount.h                     |   3 +
- fs/xfs/xfs_super.c                     |  19 ++
- fs/xfs/xfs_trace.h                     |   4 +-
- fs/xfs/xfs_verity.c                    | 348 +++++++++++++++++++++++++
- fs/xfs/xfs_verity.h                    |  33 +++
- fs/xfs/xfs_xattr.c                     |  10 +
- fs/zonefs/file.c                       |   4 +-
- include/linux/fsverity.h               |  73 +++++-
- include/linux/iomap.h                  |   6 +-
- include/trace/events/fsverity.h        | 184 +++++++++++++
- include/uapi/linux/fs.h                |   1 +
- 51 files changed, 1494 insertions(+), 199 deletions(-)
- create mode 100644 fs/xfs/libxfs/xfs_parent.c
- create mode 100644 fs/xfs/libxfs/xfs_parent.h
- create mode 100644 fs/xfs/xfs_verity.c
- create mode 100644 fs/xfs/xfs_verity.h
- create mode 100644 include/trace/events/fsverity.h
-
+diff --git a/fs/xfs/libxfs/xfs_attr.c b/fs/xfs/libxfs/xfs_attr.c
+index e965a48e7db9..1292ab043b4f 100644
+--- a/fs/xfs/libxfs/xfs_attr.c
++++ b/fs/xfs/libxfs/xfs_attr.c
+@@ -924,7 +924,8 @@ xfs_attr_set(
+ 	struct xfs_inode	*dp = args->dp;
+ 	struct xfs_mount	*mp = dp->i_mount;
+ 	struct xfs_trans_res	tres;
+-	bool			rsvd = (args->attr_filter & XFS_ATTR_ROOT);
++	bool			rsvd = (args->attr_filter & (XFS_ATTR_ROOT |
++							     XFS_ATTR_PARENT));
+ 	int			error, local;
+ 	int			rmt_blks = 0;
+ 	unsigned int		total;
+diff --git a/fs/xfs/libxfs/xfs_da_format.h b/fs/xfs/libxfs/xfs_da_format.h
+index 24f9d1461f9a..18e8c7d44ab8 100644
+--- a/fs/xfs/libxfs/xfs_da_format.h
++++ b/fs/xfs/libxfs/xfs_da_format.h
+@@ -703,12 +703,15 @@ struct xfs_attr3_leafblock {
+ #define	XFS_ATTR_LOCAL_BIT	0	/* attr is stored locally */
+ #define	XFS_ATTR_ROOT_BIT	1	/* limit access to trusted attrs */
+ #define	XFS_ATTR_SECURE_BIT	2	/* limit access to secure attrs */
++#define	XFS_ATTR_PARENT_BIT	3	/* parent pointer attrs */
+ #define	XFS_ATTR_INCOMPLETE_BIT	7	/* attr in middle of create/delete */
+ #define XFS_ATTR_LOCAL		(1u << XFS_ATTR_LOCAL_BIT)
+ #define XFS_ATTR_ROOT		(1u << XFS_ATTR_ROOT_BIT)
+ #define XFS_ATTR_SECURE		(1u << XFS_ATTR_SECURE_BIT)
++#define XFS_ATTR_PARENT		(1u << XFS_ATTR_PARENT_BIT)
+ #define XFS_ATTR_INCOMPLETE	(1u << XFS_ATTR_INCOMPLETE_BIT)
+-#define XFS_ATTR_NSP_ONDISK_MASK	(XFS_ATTR_ROOT | XFS_ATTR_SECURE)
++#define XFS_ATTR_NSP_ONDISK_MASK \
++			(XFS_ATTR_ROOT | XFS_ATTR_SECURE | XFS_ATTR_PARENT)
+ 
+ /*
+  * Alignment for namelist and valuelist entries (since they are mixed
+diff --git a/fs/xfs/libxfs/xfs_log_format.h b/fs/xfs/libxfs/xfs_log_format.h
+index 269573c82808..eb7406c6ea41 100644
+--- a/fs/xfs/libxfs/xfs_log_format.h
++++ b/fs/xfs/libxfs/xfs_log_format.h
+@@ -972,6 +972,7 @@ struct xfs_icreate_log {
+  */
+ #define XFS_ATTRI_FILTER_MASK		(XFS_ATTR_ROOT | \
+ 					 XFS_ATTR_SECURE | \
++					 XFS_ATTR_PARENT | \
+ 					 XFS_ATTR_INCOMPLETE)
+ 
+ /*
+diff --git a/fs/xfs/scrub/attr.c b/fs/xfs/scrub/attr.c
+index 83c7feb38714..49f91cc85a65 100644
+--- a/fs/xfs/scrub/attr.c
++++ b/fs/xfs/scrub/attr.c
+@@ -494,7 +494,7 @@ xchk_xattr_rec(
+ 	/* Retrieve the entry and check it. */
+ 	hash = be32_to_cpu(ent->hashval);
+ 	badflags = ~(XFS_ATTR_LOCAL | XFS_ATTR_ROOT | XFS_ATTR_SECURE |
+-			XFS_ATTR_INCOMPLETE);
++			XFS_ATTR_INCOMPLETE | XFS_ATTR_PARENT);
+ 	if ((ent->flags & badflags) != 0)
+ 		xchk_da_set_corrupt(ds, level);
+ 	if (ent->flags & XFS_ATTR_LOCAL) {
+diff --git a/fs/xfs/xfs_trace.h b/fs/xfs/xfs_trace.h
+index 0984a1c884c7..07e8a69f8e56 100644
+--- a/fs/xfs/xfs_trace.h
++++ b/fs/xfs/xfs_trace.h
+@@ -83,7 +83,8 @@ struct xfs_perag;
+ #define XFS_ATTR_FILTER_FLAGS \
+ 	{ XFS_ATTR_ROOT,	"ROOT" }, \
+ 	{ XFS_ATTR_SECURE,	"SECURE" }, \
+-	{ XFS_ATTR_INCOMPLETE,	"INCOMPLETE" }
++	{ XFS_ATTR_INCOMPLETE,	"INCOMPLETE" }, \
++	{ XFS_ATTR_PARENT,	"PARENT" }
+ 
+ DECLARE_EVENT_CLASS(xfs_attr_list_class,
+ 	TP_PROTO(struct xfs_attr_list_context *ctx),
 -- 
 2.42.0
 
