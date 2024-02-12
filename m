@@ -1,64 +1,64 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040F13E498
-	for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 17:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051D745013
+	for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 17:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707757230; cv=none; b=ZctG0Nx6UoSG0b25g0kh9uoUlYq4U4PfxEIMIwa8xP3Q3A4eUJ7aPKASd7k1x3+x7bzgjU/7LYHZ2Z1ae87hku13t5BfWcXvv39w6zeNeGkZeBPvcNhP12fl3VwwSKMuQx81qgNq8QEueHb1AtOFtvg6fbEAjzYxG6w/mD/quwc=
+	t=1707757231; cv=none; b=K9wkxbSTDU6SmDQ1Ujvuiq3sL9qq8gIH60aGUc4J2mKnPiOAsqOXZLIpuzw/L9ONJpk3KEBJrBiMpkmWvpJ1I8FLuo2ZbNQrawN3/PAwjuxoUbblaBrtAzIax/KL8cpQbtgk9WOnTtrZOU5NUZ2RbwGbIOpthEtAC53hGf/5YPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707757230; c=relaxed/simple;
-	bh=3huMSuptuBha2CwG1y0/SfdkyV9jIivWktDsQLKbc70=;
+	s=arc-20240116; t=1707757231; c=relaxed/simple;
+	bh=YOeOw6KtPMpEfhCDXm/Z9NhM8n2QAyzwIfav1+RaVLc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TFne0q/x7nY7T2jwuEdQ9BFiStzxDRXFS/MGYAwb9/b/eoy0nNL6ecnoXMbVR6xs0Oh1l7GhvtZW4rFKy6sc+6YMCdvZYgkJvcSgJ8s8Lk1L8O7D3gGfy1U/DPhS7c6a2xY9r6R3+//qIMBGOIRs49zIpEMQ0Aw/WUtAJy6wlRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UKI/ZdQm; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=IKlan81whUEHZY6ez38VgoCdkfhv5bj1IxddQWspV3uSz3NQl8SZkb3xxfQJT7u0YHe8wGVRNL2qllXi/x3zapzj4XCb3yAaih6WIBfqnmawdLDSND52nhWdjbLGCIoiurikAN1R585A0D/AGTsHTEOHOJE10qO3s97yPgFebDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D8SJIVfV; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UKI/ZdQm"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D8SJIVfV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707757227;
+	s=mimecast20190719; t=1707757228;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=O/7GvRpwmqndoF+ccNvwmWywMN3/sSl/624LXUp5jis=;
-	b=UKI/ZdQmDpqBfHoLx3kEan5RjR1cmftdk25hFTKub/EOF1/gzvH/CP9EQhk/raFpqTFBhB
-	nfZ/jk/gRqImpjDAxc8XjDLQczuBsvT+h2aXoWQQP90dTptDvdxifdjpw3XE72w1IuXRYU
-	z4XSoPHWQNbk+glEQjQZZ012nWoaMEQ=
+	bh=9e7oB1ZKkqE1/ExZ0FRyhaGlyLumWOw/BjQhwlJ8uVw=;
+	b=D8SJIVfVyRBGIqAupBgBX8OPYClhiuWiQBVKKB8VR0AjLRH46qNMYDLQQVdJw545M4xu7o
+	e4OW7mvf+5s0kk5guX6Pk+xT6IuxiNGnSZWiOG4TWd+JzmTQriG5Cu8z53c7COM9PEM2Uf
+	JehmSz8GlQF7T0j9P1ZhFaOo/iXO/74=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-fFXsVtOAPjay9O7vuh1j3g-1; Mon, 12 Feb 2024 12:00:25 -0500
-X-MC-Unique: fFXsVtOAPjay9O7vuh1j3g-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-55ffcfed2ffso4899624a12.0
-        for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 09:00:25 -0800 (PST)
+ us-mta-621-t-VyfkarNEiSMOREYKaUbg-1; Mon, 12 Feb 2024 12:00:26 -0500
+X-MC-Unique: t-VyfkarNEiSMOREYKaUbg-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5613caa5f21so1760428a12.3
+        for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 09:00:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707757224; x=1708362024;
+        d=1e100.net; s=20230601; t=1707757225; x=1708362025;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O/7GvRpwmqndoF+ccNvwmWywMN3/sSl/624LXUp5jis=;
-        b=R+Ilv7hOhXYkjRjyLOoLOI46+uwdelT6iCDlGaGENeefzVKHUfphmpVYE7aGtw3rRR
-         C6vYbqLbu9s6kocbtATyJF6c805DrUZEW+Sp5bZ6mfBuribvol3Dpj/Rxn2x8n1m3qAT
-         FQbjppkW7kH4A0sNLxA/68JLhGWgidfNHnn6zvYPCZshkpbYtOCLTSyzMCm2Ri8T5iCu
-         72twDCQaQxGREpoJ+akNn6HVcdMrPJOV197gvffJFxMyQQnCKGZro+EwTS4HfFDBS0qY
-         VMSUeo3g/CYqaq2QmOmlusViAWIB/kkCPXn1T7UsjgZzDzWq1e5TxlHnaOr4IpkGkImG
-         8vhw==
-X-Gm-Message-State: AOJu0YyJBLsoxm57UDtxOm5l4XJU55gZzpGbkZWg9PJ9kt2UV8HkZ0ID
-	6Lac1dHCBSgC0Vo3ItZBXz/X1qPFXiCWbqDO01tCMS06BUgEvNjntn5B5OED/tB+YhfvPKzyONw
-	HA2csOLiAkOhiC8vzoARNHKWYEI9x9yxcNxGAPxibViTuq+KvqWsrQJO0ZbZZtVLbM9/1yXEFyQ
-	PJDq+igFUm9p/oemRf8IgAQdtlVQfzGnHL0DL22s4=
-X-Received: by 2002:a05:6402:2405:b0:55f:cc6d:29b5 with SMTP id t5-20020a056402240500b0055fcc6d29b5mr52474eda.21.1707757224368;
-        Mon, 12 Feb 2024 09:00:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH42HIFL/dxKgR7EyOrBhc7xXCpi26qG+Fua//JDh3CFnZGhulP1ThwFDEDHGR3MncapDV1sg==
-X-Received: by 2002:a05:6402:2405:b0:55f:cc6d:29b5 with SMTP id t5-20020a056402240500b0055fcc6d29b5mr52460eda.21.1707757224085;
-        Mon, 12 Feb 2024 09:00:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUY6g9lFbfToZ6KmsvUog3OF70TqTeRgGoC22qmpr2jCPKLvbuFVjIq05EHMUe49MvRMFzVuy29Mh6GJIT6KrIM8cjQ7qF2q5tZa1yNTy1oj9j/AInK7bE+csVY6aVl+btLiGQ+1+sPxkGqT/bsGmYuD94elGcJQZvp0Mbu/COh91A4Guz98UtLS/1F6UUbm+YLFurg6FjBkxzzLYFk5j8Y18gMWHLOeKMK
+        bh=9e7oB1ZKkqE1/ExZ0FRyhaGlyLumWOw/BjQhwlJ8uVw=;
+        b=kyreZLlTcyBIXqUHIr36jbVc/qzPqaacnMXByMRdOjT1z7+bi0N/nDko6JCyaOBwSq
+         T83P3prlnG63gKeNAv/J7izDySo3erXcLI93jkbjknM3VZS4/2VqIHC94pqPOT0oZV5l
+         8ovicMMISIgJuw0WhrzBXz7hzuPTJN/dx4zj1vzv5mxphXVWSwG3oKVJXUdWwxvLEgII
+         dubsD6AwGxE15XaY2+BMY1ykMZk85x9ncK9AMsTILTmZqPn+54K37L1kfMa7RQBVIQHc
+         8xoowQilmy45OJEgj17o7PEbXTuN9I1EKmBCOkSNobLHuTb+p4q9Yx9bsu9LKMYW7be3
+         t4GA==
+X-Gm-Message-State: AOJu0Yy/o2IWpwd4iO5Wq+LSrUmTmWaWCnupa563zs0bIL3KheTwSCPr
+	sbuUTZi9nxLaW/yag/5lZDqAubXWrEwNLJkzLV3YBWhNX5DX2xm9j8aHR82lN7mYDmo4m+0wmap
+	nbRmO+X4ce1oxPtsQ0iR3aqhbX4N2G0j4SX+RXOD9A9deZmu4Z/MjGRoxDyL2rEPFXKsmS+USUy
+	9g3QXCkAY24ba3lDWSw4bMJxnOEbEcycxDZISMF10=
+X-Received: by 2002:a05:6402:b86:b0:561:8bc4:b05f with SMTP id cf6-20020a0564020b8600b005618bc4b05fmr3774687edb.0.1707757225384;
+        Mon, 12 Feb 2024 09:00:25 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFvE/KNVEA8sjxOeGFkeZw+80fBpxWhXZhf/YA0PJnuhaTIDH6fJT1TzvZ1+/5L6O1QV86bRA==
+X-Received: by 2002:a05:6402:b86:b0:561:8bc4:b05f with SMTP id cf6-20020a0564020b8600b005618bc4b05fmr3774674edb.0.1707757225103;
+        Mon, 12 Feb 2024 09:00:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUxhzEnZsbrIW5ntwlAso9rR1RXR6wMwsKLEZAURItKAlHxOTZpXXk//KErSQyBEO5t4xpAXZ0vDqA8X2RcFIRn9WnYwXDIqu0P7/Uu3jI+3Xltem4uDRgS1XTxukmgySaw5GZN7IDa1Vy6tlSgmkVRkyb2IOkF9bpHxYkammVkHBpqRcckWFuXKg8cP+kXzYsWYvz3HRagDyByWyBO6s3AHde6Xr/froZ0
 Received: from thinky.redhat.com ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id 14-20020a0564021f4e00b0056176e95a88sm2620261edz.32.2024.02.12.09.00.23
+        by smtp.gmail.com with ESMTPSA id 14-20020a0564021f4e00b0056176e95a88sm2620261edz.32.2024.02.12.09.00.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 09:00:23 -0800 (PST)
+        Mon, 12 Feb 2024 09:00:24 -0800 (PST)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: fsverity@lists.linux.dev,
 	linux-xfs@vger.kernel.org,
@@ -67,9 +67,9 @@ To: fsverity@lists.linux.dev,
 	djwong@kernel.org,
 	ebiggers@kernel.org
 Cc: Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v4 24/25] xfs: add fs-verity ioctls
-Date: Mon, 12 Feb 2024 17:58:21 +0100
-Message-Id: <20240212165821.1901300-25-aalbersh@redhat.com>
+Subject: [PATCH v4 25/25] xfs: enable ro-compat fs-verity flag
+Date: Mon, 12 Feb 2024 17:58:22 +0100
+Message-Id: <20240212165821.1901300-26-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240212165821.1901300-1-aalbersh@redhat.com>
 References: <20240212165821.1901300-1-aalbersh@redhat.com>
@@ -84,49 +84,34 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Add fs-verity ioctls to enable, dump metadata (descriptor and Merkle
-tree pages) and obtain file's digest.
+Finalize fs-verity integration in XFS by making kernel fs-verity
+aware with ro-compat flag.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
 ---
- fs/xfs/xfs_ioctl.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ fs/xfs/libxfs/xfs_format.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
-index 048d83acda0a..5d64e11bf056 100644
---- a/fs/xfs/xfs_ioctl.c
-+++ b/fs/xfs/xfs_ioctl.c
-@@ -43,6 +43,7 @@
- #include <linux/mount.h>
- #include <linux/namei.h>
- #include <linux/fileattr.h>
-+#include <linux/fsverity.h>
- 
- /*
-  * xfs_find_handle maps from userspace xfs_fsop_handlereq structure to
-@@ -2174,6 +2175,22 @@ xfs_file_ioctl(
- 		return error;
- 	}
- 
-+	case FS_IOC_ENABLE_VERITY:
-+		if (!xfs_has_verity(mp))
-+			return -EOPNOTSUPP;
-+		return fsverity_ioctl_enable(filp, (const void __user *)arg);
-+
-+	case FS_IOC_MEASURE_VERITY:
-+		if (!xfs_has_verity(mp))
-+			return -EOPNOTSUPP;
-+		return fsverity_ioctl_measure(filp, (void __user *)arg);
-+
-+	case FS_IOC_READ_VERITY_METADATA:
-+		if (!xfs_has_verity(mp))
-+			return -EOPNOTSUPP;
-+		return fsverity_ioctl_read_metadata(filp,
-+						    (const void __user *)arg);
-+
- 	default:
- 		return -ENOTTY;
- 	}
+diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
+index ea78b595aa97..0cb5bf9142b7 100644
+--- a/fs/xfs/libxfs/xfs_format.h
++++ b/fs/xfs/libxfs/xfs_format.h
+@@ -355,10 +355,11 @@ xfs_sb_has_compat_feature(
+ #define XFS_SB_FEAT_RO_COMPAT_INOBTCNT (1 << 3)		/* inobt block counts */
+ #define XFS_SB_FEAT_RO_COMPAT_VERITY   (1 << 4)		/* fs-verity */
+ #define XFS_SB_FEAT_RO_COMPAT_ALL \
+-		(XFS_SB_FEAT_RO_COMPAT_FINOBT | \
+-		 XFS_SB_FEAT_RO_COMPAT_RMAPBT | \
+-		 XFS_SB_FEAT_RO_COMPAT_REFLINK| \
+-		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT)
++		(XFS_SB_FEAT_RO_COMPAT_FINOBT  | \
++		 XFS_SB_FEAT_RO_COMPAT_RMAPBT  | \
++		 XFS_SB_FEAT_RO_COMPAT_REFLINK | \
++		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT| \
++		 XFS_SB_FEAT_RO_COMPAT_VERITY)
+ #define XFS_SB_FEAT_RO_COMPAT_UNKNOWN	~XFS_SB_FEAT_RO_COMPAT_ALL
+ static inline bool
+ xfs_sb_has_ro_compat_feature(
 -- 
 2.42.0
 
