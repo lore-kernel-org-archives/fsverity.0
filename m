@@ -1,209 +1,265 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F274847F7E
-	for <fsverity@lists.linux.dev>; Mon,  5 Feb 2024 18:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9D93D54D
+	for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 16:59:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707158589; cv=none; b=KbFHz8CYToZCUVy9Mxs2Np5Mi1fW8cjpvstpHoh998mlmWXh+cT0BrqcJvpljPomxwLVNICHoLbYivabzAD7AuczB1R/KJRoHYiEfpVneBeqF63ebmPPfblSGStMAGeS6GGpjTXIwIxldP/kan3kkvOzt+4+XkBP/JN7iUPscf0=
+	t=1707757195; cv=none; b=WstsW78Ou/c1EgQmvQJMKhoo/GbUCDmYHCTc1G2lWbTZMXD/06SPFVw5A6wTS1U9xHwsIGcKZO/me4Jp4IY8Aywo9XukW0x9aVMIs702bkH4bu5k4vP2rI3wnk7iG8Xq7ynwAKTvRzpFyzNVUQQiQVBq8VW3YLUYkbt2B7i0kVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707158589; c=relaxed/simple;
-	bh=lxH2UkoXhtlULl/zvh0je1dal/ztpt8QeP0kl4G+Vbs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EVUcBe9LeB9ivdMPA0Dghvd0j/GeD9F2xPJkFcW6QYPC6iNtPneB67v91frBDJXIQYWBqNObVrNuXdjejS1bNaZmXAn6TmTLa/lVpa4uZ1KNLkAW1wukPsZoGI//q9NQKka07BP1d8XkJ0RHlPAOc5ncSGN+aoQavUtkhGpp77k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LDCODIf9; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1707757195; c=relaxed/simple;
+	bh=qWyOYgUJ7yXrKklC61LmyR4Nml6VAji65hLkpbOuRUo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=qPbbonwJluJXRBK82RQMkMbACYte/Y3lhkh0d9lM/Xj5uD+bECaTpAIBxjyyESbddm5aIlYr5OuSyZ6+nDhxzhvoyfTuFp96j7AiItlNQSQh5YjvI7zIOx0cxX81mlsZWVEbgZceAGhW1ZZZpuEvjnmtojUZpSIylEPWVA06XUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cUc+EZAq; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LDCODIf9"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cUc+EZAq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1707158586;
+	s=mimecast20190719; t=1707757192;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LNq6oubwXmqe6ItjQ33y0Ud8zzbj1+GnKVYTNf0QWt4=;
-	b=LDCODIf9ltZ3tRdTQPs5OvjJ9JL43He9NN9YqsGnbJtT6u/qL5S3ZMpQ0HD79pWk4AbMSW
-	OJIZG+zxzO71W5CApXODc7rJ61/FGwjhpExp16DjTzBUH8aJmqcLEIWZoBgufcogbkxFii
-	oo/awuUIvYCHYJXvOPUT3QjGUufmV4A=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=61D4IN0Kt7iuELlNRFVN1CWOL5uOtv1g99NthtfKGpM=;
+	b=cUc+EZAquUefPqX5SvjWufu6tgq7hvZ3gjRWzHx07v6O/aLtlmQApoR1i8wo96JSqeHQw1
+	hX7LVHRV6b3NnuMQDxmdaXEXL14cTRxq2VDTHFLvKRLKi3/V5ADhwq+MKbdUuWXNrVvJDa
+	jNUH9Uz1kyxo7s4wVpTrrS6qKZSH2BY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-561-eeGQmf91MeeafdwMkOrUiQ-1; Mon, 05 Feb 2024 13:43:05 -0500
-X-MC-Unique: eeGQmf91MeeafdwMkOrUiQ-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a2f71c9f5d2so286744366b.2
-        for <fsverity@lists.linux.dev>; Mon, 05 Feb 2024 10:43:05 -0800 (PST)
+ us-mta-605-PzhAq979MwOitNdYsfJ6ng-1; Mon, 12 Feb 2024 11:59:51 -0500
+X-MC-Unique: PzhAq979MwOitNdYsfJ6ng-1
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-559555e38b0so3140318a12.3
+        for <fsverity@lists.linux.dev>; Mon, 12 Feb 2024 08:59:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707158584; x=1707763384;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LNq6oubwXmqe6ItjQ33y0Ud8zzbj1+GnKVYTNf0QWt4=;
-        b=lViNZstcJK7D1TeQV+2dKg5Fbfc56oNprM8UsNT74/bXE2GnVInkbqpiBXO/hSE94a
-         K098GnH6oHUjrzJqas76RhSBbdqlyZ00eejcMWXprLZt6t0TUkZq+hy6xkuj4qDwpoM2
-         qzmmcoJ4Vud05ep3lWipEbyf2OzmKRX3W6KXYLTzZDkha9X6U6RcHvKYHDEvndCIq/gG
-         pjKEW/eyQmw5cXl4WAwrv9dSMRA28VDjbo2McQMAsvuLsP98R6y3PT94BzQEAjD7tEDs
-         OI5nXBu7sO60AMkkLixx1+tr6SeerqWv9AQJ8R95dd9wmzBFQ4vvekXNX1Fn4QeL+8Dm
-         jt6A==
-X-Gm-Message-State: AOJu0Yx8Liy7ssZtz7oQWBmFgfhbxzIKbEnEu7ODI2rnlDB37+h2xRHo
-	JJ31DKNmcD8WebDvdSDwEZ86y8hfXZsoFOZ4PJ8YxN5J1ZmHfltsN11sRDlcsHvQkDodUemaDuw
-	dr2cbRHfaAcax0nd0plMHw9PXHYxRET0pOyzVcKz9I8GOFC1EBYD7m/0=
-X-Received: by 2002:a17:906:c291:b0:a32:b376:489d with SMTP id r17-20020a170906c29100b00a32b376489dmr228578ejz.21.1707158584056;
-        Mon, 05 Feb 2024 10:43:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHBJJqi+E8gTHS8rAQpA+gl5qKoCPXD/0rXi7vARpqh0DWv7P2ivFSjS3co7lz7OUOuk2D9Nw==
-X-Received: by 2002:a17:906:c291:b0:a32:b376:489d with SMTP id r17-20020a170906c29100b00a32b376489dmr228552ejz.21.1707158583686;
-        Mon, 05 Feb 2024 10:43:03 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCW/539QzZ3CsCBd/dh6u4+Lu0RJ/lNp9RpJ+QdlVC2XRNNKX6VqeLJj50ZJA+N90OsJClBVsg5JNJx2ats/acge24t52SP1Khtr1Zb4g78xgsfghwaFLj1f6AJtfVo6O317uL1HzzNqXxmpy7ECqBJEptEIkKBxTFpYeMwuFd+BML/Xrojv2jMMXM9fitkLsKBmdYff02rTHIy1/9RYeW9KdA+vBiMMFajtXpJ9V3LInGlCjYjlUDdXOvBtO5I7hA45drv3aKenosx8u4UyB41Mz1PLz7aLENeuLx+D1O2uqJitQ5WY2/MWQsxC4hRsJLrtQSEiVEO//auoefGKYicIZXYmMBpZyobmMO+U5/AI7JRZNB4SrfhxFR3pafp6m1NPrmYlSeKc08AuIyTHk9ANC0tpyeniQJ3jCv+QnMgmLtM/kn+0P+/bRaYeDZ6d8IRlYLtr+o3sXelQ5sLfNPgIJKCnYmIVFOljcVjx7+ZUhFi0fAaUSSYmOH5KO46artcSjNhj82irK/HCSLEyg8UvWscGqbKXPwX22XgIsaFBiaZQJE98IoKW/FK5HPxvcKxRAW/5/iKxgZhKCM8KtX0dQCkHll57HIUiJSjrmPsVcn0ucLRS3jgg9lsPvnuDItmph5A4CJHwTnHeAe/8NIIZ8VBicJlP78Sc2dSEOj28GuudM2rMQLEK9T4bEzynKCV2zDJ0K6FcH+gAF302k7BBiiWiEivB
-Received: from [192.168.0.159] (185-219-167-205-static.vivo.cz. [185.219.167.205])
-        by smtp.gmail.com with ESMTPSA id t26-20020a1709066bda00b00a353d1a19a9sm121768ejs.191.2024.02.05.10.43.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 10:43:03 -0800 (PST)
-Message-ID: <afb2fc66-abb4-4010-8120-ada7a6881f89@redhat.com>
-Date: Mon, 5 Feb 2024 19:43:02 +0100
+        d=1e100.net; s=20230601; t=1707757190; x=1708361990;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=61D4IN0Kt7iuELlNRFVN1CWOL5uOtv1g99NthtfKGpM=;
+        b=j0JmvDa770VSMCFFbIgnN3sVqhCt1X8PbOTYwGVoHF/cLw8bqsiSKS8s8fk0viwhvI
+         6bIG7KvQC+P/DK6wx2GpYTLwHD2fAAR2qi1hMMnctFDan5zIwLjHDenLV+e41k7vv4Wt
+         h+fUojbZmybprN6WWxgKGTSEi4wL32oTtvnus0IuD+VPAQC7pqrPZ6gAbyeXgmVu/lcO
+         8hK1VHcKhmC6Xwtl730DHZeeqU2j2u8Ckdo8K4YJzAwuzTdpEfDMTcWA0Oop6k9i9t/Q
+         A+fBltNn2aio9gdY8/WRwlJxbtITKlSdcXOrQJOqtLxAlOA5WTJuSY996eZW9Sb3z0op
+         k8qg==
+X-Gm-Message-State: AOJu0YyWHitmoKOX0mQooib8fi6dXBee/FA0E9f5B97KgjePEAgm7wxm
+	YNABSDTeSyHPuy2YT8KFstHf0qY0RjbHCOUUs5Fdd/VO3Z3m/6yRhd5u1q62FKEqVgUbzjh+F1T
+	jwskXccLcWb/xUVmEFRq72Va/N4W1vMH4KMZQfSmz17cXLzhIaaN6tO1/qSOPxauZkaOFRTD4pJ
+	l70SZFpP/3bUFga84vyLWrNdofSnO1g8gFOYxnti4=
+X-Received: by 2002:a05:6402:1a41:b0:55f:c9cb:208a with SMTP id bf1-20020a0564021a4100b0055fc9cb208amr4875130edb.35.1707757190064;
+        Mon, 12 Feb 2024 08:59:50 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHePths5qWvlMb4oKFzl9++euPqyv1mGTDHXW6ewp1zfKccZScCC64OtrHm7TzqTX72FfTw6Q==
+X-Received: by 2002:a05:6402:1a41:b0:55f:c9cb:208a with SMTP id bf1-20020a0564021a4100b0055fc9cb208amr4875098edb.35.1707757189665;
+        Mon, 12 Feb 2024 08:59:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVUlQDV3j/MHYGQfQ9ooeGDYx+O10qS/QYnnlsEeu8KTobbwyQqmetkAxmDSXf3aFj+GYnT6YMDKcSXIlTFLIoNNdk1X0e2HWJ71t0bMTMCyndsannx6y/5xW8gzleTihtCLKlXEHWABMr3Ds8FBAdq1Qxjs5nPYylrGRbfY6fgkjzfclPTD6zbf+hJ6wagKQv0P+9dykz4um7ln05GTbMe9RcGX24uEIjj
+Received: from thinky.redhat.com ([109.183.6.197])
+        by smtp.gmail.com with ESMTPSA id 14-20020a0564021f4e00b0056176e95a88sm2620261edz.32.2024.02.12.08.59.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 08:59:49 -0800 (PST)
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: fsverity@lists.linux.dev,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	chandan.babu@oracle.com,
+	djwong@kernel.org,
+	ebiggers@kernel.org
+Cc: Andrey Albershteyn <aalbersh@redhat.com>
+Subject: [PATCH v4 00/25] fs-verity support for XFS
+Date: Mon, 12 Feb 2024 17:57:57 +0100
+Message-Id: <20240212165821.1901300-1-aalbersh@redhat.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v4 0/3] Annotate kfuncs in .BTF_ids section
-To: Manu Bretelle <chantr4@gmail.com>, Jiri Olsa <olsajiri@gmail.com>
-Cc: Daniel Xu <dxu@dxuuu.xyz>, linux-trace-kernel@vger.kernel.org,
- coreteam@netfilter.org, bpf@vger.kernel.org, linux-input@vger.kernel.org,
- cgroups@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, fsverity@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- netfilter-devel@vger.kernel.org, alexei.starovoitov@gmail.com,
- quentin@isovalent.com, alan.maguire@oracle.com, memxor@gmail.com
-References: <cover.1706491398.git.dxu@dxuuu.xyz> <Zb12EZt0BAKOPBk/@surya>
- <Zb5QWCw3Tg26_MDa@krava> <Zb6Jt30bNcNhM6zR@surya>
-From: Viktor Malik <vmalik@redhat.com>
-In-Reply-To: <Zb6Jt30bNcNhM6zR@surya>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On 2/3/24 19:45, Manu Bretelle wrote:
-> On Sat, Feb 03, 2024 at 03:40:24PM +0100, Jiri Olsa wrote:
->> On Fri, Feb 02, 2024 at 03:09:05PM -0800, Manu Bretelle wrote:
->>> On Sun, Jan 28, 2024 at 06:24:05PM -0700, Daniel Xu wrote:
->>>> === Description ===
->>>>
->>>> This is a bpf-treewide change that annotates all kfuncs as such inside
->>>> .BTF_ids. This annotation eventually allows us to automatically generate
->>>> kfunc prototypes from bpftool.
->>>>
->>>> We store this metadata inside a yet-unused flags field inside struct
->>>> btf_id_set8 (thanks Kumar!). pahole will be taught where to look.
->>>>
->>>> More details about the full chain of events are available in commit 3's
->>>> description.
->>>>
->>>> The accompanying pahole and bpftool changes can be viewed
->>>> here on these "frozen" branches [0][1].
->>>>
->>>> [0]: https://github.com/danobi/pahole/tree/kfunc_btf-v3-mailed
->>>> [1]: https://github.com/danobi/linux/tree/kfunc_bpftool-mailed
->>>
->>>
->>> I hit a similar issue to [0] on master
->>> 943b043aeecc ("selftests/bpf: Fix bench runner SIGSEGV")
->>>  when cross-compiling on x86_64 (LE) to s390x (BE).
->>> I do have CONFIG_DEBUG_INFO_BTF enable and the issue would not trigger if
->>> I disabled CONFIG_DEBUG_INFO_BTF (and with the fix mentioned in [0]).
->>>
->>> What seems to happen is that `tools/resolve_btfids` is ran in the context of the
->>> host endianess and if I printk before the WARN_ON:
->>> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
->>> index ef380e546952..a9ed7a1a4936 100644
->>>   --- a/kernel/bpf/btf.c
->>>   +++ b/kernel/bpf/btf.c
->>>   @@ -8128,6 +8128,7 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
->>>            * WARN() for initcall registrations that do not check errors.
->>>            */
->>>           if (!(kset->set->flags & BTF_SET8_KFUNCS)) {
->>>   +        printk("Flag 0x%08X, expected 0x%08X\n", kset->set->flags, BTF_SET8_KFUNCS);
->>>                   WARN_ON(!kset->owner);
->>>                   return -EINVAL;
->>>           }
->>>
->>> the boot logs would show:
->>>   Flag 0x01000000, expected 0x00000001
->>>
->>> The issue did not happen prior to
->>> 6f3189f38a3e ("bpf: treewide: Annotate BPF kfuncs in BTF")
->>> has only 0 was written before.
->>>
->>> It seems [1] will be addressing cross-compilation, but it did not fix it as is
->>> by just applying on top of master, so probably some of the changes will also need
->>> to be ported to `tools/include/linux/btf_ids.h`?
->>
->> the fix in [1] is fixing flags in set8's pairs, but not the global flags
->>
->> it looks like Viktor's fix should now also swap that as well? like in the
->> change below on top of Viktor's changes (untested)
->>
->> jirka
->>
->>
->> ---
->> diff --git a/tools/bpf/resolve_btfids/main.c b/tools/bpf/resolve_btfids/main.c
->> index d01603ef6283..c44d57fec390 100644
->> --- a/tools/bpf/resolve_btfids/main.c
->> +++ b/tools/bpf/resolve_btfids/main.c
->> @@ -706,6 +706,8 @@ static int sets_patch(struct object *obj)
->>  			 * correctly translate everything.
->>  			 */
->>  			if (need_bswap) {
->> +				set8->flags = bswap_32(set8->flags);
->> +
->>  				for (i = 0; i < cnt; i++) {
->>  					set8->pairs[i].flags =
->>  						bswap_32(set8->pairs[i].flags);
->>
-> 
-> That should work. Here are a few tests I ran:
-> 
-> $ md5sum /tmp/kbuild-s390x/vmlinux.*
-> eb658e51e089f3c5b2c8909a29dc9997  /tmp/kbuild-s390x/vmlinux.a
-> # plain vmlinux before running resolv_btfids (all 0s)
-> ea907cd46a1a73b8276b5f2a82af00ca  /tmp/kbuild-s390x/vmlinux.before_resolv
-> # x86_64 resolv_btfids on master without Viktor's patch
-> 980a40c3a3ff563d1c2d1ebdd5071a23  /tmp/kbuild-s390x/vmlinux.resolv_native
-> # x86_64 resolv_btfids on master with Viktor's patch
-> b986d19e242719ebea41c578235da662  /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor
-> # x86_64 resolv_btfids on master with Viktor's patch and your suggested patch
-> 4edd8752ff01129945bd442689b1927b  /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor_patched
-> # s390x resolv_btfids run with qemu-s390x-static
-> 4edd8752ff01129945bd442689b1927b  /tmp/kbuild-s390x/vmlinux.resolv_s390x
-> 
-> 
-> and some hexdiff of those binaries:
-> 
-> 
-> # difference between master's native build and s390x build.... has byte swapping for set8 and others
-> diff -ruN <(xxd /tmp/kbuild-s390x/vmlinux.resolv_s390x) <(xxd /tmp/kbuild-s390x/vmlinux.resolv_native) > diff_s390x_native.diff
-> https://gist.github.com/chantra/c3d58637a08a6f7340953dc155bb18cc
-> 
-> # difference betwee Viktor's version and  s390x build.... squinting my eyes I only see the global set8 is missing
-> diff -ruN <(xxd /tmp/kbuild-s390x/vmlinux.resolv_s390x) <(xxd /tmp/kbuild-s390x/vmlinux.resolv_native_patch_viktor) > diff_s390x_native_viktor.diff
-> https://gist.github.com/chantra/61cfff02b456ae72d3c0161ce1897097
+Hi all,
 
-Thanks for the testing Manu!
+Here's v4 of my patchset of adding fs-verity support to XFS.
 
-Jiri's suggested fix is now a part of [1].
+This implementation uses extended attributes to store fs-verity
+metadata. The Merkle tree blocks are stored in the remote extended
+attributes. The names are offsets into the tree.
 
-Viktor
+A few key points of this patchset:
+- fs-verity can work with Merkle tree blocks based caching (xfs) and
+  PAGE caching (ext4, f2fs, btrfs)
+- iomap does fs-verity verification. Filesystem has to provide
+  workqueue only.
+- In XFS, fs-verity metadata is stored in extended attributes
+- New global XFS workqueue for verification processing
+- Inodes with fs-verity have new on-disk diflag
+- xfs_attr_get() can return a buffer with an extended attribute
+- xfs_buf can allocate double space for Merkle tree blocks. Part of
+  the space is used to store  the extended attribute data without
+  leaf headers
+- xfs_buf tracks verified status of merkle tree blocks
 
-[1] https://lore.kernel.org/bpf/cover.1707157553.git.vmalik@redhat.com/
+The patchset consists of five parts:
+- [1]: fs-verity spinlock removal pending in fsverity/for-next
+- [2..4]: Parent pointers adding binary xattr names
+- [5]: Expose FS_XFLAG_VERITY for fs-verity files
+- [6..9]: Changes to fs-verity core
+- [10]: Integrate fs-verity to iomap
+- [11-25]: Add fs-verity support to XFS
 
-> 
-> Have a good weekend all!
-> 
-> Manu
-> 
+Testing:
+The patchset is tested with xfstests -g quick on xfs_1k, xfs_4k,
+xfs_1k_quota, xfs_4k_quota, ext4_4k, and ext4_4k_quota. With
+KMEMLEAK and KASAN enabled. More testing on the way.
+
+Changes from V3:
+- redone changes to fs-verity core as previous version had an issue
+  on ext4
+- add blocks invalidation interface to fs-verity
+- move memory ordering primitives out of block status check to fs
+  read block function
+- add fs-verity verification to iomap instead of general post read
+  processing
+Changes from V2:
+- FS_XFLAG_VERITY extended attribute flag
+- Change fs-verity to use Merkle tree blocks instead of expecting
+  PAGE references from filesystem
+- Change approach in iomap to filesystem provided bio_set and
+  submit_io instead of just callouts to filesystem
+- Add possibility for xfs_buf allocate more space for fs-verity
+  extended attributes
+- Make xfs_attr module to copy fs-verity blocks inside the xfs_buf,
+  so XFS can get data without leaf headers
+- Add Merkle tree removal for error path
+- Makae scrub aware of new dinode flag
+Changes from V1:
+- Added parent pointer patches for easier testing
+- Many issues and refactoring points fixed from the V1 review
+- Adjusted for recent changes in fs-verity core (folios, non-4k)
+- Dropped disabling of large folios
+- Completely new fsverity patches (fix, callout, log_blocksize)
+- Change approach to verification in iomap to the same one as in
+  write path. Callouts to fs instead of direct fs-verity use.
+- New XFS workqueue for post read folio verification
+- xfs_attr_get() can return underlying xfs_buf
+- xfs_bufs are marked with XBF_VERITY_CHECKED to track verified
+  blocks
+
+kernel:
+[1]: https://github.com/alberand/linux/tree/fsverity-v4
+
+xfsprogs:
+[2]: https://github.com/alberand/xfsprogs/tree/fsverity-v4
+
+xfstests:
+[3]: https://github.com/alberand/xfstests/tree/fsverity-v4
+
+v1:
+[4]: https://lore.kernel.org/linux-xfs/20221213172935.680971-1-aalbersh@redhat.com/
+
+v2:
+[5]: https://lore.kernel.org/linux-xfs/20230404145319.2057051-1-aalbersh@redhat.com/
+
+v3:
+[6]: https://lore.kernel.org/all/20231006184922.252188-1-aalbersh@redhat.com/
+
+fs-verity:
+[7]: https://www.kernel.org/doc/html/latest/filesystems/fsverity.html
+
+Thanks,
+Andrey
+
+Allison Henderson (3):
+  xfs: add parent pointer support to attribute code
+  xfs: define parent pointer ondisk extended attribute format
+  xfs: add parent pointer validator functions
+
+Andrey Albershteyn (22):
+  fsverity: remove hash page spin lock
+  fs: add FS_XFLAG_VERITY for verity files
+  fsverity: pass log_blocksize to end_enable_verity()
+  fsverity: support block-based Merkle tree caching
+  fsverity: calculate readahead in bytes instead of pages
+  fsverity: add tracepoints
+  iomap: integrate fsverity verification into iomap's read path
+  xfs: add XBF_VERITY_SEEN xfs_buf flag
+  xfs: add XFS_DA_OP_BUFFER to make xfs_attr_get() return buffer
+  xfs: introduce workqueue for post read IO work
+  xfs: add attribute type for fs-verity
+  xfs: make xfs_buf_get() to take XBF_* flags
+  xfs: add XBF_DOUBLE_ALLOC to increase size of the buffer
+  xfs: add fs-verity ro-compat flag
+  xfs: add inode on-disk VERITY flag
+  xfs: initialize fs-verity on file open and cleanup on inode
+    destruction
+  xfs: don't allow to enable DAX on fs-verity sealsed inode
+  xfs: disable direct read path for fs-verity files
+  xfs: add fs-verity support
+  xfs: make scrub aware of verity dinode flag
+  xfs: add fs-verity ioctls
+  xfs: enable ro-compat fs-verity flag
+
+ Documentation/filesystems/fsverity.rst |  12 +
+ fs/btrfs/verity.c                      |   4 +-
+ fs/erofs/data.c                        |   4 +-
+ fs/ext4/verity.c                       |   3 +-
+ fs/f2fs/verity.c                       |   3 +-
+ fs/gfs2/aops.c                         |   4 +-
+ fs/ioctl.c                             |  11 +
+ fs/iomap/buffered-io.c                 | 102 +++++++-
+ fs/verity/enable.c                     |   9 +-
+ fs/verity/fsverity_private.h           |  30 ++-
+ fs/verity/init.c                       |   1 +
+ fs/verity/open.c                       |   9 +-
+ fs/verity/read_metadata.c              |  48 ++--
+ fs/verity/signature.c                  |   2 +
+ fs/verity/verify.c                     | 315 +++++++++++++++-------
+ fs/xfs/Makefile                        |   2 +
+ fs/xfs/libxfs/xfs_attr.c               |  31 ++-
+ fs/xfs/libxfs/xfs_attr.h               |   3 +-
+ fs/xfs/libxfs/xfs_attr_leaf.c          |  24 +-
+ fs/xfs/libxfs/xfs_attr_remote.c        |  39 ++-
+ fs/xfs/libxfs/xfs_da_btree.h           |   5 +-
+ fs/xfs/libxfs/xfs_da_format.h          |  68 ++++-
+ fs/xfs/libxfs/xfs_format.h             |  14 +-
+ fs/xfs/libxfs/xfs_log_format.h         |   2 +
+ fs/xfs/libxfs/xfs_ondisk.h             |   4 +
+ fs/xfs/libxfs/xfs_parent.c             | 113 ++++++++
+ fs/xfs/libxfs/xfs_parent.h             |  19 ++
+ fs/xfs/libxfs/xfs_sb.c                 |   4 +-
+ fs/xfs/scrub/attr.c                    |   4 +-
+ fs/xfs/xfs_aops.c                      |  15 +-
+ fs/xfs/xfs_attr_item.c                 |   6 +-
+ fs/xfs/xfs_attr_list.c                 |  14 +-
+ fs/xfs/xfs_buf.c                       |   6 +-
+ fs/xfs/xfs_buf.h                       |  23 +-
+ fs/xfs/xfs_file.c                      |  23 +-
+ fs/xfs/xfs_inode.c                     |   2 +
+ fs/xfs/xfs_inode.h                     |   3 +-
+ fs/xfs/xfs_ioctl.c                     |  22 ++
+ fs/xfs/xfs_iops.c                      |   4 +
+ fs/xfs/xfs_linux.h                     |   1 +
+ fs/xfs/xfs_mount.h                     |   3 +
+ fs/xfs/xfs_super.c                     |  19 ++
+ fs/xfs/xfs_trace.h                     |   4 +-
+ fs/xfs/xfs_verity.c                    | 348 +++++++++++++++++++++++++
+ fs/xfs/xfs_verity.h                    |  33 +++
+ fs/xfs/xfs_xattr.c                     |  10 +
+ fs/zonefs/file.c                       |   4 +-
+ include/linux/fsverity.h               |  73 +++++-
+ include/linux/iomap.h                  |   6 +-
+ include/trace/events/fsverity.h        | 184 +++++++++++++
+ include/uapi/linux/fs.h                |   1 +
+ 51 files changed, 1494 insertions(+), 199 deletions(-)
+ create mode 100644 fs/xfs/libxfs/xfs_parent.c
+ create mode 100644 fs/xfs/libxfs/xfs_parent.h
+ create mode 100644 fs/xfs/xfs_verity.c
+ create mode 100644 fs/xfs/xfs_verity.h
+ create mode 100644 include/trace/events/fsverity.h
+
+-- 
+2.42.0
 
