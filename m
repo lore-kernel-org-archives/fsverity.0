@@ -1,149 +1,143 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DB718E2A
-	for <fsverity@lists.linux.dev>; Sat, 24 Feb 2024 14:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFDEE55F
+	for <fsverity@lists.linux.dev>; Mon, 26 Feb 2024 02:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708783865; cv=none; b=arwo4w6ZOfly4Vl5IBsoPRKmkh3aYU2aemNOwY6VRUbQUWuSPAspHieninUQxsqH4vquARqQrzWG4I8/KXLRyAjhr50JCJRUFNQ5pP0+N+c70waT2NTKz5bV8PXIqqrtIodJvv12xxGBxn56Bgm4rksorXJfia6U0dO+a9nsLBk=
+	t=1708914278; cv=none; b=LGL+k92pH/gN4WqdueRuIDZtATRSIYFj5I6PLlYeoLiPm7sn/pLOYoS2MsNRkz3N8FSDOHBTapPwq0HvCxEQ2D70HLOxbtrzhLbb8+q2rFW9r8eOo34LDbUWyQ/c25FpcPNG8UifnIZGGwNWVC/YzEmrZl8MtvBtxKybJyE3X38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708783865; c=relaxed/simple;
-	bh=wAQeGIpU/b8zq/c8phVMxTlln1DrdldGBZvQmeoDpLs=;
+	s=arc-20240116; t=1708914278; c=relaxed/simple;
+	bh=X3AP6Bp6b6ancxowuXLy3iTRG7qx8UMTyerNezwbvHU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=TQyw+1ecF+pTSzF8WgR1tzgbtYRWpf+oCGqs5o1GbKsnitEwvcOpNA2CuvOaJinifmSE9vfldeC3IX0doqKonlwy0dUsn/NO0tivpQ8/305qxzgdOGaA2+xbeouLgv8lGjV3brynTsNUoIb1e2Up7cmg3rFzPOWbI91hm7hw10o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NXbVnqS3; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cQ8VbWqLS9Y279znMiOKjPC46aTg0+A49i06B2MhEPorLzGg5nqnZr8VylO9dp8DqeU6iMtiHxOlB+2qZAin4h0uPo47y1I+wNm9vw+kwZgH76AMwoXFm2WcPcjaiye9KImtWmSIeR8J3aLRZxJ4WMd/Wiw3nHPyVCCKObqkqXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=xted5inx; arc=none smtp.client-ip=209.85.160.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NXbVnqS3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708783862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AmvOSjy0MC5pHW1g/j3NOZPW4U2msOE708+NWPvQghI=;
-	b=NXbVnqS3Ax7cGdRJpGDax0uizvli5wsiuJmF7z3vUBLuxjfs6l51hPPro0xmT1nmu9kLAX
-	M55xpVRNmny/duu47+1Kvo5yzg1qzZralFGrxIZAPgWhk9boutzDURueBYNVFN18vlvXDx
-	XOriRLQq+fU1mZ6pEdITYZRRJIXcvF4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-571-dCUjKkvYOFaG1SmuKRLBEg-1; Sat, 24 Feb 2024 09:11:01 -0500
-X-MC-Unique: dCUjKkvYOFaG1SmuKRLBEg-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-563f8cf9f56so748683a12.1
-        for <fsverity@lists.linux.dev>; Sat, 24 Feb 2024 06:11:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="xted5inx"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-214def5da12so1506128fac.2
+        for <fsverity@lists.linux.dev>; Sun, 25 Feb 2024 18:24:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1708914276; x=1709519076; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=keFZRzXSEtuuqVK1R31f2mV75CisjCkl0caiItfXYno=;
+        b=xted5inxaUnrLwTt3KRpzKXffQNCOerkMxOby7/nOG9B3IZKS6ECUtlZ+m95QvXfxR
+         SOwWP5TC0rHrWy9f1am7qMIsAynsnzNAvR4r6c6y3DK0wVHAMeeGoCcSKzJ45F01VcNp
+         PtFjtMZjVD32Bn6/qvhZIypcIWrEvflbve88j4B2xtarVaCzLQ+dIXLpmm0h4fygOg6+
+         GjGoRT+PuarnNI2HGIzO7NbKEq2QnUXO11xVOcMzJHEmBE/Y8SQEDzfepKjOthMT6LG7
+         2NwX3wRXywgc5gIxFgndZPi5O/LlmN13wD0jxSI4pO7Vt2vFmlIs79k60vPbTQhwmVvR
+         WTog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708783860; x=1709388660;
+        d=1e100.net; s=20230601; t=1708914276; x=1709519076;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AmvOSjy0MC5pHW1g/j3NOZPW4U2msOE708+NWPvQghI=;
-        b=pv/kJS7/QjKiD0V1yXIeSrAuE77mqhUKjfFl+/SWE/f0QaGFY8SDn9kfrgbQinN09t
-         EPfYllKLmJ8iAYeWawgEtwfjN+wQcwv2MX6wzNKPy2iTz+ezFtVASP5IRVNmeFmz9Par
-         ZekuEEDLk8OIswEQwKaTpqJSDRx3qI1UKQv3TSvqs+tGYiSEY2c3NkUNuyK8CS2dRoKH
-         GRsylatybcVZfkhTMbuHl7Snebih566Bpy4hoLOrOdH0IY6sNDo9qvQ6CFLh0Y16mBYl
-         hOavJpuGpLEg+LaWd9csPDeMDguY6Q/72X8n854z8ztbYGiAGVOsTvxhfw+/6cEL20Vg
-         GVhg==
-X-Gm-Message-State: AOJu0YzfXSk+2mPKw5Pxzxe44icxOPgSx0YHjbmH30pj960boJYz8cAb
-	4FPP2EtSPoT2vXGQY9htGBHijJf/wmRON4H/zYLZWauTUEIZWI7ltHZTrCLb5J/L4MgtFVZZVQP
-	tvjr4Sm8FI8gonH9yWw301QD4BC6cr4mq37U1PlOz2eQ5h+tSbVy2ouM=
-X-Received: by 2002:aa7:d349:0:b0:565:be3f:bc4e with SMTP id m9-20020aa7d349000000b00565be3fbc4emr140220edr.29.1708783859906;
-        Sat, 24 Feb 2024 06:10:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGew91maGa6l3f9rKld2WFHMZa748gpse/xrdGzF3S87LGuem4A2sqelzLeBZShQmbV+ViTJw==
-X-Received: by 2002:aa7:d349:0:b0:565:be3f:bc4e with SMTP id m9-20020aa7d349000000b00565be3fbc4emr140209edr.29.1708783859588;
-        Sat, 24 Feb 2024 06:10:59 -0800 (PST)
-Received: from thinky ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id r26-20020aa7cb9a000000b00565b8f955b8sm209020edt.57.2024.02.24.06.10.58
+        bh=keFZRzXSEtuuqVK1R31f2mV75CisjCkl0caiItfXYno=;
+        b=Vh0g5UU/sqaBUK/3fmTY8y9YcLcWZea0q4kAAg0gp5WIf9e6SlNX/LatOmF2bKkW2X
+         sNBZxueaTK9IFH0j1zJZST/89uDCBr0Gz0c76sFpIJKnhvYMzo6wMAIXlcgjhbpwaUy0
+         oz3A17QsqdlYmwOhyLxFH/HMhwfdf7WNxH/e4Q3eq+eJamAF8mrEJQSnah0I4C4zp5Wr
+         tDPf2jvmhLYuTREhnw1lZ8xKMJvue5dgNBHy3eRhgTj3NYRYwwZ95nCmnfXC79HksX3d
+         t/REJe40WkHv7x4WyjcvdDI1jFk/5ORjMS3bgANxIVqVt75qkOW1BE9p+GizhukCcikv
+         mxRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWVeQ3XPOC+MSxO5mPgEUm6pXxY6agCoO5Od41ElAYIYVM8tgu9RYQ+LeRNr5P/6VtyJ1y7ZFHnBUAXn5N9I/vqyKtNSkNGyqg=
+X-Gm-Message-State: AOJu0YzSdK4YsNrUXiNQLDl2dS+yH1GKdZGySq4K0GpmJfEw6xwrU1Tg
+	T8DnoSXbB0ahZARG2NG4/CLAfssx0PYJqdMIHrsd+xOkiE7aLuTEnYnk9YUyPxg=
+X-Google-Smtp-Source: AGHT+IEtjhVGkg7sspmH17FkZdrCNpnZ3s/M4MIQx1Fz9aip/f8ld7pswsn1rXp6cfSHQpxNfDG3WQ==
+X-Received: by 2002:a05:6871:14a:b0:21e:8fb4:966a with SMTP id z10-20020a056871014a00b0021e8fb4966amr7455096oab.43.1708914276509;
+        Sun, 25 Feb 2024 18:24:36 -0800 (PST)
+Received: from dread.disaster.area (pa49-181-247-196.pa.nsw.optusnet.com.au. [49.181.247.196])
+        by smtp.gmail.com with ESMTPSA id o7-20020a63f147000000b005dc9439c56bsm2913980pgk.13.2024.02.25.18.24.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Feb 2024 06:10:59 -0800 (PST)
-Date: Sat, 24 Feb 2024 15:10:58 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
+        Sun, 25 Feb 2024 18:24:36 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+	(envelope-from <david@fromorbit.com>)
+	id 1reQfR-00BYvq-0r;
+	Mon, 26 Feb 2024 13:24:33 +1100
+Date: Mon, 26 Feb 2024 13:24:33 +1100
+From: Dave Chinner <david@fromorbit.com>
 To: Eric Biggers <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, chandan.babu@oracle.com, djwong@kernel.org
-Subject: Re: [PATCH v4 07/25] fsverity: support block-based Merkle tree
- caching
-Message-ID: <brwo67ff3o3tvkswlgbjselabvhh5hbsagg47hiiogpltkrcr7@yff2orlvntvs>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	chandan.babu@oracle.com, djwong@kernel.org
+Subject: Re: [PATCH v4 09/25] fsverity: add tracepoints
+Message-ID: <Zdv2YZP0sIzDA5UT@dread.disaster.area>
 References: <20240212165821.1901300-1-aalbersh@redhat.com>
- <20240212165821.1901300-8-aalbersh@redhat.com>
- <20240223052459.GC25631@sol.localdomain>
- <qojmht7l3lgx5hy7sqh5tru7u3uuowl5siszzcj3futgyqtbtv@pth44gm7ueog>
- <20240223180732.GC1112@sol.localdomain>
+ <20240212165821.1901300-10-aalbersh@redhat.com>
+ <20240223053156.GE25631@sol.localdomain>
+ <copvwl7uhxj7iqlms2tv6shk4ky7lce54jqugg7uiuxgbv34am@3x6pelescjlb>
+ <20240223182735.GD1112@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240223180732.GC1112@sol.localdomain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240223182735.GD1112@sol.localdomain>
 
-On 2024-02-23 10:07:32, Eric Biggers wrote:
-> On Fri, Feb 23, 2024 at 05:02:45PM +0100, Andrey Albershteyn wrote:
-> > > > +void fsverity_drop_block(struct inode *inode,
-> > > > +		struct fsverity_blockbuf *block)
-> > > > +{
-> > > > +	if (inode->i_sb->s_vop->drop_block)
-> > > > +		inode->i_sb->s_vop->drop_block(block);
-> > > > +	else {
-> > > > +		struct page *page = (struct page *)block->context;
-> > > > +
-> > > > +		/* Merkle tree block size == PAGE_SIZE; */
-> > > > +		if (block->verified)
-> > > > +			SetPageChecked(page);
-> > > > +
-> > > > +		kunmap_local(block->kaddr);
-> > > > +		put_page(page);
-> > > > +	}
-> > > > +}
+On Fri, Feb 23, 2024 at 10:27:35AM -0800, Eric Biggers wrote:
+> On Fri, Feb 23, 2024 at 02:23:52PM +0100, Andrey Albershteyn wrote:
+> > On 2024-02-22 21:31:56, Eric Biggers wrote:
+> > > On Mon, Feb 12, 2024 at 05:58:06PM +0100, Andrey Albershteyn wrote:
+> > > > fs-verity previously had debug printk but it was removed. This patch
+> > > > adds trace points to the same places where printk were used (with a
+> > > > few additional ones).
 > > > 
-> > > I don't think this is the logical place for the call to SetPageChecked().
-> > > verity_data_block() currently does:
+> > > Are all of these actually useful?  There's a maintenance cost to adding all of
+> > > these.
 > > > 
-> > >         if (vi->hash_block_verified)
-> > >                 set_bit(hblock_idx, vi->hash_block_verified);
-> > >         else
-> > >                 SetPageChecked(page);
-> > > 
-> > > You're proposing moving the SetPageChecked() to fsverity_drop_block().  Why?  We
-> > > should try to do things in a consistent place.
-> > > 
-> > > Similarly, I don't see why is_hash_block_verified() shouldn't keep the
-> > > PageChecked().
-> > > 
-> > > If we just keep PG_checked be get and set in the same places it currently is,
-> > > then adding fsverity_blockbuf::verified wouldn't be necessary.
-> > > 
-> > > Maybe you intended to move the awareness of PG_checked out of fs/verity/ and
-> > > into the filesystems?
 > > 
-> > yes
+> > Well, they were useful for me while testing/working on this
+> > patchset. Especially combining -e xfs -e fsverity was quite good for
+> > checking correctness and debugging with xfstests tests. They're
+> > probably could be handy if something breaks.
 > > 
-> > > Your change in how PG_checked is get and set is sort of a
-> > > step towards that, but it doesn't complete it.  It doesn't make sense to leave
-> > > in this half-finished state.
-> > 
-> > What do you think is missing? I didn't want to make too many changes
-> > to fs which already use fs-verity and completely change the
-> > interface, just to shift page handling stuff to middle layer
-> > functions. So yeah kinda "step towards" only :)
+> > Or you mean if each of them is useful? The ones which I added to
+> > signature verification probably aren't as useful as other; my
+> > intention adding them was to also cover these code paths.
 > 
-> In your patchset, PG_checked is get and set by fsverity_drop_block() and
-> fsverity_read_merkle_tree_block(), which are located in fs/verity/ and called by
-> other code in fs/verity/.  I don't see this as being a separate layer from the
-> rest of fs/verity/.  If it was done by the individual filesystems (e.g.
-> fs/ext4/) that would be different, but it's not.  I think keeping fs/verity/
-> aware of PG_checked is the right call, and it's not necessary to do the half-way
-> move that sort of moves it to a different place in the stack but not really.
-> 
-> - Eric
-> 
+> Well, I'll have to maintain all of these, including reviewing them, keeping them
+> working as code gets refactored, and fixing any bugs that exist or may get
+> introduced later in them.  They also increase the icache footprint of the code.
+> I'd like to make sure that it will be worthwhile.  The pr_debug messages that I
+> had put in fs/verity/ originally were slightly useful when writing fs/verity/
+> originally, but after that I never really used them.  Instead I found they
+> actually made patching fs/verity/ a bit harder, since I had to make sure to keep
+> all the pr_debug statements updated as code changed around them.
 
-I see, thanks! I will move back
+pr_debug is largely useless outside of code development purposes.
 
+The value in tracepoints is that they are available for diagnosing
+problems on production systems and should be thought of as such.
+Yes, you can also use them to debug development code, but in that
+environment they are no substitute for custom trace_printk() debug
+output.
+
+However, when you have extensive tracepoints coverage, the amount of
+custom trace_printk() stuff you need to add to a kernel to debug an
+issue ends up being limited, because most of the key state and
+object changes in the code are already covered by tracepoints.
+
+> Maybe I am an outlier and other people really do like having these tracepoints
+> around.  But I'd like to see a bit more feedback along those lines first.  If we
+> could keep them to a more minimal set, that would also be helpful.
+
+For people who are used to subsystems with extensive tracepoint
+coverage (like XFS), the lack of tracepoints in all the surrounding
+code is jarring. It makes the rest of the system feel like a black
+hole where detailed runtime introspection is almost completely
+impossible without a *lot* of work.
+
+Extensive tracepoints help everyone in the production support
+and diagnosis chain understand what is going on by providing easy to
+access runtime introspection for the code. i.e. they provide
+benefit to far more people than just the one kernel developer who
+enables pr_debug on the subsystem when developing new code...
+
+-Dave.
 -- 
-- Andrey
-
+Dave Chinner
+david@fromorbit.com
