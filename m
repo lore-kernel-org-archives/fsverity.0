@@ -1,63 +1,63 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7147AE4C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1669079B7C
 	for <fsverity@lists.linux.dev>; Mon,  4 Mar 2024 19:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709579546; cv=none; b=i1hGuiBfI74pzEZms73BCrGzDudpXF3BoxniA//CLNOvts17BkeXOsvcBOu56r0zkWwXqkfElBoO2fgtQ+Ju1mYWIRjdOVJ+KzUeAffV6OFmyeX7sjPvi0XUa2WNuWB8wXo4ooNNClwyOdDBOdx9QoxkncOLwJl3Xsu6uESlqXE=
+	t=1709579546; cv=none; b=SNwvBNvpX4mZc6LBItrNxTWcDvD5CHaM186dGnCSU+nZdWLo70wPNyk+2V4NvSy84F3g4F9unVYMwcXpebsGf5rMTiGqEETNV/RgYDRcUQs0SglHLEn1HfCvhmxaXy8DnDYDr/Rw54JuI7ILujPIwK1QlFKLETGCN56JWW3NM2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709579546; c=relaxed/simple;
-	bh=o7uJ1D+AEiS9SD66mTegf6KN6epDMi54+pW9bq/3KVk=;
+	bh=i1ofJYNBQYpDqkpf0knoA0oObWG+MRkgoeU7vYMM0x8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ns6kiFiMAueST4/az55TjxPINrka9pGBTRNkbkqeqISqBHgEeDPNSvsa5bzEvtbe8+Zon8FOOSQTTohRSyIDwwZrtUhGKLKuODuR6CCCb1sJnKxc7RVj6KwwgvEdz5bQGVZtWUn33i3kGbM6yGhAOz7vcoKgrEIExIYOYcU9930=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SrkHQUK0; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=PLu1Jy/5AU8M1Zue02p1pEbPF0RTixhdL+ZgjvMlTrzL0oy6F0cV504pCKwB+p51j6hVEaWTO5mN4rQP1waAk6sLjRgjm9c4p3pgnZ0V6uj2cVVzJiU95zA/x3ULx4w/4mJ7N+o7c6prAZkQOfagKGdqzKCOfJhcxPh3CHWTV9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CYl9Co1U; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SrkHQUK0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CYl9Co1U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709579542;
+	s=mimecast20190719; t=1709579543;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RWpQCn1MqyoizoX+vDeh9HZxEtqyPzNYVKfjAJQ9aww=;
-	b=SrkHQUK0mVbAUBIM00HtyhIU2cY4ZjuXTv91Q5PX0xlJIJH10JWLN7Drckdak5Yv249zN7
-	bmoLBPK5AVtP0yto1+3owjZHRJfRG8ttzxANBQpv5pelwbJFBalnpE9BAp9a5YS+ja2a/B
-	68a8ESsT3WG87rUQxZlcKs3RwuCv+zI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=rTI/symwuDCz2/BvbwsjBj7TSJADKxHjfQbz12pqk8c=;
+	b=CYl9Co1Uqvn6261RBR/vwsnzOSUQn15zkZ2gQ0JDTyHtx5tY7MTFRmcNiqPmW0xrbH8gYS
+	XYw5l48LAVuKS37gChcwlwoYY8Jr7c40r22H8oJRRPqQrycm0ExgoIxsbSxw73b6alzLce
+	UcKQIStTzd7t/3Lmt9ohscrPg4bAWqw=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-154-Cb7p34gPMrGBUj6kqItJXg-1; Mon, 04 Mar 2024 14:12:20 -0500
-X-MC-Unique: Cb7p34gPMrGBUj6kqItJXg-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a4488afb812so203659866b.3
-        for <fsverity@lists.linux.dev>; Mon, 04 Mar 2024 11:12:19 -0800 (PST)
+ us-mta-689-vRc9zUV2PNir3o7xHKFUmw-1; Mon, 04 Mar 2024 14:12:21 -0500
+X-MC-Unique: vRc9zUV2PNir3o7xHKFUmw-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a457d4105f6so55683466b.1
+        for <fsverity@lists.linux.dev>; Mon, 04 Mar 2024 11:12:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709579538; x=1710184338;
+        d=1e100.net; s=20230601; t=1709579540; x=1710184340;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RWpQCn1MqyoizoX+vDeh9HZxEtqyPzNYVKfjAJQ9aww=;
-        b=mHbZ2N5R8pPdliYeiceTG1W8d4Zp3BSeyxevqpZ581tC8rVlO7M7WT71PnbWIH0kf6
-         HHAkWshI6wd6qu3mUhh6kVAMFjxcQDBq7lkYJlS+Y4STeuE8/pZBlMLovje9YDXBZJUZ
-         u6PCcLW/Mc9tDsYfe5hQA7lp0VfzAXAmiA/JR2zh093I+RkYhw/huwePiqt9n00biiU1
-         RS0XoIgZ0Uo1gEZVdpEXAvexUKgzEUBF6+BTY6FyDwjoTsOV7xnwy2h3ok8381/7FB+l
-         PmWD2U/eYXQR6Hu8clkUTwBM/s1YuQEMCD2f/dMJvJ3Vn71CvdnsG2JmzF4tKf4SKZDF
-         vEZA==
-X-Gm-Message-State: AOJu0YzQFYtB86+CW/zch6YvzRSZsNyA5XI3oPfsjdr2WgofRHns0yjU
-	Jrp7Arr1Fvo5mVwbDKIdZN56nlnw7AfBPwLXHSHBxzsPwFlA6QacMTfyJ+tFP0BM//Jc9M4/Bvm
-	5ypnJShYNEzXO3MOUf/cPHWx3y5jyTPMZoA0GGwqxkAPts8O459LPCiQmyirrMpi8x+DcjUCAEm
-	dJJ6/N9per3bT5ACuA2BKqGIOP09VHE4El+iOqQNc=
-X-Received: by 2002:a17:906:34c6:b0:a45:7d2d:e30d with SMTP id h6-20020a17090634c600b00a457d2de30dmr1478223ejb.59.1709579538074;
-        Mon, 04 Mar 2024 11:12:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF+LKhizsky/7SBgic7k1nlQC+irhLE9MRjvAA/rgDkvG8WAek47SPe1EqbZrQt+AtMULBp8A==
-X-Received: by 2002:a17:906:34c6:b0:a45:7d2d:e30d with SMTP id h6-20020a17090634c600b00a457d2de30dmr1478193ejb.59.1709579537332;
-        Mon, 04 Mar 2024 11:12:17 -0800 (PST)
+        bh=rTI/symwuDCz2/BvbwsjBj7TSJADKxHjfQbz12pqk8c=;
+        b=W7ChJbGopyNacdEE1OSKniwbaUT7Sue0HEpxfacNadnINYcMhZH0Rg541qh8XlLpJ4
+         llzVcxCORaAAebR5iWLJWPnlfsaYUymBzIogAXCOit1gGYzY/7shDNuZ2X5UgNm7smDI
+         p5fd126V/VP38wjAY639JQskKKtWX2RqYsmtx6FB88KJIimr9dscpiFRXJ7AIB0mxGVM
+         zWwEoU12A6cJ+5EqNjQGMRbXe2WxeAmTUS9dA16CTiYq+yOuPEi57HtwyMF/hCyuXYSQ
+         v0I6WqjrafbXt0MQLYpgrkb9em6gPBYmqHtZEQTfpSlGATKhy2MIqHB4weq05mYWOHdg
+         gYfg==
+X-Gm-Message-State: AOJu0Yxqg2L+En5EuDAl23/LespNlTzVF0fW0rnFcaTJU+k5eAWrPYr3
+	bvDoe3HO0hAksmhLj+lTErx2tF+5MIcFTp3kx6sMJbskFRZ2VTBHmAsd9rFXCg0TBKlwApNQNZk
+	LGehY1Rszdl5X+jwdG6pSe1WjXlxvf0Xe8GallqRNO+xi7K7PU7O6AiZljlNvttvF6eXO8Dvx4i
+	gBoUUgwWiLryKa2ttxCIB8Hd6iaNvg4kj2w4U030k=
+X-Received: by 2002:a17:906:4558:b0:a43:9857:8112 with SMTP id s24-20020a170906455800b00a4398578112mr7269266ejq.20.1709579539828;
+        Mon, 04 Mar 2024 11:12:19 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHQpz2FH9WjfaOuXPTLwhSfJSvmfQpibE0LEmBwBUsLCZzxRvN9RYWQAdB3hv4zNVK4Zc7VPg==
+X-Received: by 2002:a17:906:4558:b0:a43:9857:8112 with SMTP id s24-20020a170906455800b00a4398578112mr7269240ejq.20.1709579539331;
+        Mon, 04 Mar 2024 11:12:19 -0800 (PST)
 Received: from thinky.redhat.com ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id a11-20020a1709064a4b00b00a44a04aa3cfsm3783319ejv.225.2024.03.04.11.12.16
+        by smtp.gmail.com with ESMTPSA id a11-20020a1709064a4b00b00a44a04aa3cfsm3783319ejv.225.2024.03.04.11.12.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 11:12:16 -0800 (PST)
+        Mon, 04 Mar 2024 11:12:19 -0800 (PST)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: fsverity@lists.linux.dev,
 	linux-xfs@vger.kernel.org,
@@ -66,9 +66,9 @@ To: fsverity@lists.linux.dev,
 	djwong@kernel.org,
 	ebiggers@kernel.org
 Cc: Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v5 07/24] fsverity: support block-based Merkle tree caching
-Date: Mon,  4 Mar 2024 20:10:30 +0100
-Message-ID: <20240304191046.157464-9-aalbersh@redhat.com>
+Subject: [PATCH v5 09/24] fsverity: add tracepoints
+Date: Mon,  4 Mar 2024 20:10:32 +0100
+Message-ID: <20240304191046.157464-11-aalbersh@redhat.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20240304191046.157464-2-aalbersh@redhat.com>
 References: <20240304191046.157464-2-aalbersh@redhat.com>
@@ -83,494 +83,317 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-In the current implementation fs-verity expects filesystem to
-provide PAGEs filled with Merkle tree blocks. Then, when fs-verity
-is done with processing the blocks, reference to PAGE is freed. This
-doesn't fit well with the way XFS manages its memory.
-
-To allow XFS integrate fs-verity this patch adds ability to
-fs-verity verification code to take Merkle tree blocks instead of
-PAGE reference. This way ext4, f2fs, and btrfs are still able to
-pass PAGE references and XFS can pass reference to Merkle tree
-blocks stored in XFS's buffer infrastructure.
-
-Another addition is invalidation function which tells fs-verity to
-mark part of Merkle tree as not verified. This function is used
-by filesystem to tell fs-verity to invalidate block which was
-evicted from memory.
-
-Depending on Merkle tree block size fs-verity is using either bitmap
-or PG_checked flag to track "verified" status of the blocks. With a
-Merkle tree block caching (XFS) there is no PAGE to flag it as
-verified. fs-verity always uses bitmap to track verified blocks for
-filesystems which use block caching.
-
-Further this patch allows filesystem to make additional processing
-on verified pages via fsverity_drop_block() instead of just dropping
-a reference. This will be used by XFS for internal buffer cache
-manipulation in further patches. The btrfs, ext4, and f2fs just drop
-the reference.
+fs-verity previously had debug printk but it was removed. This patch
+adds trace points to the same places where printk were used (with a
+few additional ones).
 
 Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
 ---
- fs/verity/fsverity_private.h |   8 +++
- fs/verity/open.c             |   8 ++-
- fs/verity/read_metadata.c    |  64 +++++++++++-------
- fs/verity/verify.c           | 125 +++++++++++++++++++++++++++--------
- include/linux/fsverity.h     |  65 ++++++++++++++++++
- 5 files changed, 217 insertions(+), 53 deletions(-)
+ MAINTAINERS                     |   1 +
+ fs/verity/enable.c              |   3 +
+ fs/verity/fsverity_private.h    |   2 +
+ fs/verity/init.c                |   1 +
+ fs/verity/signature.c           |   2 +
+ fs/verity/verify.c              |   7 ++
+ include/trace/events/fsverity.h | 181 ++++++++++++++++++++++++++++++++
+ 7 files changed, 197 insertions(+)
+ create mode 100644 include/trace/events/fsverity.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2ecaaec6a6bf..49888dd5cbbd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8745,6 +8745,7 @@ T:	git https://git.kernel.org/pub/scm/fs/fsverity/linux.git
+ F:	Documentation/filesystems/fsverity.rst
+ F:	fs/verity/
+ F:	include/linux/fsverity.h
++F:	include/trace/events/fsverity.h
+ F:	include/uapi/linux/fsverity.h
+ 
+ FT260 FTDI USB-HID TO I2C BRIDGE DRIVER
+diff --git a/fs/verity/enable.c b/fs/verity/enable.c
+index 04e060880b79..945eba0092ab 100644
+--- a/fs/verity/enable.c
++++ b/fs/verity/enable.c
+@@ -227,6 +227,8 @@ static int enable_verity(struct file *filp,
+ 	if (err)
+ 		goto out;
+ 
++	trace_fsverity_enable(inode, desc, &params);
++
+ 	/*
+ 	 * Start enabling verity on this file, serialized by the inode lock.
+ 	 * Fail if verity is already enabled or is already being enabled.
+@@ -255,6 +257,7 @@ static int enable_verity(struct file *filp,
+ 		fsverity_err(inode, "Error %d building Merkle tree", err);
+ 		goto rollback;
+ 	}
++	trace_fsverity_tree_done(inode, desc, &params);
+ 
+ 	/*
+ 	 * Create the fsverity_info.  Don't bother trying to save work by
 diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-index b3506f56e180..dad33e6ff0d6 100644
+index dad33e6ff0d6..fd8f5a8d1f6a 100644
 --- a/fs/verity/fsverity_private.h
 +++ b/fs/verity/fsverity_private.h
-@@ -154,4 +154,12 @@ static inline void fsverity_init_signature(void)
+@@ -162,4 +162,6 @@ void __init fsverity_init_workqueue(void);
+ void fsverity_drop_block(struct inode *inode,
+ 			 struct fsverity_blockbuf *block);
  
- void __init fsverity_init_workqueue(void);
- 
-+/*
-+ * Drop 'block' obtained with ->read_merkle_tree_block(). Calls out back to
-+ * filesystem if ->drop_block() is set, otherwise, drop the reference in the
-+ * block->context.
-+ */
-+void fsverity_drop_block(struct inode *inode,
-+			 struct fsverity_blockbuf *block);
++#include <trace/events/fsverity.h>
 +
  #endif /* _FSVERITY_PRIVATE_H */
-diff --git a/fs/verity/open.c b/fs/verity/open.c
-index fdeb95eca3af..6e6922b4b014 100644
---- a/fs/verity/open.c
-+++ b/fs/verity/open.c
-@@ -213,7 +213,13 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
- 	if (err)
- 		goto fail;
+diff --git a/fs/verity/init.c b/fs/verity/init.c
+index cb2c9aac61ed..3769d2dc9e3b 100644
+--- a/fs/verity/init.c
++++ b/fs/verity/init.c
+@@ -5,6 +5,7 @@
+  * Copyright 2019 Google LLC
+  */
  
--	if (vi->tree_params.block_size != PAGE_SIZE) {
-+	/*
-+	 * If fs passes Merkle tree blocks to fs-verity (e.g. XFS), then
-+	 * fs-verity should use hash_block_verified bitmap as there's no page
-+	 * to mark it with PG_checked.
-+	 */
-+	if (vi->tree_params.block_size != PAGE_SIZE ||
-+			inode->i_sb->s_vop->read_merkle_tree_block) {
- 		/*
- 		 * When the Merkle tree block size and page size differ, we use
- 		 * a bitmap to keep track of which hash blocks have been
-diff --git a/fs/verity/read_metadata.c b/fs/verity/read_metadata.c
-index f58432772d9e..5da40b5a81af 100644
---- a/fs/verity/read_metadata.c
-+++ b/fs/verity/read_metadata.c
-@@ -18,50 +18,68 @@ static int fsverity_read_merkle_tree(struct inode *inode,
- {
- 	const struct fsverity_operations *vops = inode->i_sb->s_vop;
- 	u64 end_offset;
--	unsigned int offs_in_page;
-+	unsigned int offs_in_block;
- 	pgoff_t index, last_index;
- 	int retval = 0;
- 	int err = 0;
-+	const unsigned int block_size = vi->tree_params.block_size;
-+	const u8 log_blocksize = vi->tree_params.log_blocksize;
++#define CREATE_TRACE_POINTS
+ #include "fsverity_private.h"
  
- 	end_offset = min(offset + length, vi->tree_params.tree_size);
- 	if (offset >= end_offset)
- 		return 0;
--	offs_in_page = offset_in_page(offset);
--	last_index = (end_offset - 1) >> PAGE_SHIFT;
-+	offs_in_block = offset & (block_size - 1);
-+	last_index = (end_offset - 1) >> log_blocksize;
+ #include <linux/ratelimit.h>
+diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+index 90c07573dd77..c1f08bb32ed1 100644
+--- a/fs/verity/signature.c
++++ b/fs/verity/signature.c
+@@ -53,6 +53,8 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
+ 	struct fsverity_formatted_digest *d;
+ 	int err;
  
- 	/*
--	 * Iterate through each Merkle tree page in the requested range and copy
--	 * the requested portion to userspace.  Note that the Merkle tree block
--	 * size isn't important here, as we are returning a byte stream; i.e.,
--	 * we can just work with pages even if the tree block size != PAGE_SIZE.
-+	 * Iterate through each Merkle tree block in the requested range and
-+	 * copy the requested portion to userspace. Note that we are returning
-+	 * a byte stream.
- 	 */
--	for (index = offset >> PAGE_SHIFT; index <= last_index; index++) {
-+	for (index = offset >> log_blocksize; index <= last_index; index++) {
- 		unsigned long num_ra_pages =
- 			min_t(unsigned long, last_index - index + 1,
- 			      inode->i_sb->s_bdi->io_pages);
- 		unsigned int bytes_to_copy = min_t(u64, end_offset - offset,
--						   PAGE_SIZE - offs_in_page);
--		struct page *page;
--		const void *virt;
-+						   block_size - offs_in_block);
-+		struct fsverity_blockbuf block = {
-+			.size = block_size,
-+		};
- 
--		page = vops->read_merkle_tree_page(inode, index, num_ra_pages);
--		if (IS_ERR(page)) {
--			err = PTR_ERR(page);
-+		if (!vops->read_merkle_tree_block) {
-+			unsigned int blocks_per_page =
-+				vi->tree_params.blocks_per_page;
-+			unsigned long page_idx =
-+				round_down(index, blocks_per_page);
-+			struct page *page = vops->read_merkle_tree_page(inode,
-+					page_idx, num_ra_pages);
++	trace_fsverity_verify_signature(inode, signature, sig_size);
 +
-+			if (IS_ERR(page)) {
-+				err = PTR_ERR(page);
-+			} else {
-+				block.kaddr = kmap_local_page(page) +
-+					((index - page_idx) << log_blocksize);
-+				block.context = page;
-+			}
-+		} else {
-+			err = vops->read_merkle_tree_block(inode,
-+					index << log_blocksize,
-+					&block, log_blocksize, num_ra_pages);
-+		}
-+
-+		if (err) {
+ 	if (sig_size == 0) {
+ 		if (fsverity_require_signatures) {
  			fsverity_err(inode,
--				     "Error %d reading Merkle tree page %lu",
--				     err, index);
-+				     "Error %d reading Merkle tree block %lu",
-+				     err, index << log_blocksize);
- 			break;
- 		}
- 
--		virt = kmap_local_page(page);
--		if (copy_to_user(buf, virt + offs_in_page, bytes_to_copy)) {
--			kunmap_local(virt);
--			put_page(page);
-+		if (copy_to_user(buf, block.kaddr + offs_in_block, bytes_to_copy)) {
-+			fsverity_drop_block(inode, &block);
- 			err = -EFAULT;
- 			break;
- 		}
--		kunmap_local(virt);
--		put_page(page);
-+		fsverity_drop_block(inode, &block);
- 
- 		retval += bytes_to_copy;
- 		buf += bytes_to_copy;
-@@ -72,7 +90,7 @@ static int fsverity_read_merkle_tree(struct inode *inode,
- 			break;
- 		}
- 		cond_resched();
--		offs_in_page = 0;
-+		offs_in_block = 0;
- 	}
- 	return retval ? retval : err;
- }
 diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-index 4fcad0825a12..de71911d400c 100644
+index de71911d400c..614776e7a2b6 100644
 --- a/fs/verity/verify.c
 +++ b/fs/verity/verify.c
-@@ -13,14 +13,17 @@
- static struct workqueue_struct *fsverity_read_workqueue;
- 
- /*
-- * Returns true if the hash block with index @hblock_idx in the tree, located in
-- * @hpage, has already been verified.
-+ * Returns true if the hash block with index @hblock_idx in the tree has
-+ * already been verified.
-  */
--static bool is_hash_block_verified(struct fsverity_info *vi, struct page *hpage,
-+static bool is_hash_block_verified(struct inode *inode,
-+				   struct fsverity_blockbuf *block,
- 				   unsigned long hblock_idx)
- {
- 	unsigned int blocks_per_page;
- 	unsigned int i;
-+	struct fsverity_info *vi = inode->i_verity_info;
-+	struct page *hpage = (struct page *)block->context;
- 
- 	/*
- 	 * When the Merkle tree block size and page size are the same, then the
-@@ -34,6 +37,12 @@ static bool is_hash_block_verified(struct fsverity_info *vi, struct page *hpage,
- 	if (!vi->hash_block_verified)
- 		return PageChecked(hpage);
- 
-+	/*
-+	 * Filesystems which use block based caching (e.g. XFS) always use
-+	 * bitmap.
-+	 */
-+	if (inode->i_sb->s_vop->read_merkle_tree_block)
-+		return test_bit(hblock_idx, vi->hash_block_verified);
- 	/*
- 	 * When the Merkle tree block size and page size differ, we use a bitmap
- 	 * to indicate whether each hash block has been verified.
-@@ -95,15 +104,15 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 	const struct merkle_tree_params *params = &vi->tree_params;
- 	const unsigned int hsize = params->digest_size;
- 	int level;
-+	int err;
-+	int num_ra_pages;
- 	u8 _want_hash[FS_VERITY_MAX_DIGEST_SIZE];
- 	const u8 *want_hash;
- 	u8 real_hash[FS_VERITY_MAX_DIGEST_SIZE];
- 	/* The hash blocks that are traversed, indexed by level */
- 	struct {
--		/* Page containing the hash block */
--		struct page *page;
--		/* Mapped address of the hash block (will be within @page) */
--		const void *addr;
-+		/* Buffer containing the hash block */
-+		struct fsverity_blockbuf block;
- 		/* Index of the hash block in the tree overall */
- 		unsigned long index;
+@@ -118,6 +118,7 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
  		/* Byte offset of the wanted hash relative to @addr */
-@@ -144,10 +153,11 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 		unsigned long next_hidx;
- 		unsigned long hblock_idx;
- 		pgoff_t hpage_idx;
-+		u64 hblock_pos;
- 		unsigned int hblock_offset_in_page;
  		unsigned int hoffset;
- 		struct page *hpage;
--		const void *haddr;
-+		struct fsverity_blockbuf *block = &hblocks[level].block;
- 
- 		/*
- 		 * The index of the block in the current level; also the index
-@@ -165,29 +175,49 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 		hblock_offset_in_page =
- 			(hblock_idx << params->log_blocksize) & ~PAGE_MASK;
- 
-+		/* Offset of the Merkle tree block into the tree */
-+		hblock_pos = hblock_idx << params->log_blocksize;
-+
- 		/* Byte offset of the hash within the block */
- 		hoffset = (hidx << params->log_digestsize) &
- 			  (params->block_size - 1);
- 
--		hpage = inode->i_sb->s_vop->read_merkle_tree_page(inode,
--				hpage_idx, level == 0 ? min(max_ra_pages,
--					params->tree_pages - hpage_idx) : 0);
--		if (IS_ERR(hpage)) {
-+		num_ra_pages = level == 0 ?
-+			min(max_ra_pages, params->tree_pages - hpage_idx) : 0;
-+
-+		if (inode->i_sb->s_vop->read_merkle_tree_block) {
-+			err = inode->i_sb->s_vop->read_merkle_tree_block(
-+				inode, hblock_pos, block, params->log_blocksize,
-+				num_ra_pages);
-+		} else {
-+			unsigned int blocks_per_page =
-+				vi->tree_params.blocks_per_page;
-+			hblock_idx = round_down(hblock_idx, blocks_per_page);
-+			hpage = inode->i_sb->s_vop->read_merkle_tree_page(
-+				inode, hpage_idx, (num_ra_pages << PAGE_SHIFT));
-+
-+			if (IS_ERR(hpage)) {
-+				err = PTR_ERR(hpage);
-+			} else {
-+				block->kaddr = kmap_local_page(hpage) +
-+					hblock_offset_in_page;
-+				block->context = hpage;
-+			}
-+		}
-+
-+		if (err) {
- 			fsverity_err(inode,
--				     "Error %ld reading Merkle tree page %lu",
--				     PTR_ERR(hpage), hpage_idx);
-+				     "Error %d reading Merkle tree block %lu",
-+				     err, hblock_idx);
- 			goto error;
- 		}
--		haddr = kmap_local_page(hpage) + hblock_offset_in_page;
--		if (is_hash_block_verified(vi, hpage, hblock_idx)) {
--			memcpy(_want_hash, haddr + hoffset, hsize);
-+
-+		if (is_hash_block_verified(inode, block, hblock_idx)) {
-+			memcpy(_want_hash, block->kaddr + hoffset, hsize);
+ 	} hblocks[FS_VERITY_MAX_LEVELS];
++	trace_fsverity_verify_block(inode, data_pos);
+ 	/*
+ 	 * The index of the previous level's block within that level; also the
+ 	 * index of that block's hash within the current level.
+@@ -215,6 +216,8 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+ 		if (is_hash_block_verified(inode, block, hblock_idx)) {
+ 			memcpy(_want_hash, block->kaddr + hoffset, hsize);
  			want_hash = _want_hash;
--			kunmap_local(haddr);
--			put_page(hpage);
-+			fsverity_drop_block(inode, block);
++			trace_fsverity_merkle_tree_block_verified(inode,
++					block, FSVERITY_TRACE_DIR_ASCEND);
+ 			fsverity_drop_block(inode, block);
  			goto descend;
  		}
--		hblocks[level].page = hpage;
--		hblocks[level].addr = haddr;
- 		hblocks[level].index = hblock_idx;
- 		hblocks[level].hoffset = hoffset;
- 		hidx = next_hidx;
-@@ -197,10 +227,11 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
- descend:
- 	/* Descend the tree verifying hash blocks. */
- 	for (; level > 0; level--) {
--		struct page *hpage = hblocks[level - 1].page;
--		const void *haddr = hblocks[level - 1].addr;
-+		struct fsverity_blockbuf *block = &hblocks[level - 1].block;
-+		const void *haddr = block->kaddr;
- 		unsigned long hblock_idx = hblocks[level - 1].index;
- 		unsigned int hoffset = hblocks[level - 1].hoffset;
-+		struct page *hpage = (struct page *)block->context;
- 
- 		if (fsverity_hash_block(params, inode, haddr, real_hash) != 0)
- 			goto error;
-@@ -217,8 +248,7 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+@@ -248,6 +251,8 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
  			SetPageChecked(hpage);
  		memcpy(_want_hash, haddr + hoffset, hsize);
  		want_hash = _want_hash;
--		kunmap_local(haddr);
--		put_page(hpage);
-+		fsverity_drop_block(inode, block);
++		trace_fsverity_merkle_tree_block_verified(inode, block,
++				FSVERITY_TRACE_DIR_DESCEND);
+ 		fsverity_drop_block(inode, block);
  	}
  
- 	/* Finally, verify the data block. */
-@@ -235,10 +265,8 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 		     params->hash_alg->name, hsize, want_hash,
- 		     params->hash_alg->name, hsize, real_hash);
- error:
--	for (; level > 0; level--) {
--		kunmap_local(hblocks[level - 1].addr);
--		put_page(hblocks[level - 1].page);
--	}
-+	for (; level > 0; level--)
-+		fsverity_drop_block(inode, &hblocks[level - 1].block);
- 	return false;
- }
+@@ -405,6 +410,8 @@ void fsverity_invalidate_block(struct inode *inode,
+ 	struct fsverity_info *vi = inode->i_verity_info;
+ 	const unsigned int log_blocksize = vi->tree_params.log_blocksize;
  
-@@ -362,3 +390,42 @@ void __init fsverity_init_workqueue(void)
- 	if (!fsverity_read_workqueue)
- 		panic("failed to allocate fsverity_read_queue");
- }
++	trace_fsverity_invalidate_block(inode, block);
 +
-+/**
-+ * fsverity_invalidate_block() - invalidate Merkle tree block
-+ * @inode: inode to which this Merkle tree blocks belong
-+ * @block: block to be invalidated
-+ *
-+ * This function invalidates/clears "verified" state of Merkle tree block
-+ * in the fs-verity bitmap. The block needs to have ->offset set.
-+ */
-+void fsverity_invalidate_block(struct inode *inode,
-+		struct fsverity_blockbuf *block)
-+{
-+	struct fsverity_info *vi = inode->i_verity_info;
-+	const unsigned int log_blocksize = vi->tree_params.log_blocksize;
+ 	if (block->offset > vi->tree_params.tree_size) {
+ 		fsverity_err(inode,
+ "Trying to invalidate beyond Merkle tree (tree %lld, offset %lld)",
+diff --git a/include/trace/events/fsverity.h b/include/trace/events/fsverity.h
+new file mode 100644
+index 000000000000..82966ecc5722
+--- /dev/null
++++ b/include/trace/events/fsverity.h
+@@ -0,0 +1,181 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM fsverity
 +
-+	if (block->offset > vi->tree_params.tree_size) {
-+		fsverity_err(inode,
-+"Trying to invalidate beyond Merkle tree (tree %lld, offset %lld)",
-+			     vi->tree_params.tree_size, block->offset);
-+		return;
-+	}
++#if !defined(_TRACE_FSVERITY_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_FSVERITY_H
 +
-+	clear_bit(block->offset >> log_blocksize, vi->hash_block_verified);
-+}
-+EXPORT_SYMBOL_GPL(fsverity_invalidate_block);
++#include <linux/tracepoint.h>
 +
-+void fsverity_drop_block(struct inode *inode,
-+		struct fsverity_blockbuf *block)
-+{
-+	if (inode->i_sb->s_vop->drop_block)
-+		inode->i_sb->s_vop->drop_block(block);
-+	else {
-+		struct page *page = (struct page *)block->context;
++struct fsverity_descriptor;
++struct merkle_tree_params;
++struct fsverity_info;
 +
-+		kunmap_local(block->kaddr);
-+		put_page(page);
-+	}
-+	block->kaddr = NULL;
-+}
-diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
-index ac58b19f23d3..0973b521ac5a 100644
---- a/include/linux/fsverity.h
-+++ b/include/linux/fsverity.h
-@@ -26,6 +26,33 @@
- /* Arbitrary limit to bound the kmalloc() size.  Can be changed. */
- #define FS_VERITY_MAX_DESCRIPTOR_SIZE	16384
- 
-+/**
-+ * struct fsverity_blockbuf - Merkle Tree block buffer
-+ * @kaddr: virtual address of the block's data
-+ * @offset: block's offset into Merkle tree
-+ * @size: the Merkle tree block size
-+ * @context: filesystem private context
-+ *
-+ * Buffer containing single Merkle Tree block. These buffers are passed
-+ *  - to filesystem, when fs-verity is building merkel tree,
-+ *  - from filesystem, when fs-verity is reading merkle tree from a disk.
-+ * Filesystems sets kaddr together with size to point to a memory which contains
-+ * Merkle tree block. Same is done by fs-verity when Merkle tree is need to be
-+ * written down to disk.
-+ *
-+ * While reading the tree, fs-verity calls ->read_merkle_tree_block followed by
-+ * ->drop_block to let filesystem know that memory can be freed.
-+ *
-+ * The context is optional. This field can be used by filesystem to passthrough
-+ * state from ->read_merkle_tree_block to ->drop_block.
-+ */
-+struct fsverity_blockbuf {
-+	void *kaddr;
-+	u64 offset;
-+	unsigned int size;
-+	void *context;
-+};
++#define FSVERITY_TRACE_DIR_ASCEND	(1ul << 0)
++#define FSVERITY_TRACE_DIR_DESCEND	(1ul << 1)
++#define FSVERITY_HASH_SHOWN_LEN		20
 +
- /* Verity operations for filesystems */
- struct fsverity_operations {
- 
-@@ -107,6 +134,32 @@ struct fsverity_operations {
- 					      pgoff_t index,
- 					      unsigned long num_ra_pages);
- 
-+	/**
-+	 * Read a Merkle tree block of the given inode.
-+	 * @inode: the inode
-+	 * @pos: byte offset of the block within the Merkle tree
-+	 * @block: block buffer for filesystem to point it to the block
-+	 * @log_blocksize: log2 of the size of the expected block
-+	 * @ra_bytes: The number of bytes that should be
-+	 *		prefetched starting at @pos if the page at @pos
-+	 *		isn't already cached.  Implementations may ignore this
-+	 *		argument; it's only a performance optimization.
-+	 *
-+	 * This can be called at any time on an open verity file.  It may be
-+	 * called by multiple processes concurrently.
-+	 *
-+	 * In case that block was evicted from the memory filesystem has to use
-+	 * fsverity_invalidate_block() to let fsverity know that block's
-+	 * verification state is not valid anymore.
-+	 *
-+	 * Return: 0 on success, -errno on failure
-+	 */
-+	int (*read_merkle_tree_block)(struct inode *inode,
-+				      u64 pos,
-+				      struct fsverity_blockbuf *block,
-+				      unsigned int log_blocksize,
-+				      u64 ra_bytes);
++TRACE_EVENT(fsverity_enable,
++	TP_PROTO(struct inode *inode, struct fsverity_descriptor *desc,
++		struct merkle_tree_params *params),
++	TP_ARGS(inode, desc, params),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, data_size)
++		__field(unsigned int, block_size)
++		__field(unsigned int, num_levels)
++		__field(u64, tree_size)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->data_size = desc->data_size;
++		__entry->block_size = params->block_size;
++		__entry->num_levels = params->num_levels;
++		__entry->tree_size = params->tree_size;
++	),
++	TP_printk("ino %lu data size %llu tree size %llu block size %u levels %u",
++		(unsigned long) __entry->ino,
++		__entry->data_size,
++		__entry->tree_size,
++		__entry->block_size,
++		__entry->num_levels)
++);
 +
- 	/**
- 	 * Write a Merkle tree block to the given inode.
- 	 *
-@@ -122,6 +175,16 @@ struct fsverity_operations {
- 	 */
- 	int (*write_merkle_tree_block)(struct inode *inode, const void *buf,
- 				       u64 pos, unsigned int size);
++TRACE_EVENT(fsverity_tree_done,
++	TP_PROTO(struct inode *inode, struct fsverity_descriptor *desc,
++		struct merkle_tree_params *params),
++	TP_ARGS(inode, desc, params),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(unsigned int, levels)
++		__field(unsigned int, tree_blocks)
++		__field(u64, tree_size)
++		__array(u8, tree_hash, 64)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->levels = params->num_levels;
++		__entry->tree_blocks =
++			params->tree_size >> params->log_blocksize;
++		__entry->tree_size = params->tree_size;
++		memcpy(__entry->tree_hash, desc->root_hash, 64);
++	),
++	TP_printk("ino %lu levels %d tree_blocks %d tree_size %lld root_hash %s",
++		(unsigned long) __entry->ino,
++		__entry->levels,
++		__entry->tree_blocks,
++		__entry->tree_size,
++		__print_hex(__entry->tree_hash, 64))
++);
 +
-+	/**
-+	 * Release the reference to a Merkle tree block
-+	 *
-+	 * @block: the block to release
-+	 *
-+	 * This is called when fs-verity is done with a block obtained with
-+	 * ->read_merkle_tree_block().
-+	 */
-+	void (*drop_block)(struct fsverity_blockbuf *block);
- };
- 
- #ifdef CONFIG_FS_VERITY
-@@ -175,6 +238,8 @@ int fsverity_ioctl_read_metadata(struct file *filp, const void __user *uarg);
- bool fsverity_verify_blocks(struct folio *folio, size_t len, size_t offset);
- void fsverity_verify_bio(struct bio *bio);
- void fsverity_enqueue_verify_work(struct work_struct *work);
-+void fsverity_invalidate_block(struct inode *inode,
-+		struct fsverity_blockbuf *block);
- 
- #else /* !CONFIG_FS_VERITY */
- 
++TRACE_EVENT(fsverity_verify_block,
++	TP_PROTO(struct inode *inode, u64 offset),
++	TP_ARGS(inode, offset),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, offset)
++		__field(unsigned int, block_size)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->offset = offset;
++		__entry->block_size =
++			inode->i_verity_info->tree_params.block_size;
++	),
++	TP_printk("ino %lu data offset %lld data block size %u",
++		(unsigned long) __entry->ino,
++		__entry->offset,
++		__entry->block_size)
++);
++
++TRACE_EVENT(fsverity_merkle_tree_block_verified,
++	TP_PROTO(struct inode *inode,
++		 struct fsverity_blockbuf *block,
++		 u8 direction),
++	TP_ARGS(inode, block, direction),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, offset)
++		__field(u8, direction)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->offset = block->offset;
++		__entry->direction = direction;
++	),
++	TP_printk("ino %lu block offset %llu %s",
++		(unsigned long) __entry->ino,
++		__entry->offset,
++		__entry->direction == 0 ? "ascend" : "descend")
++);
++
++TRACE_EVENT(fsverity_invalidate_block,
++	TP_PROTO(struct inode *inode, struct fsverity_blockbuf *block),
++	TP_ARGS(inode, block),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, offset)
++		__field(unsigned int, block_size)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->offset = block->offset;
++		__entry->block_size = block->size;
++	),
++	TP_printk("ino %lu block position %llu block size %u",
++		(unsigned long) __entry->ino,
++		__entry->offset,
++		__entry->block_size)
++);
++
++TRACE_EVENT(fsverity_read_merkle_tree_block,
++	TP_PROTO(struct inode *inode, u64 offset, unsigned int log_blocksize),
++	TP_ARGS(inode, offset, log_blocksize),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, offset)
++		__field(u64, index)
++		__field(unsigned int, block_size)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->offset = offset;
++		__entry->index = offset >> log_blocksize;
++		__entry->block_size = 1 << log_blocksize;
++	),
++	TP_printk("ino %lu tree offset %llu block index %llu block hize %u",
++		(unsigned long) __entry->ino,
++		__entry->offset,
++		__entry->index,
++		__entry->block_size)
++);
++
++TRACE_EVENT(fsverity_verify_signature,
++	TP_PROTO(const struct inode *inode, const u8 *signature, size_t sig_size),
++	TP_ARGS(inode, signature, sig_size),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__dynamic_array(u8, signature, sig_size)
++		__field(size_t, sig_size)
++		__field(size_t, sig_size_show)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		memcpy(__get_dynamic_array(signature), signature, sig_size);
++		__entry->sig_size = sig_size;
++		__entry->sig_size_show = (sig_size > FSVERITY_HASH_SHOWN_LEN ?
++			FSVERITY_HASH_SHOWN_LEN : sig_size);
++	),
++	TP_printk("ino %lu sig_size %lu %s%s%s",
++		(unsigned long) __entry->ino,
++		__entry->sig_size,
++		(__entry->sig_size ? "sig " : ""),
++		__print_hex(__get_dynamic_array(signature),
++			__entry->sig_size_show),
++		(__entry->sig_size ? "..." : ""))
++);
++
++#endif /* _TRACE_FSVERITY_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
 -- 
 2.42.0
 
