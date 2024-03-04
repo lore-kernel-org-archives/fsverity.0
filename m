@@ -1,143 +1,268 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFDEE55F
-	for <fsverity@lists.linux.dev>; Mon, 26 Feb 2024 02:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9788278B73
+	for <fsverity@lists.linux.dev>; Mon,  4 Mar 2024 19:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708914278; cv=none; b=LGL+k92pH/gN4WqdueRuIDZtATRSIYFj5I6PLlYeoLiPm7sn/pLOYoS2MsNRkz3N8FSDOHBTapPwq0HvCxEQ2D70HLOxbtrzhLbb8+q2rFW9r8eOo34LDbUWyQ/c25FpcPNG8UifnIZGGwNWVC/YzEmrZl8MtvBtxKybJyE3X38=
+	t=1709579537; cv=none; b=tkUUFH0hwOEzaQXaAaNMLjdHx4Yco7QYSdbSaHQOJSmbSxS+JTuVlzaU0lseL9g8Jh4SsZHre5UC4P4hOmpV9MYdekGnC7tj6/e6RRVWusQzc1KYv02yrnHhHy3VxYl9YfS2w7fok8pihVMVKqwzFLIlW+mEUe9kV3Vc50alZEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708914278; c=relaxed/simple;
-	bh=X3AP6Bp6b6ancxowuXLy3iTRG7qx8UMTyerNezwbvHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cQ8VbWqLS9Y279znMiOKjPC46aTg0+A49i06B2MhEPorLzGg5nqnZr8VylO9dp8DqeU6iMtiHxOlB+2qZAin4h0uPo47y1I+wNm9vw+kwZgH76AMwoXFm2WcPcjaiye9KImtWmSIeR8J3aLRZxJ4WMd/Wiw3nHPyVCCKObqkqXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=xted5inx; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+	s=arc-20240116; t=1709579537; c=relaxed/simple;
+	bh=b716iRld+aBnMeeLJlE9iVTKBwA95x3WGvcsShnKQ4Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iwcvH9RuuzQBO0MRn/Z4M5ziGUgmM2YaeVD5dJ35sDl1ufKygOauV0BlD8Zv/rnOTcF3fKH8Vj970Uo0+fBZnL50B9GHBGDhNi7G/nJ0XLdB695oTw4iOphlQqq8zhBPINy/+GCwDmvtlv+Nkl8mNfD1XdaK8s/pb3ITFXV6T4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GA7CHrvI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="xted5inx"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-214def5da12so1506128fac.2
-        for <fsverity@lists.linux.dev>; Sun, 25 Feb 2024 18:24:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1708914276; x=1709519076; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=keFZRzXSEtuuqVK1R31f2mV75CisjCkl0caiItfXYno=;
-        b=xted5inxaUnrLwTt3KRpzKXffQNCOerkMxOby7/nOG9B3IZKS6ECUtlZ+m95QvXfxR
-         SOwWP5TC0rHrWy9f1am7qMIsAynsnzNAvR4r6c6y3DK0wVHAMeeGoCcSKzJ45F01VcNp
-         PtFjtMZjVD32Bn6/qvhZIypcIWrEvflbve88j4B2xtarVaCzLQ+dIXLpmm0h4fygOg6+
-         GjGoRT+PuarnNI2HGIzO7NbKEq2QnUXO11xVOcMzJHEmBE/Y8SQEDzfepKjOthMT6LG7
-         2NwX3wRXywgc5gIxFgndZPi5O/LlmN13wD0jxSI4pO7Vt2vFmlIs79k60vPbTQhwmVvR
-         WTog==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GA7CHrvI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1709579534;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9rvY9NAnktd7qrJBPND0eU4Bzb1qb3lS3RyMgKXjGL4=;
+	b=GA7CHrvIwsTNMzM3CxVTAaYI/DtggaRf5ofsG/N1Cu+XdRFrvIDfPL5VGwRdk8nitXjgyZ
+	/xA4K3bh41fJwjNkHapBEXXoLgrg4kQADcUYwtRBYbTOMUSHWqMpxV5QAtuKmZ3vxlxyd6
+	2SkBaQfpA0JIo3myPVjtsbsbkHbdw2g=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-620-xSnzBGV-Op6d8Cwz2EZnfQ-1; Mon, 04 Mar 2024 14:12:13 -0500
+X-MC-Unique: xSnzBGV-Op6d8Cwz2EZnfQ-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a449be9db59so197158366b.1
+        for <fsverity@lists.linux.dev>; Mon, 04 Mar 2024 11:12:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708914276; x=1709519076;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=keFZRzXSEtuuqVK1R31f2mV75CisjCkl0caiItfXYno=;
-        b=Vh0g5UU/sqaBUK/3fmTY8y9YcLcWZea0q4kAAg0gp5WIf9e6SlNX/LatOmF2bKkW2X
-         sNBZxueaTK9IFH0j1zJZST/89uDCBr0Gz0c76sFpIJKnhvYMzo6wMAIXlcgjhbpwaUy0
-         oz3A17QsqdlYmwOhyLxFH/HMhwfdf7WNxH/e4Q3eq+eJamAF8mrEJQSnah0I4C4zp5Wr
-         tDPf2jvmhLYuTREhnw1lZ8xKMJvue5dgNBHy3eRhgTj3NYRYwwZ95nCmnfXC79HksX3d
-         t/REJe40WkHv7x4WyjcvdDI1jFk/5ORjMS3bgANxIVqVt75qkOW1BE9p+GizhukCcikv
-         mxRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVeQ3XPOC+MSxO5mPgEUm6pXxY6agCoO5Od41ElAYIYVM8tgu9RYQ+LeRNr5P/6VtyJ1y7ZFHnBUAXn5N9I/vqyKtNSkNGyqg=
-X-Gm-Message-State: AOJu0YzSdK4YsNrUXiNQLDl2dS+yH1GKdZGySq4K0GpmJfEw6xwrU1Tg
-	T8DnoSXbB0ahZARG2NG4/CLAfssx0PYJqdMIHrsd+xOkiE7aLuTEnYnk9YUyPxg=
-X-Google-Smtp-Source: AGHT+IEtjhVGkg7sspmH17FkZdrCNpnZ3s/M4MIQx1Fz9aip/f8ld7pswsn1rXp6cfSHQpxNfDG3WQ==
-X-Received: by 2002:a05:6871:14a:b0:21e:8fb4:966a with SMTP id z10-20020a056871014a00b0021e8fb4966amr7455096oab.43.1708914276509;
-        Sun, 25 Feb 2024 18:24:36 -0800 (PST)
-Received: from dread.disaster.area (pa49-181-247-196.pa.nsw.optusnet.com.au. [49.181.247.196])
-        by smtp.gmail.com with ESMTPSA id o7-20020a63f147000000b005dc9439c56bsm2913980pgk.13.2024.02.25.18.24.36
+        d=1e100.net; s=20230601; t=1709579531; x=1710184331;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9rvY9NAnktd7qrJBPND0eU4Bzb1qb3lS3RyMgKXjGL4=;
+        b=YCLkq2q+b82DPu2Tb3o7ckM5LXgdVrYhD8bHPcuaAsu6PJJTciqz6/TcKcWQ9U0SRl
+         qbnq2UhTJWvL9fgvQOzV8utW+b69klJqglEAq7KIDDy6JBBLoD5s0bB7hJQuvg3F+MAi
+         1eWDxKf3+sHCtOOI6agt87jHrspgbFI9MUU0qQ5cqVgRfwPlhVUodTXpOldxNXlCXB9b
+         c2D7u6D++mLI6+u9iNzYZ9/E0zi/35uP2e26pK7t1OQ/7cvFEZHVggPwOMNCSlyst0nx
+         kIKUqYTPywZfxzG4tpH2fNBIa5RTG/oCSL8ryU6+fFWSgWiawslddd7m+Am1Hk/fp2/2
+         GWAg==
+X-Gm-Message-State: AOJu0Yyk7fP/YAMZkp544g+bwlZvuh3SpeLbjBtSBdU9a1MD2/YFVFTG
+	Z7suBYeAwDBa3KKZWA8ju3UydxRczaU7jnjqHCeXQ8b9vUGVPH2l76WuQiArkmdvQ9m1/mG1I/F
+	IB2ggzqOBHYe2PqhyJpwOvL8x0duqXbbJR/k4PDQqz4mCT1OEsL/S7CadXZpDI7JCh9jt9rcqtn
+	U2pDqXdevP3/ngyzfvf6REKo4+ybfuXgCu13t0Mho=
+X-Received: by 2002:a17:906:ca55:b0:a44:7a25:736e with SMTP id jx21-20020a170906ca5500b00a447a25736emr6600732ejb.27.1709579531423;
+        Mon, 04 Mar 2024 11:12:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGLrKjot8O9tItCOwisX+Rpbi8SoT4XpvmbEPdj84ymD6Chc8jK8Q3hrIr9DvC3L0PmBOpnZA==
+X-Received: by 2002:a17:906:ca55:b0:a44:7a25:736e with SMTP id jx21-20020a170906ca5500b00a447a25736emr6600706ejb.27.1709579530649;
+        Mon, 04 Mar 2024 11:12:10 -0800 (PST)
+Received: from thinky.redhat.com ([109.183.6.197])
+        by smtp.gmail.com with ESMTPSA id a11-20020a1709064a4b00b00a44a04aa3cfsm3783319ejv.225.2024.03.04.11.12.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 18:24:36 -0800 (PST)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1reQfR-00BYvq-0r;
-	Mon, 26 Feb 2024 13:24:33 +1100
-Date: Mon, 26 Feb 2024 13:24:33 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	chandan.babu@oracle.com, djwong@kernel.org
-Subject: Re: [PATCH v4 09/25] fsverity: add tracepoints
-Message-ID: <Zdv2YZP0sIzDA5UT@dread.disaster.area>
-References: <20240212165821.1901300-1-aalbersh@redhat.com>
- <20240212165821.1901300-10-aalbersh@redhat.com>
- <20240223053156.GE25631@sol.localdomain>
- <copvwl7uhxj7iqlms2tv6shk4ky7lce54jqugg7uiuxgbv34am@3x6pelescjlb>
- <20240223182735.GD1112@sol.localdomain>
+        Mon, 04 Mar 2024 11:12:10 -0800 (PST)
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: fsverity@lists.linux.dev,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	chandan.babu@oracle.com,
+	djwong@kernel.org,
+	ebiggers@kernel.org
+Cc: Andrey Albershteyn <aalbersh@redhat.com>
+Subject: [PATCH v5 00/24] fs-verity support for XFS
+Date: Mon,  4 Mar 2024 20:10:23 +0100
+Message-ID: <20240304191046.157464-2-aalbersh@redhat.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240223182735.GD1112@sol.localdomain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Fri, Feb 23, 2024 at 10:27:35AM -0800, Eric Biggers wrote:
-> On Fri, Feb 23, 2024 at 02:23:52PM +0100, Andrey Albershteyn wrote:
-> > On 2024-02-22 21:31:56, Eric Biggers wrote:
-> > > On Mon, Feb 12, 2024 at 05:58:06PM +0100, Andrey Albershteyn wrote:
-> > > > fs-verity previously had debug printk but it was removed. This patch
-> > > > adds trace points to the same places where printk were used (with a
-> > > > few additional ones).
-> > > 
-> > > Are all of these actually useful?  There's a maintenance cost to adding all of
-> > > these.
-> > > 
-> > 
-> > Well, they were useful for me while testing/working on this
-> > patchset. Especially combining -e xfs -e fsverity was quite good for
-> > checking correctness and debugging with xfstests tests. They're
-> > probably could be handy if something breaks.
-> > 
-> > Or you mean if each of them is useful? The ones which I added to
-> > signature verification probably aren't as useful as other; my
-> > intention adding them was to also cover these code paths.
-> 
-> Well, I'll have to maintain all of these, including reviewing them, keeping them
-> working as code gets refactored, and fixing any bugs that exist or may get
-> introduced later in them.  They also increase the icache footprint of the code.
-> I'd like to make sure that it will be worthwhile.  The pr_debug messages that I
-> had put in fs/verity/ originally were slightly useful when writing fs/verity/
-> originally, but after that I never really used them.  Instead I found they
-> actually made patching fs/verity/ a bit harder, since I had to make sure to keep
-> all the pr_debug statements updated as code changed around them.
+Hi all,
 
-pr_debug is largely useless outside of code development purposes.
+Here's v5 of my patchset of adding fs-verity support to XFS.
 
-The value in tracepoints is that they are available for diagnosing
-problems on production systems and should be thought of as such.
-Yes, you can also use them to debug development code, but in that
-environment they are no substitute for custom trace_printk() debug
-output.
+This implementation uses extended attributes to store fs-verity
+metadata. The Merkle tree blocks are stored in the remote extended
+attributes. The names are offsets into the tree.
 
-However, when you have extensive tracepoints coverage, the amount of
-custom trace_printk() stuff you need to add to a kernel to debug an
-issue ends up being limited, because most of the key state and
-object changes in the code are already covered by tracepoints.
+A few key points of this patchset:
+- fs-verity can work with Merkle tree blocks based caching (xfs) and
+  PAGE caching (ext4, f2fs, btrfs)
+- iomap does fs-verity verification
+- In XFS, fs-verity metadata is stored in extended attributes
+- per-sb workqueue for verification processing
+- Inodes with fs-verity have new on-disk diflag
+- xfs_attr_get() can return a buffer with an extended attribute
+- xfs_buf can allocate double space for Merkle tree blocks. Part of
+  the space is used to store  the extended attribute data without
+  leaf headers
+- xfs_buf tracks verified status of merkle tree blocks
 
-> Maybe I am an outlier and other people really do like having these tracepoints
-> around.  But I'd like to see a bit more feedback along those lines first.  If we
-> could keep them to a more minimal set, that would also be helpful.
+The patchset consists of five parts:
+- [1]: fs-verity spinlock removal pending in fsverity/for-next
+- [2..4]: Parent pointers adding binary xattr names
+- [5]: Expose FS_XFLAG_VERITY for fs-verity files
+- [6..9]: Changes to fs-verity core
+- [10]: Integrate fs-verity to iomap
+- [11-24]: Add fs-verity support to XFS
 
-For people who are used to subsystems with extensive tracepoint
-coverage (like XFS), the lack of tracepoints in all the surrounding
-code is jarring. It makes the rest of the system feel like a black
-hole where detailed runtime introspection is almost completely
-impossible without a *lot* of work.
+Testing:
+The patchset is tested with xfstests -g verity on xfs_1k, xfs_4k,
+xfs_1k_quota, xfs_4k_quota, ext4_4k, and ext4_4k_quota. With
+KMEMLEAK and KASAN enabled. More testing on the way.
 
-Extensive tracepoints help everyone in the production support
-and diagnosis chain understand what is going on by providing easy to
-access runtime introspection for the code. i.e. they provide
-benefit to far more people than just the one kernel developer who
-enables pr_debug on the subsystem when developing new code...
+Changes from V4:
+- Mainly fs-verity changes; removed unnecessary functions
+- Replace XFS workqueue with per-sb workqueue created in
+  fsverity_set_ops()
+- Drop patch with readahead calculation in bytes
+Changes from V3:
+- redone changes to fs-verity core as previous version had an issue
+  on ext4
+- add blocks invalidation interface to fs-verity
+- move memory ordering primitives out of block status check to fs
+  read block function
+- add fs-verity verification to iomap instead of general post read
+  processing
+Changes from V2:
+- FS_XFLAG_VERITY extended attribute flag
+- Change fs-verity to use Merkle tree blocks instead of expecting
+  PAGE references from filesystem
+- Change approach in iomap to filesystem provided bio_set and
+  submit_io instead of just callouts to filesystem
+- Add possibility for xfs_buf allocate more space for fs-verity
+  extended attributes
+- Make xfs_attr module to copy fs-verity blocks inside the xfs_buf,
+  so XFS can get data without leaf headers
+- Add Merkle tree removal for error path
+- Makae scrub aware of new dinode flag
+Changes from V1:
+- Added parent pointer patches for easier testing
+- Many issues and refactoring points fixed from the V1 review
+- Adjusted for recent changes in fs-verity core (folios, non-4k)
+- Dropped disabling of large folios
+- Completely new fsverity patches (fix, callout, log_blocksize)
+- Change approach to verification in iomap to the same one as in
+  write path. Callouts to fs instead of direct fs-verity use.
+- New XFS workqueue for post read folio verification
+- xfs_attr_get() can return underlying xfs_buf
+- xfs_bufs are marked with XBF_VERITY_CHECKED to track verified
+  blocks
 
--Dave.
+kernel:
+[1]: https://github.com/alberand/linux/tree/fsverity-v5
+
+xfsprogs:
+[2]: https://github.com/alberand/xfsprogs/tree/fsverity-v5
+
+xfstests:
+[3]: https://github.com/alberand/xfstests/tree/fsverity-v5
+
+v1:
+[4]: https://lore.kernel.org/linux-xfs/20221213172935.680971-1-aalbersh@redhat.com/
+
+v2:
+[5]: https://lore.kernel.org/linux-xfs/20230404145319.2057051-1-aalbersh@redhat.com/
+
+v3:
+[6]: https://lore.kernel.org/all/20231006184922.252188-1-aalbersh@redhat.com/
+
+v4:
+[7]: https://lore.kernel.org/linux-xfs/20240212165821.1901300-1-aalbersh@redhat.com/
+
+fs-verity:
+[7]: https://www.kernel.org/doc/html/latest/filesystems/fsverity.html
+
+Thanks,
+Andrey
+
+Allison Henderson (3):
+  xfs: add parent pointer support to attribute code
+  xfs: define parent pointer ondisk extended attribute format
+  xfs: add parent pointer validator functions
+
+Andrey Albershteyn (21):
+  fsverity: remove hash page spin lock
+  fs: add FS_XFLAG_VERITY for verity files
+  fsverity: pass tree_blocksize to end_enable_verity()
+  fsverity: support block-based Merkle tree caching
+  fsverity: add per-sb workqueue for post read processing
+  fsverity: add tracepoints
+  iomap: integrate fs-verity verification into iomap's read path
+  xfs: add XBF_VERITY_SEEN xfs_buf flag
+  xfs: add XFS_DA_OP_BUFFER to make xfs_attr_get() return buffer
+  xfs: add attribute type for fs-verity
+  xfs: make xfs_buf_get() to take XBF_* flags
+  xfs: add XBF_DOUBLE_ALLOC to increase size of the buffer
+  xfs: add fs-verity ro-compat flag
+  xfs: add inode on-disk VERITY flag
+  xfs: initialize fs-verity on file open and cleanup on inode
+    destruction
+  xfs: don't allow to enable DAX on fs-verity sealsed inode
+  xfs: disable direct read path for fs-verity files
+  xfs: add fs-verity support
+  xfs: make scrub aware of verity dinode flag
+  xfs: add fs-verity ioctls
+  xfs: enable ro-compat fs-verity flag
+
+ Documentation/filesystems/fsverity.rst |   8 +
+ MAINTAINERS                            |   1 +
+ fs/btrfs/verity.c                      |   4 +-
+ fs/ext4/verity.c                       |   3 +-
+ fs/f2fs/verity.c                       |   3 +-
+ fs/ioctl.c                             |  11 +
+ fs/iomap/buffered-io.c                 |  92 ++++++-
+ fs/super.c                             |   7 +
+ fs/verity/enable.c                     |   9 +-
+ fs/verity/fsverity_private.h           |  11 +-
+ fs/verity/init.c                       |   1 +
+ fs/verity/open.c                       |   9 +-
+ fs/verity/read_metadata.c              |  64 +++--
+ fs/verity/signature.c                  |   2 +
+ fs/verity/verify.c                     | 180 +++++++++----
+ fs/xfs/Makefile                        |   2 +
+ fs/xfs/libxfs/xfs_attr.c               |  31 ++-
+ fs/xfs/libxfs/xfs_attr.h               |   3 +-
+ fs/xfs/libxfs/xfs_attr_leaf.c          |  24 +-
+ fs/xfs/libxfs/xfs_attr_remote.c        |  39 ++-
+ fs/xfs/libxfs/xfs_btree_mem.c          |   2 +-
+ fs/xfs/libxfs/xfs_da_btree.h           |   5 +-
+ fs/xfs/libxfs/xfs_da_format.h          |  68 ++++-
+ fs/xfs/libxfs/xfs_format.h             |  14 +-
+ fs/xfs/libxfs/xfs_log_format.h         |   2 +
+ fs/xfs/libxfs/xfs_ondisk.h             |   4 +
+ fs/xfs/libxfs/xfs_parent.c             | 113 ++++++++
+ fs/xfs/libxfs/xfs_parent.h             |  19 ++
+ fs/xfs/libxfs/xfs_sb.c                 |   4 +-
+ fs/xfs/scrub/attr.c                    |   4 +-
+ fs/xfs/xfs_attr_item.c                 |   6 +-
+ fs/xfs/xfs_attr_list.c                 |  14 +-
+ fs/xfs/xfs_buf.c                       |   6 +-
+ fs/xfs/xfs_buf.h                       |  23 +-
+ fs/xfs/xfs_file.c                      |  23 +-
+ fs/xfs/xfs_inode.c                     |   2 +
+ fs/xfs/xfs_inode.h                     |   3 +-
+ fs/xfs/xfs_ioctl.c                     |  22 ++
+ fs/xfs/xfs_iops.c                      |   4 +
+ fs/xfs/xfs_mount.h                     |   2 +
+ fs/xfs/xfs_super.c                     |  12 +
+ fs/xfs/xfs_trace.h                     |   4 +-
+ fs/xfs/xfs_verity.c                    | 355 +++++++++++++++++++++++++
+ fs/xfs/xfs_verity.h                    |  33 +++
+ fs/xfs/xfs_xattr.c                     |  10 +
+ include/linux/fs.h                     |   2 +
+ include/linux/fsverity.h               |  91 ++++++-
+ include/trace/events/fsverity.h        | 181 +++++++++++++
+ include/uapi/linux/fs.h                |   1 +
+ 49 files changed, 1395 insertions(+), 138 deletions(-)
+ create mode 100644 fs/xfs/libxfs/xfs_parent.c
+ create mode 100644 fs/xfs/libxfs/xfs_parent.h
+ create mode 100644 fs/xfs/xfs_verity.c
+ create mode 100644 fs/xfs/xfs_verity.h
+ create mode 100644 include/trace/events/fsverity.h
+
 -- 
-Dave Chinner
-david@fromorbit.com
+2.42.0
+
