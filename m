@@ -1,45 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570C21D698;
-	Thu,  7 Mar 2024 23:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DDA6AC0
+	for <fsverity@lists.linux.dev>; Fri,  8 Mar 2024 00:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709855950; cv=none; b=QSYvDbymOfxfi0D0/DSST3nE4WI9OwFFAYNnPT+6TBgCQ2ayydpYhbll8CIwXdUJw6/Vvp0GiOh6U7z5BLfnfNfuj21kCluTsbtRsEQElN2VwUt0igNIvS7VkRGPuVp5EyiNMUph9tgDlqyU7207LUqE0cIOzYY7eGCLRKRmcHU=
+	t=1709858839; cv=none; b=CnOhBNLnNEgMLD1/OGsdGxlk5GTiRlEENUYvFKf1xOFE6lI/8PM9YK7R/OvE6ZNvnUqFoM2oI5U04h0219siDoRia/zDklg7bhGxGkP0KG2JKf+qXTV2un4pET2WvR75+qXalRUWVcBfX8y/jfQYG8PLvKhPyxDC6RE/TyNyloQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709855950; c=relaxed/simple;
-	bh=a5US15sCcXIcbEgTJfexJPB25DKyVkJmnGBwUhjfdas=;
+	s=arc-20240116; t=1709858839; c=relaxed/simple;
+	bh=NSfbEyik0E5fV9rKhv893xwhpcqfZnnnUpXzKbYMjLU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ii1Bu27Mh53gc24d2nLC1fXxDGiVLNv5QM91OAECNQx24KGKjIp9vkHWQKxO2u8CFu8d4X7DOlGlUj+6WWSvWZo+w1qTLC14ZrIisufCY6/dihgXu/9P4HyVF1kiCK/1hgCMR8kanQPjaxlgPZY+DIocARe0ztS6pHVSj+c1iXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ooy63KAn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=L68yQmRvwT+aSkDyOjGzXvXb5t7xg3MgxpA0DCRoGX82cUhQRBkGto7tDT5mSq6CwdrrGTcqBYWxZodrcJ34pPKaPSin9Nxo03T7qW37Y9i052S3r8JMpkcXtztRAD/95/pLcmwKu4PuQY2nT6Y0i6ozrddmiCmJk9ypMnbrsWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=jpJDEhiY; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ooy63KAn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE898C433F1;
-	Thu,  7 Mar 2024 23:59:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709855950;
-	bh=a5US15sCcXIcbEgTJfexJPB25DKyVkJmnGBwUhjfdas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ooy63KAnMfUyoesPu/pvIEQD3A0eVon4Jvh0Syib5RrYtxoSGIaDlWR9EsyGJaama
-	 BwBxB722c4gDYukkB7E17T3gmGD/hsJx9oJIsocBsD8rY61lmg9DseoncbOFc4rR60
-	 fqvW7VC4SC6agEXGXVHvjRuM0WWMcyjahUkvOQnNGZtFF56jPPhyYXwPwSQC9hLoo0
-	 U5B41I6Txs6U22tTsq4xwJR6APjOqMUI0mRof9F7OSxlP9DQjJGtQB612WMy+BDZUP
-	 tVI2k8DrFcJGcVWSZFbbEWnQHt3Fe/ayTguOlV+yUx6jhjDg/dUGuaIKRPnviyTvKe
-	 0d0iec00en2BA==
-Date: Thu, 7 Mar 2024 15:59:07 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="jpJDEhiY"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6e66a3d492fso260764b3a.2
+        for <fsverity@lists.linux.dev>; Thu, 07 Mar 2024 16:47:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1709858836; x=1710463636; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aQ8GaPjt10k/rPvDTvZ+A248eFhAO1GEQb2ZATjjPu0=;
+        b=jpJDEhiYWO3XgKuSLeIt8HS8U+7pXIvNggXDgaSm1aVPtOp0/iVg5RV4VF6enXcl6U
+         skhIBFcT8jnJvB4T7jkAOnA7aCnpQCxtFRffBOo7Qei4JiAekhPra6xGViuOlCTFqBO2
+         EF/b5KbghkhVVRHCTk5PxzFP+RgNDBmQTre9M3aXdAMMkbNhjY/p+nwuqppOgWPQ1svL
+         H7MuPBkIxLnptw7TsKoG2z2pI/C+bed5pkZHbLxa7bYffJ15PKv6/U42A0IS9m1EBTkP
+         MIF+yv++K4FbtypAPtkmn17JrQTcCXt1orgsR5JyDmSrbiHSDzWGDNPJFhXMvGL5oUu3
+         gDUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709858836; x=1710463636;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aQ8GaPjt10k/rPvDTvZ+A248eFhAO1GEQb2ZATjjPu0=;
+        b=ogxXUC2ER3zI/AqUUhVnY6lIbqcgYd2cC4CE7YU4FRsCEm8PVMjAA/vhOUJQhoyKAC
+         fjIkX+c1U9zqXPQ+GxYbsJmi/3R4uqQsqvf1cfOHQHuT4+1YyA7Fsbn1eOVHh6b12udO
+         +3AbVGGdFqTTDO+ZNcGFI/qBNtxg23F2BRZpDK9Yp6+iLVOPtW24IvK/3GDhlFjyOY1U
+         gIBG2i5griyg1qYxNsHB0MVwRDbJkrYmSThunSy3nzeMhAd8mAa14vF64QnfcVJ98OmN
+         5C1sU7Gi8NBalLbarRVSoZG5TVbXIJSXLkAXH4f5fQG1Y7DNq5JIIOCWfva1Asa6kNi3
+         ferQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUl3+79MzUBtDyaMhdMB60po3oCP9kgB2PZCRDLA2U6ApKuRxW5KEi6ccb4RkW0jjPzUJsTFu6SRMrdb7OnULakb/lPnmLkf7U=
+X-Gm-Message-State: AOJu0YygiSunBJrm7fLlBIDwb1u5svX4dU55QFwv/Ln/+StRzV2BQIwz
+	9ZLHUA5LXfHLRvxzBbUA4JsixvHv7idNGu6JkEiazOchAyx1kRKpiebWJk6dMF4=
+X-Google-Smtp-Source: AGHT+IFI6Q1sg1JNFnkP+MCq/MXc4ZsKz3moY3iMDmrYoQRU/jsVzrvfmYJYkWl+ScEYaNlfBMU4AQ==
+X-Received: by 2002:a05:6a20:7fa9:b0:1a1:501e:814c with SMTP id d41-20020a056a207fa900b001a1501e814cmr10746429pzj.29.1709858836483;
+        Thu, 07 Mar 2024 16:47:16 -0800 (PST)
+Received: from dread.disaster.area (pa49-179-47-118.pa.nsw.optusnet.com.au. [49.179.47.118])
+        by smtp.gmail.com with ESMTPSA id 12-20020a170902e9cc00b001db9fa23407sm15251920plk.195.2024.03.07.16.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 16:47:15 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+	(envelope-from <david@fromorbit.com>)
+	id 1riOOG-00GUAB-2v;
+	Fri, 08 Mar 2024 11:47:12 +1100
+Date: Fri, 8 Mar 2024 11:47:12 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Eric Biggers <ebiggers@kernel.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
 	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	chandan.babu@oracle.com, djwong@kernel.org,
-	Christoph Hellwig <hch@lst.de>
+	chandan.babu@oracle.com, Christoph Hellwig <hch@lst.de>
 Subject: Re: [PATCH v5 10/24] iomap: integrate fs-verity verification into
  iomap's read path
-Message-ID: <20240307235907.GA8111@sol.localdomain>
+Message-ID: <ZepgEGngCly8oqnM@dread.disaster.area>
 References: <20240304191046.157464-2-aalbersh@redhat.com>
  <20240304191046.157464-12-aalbersh@redhat.com>
  <20240304233927.GC17145@sol.localdomain>
  <ZepP3iAmvQhbbA2t@dread.disaster.area>
+ <20240307234522.GJ1927156@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -48,65 +78,110 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZepP3iAmvQhbbA2t@dread.disaster.area>
+In-Reply-To: <20240307234522.GJ1927156@frogsfrogsfrogs>
 
-On Fri, Mar 08, 2024 at 10:38:06AM +1100, Dave Chinner wrote:
-> > This makes all kernels with CONFIG_FS_VERITY enabled start preallocating memory
-> > for these bios, regardless of whether they end up being used or not.  When
-> > PAGE_SIZE==4096 it comes out to about 134 KiB of memory total (32 bios at just
-> > over 4 KiB per bio, most of which is used for the BIO_MAX_VECS bvecs), and it
-> > scales up with PAGE_SIZE such that with PAGE_SIZE==65536 it's about 2144 KiB.
-> 
-> Honestly: I don't think we care about this.
-> 
-> Indeed, if a system is configured with iomap and does not use XFS,
-> GFS2 or zonefs, it's not going to be using the iomap_ioend_bioset at
-> all, either. So by you definition that's just wasted memory, too, on
-> systems that don't use any of these three filesystems. But we
-> aren't going to make that one conditional, because the complexity
-> and overhead of checks that never trigger after the first IO doesn't
-> actually provide any return for the cost of ongoing maintenance.
-> 
-> Similarly, once XFS has fsverity enabled, it's going to get used all
-> over the place in the container and VM world. So we are *always*
-> going to want this bioset to be initialised on these production
-> systems, so it falls into the same category as the
-> iomap_ioend_bioset. That is, if you don't want that overhead, turn
-> the functionality off via CONFIG file options.
-
-"We're already wasting memory, therefore it's fine to waste more" isn't a great
-argument.
-
-iomap_ioend_bioset is indeed also problematic, though it's also a bit different
-in that it's needed for basic filesystem functionality, not an optional feature.
-Yes, ext4 and f2fs don't actually use iomap for buffered reads, but IIUC at
-least there's a plan to do that.  Meanwhile there's no plan for fsverity to be
-used on every system that may be using a filesystem that supports it.
-
-We should take care not to over-estimate how many users use optional features.
-Linux distros turn on most kconfig options just in case, but often the common
-case is that the option is on but the feature is not used.
-
-> > How about allocating the pool when it's known it's actually going to be used,
-> > similar to what fs/crypto/ does for fscrypt_bounce_page_pool?  For example,
-> > there could be a flag in struct fsverity_operations that says whether filesystem
-> > wants the iomap fsverity bioset, and when fs/verity/ sets up the fsverity_info
-> > for any file for the first time since boot, it could call into fs/iomap/ to
-> > initialize the iomap fsverity bioset if needed.
+On Thu, Mar 07, 2024 at 03:45:22PM -0800, Darrick J. Wong wrote:
+> On Fri, Mar 08, 2024 at 10:38:06AM +1100, Dave Chinner wrote:
+> > On Mon, Mar 04, 2024 at 03:39:27PM -0800, Eric Biggers wrote:
+> > > On Mon, Mar 04, 2024 at 08:10:33PM +0100, Andrey Albershteyn wrote:
+> > > > +#ifdef CONFIG_FS_VERITY
+> > > > +struct iomap_fsverity_bio {
+> > > > +	struct work_struct	work;
+> > > > +	struct bio		bio;
+> > > > +};
+> > > 
+> > > Maybe leave a comment above that mentions that bio must be the last field.
+> > > 
+> > > > @@ -471,6 +529,7 @@ static loff_t iomap_readahead_iter(const struct iomap_iter *iter,
+> > > >   * iomap_readahead - Attempt to read pages from a file.
+> > > >   * @rac: Describes the pages to be read.
+> > > >   * @ops: The operations vector for the filesystem.
+> > > > + * @wq: Workqueue for post-I/O processing (only need for fsverity)
+> > > 
+> > > This should not be here.
+> > > 
+> > > > +#define IOMAP_POOL_SIZE		(4 * (PAGE_SIZE / SECTOR_SIZE))
+> > > > +
+> > > >  static int __init iomap_init(void)
+> > > >  {
+> > > > -	return bioset_init(&iomap_ioend_bioset, 4 * (PAGE_SIZE / SECTOR_SIZE),
+> > > > -			   offsetof(struct iomap_ioend, io_inline_bio),
+> > > > -			   BIOSET_NEED_BVECS);
+> > > > +	int error;
+> > > > +
+> > > > +	error = bioset_init(&iomap_ioend_bioset, IOMAP_POOL_SIZE,
+> > > > +			    offsetof(struct iomap_ioend, io_inline_bio),
+> > > > +			    BIOSET_NEED_BVECS);
+> > > > +#ifdef CONFIG_FS_VERITY
+> > > > +	if (error)
+> > > > +		return error;
+> > > > +
+> > > > +	error = bioset_init(&iomap_fsverity_bioset, IOMAP_POOL_SIZE,
+> > > > +			    offsetof(struct iomap_fsverity_bio, bio),
+> > > > +			    BIOSET_NEED_BVECS);
+> > > > +	if (error)
+> > > > +		bioset_exit(&iomap_ioend_bioset);
+> > > > +#endif
+> > > > +	return error;
+> > > >  }
+> > > >  fs_initcall(iomap_init);
+> > > 
+> > > This makes all kernels with CONFIG_FS_VERITY enabled start preallocating memory
+> > > for these bios, regardless of whether they end up being used or not.  When
+> > > PAGE_SIZE==4096 it comes out to about 134 KiB of memory total (32 bios at just
+> > > over 4 KiB per bio, most of which is used for the BIO_MAX_VECS bvecs), and it
+> > > scales up with PAGE_SIZE such that with PAGE_SIZE==65536 it's about 2144 KiB.
 > > 
-> > BTW, errors from builtin initcalls such as iomap_init() get ignored.  So the
-> > error handling logic above does not really work as may have been intended.
+> > Honestly: I don't think we care about this.
+> > 
+> > Indeed, if a system is configured with iomap and does not use XFS,
+> > GFS2 or zonefs, it's not going to be using the iomap_ioend_bioset at
+> > all, either. So by you definition that's just wasted memory, too, on
+> > systems that don't use any of these three filesystems. But we
+> > aren't going to make that one conditional, because the complexity
+> > and overhead of checks that never trigger after the first IO doesn't
+> > actually provide any return for the cost of ongoing maintenance.
 > 
-> That's not an iomap problem - lots of fs_initcall() functions return
-> errors because they failed things like memory allocation. If this is
-> actually problem, then fix the core init infrastructure to handle
-> errors properly, eh?
+> I've occasionally wondered if I shouldn't try harder to make iomap a
+> module so that nobody pays the cost of having it until they load an fs
+> driver that uses it.
 
-What does "properly" mean?  Even if init/main.c did something with the returned
-error code, individual subsystems still need to know what behavior they want and
-act accordingly.  Do they want to panic the kernel, or do they want to fall back
-gracefully with degraded functionality.  If subsystems go with the panic (like
-fsverity_init() does these days), then there is no need for doing any cleanup on
-errors like this patchset does.
+Not sure it is worth that effort. e.g. the block device code is
+already using iomap (when bufferheads are turned off) so the future
+reality is going to be that iomap will always be required when
+CONFIG_BLOCK=y.
 
-- Eric
+> > > How about allocating the pool when it's known it's actually going to be used,
+> > > similar to what fs/crypto/ does for fscrypt_bounce_page_pool?  For example,
+> > > there could be a flag in struct fsverity_operations that says whether filesystem
+> > > wants the iomap fsverity bioset, and when fs/verity/ sets up the fsverity_info
+> > > for any file for the first time since boot, it could call into fs/iomap/ to
+> > > initialize the iomap fsverity bioset if needed.
+> > > 
+> > > BTW, errors from builtin initcalls such as iomap_init() get ignored.  So the
+> > > error handling logic above does not really work as may have been intended.
+> > 
+> > That's not an iomap problem - lots of fs_initcall() functions return
+> > errors because they failed things like memory allocation. If this is
+> > actually problem, then fix the core init infrastructure to handle
+> > errors properly, eh?
+> 
+> Soooo ... the kernel crashes if iomap cannot allocate its bioset?
+>
+> I guess that's handling it, FSVO handle. :P
+
+Yup, the kernel will crash if any fs_initcall() fails to allocate
+the memory it needs and that subsystem is then used. So the
+workaround for that is that a bunch of these initcalls simply use
+panic() calls for error handling. :(
+
+> (Is that why I can't boot with mem=60M anymore?)
+
+Something else is probably panic()ing on ENOMEM... :/
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
