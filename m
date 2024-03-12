@@ -1,49 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83D2B66F;
-	Tue, 12 Mar 2024 04:15:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020FDB66F;
+	Tue, 12 Mar 2024 04:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710216957; cv=none; b=LmU0yXk88jrGakjLtllOK8T9datfmGfbRH3IsXmgfOMQn7ChqxBpa0N9yNnRtJJRqd/DxvtLDjnCxaEA0vZiR38oCSgPijL+zTZxCJamHqHDQCyWl2tl0PJjUgYccOyJpMBRkbeQEXFdSBdK2o4CqPBUnTdAaeoLI5pofA7dRCA=
+	t=1710217256; cv=none; b=b6+HPF+qJZux/nHdYEI8bbjRM2CHGbtfBw+ftgkXvf8ylMeyEclcAOyO1jTsmBnjudz293p+mo9dXDZFLRliAYAbHXKyYMGKd3g6VoMWzGmfMkijVMXERzDCj6fwhQLMFyCX0zw44F2xVCNF74epquqiE6AaioXmcF8YlM8sqDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710216957; c=relaxed/simple;
-	bh=iNaBzaLVKd3PkwA0GihEpEd2QdBPqa1tnFNQEOd6zYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YbESj/c9LOXeTHgsgcOkvTx8GTLzGw7WtZA75eORnZPVceBghxboubPXHsNWWV9UXipsM6Tbdzwu9j2oIM6J7jHPTovXo1na5YBbivuc5VHpTXRpGYWVDMuqevuR4KCJOuiU6/zratuBCasM0ZN8VmciJrH84vtoSr0dKMMvUHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BhsBpi8z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710217256; c=relaxed/simple;
+	bh=6jUkBlOs8/qYxnY11jCaAhAjrJV89oOkFL8yos84uFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mwu2wSMa9RQL1p/B3QPvf9W/hTjUZj46mFzrAdGIWa5RGmZnh62unY65WyLJsZO16FDQRMxnkSu984Upjxie17WLew1Q2Ym518FLLWKjOJZm+2+jcDMpTtrVfX1Sf+AJaaNXMotQ/3XHsi81EHe8hVijeUjLIyb26oY+BfYXMic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=idN/k94N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BhsBpi8z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CD67C433F1;
-	Tue, 12 Mar 2024 04:15:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="idN/k94N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 625E2C433C7;
+	Tue, 12 Mar 2024 04:20:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710216957;
-	bh=iNaBzaLVKd3PkwA0GihEpEd2QdBPqa1tnFNQEOd6zYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BhsBpi8zLqVXFByby2/rBeogS/r7p5l9WZBLZGqgQkM3onbiNdeWG6gk8NsocyQt1
-	 lR6j+NqdAyf+Onql0PNTcxgCTUX1WUwRrzCWunuF/RD1JJFbOcNoCaxBJdnPxrH+SF
-	 ePSYHnhvu3gn6s/EaUxikWf/IzTMTE9kOQ6eeiAIjsSlFS3XPelzPkJ5OqM4LcjHmz
-	 XWbYDo7qkkqIrs45bRr00jvYX59WsX2LOZ1R4kl11lATC8Jt8lN98UUngEcm0HzvKN
-	 UcqwplmNGFtIjcreW8WRnut9K8Yg+uQWRv+TwrPOc2l0o0cJPLO6+n6/8aOS7etRz2
-	 tMkY2Ts/KEX6w==
-Date: Mon, 11 Mar 2024 21:15:56 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Dave Chinner <david@fromorbit.com>,
-	Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	chandan.babu@oracle.com
-Subject: Re: [PATCH v5 11/24] xfs: add XBF_VERITY_SEEN xfs_buf flag
-Message-ID: <20240312041556.GZ1927156@frogsfrogsfrogs>
-References: <20240304191046.157464-2-aalbersh@redhat.com>
- <20240304191046.157464-13-aalbersh@redhat.com>
- <20240307224654.GB1927156@frogsfrogsfrogs>
- <ZepxHObVLb3JLCl/@dread.disaster.area>
- <20240308033138.GN6184@frogsfrogsfrogs>
- <20240309162828.GQ1927156@frogsfrogsfrogs>
- <Ze5PsMopkWqZZ1NX@dread.disaster.area>
- <20240311152505.GR1927156@frogsfrogsfrogs>
- <20240312024320.GD1182@sol.localdomain>
+	s=k20201202; t=1710217255;
+	bh=6jUkBlOs8/qYxnY11jCaAhAjrJV89oOkFL8yos84uFQ=;
+	h=Date:From:To:Cc:Subject:From;
+	b=idN/k94NnT6596YAEgOX2Quo0sYcm1GHsfHDV7e4KnNxWCkGfBFfmOfirB/t9H0ln
+	 AfJlqrSd0UlL6rCHLjvn8mg+hsBgUuPcZWAZXSV3gG1/JMNc9MYIRZPQwJ0CrX1aRN
+	 NCmHZ0wZGJTO8/+y7ND9MXouOZmRWNvBxXHS3M1xHr7lZpRRjTe6Hni9mu6xkjRNjt
+	 swgz8BcmKdfOwpz+MqCpEbj505M8vQYzD+tbyIAOgU5MvIFwHNw01E1lqCUNVOvhBc
+	 KbrBU/vCghbyqap1UYtXr2QV2Yf2dHLDrMsu8bmWZLp6ALZCxtJaUgVYkhKNrq/yUj
+	 sLR3zK8aYy0Qw==
+Date: Mon, 11 Mar 2024 21:20:53 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	Andrey Albershteyn <aalbersh@redhat.com>
+Subject: [GIT PULL] fsverity updates for 6.9
+Message-ID: <20240312042053.GI1182@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -52,37 +42,29 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240312024320.GD1182@sol.localdomain>
 
-On Mon, Mar 11, 2024 at 07:43:20PM -0700, Eric Biggers wrote:
-> On Mon, Mar 11, 2024 at 08:25:05AM -0700, Darrick J. Wong wrote:
-> > > > > I wonder, what are the access patterns for merkle blobs?  Is it actually
-> > > > > sequential, or is more like 0 -> N -> N*N as we walk towards leaves?
-> > > 
-> > > I think the leaf level (i.e. individual record) access patterns
-> > > largely match data access patterns, so I'd just treat it like as if
-> > > it's a normal file being accessed....
-> > 
-> > <nod> The latest version of this tries to avoid letting reclaim take the
-> > top of the tree.  Logically this makes sense to me to reduce read verify
-> > latency, but I was hoping Eric or Andrey or someone with more
-> > familiarity with fsverity would chime in on whether or not that made
-> > sense.
-> 
-> The levels are stored ordered from root to leaf; they aren't interleaved.  So
-> technically the overall access pattern isn't sequential, but it is sequential
-> within each level, and the leaf level is over 99% of the accesses anyway
-> (assuming the default parameters where each block has 128 children).
+The following changes since commit 41bccc98fb7931d63d03f326a746ac4d429c1dd3:
 
-<nod>
+  Linux 6.8-rc2 (2024-01-28 17:01:12 -0800)
 
-> It makes sense to try to keep the top levels, i.e. the blocks with the lowest
-> indices, cached.  (The other filesystems that support fsverity currently aren't
-> doing anything special to treat them differently from other pagecache pages.)
+are available in the Git repository at:
 
-<nod>
+  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
 
---D
+for you to fetch changes up to 8e43fb06e10d2c811797740dd578c5099a3e6378:
 
-> - Eric
-> 
+  fsverity: remove hash page spin lock (2024-02-01 15:19:23 -0800)
+
+----------------------------------------------------------------
+
+Slightly improve data verification performance by eliminating an
+unnecessary lock.
+
+----------------------------------------------------------------
+Andrey Albershteyn (1):
+      fsverity: remove hash page spin lock
+
+ fs/verity/fsverity_private.h |  1 -
+ fs/verity/open.c             |  1 -
+ fs/verity/verify.c           | 48 ++++++++++++++++++++++----------------------
+ 3 files changed, 24 insertions(+), 26 deletions(-)
