@@ -1,66 +1,66 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64457BAEC
-	for <fsverity@lists.linux.dev>; Tue, 12 Mar 2024 15:13:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB487D060
+	for <fsverity@lists.linux.dev>; Tue, 12 Mar 2024 15:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710256402; cv=none; b=oIwmyMIXBFudbM2ab6qrWVe8khiP+JoDlVYDTHdUOua3x06mrwP4RTAIhT7+boVfVNEqzrm2zXHG4Y8wLtxLcovg53+b3+Khj4Y1CZPrCiiPHQdzFttv6XS0gZsdM3WYj7cZP4VGVCHemqQgiu+T4NHwIfTIgKpxEGmhfM2ZfBc=
+	t=1710257602; cv=none; b=BO9u834nhStAWnxYzREG4Hvae4PVBGTQABIKdKNmhEqJCrQC1nTK+FVXGUYhb4Wfa5EJ8t7lIs3VpeuGarg2X3LLh/Owx8+MjSpYdAx98fFYZiDenTwDtLUQUQT0aGT2a/mIEe9eZXWoWnw9qi5pIQTeA0BgTw5e0EF7SkIHdq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710256402; c=relaxed/simple;
-	bh=mEIaQ7DQuMHEvlFjUlwrGJqvco/CypBpDAvnBJ3J/SQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hSLCGreKSFJK03yYzw4fdZDrDSADv2wbugEvg3yRYbPMr7dv94TCTdLlaT21E7jMt8jXm2Rnphyo1667AoeNHwAHNhoD+APwSCvcOSZKrDB81jvzY/ei2FaLWUR5xHghf3qIfi8AD2qsvaVf9oHtZT0ZqlQJGcMaDKIOx6TPxYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S4xUxBeV; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1710257602; c=relaxed/simple;
+	bh=1IY9/WU+tIfw8PZoox8fcWug+ux+U3noTrSKP4re9mU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gWLhJk7fdPBvDDpkexVyRSnn6fZy/NfoYptd1NQhR4J9GY+QiXGL6afly1VCl7tFukub5i3uhC1pZp9Ej1HBEFlq34cozCiPzMj2TmXRh+hQZiYtVjWpcghuQrNRK7a5DoG7KDC2lAm+X2o2d7V1Lx23LDaB9VMs/JTCMEcwI50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fYCgUom+; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S4xUxBeV"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fYCgUom+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710256399;
+	s=mimecast20190719; t=1710257599;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vqtymCGo7P9V/CIH9maAvyIB5O8JWTu4UWQygBzme10=;
-	b=S4xUxBeVnO8BwgYOvaZC9Jtm7Itf4bKHNmkWEMBFpj/nylhhFHdBB17DOjZsfPPNAUwxi6
-	p9H1NTFkrpZETPhF5XbLtBUvxXUCZgxw8gxod5cHW32g9shNf293x7eI2k5LPklwl0Cxwk
-	6+l9x9vF84QCAyAuWYTbWYvg3MubqnA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=6hB7LWVOR22eWYlwayM1X+lT1/2Yk9Gp5YiWT4qGJBc=;
+	b=fYCgUom+HGHj+G63FRTKkZDHCDbOMfy/tXuIvJYo1EICwzfyrA1T9VdrYIRhBL0PAQp33Q
+	TNKg4CdN0lLdThs/u8IezUswB7nK5cCFcu2CaIu7y8wGMCRdt/MG5/KL9blR67Uira4dA7
+	zCSYYdWDk20mnGGDJ7U3vghzmw1wjEc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-339-Hioel8zDPIuB6-8Mmpn0lQ-1; Tue, 12 Mar 2024 11:13:17 -0400
-X-MC-Unique: Hioel8zDPIuB6-8Mmpn0lQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-40fb505c97aso23271845e9.3
-        for <fsverity@lists.linux.dev>; Tue, 12 Mar 2024 08:13:16 -0700 (PDT)
+ us-mta-97-HqNtn9_rMBe54VWyBcw_bg-1; Tue, 12 Mar 2024 11:33:18 -0400
+X-MC-Unique: HqNtn9_rMBe54VWyBcw_bg-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-412de861228so23325385e9.0
+        for <fsverity@lists.linux.dev>; Tue, 12 Mar 2024 08:33:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710256395; x=1710861195;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vqtymCGo7P9V/CIH9maAvyIB5O8JWTu4UWQygBzme10=;
-        b=Rml6b+2RzGrMa8anTd5FV/A+c6zmEtI5sFFlaZ1JDNv8Qj+a3mtcHqskHvpjcvefAE
-         g+V93xeotS+NLpi7ZXEigiFf6/wmFR5y1scJFAXXNtW0PWK1ce3EcXxSV7kE5D4PKKpS
-         O+vfLL9XIy5GO9l5JGU1NdT5giwDMXzqo0KPD/KHH/ng9uulDaf3W3Vt1TeMH7Sp4q9Q
-         K9shxAZSA5zCLyJ1UqViTood1Bz+O7+58FgcgNgMPncWv+IPhsRAdaKPuvl6yoiBbz8b
-         xoLOsvGzTceLXrVclglX3P8WsNWwHhMzwXN1ZaA2HcNeyzPj/Rjr+ZpfoihyvN6gjbWI
-         b+ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvg9MQxWMAoynWXyQ3r3a8S6aRwxg1VapOysZQgHpiGnJQA8dBBYE2ZwTaQuwcbHRdQ5vGHn4VwOw4ZoiArXuyeqiYtaoa52s=
-X-Gm-Message-State: AOJu0YyVSp5e2yUcrHvb+ospkJ4XszEGwxYWBks11g7a1XUAipk0SgJM
-	hfIeZyZAXw1dJGLqlxOsYriTEKywipfm2v8nprb4/aEx10co+9NhCvpSLHzJ/JU/Vqq/0QgkC0n
-	McGgrJeNxtZwB6C02pBGT+9otAmZFx5GHZy79Se0SsoQFUsCNSfEJyeYW
-X-Received: by 2002:a05:600c:3149:b0:413:19ac:2a06 with SMTP id h9-20020a05600c314900b0041319ac2a06mr7114658wmo.28.1710256395106;
-        Tue, 12 Mar 2024 08:13:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEpWV1BbQ1Y/gMZoarI5awYwyPBJrzdQ2syfyKJ5IgmfeDApTHMPyRnF/GQ+5yzFkvCp9neQw==
-X-Received: by 2002:a05:600c:3149:b0:413:19ac:2a06 with SMTP id h9-20020a05600c314900b0041319ac2a06mr7114637wmo.28.1710256394606;
-        Tue, 12 Mar 2024 08:13:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710257596; x=1710862396;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:from:content-language:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6hB7LWVOR22eWYlwayM1X+lT1/2Yk9Gp5YiWT4qGJBc=;
+        b=pN3FBxBITRu2dWByHBz0RkQHdtoEu4cJr2ANd1mccEoM9N26POJjdTA2Bfo/+5qJG5
+         pYi62RFtYunoIZbh4ArMT1s28bAU1laocs2nz431FdVL0vlIfVBUYWtrhjvf/T74Xsqt
+         z7QXyMd8WeKvrIm1imsuLgTxz8PcB+cOL9hyKUSZ9FenImhRctB77P8VdbtsoVgiW4HN
+         tu0+9hGG50bRfYrsB8Z9tlmikvp59qky3Uod91BEG8is7CznWHrfpGLlcMPj7mz9yDTT
+         qGndtiGNDxgrH3ebkA4EJohG+klEUHk5hZE8fH/HtW4OoqpBYonxh0Ije2vF/N+702bK
+         nQQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVylhsD3jM06aM26+UMTM6DxgkJgmPkT/rDcK7Ey1+0MO40++lJLxm3fWkXSM2JeSG6PYI4gDqKHHOVduvkb666j6GNmqfjn28=
+X-Gm-Message-State: AOJu0YxwqcvFh70P81NEGyw0jM8Xj2351PboOeecqEYu6Xn8Q20Af8uT
+	ve+eSfCg1xWKlUpEro67w5AsyX+TfO40V3swpVhKwWB8LlHqiCpzfUCJKGsmqjS0j0HLm9QhlaF
+	4HDQzpj6jMMHfMmEQX+p+WcjOtoV41Ug+X8t/kgFpY4kitlkcFQeBIwE7
+X-Received: by 2002:a05:600c:138e:b0:413:1d40:88fb with SMTP id u14-20020a05600c138e00b004131d4088fbmr7542896wmf.17.1710257596494;
+        Tue, 12 Mar 2024 08:33:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFM9rOsGIuQXoLnlnX1JMwu53T2Tnh+kgCjd44AJv10fz0mtRZKT7R+htoOmzeXQfquldBnPg==
+X-Received: by 2002:a05:600c:138e:b0:413:1d40:88fb with SMTP id u14-20020a05600c138e00b004131d4088fbmr7542882wmf.17.1710257596024;
+        Tue, 12 Mar 2024 08:33:16 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c707:4f00:a44a:5ad6:765a:635? (p200300cbc7074f00a44a5ad6765a0635.dip0.t-ipconnect.de. [2003:cb:c707:4f00:a44a:5ad6:765a:635])
-        by smtp.gmail.com with ESMTPSA id f13-20020adfb60d000000b0033e43756d11sm9255478wre.85.2024.03.12.08.13.13
+        by smtp.gmail.com with ESMTPSA id d9-20020adf9c89000000b0033df46f70dbsm9450876wre.9.2024.03.12.08.33.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 08:13:14 -0700 (PDT)
-Message-ID: <9927568e-9f36-4417-9d26-c8a05c220399@redhat.com>
-Date: Tue, 12 Mar 2024 16:13:12 +0100
+        Tue, 12 Mar 2024 08:33:15 -0700 (PDT)
+Message-ID: <08905bcc-677d-4981-926d-7f407b2f6a4a@redhat.com>
+Date: Tue, 12 Mar 2024 16:33:14 +0100
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -70,6 +70,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 06/24] fsverity: pass tree_blocksize to
  end_enable_verity()
+From: David Hildenbrand <david@redhat.com>
 To: "Darrick J. Wong" <djwong@kernel.org>,
  Matthew Wilcox <willy@infradead.org>
 Cc: Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
@@ -84,7 +85,7 @@ References: <20240304191046.157464-2-aalbersh@redhat.com>
  <20240308034650.GK1927156@frogsfrogsfrogs>
  <20240308044017.GC8111@sol.localdomain>
  <20240311223815.GW1927156@frogsfrogsfrogs>
-From: David Hildenbrand <david@redhat.com>
+ <9927568e-9f36-4417-9d26-c8a05c220399@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
  dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
@@ -130,129 +131,138 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20240311223815.GW1927156@frogsfrogsfrogs>
+In-Reply-To: <9927568e-9f36-4417-9d26-c8a05c220399@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11.03.24 23:38, Darrick J. Wong wrote:
-> [add willy and linux-mm]
-> 
-> On Thu, Mar 07, 2024 at 08:40:17PM -0800, Eric Biggers wrote:
->> On Thu, Mar 07, 2024 at 07:46:50PM -0800, Darrick J. Wong wrote:
->>>> BTW, is xfs_repair planned to do anything about any such extra blocks?
+On 12.03.24 16:13, David Hildenbrand wrote:
+> On 11.03.24 23:38, Darrick J. Wong wrote:
+>> [add willy and linux-mm]
+>>
+>> On Thu, Mar 07, 2024 at 08:40:17PM -0800, Eric Biggers wrote:
+>>> On Thu, Mar 07, 2024 at 07:46:50PM -0800, Darrick J. Wong wrote:
+>>>>> BTW, is xfs_repair planned to do anything about any such extra blocks?
+>>>>
+>>>> Sorry to answer your question with a question, but how much checking is
+>>>> $filesystem expected to do for merkle trees?
+>>>>
+>>>> In theory xfs_repair could learn how to interpret the verity descriptor,
+>>>> walk the merkle tree blocks, and even read the file data to confirm
+>>>> intactness.  If the descriptor specifies the highest block address then
+>>>> we could certainly trim off excess blocks.  But I don't know how much of
+>>>> libfsverity actually lets you do that; I haven't looked into that
+>>>> deeply. :/
+>>>>
+>>>> For xfs_scrub I guess the job is theoretically simpler, since we only
+>>>> need to stream reads of the verity files through the page cache and let
+>>>> verity tell us if the file data are consistent.
+>>>>
+>>>> For both tools, if something finds errors in the merkle tree structure
+>>>> itself, do we turn off verity?  Or do we do something nasty like
+>>>> truncate the file?
 >>>
->>> Sorry to answer your question with a question, but how much checking is
->>> $filesystem expected to do for merkle trees?
+>>> As far as I know (I haven't been following btrfs-progs, but I'm familiar with
+>>> e2fsprogs and f2fs-tools), there isn't yet any precedent for fsck actually
+>>> validating the data of verity inodes against their Merkle trees.
 >>>
->>> In theory xfs_repair could learn how to interpret the verity descriptor,
->>> walk the merkle tree blocks, and even read the file data to confirm
->>> intactness.  If the descriptor specifies the highest block address then
->>> we could certainly trim off excess blocks.  But I don't know how much of
->>> libfsverity actually lets you do that; I haven't looked into that
->>> deeply. :/
+>>> e2fsck does delete the verity metadata of inodes that don't have the verity flag
+>>> enabled.  That handles cleaning up after a crash during FS_IOC_ENABLE_VERITY.
 >>>
->>> For xfs_scrub I guess the job is theoretically simpler, since we only
->>> need to stream reads of the verity files through the page cache and let
->>> verity tell us if the file data are consistent.
+>>> I suppose that ideally, if an inode's verity metadata is invalid, then fsck
+>>> should delete that inode's verity metadata and remove the verity flag from the
+>>> inode.  Checking for a missing or obviously corrupt fsverity_descriptor would be
+>>> fairly straightforward, but it probably wouldn't catch much compared to actually
+>>> validating the data against the Merkle tree.  And actually validating the data
+>>> against the Merkle tree would be complex and expensive.  Note, none of this
+>>> would work on files that are encrypted.
 >>>
->>> For both tools, if something finds errors in the merkle tree structure
->>> itself, do we turn off verity?  Or do we do something nasty like
->>> truncate the file?
+>>> Re: libfsverity, I think it would be possible to validate a Merkle tree using
+>>> libfsverity_compute_digest() and the callbacks that it supports.  But that's not
+>>> quite what it was designed for.
+>>>
+>>>> Is there an ioctl or something that allows userspace to validate an
+>>>> entire file's contents?  Sort of like what BLKVERIFY would have done for
+>>>> block devices, except that we might believe its answers?
+>>>
+>>> Just reading the whole file and seeing whether you get an error would do it.
+>>>
+>>> Though if you want to make sure it's really re-reading the on-disk data, it's
+>>> necessary to drop the file's pagecache first.
 >>
->> As far as I know (I haven't been following btrfs-progs, but I'm familiar with
->> e2fsprogs and f2fs-tools), there isn't yet any precedent for fsck actually
->> validating the data of verity inodes against their Merkle trees.
+>> I tried a straight pagecache read and it worked like a charm!
 >>
->> e2fsck does delete the verity metadata of inodes that don't have the verity flag
->> enabled.  That handles cleaning up after a crash during FS_IOC_ENABLE_VERITY.
+>> But then I thought to myself, do I really want to waste memory bandwidth
+>> copying a bunch of data?  No.  I don't even want to incur system call
+>> overhead from reading a single byte every $pagesize bytes.
 >>
->> I suppose that ideally, if an inode's verity metadata is invalid, then fsck
->> should delete that inode's verity metadata and remove the verity flag from the
->> inode.  Checking for a missing or obviously corrupt fsverity_descriptor would be
->> fairly straightforward, but it probably wouldn't catch much compared to actually
->> validating the data against the Merkle tree.  And actually validating the data
->> against the Merkle tree would be complex and expensive.  Note, none of this
->> would work on files that are encrypted.
+>> So I created 2M mmap areas and read a byte every $pagesize bytes.  That
+>> worked too, insofar as SIGBUSes are annoying to handle.  But it's
+>> annoying to take signals like that.
 >>
->> Re: libfsverity, I think it would be possible to validate a Merkle tree using
->> libfsverity_compute_digest() and the callbacks that it supports.  But that's not
->> quite what it was designed for.
+>> Then I started looking at madvise.  MADV_POPULATE_READ looked exactly
+>> like what I wanted -- it prefaults in the pages, and "If populating
+>> fails, a SIGBUS signal is not generated; instead, an error is returned."
 >>
->>> Is there an ioctl or something that allows userspace to validate an
->>> entire file's contents?  Sort of like what BLKVERIFY would have done for
->>> block devices, except that we might believe its answers?
+> 
+> Yes, these were the expected semantics :)
+> 
+>> But then I tried rigging up a test to see if I could catch an EIO, and
+>> instead I had to SIGKILL the process!  It looks filemap_fault returns
+>> VM_FAULT_RETRY to __xfs_filemap_fault, which propagates up through
+>> __do_fault -> do_read_fault -> do_fault -> handle_pte_fault ->
+>> handle_mm_fault -> faultin_page -> __get_user_pages.  At faultin_pages,
+>> the VM_FAULT_RETRY is translated to -EBUSY.
 >>
->> Just reading the whole file and seeing whether you get an error would do it.
+>> __get_user_pages squashes -EBUSY to 0, so faultin_vma_page_range returns
+>> that to madvise_populate.  Unfortunately, madvise_populate increments
+>> its loop counter by the return value (still 0) so it runs in an
+>> infinite loop.  The only way out is SIGKILL.
+> 
+> That's certainly unexpected. One user I know is QEMU, which primarily
+> uses MADV_POPULATE_WRITE to prefault page tables. Prefaulting in QEMU is
+> primarily used with shmem/hugetlb, where I haven't heard of any such
+> endless loops.
+> 
 >>
->> Though if you want to make sure it's really re-reading the on-disk data, it's
->> necessary to drop the file's pagecache first.
+>> So I don't know what the correct behavior is here, other than the
+>> infinite loop seems pretty suspect.  Is it the correct behavior that
+>> madvise_populate returns EIO if __get_user_pages ever returns zero?
+>> That doesn't quite sound right if it's the case that a zero return could
+>> also happen if memory is tight.
 > 
-> I tried a straight pagecache read and it worked like a charm!
+> madvise_populate() ends up calling faultin_vma_page_range() in a loop.
+> That one calls __get_user_pages().
 > 
-> But then I thought to myself, do I really want to waste memory bandwidth
-> copying a bunch of data?  No.  I don't even want to incur system call
-> overhead from reading a single byte every $pagesize bytes.
+> __get_user_pages() documents: "0 return value is possible when the fault
+> would need to be retried."
 > 
-> So I created 2M mmap areas and read a byte every $pagesize bytes.  That
-> worked too, insofar as SIGBUSes are annoying to handle.  But it's
-> annoying to take signals like that.
+> So that's what the caller does. IIRC, there are cases where we really
+> have to retry (at least once) and will make progress, so treating "0" as
+> an error would be wrong.
 > 
-> Then I started looking at madvise.  MADV_POPULATE_READ looked exactly
-> like what I wanted -- it prefaults in the pages, and "If populating
-> fails, a SIGBUS signal is not generated; instead, an error is returned."
+> Staring at other __get_user_pages() users, __get_user_pages_locked()
+> documents: "Please note that this function, unlike __get_user_pages(),
+> will not return 0 for nr_pages > 0, unless FOLL_NOWAIT is used.".
 > 
-
-Yes, these were the expected semantics :)
-
-> But then I tried rigging up a test to see if I could catch an EIO, and
-> instead I had to SIGKILL the process!  It looks filemap_fault returns
-> VM_FAULT_RETRY to __xfs_filemap_fault, which propagates up through
-> __do_fault -> do_read_fault -> do_fault -> handle_pte_fault ->
-> handle_mm_fault -> faultin_page -> __get_user_pages.  At faultin_pages,
-> the VM_FAULT_RETRY is translated to -EBUSY.
+> But there is some elaborate retry logic in there, whereby the retry will
+> set FOLL_TRIED->FAULT_FLAG_TRIED, and I think we'd fail on the second
+> retry attempt (there are cases where we retry more often, but that's
+> related to something else I believe).
 > 
-> __get_user_pages squashes -EBUSY to 0, so faultin_vma_page_range returns
-> that to madvise_populate.  Unfortunately, madvise_populate increments
-> its loop counter by the return value (still 0) so it runs in an
-> infinite loop.  The only way out is SIGKILL.
+> So maybe we need a similar retry logic in faultin_vma_page_range()? Or
+> make it use __get_user_pages_locked(), but I recall when I introduced
+> MADV_POPULATE_READ, there was a catch to it.
 
-That's certainly unexpected. One user I know is QEMU, which primarily 
-uses MADV_POPULATE_WRITE to prefault page tables. Prefaulting in QEMU is 
-primarily used with shmem/hugetlb, where I haven't heard of any such 
-endless loops.
+I'm trying to figure out who will be setting the VM_FAULT_SIGBUS in the 
+mmap()+access case you describe above.
 
-> 
-> So I don't know what the correct behavior is here, other than the
-> infinite loop seems pretty suspect.  Is it the correct behavior that
-> madvise_populate returns EIO if __get_user_pages ever returns zero?
-> That doesn't quite sound right if it's the case that a zero return could
-> also happen if memory is tight.
-
-madvise_populate() ends up calling faultin_vma_page_range() in a loop. 
-That one calls __get_user_pages().
-
-__get_user_pages() documents: "0 return value is possible when the fault 
-would need to be retried."
-
-So that's what the caller does. IIRC, there are cases where we really 
-have to retry (at least once) and will make progress, so treating "0" as 
-an error would be wrong.
-
-Staring at other __get_user_pages() users, __get_user_pages_locked() 
-documents: "Please note that this function, unlike __get_user_pages(), 
-will not return 0 for nr_pages > 0, unless FOLL_NOWAIT is used.".
-
-But there is some elaborate retry logic in there, whereby the retry will 
-set FOLL_TRIED->FAULT_FLAG_TRIED, and I think we'd fail on the second 
-retry attempt (there are cases where we retry more often, but that's 
-related to something else I believe).
-
-So maybe we need a similar retry logic in faultin_vma_page_range()? Or 
-make it use __get_user_pages_locked(), but I recall when I introduced 
-MADV_POPULATE_READ, there was a catch to it.
+Staring at arch/x86/mm/fault.c:do_user_addr_fault(), I don't immediately 
+see how we would transition from a VM_FAULT_RETRY loop to 
+VM_FAULT_SIGBUS. Because VM_FAULT_SIGBUS would be required for that 
+function to call do_sigbus().
 
 -- 
 Cheers,
