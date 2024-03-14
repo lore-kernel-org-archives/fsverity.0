@@ -1,241 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8A37351C;
-	Thu, 14 Mar 2024 17:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68E774BFD
+	for <fsverity@lists.linux.dev>; Thu, 14 Mar 2024 17:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710435982; cv=none; b=ufwiXdxkhLQE6ADDm+awo/wkcimGhsLYG6WLL3QLlcdlRXfRaLv3ATvW/TT0065zbaJKgK4bWAwWtDoOD6a+mBAM7U34xVvWa6Tnb4gouqSwtCLQ3AcGcltzUB96/hRfzXmrshRavss6Dkl3yilermQAPFer9L1Z3CDIKWYNqvo=
+	t=1710436569; cv=none; b=ouAuS2yPJEsTYeOYkB302QBKDY6ZXhwaG7WqOEpjGA/MsVGG2OgA4m1hk/m3OXKqn2JAOC77/7bqvRNCA8RU9T8cHdKCPfssOxqQ56CQjnHB+2xtXhEEvnS/SPfrDrbkwB3rpzqvUvNSuquegk8pk3PsAea6LTWycmiKJAOnP2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710435982; c=relaxed/simple;
-	bh=viGiINFDCV7P8QI+dM5uC1tGJDU23A2pJCI1bxg7RKM=;
+	s=arc-20240116; t=1710436569; c=relaxed/simple;
+	bh=yJ9lhppTwYft3uAXsPtQ9JakH3AP/Ec6HHHPVz1Rbgs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XdOgZryNKENywxE1jmou56wKKqR7WJ9QpGNt19kRyKuhSlDSczsijmt5DwmnIUflwoNLydwerZKWNLG/0cxe5F8LhOIh4dFfmuAP9dUHxIDcm2MHuH1nmbnryqL1XnHqU6aW4mz/idfPLrE5rF9jt9ju5lPQ9E/5qcEiUXlXARw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Soedy5Z1; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type:Content-Disposition; b=hiaUBq1R/0JLSdxy5+yoEQxHzLDCpXMBL5QBC5G7/kFaf8IUBe6DeNMNvUFOhf+lF4EJM8c8ZMUTH26ZbRq4jyuP0sS2DI/EvBYYIB8VYMQ21Lneg/kNl/QF0WJL8bWxMAGUGsrCZ7PXf2nUlDcIagPm52qxnNILyAgCaZEwjKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CYQW8/Ls; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Soedy5Z1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D576C433F1;
-	Thu, 14 Mar 2024 17:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710435981;
-	bh=viGiINFDCV7P8QI+dM5uC1tGJDU23A2pJCI1bxg7RKM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Soedy5Z1kCcIkRe8UsLOBcXoOy9e/gcvMvYsfy6wFS7Q1QQLm2CkUm/kC9kAkTG5i
-	 dUg6bRt8dv9CA4ROjNUEWtGzMyMFJ43+W0K8Q4GkaLe6UtNX0DVSfTCCYheVmNCjHR
-	 Gz3JvweBGTXTszxLfYJrdhAzwZxtuAuus8siYNow/hqFHpignE/0+YvIDFAiTbX6fO
-	 jSOEF9r4n0eZkmAndOhePy4MXKw9WF9rVoeMhWroiWGtGSjHCHv2LKy9GR9xWqCfhN
-	 5qOPCvWV+/+KcScDL2qtwCXVK2gW8EFohn8tecaWCz5cqLpkKjn1kYCpnLFAjEz+dK
-	 kVTDIiaPU9PVw==
-Date: Thu, 14 Mar 2024 10:06:20 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: aalbersh@redhat.com, ebiggers@kernel.org
-Cc: linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-xfs@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CYQW8/Ls"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710436566;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yo3wkqTGWc513kM6wvuDHFlEJRGidugW7GVqad1jST8=;
+	b=CYQW8/Lsxke5sAFHwCIOSsen2vK7NDXu1Ez77Ne08THBzDuZocWe4KLrzyKSGFhE8AhiuE
+	WvPNcYD2Ut+2UVPqbu/fu6VXp6yC8ZL0cTETaBh0gnjkcfYlVdZ9/6e8Q/9Mul/nyzrwks
+	QuJT9MEfF6hnpJb3xqjM9p2R8NwEjlE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-8-VL6IwIKLNtSKAtbDwOXTEA-1; Thu, 14 Mar 2024 13:16:05 -0400
+X-MC-Unique: VL6IwIKLNtSKAtbDwOXTEA-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-568a3be9127so449595a12.2
+        for <fsverity@lists.linux.dev>; Thu, 14 Mar 2024 10:16:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710436564; x=1711041364;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yo3wkqTGWc513kM6wvuDHFlEJRGidugW7GVqad1jST8=;
+        b=PaZ8QWCFljDKgE2SF3vl3nWr11aDnmo3G6YX90XqCGXWHx0kvdsJTTvZrbY6YZAlBs
+         dmWpL6l288MbMkML9MdMgA3Bcalu1ORZ3lmfJDkm2DE7Bw9LCM9GwNE5HHjfKPQuB3CC
+         nrM3ithVpVgKCzQrYLIYYwE6eTInjjaA31AWDFN9HluPnrOlAIagcOyc+f3El2RAVNmD
+         fAw8L3MuFGvavk/tE+5UMtAFODUd4Y/rDOpIpoKCMs24lcVY+ig0GxO8axa9hJeNCos3
+         XRwgf02VXfXcNOCl4N0UqgRkDRR8+x+EXTD840qArMHA/LYqmgHsV7GSeQCPuEFsyV0O
+         GAdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVtAEgnw9PXeSlD7lAjvVTCeicKAXzIMPyPcz9NeztIWf1QUvHx0PzIpPOlzTekUxv9HrnmSrebJhGA/PmqwRW7KTSuHQ40roo=
+X-Gm-Message-State: AOJu0YxXEpN8bABfQDg8TvOuXLkGQAwh4Oi5kQXKubntwq7AF+p4arbJ
+	+1mDgyzhz0fNQPOL71g2IC4DXsChwjeUAHIkDmm5wrw8EiiHw395WNx6ASEIRiTu7tbF70fAr3K
+	l6X0zMj0ycN+AcsHJHoOcRXtsZUlIvLUxMWgG9EpcTkByL6fbOlHs4Fg=
+X-Received: by 2002:a05:6402:5d3:b0:565:c814:d891 with SMTP id n19-20020a05640205d300b00565c814d891mr2108655edx.0.1710436563929;
+        Thu, 14 Mar 2024 10:16:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHpiQiYtlVEkMxL0Um6412Pz19nDaf4h9YSERjM68EoccsOsNTvC2KFnAl6vcMHFJMKQA9igw==
+X-Received: by 2002:a05:6402:5d3:b0:565:c814:d891 with SMTP id n19-20020a05640205d300b00565c814d891mr2108591edx.0.1710436563299;
+        Thu, 14 Mar 2024 10:16:03 -0700 (PDT)
+Received: from thinky ([109.183.6.197])
+        by smtp.gmail.com with ESMTPSA id g17-20020aa7d1d1000000b00568a44036a2sm546147edp.46.2024.03.14.10.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Mar 2024 10:16:02 -0700 (PDT)
+Date: Thu, 14 Mar 2024 18:16:02 +0100
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: ebiggers@kernel.org, linux-fsdevel@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org
 Subject: Re: [PATCH 21/29] xfs: add fs-verity support
-Message-ID: <20240314170620.GR1927156@frogsfrogsfrogs>
+Message-ID: <lveodvnohv4orprbr7xte2c3bbspd3ttmx2e5f5bvtf3353kfa@qsjqrliz4urs>
 References: <171035223299.2613863.12196197862413309469.stgit@frogsfrogsfrogs>
  <171035223693.2613863.3986547716372413007.stgit@frogsfrogsfrogs>
+ <20240314170620.GR1927156@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20240314170620.GR1927156@frogsfrogsfrogs>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <171035223693.2613863.3986547716372413007.stgit@frogsfrogsfrogs>
 
-On Wed, Mar 13, 2024 at 10:58:03AM -0700, Darrick J. Wong wrote:
-> From: Andrey Albershteyn <aalbersh@redhat.com>
+On 2024-03-14 10:06:20, Darrick J. Wong wrote:
+> On Wed, Mar 13, 2024 at 10:58:03AM -0700, Darrick J. Wong wrote:
+> > From: Andrey Albershteyn <aalbersh@redhat.com>
+> > 
+> > Add integration with fs-verity. The XFS store fs-verity metadata in
+> > the extended file attributes. The metadata consist of verity
+> > descriptor and Merkle tree blocks.
+> > 
+> > The descriptor is stored under "vdesc" extended attribute. The
+> > Merkle tree blocks are stored under binary indexes which are offsets
+> > into the Merkle tree.
+> > 
+> > When fs-verity is enabled on an inode, the XFS_IVERITY_CONSTRUCTION
+> > flag is set meaning that the Merkle tree is being build. The
+> > initialization ends with storing of verity descriptor and setting
+> > inode on-disk flag (XFS_DIFLAG2_VERITY).
+> > 
+> > The verification on read is done in read path of iomap.
+> > 
+> > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
+> > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+> > [djwong: replace caching implementation with an xarray, other cleanups]
+> > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 > 
-> Add integration with fs-verity. The XFS store fs-verity metadata in
-> the extended file attributes. The metadata consist of verity
-> descriptor and Merkle tree blocks.
-> 
-> The descriptor is stored under "vdesc" extended attribute. The
-> Merkle tree blocks are stored under binary indexes which are offsets
-> into the Merkle tree.
-> 
-> When fs-verity is enabled on an inode, the XFS_IVERITY_CONSTRUCTION
-> flag is set meaning that the Merkle tree is being build. The
-> initialization ends with storing of verity descriptor and setting
-> inode on-disk flag (XFS_DIFLAG2_VERITY).
-> 
-> The verification on read is done in read path of iomap.
-> 
-> Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> [djwong: replace caching implementation with an xarray, other cleanups]
-> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> I started writing more of userspace (xfs_db decoding of verity xattrs,
+> repair/scrub support) so I think I want to make one more change to this.
 
-I started writing more of userspace (xfs_db decoding of verity xattrs,
-repair/scrub support) so I think I want to make one more change to this.
+Just to note, I have a version of xfs_db with a few modification to
+make it work with xfstests and make it aware of fs-verity:
 
-This change shortens the key structure name, puts a proper namespace on
-the merkleoff field to match everything else in the ondisk structs, and
-checks it via xfs_ondisk.h.
+https://github.com/alberand/xfsprogs/tree/fsverity-v5
 
---D
+-- 
+- Andrey
 
-diff --git a/fs/xfs/libxfs/xfs_attr.c b/fs/xfs/libxfs/xfs_attr.c
-index 3280fbc3027ec..c2f1b38683646 100644
---- a/fs/xfs/libxfs/xfs_attr.c
-+++ b/fs/xfs/libxfs/xfs_attr.c
-@@ -1593,7 +1593,7 @@ xfs_attr_namecheck(
- 
- 	if (flags & XFS_ATTR_VERITY) {
- 		/* Merkle tree pages are stored under u64 indexes */
--		if (length == sizeof(struct xfs_fsverity_merkle_key))
-+		if (length == sizeof(struct xfs_verity_merkle_key))
- 			return true;
- 
- 		/* Verity descriptor blocks are held in a named attribute. */
-diff --git a/fs/xfs/libxfs/xfs_da_format.h b/fs/xfs/libxfs/xfs_da_format.h
-index 6e3b08d4ad74a..e55e437c47ae3 100644
---- a/fs/xfs/libxfs/xfs_da_format.h
-+++ b/fs/xfs/libxfs/xfs_da_format.h
-@@ -923,10 +923,10 @@ struct xfs_parent_name_rec {
-  * fs-verity attribute name format
-  *
-  * Merkle tree blocks are stored under extended attributes of the inode. The
-- * name of the attributes are offsets into merkle tree.
-+ * name of the attributes are byte offsets into merkle tree.
-  */
--struct xfs_fsverity_merkle_key {
--	__be64 merkleoff;
-+struct xfs_verity_merkle_key {
-+	__be64	bk_merkleoff;
- };
- 
- /* ondisk xattr name used for the fsverity descriptor */
-diff --git a/fs/xfs/libxfs/xfs_ondisk.h b/fs/xfs/libxfs/xfs_ondisk.h
-index e4e0e5203ec16..118e993c7d2f3 100644
---- a/fs/xfs/libxfs/xfs_ondisk.h
-+++ b/fs/xfs/libxfs/xfs_ondisk.h
-@@ -206,8 +206,9 @@ xfs_check_ondisk_structs(void)
- 	XFS_CHECK_VALUE(XFS_DQ_BIGTIME_EXPIRY_MAX << XFS_DQ_BIGTIME_SHIFT,
- 			16299260424LL);
- 
--	/* fs-verity descriptor xattr name */
--	XFS_CHECK_VALUE(sizeof(XFS_VERITY_DESCRIPTOR_NAME), 6);
-+	/* fs-verity xattrs */
-+	XFS_CHECK_STRUCT_SIZE(struct xfs_verity_merkle_key,	8);
-+	XFS_CHECK_VALUE(sizeof(XFS_VERITY_DESCRIPTOR_NAME),	6);
- }
- 
- #endif /* __XFS_ONDISK_H */
-diff --git a/fs/xfs/xfs_verity.c b/fs/xfs/xfs_verity.c
-index 82340c9130494..dca3b68445343 100644
---- a/fs/xfs/xfs_verity.c
-+++ b/fs/xfs/xfs_verity.c
-@@ -201,20 +201,20 @@ xfs_verity_cache_store(
- }
- 
- static inline void
--xfs_fsverity_merkle_key_to_disk(
--	struct xfs_fsverity_merkle_key	*key,
-+xfs_verity_merkle_key_to_disk(
-+	struct xfs_verity_merkle_key	*key,
- 	u64				offset)
- {
--	key->merkleoff = cpu_to_be64(offset);
-+	key->bk_merkleoff = cpu_to_be64(offset);
- }
- 
- static inline u64
--xfs_fsverity_merkle_key_from_disk(
-+xfs_verity_merkle_key_from_disk(
- 	void				*attr_name)
- {
--	struct xfs_fsverity_merkle_key	*key = attr_name;
-+	struct xfs_verity_merkle_key	*key = attr_name;
- 
--	return be64_to_cpu(key->merkleoff);
-+	return be64_to_cpu(key->bk_merkleoff);
- }
- 
- static int
-@@ -272,7 +272,7 @@ xfs_drop_merkle_tree(
- 	u64				merkle_tree_size,
- 	unsigned int			tree_blocksize)
- {
--	struct xfs_fsverity_merkle_key	name;
-+	struct xfs_verity_merkle_key	name;
- 	int				error = 0;
- 	u64				offset = 0;
- 	struct xfs_da_args		args = {
-@@ -281,7 +281,7 @@ xfs_drop_merkle_tree(
- 		.attr_filter		= XFS_ATTR_VERITY,
- 		.op_flags		= XFS_DA_OP_REMOVE,
- 		.name			= (const uint8_t *)&name,
--		.namelen		= sizeof(struct xfs_fsverity_merkle_key),
-+		.namelen		= sizeof(struct xfs_verity_merkle_key),
- 		/* NULL value make xfs_attr_set remove the attr */
- 		.value			= NULL,
- 	};
-@@ -290,7 +290,7 @@ xfs_drop_merkle_tree(
- 		return 0;
- 
- 	for (offset = 0; offset < merkle_tree_size; offset += tree_blocksize) {
--		xfs_fsverity_merkle_key_to_disk(&name, offset);
-+		xfs_verity_merkle_key_to_disk(&name, offset);
- 		error = xfs_attr_set(&args);
- 		if (error)
- 			return error;
-@@ -372,12 +372,12 @@ xfs_verity_read_merkle(
- 	struct fsverity_blockbuf	*block)
- {
- 	struct xfs_inode		*ip = XFS_I(req->inode);
--	struct xfs_fsverity_merkle_key	name;
-+	struct xfs_verity_merkle_key	name;
- 	struct xfs_da_args		args = {
- 		.dp			= ip,
- 		.attr_filter		= XFS_ATTR_VERITY,
- 		.name			= (const uint8_t *)&name,
--		.namelen		= sizeof(struct xfs_fsverity_merkle_key),
-+		.namelen		= sizeof(struct xfs_verity_merkle_key),
- 		.valuelen		= block->size,
- 	};
- 	struct xfs_merkle_blob		*mk, *new_mk;
-@@ -386,7 +386,7 @@ xfs_verity_read_merkle(
- 
- 	ASSERT(block->offset >> req->log_blocksize <= ULONG_MAX);
- 
--	xfs_fsverity_merkle_key_to_disk(&name, block->offset);
-+	xfs_verity_merkle_key_to_disk(&name, block->offset);
- 
- 	/* Is the block already cached? */
- 	mk = xfs_verity_cache_load(ip, key);
-@@ -399,7 +399,7 @@ xfs_verity_read_merkle(
- 	args.value = new_mk->data;
- 
- 	/* Read the block in from disk and try to store it in the cache. */
--	xfs_fsverity_merkle_key_to_disk(&name, block->offset);
-+	xfs_verity_merkle_key_to_disk(&name, block->offset);
- 
- 	error = xfs_attr_get(&args);
- 	if (error)
-@@ -440,19 +440,18 @@ xfs_verity_write_merkle(
- 	unsigned int		size)
- {
- 	struct xfs_inode	*ip = XFS_I(inode);
--	struct xfs_fsverity_merkle_key	name;
-+	struct xfs_verity_merkle_key	name;
- 	struct xfs_da_args	args = {
- 		.dp		= ip,
- 		.whichfork	= XFS_ATTR_FORK,
- 		.attr_filter	= XFS_ATTR_VERITY,
--		.namelen	= sizeof(struct xfs_fsverity_merkle_key),
-+		.name		= (const uint8_t *)&name,
-+		.namelen	= sizeof(struct xfs_verity_merkle_key),
- 		.value		= (void *)buf,
- 		.valuelen	= size,
- 	};
- 
--	xfs_fsverity_merkle_key_to_disk(&name, pos);
--	args.name = (const uint8_t *)&name.merkleoff;
--
-+	xfs_verity_merkle_key_to_disk(&name, pos);
- 	return xfs_attr_set(&args);
- }
- 
