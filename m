@@ -1,70 +1,143 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC13317547;
-	Mon, 18 Mar 2024 01:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E021D530
+	for <fsverity@lists.linux.dev>; Mon, 18 Mar 2024 01:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710726221; cv=none; b=WnDv/K1YhsBkyXDxZNpGBdJ2aqMonQ1jwayGj8Q7AdjbCHTb9AGyE8MoQnd3WDXItX2kQJp3zmW53lzIiXOcC9b1QUQsQ8sNBgvG+7ppsQeZ3OhfN2pDdGQiwT/TBVIQ4AQ1maWoA96mOCTSDBun4h/qZmC65KgtsDhXkdmKu5k=
+	t=1710727152; cv=none; b=Y3fk42nkuryDrSsllmlP5oupvACFj+Ge2JU7JgMA6/5SWQZJecugi2Cqh0dQuOpHZzSMuzzTbQtyHrHRgugoNp9NGe1M7tp98BlUMFl+3cNV0ph6HipKpjBN8XCfKRzW0HU8TO7KB0MN0eoRg653tQBWEDanFSd+2l3NuSnM6BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710726221; c=relaxed/simple;
-	bh=6wHEGScGebsB8YZRoj0nM1zwl1+GcBDIVvkwATpv8zw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ifvp53igP515QbwOdA1hBxSqHfRU/PURm7oc+yd4Rulkt+1rhZyniPIPqBve0Bpx/XaRK8gBDfc5aJR2P8/d31PH6wqKQVzjERT/Ut1mNXjZ+wclbJMq0AiPCO8TjZy4tAS4/i3JxF0mUKxT/qyBPBv21aXV3WBdEY5mYG0RQ98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GGjj8klp; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1710727152; c=relaxed/simple;
+	bh=FqUgQgxrfZtI2qk5V+CbuvudPfEzb8SHu5+APKjhAeY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ic4tFSKcWd73kA0nrK5HZgr6A9Sn0Tj0bV2qDezHZ7SRtxgNihVMWvyDNkEcPqcGkhDHFGtZM6m4rXeL5vrmF1vFs7CBWU5jND9yVIzdQDRWOnO97bBjpP6vIVVBnBQ8MbKm04j3mV3uC7VqrpSOcK+VzgRXNZRh8UErTAhgenE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=OBvQFOu6; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GGjj8klp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=CmiL69yLYxuLopaHcgf4mF4zui4cUo2PKK6V1SVPigA=; b=GGjj8klpW+I8gN7jruJLDZgsSW
-	cTmqGZDEIlJHw0ffydZUOH5HbE7M0xvV68lN5B0M1i/xA7iNww2RbDS+9I6/U+i6G4R9b+NEALtVz
-	pUKV4+f4bwkeEIPV7fsGV75fFRpeZRV5Pnjml1vPDr6GdkOW11k5zHcGJL9QnhOUutUR2m1vPTHJz
-	IWMVes++e1U3tP5/K7PgvK6qO5uxnlZkOqLV4UajjgSshqe1ibPP+kEeD0BUh6kASDhi85NQz134b
-	168eCh4xRbW0XROgrDqhmUgCKY0Vp2KGo9qbuD3G2wJn3rD7RqjOR2WOtKrghVvCnEGaBTNtrDUmV
-	3E6v5EwA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rm22N-00000006xQw-1tZ6;
-	Mon, 18 Mar 2024 01:43:39 +0000
-Date: Sun, 17 Mar 2024 18:43:39 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: ebiggers@kernel.org, aalbersh@redhat.com, linux-fsdevel@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 26/40] xfs: add fs-verity support
-Message-ID: <ZfecSzBoVDW5328l@infradead.org>
-References: <171069245829.2684506.10682056181611490828.stgit@frogsfrogsfrogs>
- <171069246327.2684506.14573441099126414062.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="OBvQFOu6"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso3544069276.2
+        for <fsverity@lists.linux.dev>; Sun, 17 Mar 2024 18:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1710727149; x=1711331949; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k+xmMKXEK467msfGN/zI+NTXm1eyrFZs4w/DgUrLeb0=;
+        b=OBvQFOu6Ea7UYrXyude2PgrQJeBDgWILEQlIV1pPwlnLXExz/Ut4CJTncG1j91SLSb
+         5AYmUZFBQsegCqtmqScyDzUjzxWPNFoTyQoROmwCj7RS1BajaS57GBCvsQUBi+/zNwoz
+         SvuBxRlHZGNMkxEQOC2M7sDEp8RUL9DF6HjKuuzIUTrpvZavLtUNv6YpEasD18VTDjM1
+         +AQr+/c05Jsdbe3OtalDBfio9+Z5vOeQX2fRzBubQE+wUtdk3lfEKfFV8s+Eo3/Mqgcd
+         G+7zRMsbF40hC/KPrZsRil275LfOpEtnkuStUguRl/8o7ioB+Q0FP4tETYAjw7jh4yZE
+         +7jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710727149; x=1711331949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k+xmMKXEK467msfGN/zI+NTXm1eyrFZs4w/DgUrLeb0=;
+        b=K2DNBLNnJ0kVkDVaF/4rrhRl1Mu6JTXdfZq6Xw6h3m/dTljp4Auqj8oMxQIXnbtuGN
+         OnBwjYWnxOCUWCTY7to+cUhsTQI52K8EAEVWcw9h023AJTZVNz6kYQI3m0X/InUohRCT
+         wBL8UnbMray1RzvZBXgEYEhwQYddPn+E28PLwTQvQkcTYtHgh4FVtNlhurZv58GmSRCc
+         rmpkA984veOr81Bf8lVAQimA7vpu2Gng7V8FOuPQrbjcJ2pm6NRJWVwmaUDyBiFD4AY+
+         W85crM984MALOLuRriGjW05dY0OA0T0o5MaheTzQII7g9v3tVk43EBFQDWqtFvybSLUr
+         zxqg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+9WNZZE9Ef4HU+uEvFVdH9KTEa4tNS7vAXZrN1Zqd6KTNfJp0/x4Fh4zJrNoCsyUySMJAhE3dZN4NFQ39hxkAv+lURavzEOs=
+X-Gm-Message-State: AOJu0YwFgvTLB8jf/WA+7mnlSGQiHwxY4mdbZEQp+6pxHA1yYt8LhZkj
+	bASXXVBx9RQs6wOXvsNZJ+kAiQiqTs3SgZkwd/3htCL2f8q6gXo23ITFVP7kBQVz97yq+jBlzZs
+	hjDIYMCyPEu10UAwmk+I7asFAExClDGi6M71h
+X-Google-Smtp-Source: AGHT+IFvxqCFh/zzQZhmtHVeJ4wKXtt8mxhTmxAcg93TKyWxNqDHIDARX3X+xrhcmbPvVzgaKwOoMXL4saPB2bh9WMY=
+X-Received: by 2002:a25:abef:0:b0:dcc:e854:d454 with SMTP id
+ v102-20020a25abef000000b00dcce854d454mr8541158ybi.14.1710727148753; Sun, 17
+ Mar 2024 18:59:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <171069246327.2684506.14573441099126414062.stgit@frogsfrogsfrogs>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <1710560151-28904-1-git-send-email-wufan@linux.microsoft.com>
+ <1710560151-28904-6-git-send-email-wufan@linux.microsoft.com> <43958767-32db-4c53-8408-8367cfc14d2f@schaufler-ca.com>
+In-Reply-To: <43958767-32db-4c53-8408-8367cfc14d2f@schaufler-ca.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Sun, 17 Mar 2024 21:58:58 -0400
+Message-ID: <CAHC9VhRsOp8-C+bEH+NnRrBu_NRjJongAXZu_P2+c_OkDBs9rw@mail.gmail.com>
+Subject: Re: [RFC PATCH v15 05/21] initramfs|security: Add a security hook to do_populate_rootfs()
+To: Casey Schaufler <casey@schaufler-ca.com>
+Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
+	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Just skimming over the series from the little I've followed from the
-last rounds (sorry, to busy with various projects):
+On Sun, Mar 17, 2024 at 8:29=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
+.com> wrote:
+> On 3/15/2024 8:35 PM, Fan Wu wrote:
+> > This patch introduces a new hook to notify security system that the
+> > content of initramfs has been unpacked into the rootfs.
+> >
+> > Upon receiving this notification, the security system can activate
+> > a policy to allow only files that originated from the initramfs to
+> > execute or load into kernel during the early stages of booting.
+> >
+> > This approach is crucial for minimizing the attack surface by
+> > ensuring that only trusted files from the initramfs are operational
+> > in the critical boot phase.
+> >
+> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> >
+> > ---
+> > v1-v11:
+> >   + Not present
+> >
+> > v12:
+> >   + Introduced
+> >
+> > v13:
+> >   + Rename the hook name to initramfs_populated()
+> >
+> > v14:
+> >   + No changes
+> >
+> > v15:
+> >   + No changes
+> > ---
+> >  include/linux/lsm_hook_defs.h |  2 ++
+> >  include/linux/security.h      |  8 ++++++++
+> >  init/initramfs.c              |  3 +++
+> >  security/security.c           | 10 ++++++++++
+> >  4 files changed, 23 insertions(+)
+> >
+> > diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_def=
+s.h
+> > index 334e00efbde4..7db99ae75651 100644
+> > --- a/include/linux/lsm_hook_defs.h
+> > +++ b/include/linux/lsm_hook_defs.h
+> > @@ -450,3 +450,5 @@ LSM_HOOK(int, 0, uring_override_creds, const struct=
+ cred *new)
+> >  LSM_HOOK(int, 0, uring_sqpoll, void)
+> >  LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
+> >  #endif /* CONFIG_IO_URING */
+> > +
+> > +LSM_HOOK(void, LSM_RET_VOID, initramfs_populated, void)
+>
+> This is an awfully expensive way to set a flag. Adding a LSM hook list
+> isn't free. Isn't there a way to capture this state change through one of
+> the mount hooks?
 
-> --- a/fs/xfs/xfs_inode.h
-> +++ b/fs/xfs/xfs_inode.h
-> @@ -92,6 +92,9 @@ typedef struct xfs_inode {
->  	spinlock_t		i_ioend_lock;
->  	struct work_struct	i_ioend_work;
->  	struct list_head	i_ioend_list;
-> +#ifdef CONFIG_FS_VERITY
-> +	struct xarray		i_merkle_blocks;
-> +#endif
+Unfortunately no, the initramfs isn't mounted like a traditional
+filesystem, it is "populated" by unpacking the cpio into the initramfs
+at early boot.  This LSM hook should be called exactly once during
+boot, and the performance impact should be minimal; I should also be
+wildly more performant than earlier revisions of this patchset that
+required grabbing a single spinlock on every file access.
 
-This looks like very much a blocker to me.  Adding a 16 byte field to
-struct inode that is used just for a few read-only-ish files on
-select few file systems doesn't seem very efficient.  Given that we
-very rarely update it and thus concurrency on the write side doesn't
-matter much, is there any way we could get a away with a fs-wide
-lookup data structure and avoid this?
+Of course if you have an idea on how this could be done
+differently/better I think we're all open to new ideas ...
+
+--=20
+paul-moore.com
