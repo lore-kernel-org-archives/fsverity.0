@@ -1,139 +1,79 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC43456776
-	for <fsverity@lists.linux.dev>; Mon, 18 Mar 2024 19:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3BBD58201;
+	Mon, 18 Mar 2024 20:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710791334; cv=none; b=WTszEVCYHNS+VZLnw45IOvgrbSNMi4l3RoRhWiK2/SdqXCpBlXwg5n0Mz/MzaUcCruQgF3ER5MSu9rW9TWRhseLapjxw6fzj1WOx+C18FFGoKsjftguramxjT36YnDHF0+cOCJeE5RtFwCyB8g/hKCgVWX6dyGTgrcndSr7/xSE=
+	t=1710794444; cv=none; b=Zyjkk89tCKJcoj6nF/8So9VWvrozeeWzUHqUJykDhIjmTB931ylTH2XqaSguHJkNb4LqjjxwFXSmBfeSydFeG5ux61nhxPaiSdP07MwVGouxVmthgGdK3jSqcXF5g9WPmSuSGN0JDub/qiDhzSJqZ9uWTGrtlqYMlXK/gioP/6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710791334; c=relaxed/simple;
-	bh=HcyNRAaSvVR/TK1oY1imlZkpQ7tr6zcuYNe1c6B+IZg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=nA4yqyl+GHhsBBaN0jiPpa/A/JUPs+P23B9FIUIwNMc6ch+P3oqQw2BWzb/7d03Nblay/IuYCDnoWQA6HkJ6Ai0o0rxSyArZUb26x5av/B32poL8BOo7ubGF/TqRfp/xqtQFmOU4PwFC4OYPfTF8gYPQNt9QMzHEZGFJzc0Dv7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BQiEOzaa; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1710794444; c=relaxed/simple;
+	bh=mn4Xz1ZtJYWIfNb4PThhTYu0EooQbh05dxo1V6xh/po=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oYpt81zeEM15RaerQEqJuaN/T2AQNJ4Ern3gRByteAbf9Om13hiWoVQWtVISyyEp+bIwJkBBdmI8yDICFZ2tfODldWKsv3i2HO7xEv105bhAmUmpGfUC7w36qtMbWDmR3KA2tGYQSYHFQR5nqqtIxvBBPTsTGUp8mGaQ8Bjk0Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=P+T8Utrr; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BQiEOzaa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710791331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oOqdgcxTH2OLnV0pHfnH8Nt0Lqbw8koRvQxc7E7h07s=;
-	b=BQiEOzaaSS6aJmaMmQReVVuqS9XKKVMp+keG7ThAVkL39X3kzvW97BljFsb7qLkDDP/wKg
-	pbB1/BdH/nrkVjrVpCzEPXPaAcPoZTCRWGsMP+L11187RcY2geRK1S7Zax2oSUwxvYGX+z
-	Q7GhmQfmdEke5XL09ZB17DTEv14004A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-526-c-O6SkDhN2e2XTXon28quA-1; Mon, 18 Mar 2024 15:48:50 -0400
-X-MC-Unique: c-O6SkDhN2e2XTXon28quA-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33ec06aac83so3117527f8f.2
-        for <fsverity@lists.linux.dev>; Mon, 18 Mar 2024 12:48:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710791329; x=1711396129;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oOqdgcxTH2OLnV0pHfnH8Nt0Lqbw8koRvQxc7E7h07s=;
-        b=erYRPgJW4fNrx/tg63J62YQtvQRLrZ+ODlPvKvfG0vJ5Kvvv+OlETNm6spkHk56lOz
-         xSz1G6v5p8BpSBKGuElTDc+qKRy4BVQswsmNaGwWwihWDIBOO2GUFEBLrQh3uLai5z/G
-         Oi2aXiuYW0IdZYb52wfh6AvuseAk4Uv8MqA6fi+5T7xx/v0Wjc0QY1udgeTTg2tB0yxG
-         5exTv0xXmvnZjOUjVe39iAzIa06T0Itp47AgXceSUCX1FTxZfxPxSqow0WdT4rA6ewaZ
-         KldiWdFvdfkJjEwnzq8TKt0q4iueCkZk0lJrG1LQKQtD2mBi7A9tWzzRVnTQXr+jo4Gj
-         0ePQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUmORklvN0V310sKG2vhxyrmejlXc/zpQHhKYA+zb5vjT/K7hkI8uzN2Mpr5mPUu/2yoVx5BWDjsHIMzYxEhSM903Bo2OZ3ptA=
-X-Gm-Message-State: AOJu0Yz2IGFhZwRPV3E1xN0UlFVvUN9eYAZT7u2dql0SxbB1+izk5clm
-	Ki38MdB+YAIQBLvRZ9FSfD+KY33K1ZvoUw3MsCETfNVJG5YGIpTIHy5rIv/ZHLBfe/0kLojQiAI
-	qoV4vzKTnMyaudt+xTOW8jza9eKDhc3urcu6blULe+iERaEAGyx0nzf0=
-X-Received: by 2002:a05:6000:2c1:b0:33e:75fb:b913 with SMTP id o1-20020a05600002c100b0033e75fbb913mr362550wry.14.1710791329025;
-        Mon, 18 Mar 2024 12:48:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEmhHFEmeCMf0/MvrmnUNbFENwn/JsYxFZoXvcdt6TUYYdr+isHkaJA/RtYfMH4u+9ztYUvhg==
-X-Received: by 2002:a05:6000:2c1:b0:33e:75fb:b913 with SMTP id o1-20020a05600002c100b0033e75fbb913mr362530wry.14.1710791328487;
-        Mon, 18 Mar 2024 12:48:48 -0700 (PDT)
-Received: from thinky ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id f22-20020a5d58f6000000b0033e7a204dc7sm10493478wrd.32.2024.03.18.12.48.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 12:48:48 -0700 (PDT)
-Date: Mon, 18 Mar 2024 20:48:47 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: ebiggers@kernel.org, linux-fsdevel@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 24/40] xfs: disable direct read path for fs-verity files
-Message-ID: <eb7rlbfslyht2vmn7ocqcx5fkjyrle4ocgex6hmjxzs4gtkkgm@mvmsrj7sgojd>
-References: <171069245829.2684506.10682056181611490828.stgit@frogsfrogsfrogs>
- <171069246296.2684506.17423583037447505680.stgit@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="P+T8Utrr"
+Received: from [10.137.106.151] (unknown [167.220.2.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 1B38B20B74C0;
+	Mon, 18 Mar 2024 13:40:42 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1B38B20B74C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1710794442;
+	bh=k0/I7p41f3QocEgsxb/Pps2tOnOrvwXWMYTG9ZCpr8M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=P+T8UtrrP2wCtmdJ07oc3BDruPa8P5MIkG92h75fdRPvWL8DDBKRFVNqqr5+UyeQD
+	 ooCeQJRHYKzrv7CB7fiaFoTGzm5swxy4FXiUU5m7RejK1zt0qWh+Yvh3Y/Q7OgT8bn
+	 MuD2Vel7eb5QgWibwRXsNWgrHkiyiUoe4ynUfMu4=
+Message-ID: <59357d13-c980-4f5a-a9e1-6ad6e480d46e@linux.microsoft.com>
+Date: Mon, 18 Mar 2024 13:40:41 -0700
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <171069246296.2684506.17423583037447505680.stgit@frogsfrogsfrogs>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v15 18/21] ipe: enable support for fs-verity as a
+ trust provider
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+ tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+ eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ fsverity@lists.linux.dev, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, audit@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
+References: <1710560151-28904-1-git-send-email-wufan@linux.microsoft.com>
+ <1710560151-28904-19-git-send-email-wufan@linux.microsoft.com>
+ <20240318051703.GB63337@sol.localdomain>
+Content-Language: en-CA
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <20240318051703.GB63337@sol.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2024-03-17 09:29:39, Darrick J. Wong wrote:
-> From: Andrey Albershteyn <aalbersh@redhat.com>
-> 
-> The direct path is not supported on verity files. Attempts to use direct
-> I/O path on such files should fall back to buffered I/O path.
-> 
-> Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> [djwong: fix braces]
-> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> ---
->  fs/xfs/xfs_file.c |   15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
-> 
-> 
-> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-> index 74dba917be93..0ce51a020115 100644
-> --- a/fs/xfs/xfs_file.c
-> +++ b/fs/xfs/xfs_file.c
-> @@ -281,7 +281,8 @@ xfs_file_dax_read(
->  	struct kiocb		*iocb,
->  	struct iov_iter		*to)
->  {
-> -	struct xfs_inode	*ip = XFS_I(iocb->ki_filp->f_mapping->host);
-> +	struct inode		*inode = iocb->ki_filp->f_mapping->host;
-> +	struct xfs_inode	*ip = XFS_I(inode);
->  	ssize_t			ret = 0;
->  
->  	trace_xfs_file_dax_read(iocb, to);
-> @@ -334,10 +335,18 @@ xfs_file_read_iter(
->  
->  	if (IS_DAX(inode))
->  		ret = xfs_file_dax_read(iocb, to);
-> -	else if (iocb->ki_flags & IOCB_DIRECT)
-> +	else if (iocb->ki_flags & IOCB_DIRECT && !fsverity_active(inode))
 
-Brackets missing
 
->  		ret = xfs_file_dio_read(iocb, to);
-> -	else
-> +	else {
-> +		/*
-> +		 * In case fs-verity is enabled, we also fallback to the
-> +		 * buffered read from the direct read path. Therefore,
-> +		 * IOCB_DIRECT is set and need to be cleared (see
-> +		 * generic_file_read_iter())
-> +		 */
-> +		iocb->ki_flags &= ~IOCB_DIRECT;
->  		ret = xfs_file_buffered_read(iocb, to);
-> +	}
->  
->  	if (ret > 0)
->  		XFS_STATS_ADD(mp, xs_read_bytes, ret);
+On 3/17/2024 10:17 PM, Eric Biggers wrote:
+> On Fri, Mar 15, 2024 at 08:35:48PM -0700, Fan Wu wrote:
+>> +config IPE_PROP_FS_VERITY
+>> +	bool "Enable property for fs-verity files"
+>> +	depends on FS_VERITY && FS_VERITY_BUILTIN_SIGNATURES
+>> +	help
+>> +	  This option enables the usage of properties "fsverity_signature"
+>> +	  and "fsverity_digest". These properties evaluate to TRUE when
+>> +	  a file is fsverity enabled and with a signed digest
 > 
+> Again: why would anyone care if there is a signature, if that signature is not
+> checked.
 > 
+> I think you meant to write something like: "when a file is fsverity enabled and
+> has a valid builtin signature whose signing cert is in the .fs-verity keyring".
+> 
+> - Eric
 
--- 
-- Andrey
+Thanks for the suggestion. I agree this is a more accurate description. 
+I'll update the description to include these details.
 
+-Fan
