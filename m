@@ -1,143 +1,63 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E021D530
-	for <fsverity@lists.linux.dev>; Mon, 18 Mar 2024 01:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9D44C84;
+	Mon, 18 Mar 2024 04:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710727152; cv=none; b=Y3fk42nkuryDrSsllmlP5oupvACFj+Ge2JU7JgMA6/5SWQZJecugi2Cqh0dQuOpHZzSMuzzTbQtyHrHRgugoNp9NGe1M7tp98BlUMFl+3cNV0ph6HipKpjBN8XCfKRzW0HU8TO7KB0MN0eoRg653tQBWEDanFSd+2l3NuSnM6BU=
+	t=1710736246; cv=none; b=hS8eaRnZ1NkFBgYPz90SweU8es2+IkhAX9jsAdHqvjhdjiKA3FcbDsfejarnwIkP1ORPSVAnr/8BrEunt5qFfXFn4gzjWEOjZCbhNj3HS/e3gXLfmUWFNJtwJ+TURovgiIdOOP6ZKb/+a2WSld/YQtIqQlSHhyNWSejNXBP4R8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710727152; c=relaxed/simple;
-	bh=FqUgQgxrfZtI2qk5V+CbuvudPfEzb8SHu5+APKjhAeY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ic4tFSKcWd73kA0nrK5HZgr6A9Sn0Tj0bV2qDezHZ7SRtxgNihVMWvyDNkEcPqcGkhDHFGtZM6m4rXeL5vrmF1vFs7CBWU5jND9yVIzdQDRWOnO97bBjpP6vIVVBnBQ8MbKm04j3mV3uC7VqrpSOcK+VzgRXNZRh8UErTAhgenE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=OBvQFOu6; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1710736246; c=relaxed/simple;
+	bh=OoEglyXCIBb+hsmWdgthoIQl796eGQzCE54LqyV1wKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MlO+l/3LwH2V0M22FcHyXzlNDM62Ut9hK4q3MM34Gy8xFK4m3KKtQ8/ur5F5p+1+al/KrtzkNrsv6EKydA+ry4WqsRLXjUHlRYmACgL3yAGdmQm32Ju8YoFLhy1ZjzdRw8VL+o/PQa4xTCHxC75VKdNJq/YFH6ahptMfYsYtH2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YwpVZ3Qp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="OBvQFOu6"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso3544069276.2
-        for <fsverity@lists.linux.dev>; Sun, 17 Mar 2024 18:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1710727149; x=1711331949; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k+xmMKXEK467msfGN/zI+NTXm1eyrFZs4w/DgUrLeb0=;
-        b=OBvQFOu6Ea7UYrXyude2PgrQJeBDgWILEQlIV1pPwlnLXExz/Ut4CJTncG1j91SLSb
-         5AYmUZFBQsegCqtmqScyDzUjzxWPNFoTyQoROmwCj7RS1BajaS57GBCvsQUBi+/zNwoz
-         SvuBxRlHZGNMkxEQOC2M7sDEp8RUL9DF6HjKuuzIUTrpvZavLtUNv6YpEasD18VTDjM1
-         +AQr+/c05Jsdbe3OtalDBfio9+Z5vOeQX2fRzBubQE+wUtdk3lfEKfFV8s+Eo3/Mqgcd
-         G+7zRMsbF40hC/KPrZsRil275LfOpEtnkuStUguRl/8o7ioB+Q0FP4tETYAjw7jh4yZE
-         +7jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710727149; x=1711331949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k+xmMKXEK467msfGN/zI+NTXm1eyrFZs4w/DgUrLeb0=;
-        b=K2DNBLNnJ0kVkDVaF/4rrhRl1Mu6JTXdfZq6Xw6h3m/dTljp4Auqj8oMxQIXnbtuGN
-         OnBwjYWnxOCUWCTY7to+cUhsTQI52K8EAEVWcw9h023AJTZVNz6kYQI3m0X/InUohRCT
-         wBL8UnbMray1RzvZBXgEYEhwQYddPn+E28PLwTQvQkcTYtHgh4FVtNlhurZv58GmSRCc
-         rmpkA984veOr81Bf8lVAQimA7vpu2Gng7V8FOuPQrbjcJ2pm6NRJWVwmaUDyBiFD4AY+
-         W85crM984MALOLuRriGjW05dY0OA0T0o5MaheTzQII7g9v3tVk43EBFQDWqtFvybSLUr
-         zxqg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+9WNZZE9Ef4HU+uEvFVdH9KTEa4tNS7vAXZrN1Zqd6KTNfJp0/x4Fh4zJrNoCsyUySMJAhE3dZN4NFQ39hxkAv+lURavzEOs=
-X-Gm-Message-State: AOJu0YwFgvTLB8jf/WA+7mnlSGQiHwxY4mdbZEQp+6pxHA1yYt8LhZkj
-	bASXXVBx9RQs6wOXvsNZJ+kAiQiqTs3SgZkwd/3htCL2f8q6gXo23ITFVP7kBQVz97yq+jBlzZs
-	hjDIYMCyPEu10UAwmk+I7asFAExClDGi6M71h
-X-Google-Smtp-Source: AGHT+IFvxqCFh/zzQZhmtHVeJ4wKXtt8mxhTmxAcg93TKyWxNqDHIDARX3X+xrhcmbPvVzgaKwOoMXL4saPB2bh9WMY=
-X-Received: by 2002:a25:abef:0:b0:dcc:e854:d454 with SMTP id
- v102-20020a25abef000000b00dcce854d454mr8541158ybi.14.1710727148753; Sun, 17
- Mar 2024 18:59:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YwpVZ3Qp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77B90C433F1;
+	Mon, 18 Mar 2024 04:30:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710736245;
+	bh=OoEglyXCIBb+hsmWdgthoIQl796eGQzCE54LqyV1wKg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YwpVZ3QpTsGNJseLk/1DvqpnxiRQoVk9tTYl+qN+warMNH1jGLn+EdodsHbr9J9h/
+	 8lPfzw1AtO3M8RHYeI1aO6S4QK1yYtXZxed36onqs/tgSLeXHI0cxK49pxdFmMADss
+	 7ux1RqMpLgfA2xd/kIh9Lh4PySQWDMEqqvLP+bFYJbm3Q9aPG8qLgtu53+vcOllF1S
+	 1jT4HbxykPV2UFOe0MUCEUaca8S6uIg55+i2k8vQXvJeHYKiXg6AYdhl7/AMc4rlbN
+	 j16R+zyelx4Oa8bu2Aa2F3axCcS0+xifmVpClU2RTXBIyO2yHeKTMT1TIPBeurcPmh
+	 VFLrFU3mgtIKg==
+Date: Sun, 17 Mar 2024 21:30:44 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: aalbersh@redhat.com, ebiggers@kernel.org, linux-fsdevel@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org
+Subject: Re: [PATCHBOMB v5.3] fs-verity support for XFS
+Message-ID: <20240318043044.GG1927156@frogsfrogsfrogs>
+References: <20240317161954.GC1927156@frogsfrogsfrogs>
+ <ZfebRH_fGx8EoRfu@infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1710560151-28904-1-git-send-email-wufan@linux.microsoft.com>
- <1710560151-28904-6-git-send-email-wufan@linux.microsoft.com> <43958767-32db-4c53-8408-8367cfc14d2f@schaufler-ca.com>
-In-Reply-To: <43958767-32db-4c53-8408-8367cfc14d2f@schaufler-ca.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Sun, 17 Mar 2024 21:58:58 -0400
-Message-ID: <CAHC9VhRsOp8-C+bEH+NnRrBu_NRjJongAXZu_P2+c_OkDBs9rw@mail.gmail.com>
-Subject: Re: [RFC PATCH v15 05/21] initramfs|security: Add a security hook to do_populate_rootfs()
-To: Casey Schaufler <casey@schaufler-ca.com>
-Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
-	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZfebRH_fGx8EoRfu@infradead.org>
 
-On Sun, Mar 17, 2024 at 8:29=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
-.com> wrote:
-> On 3/15/2024 8:35 PM, Fan Wu wrote:
-> > This patch introduces a new hook to notify security system that the
-> > content of initramfs has been unpacked into the rootfs.
-> >
-> > Upon receiving this notification, the security system can activate
-> > a policy to allow only files that originated from the initramfs to
-> > execute or load into kernel during the early stages of booting.
-> >
-> > This approach is crucial for minimizing the attack surface by
-> > ensuring that only trusted files from the initramfs are operational
-> > in the critical boot phase.
-> >
-> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> >
-> > ---
-> > v1-v11:
-> >   + Not present
-> >
-> > v12:
-> >   + Introduced
-> >
-> > v13:
-> >   + Rename the hook name to initramfs_populated()
-> >
-> > v14:
-> >   + No changes
-> >
-> > v15:
-> >   + No changes
-> > ---
-> >  include/linux/lsm_hook_defs.h |  2 ++
-> >  include/linux/security.h      |  8 ++++++++
-> >  init/initramfs.c              |  3 +++
-> >  security/security.c           | 10 ++++++++++
-> >  4 files changed, 23 insertions(+)
-> >
-> > diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_def=
-s.h
-> > index 334e00efbde4..7db99ae75651 100644
-> > --- a/include/linux/lsm_hook_defs.h
-> > +++ b/include/linux/lsm_hook_defs.h
-> > @@ -450,3 +450,5 @@ LSM_HOOK(int, 0, uring_override_creds, const struct=
- cred *new)
-> >  LSM_HOOK(int, 0, uring_sqpoll, void)
-> >  LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
-> >  #endif /* CONFIG_IO_URING */
-> > +
-> > +LSM_HOOK(void, LSM_RET_VOID, initramfs_populated, void)
->
-> This is an awfully expensive way to set a flag. Adding a LSM hook list
-> isn't free. Isn't there a way to capture this state change through one of
-> the mount hooks?
+On Sun, Mar 17, 2024 at 06:39:16PM -0700, Christoph Hellwig wrote:
+> On Sun, Mar 17, 2024 at 09:19:54AM -0700, Darrick J. Wong wrote:
+> > Note that metadump is kinda broken and xfs_scrub media scans do not yet
+> > know how to read verity files.  All that is actually fixed in the
+> > version that's lodged in my development trees, but since Andrey's base
+> > is the 6.9 for-next branch plus only a few of the parent pointers
+> > patches, none of that stuff was easy to port to make a short dev branch.
+> 
+> Maybe we'll need to put the verity work back and do a good review cycle
+> on the parent pointers first?
+> 
+> Can you send out what your currently have?
 
-Unfortunately no, the initramfs isn't mounted like a traditional
-filesystem, it is "populated" by unpacking the cpio into the initramfs
-at early boot.  This LSM hook should be called exactly once during
-boot, and the performance impact should be minimal; I should also be
-wildly more performant than earlier revisions of this patchset that
-required grabbing a single spinlock on every file access.
+Ok, I'll do that tomorrow.
 
-Of course if you have an idea on how this could be done
-differently/better I think we're all open to new ideas ...
-
---=20
-paul-moore.com
+--D
