@@ -1,96 +1,90 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB7C55C04
-	for <fsverity@lists.linux.dev>; Mon, 18 Mar 2024 17:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C175955C18
+	for <fsverity@lists.linux.dev>; Mon, 18 Mar 2024 17:52:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710784324; cv=none; b=IpxSj/TD07m6+0hZ9GQybFxzO1OgzR+EyF3oFYjfVcMicJWIWBa07ip6snOmdzGRgWcWCXoyC7J1uJy6yw32pzopMkhXbMShH8O645Hijku2tKYPqLnv6X44ylY5d/dpbzswOze/uF8K9hFwaiPfOoSOfjDCmdUjwNIOiqcdaWg=
+	t=1710784376; cv=none; b=hB9EYrzupyzm7I5bXUviQAZKkaN2vNyUErVz1ctB6Y9XDrBCK/9aO5/qTG+YVxZ/es8CbE+VcrSxXxVrs/vtMLDtv6VmmqQH9a4uioVN0Ook+oHCrMiA1DcH/WyV3tBxPw3cNVZP8V9vD98i3R7OXe8y1eGnOvK83ow8CMY5IOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710784324; c=relaxed/simple;
-	bh=fqTElAEqBOCrS+SEJ/QGcyaZBur12synCMYU0rQu1bk=;
+	s=arc-20240116; t=1710784376; c=relaxed/simple;
+	bh=fS/Il+cK3HtI9bAeGxWw+BBtB0/QjJLvVKLFtR8tR+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=tZe4Jx8aS3i9fseG7u38+lrMU2f/gsYmcKJEWcgbCR3KfUik7NlHO8q4dSD8zS7s/0NrLTLqOgSTKs5XCnF/zsKsLLzWk9jb5UEz+tDK/BkRrQuu9ZUqe0xwLStI7WrzEvRbVEYSVbG1vyRXoKwct6Wy7npaQof8lrawPs+rej4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bVC+PNlc; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=gLUHgIoZkCeZrE2xX3RrKluVDLWR9u2bIDzVb3CuUOkGOshvVuLlkwAsKAkd0KEn5GCQSq7rNG1hfhMZ/vKzxOaVChnRsBZJymnfYf3DUdcb+ky2wQP4v73UHMoecCimL35x1b+jqyXDWwwB5EbHTDzgxDn0uT8BR2gM3qj9xNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H428t0ty; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bVC+PNlc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H428t0ty"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710784321;
+	s=mimecast20190719; t=1710784373;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ICN/PTNvFGb1DjAB0N+/RyGurYAnxvURBuljr7cKqW8=;
-	b=bVC+PNlc0b/1myAeoQJZyIiZiwmlv5UUdUx/wDUD/DAd0aoeSgvRvot4h001rbMYQlRSXh
-	9XwlSPupzs9HNKdPi/iCbYF9MeOUfRdPf+8dvSnLF6p50s+vEUtJmKFMTt0y4MFagHFLPj
-	F8COjo0tnUWKZOv9BAz2EM5CckqyWY8=
+	bh=rAbeI/yN1CujlA/Yp2t7bafFqLrYgHBFMsaR1Wk9Jl0=;
+	b=H428t0tyJvhdgwM8lMNH6ZJv7Kfdym7iI+7IufWc+qg8JFDroqjRAZcKkvW/dbD/l9QVS3
+	PgldtnRDEKEf/xIcTjlqvz1EnQeMXSKjMsT8S5RbRdKrwrwa4gKQo4MPD69wbsnzIPqCfs
+	dmyKbDDyBQpzuG9ssChR7mwAMHS4dZY=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-292-NzK-39thMK2X0AB2xhWa0w-1; Mon, 18 Mar 2024 13:51:58 -0400
-X-MC-Unique: NzK-39thMK2X0AB2xhWa0w-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-34172041676so716907f8f.1
-        for <fsverity@lists.linux.dev>; Mon, 18 Mar 2024 10:51:58 -0700 (PDT)
+ us-mta-411-pvuo8es_Mw2utwKnQvR3Jg-1; Mon, 18 Mar 2024 13:52:51 -0400
+X-MC-Unique: pvuo8es_Mw2utwKnQvR3Jg-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3417fbb38daso356034f8f.3
+        for <fsverity@lists.linux.dev>; Mon, 18 Mar 2024 10:52:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710784317; x=1711389117;
+        d=1e100.net; s=20230601; t=1710784370; x=1711389170;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ICN/PTNvFGb1DjAB0N+/RyGurYAnxvURBuljr7cKqW8=;
-        b=P840v4zmbNre7y5YMnOFQuRGzz3AUZuV62wjuqZoF6dEqGHXY2XUqB6minMCKreHzM
-         mmHU0J6m03ORCXcUZF7zZrxxI7Da4F+QY6FGwLBtZ442JAIdEIZ4jeCzGoLenSsomLoe
-         QHtFkr2+s9549nsxmOD4CrHtKCOVDkegvBI2JI9M4b/hlxz2n2CvzNvikHY+/5psYK3r
-         CxV7nfjIE5Zo0+g/fwTEgLT+04oxVn9JRWT/0ixOVyG2qOc9kFSm4tHmbt1XyIe1Ecq4
-         lsqSroqFKFp3GaX69i30nWyd/Uf0O8NH+2DLCNbhpdK5P0FBqXzYrW+eYpQZaYkAcquv
-         pbyw==
-X-Forwarded-Encrypted: i=1; AJvYcCW25IuajKK+WPHk5z5GcOhpMcH9J9pvUnEEtXrQnMU0uOh3hH7PmHYiejmUia+u1Gss9nBdSZv2JkeDHL0RJvc9nBg8DY/pxBU=
-X-Gm-Message-State: AOJu0YwirAFxsg5t7XmheaUsUGzAPPqT5IuaYraTxjWF2GMUozX1M/O0
-	Q/aJpKUQ8CU5DCxth2E6JCo2E5fZvLVab23prHqAKimGorZVfy0a13d6Wbk/zziRqJ7KxKTfCmD
-	SIrQZoIyNSg9IibCYd/uHLh5RZK/WW7v8ZzCYyY56EVexNiFh1jQ1Ews=
-X-Received: by 2002:a5d:6a48:0:b0:33d:eb13:9e27 with SMTP id t8-20020a5d6a48000000b0033deb139e27mr290444wrw.23.1710784316753;
-        Mon, 18 Mar 2024 10:51:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEYSUHL198Rb526cW9SI0mG6UqLPgcAal2tyuFEAHmiIsVF9MBLJF60tkez08WEu6iLpM8qRQ==
-X-Received: by 2002:a5d:6a48:0:b0:33d:eb13:9e27 with SMTP id t8-20020a5d6a48000000b0033deb139e27mr290426wrw.23.1710784316183;
-        Mon, 18 Mar 2024 10:51:56 -0700 (PDT)
+        bh=rAbeI/yN1CujlA/Yp2t7bafFqLrYgHBFMsaR1Wk9Jl0=;
+        b=eZG+EHi51iFguS5Pyf2UD84V2gGPY7scmiSmC5aHzMppMtplwo2pZkaehUsosYz7qC
+         vU1nlYIIzAW3X/NcMupVCZAgqAOcV7VjgN4QEhuFh1Y86hFZZ24RYd5KjYCziaPNYhxS
+         LVzg5BnbqoXdZhjJc1z6pWEfm/qX6aacrrZVyU/HM4zHsnBGD5DMnwtEYOYpuaE8wpHl
+         /Io6WrPV3wG//LOc8+Rs2ZUaFpln8CRFXBkIisYY6V8ydepIKRQCd1dNxUNT6e75Ljnq
+         Q9zKoK+Kz0s9u8IsUfQxiuM/H9eNeRnmzMybFc4yOUxpldOK5aXxChUMzN313C/4R12E
+         dM8w==
+X-Forwarded-Encrypted: i=1; AJvYcCU3zcLi0zXUklAg5sBgdp3huVHaNhrsdP4pdE4KJx1IsyBNLfyZ4tezGMlIp37M8scJWInwp/P6yQ5xuNraJcLB2gYKTTsttxI=
+X-Gm-Message-State: AOJu0YwcmCqGCzBJSEImsWdpH5M36WVJS/aly4g0b2DEWW+bGXWGtvy0
+	RKPGXw6RZx1KL33zZO26FdSA47yHNy8wwp1Ox11JRjukmp5zazGbvKzJX4Z77hKB6b2qZeYjUet
+	sgRGig5hSeqtbLL9ATk82vZzVieISitwTuMukdjSKXs5/sYJWjsZAEeAjgVh3jb8=
+X-Received: by 2002:adf:fdcc:0:b0:33e:c3ca:e9ff with SMTP id i12-20020adffdcc000000b0033ec3cae9ffmr8924112wrs.61.1710784369803;
+        Mon, 18 Mar 2024 10:52:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFy65n4nPmyObvMmHt58bqd/Rqxh6Qm3q5Bx3DsIXra1l+xAjekqM6JmSqoP5kkpnEFHwCAqA==
+X-Received: by 2002:adf:fdcc:0:b0:33e:c3ca:e9ff with SMTP id i12-20020adffdcc000000b0033ec3cae9ffmr8924098wrs.61.1710784369301;
+        Mon, 18 Mar 2024 10:52:49 -0700 (PDT)
 Received: from thinky ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id bu27-20020a056000079b00b0033ecbfc6941sm10048239wrb.110.2024.03.18.10.51.55
+        by smtp.gmail.com with ESMTPSA id bs26-20020a056000071a00b0034185c5ffbcsm77268wrb.117.2024.03.18.10.52.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 10:51:55 -0700 (PDT)
-Date: Mon, 18 Mar 2024 18:51:55 +0100
+        Mon, 18 Mar 2024 10:52:48 -0700 (PDT)
+Date: Mon, 18 Mar 2024 18:52:48 +0100
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: ebiggers@kernel.org, linux-fsdevel@vger.kernel.org, 
 	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 31/40] xfs: better reporting and error handling in
- xfs_drop_merkle_tree
-Message-ID: <kszur5shvmrodxfc3hefebu2cennigrbfowucsxydpvizssatx@mpe6lvoaqain>
+Subject: Re: [PATCH 36/40] xfs: don't store trailing zeroes of merkle tree
+ blocks
+Message-ID: <vo4rc3vopl4u77u2bmva3onln2ssmixuvq3gsdffltdr6a6nuj@mppvl5hbmvd3>
 References: <171069245829.2684506.10682056181611490828.stgit@frogsfrogsfrogs>
- <171069246408.2684506.9245902616854244173.stgit@frogsfrogsfrogs>
+ <171069246485.2684506.6805355726574585050.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <171069246408.2684506.9245902616854244173.stgit@frogsfrogsfrogs>
+In-Reply-To: <171069246485.2684506.6805355726574585050.stgit@frogsfrogsfrogs>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 2024-03-17 09:31:28, Darrick J. Wong wrote:
+On 2024-03-17 09:32:47, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> xfs_drop_merkle_tree is responsible for removing the fsverity metadata
-> after a failed attempt to enable fsverity for a file.  However, if the
-> enablement process fails before the verity descriptor is written to the
-> file, the cleanup function will trip the WARN_ON.  The error code in
-> that case is ENOATTR, which isn't worth logging about.
-> 
-> Fix that return code handling, fix the tree block removal loop not to
-> return early with ENOATTR, and improve the logging so that we actually
-> capture what kind of error occurred.
+> As a minor space optimization, don't store trailing zeroes of merkle
+> tree blocks to reduce space consumption and copying overhead.  This
+> really only affects the rightmost blocks at each level of the tree.
 > 
 > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 
@@ -98,80 +92,39 @@ Looks good to me:
 Reviewed-by: Andrey Albershteyn <aalbersh@redhat.com>
 
 > ---
->  fs/xfs/xfs_verity.c |   25 ++++++++++++++++++-------
->  1 file changed, 18 insertions(+), 7 deletions(-)
+>  fs/xfs/xfs_verity.c |   11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 > 
 > 
 > diff --git a/fs/xfs/xfs_verity.c b/fs/xfs/xfs_verity.c
-> index db43e017f10e..32891ae42c47 100644
+> index 32891ae42c47..abd95bc1ba6e 100644
 > --- a/fs/xfs/xfs_verity.c
 > +++ b/fs/xfs/xfs_verity.c
-> @@ -472,15 +472,14 @@ xfs_verity_begin_enable(
->  			tree_blocksize);
->  }
+> @@ -622,11 +622,6 @@ xfs_verity_read_merkle(
+>  	if (error)
+>  		goto out_new_mk;
 >  
-> +/* Try to remove all the fsverity metadata after a failed enablement. */
->  static int
-> -xfs_drop_merkle_tree(
-> +xfs_verity_drop_incomplete_tree(
->  	struct xfs_inode		*ip,
->  	u64				merkle_tree_size,
->  	unsigned int			tree_blocksize)
->  {
->  	struct xfs_verity_merkle_key	name;
-> -	int				error = 0;
-> -	u64				offset = 0;
->  	struct xfs_da_args		args = {
->  		.dp			= ip,
->  		.whichfork		= XFS_ATTR_FORK,
-> @@ -491,6 +490,8 @@ xfs_drop_merkle_tree(
->  		/* NULL value make xfs_attr_set remove the attr */
->  		.value			= NULL,
->  	};
-> +	u64				offset;
-> +	int				error;
->  
->  	if (!merkle_tree_size)
->  		return 0;
-> @@ -498,6 +499,8 @@ xfs_drop_merkle_tree(
->  	for (offset = 0; offset < merkle_tree_size; offset += tree_blocksize) {
->  		xfs_verity_merkle_key_to_disk(&name, offset);
->  		error = xfs_attr_set(&args);
-> +		if (error == -ENOATTR)
-> +			error = 0;
->  		if (error)
->  			return error;
->  	}
-> @@ -505,7 +508,8 @@ xfs_drop_merkle_tree(
->  	args.name = (const uint8_t *)XFS_VERITY_DESCRIPTOR_NAME;
->  	args.namelen = XFS_VERITY_DESCRIPTOR_NAME_LEN;
->  	error = xfs_attr_set(&args);
+> -	if (!args.valuelen) {
+> -		error = -ENODATA;
+> -		goto out_new_mk;
+> -	}
 > -
-> +	if (error == -ENOATTR)
-> +		return 0;
->  	return error;
->  }
->  
-> @@ -564,9 +568,16 @@ xfs_verity_end_enable(
->  		inode->i_flags |= S_VERITY;
->  
->  out:
-> -	if (error)
-> -		WARN_ON_ONCE(xfs_drop_merkle_tree(ip, merkle_tree_size,
-> -						  tree_blocksize));
-> +	if (error) {
-> +		int	error2;
+>  	mk = xfs_verity_cache_store(ip, key, new_mk);
+>  	if (mk != new_mk) {
+>  		/*
+> @@ -681,6 +676,12 @@ xfs_verity_write_merkle(
+>  		.value			= (void *)buf,
+>  		.valuelen		= size,
+>  	};
+> +	const char			*p = buf + size - 1;
 > +
-> +		error2 = xfs_verity_drop_incomplete_tree(ip, merkle_tree_size,
-> +				tree_blocksize);
-> +		if (error2)
-> +			xfs_alert(ip->i_mount,
-> + "ino 0x%llx failed to clean up new fsverity metadata, err %d",
-> +					ip->i_ino, error2);
-> +	}
+> +	/* Don't store trailing zeroes. */
+> +	while (p >= (const char *)buf && *p == 0)
+> +		p--;
+> +	args.valuelen = p - (const char *)buf + 1;
 >  
->  	xfs_iflags_clear(ip, XFS_VERITY_CONSTRUCTION);
->  	return error;
+>  	xfs_verity_merkle_key_to_disk(&name, pos);
+>  	return xfs_attr_set(&args);
 > 
 
 -- 
