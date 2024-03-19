@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11ED44C626;
-	Tue, 19 Mar 2024 21:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD544F217;
+	Tue, 19 Mar 2024 22:07:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710883668; cv=none; b=fjUVQLS05Zg387ug6X581ZXTiCI68U1xtfdPFYtmO/PRGrn4AgUQHSdjNxb3cHxnWJxx5b0356kOxxM4OXHnEAt0x9kCpQkx0gpVcvg1v0tGxTUPdG6zybI/CnQjcyl2fIBZLRE2iyY4IYzbEIZNgub2V0FIOLnxqaRj9rJng5E=
+	t=1710886064; cv=none; b=VQhhoeawezFSzfmReoRDVtVVFC6BN4MXlK/lymCGlwsPKP9Uzf1g/Y4+CCtFu9pFJkz7g5UTA4Gehei07ZEeCk80So4MHJt8dAzIYjyl3rgwI25AJHmeE3xUXFmGexq26BZGq8ZwucCwdK5+9+vazuhKz7WdRui8gUXDiHCY9M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710883668; c=relaxed/simple;
-	bh=RP/J70y68fnM4pHqRlu6CZfv3mzhT++eZbG/WWasYPE=;
+	s=arc-20240116; t=1710886064; c=relaxed/simple;
+	bh=h0l6BvmGc4RnVLcgjaZZBNAvFtveWCLZCTnIqDxlgao=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BbXaO0ZhsiBw3Gx2AAttjBgk787SHbg+vuS8jEOoi53DPFy9hphpl3tZmXzMgzRH0LWKbq3SNMJD3AEcNwM9Fr7AF4NxZSd/ceGtOGAEaZDmG5iSNeDWkCQn7q+zGR1Kst/Sfn524rzZRMuO94jqg3qO9uHd8SfqZXGSwDZh4FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yu7jDJWe; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SRuw11ACy0uLmSFyZU7n0AkgDiF1Clkkg4Y+3QW5RxhPDanhi12QTPFGfuG+pwgpBNKQ9Xo3+sDFgQFzuWM11HoBWSttCWOHDNZ92moL0ac6dCOvT0inv3lw8apg0AsQ1j1lYAcl4zssgGeom8obuq5GdmuKzZChGqKLWgkqWjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TPlVI8+i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yu7jDJWe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D4C6C433C7;
-	Tue, 19 Mar 2024 21:27:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TPlVI8+i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF8E3C433C7;
+	Tue, 19 Mar 2024 22:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710883667;
-	bh=RP/J70y68fnM4pHqRlu6CZfv3mzhT++eZbG/WWasYPE=;
+	s=k20201202; t=1710886063;
+	bh=h0l6BvmGc4RnVLcgjaZZBNAvFtveWCLZCTnIqDxlgao=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yu7jDJWeWEixfG2aJWu+RXnIeE5EDFF3nlfdL1o3n+fe6AbG+BehP5f1Qc15mxYGs
-	 PBMeqOkAINzfEwguujJjf8Q6SWVw7DKrTXT8Trvw2fdJAvOp8856H4eacfWX/XzRhT
-	 fZYF60lo5wBic85woKEP0URs3tCwtEQtJtSuj0d5O7oRwD+qvmk0IxpgPmw5XuOEyi
-	 54KyxoJwgGlw1s8p6UDLK96Efj0zIAh7B1gy5ShNf57jnJLUC4h5UMNYmnEMvzqC1H
-	 61H7yqXZEHUQtaEwBMHh4BPz9qpwZ7iE6f7o2MdvQjOvQ2I0dCtAG1J3WziBTTonGf
-	 V+0Ha5peFz6Og==
-Date: Tue, 19 Mar 2024 14:27:46 -0700
+	b=TPlVI8+i0+pIn7OhuRUCSBa++0XF33/hHvn9rdg/tykQ9vlRsHV424zMRriWUrqNz
+	 Ht7Tb15MsXwHoEKSv398BaIyygVYi+f8LLf2gkAdqAX8kDPEIpF5AZJJIdp5p9Tyxf
+	 wC1pwwCo1IU3o5PHdkgQzP2hEBcwUlKpx2jQElphs0TtQwW174t/VuVO59vVmN66IC
+	 axceiUyBR7uRmDE1b3FPrC9vCK33mc3ERoHvaRE2UhIBVvZZBikekBAsPgXLV9eFkf
+	 vkMFZAbXSNqxanwGdjPivpMhSe/0sBIb4dPBT/cnEkHAzJQAz9F7y3Ls89x5MlCF5T
+	 6jcwjZmaaMUdQ==
+Date: Tue, 19 Mar 2024 15:07:43 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: ebiggers@kernel.org, linux-fsdevel@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 35/40] xfs: teach online repair to evaluate fsverity
- xattrs
-Message-ID: <20240319212746.GP1927156@frogsfrogsfrogs>
-References: <171069245829.2684506.10682056181611490828.stgit@frogsfrogsfrogs>
- <171069246470.2684506.16777519924436608697.stgit@frogsfrogsfrogs>
- <cukuakjpyim572vkhcl24xxnkrgrmkkalkrnoglte735jmpm7m@epenfnca5a4s>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: aalbersh@redhat.com, Mark Tinguely <tinguely@sgi.com>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Christoph Hellwig <hch@lst.de>, Dave Chinner <dchinner@redhat.com>,
+	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-xfs@vger.kernel.org
+Subject: Re: [PATCHSET v5.3] fs-verity support for XFS
+Message-ID: <20240319220743.GF6226@frogsfrogsfrogs>
+References: <20240317161954.GC1927156@frogsfrogsfrogs>
+ <171069245829.2684506.10682056181611490828.stgit@frogsfrogsfrogs>
+ <20240318163512.GB1185@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -45,153 +47,64 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cukuakjpyim572vkhcl24xxnkrgrmkkalkrnoglte735jmpm7m@epenfnca5a4s>
+In-Reply-To: <20240318163512.GB1185@sol.localdomain>
 
-On Mon, Mar 18, 2024 at 06:34:04PM +0100, Andrey Albershteyn wrote:
-> On 2024-03-17 09:32:31, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
+On Mon, Mar 18, 2024 at 09:35:12AM -0700, Eric Biggers wrote:
+> On Sun, Mar 17, 2024 at 09:22:52AM -0700, Darrick J. Wong wrote:
+> > Hi all,
 > > 
-> > Teach online repair to check for unused fsverity metadata and purge it
-> > on reconstruction.
+> > From Darrick J. Wong:
 > > 
-> > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> > ---
-> >  fs/xfs/scrub/attr.c   |  102 +++++++++++++++++++++++++++++++++++++++++++++++++
-> >  fs/xfs/scrub/attr.h   |    4 ++
-> >  fs/xfs/scrub/common.c |   27 +++++++++++++
-> >  3 files changed, 133 insertions(+)
-> > 
-> > 
-> > diff --git a/fs/xfs/scrub/attr.c b/fs/xfs/scrub/attr.c
-> > index ae4227cb55ec..c69dee281984 100644
-> > --- a/fs/xfs/scrub/attr.c
-> > +++ b/fs/xfs/scrub/attr.c
-> > @@ -21,6 +21,8 @@
-> >  #include "scrub/dabtree.h"
-> >  #include "scrub/attr.h"
-> >  
-> > +#include <linux/fsverity.h>
-> > +
-> >  /* Free the buffers linked from the xattr buffer. */
-> >  static void
-> >  xchk_xattr_buf_cleanup(
-> > @@ -135,6 +137,91 @@ xchk_setup_xattr(
-> >  	return xchk_setup_inode_contents(sc, 0);
-> >  }
-> >  
-> > +#ifdef CONFIG_FS_VERITY
-> > +/* Extract merkle tree geometry from incore information. */
-> > +static int
-> > +xchk_xattr_extract_verity(
-> > +	struct xfs_scrub		*sc)
-> > +{
-> > +	struct xchk_xattr_buf		*ab = sc->buf;
-> > +
-> > +	/* setup should have allocated the buffer */
-> > +	if (!ab) {
-> > +		ASSERT(0);
-> > +		return -EFSCORRUPTED;
-> > +	}
-> > +
-> > +	return fsverity_merkle_tree_geometry(VFS_I(sc->ip),
-> > +			&ab->merkle_blocksize, &ab->merkle_tree_size);
-> > +}
-> > +
-> > +/* Check the merkle tree xattrs. */
-> > +STATIC void
-> > +xchk_xattr_verity(
-> > +	struct xfs_scrub		*sc,
-> > +	xfs_dablk_t			blkno,
-> > +	const unsigned char		*name,
-> > +	unsigned int			namelen,
-> > +	unsigned int			valuelen)
-> > +{
-> > +	struct xchk_xattr_buf		*ab = sc->buf;
-> > +
-> > +	/* Non-verity filesystems should never have verity xattrs. */
-> > +	if (!xfs_has_verity(sc->mp)) {
-> > +		xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, blkno);
-> > +		return;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Any verity metadata on a non-verity file are leftovers from a
-> > +	 * previous attempt to enable verity.
-> > +	 */
-> > +	if (!IS_VERITY(VFS_I(sc->ip))) {
-> > +		xchk_ino_set_preen(sc, sc->ip->i_ino);
-> > +		return;
-> > +	}
-> > +
-> > +	switch (namelen) {
-> > +	case sizeof(struct xfs_verity_merkle_key):
-> > +		/* Oversized blocks are not allowed */
-> > +		if (valuelen > ab->merkle_blocksize) {
-> > +			xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, blkno);
-> > +			return;
-> > +		}
-> > +		break;
-> > +	case XFS_VERITY_DESCRIPTOR_NAME_LEN:
-> > +		/* Has to match the descriptor xattr name */
-> > +		if (memcmp(name, XFS_VERITY_DESCRIPTOR_NAME, namelen)) {
-> > +			xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, blkno);
-> > +		}
-> > +		return;
-> > +	default:
-> > +		xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, blkno);
-> > +		return;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Merkle tree blocks beyond the end of the tree are leftovers from
-> > +	 * a previous failed attempt to enable verity.
-> > +	 */
-> > +	if (xfs_verity_merkle_key_from_disk(name) >= ab->merkle_tree_size)
-> > +		xchk_ino_set_preen(sc, sc->ip->i_ino);
-> > +}
-> > +#else
-> > +# define xchk_xattr_extract_verity(sc)	(0)
-> > +
-> > +static void
-> > +xchk_xattr_verity(
-> > +	struct xfs_scrub	*sc,
-> > +	xfs_dablk_t		blkno,
-> > +	const unsigned char	*name,
-> > +	unsigned int		namelen)
-> > +{
-> > +	/* Should never see verity xattrs when verity is not enabled. */
-> > +	xchk_fblock_set_corrupt(sc, XFS_ATTR_FORK, blkno);
-> > +}
-> > +#endif /* CONFIG_FS_VERITY */
-> > +
-> >  /* Extended Attributes */
-> >  
-> >  struct xchk_xattr {
-> > @@ -194,6 +281,15 @@ xchk_xattr_listent(
-> >  		goto fail_xref;
-> >  	}
-> >  
-> > +	/* Check verity xattr geometry */
-> > +	if (flags & XFS_ATTR_VERITY) {
-> > +		xchk_xattr_verity(sx->sc, args.blkno, name, namelen, valuelen);
-> > +		if (sx->sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT) {
-> > +			context->seen_enough = 1;
-> > +			return;
-> > +		}
-> > +	}
-> > +
-> >  	/* Does this name make sense? */
-> >  	if (!xfs_attr_namecheck(sx->sc->mp, name, namelen, flags)) {
-> >  		xchk_fblock_set_corrupt(sx->sc, XFS_ATTR_FORK, args.blkno);
+> > This v5.3 patchset builds upon v5.2 of Andrey's patchset to implement
+> > fsverity for XFS.
 > 
-> Would it be better to check verity after xfs_attr_namecheck()?
-> Invalid name seems to be a more basic corruption.
+> Is this ready for me to review, or is my feedback on v5 still being
+> worked on?
 
-Yeah, that could be changed easily. Done.
+It's still being worked on.  I figured it was time to push my work tree
+back to Andrey so everyone could see the results of me attempting to
+understand the fsverity patchset by working around in the codebase.
+
+From your perspective, I suspect the most interesting patches will be 5,
+6, 7+10+14, 11-13, and 15-17.  For everyone on the XFS side, patches
+27-39 are the most interesting since they change the caching strategy
+and slim down the ondisk format.
+
+> From a quick glance, not everything from my feedback has been
+> addressed.
+
+That's correct.  I cleaned up the mechanics of passing merkle trees
+around, but I didn't address the comments about per-sb workqueues,
+fsverity tracepoints, or whether or not iomap should allocate biosets.
+Roughly, here's what I did in the generic code:
+
+I fixed the FS_XFLAG_VERITY handling so that you can't clear it via
+FS_IOC_FSSETXATTR.
+
+I also rewrote and augmented the "drop dead merkle tree" functions in
+xfs_verity to clean out incomplete trees when ->end_enable tells us we
+failed; and to clean out extra blocks in the ->begin_enable just in case
+the file shrank since a failed attempt to enable fsverity.
+
+As for online repair, the "fsverity: expose merkle tree geometry to
+callers" enables the kernel to do some basic online checking that there
+aren't excessive merkle tree blocks and that fsverity can read the
+descriptor.  In my djwong-wtf tree, xfs_scrub gains the ability to read
+the entire file into the pagecache (and hence validate the verity info)
+via MADV_POPULATE READ, and now it has a patch to read the entire merkle
+tree/descriptor/signature just to make sure those can actually be read.
+
+Most of the things you gave feedback about in "fsverity: support
+block-based Merkle tree caching" I think I cleaned up in "fsverity: fix
+"support block-based Merkle tree caching"" and "fsverity: rely on cached
+block callers to retain verified state".  I kept those separate so that
+Andrey could see what I did, though they really ought to be merged into
+the main support patch.
+
+Note that I greatly expanded the usage of struct fsverity_blockbuf and
+changed the verified flag handling so that the invalidation function was
+no longer necessary.
 
 --D
 
-> -- 
-> - Andrey
-> 
-> 
+> - Eric
