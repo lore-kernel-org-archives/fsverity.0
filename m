@@ -1,110 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD544F217;
-	Tue, 19 Mar 2024 22:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69845FB90
+	for <fsverity@lists.linux.dev>; Tue, 19 Mar 2024 23:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710886064; cv=none; b=VQhhoeawezFSzfmReoRDVtVVFC6BN4MXlK/lymCGlwsPKP9Uzf1g/Y4+CCtFu9pFJkz7g5UTA4Gehei07ZEeCk80So4MHJt8dAzIYjyl3rgwI25AJHmeE3xUXFmGexq26BZGq8ZwucCwdK5+9+vazuhKz7WdRui8gUXDiHCY9M4=
+	t=1710889241; cv=none; b=TXnekImXyFITxFd3BBiMDGnSUEVbkGmefP7MYlCtmGKa76hjCmFTdaS4clEKG0lWueyhK79uTLtddLvaLIfdH0hyiICDcQOP4aqndifLS+xbX/8khZEplxJRPjQDPXp+zwIYGHq31mT0XctCuxtPxKKWLjdVhIhlcKhMprlrxnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710886064; c=relaxed/simple;
-	bh=h0l6BvmGc4RnVLcgjaZZBNAvFtveWCLZCTnIqDxlgao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SRuw11ACy0uLmSFyZU7n0AkgDiF1Clkkg4Y+3QW5RxhPDanhi12QTPFGfuG+pwgpBNKQ9Xo3+sDFgQFzuWM11HoBWSttCWOHDNZ92moL0ac6dCOvT0inv3lw8apg0AsQ1j1lYAcl4zssgGeom8obuq5GdmuKzZChGqKLWgkqWjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TPlVI8+i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710889241; c=relaxed/simple;
+	bh=bmttXQsn7ePJrS3RSsRzViZwsDiwqJQZqSCfH7XcvBo=;
+	h=Date:Message-ID:MIME-Version:Content-Type:Content-Disposition:
+	 From:To:Cc:Subject:References:In-Reply-To; b=lWf3DkvUNYRp55GVCypSt5iDX7hMcE+H4pf4tgc00i6zzy/D+3FU0xJQDyMdjdZ7R/dvt0I8eoSqXexO3yCoB0WWCBd3nRbUC1CAFpNAdpi0Rv8ZAcXSo3D6AMAl9Ptu9Zoi2pNJcKQMl3wp9/in7czHC50fVq2Z8sIr8duvhyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=VabUZCdM; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TPlVI8+i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF8E3C433C7;
-	Tue, 19 Mar 2024 22:07:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710886063;
-	bh=h0l6BvmGc4RnVLcgjaZZBNAvFtveWCLZCTnIqDxlgao=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TPlVI8+i0+pIn7OhuRUCSBa++0XF33/hHvn9rdg/tykQ9vlRsHV424zMRriWUrqNz
-	 Ht7Tb15MsXwHoEKSv398BaIyygVYi+f8LLf2gkAdqAX8kDPEIpF5AZJJIdp5p9Tyxf
-	 wC1pwwCo1IU3o5PHdkgQzP2hEBcwUlKpx2jQElphs0TtQwW174t/VuVO59vVmN66IC
-	 axceiUyBR7uRmDE1b3FPrC9vCK33mc3ERoHvaRE2UhIBVvZZBikekBAsPgXLV9eFkf
-	 vkMFZAbXSNqxanwGdjPivpMhSe/0sBIb4dPBT/cnEkHAzJQAz9F7y3Ls89x5MlCF5T
-	 6jcwjZmaaMUdQ==
-Date: Tue, 19 Mar 2024 15:07:43 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: aalbersh@redhat.com, Mark Tinguely <tinguely@sgi.com>,
-	Allison Henderson <allison.henderson@oracle.com>,
-	Christoph Hellwig <hch@lst.de>, Dave Chinner <dchinner@redhat.com>,
-	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCHSET v5.3] fs-verity support for XFS
-Message-ID: <20240319220743.GF6226@frogsfrogsfrogs>
-References: <20240317161954.GC1927156@frogsfrogsfrogs>
- <171069245829.2684506.10682056181611490828.stgit@frogsfrogsfrogs>
- <20240318163512.GB1185@sol.localdomain>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="VabUZCdM"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6e69a9c0eaeso1319546a34.3
+        for <fsverity@lists.linux.dev>; Tue, 19 Mar 2024 16:00:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1710889238; x=1711494038; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :content-disposition:mime-version:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=B1lUfZg/s5mLlW6pu+C9FV0f0xOiWFAgmrfGrW7+FU8=;
+        b=VabUZCdM4Hvx7WC9KDhTvq7nJWaSFShbhIFDwI96c/yrIYT3XJwAjhXlLC6z2ti31n
+         HQ07x1pOSjD1kWgGQG9ErGMhW83+flVuReNB1bPAOlav0GqeDyHOUbcKocotyMk4UOKg
+         kvtO+NCydQfPNLhyCGI3TUkYvAC2g7cFvNHsyL6FuZwJhvX7n7ICaP9O+DEC3NRKKg3c
+         vk1DgPjU5GhPI4BMvr68f6gKiqeXDz/mBhaDyQyVw+SQJ3mErXt87PSmLRKXb6xtaLi3
+         4inCOcvKOTOZsv3NIoD/KpWIjkIMGRXgbBADsepfFmIYiVqgeFzKYrrbYoAhHqLtsbGg
+         hHPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710889238; x=1711494038;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :content-disposition:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=B1lUfZg/s5mLlW6pu+C9FV0f0xOiWFAgmrfGrW7+FU8=;
+        b=Gk5dR7rwsUoDyg/X95PBE1w7yyBGOgUek5TEq4ibWSbRJAsLoO0XiUyK3cKygpiR0P
+         IZ2spVnfbnTDWFvELh7NFFt4YbDCA0WOkZKQyruOCa34ct3yZ630i+QHKN/EBYzeA7Z9
+         PZHYLJka+jSzkMns9i5rj/NtM0jbcm23iULq/BhZjD2QHDITyNQ8g6AaOfEjmrnS4ts2
+         9TiEKxh/A0aghDgBSPGK6LVIS5wLBzMCHXMryqDxCStN9T2zzr/v8HtqqymnW9WKzj3L
+         lNmSCfKgS4Pv/rhKRDX5NqA1vr8E/RTwcF+BFozJAET4/67LPE8AF3Fkib+1VfPMqClI
+         sA+w==
+X-Forwarded-Encrypted: i=1; AJvYcCXPyx6Y13XHmyt43W5QKwQW3Tj5A8u8gTMjRlN+5ABj9uwIRyhTu6VvQRwXCSRIBdFvsdK1tKf9kFVPeUMzxe+rmVMh16HdqTM=
+X-Gm-Message-State: AOJu0YyIVJxB77hyrz6ql1JbmQ8XBunvY+BnuG9+A0ulGmkuE2Vz+3Gk
+	Y8dW7oYO9H7r5QeTetRaDrr+dV46KIcdGHA4sPe+ulHXjESWXuwkyBttWdJkEw==
+X-Google-Smtp-Source: AGHT+IH2BedFErXZvc/MdlUeUrWLnHnhWM0nrDa4rkAsKAMXW5C+nK0wePxGkm9DoXwZPu+DqNui8g==
+X-Received: by 2002:a9d:7f94:0:b0:6e6:7a82:5cf with SMTP id t20-20020a9d7f94000000b006e67a8205cfmr4422911otp.33.1710889237766;
+        Tue, 19 Mar 2024 16:00:37 -0700 (PDT)
+Received: from localhost ([70.22.175.108])
+        by smtp.gmail.com with ESMTPSA id dc33-20020a05620a522100b007885cd1c058sm5972263qkb.103.2024.03.19.16.00.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Mar 2024 16:00:37 -0700 (PDT)
+Date: Tue, 19 Mar 2024 19:00:36 -0400
+Message-ID: <f5cf9d285bd5f09bbc3f79b0800d37fc@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240318163512.GB1185@sol.localdomain>
+MIME-Version: 1.0 
+Content-Type: text/plain; charset=utf-8 
+Content-Disposition: inline 
+Content-Transfer-Encoding: 8bit
+From: Paul Moore <paul@paul-moore.com>
+To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org, Fan Wu <wufan@linux.microsoft.com>
+Subject: Re: [PATCH RFC v15 12/21] security: add security_bdev_setintegrity()  hook
+References: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
 
-On Mon, Mar 18, 2024 at 09:35:12AM -0700, Eric Biggers wrote:
-> On Sun, Mar 17, 2024 at 09:22:52AM -0700, Darrick J. Wong wrote:
-> > Hi all,
-> > 
-> > From Darrick J. Wong:
-> > 
-> > This v5.3 patchset builds upon v5.2 of Andrey's patchset to implement
-> > fsverity for XFS.
+On Mar 15, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
 > 
-> Is this ready for me to review, or is my feedback on v5 still being
-> worked on?
+> This patch introduces a new hook to save block device's integrity
+> data. For example, for dm-verity, LSMs can use this hook to save
+> the roothash signature of a dm-verity into the security blob,
+> and LSMs can make access decisions based on the data inside
+> the signature, like the signer certificate.
+> 
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> 
+> --
+> v1-v14:
+>   + Not present
+> 
+> v15:
+>   + Introduced
+> 
+> ---
+>  include/linux/lsm_hook_defs.h |  2 ++
+>  include/linux/security.h      | 14 ++++++++++++++
+>  security/security.c           | 28 ++++++++++++++++++++++++++++
+>  3 files changed, 44 insertions(+)
 
-It's still being worked on.  I figured it was time to push my work tree
-back to Andrey so everyone could see the results of me attempting to
-understand the fsverity patchset by working around in the codebase.
+I'm not sure why you made this a separate patch, help?  If there is
+no significant reason why this is separate, please squash it together
+with patch 11/21.
 
-From your perspective, I suspect the most interesting patches will be 5,
-6, 7+10+14, 11-13, and 15-17.  For everyone on the XFS side, patches
-27-39 are the most interesting since they change the caching strategy
-and slim down the ondisk format.
+> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+> index c335404470dc..6808ae763913 100644
+> --- a/include/linux/lsm_hook_defs.h
+> +++ b/include/linux/lsm_hook_defs.h
+> @@ -455,4 +455,6 @@ LSM_HOOK(void, LSM_RET_VOID, initramfs_populated, void)
+>  
+>  LSM_HOOK(int, 0, bdev_alloc_security, struct block_device *bdev)
+>  LSM_HOOK(void, LSM_RET_VOID, bdev_free_security, struct block_device *bdev)
+> +LSM_HOOK(int, 0, bdev_setintegrity, struct block_device *bdev,
+> +	 enum lsm_intgr_type type, const void *value, size_t size)
+>  
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index 9965b5c50df4..eaff8868766a 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -83,6 +83,10 @@ enum lsm_event {
+>  	LSM_POLICY_CHANGE,
+>  };
+>  
+> +enum lsm_intgr_type {
+> +	__LSM_INTGR_MAX
+> +};
+> +
+>  /*
+>   * These are reasons that can be passed to the security_locked_down()
+>   * LSM hook. Lockdown reasons that protect kernel integrity (ie, the
+> @@ -511,6 +515,9 @@ int lsm_fill_user_ctx(struct lsm_ctx __user *uctx, u32 *uctx_len,
+>  		      void *val, size_t val_len, u64 id, u64 flags);
+>  int security_bdev_alloc(struct block_device *bdev);
+>  void security_bdev_free(struct block_device *bdev);
+> +int security_bdev_setintegrity(struct block_device *bdev,
+> +			       enum lsm_intgr_type type, const void *value,
+> +			       size_t size);
+>  #else /* CONFIG_SECURITY */
+>  
+>  static inline int call_blocking_lsm_notifier(enum lsm_event event, void *data)
+> @@ -1495,6 +1502,13 @@ static inline void security_bdev_free(struct block_device *bdev)
+>  {
+>  }
+>  
+> +static inline int security_bdev_setintegrity(struct block_device *bdev,
+> +					     enum lsm_intgr_type, type,
+> +					     const void *value, size_t size)
+> +{
+> +	return 0;
+> +}
+> +
+>  #endif	/* CONFIG_SECURITY */
+>  
+>  #if defined(CONFIG_SECURITY) && defined(CONFIG_WATCH_QUEUE)
+> diff --git a/security/security.c b/security/security.c
+> index 4274bbee40d0..8d88529ac904 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -5637,6 +5637,34 @@ void security_bdev_free(struct block_device *bdev)
+>  }
+>  EXPORT_SYMBOL(security_bdev_free);
+>  
+> +/**
+> + * security_bdev_setintegrity() - Set the bdev's integrity data
 
-> From a quick glance, not everything from my feedback has been
-> addressed.
+Let's just say "Set the device's integrity data" and not ask people to
+figure out "bdev", although I will admit it should be fairly obvious :)
 
-That's correct.  I cleaned up the mechanics of passing merkle trees
-around, but I didn't address the comments about per-sb workqueues,
-fsverity tracepoints, or whether or not iomap should allocate biosets.
-Roughly, here's what I did in the generic code:
+> + * @bdev: block device
+> + * @type: type of integrity, e.g. hash digest, signature, etc
+> + * @value: the integrity value
+> + * @size: size of the integrity value
+> + *
+> + * Register a verified integrity measurement of a bdev with the LSM.
+> + *
+> + * Return: Returns 0 on success, negative values on failure.
+> + */
+> +int security_bdev_setintegrity(struct block_device *bdev,
+> +			       enum lsm_intgr_type type, const void *value,
+> +			       size_t size)
+> +{
+> +	int rc = 0;
+> +	struct security_hook_list *p;
+> +
+> +	hlist_for_each_entry(p, &security_hook_heads.bdev_setintegrity, list) {
+> +		rc = p->hook.bdev_setintegrity(bdev, type, value, size);
+> +		if (rc)
+> +			return rc;
+> +	}
+> +
+> +	return LSM_RET_DEFAULT(bdev_setintegrity);
 
-I fixed the FS_XFLAG_VERITY handling so that you can't clear it via
-FS_IOC_FSSETXATTR.
+We can just use the call_int_hook() macro here instead of open coding
+everything, right?
 
-I also rewrote and augmented the "drop dead merkle tree" functions in
-xfs_verity to clean out incomplete trees when ->end_enable tells us we
-failed; and to clean out extra blocks in the ->begin_enable just in case
-the file shrank since a failed attempt to enable fsverity.
+> +}
+> +EXPORT_SYMBOL(security_bdev_setintegrity);
+> +
+>  #ifdef CONFIG_PERF_EVENTS
+>  /**
+>   * security_perf_event_open() - Check if a perf event open is allowed
+> -- 
+> 2.44.0
 
-As for online repair, the "fsverity: expose merkle tree geometry to
-callers" enables the kernel to do some basic online checking that there
-aren't excessive merkle tree blocks and that fsverity can read the
-descriptor.  In my djwong-wtf tree, xfs_scrub gains the ability to read
-the entire file into the pagecache (and hence validate the verity info)
-via MADV_POPULATE READ, and now it has a patch to read the entire merkle
-tree/descriptor/signature just to make sure those can actually be read.
-
-Most of the things you gave feedback about in "fsverity: support
-block-based Merkle tree caching" I think I cleaned up in "fsverity: fix
-"support block-based Merkle tree caching"" and "fsverity: rely on cached
-block callers to retain verified state".  I kept those separate so that
-Andrey could see what I did, though they really ought to be merged into
-the main support patch.
-
-Note that I greatly expanded the usage of struct fsverity_blockbuf and
-changed the verified flag handling so that the invalidation function was
-no longer necessary.
-
---D
-
-> - Eric
+--
+paul-moore.com
