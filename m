@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBF439FC1;
-	Tue, 19 Mar 2024 19:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CF53FB2F;
+	Tue, 19 Mar 2024 21:17:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710876310; cv=none; b=sDC9GHU7L9wflMGMUGm2Ai/BSE+ou2rlkWKlDz5uRMk5XN/UWCQ+MKhfsun57N8ZI7l2HuNDc2a/WdPIL46Ii+N41JDONB4jOalwrkcblOxTuRMEvmwc56kezA1OKFuxKqxbtbEmsHQG0DJdr/3F/TmxaLKkXQrvm0+U6Eqir50=
+	t=1710883067; cv=none; b=cV8gm2HCT0LzUnt8ClgEuUUs1oZIji72afwq736ZRWXGmuJtFUjldAhmL46E0wZ6DLZl8LznFPxye5aJnrGs8E6AftIh0LEMY7ZtHVxcu73kAXr65kvpgBPWfIuYfNpvaT9EF+DUiBesMX5EJGCDSvdiIwH6d1NKrmbsVoU6tOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710876310; c=relaxed/simple;
-	bh=9kkXaFY+dcIbI8X8UIhDiP1ieJRGCHl1BCf86Hlb0x4=;
+	s=arc-20240116; t=1710883067; c=relaxed/simple;
+	bh=36O9vw9EBtZzC6TQxml09VKdUquslgZ2K9MadCGJOjc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KfGbBJPA1vq7gob93GrupDzBNCAHcrTt8PB2572pJXF63F1pnOXKSEh4lXfIBBQGXOkPRgxSosblxLv+eXVLqi7m+n0H1ZzdIC3Wf9DwTzn6v64w8+UlN/XHkZ5WOuftHUP+b47TMKyB5mqNHixw2Zb1QKJmyT1dQYU/aQ86lTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fWQXHfyh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZUbk2iVrEFj+PY0cfkfRORDKtty7JrMztxDiyuwiiGU5cDvFjFSclYps9sElYCTjRWyJlOBSPRwEKU+d29pXDQlGdPF4hbA0uVRduCez9ErsjvB3c602xDGkAQzqwzOaUeCDZbAhJkZyqrqcPpzH+IpJ0wpCH89mT3cX3cWfzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLSYEA8v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fWQXHfyh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED755C433F1;
-	Tue, 19 Mar 2024 19:25:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLSYEA8v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E1FFC43390;
+	Tue, 19 Mar 2024 21:17:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710876309;
-	bh=9kkXaFY+dcIbI8X8UIhDiP1ieJRGCHl1BCf86Hlb0x4=;
+	s=k20201202; t=1710883067;
+	bh=36O9vw9EBtZzC6TQxml09VKdUquslgZ2K9MadCGJOjc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fWQXHfyhnnmjiec8fQp0CeFYwGUy12wgCxI7HGD9Se1v7oUHy1VMAIUdbu1lBM/Q7
-	 SdEb3eHEtx9NvWV5fy8xtArwfACtWLX8B+Zm5fzd1KXmbXwZhHh26rD/fBRIa1dYdj
-	 vyO3Fskz7fOlpO0zBZGgJcvQT6hO6x+x3RP+rguRXg5e0Qy6NLizPNfGoDM4NUEbAU
-	 8ywh3unsoAwfNXXMgBS9Fc3WyNd7ACOdiexkGTiiSRi2kg9eNWQThJpCThBiZJasYB
-	 BPOUuOThV+MAAQwiFGMs46Z6ABxhcpiuuCMaqbsB8kGgiwBjw4myoiEVTuZl37Ma7z
-	 jyQc3thRC0AqQ==
-Date: Tue, 19 Mar 2024 12:25:08 -0700
+	b=iLSYEA8vW3d8FQAvkBwx8Q3kdLJVvG77T4i71PCYA8JvV1kkWypUyFo3BVvvOxBIq
+	 fGGc9dWa3kEqaQ1B8FzaNNJ1UxjXCx+m2q7v8FhKP81wcaPQpLbDOoqyuavSgFYmuI
+	 pUUq5fhVW6dW3HcLbapi759oO+yRY2Su/HQkPs9RUa9r/820Gn7whZ4b5S190Tu+MI
+	 fIp6KynVOP5GYTMvxik3qR+QBiSz68qpEaHP0xl7KGGByXc6WI8Hzr+dZheatQEhyH
+	 v46YlrpXtgWQO4hksEEnYcfczWG0Iskt+Xb8KlGZ+lPG4XhDQSmALPNXNLFsz//mhx
+	 oY+xMvhfb64YQ==
+Date: Tue, 19 Mar 2024 14:17:46 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: ebiggers@kernel.org, zlang@redhat.com, fsverity@lists.linux.dev,
-	fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	guan@eryu.me, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 2/3] xfs/{021,122}: adapt to fsverity xattrs
-Message-ID: <20240319192508.GK6188@frogsfrogsfrogs>
-References: <171069248832.2687004.7611830288449050659.stgit@frogsfrogsfrogs>
- <171069248865.2687004.1285202749756679401.stgit@frogsfrogsfrogs>
- <qwe6bnzuqkmef5hpwf6hzv5ce447xij7ko67vvasjcnzxy4eho@xnvyvawp5mba>
+Cc: ebiggers@kernel.org, linux-fsdevel@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH 24/40] xfs: disable direct read path for fs-verity files
+Message-ID: <20240319211746.GO1927156@frogsfrogsfrogs>
+References: <171069245829.2684506.10682056181611490828.stgit@frogsfrogsfrogs>
+ <171069246296.2684506.17423583037447505680.stgit@frogsfrogsfrogs>
+ <eb7rlbfslyht2vmn7ocqcx5fkjyrle4ocgex6hmjxzs4gtkkgm@mvmsrj7sgojd>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -45,74 +44,67 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <qwe6bnzuqkmef5hpwf6hzv5ce447xij7ko67vvasjcnzxy4eho@xnvyvawp5mba>
+In-Reply-To: <eb7rlbfslyht2vmn7ocqcx5fkjyrle4ocgex6hmjxzs4gtkkgm@mvmsrj7sgojd>
 
-On Tue, Mar 19, 2024 at 03:59:48PM +0100, Andrey Albershteyn wrote:
-> On 2024-03-17 09:39:33, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
+On Mon, Mar 18, 2024 at 08:48:47PM +0100, Andrey Albershteyn wrote:
+> On 2024-03-17 09:29:39, Darrick J. Wong wrote:
+> > From: Andrey Albershteyn <aalbersh@redhat.com>
 > > 
-> > Adjust these tests to accomdate the use of xattrs to store fsverity
-> > metadata.
+> > The direct path is not supported on verity files. Attempts to use direct
+> > I/O path on such files should fall back to buffered I/O path.
 > > 
+> > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
+> > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+> > [djwong: fix braces]
 > > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> > ---
+> >  fs/xfs/xfs_file.c |   15 ++++++++++++---
+> >  1 file changed, 12 insertions(+), 3 deletions(-)
+> > 
+> > 
+> > diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> > index 74dba917be93..0ce51a020115 100644
+> > --- a/fs/xfs/xfs_file.c
+> > +++ b/fs/xfs/xfs_file.c
+> > @@ -281,7 +281,8 @@ xfs_file_dax_read(
+> >  	struct kiocb		*iocb,
+> >  	struct iov_iter		*to)
+> >  {
+> > -	struct xfs_inode	*ip = XFS_I(iocb->ki_filp->f_mapping->host);
+> > +	struct inode		*inode = iocb->ki_filp->f_mapping->host;
+> > +	struct xfs_inode	*ip = XFS_I(inode);
+> >  	ssize_t			ret = 0;
+> >  
+> >  	trace_xfs_file_dax_read(iocb, to);
+> > @@ -334,10 +335,18 @@ xfs_file_read_iter(
+> >  
+> >  	if (IS_DAX(inode))
+> >  		ret = xfs_file_dax_read(iocb, to);
+> > -	else if (iocb->ki_flags & IOCB_DIRECT)
+> > +	else if (iocb->ki_flags & IOCB_DIRECT && !fsverity_active(inode))
 > 
-> Is it against one of pptrs branches? doesn't seem to apply on
-> for-next
+> Brackets missing
 
-See
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fsverity
-
-(as mentioned in the cover letter)
+Oops, will fix that.  Thanks!
 
 --D
 
-> 
-> > ---
-> >  tests/xfs/021     |    3 +++
-> >  tests/xfs/122.out |    1 +
-> >  2 files changed, 4 insertions(+)
-> > 
-> > 
-> > diff --git a/tests/xfs/021 b/tests/xfs/021
-> > index ef307fc064..dcecf41958 100755
-> > --- a/tests/xfs/021
-> > +++ b/tests/xfs/021
-> > @@ -118,6 +118,7 @@ _scratch_xfs_db -r -c "inode $inum_1" -c "print a.sfattr"  | \
-> >  	perl -ne '
-> >  /\.secure/ && next;
-> >  /\.parent/ && next;
-> > +/\.verity/ && next;
-> >  	print unless /^\d+:\[.*/;'
+> >  		ret = xfs_file_dio_read(iocb, to);
+> > -	else
+> > +	else {
+> > +		/*
+> > +		 * In case fs-verity is enabled, we also fallback to the
+> > +		 * buffered read from the direct read path. Therefore,
+> > +		 * IOCB_DIRECT is set and need to be cleared (see
+> > +		 * generic_file_read_iter())
+> > +		 */
+> > +		iocb->ki_flags &= ~IOCB_DIRECT;
+> >  		ret = xfs_file_buffered_read(iocb, to);
+> > +	}
 > >  
-> >  echo "*** dump attributes (2)"
-> > @@ -128,6 +129,7 @@ _scratch_xfs_db -r -c "inode $inum_2" -c "a a.bmx[0].startblock" -c print  \
-> >  	| perl -ne '
-> >  s/,secure//;
-> >  s/,parent//;
-> > +s/,verity//;
-> >  s/info.hdr/info/;
-> >  /hdr.info.crc/ && next;
-> >  /hdr.info.bno/ && next;
-> > @@ -135,6 +137,7 @@ s/info.hdr/info/;
-> >  /hdr.info.lsn/ && next;
-> >  /hdr.info.owner/ && next;
-> >  /\.parent/ && next;
-> > +/\.verity/ && next;
-> >  s/^(hdr.info.magic =) 0x3bee/\1 0xfbee/;
-> >  s/^(hdr.firstused =) (\d+)/\1 FIRSTUSED/;
-> >  s/^(hdr.freemap\[0-2] = \[base,size]).*/\1 [FREEMAP..]/;
-> > diff --git a/tests/xfs/122.out b/tests/xfs/122.out
-> > index 3a99ce77bb..ff886b4eec 100644
-> > --- a/tests/xfs/122.out
-> > +++ b/tests/xfs/122.out
-> > @@ -141,6 +141,7 @@ sizeof(struct xfs_scrub_vec) = 16
-> >  sizeof(struct xfs_scrub_vec_head) = 32
-> >  sizeof(struct xfs_swap_extent) = 64
-> >  sizeof(struct xfs_unmount_log_format) = 8
-> > +sizeof(struct xfs_verity_merkle_key) = 8
-> >  sizeof(struct xfs_xmd_log_format) = 16
-> >  sizeof(struct xfs_xmi_log_format) = 80
-> >  sizeof(union xfs_rtword_raw) = 4
+> >  	if (ret > 0)
+> >  		XFS_STATS_ADD(mp, xs_read_bytes, ret);
+> > 
 > > 
 > 
 > -- 
