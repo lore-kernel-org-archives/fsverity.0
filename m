@@ -1,192 +1,361 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D9754BDB
-	for <fsverity@lists.linux.dev>; Wed, 20 Mar 2024 16:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7D56A341
+	for <fsverity@lists.linux.dev>; Wed, 20 Mar 2024 17:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710951751; cv=none; b=XdqtdIicWhd621BKz9KqqfwcepJfknohizjB1j2RRufv+aQX/ODf7CgbRrk1Bb+f4SMgNtYk0mFJAk9yxMiomc5H0cWZlAUmk8qCdOuuyh8foceWJVEDvKrCVVb8vQQydG2nNQovGLLn+RxeKicWQe87pi7QyGJoVn/JAbqw8kw=
+	t=1710955411; cv=none; b=J5JHZ4dXSm4aARRROL+4wfVUpEVz57XSTyxlTukzkpvbQ0vspfI9MWrujLbCDPeG0v0RjC9NTkwzZFRKORiqLAw+EoVCbtg5AIWSeLvnKIuF/I3WeYReqPNx58A2mAxFHRjcuaaLu+K1Tfck+dAnDhTfo3hQznZyzqDmgzCHF2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710951751; c=relaxed/simple;
-	bh=41tjM+J6WGDCzpOXj69URQ1sTfiQe8Lh93Zr3nJSrwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=gkXlSr6XrjMJctdci7jMA/htk55fQ8XQcg00XDzpw8JJoljWtWelhO6tS9dOygtM9CF2JznKMQ9QcmfER80wu/2gn4pv7MuJLz2C+qMfBBvAqL8DpKZ3YD/zpr2Our1t0Fn9a1rDScygvh/jt9bk+11EyAh/6sai3/dvUORJrM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UURchn5Z; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1710955411; c=relaxed/simple;
+	bh=OktSo1wzw1/Tkeb7gXpxEk9VZSpYD0XVPWVaHlIfXLc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UVojFxu9an455w7rxSwtCRAkdZjEqGBJbHWJg3K64lp2pB4s8eQwv42dCoYF0S1PKZ54oT8lPNpdLsVhy8lA5VEVNZiidLdCXCk86aBUbjw7FjzN4B4cJnXU1wYko2j9p5aVdhO8teg18g22vD1dfpt8noz1Fylw3YHXNEUrdCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=LozIBiWU; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UURchn5Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710951748;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1PNmHTETrb06QIsSR2/EHe/MAGIbj5F6opVNo6zaJeM=;
-	b=UURchn5ZUee2MTogNcXP9ef2nifL+EGgIR20mm/FsE19XJCQpSORkHMgz22jIo27UkVYqb
-	JTKop0YXHKDjIC9DdfAsfKE+ZfIYYrmPWVCuVMJpla5ZrKm7XedivJ5h+NBueSheZXsibP
-	WppMSfUoOfWsZBIiiU0buGpuoPh1+o4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-244-NshpUdN3P4yBrgyNGkOsWw-1; Wed, 20 Mar 2024 12:22:26 -0400
-X-MC-Unique: NshpUdN3P4yBrgyNGkOsWw-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a35ef7abe08so82266b.2
-        for <fsverity@lists.linux.dev>; Wed, 20 Mar 2024 09:22:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710951745; x=1711556545;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="LozIBiWU"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dcbf82cdf05so6039440276.2
+        for <fsverity@lists.linux.dev>; Wed, 20 Mar 2024 10:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1710955408; x=1711560208; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1PNmHTETrb06QIsSR2/EHe/MAGIbj5F6opVNo6zaJeM=;
-        b=QVQSB7/lgutOUgfQPpagKEgPYZBsp5Og823/N37IWLOsalH6ukIbSqM/pM2MkI9mxz
-         yhHsQVYaVOoInn101uWirkES68DcNHA0W07gV3TG7FrI6bf7Z0SKsqUY4mqfCdtWtra/
-         t+JYkkakFYYej/HHxdVEC74WOjGQiOBvR0NHvHy0NtO0dhaeki276syqwK2iQ54lP/2w
-         3CiPrdZCWyjP4vqqE7PZOx0NaYfCpaHmhoGMCVMrt4VCwCf5bsjqdiGLh4igpRTSQ/4B
-         +ihIl5mAnQjJ7LuAaijIHfaymIx522/jW7FU+iHoQ5LcmdFczFQlnvYampQuiHreK93c
-         GWXg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpPNFQXUPo1FpU1cU6EIlBsgZaD1qcprHS/EVzcf4Tj0tVaotB3Dqsdn7thRwLbxFTN7rh5fP2vjnJZ7FAU3jISF4wpqfm9CI=
-X-Gm-Message-State: AOJu0YyiHY+5egijcUpG8FUNILrNbwKPOeEaehe8RfVQkLEqjJ9laxk9
-	H3ZzVun0JpwQM0XgHSurZRZm/rPg+1nGlwM1nd6PQrr7sl+01AJfQUUrTNJluLlYOpU+0B7rCP2
-	zqaY0rhZpqyANjLyqQGsYIMCmrAbSSedQRuFrE/vag/1H7bUXwyAF+98=
-X-Received: by 2002:a17:906:6009:b0:a44:b9e0:8592 with SMTP id o9-20020a170906600900b00a44b9e08592mr1687367ejj.8.1710951745315;
-        Wed, 20 Mar 2024 09:22:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFG7Udrm6I52hNnwHrU2ypGXiKfrtE7hJ7eDswBpRY1MNY22ZWL6AD5QA9JT8JzOvVqArGrUA==
-X-Received: by 2002:a17:906:6009:b0:a44:b9e0:8592 with SMTP id o9-20020a170906600900b00a44b9e08592mr1687352ejj.8.1710951744752;
-        Wed, 20 Mar 2024 09:22:24 -0700 (PDT)
-Received: from thinky ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id wg8-20020a17090705c800b00a46cc48ab13sm3161782ejb.62.2024.03.20.09.22.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 09:22:24 -0700 (PDT)
-Date: Wed, 20 Mar 2024 17:22:23 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: ebiggers@kernel.org, linux-fsdevel@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 08/29] fsverity: add per-sb workqueue for post read
- processing
-Message-ID: <tuidl6b6miayxekeqfpdgegvxyisqjryf5zvgnz5dfbqab5def@cnks2upytvto>
-References: <171035223299.2613863.12196197862413309469.stgit@frogsfrogsfrogs>
- <171035223488.2613863.7583467519759571221.stgit@frogsfrogsfrogs>
- <20240319233010.GV1927156@frogsfrogsfrogs>
- <ktc3ofsctond43xfc3lerr4evy3a3hsclyxm24cmhf7fsxxfsw@gjqnq57cbeoy>
- <20240320145504.GY1927156@frogsfrogsfrogs>
+        bh=zL+b5IqSmT+yiak0XO4i+W4JtR/sEZzsL6gRjLnV0bw=;
+        b=LozIBiWUditKKYgjr8VP4YnJLrSZTU18hvIgpfQjicZcji3S6ZsaV09NzJ8/p4gh/V
+         E1kDWLS5J/Qf7aR6TDEsFBxZmtEuDuG/8QIaNyM49rF2tokQrV1SW1HWXJz8w28KrzQ7
+         eHjFVoYOlBBfwD0Oy/7S7gXVnstpffmzHDcVx8C8XpxzAWs2belHkT5R/iaCSvORxkS5
+         xyX68XfA883S/Z/cbP26ksuQShfkSDw2+OCzW0GDz4ZAZ5v4bTcDZZP7exX+Gdh8QShi
+         7qA1VZDQd6ppXv5+rpgwnwdUoaDXJaBxKbe6pDDrWhmpHuacdgd72hcJTQdeBJJS7K44
+         cisg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710955408; x=1711560208;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zL+b5IqSmT+yiak0XO4i+W4JtR/sEZzsL6gRjLnV0bw=;
+        b=u9WWsBFti9/MNm5tYcM6hrkc7VcEKO87c4ZJpGDD3zW/tNTAaGLA7pNl2HREvlEy0z
+         aZTFdM6szrKT9jgUBtNFDHCPgXz4jWCGgHTUx6rFXbMzx/iYmVqIJizSRYixEbWdnfiJ
+         ZQZFsxuPzWiTA49D8XMC+TJO38A3ayABnv27vxboqNSvMTDLwUnJyrAXy5W+chr/yirl
+         +0o6uMBSLa2zs3sYc3sychEkOU8vQCu/vcoPn3ZEYMgCX6jGLwv/pdb7P+m0TojJ/A8c
+         6rBLE5zD7IorFp1zvngFglOYgoqrRPtsdd0Ffvoabl+2D62eMSmaWisHUgFIYJTbhuNW
+         B+LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWhVxK5EeLzf4YJf0MfPz/2E9tJiLNWdyD8tB2cuC0q4CK6rgxuUhyhH4XZObTq481TYjNYWKqwfDnRlxGdHSkdjDuWZhIBNbk=
+X-Gm-Message-State: AOJu0YxMMdkxjcdUELvH/6Di3WCdiUU0GnKvbyVVTxQpUnr1ojITqRhC
+	61wZ/ExSxBfT/HLU8hEibgJdpL6kN6J4oEjNzpZpkPvQLUanAKgl5fhVjZLWF5Eg4c7mjiT7a72
+	jkSPyDD2j8g3Y+HMmBNuP6pSonvT3i/WspuZf
+X-Google-Smtp-Source: AGHT+IGisQjCjQt12sXnN9Jt9UbAiCVuocXkhWkDVU4b8Sz//Q1jqxXIMt0rNAmfp/Y8hIDNuFGtuTe2UbVFtwFiUv0=
+X-Received: by 2002:a25:6fc5:0:b0:dd1:2f58:292b with SMTP id
+ k188-20020a256fc5000000b00dd12f58292bmr13153934ybc.9.1710955408153; Wed, 20
+ Mar 2024 10:23:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240320145504.GY1927156@frogsfrogsfrogs>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <1710560151-28904-15-git-send-email-wufan@linux.microsoft.com>
+ <657b73a0cf531fd4291a0f780d2fcf78@paul-moore.com> <ZfpHxkmRy0oqxZVF@redhat.com>
+In-Reply-To: <ZfpHxkmRy0oqxZVF@redhat.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 20 Mar 2024 13:23:17 -0400
+Message-ID: <CAHC9VhTkpSa665tesTEs8gBjaD3ahUMATGMXuGy+-unt7WL-UQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v15 14/21] dm verity: consume root hash digest and
+ signature data via LSM hook
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
+	axboe@kernel.dk, agk@redhat.com, eparis@redhat.com, linux-doc@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-block@vger.kernel.org, 
+	dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-03-20 07:55:04, Darrick J. Wong wrote:
-> On Wed, Mar 20, 2024 at 11:37:28AM +0100, Andrey Albershteyn wrote:
-> > On 2024-03-19 16:30:10, Darrick J. Wong wrote:
-> > > On Wed, Mar 13, 2024 at 10:54:39AM -0700, Darrick J. Wong wrote:
-> > > > From: Andrey Albershteyn <aalbersh@redhat.com>
-> > > > 
-> > > > For XFS, fsverity's global workqueue is not really suitable due to:
-> > > > 
-> > > > 1. High priority workqueues are used within XFS to ensure that data
-> > > >    IO completion cannot stall processing of journal IO completions.
-> > > >    Hence using a WQ_HIGHPRI workqueue directly in the user data IO
-> > > >    path is a potential filesystem livelock/deadlock vector.
-> > > > 
-> > > > 2. The fsverity workqueue is global - it creates a cross-filesystem
-> > > >    contention point.
-> > > > 
-> > > > This patch adds per-filesystem, per-cpu workqueue for fsverity
-> > > > work. This allows iomap to add verification work in the read path on
-> > > > BIO completion.
-> > > > 
-> > > > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> > > > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> > > > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> > > > ---
-> > > >  fs/super.c               |    7 +++++++
-> > > >  include/linux/fs.h       |    2 ++
-> > > >  include/linux/fsverity.h |   22 ++++++++++++++++++++++
-> > > >  3 files changed, 31 insertions(+)
-> > > > 
-> > > > 
-> > > > diff --git a/fs/super.c b/fs/super.c
-> > > > index d35e85295489..338d86864200 100644
-> > > > --- a/fs/super.c
-> > > > +++ b/fs/super.c
-> > > > @@ -642,6 +642,13 @@ void generic_shutdown_super(struct super_block *sb)
-> > > >  			sb->s_dio_done_wq = NULL;
-> > > >  		}
-> > > >  
-> > > > +#ifdef CONFIG_FS_VERITY
-> > > > +		if (sb->s_read_done_wq) {
-> > > > +			destroy_workqueue(sb->s_read_done_wq);
-> > > > +			sb->s_read_done_wq = NULL;
-> > > > +		}
-> > > > +#endif
-> > > > +
-> > > >  		if (sop->put_super)
-> > > >  			sop->put_super(sb);
-> > > >  
-> > > > diff --git a/include/linux/fs.h b/include/linux/fs.h
-> > > > index ed5966a70495..9db24a825d94 100644
-> > > > --- a/include/linux/fs.h
-> > > > +++ b/include/linux/fs.h
-> > > > @@ -1221,6 +1221,8 @@ struct super_block {
-> > > >  #endif
-> > > >  #ifdef CONFIG_FS_VERITY
-> > > >  	const struct fsverity_operations *s_vop;
-> > > > +	/* Completion queue for post read verification */
-> > > > +	struct workqueue_struct *s_read_done_wq;
-> > > >  #endif
-> > > >  #if IS_ENABLED(CONFIG_UNICODE)
-> > > >  	struct unicode_map *s_encoding;
-> > > > diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
-> > > > index 0973b521ac5a..45b7c613148a 100644
-> > > > --- a/include/linux/fsverity.h
-> > > > +++ b/include/linux/fsverity.h
-> > > > @@ -241,6 +241,22 @@ void fsverity_enqueue_verify_work(struct work_struct *work);
-> > > >  void fsverity_invalidate_block(struct inode *inode,
-> > > >  		struct fsverity_blockbuf *block);
-> > > >  
-> > > > +static inline int fsverity_set_ops(struct super_block *sb,
-> > > > +				   const struct fsverity_operations *ops)
-> > > > +{
-> > > > +	sb->s_vop = ops;
-> > > > +
-> > > > +	/* Create per-sb workqueue for post read bio verification */
-> > > > +	struct workqueue_struct *wq = alloc_workqueue(
-> > > > +		"pread/%s", (WQ_FREEZABLE | WQ_MEM_RECLAIM), 0, sb->s_id);
-> > > 
-> > > Looking at this more closely, why is it that the fsverity_read_queue
-> > > is unbound and tagged WQ_HIGHPRI, whereas this one is instead FREEZEABLE
-> > > and MEM_RECLAIM and bound?
-> > > 
-> > > If it's really feasible to use /one/ workqueue for all the read
-> > > post-processing then this ought to be a fs/super.c helper ala
-> > > sb_init_dio_done_wq.  That said, from Eric's comments on the v5 thread
-> > > about fsverity and fscrypt locking horns over workqueue stalls I'm not
-> > > convinced that's true.
-> > 
-> > There's good explanation by Dave why WQ_HIGHPRI is not a good fit
-> > for XFS (potential livelock/deadlock):
-> > 
-> > https://lore.kernel.org/linux-xfs/20221214054357.GI3600936@dread.disaster.area/
-> > 
-> > Based on his feedback I changed it to per-filesystem.
-> 
-> Ah, ok.  Why is the workqueue tagged with MEM_RECLAIM though?  Does
-> letting it run actually help out with reclaim?  I guess it does by
-> allowing pages involved in readahead to get to unlocked state where they
-> can be ripped out. :)
+On Tue, Mar 19, 2024 at 10:19=E2=80=AFPM Mike Snitzer <snitzer@kernel.org> =
+wrote:
+> On Tue, Mar 19 2024 at  7:00P -0400,
+> Paul Moore <paul@paul-moore.com> wrote:
+> > On Mar 15, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
+> > >
+> > > dm-verity provides a strong guarantee of a block device's integrity. =
+As
+> > > a generic way to check the integrity of a block device, it provides
+> > > those integrity guarantees to its higher layers, including the filesy=
+stem
+> > > level.
+> > >
+> > > An LSM that control access to a resource on the system based on the
+> > > available integrity claims can use this transitive property of
+> > > dm-verity, by querying the underlying block_device of a particular
+> > > file.
+> > >
+> > > The digest and signature information need to be stored in the block
+> > > device to fulfill the next requirement of authorization via LSM polic=
+y.
+> > > This will enable the LSM to perform revocation of devices that are st=
+ill
+> > > mounted, prohibiting execution of files that are no longer authorized
+> > > by the LSM in question.
+> > >
+> > > This patch adds two security hook calls in dm-verity to save the
+> > > dm-verity roothash and the roothash signature to the block device's
+> > > LSM blobs. The hook calls are depended on CONFIG_IPE_PROP_DM_VERITY,
+> > > which will be introduced in the next commit.
+> > >
+> > > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> > > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> > > ---
+> > > v2:
+> > >   + No Changes
+> > >
+> > > v3:
+> > >   + No changes
+> > >
+> > > v4:
+> > >   + No changes
+> > >
+> > > v5:
+> > >   + No changes
+> > >
+> > > v6:
+> > >   + Fix an improper cleanup that can result in
+> > >     a leak
+> > >
+> > > v7:
+> > >   + Squash patch 08/12, 10/12 to [11/16]
+> > >   + Use part0 for block_device, to retrieve the block_device, when
+> > >     calling security_bdev_setsecurity
+> > >
+> > > v8:
+> > >   + Undo squash of 08/12, 10/12 - separating drivers/md/ from
+> > >     security/ & block/
+> > >   + Use common-audit function for dmverity_signature.
+> > >   + Change implementation for storing the dm-verity digest to use the
+> > >     newly introduced dm_verity_digest structure introduced in patch
+> > >     14/20.
+> > >   + Create new structure, dm_verity_digest, containing digest algorit=
+hm,
+> > >     size, and digest itself to pass to the LSM layer. V7 was missing =
+the
+> > >     algorithm.
+> > >   + Create an associated public header containing this new structure =
+and
+> > >     the key values for the LSM hook, specific to dm-verity.
+> > >   + Additional information added to commit, discussing the layering o=
+f
+> > >     the changes and how the information passed will be used.
+> > >
+> > > v9:
+> > >   + No changes
+> > >
+> > > v10:
+> > >   + No changes
+> > >
+> > > v11:
+> > >   + Add an optional field to save signature
+> > >   + Move the security hook call to the new finalize hook
+> > >
+> > > v12:
+> > >   + No changes
+> > >
+> > > v13:
+> > >   + No changes
+> > >
+> > > v14:
+> > >   + Correct code format
+> > >   + Remove unnecessary header and switch to dm_disk()
+> > >
+> > > v15:
+> > >   + Refactor security_bdev_setsecurity() to security_bdev_setintegrit=
+y()
+> > >   + Remove unnecessary headers
+> > > ---
+> > >  drivers/md/dm-verity-target.c | 73 +++++++++++++++++++++++++++++++++=
+++
+> > >  drivers/md/dm-verity.h        |  6 +++
+> > >  include/linux/dm-verity.h     | 12 ++++++
+> > >  include/linux/security.h      |  2 +
+> > >  4 files changed, 93 insertions(+)
+> > >  create mode 100644 include/linux/dm-verity.h
+> > >
+> > > diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-tar=
+get.c
+> > > index bb5da66da4c1..e94cc6a755d5 100644
+> > > --- a/drivers/md/dm-verity-target.c
+> > > +++ b/drivers/md/dm-verity-target.c
+> > > @@ -22,6 +22,8 @@
+> > >  #include <linux/scatterlist.h>
+> > >  #include <linux/string.h>
+> > >  #include <linux/jump_label.h>
+> > > +#include <linux/security.h>
+> > > +#include <linux/dm-verity.h>
+> > >
+> > >  #define DM_MSG_PREFIX                      "verity"
+> > >
+> > > @@ -1017,6 +1019,38 @@ static void verity_io_hints(struct dm_target *=
+ti, struct queue_limits *limits)
+> > >     blk_limits_io_min(limits, limits->logical_block_size);
+> > >  }
+> > >
+> > > +#ifdef CONFIG_IPE_PROP_DM_VERITY
+> > > +
+> > > +static int verity_init_sig(struct dm_verity *v, const void *sig,
+> > > +                      size_t sig_size)
+> > > +{
+> > > +   v->sig_size =3D sig_size;
+> > > +   v->root_digest_sig =3D kmalloc(v->sig_size, GFP_KERNEL);
+> > > +   if (!v->root_digest)
+> > > +           return -ENOMEM;
+> >
+> > Either you meant to copy @sig into @v->root_digest_sig and forgot to
+> > add the code for that, or we don't need to include @sig as a parameter
+> > to this function.  I'm guessing it is the former as it wouldn't make
+> > sense to even have dm_verity::root_digest_sig if we weren't stashing
+> > it here.
+> >
+> > I'd also suggest looking at kmemdup() instead of a kmalloc()/memcpy()
+> > combo.
+> >
+> > > +   return 0;
+> > > +}
+> > > +
+> > > +static void verity_free_sig(struct dm_verity *v)
+> > > +{
+> > > +   kfree(v->root_digest_sig);
+> > > +}
+> > > +#else
+> > > +
+> > > +static inline int verity_init_sig(struct dm_verity *v, const void *s=
+ig,
+> > > +                             size_t sig_size)
+> > > +{
+> > > +   return 0;
+> > > +}
+> > > +
+> > > +static inline void verity_free_sig(struct dm_verity *v)
+> > > +{
+> > > +}
+> > > +
+> > > +#endif /* CONFIG_IPE_PROP_DM_VERITY */
+> >
+> > It's been a while since I looked at this patch in the patchset, so
+> > maybe I'm missing something, but in general we don't want CONFIG_XXX
+> > checks in the kernel, outside of security/, that are specific to a
+> > particular LSM (what happens when multiple LSMs need this?).  Please
+> > use CONFIG_SECURITY instead.
+> >
+> > >  static void verity_dtr(struct dm_target *ti)
+> > >  {
+> > >     struct dm_verity *v =3D ti->private;
+> > > @@ -1035,6 +1069,7 @@ static void verity_dtr(struct dm_target *ti)
+> > >     kfree(v->salt);
+> > >     kfree(v->root_digest);
+> > >     kfree(v->zero_digest);
+> > > +   verity_free_sig(v);
+> > >
+> > >     if (v->tfm)
+> > >             crypto_free_ahash(v->tfm);
+> > > @@ -1434,6 +1469,13 @@ static int verity_ctr(struct dm_target *ti, un=
+signed int argc, char **argv)
+> > >             ti->error =3D "Root hash verification failed";
+> > >             goto bad;
+> > >     }
+> > > +
+> > > +   r =3D verity_init_sig(v, verify_args.sig, verify_args.sig_size);
+> > > +   if (r < 0) {
+> > > +           ti->error =3D "Cannot allocate root digest signature";
+> > > +           goto bad;
+> > > +   }
+> > > +
+> > >     v->hash_per_block_bits =3D
+> > >             __fls((1 << v->hash_dev_block_bits) / v->digest_size);
+> > >
+> > > @@ -1584,6 +1626,34 @@ int dm_verity_get_root_digest(struct dm_target=
+ *ti, u8 **root_digest, unsigned i
+> > >     return 0;
+> > >  }
+> > >
+> > > +#ifdef CONFIG_IPE_PROP_DM_VERITY
+> > > +
+> > > +static int verity_finalize(struct dm_target *ti)
+> > > +{
+> > > +   struct block_device *bdev;
+> > > +   struct dm_verity_digest root_digest;
+> > > +   struct dm_verity *v;
+> > > +   int r;
+> > > +
+> > > +   v =3D ti->private;
+> > > +   bdev =3D dm_disk(dm_table_get_md(ti->table))->part0;
+> > > +   root_digest.digest =3D v->root_digest;
+> > > +   root_digest.digest_len =3D v->digest_size;
+> > > +   root_digest.alg =3D v->alg_name;
+> > > +
+> > > +   r =3D security_bdev_setintegrity(bdev, LSM_INTGR_DMV_ROOTHASH, &r=
+oot_digest,
+> > > +                                  sizeof(root_digest));
+> > > +   if (r)
+> > > +           return r;
+> > > +
+> > > +   return security_bdev_setintegrity(bdev,
+> > > +                                     LSM_INTGR_DMV_SIG,
+> > > +                                     v->root_digest_sig,
+> > > +                                     v->sig_size);
+> >
+> > What happens if the second call fails, should we clear the
+> > LSM_INTGR_DMV_ROOTHASH state in the LSM?
+> >
+> > > +}
+> > > +
+> > > +#endif /* CONFIG_IPE_PROP_DM_VERITY */
+> >
+> > See my comments about CONFIG_SECURITY above.  In fact, I would suggest
+> > moving this up into that part of the file so you only need one #ifdef
+> > block relating to CONFIG_SECURITY.
+> >
+> > I would also recommend making a dummy function so we can get rid of
+> > the conditional compilation in @verity_target below.  For example:
+> >
+> >   #ifdef CONFIG_SECURITY
+> >   static int verity_finalize(struct dm_target *ti)
+> >   {
+> >     /* real implementation */
+> >   }
+> >   #else
+> >   static int verity_finalize(struct dm_target *ti)
+> >   {
+> >     return 0;
+> >   }
+> >   #endif /* CONFIG_SECURITY */
+> >
+> > >  static struct target_type verity_target =3D {
+> > >     .name           =3D "verity",
+> > >     .features       =3D DM_TARGET_SINGLETON | DM_TARGET_IMMUTABLE,
+> > > @@ -1596,6 +1666,9 @@ static struct target_type verity_target =3D {
+> > >     .prepare_ioctl  =3D verity_prepare_ioctl,
+> > >     .iterate_devices =3D verity_iterate_devices,
+> > >     .io_hints       =3D verity_io_hints,
+> > > +#ifdef CONFIG_IPE_PROP_DM_VERITY
+> > > +   .finalize       =3D verity_finalize,
+> > > +#endif /* CONFIG_IPE_PROP_DM_VERITY */
+> > >  };
+> > >  module_dm(verity);
+> >
+> > If you create a dummy verity_finalize() function like above you can
+> > get rid of the #ifdef checks.
+>
+> Think it is better to leave it as-is, to avoid calling the .finalize
+> hook if it isn't actually needed.
 
-Not sure how much it actually helps with reclaims, leaving it out
-would probably have the same effect in most cases. But I suppose at
-least one reserved execution context is good thing to not block BIO
-finalization.
+Fair enough, my personal preference is to minimize Kconfig conditional
+code flow changes such as this, but I understand your point of view
+and device-mapper is your code after all.
 
--- 
-- Andrey
+I believe the other issues still need to be addressed, but other than
+that are you generally okay with the new "finalize" hook approach?
 
+--=20
+paul-moore.com
