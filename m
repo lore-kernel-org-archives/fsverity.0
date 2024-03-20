@@ -1,101 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38A4374D1;
-	Wed, 20 Mar 2024 08:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392EC3C460
+	for <fsverity@lists.linux.dev>; Wed, 20 Mar 2024 10:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710923487; cv=none; b=kAhXX2VgJ5N2XeI+u7raujJISqegPsM2XumTnGuTK00HElmotvgTYPvDGGmqlPv+ILe6l0HRoIynh2QJDBmfiK05yb1yHaUnq7Q7cJw1uxsLzx1tdaLNFgWC71Dx7HmzYGNEAJx6EawVfCtD9s9aA/WSbqfqbo9uK6CqWgAVHeA=
+	t=1710929769; cv=none; b=BS87KkVDdZ67z6Rfxw53IE+DVRnRIdsQlF23mAEuSa005UUxZOa9PrttxrStccSQkFbO/NzSRmeX0blaaVfypY/r6mawdMu7K5552NiOLZGDyBDAiFuIpqguvJreS77briOrGIL1PUQhf43m53vjoG3Vj3Yx6US3voN1J7D5XCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710923487; c=relaxed/simple;
-	bh=uYuOLvaXC5zSq3rbHgQsBek5irtHYbjs7ZmCE5k/uss=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=gVa19b7jQc023Q3T8xaD8kRSecTfXwrkxmBT5fUL7zItTBBxVzvfduegmp1mLGJ/bKwGLrg8HDQWHOvAfTXuVK2GuuPN5lQWtRIMxSNSJQ8gTe4ZpFau5SQX2IOEfHlb/av9+5Qey/QC+rnXvxX6alwtCJAe5jR7ROwi/Xhcr5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKpWsAr4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710929769; c=relaxed/simple;
+	bh=rPa9t11DkjZ8Ed7kwM28DoTQ4P507YzandJi5vcUYHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=sbyIWz/A5nPn8tbRQ1nVTMW2TtKxQxVU2ZvMfiI8knKBRJSip6vSW9tf0TFrZ7OeaLFBmmtMx7zeqkqyxhz5BGsKSPxcQ+6fEWwA31k9zA/O1Jz8ExoZUnfZO54MwcsJccGPDohKXL4DVSkkPnIZGFRhn8763cqjY3Z2eslkJ/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QGn2+acp; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKpWsAr4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C74C43390;
-	Wed, 20 Mar 2024 08:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710923487;
-	bh=uYuOLvaXC5zSq3rbHgQsBek5irtHYbjs7ZmCE5k/uss=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=sKpWsAr4TQ5rJV1WPhGCeqlhhUwoMVPpLdKthHy3bJrVYHFHZts4lMprouJz0I6eG
-	 WSGIgnXJVxT2yfrbfqjWJwR1xQEMd2bfzn/sDtwPtTcRYCpsC/4aSdhmgqdmtuXSUP
-	 RjYeeVQPvPM6kmVEPMwynycGLfB/KvylQNpUeg+wYzGwmk+nRJGdtS7P2hSeh1Mksa
-	 Qc/GE9Gl9vV/KQf1tCmkv6fplFpS1ArvtJEcwM/jiuI6DZdG96JI9uu2n+cBbZcDkH
-	 TdC5SArIBmgJEFk1ouTq9JnFB5BNeXKwDSPGREG7Mi92MVJy0RomdjJKSOuaX7IqOt
-	 CE+j33cNYxpbw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QGn2+acp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710929766;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=t44WkNVUoNO+QtPNbszmzeZBcjv/Mxh37EetmY3mq4g=;
+	b=QGn2+acpK1Bu2y3fLrQXZSDqDMAN9p8r+gOqyamHK9NxdV57I4Q+GnqrQC3OrgmzWO8gIL
+	eqAtOzbPbk6QTj+AceeKqfSGkdf1unZHtJutJDcwp94LvzgHWrEwEDEwBJ3va+DW6j55T4
+	xCAgSqAXimk513pJbRp+mpxJviqI8is=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-621-qus4pLdaOSik0DiBHr5M5A-1; Wed, 20 Mar 2024 06:16:05 -0400
+X-MC-Unique: qus4pLdaOSik0DiBHr5M5A-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a46a21bf449so298934666b.1
+        for <fsverity@lists.linux.dev>; Wed, 20 Mar 2024 03:16:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710929764; x=1711534564;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t44WkNVUoNO+QtPNbszmzeZBcjv/Mxh37EetmY3mq4g=;
+        b=fXMIHvT1IRXXJKlayUPf/MdEz+PLxPuOijdE7MeceFZU9i7xF0a6LcGiE+eeHVE382
+         2qy+wkcT37gEY1cCwbA49QcfqYpFAtJawTWqvsuzDTcQDU9ipW8IIHn89mc0MZeHvwek
+         r5evECre4bZGWSG/r/dLdqHCQEqdLglHTiWRO7wLAv8NdKNCzjKFVlgzFmrn2uUsHDmr
+         2n2/1wbBz3bIx3ZmDtuGfCoyZzg8py9FYxA7l/K/0YVLfuXIJvEFzI+TdPBFromU034f
+         hmPTZTEDGEIMENT+CHHd8sZpFk2ztrxt/UdTWEpHh33DZFdYCSVDyV38mOS48D//tKIj
+         x20Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXNMLcUscLS5RD6CIv1P4Agc0nrHCe8vVyp+spOEXRXbdlVsR99JZdPfmUjuxtDziDX6ONsrR+Ohf++Rg/nehTw56RdY1EX1vA=
+X-Gm-Message-State: AOJu0YxFm7TSG19j6GzAyjVpOvs4NBHvN0sv+pwFH2+WoEOY8xB7NLwz
+	6OxRaWZPfJ4APHyYcCXAD1Pxu+PtLmn63Q6KmvT2X0azT9IKFaWaWGlkGTIYuOjtNvrRKYiqfH4
+	yYy71IgwwKXkkGh19uaP/BzziFJq4fsxBSyds/8dhgm6j5LT4bCkamHo=
+X-Received: by 2002:aa7:c402:0:b0:568:99fa:26c with SMTP id j2-20020aa7c402000000b0056899fa026cmr10205686edq.11.1710929764181;
+        Wed, 20 Mar 2024 03:16:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG7TqJtJpn6F0nyXq620kFUM+OS+Yv9phf2USDD8d0KiBXDmdTBFbx3kb2cefQw/Lig8fvKUQ==
+X-Received: by 2002:aa7:c402:0:b0:568:99fa:26c with SMTP id j2-20020aa7c402000000b0056899fa026cmr10205662edq.11.1710929763564;
+        Wed, 20 Mar 2024 03:16:03 -0700 (PDT)
+Received: from thinky ([109.183.6.197])
+        by smtp.gmail.com with ESMTPSA id n13-20020a05640204cd00b00569aed32c32sm3327689edw.75.2024.03.20.03.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Mar 2024 03:16:03 -0700 (PDT)
+Date: Wed, 20 Mar 2024 11:16:01 +0100
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Eric Biggers <ebiggers@kernel.org>, 
+	Allison Henderson <allison.henderson@oracle.com>, Christoph Hellwig <hch@lst.de>, 
+	Dave Chinner <dchinner@redhat.com>, linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-xfs@vger.kernel.org, mark.tinguely@oracle.com
+Subject: Re: [PATCHSET v5.3] fs-verity support for XFS
+Message-ID: <7ov4snchmjuh6an7cwredibanjjd6zvwcwyic6un6lafjt5e3i@kgt75bq3q56t>
+References: <20240317161954.GC1927156@frogsfrogsfrogs>
+ <171069245829.2684506.10682056181611490828.stgit@frogsfrogsfrogs>
+ <20240318163512.GB1185@sol.localdomain>
+ <20240319220743.GF6226@frogsfrogsfrogs>
+ <20240319232118.GU1927156@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 20 Mar 2024 10:31:21 +0200
-Message-Id: <CZYFR8LEEQB1.8C0J9KCTF8CB@kernel.org>
-Cc: <linux-doc@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
- <linux-security-module@vger.kernel.org>, <fsverity@lists.linux.dev>,
- <linux-block@vger.kernel.org>, <dm-devel@lists.linux.dev>,
- <audit@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RFC v15 12/21] security: add
- security_bdev_setintegrity() hook
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Jarkko Sakkinen" <jarkko@kernel.org>, "Paul Moore"
- <paul@paul-moore.com>, "Fan Wu" <wufan@linux.microsoft.com>,
- <corbet@lwn.net>, <zohar@linux.ibm.com>, <jmorris@namei.org>,
- <serge@hallyn.com>, <tytso@mit.edu>, <ebiggers@kernel.org>,
- <axboe@kernel.dk>, <agk@redhat.com>, <snitzer@kernel.org>,
- <eparis@redhat.com>
-X-Mailer: aerc 0.15.2
-References: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
- <f5cf9d285bd5f09bbc3f79b0800d37fc@paul-moore.com>
- <CZYFP5S04YTK.23AJMKWQWVCR8@kernel.org>
-In-Reply-To: <CZYFP5S04YTK.23AJMKWQWVCR8@kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20240319232118.GU1927156@frogsfrogsfrogs>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed Mar 20, 2024 at 10:28 AM EET, Jarkko Sakkinen wrote:
-> On Wed Mar 20, 2024 at 1:00 AM EET, Paul Moore wrote:
-> > On Mar 15, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
-> > >=20
-> > > This patch introduces a new hook to save block device's integrity
-> > > data. For example, for dm-verity, LSMs can use this hook to save
-> > > the roothash signature of a dm-verity into the security blob,
-> > > and LSMs can make access decisions based on the data inside
-> > > the signature, like the signer certificate.
-> > >=20
-> > > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> > >=20
-> > > --
-> > > v1-v14:
-> > >   + Not present
-> > >=20
-> > > v15:
-> > >   + Introduced
-> > >=20
-> > > ---
-> > >  include/linux/lsm_hook_defs.h |  2 ++
-> > >  include/linux/security.h      | 14 ++++++++++++++
-> > >  security/security.c           | 28 ++++++++++++++++++++++++++++
-> > >  3 files changed, 44 insertions(+)
-> >
-> > I'm not sure why you made this a separate patch, help?  If there is
-> > no significant reason why this is separate, please squash it together
-> > with patch 11/21.
->
-> Off-topic: it is weird to have *RFC* patch set at v15.
->
-> RFC by de-facto is something that can be safely ignored if you don't
-> have bandwidth. 15 versions of anything that can be safely ignored
-> is by definition spamming :-) I mean just conceptually.
->
-> So does the RFC still hold or what the heck is going on with this one?
->
-> Haven't followed for some time now...
+On 2024-03-19 16:21:18, Darrick J. Wong wrote:
+> [fix tinguely email addr]
+> 
+> On Tue, Mar 19, 2024 at 03:07:43PM -0700, Darrick J. Wong wrote:
+> > On Mon, Mar 18, 2024 at 09:35:12AM -0700, Eric Biggers wrote:
+> > > On Sun, Mar 17, 2024 at 09:22:52AM -0700, Darrick J. Wong wrote:
+> > > > Hi all,
+> > > > 
+> > > > From Darrick J. Wong:
+> > > > 
+> > > > This v5.3 patchset builds upon v5.2 of Andrey's patchset to implement
+> > > > fsverity for XFS.
+> > > 
+> > > Is this ready for me to review, or is my feedback on v5 still being
+> > > worked on?
+> > 
+> > It's still being worked on.  I figured it was time to push my work tree
+> > back to Andrey so everyone could see the results of me attempting to
+> > understand the fsverity patchset by working around in the codebase.
+> > 
+> > From your perspective, I suspect the most interesting patches will be 5,
+> > 6, 7+10+14, 11-13, and 15-17.  For everyone on the XFS side, patches
+> > 27-39 are the most interesting since they change the caching strategy
+> > and slim down the ondisk format.
+> > 
+> > > From a quick glance, not everything from my feedback has been
+> > > addressed.
+> > 
+> > That's correct.  I cleaned up the mechanics of passing merkle trees
+> > around, but I didn't address the comments about per-sb workqueues,
+> > fsverity tracepoints, or whether or not iomap should allocate biosets.
+> 
+> That perhaps wasn't quite clear enough -- I'm curious to see what Andrey
+> has to say about that part (patches 8, 9, 18) of the patchset.
 
-I mean if this RFC trend continues I'll just put auto-filter for this
-thread to put straight to the bin.  There's enough non-RFC patch sets
-to review.
+The per-sb workqueue can be used for other fs, which should be
+doable (also I will rename it, as generic name came from the v2 when
+I thought it would be used for more stuff than just verity)
 
-BR, Jarkko
+For tracepoints, I will add all the changes suggested by Eric, the
+signature tracepoints could be probably dropped.
+
+For bioset allocation, I will look into this if there's good way to
+allocate only for verity inodes, if it's not complicate things too
+much. Make sense for systems which won't use fsverity but have
+FS_VERITY=y.
+
+-- 
+- Andrey
+
