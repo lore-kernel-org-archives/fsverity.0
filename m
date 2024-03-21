@@ -1,104 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145542209F;
-	Wed, 20 Mar 2024 22:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3FD79E0;
+	Thu, 21 Mar 2024 17:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710974258; cv=none; b=smI27q62pi6wzsFqFGenI3QlaJuxtfWyeF14g7OVYvW+FMPTp3ZTuRg8C5XbFH76bnQHAcOPQaMHPwLJ+gSP3aOs5x7fHF3oPQ8g5Tgy/u0jYuR/7M2QnewmGFKthBMBla+2aVNb0RXY2OM2B0PV2Qpzswfjt6qLBWOCfspD8uo=
+	t=1711041927; cv=none; b=MDqT6UoiLqk/wN1WQ1KdpMdhqihyZOGCtNURRbC83n2Q3vmmL6QofefPZPh+UFGJ2E+WeZmF/031n0ALV9+x7uLZSvQrxzkw7GcTlXSNGbN0XNCaOw8RBERjEbWcJ/Oa01qlvBdKpU+947CK04FYlvaS4f62VO/amVhSjM2hp4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710974258; c=relaxed/simple;
-	bh=w+QN99fwvWSY3V2zBhacw4ulWGhs5g3W4vq3L8RlKpM=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A9/8ovvx9qW5gPV/8BiYeOIKZ6RZhE0JZrmuB+iz95SJ3EqpMcEfPNOjXvndXFmPLOx1ddSJ/k+4HitlNg/oFPggy6uaz5VErZ0xuUinPZ9s7n0Ngpt7q6FHoW1C2b9+XsNVNo4TwNuQ4ZdSgpn9+02dAWv13q2VZ875AcaveVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NKKdmOaD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711041927; c=relaxed/simple;
+	bh=iNXaAGwm6iS6DNKISF6dlrJY5wNVKnpnm8REwy4rDho=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=ZlrxG4ckuZ8goLtQ3Em9Yp1/x2MZLfQKcZBNJJRM1Mb3vNory2jOJCXysSu0vJiZhxeJA0sblwHWyEal53rf1STgifO0GY5glb7rHOIhY0wEzcByhjLfmSBat936BVoHSNLC+bg6+vk5KVlv6Cm5OI7VSc+5oY2gGUDKiB9Amaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQevDAax; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKKdmOaD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8847FC433F1;
-	Wed, 20 Mar 2024 22:37:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQevDAax"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073E2C433C7;
+	Thu, 21 Mar 2024 17:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710974257;
-	bh=w+QN99fwvWSY3V2zBhacw4ulWGhs5g3W4vq3L8RlKpM=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=NKKdmOaD18byQHhskxFA04Zz14nEsrmTYXVWqbCl/k5/mlvroJfirPryKjaexsyFu
-	 81tIEyf5FKRpyKE5uzxsCzRmUSEYdmb2Z3t8wdKqbJOrWqoB8VTKPxgt41dB7PlDL9
-	 3kqZdI6zXnM7ZNgJtqSHQpNMYxQmO675clBRkexnlXNMXO7PSZaXQ+lHTZyDNyrMYp
-	 FSdD8B5yGtnOYro5yz+dwG1oP1zMTAHdNTVGdH8cZ4GVWJHxpfGtjkfXhGisg3I1bu
-	 PRM70coRtj9N0dqlHTC58TN0XA7n2bUCqzbMZIU0pHRk+Gpf6YFPqNlJlDTZf9akph
-	 CP2pyQzktrrZg==
-Date: Wed, 20 Mar 2024 15:37:36 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: 1066832@bugs.debian.org, 1066832-submitter@bugs.debian.org,
-	linux-fscrypt@vger.kernel.org, fsverity@lists.linux.dev
-Subject: Re: Debian #1066832: [fsverity-utils] hard Build-Depends on
- unportable package pandoc
-Message-ID: <20240320223736.GA2310@sol.localdomain>
-References: <Pine.BSM.4.64L.2403140237160.10945@herc.mirbsd.org>
- <Pine.BSM.4.64L.2403140311320.10945@herc.mirbsd.org>
+	s=k20201202; t=1711041927;
+	bh=iNXaAGwm6iS6DNKISF6dlrJY5wNVKnpnm8REwy4rDho=;
+	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+	b=uQevDAaxSvs1weuPxAVtTq79oE8xNAAlm00KgUZtg+SF0ZCpdazoYqldu4ms40wTI
+	 KdBcq8uWAD47/rKzsT59SMSEtZvXIWGj+5CJdnbpCRBT7JEP/03D/qAdLGr6V1WR1O
+	 tKmQl20Xe9j84FJNztEGGULdS8/DLACS1ZZirVT9+YuBlMkeNH6yshOtZFYcoGOQ7c
+	 I87pEcsouNJ2soJeKDqyYmUarFAbdb9NjQvdlnXKq82l4NPh+I1KSlj5wGFMn4Ze0w
+	 1SfpgXrWpNJ2W3SvSXv2vZ0wLvpr77vGmkJjpJhw4mdXecJniydVNE2PwYSrO+l75f
+	 cX/eY3iu0uHhg==
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Pine.BSM.4.64L.2403140311320.10945@herc.mirbsd.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Mar 2024 19:25:21 +0200
+Message-Id: <CZZLQN9CUN2E.5PNZ0C2JHP42@kernel.org>
+To: "Fan Wu" <wufan@linux.microsoft.com>, "Paul Moore"
+ <paul@paul-moore.com>, <corbet@lwn.net>, <zohar@linux.ibm.com>,
+ <jmorris@namei.org>, <serge@hallyn.com>, <tytso@mit.edu>,
+ <ebiggers@kernel.org>, <axboe@kernel.dk>, <agk@redhat.com>,
+ <snitzer@kernel.org>, <eparis@redhat.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-security-module@vger.kernel.org>, <fsverity@lists.linux.dev>,
+ <linux-block@vger.kernel.org>, <dm-devel@lists.linux.dev>,
+ <audit@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFC v15 12/21] security: add
+ security_bdev_setintegrity() hook
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+X-Mailer: aerc 0.17.0
+References: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
+ <f5cf9d285bd5f09bbc3f79b0800d37fc@paul-moore.com>
+ <CZYFP5S04YTK.23AJMKWQWVCR8@kernel.org>
+ <CZYFR8LEEQB1.8C0J9KCTF8CB@kernel.org>
+ <a69805c7-7b8a-44ee-9b32-f9314b5a9763@linux.microsoft.com>
+In-Reply-To: <a69805c7-7b8a-44ee-9b32-f9314b5a9763@linux.microsoft.com>
 
-[Added the correct mailing list, fsverity@lists.linux.dev]
+On Wed Mar 20, 2024 at 10:31 PM EET, Fan Wu wrote:
+>
+>
+> On 3/20/2024 1:31 AM, Jarkko Sakkinen wrote:
+> > On Wed Mar 20, 2024 at 10:28 AM EET, Jarkko Sakkinen wrote:
+> >> On Wed Mar 20, 2024 at 1:00 AM EET, Paul Moore wrote:
+> >>> On Mar 15, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
+> >>>>
+> >>>> This patch introduces a new hook to save block device's integrity
+> >>>> data. For example, for dm-verity, LSMs can use this hook to save
+> >>>> the roothash signature of a dm-verity into the security blob,
+> >>>> and LSMs can make access decisions based on the data inside
+> >>>> the signature, like the signer certificate.
+> >>>>
+> >>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> >>>>
+> >>>> --
+> >>>> v1-v14:
+> >>>>    + Not present
+> >>>>
+> >>>> v15:
+> >>>>    + Introduced
+> >>>>
+> >>>> ---
+> >>>>   include/linux/lsm_hook_defs.h |  2 ++
+> >>>>   include/linux/security.h      | 14 ++++++++++++++
+> >>>>   security/security.c           | 28 ++++++++++++++++++++++++++++
+> >>>>   3 files changed, 44 insertions(+)
+> >>>
+> >>> I'm not sure why you made this a separate patch, help?  If there is
+> >>> no significant reason why this is separate, please squash it together
+> >>> with patch 11/21.
+> >>
+> >> Off-topic: it is weird to have *RFC* patch set at v15.
+> >>
+> >> RFC by de-facto is something that can be safely ignored if you don't
+> >> have bandwidth. 15 versions of anything that can be safely ignored
+> >> is by definition spamming :-) I mean just conceptually.
+> >>
+> >> So does the RFC still hold or what the heck is going on with this one?
+> >>
+> >> Haven't followed for some time now...
+> >=20
+> > I mean if this RFC trend continues I'll just put auto-filter for this
+> > thread to put straight to the bin.  There's enough non-RFC patch sets
+> > to review.
+> >=20
+> > BR, Jarkko
+>
+> Sorry about the confusion with the RFC tag =E2=80=93 I wasn't fully aware=
+ of its=20
+> conventional meaning and how it's perceived in terms of importance and=20
+> urgency. Point taken, and I'll make sure to remove the RFC tag for=20
+> future submissions. Definitely not my intention to clog up the workflow=
+=20
+> or seem like I'm spamming.
 
-On Thu, Mar 14, 2024 at 03:20:07AM +0000, Thorsten Glaser wrote:
-> Dixi quod…
-> 
-> >Please split the package so that the part that requires pandoc is
-> >done in an arch:all build. Normally, pandoc is needed only for
-> >documentation, which is often easy enough to split off in a -doc
-> >binary package, which can then move to B-D-Indep and be built on
-> >amd64 or whatever hosts.
-> 
-> Looking at this in some detail, this is *only* ONE manual page.
-> Splitting into a separate package for one file will not go over
-> well with ftpmaster.
-> 
-> Dear upstream, please consider keeping the manpage in something
-> else, like mdoc. I would be willing to convert the manpage to
-> semantic, readable mdoc for you, even.
-> 
-> (fsverity-utils is a Build-Depends of rpm, some subpackages of
-> which are necessary to build other software even in Debian.)
-> 
-> If upstream is not willing, we could:
-> 
-> • do this as local patch (effort updating it every time)
-> 
-> • hack a script that converts man/fsverity.1.md to mdoc;
->   this doesn’t need to be a full converter, it needs to
->   just be good enough to convert this one page (effort
->   one-time, but probably not much if at all when updating)
-> 
-> • as package maintainer, run the pandoc conversion script
->   and put the result into debian/fsverity.1 and install
->   from there and stop B-D’ing on pandoc (needs some, but
->   not much, manual effort on each update, and the package
->   maintainer to have a clean sid system on which to do that)
-> 
-> • install a dummy manpage (that maybe summarises the options
->   and points the reader to
->   https://manpages.debian.org/unstable/fsverity/fsverity.1.en.html
->   for the full page) on architectures without pandoc (needs
->   a bit of initial hacking, and to keep a whitelist of arches
->   with pandoc up-to-date)
-> 
-> bye,
-> //mirabilos
+OK cool! Just wanted to point this out also because it already looks
+good enough not to be considered as RFC in my eyes :-) If you keep RFC
+it is by definition "look into if you have the bandwidth but please
+do not take this to mainline". No means to nitpick here...
 
-I'm not sure how reasonable this request is (surely the rpm package should not
-be depending on the fsverity manual page...), but to eliminate the reliance on
-pandoc I've gone ahead and replaced the markdown file fsverity.1.md with a
-native Linux man page fsverity.1.  So, it no longer needs any conversion before
-installing it.
-
-I did not choose mdoc, as I'm not familiar with it and it seems to be a BSD-ism.
-
-- Eric
+BR, Jarkko
