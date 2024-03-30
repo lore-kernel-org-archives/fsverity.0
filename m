@@ -1,86 +1,60 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C87E13B795;
-	Thu, 28 Mar 2024 22:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F22F197;
+	Sat, 30 Mar 2024 00:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711663875; cv=none; b=gYDnPeRwWDAiw010+aaNRme+hUw9d48G4cccWYVNA0UN2lk8KNw/J606svMds958LXcCelqUTE0TID9y/T53FrllDTumrisQFY2YjRFl1iNUNK7nkdtDTFGxzHjNe6Vqdwbgj+q9kUQNyouB+1wUYuyvBXLZzuJFU3m+B+u4pQU=
+	t=1711758640; cv=none; b=eCkM9dSIO01i5ue0z7/nIiT4L0Re1rHG91MRuIjlDbFtTHhiJjDBv5qftDS0zgWBud1j79hSXG7ImuRBCtsktpKTQTW1SqAm5oE4kTuImiXqKsa/cFwYj9xxX4jn5Cz9sHh/iXRWS3d4lRkLfzW7w9wK7ioJ1vV0GiRmV+XGiqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711663875; c=relaxed/simple;
-	bh=JVuXWZU7ypGWL4ciDE6dFgx2siJQMrXVakqC0WXbnd0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WjeDCmuy1zQEgYuBc0cmLt/E+KI2gpzycBQwmosnnTAi1GhqDTKRxyMBaBVgIdj5LgyPaMP4UK4C2itEHA0ipl6v8GxdaIBpg23DCtvsyP8WeEGWkGgoV7m+6ziOAZVXgdApHJGz+vp7swO6jKbWcA/5IzPtklv4RE9Ral8R39o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NbJm49eL; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1711758640; c=relaxed/simple;
+	bh=7p58Ikn1RnxCwrNeyODk7IUGRxD+QKdEb8CrXUtmru4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Q8GQ0r1OXHp9BzA8FwuPWgj2Ww+Q32dyRslvUa5LluAF0idxoO30ygaOVZFZMfqGaX6/LQjudXfH7MfcO/IWYgjmL0LvofLX2tjkkVqM3rFNAZIDctNUxhNo/AH+6KthgUuqjyW57+MawWZgZtOCjtUSKtmTUCZ3p7ksUVH+IW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=en1YCBU4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NbJm49eL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=HnoWopqeEhgUSDrAxtnUhuDZR8QdjUiaKbpLIYgV22M=; b=NbJm49eLsaBJIDmaaGUPIwTP6s
-	RdCdHdp9gJrWgLOyWIaGiU2iEa3h0mDLeFNu8MpWBCcjIt+F1mBI8g082Y+IpFySLM/hEsNJi6SK1
-	JBk39TG18J9OCNVQporM5qOQ71kG0TDUjkZcnc4dAvsUfuM70hJvQAllMyhnggYK0MKVKGnTD8s/J
-	pwz0gob9RjN5DyrV1KCIE79TcNpQT0Fn18OWvlWWNJjye4FkmJFqE0E/qDklUsVta8jWE3bO374Mz
-	wFZ7SPWQCxzZ1K0xUYogPf2vhybumDglajK78Iq4x/BmSLLRdWq0eNniSqEvN8UThtFfomA7d21P3
-	PMZSsxhQ==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpxxf-0000000Fs9X-3pVK;
-	Thu, 28 Mar 2024 22:11:04 +0000
-Message-ID: <cde3dc6e-ca77-445e-a4b7-fc21a934999a@infradead.org>
-Date: Thu, 28 Mar 2024 15:11:03 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="en1YCBU4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3728C433F1;
+	Sat, 30 Mar 2024 00:30:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711758640;
+	bh=7p58Ikn1RnxCwrNeyODk7IUGRxD+QKdEb8CrXUtmru4=;
+	h=Date:From:To:Cc:Subject:From;
+	b=en1YCBU4yH5u4J4c2sPtzYFoynEPtgUWT9+XIN0bM0yY9obq3pxO+ij+7gq9oV1WT
+	 AjYKWSxAekJAH4A0MD8x8/+U2Sn6SN8lXPtwkOWwFnWFvGfZDtHmLNfKlvUSEm+bFb
+	 VJR+UpZwjqKxGJy0TMs3sifZ9rAqKmxVztdLhewvdJEJfm0Ou/AmUFkz5cmUT6AZBC
+	 aXlqE5gWk+Y2pq1tqU/EE2VCBXkJcsbJ4LWuN49VqJidBnNA2fcL8P3iRlGBLiTyZB
+	 c22FzYY08BSsJrwnarHF2WWgLU9Gpj18c7Ib1bxB//BYB5V3Yk8fFLSuTg4B7g0hqc
+	 bn8sjh4d2LQSg==
+Date: Fri, 29 Mar 2024 17:30:39 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: aalbersh@redhat.com, ebiggers@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-xfs@vger.kernel.org
+Subject: [PATCHBOMB v5.5] fs-verity support for XFS
+Message-ID: <20240330003039.GT6390@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 01/20] security: add ipe lsm
-Content-Language: en-US
-To: Jarkko Sakkinen <jarkko@kernel.org>, Fan Wu <wufan@linux.microsoft.com>,
- corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
- snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org, linux-kernel@vger.kernel.org,
- Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
- <1711657047-10526-2-git-send-email-wufan@linux.microsoft.com>
- <D05ODONHFJ9O.3VG0HLFPA1OB0@kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <D05ODONHFJ9O.3VG0HLFPA1OB0@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi everyone,
 
+I've rebased this atop 6.9-rc1 and cleaned up a lot of the grunginess in
+the v5.3 patchset.  This has basically the same features as last time,
+but it's better integrated with the new xattr helper functions that hch
+and I have been working on to get the parent pointers series landed.
 
-On 3/28/24 13:45, Jarkko Sakkinen wrote:
->> +/**
->> + * ipe_init - Entry point of IPE.
->> + *
->> + * This is called at LSM init, which happens occurs early during kernel
->> + * start up. During this phase, IPE registers its hooks and loads the
->> + * builtin boot policy.
->> + * Return:
->> + * * 0		- OK
->> + * * -ENOMEM	- Out of memory
-> Just a suggestion:
-> 
-> * 0:		OK
-> * -ENOMEM:	Out of memory (OOM)
-> 
-> Rationale being more readable (less convoluted).
-> 
-> And also sort of symmetrical how parameters are formatted in kdoc.
+So.  Time for a new RFC.  Eric, can you look at the fs/verity/ changes
+and let us know what you think?
 
-It needs the " * *" to make a formatted list in the generated output.
-Otherwise the use of '- or ':' as a separator doesn't matter AFAIK.
+Full versions are here:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fsverity
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=fsverity
 
--- 
-#Randy
+--D
+
