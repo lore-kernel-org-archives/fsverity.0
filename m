@@ -1,48 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6065F1BF5C;
-	Wed,  3 Apr 2024 03:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA9B17997;
+	Wed,  3 Apr 2024 05:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712114351; cv=none; b=JV3r1H6o2lF/uO5Jd6uChWZCdNK+fdpWpY2w8DWDuITti/6UCo3VILmwJq1/u2ZMnXtpOi4VqnIOwOAdqRtqgo7wLiWmpXbJQI1w04bu+kV3TGpQ125stz2Fqrmhprn8ynKqjJr7Hb47EUVZ0/exXYHpPhr/l0rdlXZMv0SoufU=
+	t=1712120574; cv=none; b=WoJmkHE6a9BFZr55Z1yDKdPX8BMy6d1G8nXwpyNAizZOiYxrU+QWJ/1NEI2wJ8+44qkWBEDD7YxwFkBmqfydTHR8SIThNE7TZ+0/nH7+U1MJJbyaAagh4jRyTQpwbGL6SMtcSw7j1T4Q+QhJwWvAIpzf79TzF+I7/lLBf+szvwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712114351; c=relaxed/simple;
-	bh=0ii2xyB6wjXqNNBKh4pHdJBXfPI3+uhqMoqBXBnA9Bo=;
+	s=arc-20240116; t=1712120574; c=relaxed/simple;
+	bh=2/EZE/fqM7rihgoveOtBWFcjc/baKHO1PSwzHE8G7pI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z2z2Y0spnnzrtoKugeAcHKjgFnlvop8d9RFMIuTBIjJC44K7eubBBBLaEfDmpdjsLBRt095EdjP+VgFUP/YyIjfAugGm4r/1PQfZFH2MZJ1pIz4fV5J9dZAS3vG+78lWOvBUytBO/21+WLua5nqqQiLpQmKTdCZPSvlYYn/UV6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FGGu6ngP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=A1v7KDckGHDUG/nmQQuKQ9IuMdgMS5zHuLcPjx4IpIBPC3gLeaRFmKIuvWAJ4idmMJOzPshSk1g/UVkElqyN4Xuq0lA/zTH5GhMOYSkWgTiswEmMpr3AKGdCWBk6BVd5zdv1jH3eYdyWJ3mPwYpx5858M0Q3y0ixG/i9Spbu+fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FzeEsPLR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FGGu6ngP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A92C433F1;
-	Wed,  3 Apr 2024 03:19:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FzeEsPLR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE58C433C7;
+	Wed,  3 Apr 2024 05:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712114351;
-	bh=0ii2xyB6wjXqNNBKh4pHdJBXfPI3+uhqMoqBXBnA9Bo=;
+	s=k20201202; t=1712120573;
+	bh=2/EZE/fqM7rihgoveOtBWFcjc/baKHO1PSwzHE8G7pI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FGGu6ngPhgKkmY7QboSq86OG2FgPy4LcycVuMxuo4zHhbpueruVmAtav344nWxnyZ
-	 GedcjFDMtLtnYOJiuHTrMs2rcquU53MO5zRlFqQtBqNggwOzoOzCTDZHx6JRevGs/z
-	 9iCWe/tuzpy0lsYqMdPdKRDV86FLv2nukAFLinfxy/9Az66Oq5nCClONa7UlV459G2
-	 9rdFVtP5ACVbFn5hJD2e3EDD/u5wJH6gAP2+mQJxrtKeNaGyHft90pQXr3ZgSIrlzN
-	 SdlGoX5pdonl5PXxRV7mrhEX1n+taI+q9a7cjv4CTqCK7DurLvo+4Edyp90nm38CrJ
-	 JMXQyJ8LJw3eg==
-Date: Tue, 2 Apr 2024 20:19:10 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Dave Chinner <david@fromorbit.com>
-Cc: Colin Walters <walters@verbum.org>, Eric Biggers <ebiggers@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	xfs <linux-xfs@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
-	fsverity@lists.linux.dev, Alexander Larsson <alexl@redhat.com>
-Subject: Re: [PATCH 28/29] xfs: allow verity files to be opened even if the
- fsverity metadata is damaged
-Message-ID: <20240403031910.GH6390@frogsfrogsfrogs>
-References: <171175868489.1988170.9803938936906955260.stgit@frogsfrogsfrogs>
- <171175869022.1988170.16501260874882118498.stgit@frogsfrogsfrogs>
- <2afcf2b2-992d-4678-bf68-d70dce0a2289@app.fastmail.com>
- <20240402225216.GW6414@frogsfrogsfrogs>
- <992e84c7-66f5-42d2-a042-9a850891b705@app.fastmail.com>
- <20240403013903.GG6390@frogsfrogsfrogs>
- <Zgy3+ljJME0pky3d@dread.disaster.area>
+	b=FzeEsPLRQAOk6nAJZOzfUVRUqL5geuLfeb18kcrV9MjUceB6XAQZjcIdUuPSBxrOY
+	 yPberXlvyeONEkyn3Jjnum/VwFEpiVybx92xdNIJsd2ogM04BAKkPingFDrTgmw9H3
+	 uZuNcCNiZkK47ku6nVB8jtuvI+H5ZWZi9R9tbXdEEGCbxwswJ0YIA7SNKTOG2qURBJ
+	 zH/d3sF98I1TGg+r6IN88Z/nGGYGWG21Nm0kw5lboTl+wPb+L8DWRNmC07ebNcBIGg
+	 dUhYRG0DCJliiZuRQses+zCCoV5H7Yt8cDK4/zYjzmy3ei5U4AbFLVFMUdsA+sHreN
+	 TcCOECUiistiA==
+Date: Tue, 2 Apr 2024 22:02:51 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH v16 16/20] fsverity: consume fsverity built-in signatures
+ via LSM hook
+Message-ID: <20240403050251.GJ2576@sol.localdomain>
+References: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
+ <1711657047-10526-17-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -51,43 +50,71 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zgy3+ljJME0pky3d@dread.disaster.area>
+In-Reply-To: <1711657047-10526-17-git-send-email-wufan@linux.microsoft.com>
 
-On Wed, Apr 03, 2024 at 12:59:22PM +1100, Dave Chinner wrote:
-> On Tue, Apr 02, 2024 at 06:39:03PM -0700, Darrick J. Wong wrote:
-> > On Tue, Apr 02, 2024 at 08:10:15PM -0400, Colin Walters wrote:
-> > > >> I hesitate to say it but maybe there should be some ioctl for online
-> > > >> repair use cases only, or perhaps a new O_NOVERITY special flag to
-> > > >> openat2()?
-> > > >
-> > > > "openat2 but without meddling from the VFS"?  Tempting... ;)
-> > > 
-> > > Or really any lower level even filesystem-specific API for the online
-> > > fsck case.  Adding a blanket new special case for all CAP_SYS_ADMIN
-> > > processes covers a lot of things that don't need that.
-> > 
-> > I suppose there could be an O_NOVALIDATION to turn off data checksum
-> > validation on btrfs/bcachefs too.  But then you'd want to careful
-> > controls on who gets to use it.  Maybe not liblzma_la-crc64-fast.o.
-> 
-> Just use XFS_IOC_OPEN_BY_HANDLE same as xfs_fsr and xfsdump do. The
-> handle can be build in userspace from the inode bulkstat
-> information, and for typical inode contents verification purposes we
-> don't actually need path-based open access to the inodes. That would
-> then mean we can simple add our own open flag to return a fd that
-> can do data operations that short-circuit verification...
+On Thu, Mar 28, 2024 at 01:17:23PM -0700, Fan Wu wrote:
+> fsverity: consume fsverity built-in signatures via LSM hook
 
-Heh, ok.  Are there any private flags that get passed via
-xfs_fsop_handlereq_t::oflags?  Or does that mean defining a top level
-O_FLAG that cannot be passed through openat but /can/ be sent via
-open_by_handle?
+Nothing is being "consumed" in this patch.  I think you might mean something
+like "expose verified fsverity built-in signatures to LSMs".
 
---D
+> It enables a policy enforcement layer within LSMs for fsverity, offering
+> granular control over the usage of authenticity claims. For instance, a policy
+> could be established to permit the execution of all files with built-in
+> fsverity signatures while restricting kernel module loading to specified
+> hashes.
 
-> Cheers,
-> 
-> Dave.
-> -- 
-> Dave Chinner
-> david@fromorbit.com
-> 
+No, this patch does not enable "restricting kernel module loading to specified
+hashes."  That can be done without this patch.
+
+> The introduction of a security_inode_setintegrity() hook call within
+> fsverity's workflow ensures that the verified built-in signature of a file
+> is stored in the inode's LSM blobs.
+
+No, it doesn't.  As I said on v15, this is not what IPE actually uses it for.
+
+Also, even if IPE did cache the built-in signature in i_security, the mere fact
+that it's cached would say nothing about what it's actually used for.
+
+> diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
+> index 13e4b18e5dbb..e13cf10211c8 100644
+> --- a/Documentation/filesystems/fsverity.rst
+> +++ b/Documentation/filesystems/fsverity.rst
+> @@ -86,6 +86,19 @@ authenticating fs-verity file hashes include:
+>    signature in their "security.ima" extended attribute, as controlled
+>    by the IMA policy.  For more information, see the IMA documentation.
+>  
+> +- Integrity Policy Enforcement (IPE).  IPE supports enforcing access
+> +  control decisions based on immutable security properties of files,
+> +  including those protected by fs-verity's built-in signatures.
+> +  "IPE policy" specifically allows for the authorization of fs-verity
+> +  files using properties such as ``fsverity_digest`` for identifying
+> +  files by their verity digest, and ``fsverity_signature`` to validate
+> +  files signed with fs-verity's built-in signature mechanism.
+
+Maybe leave out the "such as" above, since fsverity_digest and
+fsverity_signature are all the IPE properties related to fs-verity.
+
+> +  This integration enhances security by ensuring the integrity and
+> +  authenticity of files on a per-file basis, leveraging fs-verity's
+> +  robust protection capabilities in conjunction with IPE's policy-driven
+> +  access control.
+
+This reads a bit like a marketing blurb and feels a bit out of place, especially
+when it comes right after the paragraph about IMA which didn't include a similar
+sentence even though the exact same sentence would apply to IMA too.  Maybe just
+leave this sentence out.
+
+> @@ -457,7 +470,10 @@ Enabling this option adds the following:
+>     On success, the ioctl persists the signature alongside the Merkle
+>     tree.  Then, any time the file is opened, the kernel verifies the
+>     file's actual digest against this signature, using the certificates
+> -   in the ".fs-verity" keyring.
+> +   in the ".fs-verity" keyring. This verification happens as long as the
+> +   file's signature exists, regardless of the state of the sysctl variable
+> +   "fs.verity.require_signatures" described in the next item. The IPE LSM
+> +   relies on this behavior to save verified signatures into LSM blobs.
+
+No, IPE doesn't do that.
+
+- Eric
