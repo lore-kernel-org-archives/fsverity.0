@@ -1,78 +1,40 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A689156C6F
-	for <fsverity@lists.linux.dev>; Wed,  3 Apr 2024 22:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7974C9A;
+	Fri,  5 Apr 2024 02:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712182939; cv=none; b=MuabG1wi8x0dXxP4imJit0vuRoMAqx4l/Qp/rHSdc0K2HdOMiWoD0fW21HKvMoVWCoAak2tp13hbJhFwTY0FdJY4bJAngECuzpb3Hzxwg7lhFTe1ru/IHr3we+OufcHvd4DMXj0+5xDoao3zeiof0fYtfmwyUGR1dsKIh4Hx1jE=
+	t=1712284308; cv=none; b=TXp5lnFEr6vPERwo8R3PKaATKv7C8XeCDuId+/YdU7HYmYB8KmvMOxMY2Np38BUlxNt0X+k7TveSh+DMzNytExMaYlQLVhYXOJdrtqzdhql+A5UTUslGNW/MoJTKWQ5eB0cptFOlmpK4NWGsL9J+vJMS0daCDRoPyPcsCVLtxf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712182939; c=relaxed/simple;
-	bh=3KSVOJaDalXFFs+Rv4rVlWYBzeDs1N7n9QWb828tI/Y=;
+	s=arc-20240116; t=1712284308; c=relaxed/simple;
+	bh=O37fmQSEn+OH29gGwa8iMHb9PPLeqcO58tguUpWbpF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qlHhtDXQnYq6b3fVwt7Sz+aZAI8Is6FV65efiTcYFYQutETQ7KolDd4Ok449clYEDpRF83QVVg05zeKDBm0b4guvpgp73bs0qxWNQmPzG0jh6IUGJHcYl4U8w8Vu8O3jJc5kY/xby9L8h8NzXGxizct6z85DHryaHZePFh8DHvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=J4Wo8Bly; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=h+fLr3lBy/82SEB18I6tZAjRzo6EywbBq8IZRdH9mxd6tFxL8WFlkN1SwZgbrYaRx5ZHjvA9rHrgq5IqTo+LF/yktH6DMrWPOTxQNBIyyN15x24G3ngvG3XQtOVx3+nGL9WD0js5XHQRxyUHq301P6CLBYcWUwPTD4ZwqotPg+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GxKXXX0o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="J4Wo8Bly"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e034607879so2644615ad.0
-        for <fsverity@lists.linux.dev>; Wed, 03 Apr 2024 15:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1712182937; x=1712787737; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5mNHE/kgd6uGstPd0OsS5i1TQFRmNf9ft+suhfa4d/A=;
-        b=J4Wo8Bly2g6sp189Gnks92aKTlmx3VZo6fypqB/ALNUUm2LWWQmtAAZVcl5qYMO74o
-         4/maYXveocuchpENNtxJoVNGyvyziv3vs0OkhcD4ZoOixJ9yW5K6IoGXANajAd+UG7tb
-         438h9o/P2v37N6ZYZsD/KEvqQTdaFzdLSR2KTmQ/IvlB+vT1aLy5gjsZuDgDOSNAry/J
-         tPu6icX3AqbAWhPFjt0zLWoSmr4sYjcef6iPUVdtEpTvK7U/CuZjsytE76Ssq/fDjQjh
-         Q5XKdW4z01ZwApuwTiXR0LpRSPl9OdmjgLHCKq01Jge56qFvWuwzadW2C5HeiHaAoINH
-         74QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712182937; x=1712787737;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5mNHE/kgd6uGstPd0OsS5i1TQFRmNf9ft+suhfa4d/A=;
-        b=tKzrWKh1eIue4f+Lb8glFoYKuQPC3rTuQqQ/oBY+YEwJvg5P7CIWyXeqESlkvZ/OQw
-         wFufqq/ngdrrzUVRdM3Rrk23C27v9CMm878axz/K0qQu8C0MhOBp6PXmaoTCAwnPkdyB
-         xJCvUGGYtmYrlF9+lYvoQSUiZHu1nSP/0uhtJkhQQoaz52UMesf+TB0RkHMG03ixWZUW
-         4NLilKG+dTW1ZTo8lYozslur2yvasJEDVn/73qhab/9kp+SjrPEDxq6ohiKHhS5os5Qd
-         gaQGWeRS7ujuI7oCWPzNXQ3alaCD+3T2KQDe700boLhbX4xqDKp5eEecufeWIbM8enbo
-         g0Iw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7Gsi6GeqEm/nJ1qry8C5AhVCb3eI4AwYuRi/Cht+EOTAoWCj8+vBG4AZ6cox/mQk92BimbjTDQlM+Mnu+KiziXm0Z8lLmZs8=
-X-Gm-Message-State: AOJu0Yw61f5o/FbvdF2qSchxjrRE5BJNbx603rvRUXpZtPv41SULWwqA
-	zAN7MgfbhwHSzDXM6BFqchtXMP0fAVfU0APMcJuWeB3llVkDoCWMh9S7X3HDmtU=
-X-Google-Smtp-Source: AGHT+IHgaAUVzNrztyNd/wvPHrxK+bRPIaaKmdlj58TK0lUvb6yHDmW+PB08lD3eeuxItg1GdhGR7g==
-X-Received: by 2002:a17:902:f38c:b0:1e2:81c1:b35e with SMTP id f12-20020a170902f38c00b001e281c1b35emr609306ple.54.1712182937221;
-        Wed, 03 Apr 2024 15:22:17 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-56-237.pa.nsw.optusnet.com.au. [49.181.56.237])
-        by smtp.gmail.com with ESMTPSA id w6-20020a170902e88600b001e2772fc413sm1717504plg.309.2024.04.03.15.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 15:22:16 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1rs8zm-0030Er-18;
-	Thu, 04 Apr 2024 09:22:14 +1100
-Date: Thu, 4 Apr 2024 09:22:14 +1100
-From: Dave Chinner <david@fromorbit.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GxKXXX0o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DB3DC433F1;
+	Fri,  5 Apr 2024 02:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712284308;
+	bh=O37fmQSEn+OH29gGwa8iMHb9PPLeqcO58tguUpWbpF8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GxKXXX0obCZdXsUCEdH0pYB3oeHShJFTP/miDCgATlC1yGHp4q4+VRiL6xj9Dyz7Q
+	 vcmVP3qVVx1X2MFKfPLncYdc/nUMn2TqKep3p6pmRUSxJsIKBfbN2bQITlNsUOVvf/
+	 Ifl78w69TW7QBqGVAg9JZzs7Jt7kDA6NwGckvMu/qzg8naE25Lci4aBWC5N4Z9nDKb
+	 Y67Gtop2ZUpZlN1Dn78vyqyb2ajVhYZT2XDkY6b1j/m+DEQT9MJ2FbloSz8g9abtPY
+	 +Sl356DiFCgKq/RV0mHudoI+cDu09L9Pw2KoRaomj7fsDX58F5ULfliRmy4Nppjyid
+	 YPP4qCUjPCKaA==
+Date: Thu, 4 Apr 2024 22:31:45 -0400
+From: Eric Biggers <ebiggers@kernel.org>
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Colin Walters <walters@verbum.org>, Eric Biggers <ebiggers@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	xfs <linux-xfs@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
-	fsverity@lists.linux.dev, Alexander Larsson <alexl@redhat.com>
-Subject: Re: [PATCH 28/29] xfs: allow verity files to be opened even if the
- fsverity metadata is damaged
-Message-ID: <Zg3WlmTNw6qJW3rE@dread.disaster.area>
-References: <171175868489.1988170.9803938936906955260.stgit@frogsfrogsfrogs>
- <171175869022.1988170.16501260874882118498.stgit@frogsfrogsfrogs>
- <2afcf2b2-992d-4678-bf68-d70dce0a2289@app.fastmail.com>
- <20240402225216.GW6414@frogsfrogsfrogs>
- <992e84c7-66f5-42d2-a042-9a850891b705@app.fastmail.com>
- <20240403013903.GG6390@frogsfrogsfrogs>
- <Zgy3+ljJME0pky3d@dread.disaster.area>
- <20240403031910.GH6390@frogsfrogsfrogs>
+Cc: aalbersh@redhat.com, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev
+Subject: Re: [PATCH 03/13] fsverity: support block-based Merkle tree caching
+Message-ID: <20240405023145.GB1958@quark.localdomain>
+References: <171175867829.1987804.15934006844321506283.stgit@frogsfrogsfrogs>
+ <171175867913.1987804.4275409634176359386.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -81,44 +43,281 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240403031910.GH6390@frogsfrogsfrogs>
+In-Reply-To: <171175867913.1987804.4275409634176359386.stgit@frogsfrogsfrogs>
 
-On Tue, Apr 02, 2024 at 08:19:10PM -0700, Darrick J. Wong wrote:
-> On Wed, Apr 03, 2024 at 12:59:22PM +1100, Dave Chinner wrote:
-> > On Tue, Apr 02, 2024 at 06:39:03PM -0700, Darrick J. Wong wrote:
-> > > On Tue, Apr 02, 2024 at 08:10:15PM -0400, Colin Walters wrote:
-> > > > >> I hesitate to say it but maybe there should be some ioctl for online
-> > > > >> repair use cases only, or perhaps a new O_NOVERITY special flag to
-> > > > >> openat2()?
-> > > > >
-> > > > > "openat2 but without meddling from the VFS"?  Tempting... ;)
-> > > > 
-> > > > Or really any lower level even filesystem-specific API for the online
-> > > > fsck case.  Adding a blanket new special case for all CAP_SYS_ADMIN
-> > > > processes covers a lot of things that don't need that.
-> > > 
-> > > I suppose there could be an O_NOVALIDATION to turn off data checksum
-> > > validation on btrfs/bcachefs too.  But then you'd want to careful
-> > > controls on who gets to use it.  Maybe not liblzma_la-crc64-fast.o.
-> > 
-> > Just use XFS_IOC_OPEN_BY_HANDLE same as xfs_fsr and xfsdump do. The
-> > handle can be build in userspace from the inode bulkstat
-> > information, and for typical inode contents verification purposes we
-> > don't actually need path-based open access to the inodes. That would
-> > then mean we can simple add our own open flag to return a fd that
-> > can do data operations that short-circuit verification...
-> 
-> Heh, ok.  Are there any private flags that get passed via
-> xfs_fsop_handlereq_t::oflags?  Or does that mean defining a top level
-> O_FLAG that cannot be passed through openat but /can/ be sent via
-> open_by_handle?
+On Fri, Mar 29, 2024 at 05:33:27PM -0700, Darrick J. Wong wrote:
+> diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
+> index b3506f56e180b..c9d97c2bebd84 100644
+> --- a/fs/verity/fsverity_private.h
+> +++ b/fs/verity/fsverity_private.h
+> @@ -154,4 +154,41 @@ static inline void fsverity_init_signature(void)
+>  
+>  void __init fsverity_init_workqueue(void);
+>  
+> +static inline bool fsverity_caches_blocks(const struct inode *inode)
+> +{
+> +	const struct fsverity_operations *vops = inode->i_sb->s_vop;
+> +
+> +	WARN_ON_ONCE(vops->read_merkle_tree_block &&
+> +		     !vops->drop_merkle_tree_block);
+> +
+> +	return vops->read_merkle_tree_block != NULL;
+> +}
+> +
+> +static inline bool fsverity_uses_bitmap(const struct fsverity_info *vi,
+> +					const struct inode *inode)
+> +{
+> +	if (fsverity_caches_blocks(inode))
+> +		return false;
+> +
+> +	/*
+> +	 * If fs uses block-based Merkle tree caching, then fs-verity must use
+> +	 * hash_block_verified bitmap as there's no page to mark it with
+> +	 * PG_checked.
+> +	 */
+> +	return vi->tree_params.block_size != PAGE_SIZE;
+> +}
 
-AIUI, open flags are arch specific, but I don't think any use the
-high bits of the 32 bit space they are defined in.  So I think we
-could probably use the high bits in that field for our own purposes
-and not get conflicts with generic open flags...
+For checking whether the bitmap is in use, it's simpler and more efficient to
+just directly check whether vi->hash_block_verified is NULL, as the existing
+code does.  Only the code that allocates the bitmap actually needs to be aware
+of the details of when the bitmap gets enabled.
 
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+fsverity_caches_blocks() has a similar issue, where it could just be replaced
+with checking vops->read_merkle_tree_block != NULL directly (or equivalently
+vops->drop_merkle_tree_block, which works well in
+fsverity_drop_merkle_tree_block() since that's the function pointer it's
+calling).  The WARN_ON_ONCE() should be done in fsverity_create_info(), not
+inlined multiple times into the verification code.
+
+(I think the name "fsverity_caches_blocks()" is also confusing because the
+fsverity support layer does not cache blocks, but all the filesystems do.  What
+it's actually trying to convey is a difference in how the filesystem caches the
+blocks, which I don't think it does a good job at.)
+
+> +int fsverity_read_merkle_tree_block(struct inode *inode,
+> +				    const struct merkle_tree_params *params,
+> +				    u64 pos, unsigned long ra_bytes,
+> +				    struct fsverity_blockbuf *block);
+> +
+> +/*
+> + * Drop 'block' obtained with ->read_merkle_tree_block(). Calls out back to
+> + * filesystem if ->drop_merkle_tree_block() is set, otherwise, drop the
+> + * reference in the block->context.
+
+"drop the reference" => "drops the reference"
+
+> +	/*
+> +	 * If fs uses block-based Merkle tree cachin, then fs-verity must use
+> +	 * hash_block_verified bitmap as there's no page to mark it with
+> +	 * PG_checked.
+> +	 */
+> +	if (fsverity_uses_bitmap(vi, inode)) {
+
+The comment contradicts the code.
+
+> diff --git a/fs/verity/read_metadata.c b/fs/verity/read_metadata.c
+> index f58432772d9ea..94fffa060f829 100644
+> --- a/fs/verity/read_metadata.c
+> +++ b/fs/verity/read_metadata.c
+> @@ -14,65 +14,60 @@
+>  
+>  static int fsverity_read_merkle_tree(struct inode *inode,
+>  				     const struct fsverity_info *vi,
+> -				     void __user *buf, u64 offset, int length)
+> +				     void __user *buf, u64 pos, int length)
+>  {
+> -	const struct fsverity_operations *vops = inode->i_sb->s_vop;
+> -	u64 end_offset;
+> -	unsigned int offs_in_page;
+> -	pgoff_t index, last_index;
+> +	const u64 end_pos = min(pos + length, vi->tree_params.tree_size);
+> +	const struct merkle_tree_params *params = &vi->tree_params;
+> +	unsigned int offs_in_block = pos & (params->block_size - 1);
+>  	int retval = 0;
+>  	int err = 0;
+>  
+> -	end_offset = min(offset + length, vi->tree_params.tree_size);
+> -	if (offset >= end_offset)
+> +	if (pos >= end_pos)
+>  		return 0;
+
+The above 'pos >= end_pos' check is no longer necessary.
+
+>  	/*
+> -	 * Iterate through each Merkle tree page in the requested range and copy
+> -	 * the requested portion to userspace.  Note that the Merkle tree block
+> -	 * size isn't important here, as we are returning a byte stream; i.e.,
+> -	 * we can just work with pages even if the tree block size != PAGE_SIZE.
+> +	 * Iterate through each Merkle tree block in the requested range and
+> +	 * copy the requested portion to userspace. Note that we are returning
+> +	 * a byte stream.
+>  	 */
+> -	for (index = offset >> PAGE_SHIFT; index <= last_index; index++) {
+> -		unsigned long num_ra_pages =
+> -			min_t(unsigned long, last_index - index + 1,
+> -			      inode->i_sb->s_bdi->io_pages);
+> -		unsigned int bytes_to_copy = min_t(u64, end_offset - offset,
+> -						   PAGE_SIZE - offs_in_page);
+> -		struct page *page;
+> -		const void *virt;
+> +	while (pos < end_pos) {
+> +		unsigned long ra_bytes;
+> +		unsigned int bytes_to_copy;
+> +		struct fsverity_blockbuf block = {
+> +			.size = params->block_size,
+> +		};
+>  
+> -		page = vops->read_merkle_tree_page(inode, index, num_ra_pages);
+> -		if (IS_ERR(page)) {
+> -			err = PTR_ERR(page);
+> +		ra_bytes = min_t(unsigned long, end_pos - pos + 1,
+> +				 inode->i_sb->s_bdi->io_pages << PAGE_SHIFT);
+
+This introduces an off-by-one error in the calculation of ra_bytes.  end_pos
+is exclusive, but the calculation of ra_bytes assumes it is inclusive.
+
+Also, might io_pages << PAGE_SHIFT overflow an unsigned long?
+
+> +		bytes_to_copy = min_t(u64, end_pos - pos,
+> +				      params->block_size - offs_in_block);
+> +
+> +		err = fsverity_read_merkle_tree_block(inode, &vi->tree_params,
+> +				pos - offs_in_block, ra_bytes, &block);
+> +		if (err) {
+>  			fsverity_err(inode,
+> -				     "Error %d reading Merkle tree page %lu",
+> -				     err, index);
+> +				     "Error %d reading Merkle tree block %llu",
+> +				     err, pos);
+>  			break;
+
+The error message should go into fsverity_read_merkle_tree_block() so that it
+does not need to be duplicated in its two callers.  This would, additionally,
+eliminate the need to introduce the 'err' variable in verify_data_block().
+
+> diff --git a/fs/verity/verify.c b/fs/verity/verify.c
+> index 4fcad0825a120..0b5e11073e883 100644
+> --- a/fs/verity/verify.c
+> +++ b/fs/verity/verify.c
+> @@ -13,14 +13,27 @@
+>  static struct workqueue_struct *fsverity_read_workqueue;
+>  
+>  /*
+> - * Returns true if the hash block with index @hblock_idx in the tree, located in
+> - * @hpage, has already been verified.
+> + * Returns true if the hash block with index @hblock_idx in the tree has
+> + * already been verified.
+>   */
+> -static bool is_hash_block_verified(struct fsverity_info *vi, struct page *hpage,
+> +static bool is_hash_block_verified(struct inode *inode,
+> +				   struct fsverity_blockbuf *block,
+>  				   unsigned long hblock_idx)
+
+The comment should be updated to mention @block.
+
+> @@ -143,11 +156,9 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+>  	for (level = 0; level < params->num_levels; level++) {
+>  		unsigned long next_hidx;
+>  		unsigned long hblock_idx;
+> -		pgoff_t hpage_idx;
+> -		unsigned int hblock_offset_in_page;
+> +		u64 hblock_pos;
+>  		unsigned int hoffset;
+> -		struct page *hpage;
+> -		const void *haddr;
+> +		struct fsverity_blockbuf *block = &hblocks[level].block;
+>  
+>  		/*
+>  		 * The index of the block in the current level; also the index
+> @@ -158,36 +169,34 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
+>  		/* Index of the hash block in the tree overall */
+>  		hblock_idx = params->level_start[level] + next_hidx;
+>  
+> -		/* Index of the hash page in the tree overall */
+> -		hpage_idx = hblock_idx >> params->log_blocks_per_page;
+> -
+> -		/* Byte offset of the hash block within the page */
+> -		hblock_offset_in_page =
+> -			(hblock_idx << params->log_blocksize) & ~PAGE_MASK;
+> +		/* Byte offset of the hash block in the tree overall */
+> +		hblock_pos = hblock_idx << params->log_blocksize;
+
+'hblock_idx << params->log_blocksize' may overflow an unsigned long, so
+'hblock_idx' needs to be cast to u64 before doing the shift.
+
+> +		if (level == 0)
+> +			ra_bytes = min(max_ra_bytes,
+> +				       params->tree_size - hblock_pos);
+> +		else
+> +			ra_bytes = 0;
+
+The first argument to min() has type unsigned long, and the second has type u64.
+Doesn't this generate a warning on 32-bit systems?
+
+> @@ -325,7 +333,7 @@ void fsverity_verify_bio(struct bio *bio)
+>  
+>  	bio_for_each_folio_all(fi, bio) {
+>  		if (!verify_data_blocks(fi.folio, fi.length, fi.offset,
+> -					max_ra_pages)) {
+> +					max_ra_pages << PAGE_SHIFT)) {
+>  			bio->bi_status = BLK_STS_IOERR;
+>  			break;
+
+This function should calculate max_ra_bytes as bio->bi_iter.bi_size >> 2.  It's
+not necessary to convert to pages, then back to bytes again.
+
+> +/**
+> + * fsverity_read_merkle_tree_block() - read Merkle tree block
+> + * @inode: inode to which this Merkle tree blocks belong
+
+"this Merkle tree blocks belong" => "this Merkle tree block belongs"
+
+> + * @params: merkle tree parameters
+> + * @pos: byte position within merkle tree
+> + * @ra_bytes: try to read ahead this many btes
+
+"btes" => "bytes"
+
+> +int fsverity_read_merkle_tree_block(struct inode *inode,
+> +				    const struct merkle_tree_params *params,
+> +				    u64 pos, unsigned long ra_bytes,
+> +				    struct fsverity_blockbuf *block)
+> +{
+> +	const struct fsverity_operations *vops = inode->i_sb->s_vop;
+> +	unsigned long page_idx;
+> +	struct page *page;
+> +	unsigned long index;
+> +	unsigned int offset_in_page;
+> +
+> +	if (fsverity_caches_blocks(inode)) {
+> +		block->verified = false;
+> +		return vops->read_merkle_tree_block(inode, pos, ra_bytes,
+> +				params->log_blocksize, block);
+> +	}
+> +
+> +	index = pos >> params->log_blocksize;
+
+Should the fourth parameter to ->read_merkle_tree_block be the block index
+(which is computed above) instead of log_blocksize?  XFS only uses
+params->log_blocksize to compute the block index anyway.
+
+> +/**
+> + * struct fsverity_blockbuf - Merkle Tree block buffer
+> + * @kaddr: virtual address of the block's data
+> + * @offset: block's offset into Merkle tree
+> + * @size: the Merkle tree block size
+> + * @context: filesystem private context
+> + * @verified: has this buffer been validated?
+> + *
+> + * Buffer containing single Merkle Tree block. These buffers are passed
+> + *  - to filesystem, when fs-verity is building merkel tree,
+> + *  - from filesystem, when fs-verity is reading merkle tree from a disk.
+> + * Filesystems sets kaddr together with size to point to a memory which contains
+> + * Merkle tree block. Same is done by fs-verity when Merkle tree is need to be
+> + * written down to disk.
+
+This comment still incorrectly claims that fsverity_blockbuf is being used for
+writes.
+
+- Eric
