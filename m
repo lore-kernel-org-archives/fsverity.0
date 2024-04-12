@@ -1,55 +1,51 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EC8D534
-	for <fsverity@lists.linux.dev>; Thu, 11 Apr 2024 19:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1AE50299
+	for <fsverity@lists.linux.dev>; Fri, 12 Apr 2024 08:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712862981; cv=none; b=bZsnTjQfiq/ZM4fnPEVtKbZ1TMpu33/XAhLjBybgngJ3t8vCfeUFzSxCmEcZiMA0Rf4BYroeaCskh1d+ks3jxEiaZAZ/NxDHzUnYHqexmKBMYBEDNPBiuS2Iz8bDGRZrwUhThMoFbSB1Da28trCDIJS+XNy/9JxM1bMgRCMI6g0=
+	t=1712910349; cv=none; b=Og5XT+qbfczchjC7VWFPoUo+Gf1uv05kTdOLxh3u7+/ZuDPGz1ZoDctxzSX3eXiw82A5dujqtB9+eUpbrDnVBiORjOwiNeOVav5slTlrY4UgcVTmYANhRHQukxObr4AaLt87C+xYcBrCMKLJ8y5QULT0Pv3TFwk5VqGYDA+48nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712862981; c=relaxed/simple;
-	bh=pNGS7PL3Q3YJB0ZVZIZ0iegtesPYiF+tOfUb+pWU9rk=;
+	s=arc-20240116; t=1712910349; c=relaxed/simple;
+	bh=Dmo9AHMMGGgPEoVGLppnwNRKTdIgSAyXTBQHGf7tPiU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IdJew2Z44165Y5APXQHJzz4dhi/scHQSYpYPWeInBrV3viSeWQYBB1z71/BdFQHQO2m+lIxQIgSb1nW+sOHOubf0W65wDz5wmEnwPlQInxeyf+gMkI+kL+qdWWF1/ZLKIYZbizk4RpFFOWUN32H4qHFF5nWvqNau/6bdAnRTSRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2xJ1i9S7; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=myqvgaaPy9Nq96+Cew0zkrPmDVHL5++3BbAKejD+nTU0JuvhcRVDR+KoXNIYEJ0WCLA738zPa3oQvy99oyG5vy0sJ9ZbNhYvqz76y881XWckXb23LeLxpKNDqt7ABo+KqrebVLd2ghzjkUwjVHAhUrIwCDwg0JbLUKIEBfbvPes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=oyVCcUNb; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2xJ1i9S7"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-434c3d21450so503961cf.0
-        for <fsverity@lists.linux.dev>; Thu, 11 Apr 2024 12:16:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="oyVCcUNb"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a523524e5baso51352366b.3
+        for <fsverity@lists.linux.dev>; Fri, 12 Apr 2024 01:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712862979; x=1713467779; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AhpgH9Z9qXqFvfvUioYha8hRr6JLQXv1CXZE9+U2upw=;
-        b=2xJ1i9S7JI4Yo7Pi0RXisMNxqqDw+0GDErIUHBOgWjl/w8rbea5mj9GZz9TRVvpv9J
-         2+HlZyJXznB86jhOTzYVIyyegqgaH9Q+w1cQ/PJ9juGg7j5JEhUtLhVPgPsY1T2bghnY
-         E7GLlqKd9y6yhZepb8UuY22/HcvPmG9EnF5MCClngkKwO+3wPk3PE4ukqJ2Z9ss3ksb6
-         ZdkRfqckAaSKivxGGmvwSFsTd1zzrRKO6JDJU8n2izZ9CfX6MuOMMLYBh7eTRhC2/piL
-         d50vk6hjtTXoQ0nhv8ZY9My30A34MLvknA4J/KhGs21jhbeN+hm3Xmztl8h2QpwLN/0N
-         Ustg==
+        d=szeredi.hu; s=google; t=1712910345; x=1713515145; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dmo9AHMMGGgPEoVGLppnwNRKTdIgSAyXTBQHGf7tPiU=;
+        b=oyVCcUNbIoGgJj7DhBuJRQGFB/Qe0rsdDhIDOwDZu/4k+g/SXZFncreyJ+JpDntO9B
+         zglZsXANLMZ3M6k0a51ZRzmQBoZ7u3Ud/LNhMp9rtNNPDGjXd4rF1MJnzWLHEbtwiUkf
+         VZb8O/+taPM/7tjJGhNGGN/So/IKDPhUven/Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712862979; x=1713467779;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AhpgH9Z9qXqFvfvUioYha8hRr6JLQXv1CXZE9+U2upw=;
-        b=N6S9MsVHlTR1HXBecEO+IARHgT8BuygE5mpTK0yve8o6+3DgyDGx90kFYmo/y1XOKL
-         EZATKwQ10YN9jvHb12q4ExOUg3x/jXwuhnIQQCsT6m1zgpIGV04jkZGm6cwi53Y5lL/Z
-         zInTcUGEdLZTG7dqIs0GOM/DhwMYoAnHyxQBGzIwAo2NBPEBhcnW5N7DHD+qdxcvR9RU
-         FzNoK+vQD8GaaRzoV0X26zCUxL19CBTEjPdmksjr/C8VvN4UFMsGje+tjE+XgEN2hT+Z
-         NOtRF3f6fsIDrbTrN1oUZFJRp8AQIFUfKB8U0RRbIF2dbNFUcHt1jbVgfyodrvBQ8wxb
-         moEA==
-X-Forwarded-Encrypted: i=1; AJvYcCX148nxELuoQ2iFiYChTeSFQa+urybnGUrtV8robIvKsHRwHNyrxbfuwjkOZtuH31znWFmAFsd33KMqrNeUGu70T1vsMjT6myc=
-X-Gm-Message-State: AOJu0Yz65GqpI/fGVDEPSfAC0CJji0jvghA+38doxCrnhZkqIjfYzdns
-	xzX9ABzaUhKrryPuqhXw4DfrTGQ4xDmyDxE4eVgbgojDkNltVG/P1Ql4ExrsLNZo+ejANzwIDgM
-	mLRzEUFbbdILDyGSvQ8rzyKIQgOORPZ/AjzMfF/jkZxTVCSPPAERB
-X-Google-Smtp-Source: AGHT+IGfw7Fj9rJcZz0lVyRkaC000N/pbyxjhWMp0wgV0f00xMv3P+3YAc16D0UgDFqzJhTfRJb/CdCWFldQ6h4t5bU=
-X-Received: by 2002:a05:6214:5610:b0:69b:7c6:72be with SMTP id
- mg16-20020a056214561000b0069b07c672bemr730423qvb.43.1712862978616; Thu, 11
- Apr 2024 12:16:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712910345; x=1713515145;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dmo9AHMMGGgPEoVGLppnwNRKTdIgSAyXTBQHGf7tPiU=;
+        b=S4xh6ndeoQBHiWkZuEcVR5DaGAn/HfpxbpT8SVmtmmmfL3SFRimvnB08HNTJiGlOZQ
+         /APQ0wTCNZPTdUzSlfBt2jvBJraQDBRnNJqd9MWABDlFCzky1Kvu37eGbikv6zodoia9
+         lzTkrmISF4VaVQCDB4av2zNBlxt69dUKd8/AdQWDlVJykiDLTWynwPJZ0s08cp6iO7CI
+         cdacfFwlEkwQgj3nrikD2K7Y2KTcyMVsqq57cOOfzBjo3nr49XqGEf9qx7cea4wDmeT+
+         COSMxcrMmhHoCy5hOMuO/qTmJZI6YBM+lp2vk7fx8n7bJpk/2Nxrdoj+97NJlDsGE/UY
+         /RAw==
+X-Forwarded-Encrypted: i=1; AJvYcCXnU5i/1fGVFZX66ps4S6pl1MkMB2dxlD/F/8/LuDT/j5QEjOoXt5Q8Tn0EGyIkWsjV8Hmn0M14VJubumea4cTsyRbY+z009cs=
+X-Gm-Message-State: AOJu0YzKE7vzwUEPX5++iztMpcnpG5M1YZGhMD7WM9Wv/rAMpYUaTuS8
+	lv1Ok/ZvLi7+SnJ0lXX5rjBXCFlrzBEDz6sXKX1XfkaR6pCQNYnHYra2eIUsKQG5plt8TTLMT4Y
+	uHjnEU0v3LXWZ87vGlTA+HK0IyFNpj4NxmbS9IQ==
+X-Google-Smtp-Source: AGHT+IF/tkpRIAuXyA0t1Y5eApjLqAPPFZCcMNfzMite3UyAln6TWqPxc15w9WzHro50cc0Uh+9DZd+5i41uLfVrPhk=
+X-Received: by 2002:a17:906:13cd:b0:a51:aeb8:bff5 with SMTP id
+ g13-20020a17090613cd00b00a51aeb8bff5mr1548283ejc.69.1712910345406; Fri, 12
+ Apr 2024 01:25:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -59,46 +55,33 @@ MIME-Version: 1.0
 References: <20240328205822.1007338-1-richardfung@google.com>
  <20240328205822.1007338-2-richardfung@google.com> <CAJfpegvtUywhs8vse1rZ6E=hnxUS6uo_eii-oHDmWd0hb35jjA@mail.gmail.com>
  <20240409235018.GC1609@quark.localdomain> <CAJfpegt9hBADfGEAdsBjNShYHB68o7c=gHN29SZHqekdnYzkNA@mail.gmail.com>
-In-Reply-To: <CAJfpegt9hBADfGEAdsBjNShYHB68o7c=gHN29SZHqekdnYzkNA@mail.gmail.com>
-From: Richard Fung <richardfung@google.com>
-Date: Thu, 11 Apr 2024 12:15:39 -0700
-Message-ID: <CAGndiTMNuzKot7fKSE5Hrcm=9XQ-0=KsQCnt4wXVtkq0bmVvXg@mail.gmail.com>
+ <CAGndiTMNuzKot7fKSE5Hrcm=9XQ-0=KsQCnt4wXVtkq0bmVvXg@mail.gmail.com>
+In-Reply-To: <CAGndiTMNuzKot7fKSE5Hrcm=9XQ-0=KsQCnt4wXVtkq0bmVvXg@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 12 Apr 2024 10:25:34 +0200
+Message-ID: <CAJfpegvt4ivELbyF-4qBRUX7wLxSCwpZ7fg2o7Kry-_gF3kRYg@mail.gmail.com>
 Subject: Re: [PATCH 1/1] fuse: Add initial support for fs-verity
-To: Miklos Szeredi <miklos@szeredi.hu>
+To: Richard Fung <richardfung@google.com>
 Cc: Eric Biggers <ebiggers@kernel.org>, linux-fsdevel@vger.kernel.org, 
 	fsverity@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 10, 2024 at 11:06=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
-> Ideally I'd imagine something something similar to how we handle
-> FS_IOC_GETFLAGS/SETFLAGS.
->
-> Exceptions for those were also added in commit 31070f6ccec0 ("fuse:
-> Fix parameter for FS_IOC_{GET,SET}FLAGS").  But then infrastructure
-> was added to the vfs (commit 4c5b47997521 ("vfs: add fileattr ops"))
-> so that filesystems can handle these as normal callbacks instead of
-> dealing with ioctls directly.
->
-> In the fsverity case this is not such a clear cut case, since only
-> fuse (and possible network fs?) would actually implement the vfs
-> callback, others would just set the default handler from fsverity.  So
-> I don't insist on doing this, just saying that it would be the
-> cleanest outcome.
->
-> If we do add exceptions, the requirement from me is that it's split
-> out into a separate function from fuse_do_ioctl().
->
-> Thanks,
-> Miklos
+On Thu, 11 Apr 2024 at 21:16, Richard Fung <richardfung@google.com> wrote:
 
-Thank you all for the feedback and suggestions!
+> Would allowing FUSE_IOCTL_RETRY for these specific ioctls be
+> possible/preferable? From my limited understanding retrying is
+> designed to handle dynamically sized data. However it seems like
+> that's currently only allowed for CUSE.
+>
+> If that's not a good idea then I'll try to split it into a separate
+> function if you don't feel strongly about the other approach.
 
-Would allowing FUSE_IOCTL_RETRY for these specific ioctls be
-possible/preferable? From my limited understanding retrying is
-designed to handle dynamically sized data. However it seems like
-that's currently only allowed for CUSE.
+It's not a good idea, because it gives complete freedom to the fuse
+server about where to gather data from, and that's just an invitation
+to malicious behavior.
 
-If that's not a good idea then I'll try to split it into a separate
-function if you don't feel strongly about the other approach.
+So yes, please split the current one off to a separate function and
+let's see how that looks.
+
+Thanks,
+Miklos
