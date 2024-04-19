@@ -1,124 +1,57 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23A213A3E8;
-	Wed, 17 Apr 2024 10:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C753D961;
+	Fri, 19 Apr 2024 10:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713348343; cv=none; b=NF++83WGlMLokKiwiFzUD53ebluXwlT7EG+/O7G7ortpbnLTsh5XK1+oEVfgAP+KUSZfJ9K7EIcwb8VS2LzodnID/YabqhZfKVCrLofo5hr3ecViNjUX0zi51I0v6A+urOJCDCF+dn4vNrkEyMovKqKlyP38+Cq/29UQR7iDR5M=
+	t=1713522899; cv=none; b=LFV/pzpBvTjkSO0oFs6My43FbCdVZWjIXHyHuA5ceY4wOvr2M5IEKQLvrgAjQPTaneFJSgz+3viMHa5wbi4DDklyHQ4k36cxeYnQRuYpl91aR/QH0PkC0lufOvqLXhBTm/dVobqdAer1Z0HcOxzlNoXVGTl0HrT0Sb242U3NSpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713348343; c=relaxed/simple;
-	bh=1gRmg87JIr+AbQO3Esc+cHkCY63QUm02iWl6ErooOoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XU3td6G7fWbXnPQf48Ggof1Fp54+Dk+nhoogxH6usw13701HNr/jHnf9sOMZrfh+KiA4uo90vw+/VdnlrIbEZ6BSJTcmCHdEnuQP0DKeFAl3p/IW7l3FNJ281xkDVEIEXR36ehI9JGEKd8eUI/QYlIomd8EaJ1L5qic6YYBdyTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7N/1X16; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7N/1X16"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5d8b887bb0cso4045938a12.2;
-        Wed, 17 Apr 2024 03:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713348340; x=1713953140; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1gRmg87JIr+AbQO3Esc+cHkCY63QUm02iWl6ErooOoI=;
-        b=E7N/1X16YKChCa7WH9BNN4xCDPxkjcZecadqnavxB8oDRzUN1b/UV32QQ6dCdOy5UL
-         UT0C71rVadhQQQBNpwq5j8HEaXe3GTwkrHy1TDqvVP2tIRn32clrUhwZzZASlG92dhmO
-         M5r4vnXltLTfNZPiSIRElAcGZRmMilE8URxo0jG/iahlQqMUKsdlbPPzt8+aceYBmPp0
-         pImNeF4USvuSUulc+nK7nj2dTBBotybvOX1fIzOJamDmoEiB18H1Z3dfmc5Dk47W2cEL
-         6gFKPv5e67rj3HRmoR5FlByamiLHwt+pmk9TCCFxt4H8NWzdJc3OVQNlHEVqSmIy8Io9
-         Lq+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713348340; x=1713953140;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1gRmg87JIr+AbQO3Esc+cHkCY63QUm02iWl6ErooOoI=;
-        b=RB2MGdUwOtdYMMaMA25IgESDfBtSAahCf/qxLuVVJKOI0BZ6rXhktQFV2r/IzpMtaD
-         Ooa8au8xFRa0pkgHGvEB/CxL1iXujrS2+mElqZyXwMyXsVsGMpoGTGrg+wLtASYpjN4n
-         SjyxRvEi9Q3kXzae5lNXE86QWI2nEsOckHRMzaQm74Yh5EqldhaMjfl3+eiY6JsTL7IL
-         EOCrssJO+JFBCGlt9nMIHFB23Oj7MZpDg91Z0kl+f/jmx9K5+p57kXnvkg+bL07mlySD
-         m37zXCmIcfsAny/vcCANGETAmgdF31i9uZe7e+Z1Ye+dZsxicBFUz5xREw3lv1AeXuib
-         BLHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWaF5CPOBYQGKoEiEajy6pXtaNmNRoVGC3S8kqldm1yqysQI4iP4pWqSsvwtlNLpeEV/I/ZBVhVDZr0ZwS74FxOF9xAwMpvKaRJCYogf+eV2TClqY8HPjYIae2kAqdX9hWkmQ==
-X-Gm-Message-State: AOJu0YwzwFuYTYDyJWgl+FIYMjMObzNobgBRq7e2wJU3ref+19/M8MfT
-	4LCIgGFfSybBDW4ia79glHWefJ/pXhi/6UCmhvDPL11prNui60uU
-X-Google-Smtp-Source: AGHT+IHoSQwgWNaYYN9PHfJ92Leu3dCSJnPJtoI+4IJ8iitgaNIncK7hpg/lzzZCpwVd83QGt3/Z2Q==
-X-Received: by 2002:a17:90a:108:b0:2aa:7057:437b with SMTP id b8-20020a17090a010800b002aa7057437bmr6040509pjb.16.1713348339921;
-        Wed, 17 Apr 2024 03:05:39 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id t12-20020a17090a5d8c00b002a474e2d7d8sm1019325pji.15.2024.04.17.03.05.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 03:05:38 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 1682E18462BA0; Wed, 17 Apr 2024 17:05:35 +0700 (WIB)
-Date: Wed, 17 Apr 2024 17:05:35 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net,
-	zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-	tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v17 20/21] Documentation: add ipe documentation
-Message-ID: <Zh-e7945DM6f2u9T@archie.me>
-References: <1712969764-31039-1-git-send-email-wufan@linux.microsoft.com>
- <1712969764-31039-21-git-send-email-wufan@linux.microsoft.com>
- <Zh0Zh3-xraVl85Lm@archie.me>
- <a2266217-c3ad-4bb2-8188-498a2c8ae36c@infradead.org>
+	s=arc-20240116; t=1713522899; c=relaxed/simple;
+	bh=DFouNATQPkRDNIqJ6w8LCJMonzEE71C5cEC1VoXWFng=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=JhhrFApDRdfiJUBaoVZ7qIyPtzbd+lb6iDbko9Fp4e8uNU3hHtkR5Im/M1FvTdudwNI6bRNi6pwqxx8yKhbqbPesdDSspl0UsllpjFPRUhpY7hVuM1IKLVBOr8AdQpBgUdsv0MoAy+nsol2ZDWhXBuO90OAio/ndJzDRcTWkuQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1rxlZr-003s7X-Bf; Fri, 19 Apr 2024 18:34:44 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 19 Apr 2024 18:35:01 +0800
+Date: Fri, 19 Apr 2024 18:35:01 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org, ardb@kernel.org,
+	samitolvanen@google.com, bvanassche@acm.org
+Subject: Re: [RFC PATCH 1/8] crypto: shash - add support for finup2x
+Message-ID: <ZiJI1RhdHUsCDELY@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0nWDRmFxn5oWDUvp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a2266217-c3ad-4bb2-8188-498a2c8ae36c@infradead.org>
+In-Reply-To: <20240415213719.120673-2-ebiggers@kernel.org>
+X-Newsgroups: apana.lists.os.linux.cryptoapi
 
+Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> The new API is part of the "shash" algorithm type, as it does not make
+> sense in "ahash".  It does a "finup" operation rather than a "digest"
+> operation in order to support the salt that is used by dm-verity and
+> fs-verity.  There is no fallback implementation that does two regular
+> finups if the underlying algorithm doesn't support finup2x, since users
+> probably will want to avoid the overhead of queueing up multiple hashes
+> when multibuffer hashing won't actually be used anyway.
 
---0nWDRmFxn5oWDUvp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For your intended users, will the SIMD fallback ever be invoked?
 
-On Mon, Apr 15, 2024 at 07:56:16AM -0700, Randy Dunlap wrote:
->=20
-> On 4/15/24 5:11 AM, Bagas Sanjaya wrote:
-> > The doc LGTM, thanks!
-> >=20
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->=20
-> Hi,
-> Please see netiquette, section "Trim replies".
-> Thanks.
->=20
->=20
-> --=20
-> #Randy
-> https://people.kernel.org/tglx/notes-about-netiquette
-> https://subspace.kernel.org/etiquette.html
-
-Thanks for the tip!
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---0nWDRmFxn5oWDUvp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZh+e6wAKCRD2uYlJVVFO
-o4TXAPwN11FytsnDX/+gFpUvWYFc3CxPaaA7sJCuHF5qVYQtGAEA6GP0hs+AljG4
-tOsfo209C7he+IJJJUnxDpScnZoh/wc=
-=jvcJ
------END PGP SIGNATURE-----
-
---0nWDRmFxn5oWDUvp--
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
