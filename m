@@ -1,87 +1,125 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49FD1DDE9
-	for <fsverity@lists.linux.dev>; Mon, 22 Apr 2024 16:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45381804E;
+	Mon, 22 Apr 2024 20:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713803518; cv=none; b=u2wqsxD+2lg69Udmu0w2KXYGtaqCUqHY7bWw4Lv6pa/bB4ylH28//eEsHGFuLuhw14Xxlf7gqYNhFx/77skYev3SLEAQNEFfQW5g1/hQ6mEP8NZamtYYmEMLUE28uNdLeBuXqDZA5Wk+YMiyE/xbvkdyLx/wS8nufXlp3fcLBA0=
+	t=1713818161; cv=none; b=Hjd5EbM/huoqud4AiJYVNd/2/s2oO7UhkDJA/DFBwz01ZLTqjvRSDkLXBUhpudM+05W6Ik8B8sRRu95f6DFB1WJvGr5IrPYHXT9ZQNsmE3fCfdCA3w6oD9+pnRQ+UvhsAIaqjPlWbxC6aFiN88BnWxqu0ZUkDeaRm1nlyY0st78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713803518; c=relaxed/simple;
-	bh=+TaqdCEjgZxSTyKsejhTTHIW8R6Lq3G+0wjBonZ0Klg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B8kid4E8XjpwaNhrwTPm0YI2HgWsOcHBNXAmShp/t50tJ7GZRdsfmA/cqFhP1xbpm/3UrHC4FjvwTiaO6EeWr7n5DxiVVMDUOhxNlydkGBA3nHPWq3bonrF3JLuvuXhMwfp9Ut+gMFT5KEDRW5D8HmV6RrWhdU8EQLanOxhDvyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zKK+Ap0N; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1713818161; c=relaxed/simple;
+	bh=DsQw7X3E7HxDwHTXBAUrY8ML0SrFD5lPXZ6StGjcL1c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VkabNX1P1c5GNVJVxkn4MCdsO8vtuRntB9aV6BYB81ZAGwMGC4e02d3fKVaYXPMd1y+rM7Kog8p7Fp7LK8/KqdUnyQHgwTWua/Gn3fXs+U9v/k7Msi37G5p9Z+4w7YL6s2XFUOQ5SLyKZ6M/m3EvpCWzGle/mNuLcaR24oGqmFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHPZUBsl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zKK+Ap0N"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6a07eefdd66so7265776d6.2
-        for <fsverity@lists.linux.dev>; Mon, 22 Apr 2024 09:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713803516; x=1714408316; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FpNxvF9YaOAaBGXSdu/sPdghPX7QEhR2xbCvRx+SLLQ=;
-        b=zKK+Ap0Nw5W7+KQFZgfMZtGNW5e+SbJiePQylBoXhszqNACJdNovowJGtSgtcC9tAt
-         KHcdtuiyfD1kE0lZE+u5nTQgJQlbLXutFy6w4FYdJBVEK5ci6hyQxntqdAxasobjxA4r
-         4yBbYYuZL32C/7HwMSw53COox7xCzosipOcH64H008KQsvRV3Vny1JlB9Aiml4HQYeNj
-         MM1HK2ODMpTAtxFifR8ZWr1vXkxYQCZatZ9Da6e8esDonfY9hvo+0e9ewK01YiZ2uvVH
-         +vy174w7qdQYceCvZNx5aveR3d2qgonhAitBCkSoJ9KVN5/AmU5W2gGxvmCf6myQ/Jba
-         VNRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713803516; x=1714408316;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FpNxvF9YaOAaBGXSdu/sPdghPX7QEhR2xbCvRx+SLLQ=;
-        b=mcTcq8ce35gsjbXjEg9pw+OmrIAu+E/zT+nenVEWRkvIHCQsP+aDmphlBd5eP/loFy
-         OAQLGXw4j1k8xS4O/PXm6dhStBLk4ObxuoKiRiCAZPzrxKakWMLcjMVTMCeyMA3BldZI
-         2IOrS2q0TifOLhu9nh9I+HWu5rEmgzI7vQGJw8OTRxKN+ODlCx+mroOXXKlzRe2hvrf/
-         T79YpiFUVW/46ia1PdBamWJlzKdxWTIgRAxy1tAFVCG/L67Cfy86iQY6hP+8MO4zJkUe
-         lWKuudqsDZqC3SJ9qa0lYPgjQjzoDzmk3HyFTd5hnCdQiRPINzPqeCBQSVB0sqhCcj4A
-         AY8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW5qs+SET3uHlJJVb9dzSbPip73t4DPZdSh8/9djdc6A2yrXWRfDyjdB0q0dAgPlGU0QjgxnJas9e/DDOtYQtmoQPFR0cipWXQ=
-X-Gm-Message-State: AOJu0YxSzCdnTxF2m2e101Cxd3/960RcnT5YhNQGqsE1bRsRwNXljDP9
-	cbrLjw8EBbUtnBakvqGVUaVUItkSxCzVarIo9Qc8jm3H3LPVduVTjMDVQYjcLP4CwVBkt9PYEzD
-	vi8kc14USgF4GC/iDJ3JDNdH8aE8FagJ3/K/e
-X-Google-Smtp-Source: AGHT+IFnJOkEklXHQvKFZWs/xYZscnLoS3JOz6nX6Or789idWhJIUZ/20YX+D4TEwqAJMsA6gMAQ27Ha+D/wSSVvbYg=
-X-Received: by 2002:ad4:5a4e:0:b0:69b:3a49:106f with SMTP id
- ej14-20020ad45a4e000000b0069b3a49106fmr9367033qvb.15.1713803515798; Mon, 22
- Apr 2024 09:31:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHPZUBsl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 198EEC2BD11;
+	Mon, 22 Apr 2024 20:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713818161;
+	bh=DsQw7X3E7HxDwHTXBAUrY8ML0SrFD5lPXZ6StGjcL1c=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LHPZUBsl3Ep9Py2VBHsGjxPi5dXD2bvks1LPFi8PkShyyqLUkMqFpMPDdq0yuZ7xw
+	 Hcwsyf/lbEVusdrB7NnwlDNYtdEYuQhf3CdkL5KWZdwWFg+QwnFmGKkfZULrsw+fV1
+	 YmNR3KUaBb+FU4Wf2QX3BGWSMvIa/boPht6dXFTFIPdsrN8+8HaOk5RBqDwgk19xvf
+	 uma0byaFObaGbGXXRVDY0Hc/ePbE1QRP3eXPc8xptlyu/hZoQbm6mFJ9IBgtWsJ4xm
+	 4bEi2jrd+j33p4qAm2r4/Av8nYfYbGpSCtvoxyR2cYlt80klL/fbwxJLMSxwlcuQrE
+	 VtLvZ2hJPwB7Q==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-crypto@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev
+Cc: x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Bart Van Assche <bvanassche@acm.org>
+Subject: [PATCH v2 0/8] Optimize dm-verity and fsverity using multibuffer hashing
+Date: Mon, 22 Apr 2024 13:35:36 -0700
+Message-ID: <20240422203544.195390-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240328205822.1007338-1-richardfung@google.com>
- <20240416001639.359059-1-richardfung@google.com> <20240419170511.GB1131@sol.localdomain>
-In-Reply-To: <20240419170511.GB1131@sol.localdomain>
-From: Richard Fung <richardfung@google.com>
-Date: Mon, 22 Apr 2024 09:31:17 -0700
-Message-ID: <CAGndiTNW=AAy8p6520Q2dDoGJbstN5LAvvbO9ELHHtqGbQZAzQ@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: Add initial support for fs-verity
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	fsverity@lists.linux.dev, ynaffit@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 19, 2024 at 10:05=E2=80=AFAM Eric Biggers <ebiggers@kernel.org>=
- wrote:
-> It's a bit awkward that the ioctl number is checked twice, though.  Maybe=
- rename
-> the new function to fuse_setup_special_ioctl() and call it unconditionall=
-y?
->
-> - Eric
+On many modern CPUs, it is possible to compute the SHA-256 hash of two
+equal-length messages in about the same time as a single message, if all
+the instructions are interleaved.  This is because each SHA-256 (and
+also most other cryptographic hash functions) is inherently serialized
+and therefore can't always take advantage of the CPU's full throughput.
 
-I'm happy to change it but the benefit of the current iteration is
-that it's much more obvious to someone unfamiliar with the code that
-code path is only used for fs-verity. Admittedly, I may be
-overindexing on the importance of that as someone who's trying to
-learn the codebase myself.
+An earlier attempt to support multibuffer hashing in Linux was based
+around the ahash API.  That approach had some major issues.  This
+patchset instead takes a much simpler approach of just adding a
+synchronous API for hashing two equal-length messages.
 
-Let me know if you still prefer I change it
+This works well for dm-verity and fsverity, which use Merkle trees and
+therefore hash large numbers of equal-length messages.
+
+This patchset is organized as follows:
+
+- Patch 1-3 add crypto_shash_finup2x() and tests for it.
+- Patch 4-5 implement finup2x on x86_64 and arm64.
+- Patch 6-8 update fsverity and dm-verity to use crypto_shash_finup2x()
+  to hash pairs of data blocks when possible.  Note: the patch
+  "dm-verity: hash blocks with shash import+finup when possible" is
+  revived from its original submission
+  (https://lore.kernel.org/dm-devel/20231030023351.6041-1-ebiggers@kernel.org/)
+  because this new work provides a new motivation for it.
+
+On CPUs that support multiple concurrent SHA-256's (all arm64 CPUs I
+tested, and AMD Zen CPUs), raw SHA-256 hashing throughput increases by
+70-98%, and the throughput of cold-cache reads from dm-verity and
+fsverity increases by very roughly 35%.
+
+I consider the crypto patches (patches 1-5) to be more or less ready,
+subject any feedback.  I plan to work more on cleaning up and testing
+the fsverity and dm-verity patches (patches 6-8), which should go in
+separately later through their respective trees.
+
+Changed in v2:
+  - Rebase onto cryptodev/master
+  - Add more comments to assembly
+  - Reorganize some of the assembly slightly
+  - Fix the claimed throughput improvement on arm64
+  - Fix incorrect kunmap order in fs/verity/verify.c
+  - Adjust testmgr generation logic slightly
+  - Explicitly check for INT_MAX before casting unsigned int to int
+  - Mention SHA3 based parallel hashes
+  - Mention AVX512-based approach
+
+Eric Biggers (8):
+  crypto: shash - add support for finup2x
+  crypto: testmgr - generate power-of-2 lengths more often
+  crypto: testmgr - add tests for finup2x
+  crypto: x86/sha256-ni - add support for finup2x
+  crypto: arm64/sha256-ce - add support for finup2x
+  fsverity: improve performance by using multibuffer hashing
+  dm-verity: hash blocks with shash import+finup when possible
+  dm-verity: improve performance by using multibuffer hashing
+
+ arch/arm64/crypto/sha2-ce-core.S    | 281 +++++++++++++-
+ arch/arm64/crypto/sha2-ce-glue.c    |  41 ++
+ arch/x86/crypto/sha256_ni_asm.S     | 368 ++++++++++++++++++
+ arch/x86/crypto/sha256_ssse3_glue.c |  41 ++
+ crypto/testmgr.c                    |  72 +++-
+ drivers/md/dm-verity-fec.c          |  31 +-
+ drivers/md/dm-verity-fec.h          |   7 +-
+ drivers/md/dm-verity-target.c       | 560 ++++++++++++++++++++--------
+ drivers/md/dm-verity.h              |  43 +--
+ fs/verity/fsverity_private.h        |   5 +
+ fs/verity/hash_algs.c               |  31 +-
+ fs/verity/open.c                    |   6 +
+ fs/verity/verify.c                  | 177 +++++++--
+ include/crypto/hash.h               |  34 ++
+ 14 files changed, 1450 insertions(+), 247 deletions(-)
+
+
+base-commit: 543ea178fbfadeaf79e15766ac989f3351349f02
+-- 
+2.44.0
+
