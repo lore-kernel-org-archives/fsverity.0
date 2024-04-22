@@ -1,157 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1AC130AC8;
-	Fri, 19 Apr 2024 17:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49FD1DDE9
+	for <fsverity@lists.linux.dev>; Mon, 22 Apr 2024 16:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713546313; cv=none; b=dpbYSoVZS9fZXmn3f6Dk+uvMZZH9aYNHExTw93kBU35rbdD7PL/O9pXow4p0WcfOMry4PNlE+f9haNL5TpmdTfiuLmIai5VBY8tlsHWDLMpz3qJGDnx3qVrk7FC6+Sv2V9WTM8wQDpwkjEeraHHVTa35koCqbJQA922zyB933hs=
+	t=1713803518; cv=none; b=u2wqsxD+2lg69Udmu0w2KXYGtaqCUqHY7bWw4Lv6pa/bB4ylH28//eEsHGFuLuhw14Xxlf7gqYNhFx/77skYev3SLEAQNEFfQW5g1/hQ6mEP8NZamtYYmEMLUE28uNdLeBuXqDZA5Wk+YMiyE/xbvkdyLx/wS8nufXlp3fcLBA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713546313; c=relaxed/simple;
-	bh=+ZKb78YZ/qFCFnbEsmfuq1mGqLqipgbAODAVHINlwTc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VRFF7av0HVm/FXst1VlH1jJunR0rxIDMqpeMJJ4R9UWFebKIgGf1T/2Fy33aFYU239AuFZqDVpPqu2J18NqdLH5fdmnbSNJ4bIHPitlu41rZDKV/T2SaKQbFpoysqmo1nv/mliqGv6KjpnYljx3XH+sYn9r/RpKNsJ3rJiOTo1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RxP1rISy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713803518; c=relaxed/simple;
+	bh=+TaqdCEjgZxSTyKsejhTTHIW8R6Lq3G+0wjBonZ0Klg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B8kid4E8XjpwaNhrwTPm0YI2HgWsOcHBNXAmShp/t50tJ7GZRdsfmA/cqFhP1xbpm/3UrHC4FjvwTiaO6EeWr7n5DxiVVMDUOhxNlydkGBA3nHPWq3bonrF3JLuvuXhMwfp9Ut+gMFT5KEDRW5D8HmV6RrWhdU8EQLanOxhDvyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zKK+Ap0N; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RxP1rISy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43FCC072AA;
-	Fri, 19 Apr 2024 17:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713546313;
-	bh=+ZKb78YZ/qFCFnbEsmfuq1mGqLqipgbAODAVHINlwTc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RxP1rISyy1aIIsNTbwRnWW4eR/+iMvxce6AlrqBog+3Ozyzj9kYkL8BCQU97Q1xfR
-	 jWhcrPiDuD5tsIuSt7fBJa+omLa+HrhgNENuY/lX2noeGu5YZ7gkcSmzLoyoMourJz
-	 2m2feTRqapplbjRpNELpijUMAvoAGQQ4Bim1BYOXOHfIrR6lSbYujHXju5M+W6W3r3
-	 mY5ff6EDWvVbHFQDi/bktg+6dHbqmgXF9f6rv7IS4IAr6KLCnk0KHEIVWRQHFM3leJ
-	 2PjhfHQnV1FebsbMYwd12hKlEGcf7iIYtoQCfZ/C5sFovHArY3angLyA/0tzx5Ptby
-	 SydF+muKE2LLA==
-Date: Fri, 19 Apr 2024 10:05:11 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Richard Fung <richardfung@google.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
-	fsverity@lists.linux.dev, ynaffit@google.com
-Subject: Re: [PATCH v2] fuse: Add initial support for fs-verity
-Message-ID: <20240419170511.GB1131@sol.localdomain>
-References: <20240328205822.1007338-1-richardfung@google.com>
- <20240416001639.359059-1-richardfung@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zKK+Ap0N"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6a07eefdd66so7265776d6.2
+        for <fsverity@lists.linux.dev>; Mon, 22 Apr 2024 09:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1713803516; x=1714408316; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FpNxvF9YaOAaBGXSdu/sPdghPX7QEhR2xbCvRx+SLLQ=;
+        b=zKK+Ap0Nw5W7+KQFZgfMZtGNW5e+SbJiePQylBoXhszqNACJdNovowJGtSgtcC9tAt
+         KHcdtuiyfD1kE0lZE+u5nTQgJQlbLXutFy6w4FYdJBVEK5ci6hyQxntqdAxasobjxA4r
+         4yBbYYuZL32C/7HwMSw53COox7xCzosipOcH64H008KQsvRV3Vny1JlB9Aiml4HQYeNj
+         MM1HK2ODMpTAtxFifR8ZWr1vXkxYQCZatZ9Da6e8esDonfY9hvo+0e9ewK01YiZ2uvVH
+         +vy174w7qdQYceCvZNx5aveR3d2qgonhAitBCkSoJ9KVN5/AmU5W2gGxvmCf6myQ/Jba
+         VNRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713803516; x=1714408316;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FpNxvF9YaOAaBGXSdu/sPdghPX7QEhR2xbCvRx+SLLQ=;
+        b=mcTcq8ce35gsjbXjEg9pw+OmrIAu+E/zT+nenVEWRkvIHCQsP+aDmphlBd5eP/loFy
+         OAQLGXw4j1k8xS4O/PXm6dhStBLk4ObxuoKiRiCAZPzrxKakWMLcjMVTMCeyMA3BldZI
+         2IOrS2q0TifOLhu9nh9I+HWu5rEmgzI7vQGJw8OTRxKN+ODlCx+mroOXXKlzRe2hvrf/
+         T79YpiFUVW/46ia1PdBamWJlzKdxWTIgRAxy1tAFVCG/L67Cfy86iQY6hP+8MO4zJkUe
+         lWKuudqsDZqC3SJ9qa0lYPgjQjzoDzmk3HyFTd5hnCdQiRPINzPqeCBQSVB0sqhCcj4A
+         AY8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW5qs+SET3uHlJJVb9dzSbPip73t4DPZdSh8/9djdc6A2yrXWRfDyjdB0q0dAgPlGU0QjgxnJas9e/DDOtYQtmoQPFR0cipWXQ=
+X-Gm-Message-State: AOJu0YxSzCdnTxF2m2e101Cxd3/960RcnT5YhNQGqsE1bRsRwNXljDP9
+	cbrLjw8EBbUtnBakvqGVUaVUItkSxCzVarIo9Qc8jm3H3LPVduVTjMDVQYjcLP4CwVBkt9PYEzD
+	vi8kc14USgF4GC/iDJ3JDNdH8aE8FagJ3/K/e
+X-Google-Smtp-Source: AGHT+IFnJOkEklXHQvKFZWs/xYZscnLoS3JOz6nX6Or789idWhJIUZ/20YX+D4TEwqAJMsA6gMAQ27Ha+D/wSSVvbYg=
+X-Received: by 2002:ad4:5a4e:0:b0:69b:3a49:106f with SMTP id
+ ej14-20020ad45a4e000000b0069b3a49106fmr9367033qvb.15.1713803515798; Mon, 22
+ Apr 2024 09:31:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240416001639.359059-1-richardfung@google.com>
+References: <20240328205822.1007338-1-richardfung@google.com>
+ <20240416001639.359059-1-richardfung@google.com> <20240419170511.GB1131@sol.localdomain>
+In-Reply-To: <20240419170511.GB1131@sol.localdomain>
+From: Richard Fung <richardfung@google.com>
+Date: Mon, 22 Apr 2024 09:31:17 -0700
+Message-ID: <CAGndiTNW=AAy8p6520Q2dDoGJbstN5LAvvbO9ELHHtqGbQZAzQ@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: Add initial support for fs-verity
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
+	fsverity@lists.linux.dev, ynaffit@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, Apr 19, 2024 at 10:05=E2=80=AFAM Eric Biggers <ebiggers@kernel.org>=
+ wrote:
+> It's a bit awkward that the ioctl number is checked twice, though.  Maybe=
+ rename
+> the new function to fuse_setup_special_ioctl() and call it unconditionall=
+y?
+>
+> - Eric
 
-On Tue, Apr 16, 2024 at 12:16:39AM +0000, Richard Fung wrote:
-> This adds support for the FS_IOC_ENABLE_VERITY and FS_IOC_MEASURE_VERITY
-> ioctls. The FS_IOC_READ_VERITY_METADATA is missing but from the
-> documentation, "This is a fairly specialized use case, and most fs-verity
-> users won’t need this ioctl."
-> 
-> Signed-off-by: Richard Fung <richardfung@google.com>
-> ---
->  fs/fuse/ioctl.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
-> 
-> diff --git a/fs/fuse/ioctl.c b/fs/fuse/ioctl.c
-> index 726640fa439e..01638784972a 100644
-> --- a/fs/fuse/ioctl.c
-> +++ b/fs/fuse/ioctl.c
-> @@ -8,6 +8,7 @@
->  #include <linux/uio.h>
->  #include <linux/compat.h>
->  #include <linux/fileattr.h>
-> +#include <linux/fsverity.h>
->  
->  static ssize_t fuse_send_ioctl(struct fuse_mount *fm, struct fuse_args *args,
->  			       struct fuse_ioctl_out *outarg)
-> @@ -118,6 +119,63 @@ static int fuse_copy_ioctl_iovec(struct fuse_conn *fc, struct iovec *dst,
->  }
->  
->  
-> +/* For fs-verity, determine iov lengths from input */
-> +static long fuse_setup_verity_ioctl(unsigned int cmd, unsigned long arg,
-> +				    struct iovec *iov, unsigned int *in_iovs)
-> +{
-> +	switch (cmd) {
-> +	case FS_IOC_MEASURE_VERITY: {
-> +		__u16 digest_size;
-> +		struct fsverity_digest __user *uarg =
-> +				(struct fsverity_digest __user *)arg;
-> +
-> +		if (copy_from_user(&digest_size, &uarg->digest_size,
-> +				sizeof(digest_size)))
-> +			return -EFAULT;
-> +
-> +		if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
-> +			return -EINVAL;
-> +
-> +		iov->iov_len = sizeof(struct fsverity_digest) + digest_size;
-> +		break;
-> +	}
-> +	case FS_IOC_ENABLE_VERITY: {
-> +		struct fsverity_enable_arg enable;
-> +		struct fsverity_enable_arg __user *uarg =
-> +				(struct fsverity_enable_arg __user *)arg;
-> +		const __u32 max_buffer_len = FUSE_MAX_MAX_PAGES * PAGE_SIZE;
-> +
-> +		if (copy_from_user(&enable, uarg, sizeof(enable)))
-> +			return -EFAULT;
-> +
-> +		if (enable.salt_size > max_buffer_len ||
-> +				enable.sig_size > max_buffer_len)
-> +			return -ENOMEM;
-> +
-> +		if (enable.salt_size > 0) {
-> +			iov++;
-> +			(*in_iovs)++;
-> +
-> +			iov->iov_base = u64_to_user_ptr(enable.salt_ptr);
-> +			iov->iov_len = enable.salt_size;
-> +		}
-> +
-> +		if (enable.sig_size > 0) {
-> +			iov++;
-> +			(*in_iovs)++;
-> +
-> +			iov->iov_base = u64_to_user_ptr(enable.sig_ptr);
-> +			iov->iov_len = enable.sig_size;
-> +		}
-> +		break;
-> +	}
-> +	default:
-> +		break;
-> +	}
-> +	return 0;
-> +}
-> +
-> +
->  /*
->   * For ioctls, there is no generic way to determine how much memory
->   * needs to be read and/or written.  Furthermore, ioctls are allowed
-> @@ -227,6 +285,12 @@ long fuse_do_ioctl(struct file *file, unsigned int cmd, unsigned long arg,
->  			out_iov = iov;
->  			out_iovs = 1;
->  		}
-> +
-> +		if (cmd == FS_IOC_MEASURE_VERITY || cmd == FS_IOC_ENABLE_VERITY) {
-> +			err = fuse_setup_verity_ioctl(cmd, arg, iov, &in_iovs);
-> +			if (err)
-> +				goto out;
-> +		}
+I'm happy to change it but the benefit of the current iteration is
+that it's much more obvious to someone unfamiliar with the code that
+code path is only used for fs-verity. Admittedly, I may be
+overindexing on the importance of that as someone who's trying to
+learn the codebase myself.
 
-This looks like it passes on the correct buffers for these two ioctls, so if the
-FUSE developers agree that this works and is secure, consider this acked:
-
-Acked-by: Eric Biggers <ebiggers@google.com>
-
-It's a bit awkward that the ioctl number is checked twice, though.  Maybe rename
-the new function to fuse_setup_special_ioctl() and call it unconditionally?
-
-- Eric
+Let me know if you still prefer I change it
