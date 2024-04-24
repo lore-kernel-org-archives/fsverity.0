@@ -1,73 +1,77 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D081224F0
-	for <fsverity@lists.linux.dev>; Tue, 23 Apr 2024 18:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E6F143894;
+	Wed, 24 Apr 2024 17:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713897714; cv=none; b=vFjIAnVEUxmj8zx5IrhUvJ6mJv+GE2U8BDEbhS+b94CReSHQ5YvmjVMRnVpE9ZJWQlB3R1xX84V/uc06MBVqEJp7FQ8vdXobk5h9Ono6oQCjFilSefMlUbCIwVXTlXeoSOylRlhVRDkacmXScKY3NljJbxHNQEi6R0TxZVZkV5k=
+	t=1713980344; cv=none; b=C81i2pCLnH9wvjAAunbEDUZ8YtZR9j1bueu/L78sM70BK9IUEvmoPk4hLKpCdi9FoxgeUCmGYHSIZxIno+8W4VdKbJaBh27I4AWF3NWOHJAB7ZJJuLfAnjlKuO2Dzp5sAxMl7awH/weqyvkxO0VB9O1QKOKX3984SNalVukm+lM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713897714; c=relaxed/simple;
-	bh=rkZmDBZZcJhVN6mPuWy4uMyeYcqDYd3E+rQp4e4pMmA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KOXmBm+RrOMfP7BcU18yHPJPlW5JrBk6rP7HfWgbIOBrwGhHjXVCmAqy77DH3Fp9bjIxiDrurCsVqfL6BdIMSsvEElPK9J0RtpDEBsP/iNOt7Q5JHyjkfLfTnDISVjkHyK2GK8tHSuqEBQ/xg9OREnd+jS8TA6gT2azcB6s/PZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OnnYSVgc; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1713980344; c=relaxed/simple;
+	bh=OtOSn+BDxFLY6To7R3bqmK5m6GILLWg1o9flDCBIyAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tmTPQm+ThaQXOAyYizXxWxXhlRfeHVxmfsii3MElVn+GXS25mG4+gVL8GBjZnYvJ+gy6WYy05eDHcu88CHQUzoJqy0JwZZnNS+0NoddbkZFgbTW9hRvz/Hxu7nc2qwbKOFAT1koviaJPI83V90sClBAPlO5UUrXMEsbVuvU+UGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m8aBSMFX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OnnYSVgc"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-78efd533a00so404903885a.0
-        for <fsverity@lists.linux.dev>; Tue, 23 Apr 2024 11:41:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713897712; x=1714502512; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rkZmDBZZcJhVN6mPuWy4uMyeYcqDYd3E+rQp4e4pMmA=;
-        b=OnnYSVgcK5AYM3MBBeJqGGafRW2mW+RzPGZn+f+8khWVNi+Sqq05kyTijRhd2tieOm
-         cNSrfx2gIrIDYe9atMjFh33jBIwvafNBXarLV+qcRPAVmPISnTfx+Q5nuoP/ROnWPpHo
-         Xq1nGE4JXw2z8a5ukAzqfhpBgBJESI14BlvcsjHnVdwaZSkcWpCJfCkcTfOqI+Lz4XJ6
-         gpnGJkonO+ornqn5h1jcJ4MPIqKb4R6mRSyO8RR9NIWUZ4Tr2B6jjQgg93tyyGTTG3+V
-         5rOYHFDo111D9jMmBytzn9dLkDF5bbvJLsMzVDMuIGckdhst32E5geNKlPCI30zMGvlV
-         +e/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713897712; x=1714502512;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rkZmDBZZcJhVN6mPuWy4uMyeYcqDYd3E+rQp4e4pMmA=;
-        b=D8b4bpkCWljUxEWuGUv6jwV9DA0YoO3Wi0LioQtGnOCUZt+ahwQ0aKKyqCqS3Vhi8l
-         cbBxP6FLqyY4MEnQd9hGsyw6owjhCUIUie7a+Gf1YtkMu/SN5UnseKYCAUGgWt1aTICd
-         H4tBDR1ZWHvXpgZTZXFkylQ7iLd4r3/oCmgWV9bK42jRBmOsUgWtqvXVfb8uXwM69InX
-         cQ44XdUEB0JLqRZmvZoyUAEhlhTssEzkVbjIzzR5RusqyutuM3RKG+4b5ripAOIytK4j
-         rYnDYg7U7qy43H2Z+UDpUaWN3BnSSHz6tOEeNzA9b8MlJSEkvKEZbF+mMY932BNDTFYE
-         fe1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUEzhgPPYTAHplzpM/RYVpJ24Zxcf5/1Mhzr/mDNmFIu9HO4qqCetzjOdoiUrt8/wMXK2xxsJVHiAgJthQt7CSrVQLMSsXd1ck=
-X-Gm-Message-State: AOJu0YyrWs6T6VHNOns5rVVzNUmcjTJeBnUoP8NI9lFNbs/jUqGfFNeS
-	oIC9SIm0YUPIFhKt38mROJcBlvccBdaPWJZsaJxiPErijM4jrE8BQKjDTaN/GljzMLCNwmkIAjF
-	TSyQ/S5mPRynL0jjV61FzVfC7s/1BZILbPo7W
-X-Google-Smtp-Source: AGHT+IHkHCY0nAsTRn0X1AxyqTY/RSGMHd2W96s8+CnN0R0bF8TOmL0E6rUwoyEuLSPM0fhjc1ltCOp/0oJQdiys1B8=
-X-Received: by 2002:a0c:c591:0:b0:6a0:5f8f:d753 with SMTP id
- a17-20020a0cc591000000b006a05f8fd753mr190211qvj.49.1713897712026; Tue, 23 Apr
- 2024 11:41:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m8aBSMFX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DE38C113CD;
+	Wed, 24 Apr 2024 17:39:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713980344;
+	bh=OtOSn+BDxFLY6To7R3bqmK5m6GILLWg1o9flDCBIyAA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m8aBSMFXPkC07GyGURwSL3rkeVLd/Ncom8w5TIgu0XWA5xeoW36/75X6VOyukI0NS
+	 CzdXUP/Yy66DGdRNe6usSoQX50kVnksk2v9Q/LwcQsICRs5WT9L2Ou6k+dvvMwfSfz
+	 NnYNXUKE4LP/zN1Du1kP2eeQsu1u6VSo0ymkKaOuixJOjyvhEcupE5wL5iH+Uz23vh
+	 AiX+59UeJ3ga54pwrFaUHWjgylT/f04uhEzySia6sdZTOBbELFQZ5UR/w4ricugDPf
+	 yW11LGCxhOVF6o0HI95fwsmQUhluWQqatCu3gVLVZKAAfFfoF3lcqulhEcDAbo34Wi
+	 Nmn4gQlbkDH9A==
+Date: Wed, 24 Apr 2024 10:39:03 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: aalbersh@redhat.com, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev
+Subject: Re: [PATCH 14/29] xfs: create a per-mount shrinker for verity inodes
+ merkle tree blocks
+Message-ID: <20240424173903.GI360919@frogsfrogsfrogs>
+References: <171175868489.1988170.9803938936906955260.stgit@frogsfrogsfrogs>
+ <171175868793.1988170.8461136895877903082.stgit@frogsfrogsfrogs>
+ <20240405031646.GK1958@quark.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240328205822.1007338-1-richardfung@google.com>
- <20240416001639.359059-1-richardfung@google.com> <20240419170511.GB1131@sol.localdomain>
- <CAGndiTNW=AAy8p6520Q2dDoGJbstN5LAvvbO9ELHHtqGbQZAzQ@mail.gmail.com> <CAJfpegs=J5x_0DfiiXcEtsRxkoVq+ZGv_FhxFo9Vk8B++e_P3A@mail.gmail.com>
-In-Reply-To: <CAJfpegs=J5x_0DfiiXcEtsRxkoVq+ZGv_FhxFo9Vk8B++e_P3A@mail.gmail.com>
-From: Richard Fung <richardfung@google.com>
-Date: Tue, 23 Apr 2024 11:41:13 -0700
-Message-ID: <CAGndiTNRvHGtYZ3-Q7TJDCAYcFNLTypzgnGf3bCcithjwKV0tw@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: Add initial support for fs-verity
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	fsverity@lists.linux.dev, ynaffit@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240405031646.GK1958@quark.localdomain>
 
-> Please verify that I didn't mess anything up.
+On Thu, Apr 04, 2024 at 11:16:46PM -0400, Eric Biggers wrote:
+> On Fri, Mar 29, 2024 at 05:39:43PM -0700, Darrick J. Wong wrote:
+> > +/* Count the merkle tree blocks that we might be able to reclaim. */
+> > +static unsigned long
+> > +xfs_fsverity_shrinker_count(
+> > +	struct shrinker		*shrink,
+> > +	struct shrink_control	*sc)
+> > +{
+> > +	struct xfs_mount	*mp = shrink->private_data;
+> > +	s64			count;
+> > +
+> > +	if (!xfs_has_verity(mp))
+> > +		return SHRINK_EMPTY;
+> > +
+> > +	count = percpu_counter_sum_positive(&mp->m_verity_blocks);
+> > +
+> > +	trace_xfs_fsverity_shrinker_count(mp, count, _RET_IP_);
+> > +	return min_t(s64, ULONG_MAX, count);
+> 
+> On 64-bit systems this always returns ULONG_MAX.
 
-Tested it and it works! Thanks for updating the patch
+Oops, I think I meant u64 there.  It's confusing to me that
+percpu_counter_sum_positive returns a signed type. :(
+
+--D
+
+> - Eric
+> 
