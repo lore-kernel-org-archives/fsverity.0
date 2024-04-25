@@ -1,43 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C6BAD2D;
-	Thu, 25 Apr 2024 01:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C742F1CFAF;
+	Thu, 25 Apr 2024 03:36:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714007670; cv=none; b=qMULW27Yg+ZEpOJIcU73hgmRZiQ/UpNSskvQbgggqg0k/j90UTpKbarUbK5LKvaQcwvciSJBv+xypgSm/tVUzFeHdxYCe/bRu9kBtnrku9ld96pu58HZ/p+XTuPsE1guW3pMR+ZRj6bgg9lAf3voMdeBgxZHNwcFxtsImNeUWUk=
+	t=1714016186; cv=none; b=PqJOlXlW5JU7LwEdmhnR9XLbGon0cdOXJlzaW9n7RH/R0dHVBUkKJ+f7yzZb7nczEv4SKNJVhfIXxxeC6KKrRo8JyVZXub//1lpNkpK9Qp5j2tHdvQZZWGEK8pSsEsKOEe8iPfAPMUWHOB8RGeQtpWN7U2+++DcTU6QuIwa6HnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714007670; c=relaxed/simple;
-	bh=6SmXZw96DsK9jTk5dicyOATJBdCQzVp6690ZLqjDqa4=;
+	s=arc-20240116; t=1714016186; c=relaxed/simple;
+	bh=GeWAMnfWagn1Kaadtthqg0oPmCZaNIn9vT7HkPbKuW4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KRjQKrM87+xYb5CjfStV3PsHca/v/vrcNAk6CoJbKnB7A6gIhvmTWXLQbxKatJpvfc460dcuS+rwh4SPcmC+JwP+n9V78ax6QtnbKL5nRT+0E9dlenoAqyEse43xvUwjIC5sm4V7N4MrfdXErdMwp+dFEtsmHb7I2ZdWG0OZWqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=svTg5EEU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FgWIAJBlx3pA46NipQ8VHxJWGwJppHS78P2n8gNpjkK5UfxCR6xbvi5uPr4NnFWqmvoTOsrtYGNoRRMzM/thkx/bkip9V8OmyAeManhDtQfg9pGYmr5FQLR4K2m5yqgCa1ks8VWV5/pZA5TAz876SJTN93m1ArtlWLwy4b4wMHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DYJklTY1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="svTg5EEU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CDAC113CD;
-	Thu, 25 Apr 2024 01:14:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYJklTY1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDCF6C113CC;
+	Thu, 25 Apr 2024 03:36:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714007670;
-	bh=6SmXZw96DsK9jTk5dicyOATJBdCQzVp6690ZLqjDqa4=;
+	s=k20201202; t=1714016185;
+	bh=GeWAMnfWagn1Kaadtthqg0oPmCZaNIn9vT7HkPbKuW4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=svTg5EEUf3Fz9BKUCsVwaYV4bEskmwIvflyUgrDRcRT4luoC4CwM+2Px1f9OKzgMi
-	 MDVfl/Ru5ZRJaEaY7HwScOYTsH+y1tD2Y9a2WUBJ/U2qUHdZnC9hcGr9Q8Yvhllvkz
-	 G0N2RhSbhVX5nlgkd/dH9JA/zxraW62F572+aIy5uiu4dLrTqN+dHSztdmJ+5G4EnL
-	 oYqTBOkeuoUPC97+FiRyGjDeyWy72jWeuioA1PVSL5yOrUZGwxwhgZ57of4Zyk7gRp
-	 kilbInVD46VrypUUF/cTTwocjxDsE9YStpy3nMgOl9llnuv7akmRD83zqHF/YhIDKa
-	 T2wGMBL+tNXTA==
-Date: Wed, 24 Apr 2024 18:14:29 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: ebiggers@kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev,
-	hch@infradead.org
-Subject: Re: [PATCH 13/29] xfs: add fs-verity support
-Message-ID: <20240425011429.GY360919@frogsfrogsfrogs>
-References: <171175868489.1988170.9803938936906955260.stgit@frogsfrogsfrogs>
- <171175868775.1988170.1235485201931301190.stgit@frogsfrogsfrogs>
- <r72bz6xc5h2iz2jko35mcfdxs7etgznywv25hfovyv24rvvv4q@jrxihodinndr>
- <20240402163453.GB6390@frogsfrogsfrogs>
+	b=DYJklTY1KH83ua4kI6LeO607GfBSbM2ev6VicCnIJrjSZSXEO/cSyCKjoFseMcV/f
+	 XzRcOQDv1baecMnURNXN1yYWL6CAk/7ShUgjgbKo8hlIUqvwDii4EroS3Qpu+/6BLV
+	 eNQBPFefTzuqC/BMjxpkI7w+rGCSbuekxbHMGgjUj5fP1BxuhuykvkoMiwNsg9+Km+
+	 w+iNxj+e3U0TernKO8YnJtbf2/XxFbHw/3FlDaZHWncDGhXwlQ7wqpA9Ps0UZP1FjF
+	 GdICSIxzjpaPOY7bd2GUVfRqfmci/0l7yFzmM+WP++La4EaxXB5+8mnjHQYK1dFZBC
+	 N82rs9fbu01HA==
+Date: Wed, 24 Apr 2024 20:36:23 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH v17 16/21] fsverity: expose verified fsverity built-in
+ signatures to LSMs
+Message-ID: <20240425033623.GA1401@sol.localdomain>
+References: <1712969764-31039-1-git-send-email-wufan@linux.microsoft.com>
+ <1712969764-31039-17-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -46,203 +50,70 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240402163453.GB6390@frogsfrogsfrogs>
+In-Reply-To: <1712969764-31039-17-git-send-email-wufan@linux.microsoft.com>
 
-On Tue, Apr 02, 2024 at 09:34:53AM -0700, Darrick J. Wong wrote:
-> On Tue, Apr 02, 2024 at 10:42:44AM +0200, Andrey Albershteyn wrote:
-> > On 2024-03-29 17:39:27, Darrick J. Wong wrote:
-> > > From: Andrey Albershteyn <aalbersh@redhat.com>
-> > > 
-> > > Add integration with fs-verity. The XFS store fs-verity metadata in
-> > > the extended file attributes. The metadata consist of verity
-> > > descriptor and Merkle tree blocks.
-> > > 
-> > > The descriptor is stored under "vdesc" extended attribute. The
-> > > Merkle tree blocks are stored under binary indexes which are offsets
-> > > into the Merkle tree.
-> > > 
-> > > When fs-verity is enabled on an inode, the XFS_IVERITY_CONSTRUCTION
-> > > flag is set meaning that the Merkle tree is being build. The
-> > > initialization ends with storing of verity descriptor and setting
-> > > inode on-disk flag (XFS_DIFLAG2_VERITY).
-> > > 
-> > > The verification on read is done in read path of iomap.
-> > > 
-> > > Signed-off-by: Andrey Albershteyn <aalbersh@redhat.com>
-> > > Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-> > > [djwong: replace caching implementation with an xarray, other cleanups]
-> > > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> > > ---
-> > >  fs/xfs/Makefile               |    2 
-> > >  fs/xfs/libxfs/xfs_attr.c      |   41 +++
-> > >  fs/xfs/libxfs/xfs_attr.h      |    1 
-> > >  fs/xfs/libxfs/xfs_da_format.h |   14 +
-> > >  fs/xfs/libxfs/xfs_ondisk.h    |    3 
-> > >  fs/xfs/libxfs/xfs_verity.c    |   58 ++++
-> > >  fs/xfs/libxfs/xfs_verity.h    |   13 +
-> > >  fs/xfs/xfs_fsverity.c         |  559 +++++++++++++++++++++++++++++++++++++++++
-> > >  fs/xfs/xfs_fsverity.h         |   20 +
-> > >  fs/xfs/xfs_icache.c           |    4 
-> > >  fs/xfs/xfs_inode.h            |    5 
-> > >  fs/xfs/xfs_super.c            |   17 +
-> > >  fs/xfs/xfs_trace.h            |   32 ++
-> > >  13 files changed, 769 insertions(+)
-> > >  create mode 100644 fs/xfs/libxfs/xfs_verity.c
-> > >  create mode 100644 fs/xfs/libxfs/xfs_verity.h
-> > >  create mode 100644 fs/xfs/xfs_fsverity.c
-> > >  create mode 100644 fs/xfs/xfs_fsverity.h
-> > > 
-> > > 
-> 
-> <snip>
-> 
-> > > diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
-> > > index 5a202706fc4a4..70c5700132b3e 100644
-> > > --- a/fs/xfs/xfs_inode.h
-> > > +++ b/fs/xfs/xfs_inode.h
-> > > @@ -96,6 +96,9 @@ typedef struct xfs_inode {
-> > >  	spinlock_t		i_ioend_lock;
-> > >  	struct work_struct	i_ioend_work;
-> > >  	struct list_head	i_ioend_list;
-> > > +#ifdef CONFIG_FS_VERITY
-> > > +	struct xarray		i_merkle_blocks;
-> > > +#endif
-> > 
-> > So, is this fine like this or do you plan to change it to per-ag
-> > mapping? I suppose Christoph against adding it to inodes [1]
-> > 
-> > [1]: https://lore.kernel.org/linux-xfs/ZfecSzBoVDW5328l@infradead.org/
-> 
-> Still working on it.  hch and I have been nitpicking the parent pointers
-> patchset.  I think a per-ag rhashtable would work in principle, but I
-> don't know how well it will handle a 128-bit key.
+On Fri, Apr 12, 2024 at 05:55:59PM -0700, Fan Wu wrote:
+> For instance, a policy could be established to permit the execution of all
+> files with verified built-in fsverity signatures while restricting kernel
+> module loading from specified fsverity files via fsverity digets.
 
-Update: works fine, and now we don't need to add 16 bytes of overhead to
-every xfs_inode everywhere.
+"digets" => "digests"
 
---D
+> The introduction of a security_inode_setintegrity() hook call within
+> fsverity's workflow ensures that the verified built-in signature of a file
+> is exposed to LSMs, This enables LSMs to recognize and label fsverity files
 
-> --D
+"LSMs, This" => "LSMs. This"
+
+> +#ifdef CONFIG_FS_VERITY_BUILTIN_SIGNATURES
+> +static int fsverity_inode_setintegrity(struct inode *inode,
+> +				       const struct fsverity_descriptor *desc)
+> +{
+> +	return security_inode_setintegrity(inode,
+> +					   LSM_INT_FSVERITY_BUILTINSIG_VALID,
+> +					   desc->signature,
+> +					   le32_to_cpu(desc->sig_size));
+> +}
+> +#else
+> +static inline int fsverity_inode_setintegrity(struct inode *inode,
+> +					      const struct fsverity_descriptor *desc)
+> +{
+> +	return 0;
+> +}
+> +#endif /* CONFIG_FS_VERITY_BUILTIN_SIGNATURES */
+[...]
+> @@ -241,6 +259,10 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
+> 		}
+> 	}
 > 
-> > >  } xfs_inode_t;
-> > >  
-> > >  static inline bool xfs_inode_on_unlinked_list(const struct xfs_inode *ip)
-> > > @@ -391,6 +394,8 @@ static inline bool xfs_inode_needs_cow_around(struct xfs_inode *ip)
-> > >   */
-> > >  #define XFS_IREMAPPING		(1U << 15)
-> > >  
-> > > +#define XFS_VERITY_CONSTRUCTION	(1U << 16) /* merkle tree construction */
-> > > +
-> > >  /* All inode state flags related to inode reclaim. */
-> > >  #define XFS_ALL_IRECLAIM_FLAGS	(XFS_IRECLAIMABLE | \
-> > >  				 XFS_IRECLAIM | \
-> > > diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-> > > index 42a1e1f23d3b3..4e398884c46ae 100644
-> > > --- a/fs/xfs/xfs_super.c
-> > > +++ b/fs/xfs/xfs_super.c
-> > > @@ -30,6 +30,7 @@
-> > >  #include "xfs_filestream.h"
-> > >  #include "xfs_quota.h"
-> > >  #include "xfs_sysfs.h"
-> > > +#include "xfs_fsverity.h"
-> > >  #include "xfs_ondisk.h"
-> > >  #include "xfs_rmap_item.h"
-> > >  #include "xfs_refcount_item.h"
-> > > @@ -53,6 +54,7 @@
-> > >  #include <linux/fs_context.h>
-> > >  #include <linux/fs_parser.h>
-> > >  #include <linux/fsverity.h>
-> > > +#include <linux/iomap.h>
-> > >  
-> > >  static const struct super_operations xfs_super_operations;
-> > >  
-> > > @@ -672,6 +674,8 @@ xfs_fs_destroy_inode(
-> > >  	ASSERT(!rwsem_is_locked(&inode->i_rwsem));
-> > >  	XFS_STATS_INC(ip->i_mount, vn_rele);
-> > >  	XFS_STATS_INC(ip->i_mount, vn_remove);
-> > > +	if (fsverity_active(inode))
-> > > +		xfs_fsverity_cache_drop(ip);
-> > >  	fsverity_cleanup_inode(inode);
-> > >  	xfs_inode_mark_reclaimable(ip);
-> > >  }
-> > > @@ -1534,6 +1538,9 @@ xfs_fs_fill_super(
-> > >  	sb->s_quota_types = QTYPE_MASK_USR | QTYPE_MASK_GRP | QTYPE_MASK_PRJ;
-> > >  #endif
-> > >  	sb->s_op = &xfs_super_operations;
-> > > +#ifdef CONFIG_FS_VERITY
-> > > +	sb->s_vop = &xfs_fsverity_ops;
-> > > +#endif
-> > >  
-> > >  	/*
-> > >  	 * Delay mount work if the debug hook is set. This is debug
-> > > @@ -1775,10 +1782,20 @@ xfs_fs_fill_super(
-> > >  		xfs_warn(mp,
-> > >  	"EXPERIMENTAL parent pointer feature enabled. Use at your own risk!");
-> > >  
-> > > +	if (xfs_has_verity(mp))
-> > > +		xfs_alert(mp,
-> > > +	"EXPERIMENTAL fsverity feature in use. Use at your own risk!");
-> > > +
-> > >  	error = xfs_mountfs(mp);
-> > >  	if (error)
-> > >  		goto out_filestream_unmount;
-> > >  
-> > > +#ifdef CONFIG_FS_VERITY
-> > > +	error = iomap_init_fsverity(mp->m_super);
-> > > +	if (error)
-> > > +		goto out_unmount;
-> > > +#endif
-> > > +
-> > >  	root = igrab(VFS_I(mp->m_rootip));
-> > >  	if (!root) {
-> > >  		error = -ENOENT;
-> > > diff --git a/fs/xfs/xfs_trace.h b/fs/xfs/xfs_trace.h
-> > > index e2992b0115ad2..86a8702c1e27c 100644
-> > > --- a/fs/xfs/xfs_trace.h
-> > > +++ b/fs/xfs/xfs_trace.h
-> > > @@ -5908,6 +5908,38 @@ TRACE_EVENT(xfs_growfs_check_rtgeom,
-> > >  );
-> > >  #endif /* CONFIG_XFS_RT */
-> > >  
-> > > +#ifdef CONFIG_FS_VERITY
-> > > +DECLARE_EVENT_CLASS(xfs_fsverity_cache_class,
-> > > +	TP_PROTO(struct xfs_inode *ip, unsigned long key, unsigned long caller_ip),
-> > > +	TP_ARGS(ip, key, caller_ip),
-> > > +	TP_STRUCT__entry(
-> > > +		__field(dev_t, dev)
-> > > +		__field(xfs_ino_t, ino)
-> > > +		__field(unsigned long, key)
-> > > +		__field(void *, caller_ip)
-> > > +	),
-> > > +	TP_fast_assign(
-> > > +		__entry->dev = ip->i_mount->m_super->s_dev;
-> > > +		__entry->ino = ip->i_ino;
-> > > +		__entry->key = key;
-> > > +		__entry->caller_ip = (void *)caller_ip;
-> > > +	),
-> > > +	TP_printk("dev %d:%d ino 0x%llx key 0x%lx caller %pS",
-> > > +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-> > > +		  __entry->ino,
-> > > +		  __entry->key,
-> > > +		  __entry->caller_ip)
-> > > +)
-> > > +
-> > > +#define DEFINE_XFS_FSVERITY_CACHE_EVENT(name) \
-> > > +DEFINE_EVENT(xfs_fsverity_cache_class, name, \
-> > > +	TP_PROTO(struct xfs_inode *ip, unsigned long key, unsigned long caller_ip), \
-> > > +	TP_ARGS(ip, key, caller_ip))
-> > > +DEFINE_XFS_FSVERITY_CACHE_EVENT(xfs_fsverity_cache_load);
-> > > +DEFINE_XFS_FSVERITY_CACHE_EVENT(xfs_fsverity_cache_store);
-> > > +DEFINE_XFS_FSVERITY_CACHE_EVENT(xfs_fsverity_cache_drop);
-> > > +#endif /* CONFIG_XFS_VERITY */
-> > > +
-> > >  #endif /* _TRACE_XFS_H */
-> > >  
-> > >  #undef TRACE_INCLUDE_PATH
-> > > 
-> > 
-> > -- 
-> > - Andrey
-> > 
-> > 
-> 
+> +	err = fsverity_inode_setintegrity(inode, desc);
+> +	if (err)
+> +		goto fail;
+> +
+
+Wouldn't it be much simpler to put the LSM call in fsverity_verify_signature()?
+Then no #ifdef would be needed, and there would be no weird cases where the LSM
+gets passed LSM_INT_FSVERITY_BUILTINSIG_VALID with an empty signature.
+
+> diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+> index 90c07573dd77..fd60e9704e78 100644
+> --- a/fs/verity/signature.c
+> +++ b/fs/verity/signature.c
+> @@ -41,7 +41,11 @@ static struct key *fsverity_keyring;
+>   * @sig_size: size of signature in bytes, or 0 if no signature
+>   *
+>   * If the file includes a signature of its fs-verity file digest, verify it
+> - * against the certificates in the fs-verity keyring.
+> + * against the certificates in the fs-verity keyring. Note that signatures
+> + * are verified regardless of the state of the 'fsverity_require_signatures'
+> + * variable and the LSM subsystem relies on this behavior to help enforce
+> + * file integrity policies. Please discuss changes with the LSM list
+> + * (thank you!).
+>   *
+>   * Return: 0 on success (signature valid or not required); -errno on failure
+>   */
+
+... and it would also make the above easier to understand if the LSM call were
+to happen right in fsverity_verify_signature().
+
+- Eric
