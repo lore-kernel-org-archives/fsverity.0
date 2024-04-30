@@ -1,43 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6B284A58;
-	Mon, 29 Apr 2024 16:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D18C10A3F;
+	Tue, 30 Apr 2024 03:11:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714408552; cv=none; b=HHd617YptkU6m9QSFDYltqt679yOVQWTITWeKi2c14iRM0NwuUmvMEXFfGiA71mnWvXruje78SkEBvEZ5uiqzLtsvXp52IIGNk1J3GBfg2rljJzpJJBMOECQXao5u0kJBj4rafsfM5V2m7PoJwWf6rUQOQ8WVz41dUAL6SohsOw=
+	t=1714446695; cv=none; b=FmnhnRgzp/IrL0uheqT314nKMuEM1RS6GJkOwVwKeY0PP/FgSzDv/x9AYCh/n2bm5ZMjOhA4K/Nf2ckAUHVfaVRsLa0jTJ9dz50IduDULrtCcRio6pirbjMCbF9gUw+YiqqBbbwmaRzDl8klNtOSpTqOAtsyf0co8irq0TowVRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714408552; c=relaxed/simple;
-	bh=Tkte1ZXDpuj4Yqy27Z3wPjS9EO/uFnFgnqfi4bNHG7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SJGaTy3tTlw8x+K1L8weL62vVaubWuBgcRpLpDt9kC8Pz4KsApvwmA7PWl/BeGPZ/IlSY+jVEQYfzzWUgwIHads2Q+ATJHDLyafcIAfnRBeyBj4vFpFy7qH+TLrJce4GlJpajSlGCRoTUu5Ws2opCORqeuN6cIe30dcsWsHxXXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tfyk3HIA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714446695; c=relaxed/simple;
+	bh=A8QF0hCv/rRDWvm7PRNjr6csL2b1LpGRZeV48g0jPps=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XproKQsH9srAbUc67KtVAUZlJFM3AcypFOzZ2nc7TsY+AXfj3wQCK1uZd4Bp7xdKZB5WSYlDjXlyModwfgYwJA6MHNVZXBq3+ZzAAbzhiUQg3RCfr+37JjRmNs71hWF8Qs8iQ6a/qHltbtnOp50CaHeAbYkYJVGoacdoWHvMpDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Scw+1QMo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tfyk3HIA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227E5C4AF1B;
-	Mon, 29 Apr 2024 16:35:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Scw+1QMo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 079ECC4AF1C;
+	Tue, 30 Apr 2024 03:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714408552;
-	bh=Tkte1ZXDpuj4Yqy27Z3wPjS9EO/uFnFgnqfi4bNHG7Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tfyk3HIAkPaEoXfOOGrrEaB5tW1bz7aRk3cWP14ZeP46WJdATa87w21AzjSsd5XOP
-	 9aAOl3HGR6hWceZU5qvZJZMdiGk5A4Nr6+8yrfV04aBsOPH/DlBQs4ilNz6DpPm7uC
-	 EFxbgs/hfvIeVST9N5+AXHJQDZgPwTTBJasg61wGHHAzHJWdB01bR7+2ZWzAJcngp6
-	 8rPHFraWAYOlwAg53a4OLJR1UJUV+mswKC4qg11Dqc7k/ln/jVNIEj6qg3oF2cGS0e
-	 s1tqMtoGqozJx9XRsK1qY1e31XYnEPMhIhWOgZnNq9mg91JnnosYT3uBHbDZvovioA
-	 1DQNdueqv8gNQ==
-Date: Mon, 29 Apr 2024 09:35:51 -0700
+	s=k20201202; t=1714446695;
+	bh=A8QF0hCv/rRDWvm7PRNjr6csL2b1LpGRZeV48g0jPps=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Scw+1QMolGFEJkNC/RBOzE+eTC3kc/tDNlwztUZm1AS7Fqv53Ct+ZwatPZNeV6SC2
+	 UKZyN+mOJ1MSc+pULck0nIX0b3cmzprG5A7oSBo32E/bqXTINZeL4MFtuuxM4dIY9i
+	 LnPIjsol+9ain0Z73IRfL4tHKfPXMdo6xapwn1qtnJ97jVkhyA5SifMhCkL+bccSiE
+	 9qPihle51fhcdIJVYLBK7iHgwsEhUaImJKAGf0TXB3pL9i5z6UB+D5DiTjpTcrMx1R
+	 VNGscqOkQ72ow2Pkrq7Mjnym9S3hXo91FxcyccP2Q7gXJNcf7gLsiTQ1N4Pk92Ahqx
+	 7pFAlr37Z3o8w==
+Date: Mon, 29 Apr 2024 20:11:34 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev
-Subject: Re: [PATCH 12/13] fsverity: remove system-wide workqueue
-Message-ID: <20240429163551.GD360898@frogsfrogsfrogs>
-References: <171175867829.1987804.15934006844321506283.stgit@frogsfrogsfrogs>
- <171175868064.1987804.7068231057141413548.stgit@frogsfrogsfrogs>
- <20240405031407.GJ1958@quark.localdomain>
- <20240424180520.GJ360919@frogsfrogsfrogs>
- <j6a357qbjsf346khicummgmutjvkircf7ff7gd7for2ajn4k7q@q6dw22io6dcp>
+To: aalbersh@redhat.com, ebiggers@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-xfs@vger.kernel.org, alexl@redhat.com, walters@verbum.org,
+	Dave Chinner <david@fromorbit.com>
+Subject: [PATCHBOMB v5.6] fs-verity support for XFS
+Message-ID: <20240430031134.GH360919@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -46,82 +42,24 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <j6a357qbjsf346khicummgmutjvkircf7ff7gd7for2ajn4k7q@q6dw22io6dcp>
 
-On Mon, Apr 29, 2024 at 12:15:55PM +0200, Andrey Albershteyn wrote:
-> On 2024-04-24 11:05:20, Darrick J. Wong wrote:
-> > On Thu, Apr 04, 2024 at 11:14:07PM -0400, Eric Biggers wrote:
-> > > On Fri, Mar 29, 2024 at 05:35:48PM -0700, Darrick J. Wong wrote:
-> > > > From: Darrick J. Wong <djwong@kernel.org>
-> > > > 
-> > > > Now that we've made the verity workqueue per-superblock, we don't need
-> > > > the systemwide workqueue.  Get rid of the old implementation.
-> > > 
-> > > This commit message needs to be rephrased because this commit isn't just
-> > > removing unused code.  It's also converting ext4 and f2fs over to the new
-> > > workqueue type.  (Maybe these two parts belong as separate patches?)
-> > 
-> > Yes, will fix that.
-> > 
-> > > Also, if there are any changes in the workqueue flags that are being used for
-> > > ext4 and f2fs, that needs to be documented.
-> > 
-> > Hmm.  The current codebase does this:
-> > 
-> > 	fsverity_read_workqueue = alloc_workqueue("fsverity_read_queue",
-> > 						  WQ_HIGHPRI,
-> > 						  num_online_cpus());
-> > 
-> > Looking at commit f959325e6ac3 ("fsverity: Remove WQ_UNBOUND from
-> > fsverity read workqueue"), I guess you want a bound workqueue so that
-> > the CPU that handles the readahead ioend will also handle the verity
-> > validation?
-> > 
-> > Why do you set max_active to num_online_cpus()?  Is that because the
-> > verity hash is (probably?) being computed on the CPUs, and there's only
-> > so many of those to go around, so there's little point in making more?
-> > Or is it to handle systems with more than WQ_DFL_ACTIVE (~256) CPUs?
-> > Maybe there's a different reason?
-> > 
-> > If you add more CPUs to the system later, does this now constrain the
-> > number of CPUs that can be participating in verity validation?  Why not
-> > let the system try to process as many read ioends as are ready to be
-> > processed, rather than introducing a constraint here?
-> > 
-> > As for WQ_HIGHPRI, I wish Dave or Andrey would chime in on why this
-> > isn't appropriate for XFS.  I think they have a reason for this, but the
-> > most I can do is speculate that it's to avoid blocking other things in
-> > the system.
-> 
-> The log uses WQ_HIGHPRI for journal IO completion
-> log->l_ioend_workqueue, as far I understand some data IO completion
-> could require a transaction which make a reservation which
-> could lead to data IO waiting for journal IO. But if data IO
-> completion will be scheduled first this could be a possible
-> deadlock... I don't see a particular example, but also I'm not sure
-> why to make fs-verity high priority in XFS.
+Hi everyone,
 
-Ah, ok.  I'll add a comment about that to my patch then.
+Another month has gone by, so here's another RFC of fsverity support for
+XFS.  I'm going to take off for a bit of R&R the week before and after
+LSFMM, so I wanted to blast this out for everyone's enjoyment. ;)
 
-> > In Andrey's V5 patch, XFS creates its own the workqueue like this:
-> > https://lore.kernel.org/linux-xfs/20240304191046.157464-10-aalbersh@redhat.com/
-> > 
-> > 	struct workqueue_struct *wq = alloc_workqueue(
-> > 		"pread/%s", (WQ_FREEZABLE | WQ_MEM_RECLAIM), 0, sb->s_id);
-> > 
-> > I don't grok this either -- read ioend workqueues aren't usually
-> > involved in memory reclaim at all, and I can't see why you'd want to
-> > freeze the verity workqueue during suspend.  Reads are allowed on frozen
-> > filesystems, so I don't see why verity would be any different.
-> 
-> Yeah maybe freezable can go away, initially I picked those flags as
-> most of the other workqueues in xfs are in same configuration.
+I /think/ I've addressed Eric's feedback about the v5.5 patchset.  The
+merkle tree cache has been moved to a per-AG rhashtable; XFS now uses
+only a u64 merkle tree pos value in the merkle_read/drop paths to match
+the merkle_write path; and online repair can now unwind broken verity
+files that are otherwise unopenable.
 
-<nod>
+The kernel series now takes advantage of all the xattr cleanups that hch
+and I did for parent pointers.
+
+Full versions are here:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fsverity
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=fsverity
 
 --D
-
-> -- 
-> - Andrey
-> 
-> 
