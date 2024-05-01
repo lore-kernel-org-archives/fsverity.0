@@ -1,224 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF7118133F
-	for <fsverity@lists.linux.dev>; Tue, 30 Apr 2024 18:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEA31BDCF;
+	Wed,  1 May 2024 02:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714500398; cv=none; b=W0gkQ4sv2hkcLr2NK9UM3gvuGpo/ioYlj4M1gJNl5Xs65nFBKsfyaO3WMqz/1hZ/wVa8tUljS7JmpW9b5l9csAC4xEunCAp60yq3cjs4dh+jGDv4kixua2v8lv4tb9iuR2RecKp6Irg8ZKdPFiRD9Abhl2+dgoDSHh6xhuPZL5M=
+	t=1714532071; cv=none; b=Tesgu3iAPjBvNKD8Uw+cLmOylcdHzAeS23UUMqiOU8q4cpJ27YS45ENj9eOeGQvviYaeo+VrqLlI8Gr9chTZ9Aa13q17re9qGk/8aCwmybcAW2gK2IYNM5W4exzY9aCdF+5Sd8Xs6J58VtB9mcxEVyGt67Bb7LO7EqF0bwYKtSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714500398; c=relaxed/simple;
-	bh=PwI1PrOotdPpKXX5QAwi15HY6YoGol2geJBgw3UZ8VY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=OzxoOqSTVi/w+Wwl9s9ijcPxl4EAH/6rQc1xgZofpWeFVXXOTUnSJDoG0v8L4PioZ+K0/e2pUFwq7KInwT/XrY41Ix/YxReB/tGkqiojOVCiAEHbfsbxnCFfH/UtBByZmOwybt4ayLCO1onZQVF63KCQktjjPtUGs1ts2dNqWCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YBbaj8b8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1714532071; c=relaxed/simple;
+	bh=aZB7vIbD/rzjyBEQhIjJP1qAh6CuOgetQmb4pP6HIhA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=b3yihnR28bikRxe7ppGSFrgRTSC61q1G8iQAyE2cw6CN3nt3K/lLW7TB40XlVsEb4nj0xY1XNDHmC4wsN1sdUn2CE3cajzbjfHLutbyQ2ai+f85qk/ICFmjpA9Xs/g6F1ZbbWSCJsAJ86lsPiurFo/ch7qBDXPhnTC9dPpz9azw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=doiQKAE8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YBbaj8b8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714500395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=imQQal1msniqCC7SSyjMUlHWjAzNmLrGF8VoQ2n0MHk=;
-	b=YBbaj8b8v3VgFe35Zz4dlqJI0LAoM+u8xkEz1Dwdq00FJStc+DMAx5x8Hr3n/3SdrkXUuR
-	ceNqljQBgi3cD3ts3guzYNbwVh5GnEmxQel+1h0O/GOGXAPXuHhyyyAm0eDRafv45xMNrY
-	6LwURBhIZmAXt4NfygpuEywVKJtmvpI=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-556-MNYeQ4tvOc-5fE7nGejJrA-1; Tue, 30 Apr 2024 14:06:32 -0400
-X-MC-Unique: MNYeQ4tvOc-5fE7nGejJrA-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a55a8c841e8so319385666b.2
-        for <fsverity@lists.linux.dev>; Tue, 30 Apr 2024 11:06:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714500391; x=1715105191;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=imQQal1msniqCC7SSyjMUlHWjAzNmLrGF8VoQ2n0MHk=;
-        b=eO5YxB1VwKr48Y6iFh5EmCkWlbxlyXpNTPZ65V71hdiCxznG/aCqWH0b/rQ4a/Qu2o
-         JOCRhSbPIJ+RWLgl1yQC3YWvesxd3bB47pczQK3oK31VHtn5b2phiEwsKuYqFOW6gzUJ
-         NXURzwWIQ4z33gkPQc6p77GUafGE+9+TPq83VOoS/3s4qhQO0oUeLLaOeG9Zz5zFEEKn
-         6i6fI3VaaR7/UuOTJjprkrdZX5OCsF0Ik05UsCHjReAtzMWqDbL0aiwWoME1dyn5W9pU
-         Xx7KSiJJisEPIIlhUwTDfWJHIff+XQ0rzqgxWQkkgp7D9AVJGXBaFjxxHePpFAZCsZ3R
-         xAvA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/6TgY+Xd1g6ESt+Yu1ccf7pgNcCcCmby+jB6vR5e1XOB4Qef0q+ELt4Z3cW03EDNz5RI1ElRVHSQMT8vuMdemO59w2EXSbHU=
-X-Gm-Message-State: AOJu0Ywvj/v+5lve0Yca0pi5vmEF69XBiFKATo0f+5SJC4Lpo2EDz7fg
-	4o+08trpDG0NSs21/h9gR1HRwk9yLooomsmqcmiMHZD5aSWe7qa0TqzezmNWMVQ7LGEFvK2Fr7F
-	qZrBiqV3AFYcHM2fz94sz6fSUZq4Yb/yQel7Yr9XvYqDhTxxK2xG759E=
-X-Received: by 2002:a17:906:3952:b0:a52:2c4f:7957 with SMTP id g18-20020a170906395200b00a522c4f7957mr336762eje.66.1714500390994;
-        Tue, 30 Apr 2024 11:06:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEjmyO5251sKWtcwGbGfFOrVzhA6dBFSD9UqK7uJf0jtnRf/sKg9Lc8u0v7WdZoeggiao3A+Q==
-X-Received: by 2002:a17:906:3952:b0:a52:2c4f:7957 with SMTP id g18-20020a170906395200b00a522c4f7957mr336746eje.66.1714500390308;
-        Tue, 30 Apr 2024 11:06:30 -0700 (PDT)
-Received: from thinky ([109.183.6.197])
-        by smtp.gmail.com with ESMTPSA id v5-20020a170906380500b00a58f36e5fecsm3720608ejc.67.2024.04.30.11.06.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 11:06:29 -0700 (PDT)
-Date: Tue, 30 Apr 2024 20:06:29 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: zlang@redhat.com, ebiggers@kernel.org, fsverity@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, guan@eryu.me, linux-xfs@vger.kernel.org, fstests@vger.kernel.org
-Subject: Re: [PATCH 5/6] xfs: test disabling fsverity
-Message-ID: <uffkpx5hbin4ym3jmechs4yuby3x2azze56mo4afyy6op3ysro@y6kpnc2ixyue>
-References: <171444687971.962488.18035230926224414854.stgit@frogsfrogsfrogs>
- <171444688055.962488.12884471948592949028.stgit@frogsfrogsfrogs>
- <cjwdgeptjooy65czttyopop4ipkxmdxgdkxxdpfsmtdtzr5jbj@6bu7ql72wtue>
- <20240430154810.GM360919@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="doiQKAE8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB56DC2BBFC;
+	Wed,  1 May 2024 02:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714532071;
+	bh=aZB7vIbD/rzjyBEQhIjJP1qAh6CuOgetQmb4pP6HIhA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=doiQKAE82Z1BrDtH7nTKQDrj1rwqi6Rz+8calI8ctuJJHiVGBEzU4c3vB8v4DLxER
+	 o+KCpBR6zP7xVzdV4xpxYiwtZnGf7H3czXq/G3/pBF9S3hnhHbiEwQ5QF6LqDLXes4
+	 WhuZ3v1MIsARXOZSINxXCTZ+AWK2xPlRhHiA5JerNCWXDcBFWpyVvyGNs+lezIABo8
+	 NhyugS9py4k0IPNz48dYvpGi5vACgt5i0s7I2h7mCvxLfuRN21coZK/KfkT8hAr11m
+	 fxGWsHFM/fUsiMornC8OtnjpIf4NCH1AMzRQTJkJT87goSjDxPxLtCzN/iT6C8lHEj
+	 u68+MddVDZ8sQ==
+From: Eric Biggers <ebiggers@kernel.org>
+To: fsverity@lists.linux.dev
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Joel Granados <j.granados@samsung.com>,
+	stable@vger.kernel.org,
+	Yi Zhang <yi.zhang@redhat.com>
+Subject: [PATCH] fsverity: use register_sysctl_init() to avoid kmemleak warning
+Date: Tue, 30 Apr 2024 19:53:31 -0700
+Message-ID: <20240501025331.594183-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.45.0
+In-Reply-To: <CAHj4cs8oYFcN6ptCdLjc3vLWRgNHiS8X06OVj_HLbX-wPoT_Mg@mail.gmail.com>
+References: <CAHj4cs8oYFcN6ptCdLjc3vLWRgNHiS8X06OVj_HLbX-wPoT_Mg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240430154810.GM360919@frogsfrogsfrogs>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 2024-04-30 08:48:10, Darrick J. Wong wrote:
-> On Tue, Apr 30, 2024 at 03:11:11PM +0200, Andrey Albershteyn wrote:
-> > On 2024-04-29 20:42:05, Darrick J. Wong wrote:
-> > > From: Darrick J. Wong <djwong@kernel.org>
-> > > 
-> > > Add a test to make sure that we can disable fsverity on a file that
-> > > doesn't pass fsverity validation on its contents anymore.
-> > > 
-> > > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> > > ---
-> > >  tests/xfs/1881     |  111 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  tests/xfs/1881.out |   28 +++++++++++++
-> > >  2 files changed, 139 insertions(+)
-> > >  create mode 100755 tests/xfs/1881
-> > >  create mode 100644 tests/xfs/1881.out
-> > > 
-> > > 
-> > > diff --git a/tests/xfs/1881 b/tests/xfs/1881
-> > > new file mode 100755
-> > > index 0000000000..411802d7c7
-> > > --- /dev/null
-> > > +++ b/tests/xfs/1881
-> > > @@ -0,0 +1,111 @@
-> > > +#! /bin/bash
-> > > +# SPDX-License-Identifier: GPL-2.0
-> > > +# Copyright (c) 2024 Oracle.  All Rights Reserved.
-> > > +#
-> > > +# FS QA Test 1881
-> > > +#
-> > > +# Corrupt fsverity descriptor, merkle tree blocks, and file contents.  Ensure
-> > > +# that we can still disable fsverity, at least for the latter cases.
-> > > +#
-> > > +. ./common/preamble
-> > > +_begin_fstest auto quick verity
-> > > +
-> > > +_cleanup()
-> > > +{
-> > > +	cd /
-> > > +	_restore_fsverity_signatures
-> > > +	rm -f $tmp.*
-> > > +}
-> > > +
-> > > +. ./common/verity
-> > > +. ./common/filter
-> > > +. ./common/fuzzy
-> > > +
-> > > +_supported_fs xfs
-> > > +_require_scratch_verity
-> > > +_disable_fsverity_signatures
-> > > +_require_fsverity_corruption
-> > > +_require_xfs_io_command noverity
-> > > +_require_scratch_nocheck	# corruption test
-> > > +
-> > > +_scratch_mkfs >> $seqres.full
-> > > +_scratch_mount
-> > > +
-> > > +_require_xfs_has_feature "$SCRATCH_MNT" verity
-> > > +VICTIM_FILE="$SCRATCH_MNT/a"
-> > > +_fsv_can_enable "$VICTIM_FILE" || _notrun "cannot enable fsverity"
-> > > +
-> > > +create_victim()
-> > > +{
-> > > +	local filesize="${1:-3}"
-> > > +
-> > > +	rm -f "$VICTIM_FILE"
-> > > +	perl -e "print 'moo' x $((filesize / 3))" > "$VICTIM_FILE"
-> > > +	fsverity enable --hash-alg=sha256 --block-size=1024 "$VICTIM_FILE"
-> > > +	fsverity measure "$VICTIM_FILE" | _filter_scratch
-> > > +}
-> > > +
-> > > +disable_verity() {
-> > > +	$XFS_IO_PROG -r -c 'noverity' "$VICTIM_FILE" 2>&1 | _filter_scratch
-> > > +}
-> > > +
-> > > +cat_victim() {
-> > > +	$XFS_IO_PROG -r -c 'pread -q 0 4096' "$VICTIM_FILE" 2>&1 | _filter_scratch
-> > > +}
-> > > +
-> > > +echo "Part 1: Delete the fsverity descriptor" | tee -a $seqres.full
-> > > +create_victim
-> > > +_scratch_unmount
-> > > +_scratch_xfs_db -x -c "path /a" -c "attr_remove -f vdesc" -c 'ablock 0' -c print >> $seqres.full
-> > > +_scratch_mount
-> > > +cat_victim
-> > > +
-> > > +echo "Part 2: Disable fsverity, which won't work" | tee -a $seqres.full
-> > > +disable_verity
-> > > +cat_victim
-> > > +
-> > > +echo "Part 3: Corrupt the fsverity descriptor" | tee -a $seqres.full
-> > > +create_victim
-> > > +_scratch_unmount
-> > > +_scratch_xfs_db -x -c "path /a" -c 'attr_modify -f "vdesc" -o 0 "BUGSAHOY"' -c 'ablock 0' -c print >> $seqres.full
-> > > +_scratch_mount
-> > > +cat_victim
-> > > +
-> > > +echo "Part 4: Disable fsverity, which won't work" | tee -a $seqres.full
-> > > +disable_verity
-> > > +cat_victim
-> > > +
-> > > +echo "Part 5: Corrupt the fsverity file data" | tee -a $seqres.full
-> > > +create_victim
-> > > +_scratch_unmount
-> > > +_scratch_xfs_db -x -c "path /a" -c 'dblock 0' -c 'blocktrash -3 -o 0 -x 24 -y 24 -z' -c print >> $seqres.full
-> > > +_scratch_mount
-> > > +cat_victim
-> > > +
-> > > +echo "Part 6: Disable fsverity, which should work" | tee -a $seqres.full
-> > > +disable_verity
-> > > +cat_victim
-> > > +
-> > > +echo "Part 7: Corrupt a merkle tree block" | tee -a $seqres.full
-> > > +create_victim 1234 # two merkle tree blocks
-> > > +_fsv_scratch_corrupt_merkle_tree "$VICTIM_FILE" 0
-> > 
-> > hmm, _fsv_scratch_corrupt_merkle_tree calls _scratch_xfs_repair, and
-> > now with xfs_repair knowing about fs-verity is probably a problem. I
-> 
-> It shouldn't be -- xfs_repair doesn't check the contents of the merkle
-> tree itself.
-> 
-> (xfs_scrub sort of does, but only by calling out to the kernel fsverity
-> code to get rough tree geometry and calling MADV_POPULATE_READ to
-> exercise the read validation.)
+From: Eric Biggers <ebiggers@google.com>
 
-oh right, it's xfs_scrub, I meant re-reading file validation
+Since the fsverity sysctl registration runs as a builtin initcall, there
+is no corresponding sysctl deregistration and the resulting struct
+ctl_table_header is not used.  This can cause a kmemleak warning just
+after the system boots up.  (A pointer to the ctl_table_header is stored
+in the fsverity_sysctl_header static variable, which kmemleak should
+detect; however, the compiler can optimize out that variable.)  Avoid
+the kmemleak warning by using register_sysctl_init() which is intended
+for use by builtin initcalls and uses kmemleak_not_leak().
 
-> 
-> > don't remember what was the problem with quota (why xfs_repiar is
-> > there), I can check it.
-> 
-> If the attr_modify commandline changes the block count of the file, it
-> won't update the quota accounting information.  That can happen if the
-> dabtree changes shape, or if the new attr requires the creation of a new
-> attr leaf block, or if the remote value block count changes due to
-> changes in the size of the attr value.
+Reported-by: Yi Zhang <yi.zhang@redhat.com>
+Closes: https://lore.kernel.org/r/CAHj4cs8DTSvR698UE040rs_pX1k-WVe7aR6N2OoXXuhXJPDC-w@mail.gmail.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ fs/verity/init.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-aha, yeah
+diff --git a/fs/verity/init.c b/fs/verity/init.c
+index cb2c9aac61ed..f440f0e61e3e 100644
+--- a/fs/verity/init.c
++++ b/fs/verity/init.c
+@@ -8,12 +8,10 @@
+ #include "fsverity_private.h"
+ 
+ #include <linux/ratelimit.h>
+ 
+ #ifdef CONFIG_SYSCTL
+-static struct ctl_table_header *fsverity_sysctl_header;
+-
+ static struct ctl_table fsverity_sysctl_table[] = {
+ #ifdef CONFIG_FS_VERITY_BUILTIN_SIGNATURES
+ 	{
+ 		.procname       = "require_signatures",
+ 		.data           = &fsverity_require_signatures,
+@@ -26,14 +24,11 @@ static struct ctl_table fsverity_sysctl_table[] = {
+ #endif
+ };
+ 
+ static void __init fsverity_init_sysctl(void)
+ {
+-	fsverity_sysctl_header = register_sysctl("fs/verity",
+-						 fsverity_sysctl_table);
+-	if (!fsverity_sysctl_header)
+-		panic("fsverity sysctl registration failed");
++	register_sysctl_init("fs/verity", fsverity_sysctl_table);
+ }
+ #else /* CONFIG_SYSCTL */
+ static inline void fsverity_init_sysctl(void)
+ {
+ }
 
+base-commit: 18daea77cca626f590fb140fc11e3a43c5d41354
 -- 
-- Andrey
+2.45.0
 
