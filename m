@@ -1,105 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEA31BDCF;
-	Wed,  1 May 2024 02:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EDB29CF7;
+	Wed,  1 May 2024 06:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714532071; cv=none; b=Tesgu3iAPjBvNKD8Uw+cLmOylcdHzAeS23UUMqiOU8q4cpJ27YS45ENj9eOeGQvviYaeo+VrqLlI8Gr9chTZ9Aa13q17re9qGk/8aCwmybcAW2gK2IYNM5W4exzY9aCdF+5Sd8Xs6J58VtB9mcxEVyGt67Bb7LO7EqF0bwYKtSI=
+	t=1714546047; cv=none; b=kab96/ljRurGzX4VfoSz9qsawtLofbSCIsafwb97QLV0P68AG77kOe63F3k0oTQD8Gan+cZmBbz3Olmb97YEsJF3+Z9IPBdrEb5Rm3ZnKBkEgDvRmqALkfG61V2Nkt4TPs6UbKJGZm3NZPIMb8vS5/6iHauWIz8oW+/AkUpsdZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714532071; c=relaxed/simple;
-	bh=aZB7vIbD/rzjyBEQhIjJP1qAh6CuOgetQmb4pP6HIhA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b3yihnR28bikRxe7ppGSFrgRTSC61q1G8iQAyE2cw6CN3nt3K/lLW7TB40XlVsEb4nj0xY1XNDHmC4wsN1sdUn2CE3cajzbjfHLutbyQ2ai+f85qk/ICFmjpA9Xs/g6F1ZbbWSCJsAJ86lsPiurFo/ch7qBDXPhnTC9dPpz9azw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=doiQKAE8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714546047; c=relaxed/simple;
+	bh=8eu5jBhcF+JTwF9edxhk6fR88p2fSd3KVnVvEBD8Mfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gC11z0wXmy/R0pj3aSAaY98WhXnXZHiz2IPUSl2K38XQbuSUBIBx6cQaOAcNbw7FiWjOs4CmY9zyLJMQXMMMuCU51WncFKy/owcju6yg0BeS4q7awNUrNFHNvfWWaiE4lRJSlRFlPnebiEw91qGOnBVyfF0nq+/0Fo5TRzSSflM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=q1JRASe7; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="doiQKAE8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB56DC2BBFC;
-	Wed,  1 May 2024 02:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714532071;
-	bh=aZB7vIbD/rzjyBEQhIjJP1qAh6CuOgetQmb4pP6HIhA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=doiQKAE82Z1BrDtH7nTKQDrj1rwqi6Rz+8calI8ctuJJHiVGBEzU4c3vB8v4DLxER
-	 o+KCpBR6zP7xVzdV4xpxYiwtZnGf7H3czXq/G3/pBF9S3hnhHbiEwQ5QF6LqDLXes4
-	 WhuZ3v1MIsARXOZSINxXCTZ+AWK2xPlRhHiA5JerNCWXDcBFWpyVvyGNs+lezIABo8
-	 NhyugS9py4k0IPNz48dYvpGi5vACgt5i0s7I2h7mCvxLfuRN21coZK/KfkT8hAr11m
-	 fxGWsHFM/fUsiMornC8OtnjpIf4NCH1AMzRQTJkJT87goSjDxPxLtCzN/iT6C8lHEj
-	 u68+MddVDZ8sQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: fsverity@lists.linux.dev
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Joel Granados <j.granados@samsung.com>,
-	stable@vger.kernel.org,
-	Yi Zhang <yi.zhang@redhat.com>
-Subject: [PATCH] fsverity: use register_sysctl_init() to avoid kmemleak warning
-Date: Tue, 30 Apr 2024 19:53:31 -0700
-Message-ID: <20240501025331.594183-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <CAHj4cs8oYFcN6ptCdLjc3vLWRgNHiS8X06OVj_HLbX-wPoT_Mg@mail.gmail.com>
-References: <CAHj4cs8oYFcN6ptCdLjc3vLWRgNHiS8X06OVj_HLbX-wPoT_Mg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q1JRASe7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=n70Vzf/KupcSs33nA2VNBogORzGpGkXecImO/4Ac2Jc=; b=q1JRASe7P7SWO32+rpLaoFEdTe
+	a78xpX4H80ozq7RKAex9ATg+sNyXxoKnv/IZ7fI6P47TFDkXkOxAmpZD3k+No4z25TkxXPuAsjaHZ
+	5tjuokzG1g0pbX5+xSWfKBKL0xNog/4AjX+/QPxtKJxRvfx1bf8X37Lrs7NBF04LE6y23urG57fma
+	ps2hB4Ylt9gb92dIMnjDCaKxtlVi0NQCzPZzOS7vUHq4lgd5pZxMhB0JvpFsz7Y+XdujyaHlLK4Mi
+	P15EEcV+mzvFeDRhJ/IhgDCiIo9bcZPetHHFBWbHav78dU39TwwOC89Ji3rq5rLYP0KjOEwDbQR9r
+	qfnXNmlQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s23kR-00000008hZJ-3VN6;
+	Wed, 01 May 2024 06:47:23 +0000
+Date: Tue, 30 Apr 2024 23:47:23 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: aalbersh@redhat.com, ebiggers@kernel.org, linux-xfs@vger.kernel.org,
+	alexl@redhat.com, walters@verbum.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 19/26] xfs: don't bother storing merkle tree blocks for
+ zeroed data blocks
+Message-ID: <ZjHle-WDezhehB6a@infradead.org>
+References: <171444680291.957659.15782417454902691461.stgit@frogsfrogsfrogs>
+ <171444680689.957659.7685497436750551477.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <171444680689.957659.7685497436750551477.stgit@frogsfrogsfrogs>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-From: Eric Biggers <ebiggers@google.com>
+On Mon, Apr 29, 2024 at 08:29:03PM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Now that fsverity tells our merkle tree io functions about what a hash
+> of a data block full of zeroes looks like, we can use this information
+> to avoid writing out merkle tree blocks for sparse regions of the file.
+> For verified gold master images this can save quite a bit of overhead.
 
-Since the fsverity sysctl registration runs as a builtin initcall, there
-is no corresponding sysctl deregistration and the resulting struct
-ctl_table_header is not used.  This can cause a kmemleak warning just
-after the system boots up.  (A pointer to the ctl_table_header is stored
-in the fsverity_sysctl_header static variable, which kmemleak should
-detect; however, the compiler can optimize out that variable.)  Avoid
-the kmemleak warning by using register_sysctl_init() which is intended
-for use by builtin initcalls and uses kmemleak_not_leak().
-
-Reported-by: Yi Zhang <yi.zhang@redhat.com>
-Closes: https://lore.kernel.org/r/CAHj4cs8DTSvR698UE040rs_pX1k-WVe7aR6N2OoXXuhXJPDC-w@mail.gmail.com
-Cc: stable@vger.kernel.org
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- fs/verity/init.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/fs/verity/init.c b/fs/verity/init.c
-index cb2c9aac61ed..f440f0e61e3e 100644
---- a/fs/verity/init.c
-+++ b/fs/verity/init.c
-@@ -8,12 +8,10 @@
- #include "fsverity_private.h"
- 
- #include <linux/ratelimit.h>
- 
- #ifdef CONFIG_SYSCTL
--static struct ctl_table_header *fsverity_sysctl_header;
--
- static struct ctl_table fsverity_sysctl_table[] = {
- #ifdef CONFIG_FS_VERITY_BUILTIN_SIGNATURES
- 	{
- 		.procname       = "require_signatures",
- 		.data           = &fsverity_require_signatures,
-@@ -26,14 +24,11 @@ static struct ctl_table fsverity_sysctl_table[] = {
- #endif
- };
- 
- static void __init fsverity_init_sysctl(void)
- {
--	fsverity_sysctl_header = register_sysctl("fs/verity",
--						 fsverity_sysctl_table);
--	if (!fsverity_sysctl_header)
--		panic("fsverity sysctl registration failed");
-+	register_sysctl_init("fs/verity", fsverity_sysctl_table);
- }
- #else /* CONFIG_SYSCTL */
- static inline void fsverity_init_sysctl(void)
- {
- }
-
-base-commit: 18daea77cca626f590fb140fc11e3a43c5d41354
--- 
-2.45.0
+Is this something that fsverity should be doing in a generic way?
+It feels odd to have XFS behave different from everyone else here,
+even if this does feel useful.  Do we also need any hash validation
+that no one tampered with the metadata and added a new extent, or
+is this out of scope for fsverity?
 
