@@ -1,208 +1,133 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A97C15358F
-	for <fsverity@lists.linux.dev>; Fri,  3 May 2024 14:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE1D15098B;
+	Fri,  3 May 2024 15:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714744868; cv=none; b=gZzlex5a622o1FdV0pHPlsmCKBLC9nF94x+7yQ4ky1z/xlrDqVPo5XHol8cirBuEMXOHi9EksXHZTIhbtGbaTMlRWGBY9CI9sNRpgah3rK9QDFkdQDfsKXWvNiQhJh5tFz1f5Jn2Krori3FBe9RvJBYPQz72EuGFI6enVS66VKQ=
+	t=1714750093; cv=none; b=YG2B/gIXCF0Bzim5WD7mGq6k02NKebG11eo3wQCONHEYUjT8Ik6LOI75FFmBQBIiqBJltJYWa/ibByfbwdDbM1EdYpijqwkeBykOJvN2KAU/nxMAcXzpnLf4XzAV1zdO85Lpc4zPEeb+TiD6vSQfNt5VXfe9+WjjT7ev3bJJX+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714744868; c=relaxed/simple;
-	bh=cEds2RNHF+78DsX31Rp6U7I80yesw39snmJ/2R9Kkvg=;
-	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:References; b=dw6nG4eELXVLI4y20/yi3m84J6XYlmNF6Ne8BldIIuq4skcsk88ikO3q6kBYVqs79EbIG7kroxaXK6CVOskVchPPLlKWykKKeAkWCYpZ8zdzFe1/YzZQ499XJKdQPgKfQuN2sD8mIZJQf1/mBkQP9ZIvMDe9hTeRGAOQ3Q2D36g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=KA9FeJbd; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1714750093; c=relaxed/simple;
+	bh=q0yiVpvWbaHYUHI4s8f9mDHN0TBYmnMwy6gyVKrWQHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QHXliftIj3QLZka1+Bv1KJhdgaUwCTzsZu7GTwOtQYpYl1+W9q0pzGwhF54mibj3xDBiSFnt6W+7bj6ssFxXv3Y1I60pdJbn9OtZYOpX2l74tyhh3iU/pLkWMKAW1FqqMrIY5RI1hCwuxzPSfIyotS/bhu9DMyhejAJzj6ybWCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SUXfXXta; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="KA9FeJbd"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20240503140100euoutp014754e7c4dbc602fb5df861c6e7166a39~L-114vn0y0337103371euoutp01P;
-	Fri,  3 May 2024 14:01:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20240503140100euoutp014754e7c4dbc602fb5df861c6e7166a39~L-114vn0y0337103371euoutp01P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1714744860;
-	bh=MUw3hvCtLQkYtH2pE/YL4VgyK4mNgvrkIb+rbR6GF1E=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=KA9FeJbdDsx4BtiL2qh47vEZPZ/TrSu0AGk0HWLWqdbKO/siivy7LV88VLzzN5vNT
-	 nn+WnnhJBrq3CyHHXSZe3E6BTiqo11pMNwcoAghMtLcabHbIk0ysx4TFPO9sOTlKYn
-	 DgJhsLwe/LRFrHNEyfYUP+U9V9jbH3Lasbem0gCo=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20240503140059eucas1p100b2e1b2cb8ad1728ae5c8a4577ccd5e~L-11v-M_S1656716567eucas1p1R;
-	Fri,  3 May 2024 14:00:59 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 7F.15.09620.B1EE4366; Fri,  3
-	May 2024 15:00:59 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240503140059eucas1p1d16ab98f20873bda3a71a448e40a9d55~L-11UXMRh2087720877eucas1p1s;
-	Fri,  3 May 2024 14:00:59 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240503140059eusmtrp27e9f5ec727f9f0913a91d5a0e79ac4f1~L-11TxJf-1501715017eusmtrp2I;
-	Fri,  3 May 2024 14:00:59 +0000 (GMT)
-X-AuditID: cbfec7f5-d31ff70000002594-c4-6634ee1b67b1
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms1.samsung.com (EUCPMTA) with SMTP id BF.93.08810.B1EE4366; Fri,  3
-	May 2024 15:00:59 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240503140059eusmtip181b64bc2e61535bbab842d3024cb1774~L-11A5Zq71504015040eusmtip1y;
-	Fri,  3 May 2024 14:00:59 +0000 (GMT)
-Received: from localhost (106.210.248.112) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Fri, 3 May 2024 15:00:58 +0100
-Date: Fri, 3 May 2024 16:00:54 +0200
-From: Joel Granados <j.granados@samsung.com>
-To: Eric Biggers <ebiggers@kernel.org>
-CC: <fsverity@lists.linux.dev>, Luis Chamberlain <mcgrof@kernel.org>,
-	<stable@vger.kernel.org>, Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: [PATCH] fsverity: use register_sysctl_init() to avoid kmemleak
- warning
-Message-ID: <20240503140054.qlyfjvdbllvhzs2t@joelS2.panther.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SUXfXXta"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E94C116B1;
+	Fri,  3 May 2024 15:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714750092;
+	bh=q0yiVpvWbaHYUHI4s8f9mDHN0TBYmnMwy6gyVKrWQHM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SUXfXXta0N0s3L31U6+7fOVQ0HTg1BGsHqM1QX8Lp7zLhOoZpfwWQilSnF52YEO5q
+	 Ff3TNu7tf/KuuLuZFkUDMjgnL7Fp6oagvqxksH/H9UM9BnBKkV2israkeoKH93ICua
+	 cd8G1PsdzVMKONo73NAXIhuNPNOSdb0mZN8IJYXzoYlkhSbMS6vKmG7p1rr5syJC4r
+	 kLdzv/lgPSCoxYwKI3ruya87MP4pCRhQ6zudYYpxqN6Aum7+yKokDc4OL3HxoLwxjv
+	 24bADwTRfL+SYm/dCYYTxMbYoXwv2BZKYtujlcYiOvpY8sYSCbNyNAvyI++WghXNIt
+	 pjpU1nYEPSvJA==
+Date: Fri, 3 May 2024 08:28:10 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org, ardb@kernel.org,
+	samitolvanen@google.com, bvanassche@acm.org
+Subject: Re: [PATCH v2 1/8] crypto: shash - add support for finup2x
+Message-ID: <20240503152810.GA1132@sol.localdomain>
+References: <20240422203544.195390-2-ebiggers@kernel.org>
+ <ZjS5-Im1wWGawfUy@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="4bc3sbrjbqeupkd7"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240501025331.594183-1-ebiggers@kernel.org>
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPKsWRmVeSWpSXmKPExsWy7djPc7rS70zSDE52Glis3fOH2aLz0X82
-	ixsTnjJaLNj4iNHi+rlpbA6sHptWdbJ5vNg8k9Hj/b6rbB6fN8kFsERx2aSk5mSWpRbp2yVw
-	ZZyfp1fwSaLiY0cLawPjatEuRk4OCQETiTUnFrJ1MXJxCAmsYJSYO/EJlPOFUWL6ov+MEM5n
-	RolFh1+wwrRc+XSVGSKxnFGi9WwLQtWeSe+gMlsYJQ53zWAHaWERUJGYvP8gI4jNJqAjcf7N
-	HaAiDg4RATWJY0v9QeqZBRoYJb5O3QtWIywQKrFvfyfYOl4BB4lDH2+zQdiCEidnPmEBsZkF
-	KiSWTz/ECjKHWUBaYvk/DpAwp4CVxKQHvewQlypLHNk+F8qulTi15RYTyC4JgWZOiasv77FA
-	JFwk1hxtYoKwhSVeHd8C1SAj8X/nfKiGyYwS+/99YIdwVjNKLGv8CtVhLdFy5QlUh6PE7b/f
-	wT6TEOCTuPFWEOJQPolJ26ZDhXklOtqEIKrVJFbfe8MygVF5FpLXZiF5bRbCaxBhHYkFuz+x
-	YQhrSyxb+JoZwraVWLfuPcsCRvZVjOKppcW56anFxnmp5XrFibnFpXnpesn5uZsYgenq9L/j
-	X3cwrnj1Ue8QIxMH4yFGFaDmRxtWX2CUYsnLz0tVEuHVnmycJsSbklhZlVqUH19UmpNafIhR
-	moNFSZxXNUU+VUggPbEkNTs1tSC1CCbLxMEp1cC0OLN5dkv2OtM/QVyqZR+O7qlYY+bDPq9R
-	aEmPzQzPjV/cr3yTN7mf0Sx/7vylywEfvjhq6+lX7qz6y3PLaMc1i7+nTtdn3C8X+9D1cM6l
-	vq/m/ZUJhu/mSdk98DlTWqX7TjEtyyzdJbzl7O1/b+b/eGDo9nVHsW3Hu5zKK2bB6W+3Rbq3
-	rjfLmyU+64/dxoyoKZFLOs2Opr903ynaUXSSw/QLZ/zhbenXd57TmdB+TDK91r0x1r3uUY3I
-	lHt79x2PWjLzVtLBqlw3xcKjx05PKBDbqNE6Manba1tvZukuX68N0z/39n6a08IS3Ca5IfLd
-	/4wz7+fItjrPNK/bN8H7UWXVuS91nTkOLNPzNXcqsRRnJBpqMRcVJwIAEYTTuNIDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDIsWRmVeSWpSXmKPExsVy+t/xu7rS70zSDDbuErFYu+cPs0Xno/9s
-	FjcmPGW0WLDxEaPF9XPT2BxYPTat6mTzeLF5JqPH+31X2Tw+b5ILYInSsynKLy1JVcjILy6x
-	VYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy7iw/ClzwQeJimftR5gbGFeK
-	djFyckgImEhc+XSVuYuRi0NIYCmjxLN3rWwQCRmJjV+uskLYwhJ/rnWxQRR9ZJS42DmREcLZ
-	wihx58kWRpAqFgEVicn7D4LZbAI6Euff3AEay8EhIqAmcWypP0g9s0ADo8TXqXvBaoQFQiX2
-	7e8E28Ar4CBx6ONtqA1XGCV2/epjhEgISpyc+YQFxGYWKJPYv7uJHWQos4C0xPJ/HCBhTgEr
-	iUkPetkhLlWWOLJ9LpRdK/H57zPGCYzCs5BMmoVk0iyESRBhLYkb/14yYQhrSyxb+JoZwraV
-	WLfuPcsCRvZVjCKppcW56bnFhnrFibnFpXnpesn5uZsYgVG77djPzTsY5736qHeIkYmD8RCj
-	ClDnow2rLzBKseTl56UqifBqTzZOE+JNSaysSi3Kjy8qzUktPsRoCgzFicxSosn5wHSSVxJv
-	aGZgamhiZmlgamlmrCTO61nQkSgkkJ5YkpqdmlqQWgTTx8TBKdXAZJIz4fZOjxNLHa1q503v
-	ObNX9ImVkfLKFz+vFR/WOqxd/9qUy7x5ZnPJs8bsVc5xqww6n/97FLNXIG/a+y0vHs3MXxh1
-	R9uAt+e+ZfDz71dXPd12osSArbPs2U5TYZnwML7pb+w/NqSuDgqq2nTORuLuQ1Xdhklpdtt3
-	K7qt7d20a43yMxfNlWG/n3Q+jDup0tO3VDFHbkNF7uTK40uk/d483G1wtlGP0aiosDHkvUrQ
-	7RdbPx8Q3VG3J6atsuzpPtYCxQte53YAPdsdU2m/46MTu9/7Clu3/30/T7y2tXVmXbz69iax
-	TLsPX4os3/xtMTVn0DzKHHhM5uvLJdxycntiA3cv62/ty5y9a2KxEktxRqKhFnNRcSIAl0mt
-	QW8DAAA=
-X-CMS-MailID: 20240503140059eucas1p1d16ab98f20873bda3a71a448e40a9d55
-X-Msg-Generator: CA
-X-RootMTR: 20240501025435eucas1p2f74b16c622aacba09d8913422905d419
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20240501025435eucas1p2f74b16c622aacba09d8913422905d419
-References: <CAHj4cs8oYFcN6ptCdLjc3vLWRgNHiS8X06OVj_HLbX-wPoT_Mg@mail.gmail.com>
-	<CGME20240501025435eucas1p2f74b16c622aacba09d8913422905d419@eucas1p2.samsung.com>
-	<20240501025331.594183-1-ebiggers@kernel.org>
+In-Reply-To: <ZjS5-Im1wWGawfUy@gondor.apana.org.au>
 
---4bc3sbrjbqeupkd7
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, May 03, 2024 at 06:18:32PM +0800, Herbert Xu wrote:
+> Eric Biggers <ebiggers@kernel.org> wrote:
+> >
+> > For now the API only supports 2-way interleaving, as the usefulness and
+> > practicality seems to drop off dramatically after 2.  The arm64 CPUs I
+> > tested don't support more than 2 concurrent SHA-256 hashes.  On x86_64,
+> > AMD's Zen 4 can do 4 concurrent SHA-256 hashes (at least based on a
+> > microbenchmark of the sha256rnds2 instruction), and it's been reported
+> > that the highest SHA-256 throughput on Intel processors comes from using
+> > AVX512 to compute 16 hashes in parallel.  However, higher interleaving
+> > factors would involve tradeoffs such as no longer being able to cache
+> > the round constants in registers, further increasing the code size (both
+> > source and binary), further increasing the amount of state that users
+> > need to keep track of, and causing there to be more "leftover" hashes.
+> 
+> I think the lack of extensibility is the biggest problem with this
+> API.  Now I confess I too have used the magic number 2 in the
+> lskcipher patch-set, but there I think at least it was more
+> justifiable based on the set of algorithms we currently support.
+> 
+> Here I think the evidence for limiting this to 2 is weak.  And the
+> amount of work to extend this beyond 2 would mean ripping this API
+> out again.
+> 
+> So let's get this right from the start.  Rather than shoehorning
+> this into shash, how about we add this to ahash instead where an
+> async return is a natural part of the API?
+> 
+> In fact, if we do it there we don't need to make any major changes
+> to the API.  You could simply add an optional flag that to the
+> request flags to indicate that more requests will be forthcoming
+> immediately.
+> 
+> The algorithm could then either delay the current request if it
+> is supported, or process it immediately as is the case now.
+> 
 
-On Tue, Apr 30, 2024 at 07:53:31PM -0700, Eric Biggers wrote:
-> From: Eric Biggers <ebiggers@google.com>
->=20
-> Since the fsverity sysctl registration runs as a builtin initcall, there
-> is no corresponding sysctl deregistration and the resulting struct
-> ctl_table_header is not used.  This can cause a kmemleak warning just
-> after the system boots up.  (A pointer to the ctl_table_header is stored
-> in the fsverity_sysctl_header static variable, which kmemleak should
-> detect; however, the compiler can optimize out that variable.)  Avoid
-> the kmemleak warning by using register_sysctl_init() which is intended
-> for use by builtin initcalls and uses kmemleak_not_leak().
->=20
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Closes: https://lore.kernel.org/r/CAHj4cs8DTSvR698UE040rs_pX1k-WVe7aR6N2O=
-oXXuhXJPDC-w@mail.gmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> ---
->  fs/verity/init.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
->=20
-> diff --git a/fs/verity/init.c b/fs/verity/init.c
-> index cb2c9aac61ed..f440f0e61e3e 100644
-> --- a/fs/verity/init.c
-> +++ b/fs/verity/init.c
-> @@ -8,12 +8,10 @@
->  #include "fsverity_private.h"
-> =20
->  #include <linux/ratelimit.h>
-> =20
->  #ifdef CONFIG_SYSCTL
-> -static struct ctl_table_header *fsverity_sysctl_header;
-> -
->  static struct ctl_table fsverity_sysctl_table[] =3D {
->  #ifdef CONFIG_FS_VERITY_BUILTIN_SIGNATURES
->  	{
->  		.procname       =3D "require_signatures",
->  		.data           =3D &fsverity_require_signatures,
-> @@ -26,14 +24,11 @@ static struct ctl_table fsverity_sysctl_table[] =3D {
->  #endif
->  };
-> =20
->  static void __init fsverity_init_sysctl(void)
->  {
-> -	fsverity_sysctl_header =3D register_sysctl("fs/verity",
-> -						 fsverity_sysctl_table);
-> -	if (!fsverity_sysctl_header)
-> -		panic("fsverity sysctl registration failed");
-> +	register_sysctl_init("fs/verity", fsverity_sysctl_table);
->  }
->  #else /* CONFIG_SYSCTL */
->  static inline void fsverity_init_sysctl(void)
->  {
->  }
->=20
-> base-commit: 18daea77cca626f590fb140fc11e3a43c5d41354
-> --=20
-> 2.45.0
->=20
-LGTM
+The kernel already had ahash-based multibuffer hashing years ago.  It failed
+spectacularly, as it was extremely complex, buggy, slow, and potentially
+insecure as it mixed requests from different contexts.  Sure, it could have been
+improved slightly by adding flush support, but most issues would have remained.
 
-Reviewed-by: Joel Granados <j.granados@samsung.com>
+Synchronous hashing really is the right model here.  One of the main performance
+issues we are having with dm-verity and fs-verity is the scheduling hops
+associated with the workqueues on which the dm-verity and fs-verity work runs.
+If there was another scheduling hop from the worker task to another task to do
+the actual hashing, that would be even worse and would defeat the point of doing
+multibuffer hashing.  And with the ahash based API this would be difficult to
+avoid, as when an individual request gets submitted and put on a queue somewhere
+it would lose the information about the original submitter, so when it finally
+gets hashed it might be by another task (which the original task would then have
+to wait for).  I guess the submitter could provide some sort of tag that makes
+the request be put on a dedicated queue that would eventually get processed only
+by the same task (which might also be needed for security reasons anyway, due to
+all the CPU side channels), but that would add lots of complexity to add tag
+support to the API and support an arbitrary number of queues.
 
---=20
+And then there's the issue of request lengths.  With one at a time submission
+via 'ahash_request', each request would have its own length.  Having to support
+multibuffer hashing of different length requests would add a massive amount of
+complexity and edge cases that are difficult to get correct, as was shown by the
+old ahash based code.  This suggests that either the API needs to enforce that
+all the lengths are the same, or it needs to provide a clean API (my patch)
+where the caller just provides a single length that applies to all messages.
 
-Joel Granados
+So the synchronous API really seems like the right approach, whereas shoehorning
+it into the asynchronous hash API would result in something much more complex
+and not actually useful for the intended use cases.
 
---4bc3sbrjbqeupkd7
-Content-Type: application/pgp-signature; name="signature.asc"
+If you're concerned about the hardcoding to 2x specifically, how about the
+following API instead:
 
------BEGIN PGP SIGNATURE-----
+    int crypto_shash_finup_mb(struct shash_desc *desc,
+                              const u8 *datas[], unsigned int len,
+                              u8 *outs[], int num_msgs)
 
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmY07hUACgkQupfNUreW
-QU++eQv/cF4BTI8zzkeQRsDMrZ3sozONUGT1nRV81NRIv8vF9V2RGYGmeXg1Y7j7
-8oNDb0FgU3PG8xio+jaX/B1Yqerxl471WjM6EdYfRZ2mQz76TVuwlGcNbxA2PM3K
-Ue59dPv3p1Uo+jfKtTimaZyCcAQmbVJj4WKavK3d1QmiAIqyCjAy5doE/23S1j+e
-GJu72sbszmJIUuaAwl/lWeSrA0q54F9mHUk1UynbPd6+5ZaiIWcYw258C9DF2AF3
-yU3RHsn7poVdS9n4xjS4P6dlMZgaFgqnZzOCV5xlKosU20YulEi3eLZLXnnlrNFw
-8btj6xhHHP2352f/txS/VM2WKhuSgdFIbA2NgJslQfd4qCP3tgvXHjkagF3Wx5Mm
-tjDL2PmCa5wNw13eqmdEUmdIrdngPMmiAtl88abHEffipBx+ibaKjApMTgcEjeqZ
-pN+8Hs++Gu6LjLhWnsao0138JdGsFWFTMMP9OJChTBxHiSGWyBAxeADwlCUPQeOR
-cKzoCuQS
-=2xwg
------END PGP SIGNATURE-----
+This would allow extension to higher interleaving factors.
 
---4bc3sbrjbqeupkd7--
+I do suspect that anything higher than 2x isn't going to be very practical for
+in-kernel use cases, where code size, latency, and per-request memory usage tend
+to be very important.  Regardless, this would make the API able to support
+higher interleaving factors.
+
+- Eric
