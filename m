@@ -1,69 +1,300 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B614F898;
-	Fri,  3 May 2024 15:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 592F5824AC;
+	Fri,  3 May 2024 22:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714750227; cv=none; b=GD2hqRN5cu6U0bt9P1C/ZqaQU37uE02lixgaEciu2mKNsFBJPQdmQsPTJksMj5Pjt5iOkemR6OSfm0oq1Vb04QxPLdL1SrJLDLQK1xYnQhww9oEPyuyujeSzMwReytWcbVKMunGmhkY6AvTAYYgk1/34YPOiPhzMIFRMB9KEcTE=
+	t=1714775555; cv=none; b=qizp3uJF87ORJnThU4pywLBASyXxzNH4auN3/i8H4vFXFvbosNlg9HsVNoeHpQ1JClwkFp1XqRMR7Rk1y//Vw53BOiY4iQMCloDKsTDXBC0BDj7B6y2D/+8qVf16KDQb+ZeE410R6F+OtlOgiad1cxVoESHlA7F8e9DYdb0C3k4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714750227; c=relaxed/simple;
-	bh=q5aFn3JJf8NzHICKfVTl+yVymYMpwR4aItacC58XDwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6hHWKtRRDjcInK12/oyIwnepEYpyoKGaaV+sZf131GjwVI6GSd9EzaAQ6HMlDt5RWfAZwKo/pgAKWDT1zpxNLh7og60AV8Bh2tGDMiMr1lZzv17hI6J1KGG8xMPZvVDesPEhosLRm2qXIZGVFqBMInIgxCGZTZRnB/qxNGgAc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eCn5q9u6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714775555; c=relaxed/simple;
+	bh=0v1Zo4qQhCF7cuYTLut+HMo3yAsxmP/yI/WQ69PCOmE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=B1icsOCDxOLGWqLJhW2JZauKGt1oKhGmYvTCabtPVCckIuJWvIckWnsPoq62zDPkzjy/dNfdS3jLgZPpVDZxSPH0TmAK0K0hWQNdEV9uR/wG26NZ6EhncyfIY5SszKXFju0AnLi8sT9gVDmUCmPT8aePO78NT2g8RZ+rUDZiWpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=q2o+8Itj; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eCn5q9u6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A0BC116B1;
-	Fri,  3 May 2024 15:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714750225;
-	bh=q5aFn3JJf8NzHICKfVTl+yVymYMpwR4aItacC58XDwY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eCn5q9u6TmSuof6YDzAzekkGIyJ4/mkdBHclyN/0MGSTFcZ5zRvhAAccuWI6jon6r
-	 HMF4ZZZppqSNqggr005YEQ4ubWpvAtZXZr/H1zBjHUxfU4zJTo+ezoEPe9rdN0IOlQ
-	 bYvUoV7RE24ZWxCUQXhnvNyicW9Ksc3PDpkGDAsTLVsqtL1gt1/KE6Apc16jZI4znE
-	 CO9qxEQaBM08MFb164bLV3B1xOsy6WfA2Y2jFkEcKKEWrdaTiRhGiNWvz8ntambzC+
-	 u2jbx/xxdGXJ9WdDFLT6cV70mt2/tv2y8GqSmMgQRqfxA3VoG8uc7vrUCpNN47Ckmb
-	 SrnIDZDVhchkw==
-Date: Fri, 3 May 2024 08:30:23 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: fsverity@lists.linux.dev
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Joel Granados <j.granados@samsung.com>, stable@vger.kernel.org,
-	Yi Zhang <yi.zhang@redhat.com>
-Subject: Re: [PATCH] fsverity: use register_sysctl_init() to avoid kmemleak
- warning
-Message-ID: <20240503153023.GB1132@sol.localdomain>
-References: <CAHj4cs8oYFcN6ptCdLjc3vLWRgNHiS8X06OVj_HLbX-wPoT_Mg@mail.gmail.com>
- <20240501025331.594183-1-ebiggers@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="q2o+8Itj"
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+	id E34DB20B2C86; Fri,  3 May 2024 15:32:32 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E34DB20B2C86
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1714775552;
+	bh=tyU1fdZY/WjFMXTyscqC7UlqchwkgkYLBYHiiOkh8ng=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=q2o+8Itjt3Iw4RNaLXn124tIpN4Jn8ECRCP67LWRLozL6m9fn6+00bOWvbmPsIFlM
+	 Nd5i/458FGhk2lF9zwIlOCJDjv0hZzbVb/uOJAF4UlkzYgOhVo5wte3FvfiVi98PGT
+	 gmwSzVVKs5xs92mzLt/VaikyM+6gxhvte2JPCq2A=
+From: Fan Wu <wufan@linux.microsoft.com>
+To: corbet@lwn.net,
+	zohar@linux.ibm.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	tytso@mit.edu,
+	ebiggers@kernel.org,
+	axboe@kernel.dk,
+	agk@redhat.com,
+	snitzer@kernel.org,
+	eparis@redhat.com,
+	paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	audit@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>,
+	Fan Wu <wufan@linux.microsoft.com>
+Subject: [PATCH v18 03/21] ipe: add evaluation loop
+Date: Fri,  3 May 2024 15:32:13 -0700
+Message-Id: <1714775551-22384-4-git-send-email-wufan@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240501025331.594183-1-ebiggers@kernel.org>
 
-On Tue, Apr 30, 2024 at 07:53:31PM -0700, Eric Biggers wrote:
-> From: Eric Biggers <ebiggers@google.com>
-> 
-> Since the fsverity sysctl registration runs as a builtin initcall, there
-> is no corresponding sysctl deregistration and the resulting struct
-> ctl_table_header is not used.  This can cause a kmemleak warning just
-> after the system boots up.  (A pointer to the ctl_table_header is stored
-> in the fsverity_sysctl_header static variable, which kmemleak should
-> detect; however, the compiler can optimize out that variable.)  Avoid
-> the kmemleak warning by using register_sysctl_init() which is intended
-> for use by builtin initcalls and uses kmemleak_not_leak().
-> 
-> Reported-by: Yi Zhang <yi.zhang@redhat.com>
-> Closes: https://lore.kernel.org/r/CAHj4cs8DTSvR698UE040rs_pX1k-WVe7aR6N2OoXXuhXJPDC-w@mail.gmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
+From: Deven Bowers <deven.desai@linux.microsoft.com>
 
-Applied to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
+Introduce a core evaluation function in IPE that will be triggered by
+various security hooks (e.g., mmap, bprm_check, kexec). This function
+systematically assesses actions against the defined IPE policy, by
+iterating over rules specific to the action being taken. This critical
+addition enables IPE to enforce its security policies effectively,
+ensuring that actions intercepted by these hooks are scrutinized for policy
+compliance before they are allowed to proceed.
 
-- Eric
+Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+
+---
+v2:
++ Split evaluation loop, access control hooks, and evaluation loop from policy parser and userspace interface to pass mailing list character limit
+
+v3:
++ Move ipe_load_properties to patch 04.
++ Remove useless 0-initializations Prefix extern variables with ipe_
++ Remove kernel module parameters, as these are exposed through sysctls.
++ Add more prose to the IPE base config option help text.
++ Use GFP_KERNEL for audit_log_start.
++ Remove unnecessary caching system.
++ Remove comments from headers
++ Use rcu_access_pointer for rcu-pointer null check
++ Remove usage of reqprot; use prot only.
++Move policy load and activation audit event to 03/12
+
+v4:
++ Remove sysctls in favor of securityfs nodes
++ Re-add kernel module parameters, as these are now exposed through securityfs.
++ Refactor property audit loop to a separate function.
+
+v5:
++ fix minor grammatical errors
++ do not group rule by curly-brace in audit record,
++ reconstruct the exact rule.
+
+v6:
++ No changes
+
+v7:
++ Further split lsm creation into a separate commit from the evaluation loop and audit system, for easier review.
++ Propagating changes to support the new ipe_context structure in the evaluation loop.
+
+v8:
++ Remove ipe_hook enumeration; hooks can be correlated via syscall record.
+
+v9:
++ Remove ipe_context related code and simplify the evaluation loop.
+
+v10:
++ Split eval part and boot_verified part
+
+v11:
++ Fix code style issues
+
+v12:
++ Correct an rcu_read_unlock usage
++ Add a WARN to unknown op during evaluation
+
+v13:
++ No changes
+
+v14:
++ No changes
+
+v15:
++ No changes
+
+v16:
++ No changes
+
+v17:
++ Add years to license header
++ Fix code and documentation style issues
+
+v18:
++ No changes
+---
+ security/ipe/Makefile |   1 +
+ security/ipe/eval.c   | 102 ++++++++++++++++++++++++++++++++++++++++++
+ security/ipe/eval.h   |  24 ++++++++++
+ 3 files changed, 127 insertions(+)
+ create mode 100644 security/ipe/eval.c
+ create mode 100644 security/ipe/eval.h
+
+diff --git a/security/ipe/Makefile b/security/ipe/Makefile
+index 3093de1afd3e..4cc17eb92060 100644
+--- a/security/ipe/Makefile
++++ b/security/ipe/Makefile
+@@ -6,6 +6,7 @@
+ #
+ 
+ obj-$(CONFIG_SECURITY_IPE) += \
++	eval.o \
+ 	ipe.o \
+ 	policy.o \
+ 	policy_parser.o \
+diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+new file mode 100644
+index 000000000000..41331afdef7c
+--- /dev/null
++++ b/security/ipe/eval.c
+@@ -0,0 +1,102 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2020-2024 Microsoft Corporation. All rights reserved.
++ */
++
++#include <linux/fs.h>
++#include <linux/types.h>
++#include <linux/slab.h>
++#include <linux/file.h>
++#include <linux/sched.h>
++#include <linux/rcupdate.h>
++
++#include "ipe.h"
++#include "eval.h"
++#include "policy.h"
++
++struct ipe_policy __rcu *ipe_active_policy;
++
++/**
++ * evaluate_property() - Analyze @ctx against a rule property.
++ * @ctx: Supplies a pointer to the context to be evaluated.
++ * @p: Supplies a pointer to the property to be evaluated.
++ *
++ * This is a placeholder. The actual function will be introduced in the
++ * latter commits.
++ *
++ * Return:
++ * * %true	- The current @ctx match the @p
++ * * %false	- The current @ctx doesn't match the @p
++ */
++static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
++			      struct ipe_prop *p)
++{
++	return false;
++}
++
++/**
++ * ipe_evaluate_event() - Analyze @ctx against the current active policy.
++ * @ctx: Supplies a pointer to the context to be evaluated.
++ *
++ * This is the loop where all policy evaluation happens against IPE policy.
++ *
++ * Return:
++ * * %0		- Success
++ * * %-EACCES	- @ctx did not pass evaluation
++ */
++int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
++{
++	const struct ipe_op_table *rules = NULL;
++	const struct ipe_rule *rule = NULL;
++	struct ipe_policy *pol = NULL;
++	struct ipe_prop *prop = NULL;
++	enum ipe_action_type action;
++	bool match = false;
++
++	rcu_read_lock();
++
++	pol = rcu_dereference(ipe_active_policy);
++	if (!pol) {
++		rcu_read_unlock();
++		return 0;
++	}
++
++	if (ctx->op == IPE_OP_INVALID) {
++		if (pol->parsed->global_default_action == IPE_ACTION_DENY) {
++			rcu_read_unlock();
++			return -EACCES;
++		}
++		if (pol->parsed->global_default_action == IPE_ACTION_INVALID)
++			WARN(1, "no default rule set for unknown op, ALLOW it");
++		rcu_read_unlock();
++		return 0;
++	}
++
++	rules = &pol->parsed->rules[ctx->op];
++
++	list_for_each_entry(rule, &rules->rules, next) {
++		match = true;
++
++		list_for_each_entry(prop, &rule->props, next) {
++			match = evaluate_property(ctx, prop);
++			if (!match)
++				break;
++		}
++
++		if (match)
++			break;
++	}
++
++	if (match)
++		action = rule->action;
++	else if (rules->default_action != IPE_ACTION_INVALID)
++		action = rules->default_action;
++	else
++		action = pol->parsed->global_default_action;
++
++	rcu_read_unlock();
++	if (action == IPE_ACTION_DENY)
++		return -EACCES;
++
++	return 0;
++}
+diff --git a/security/ipe/eval.h b/security/ipe/eval.h
+new file mode 100644
+index 000000000000..b137f2107852
+--- /dev/null
++++ b/security/ipe/eval.h
+@@ -0,0 +1,24 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2024 Microsoft Corporation. All rights reserved.
++ */
++
++#ifndef _IPE_EVAL_H
++#define _IPE_EVAL_H
++
++#include <linux/file.h>
++#include <linux/types.h>
++
++#include "policy.h"
++
++extern struct ipe_policy __rcu *ipe_active_policy;
++
++struct ipe_eval_ctx {
++	enum ipe_op_type op;
++
++	const struct file *file;
++};
++
++int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx);
++
++#endif /* _IPE_EVAL_H */
+-- 
+2.44.0
+
