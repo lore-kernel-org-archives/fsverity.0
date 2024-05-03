@@ -1,88 +1,81 @@
-Received: from smtpo79.poczta.onet.pl (smtpo79.poczta.onet.pl [141.105.16.29])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF5A171064
-	for <fsverity@lists.linux.dev>; Thu,  2 May 2024 17:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.16.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E19F14F9FD;
+	Fri,  3 May 2024 10:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714671970; cv=none; b=m3K2K+VAJS5wtzqPMK8W3YlgHiOpq70UMwO8xMX2cvQPPYMsAd7TU482ZsqQqEoiQRQAaBbM4ZQf301u4f/rdiwBsQupLvmDbnBytMxgD+jmsqf4Ny2ECyH+bMDo5j9lbqmXUav6Fv+SHLor6vQXmowIImZo93LGdoygusTMgh4=
+	t=1714731522; cv=none; b=ihicRfzNRPK5brJw7JkHZt2Z57se2j8KMGPEfs/58qnzdcguLQcpHf9/AhaRrIlGkhT2IMaF6rKxojwGTMi/ia4Ja0y1VFh38hdwWSX6RNDi701WTvp8GBVf4qniINnvTuTCPBKV05gEQMsJb9SGL4seV6HwmglSXoMP1bma1Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714671970; c=relaxed/simple;
-	bh=7SgpTePPB9SBh0nHszu2DpnMDXogd6U2nS7WmLAvVLw=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=j5JM7yDciaR0MvgayCTPDLT7+BOKVSv629TTMr+35RfCImcHqHDi7jXB748jxH+xAsLNxTeLJfoWIJaH5+OVGJiY7taRRetpN8vW/q5KlmCYq7ikne6v+Zw89giW2Vcx96uLm3oo2HduYwqi7WQv3qH22Ga+3yOGKT2GrTY5ECo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=op.pl; spf=pass smtp.mailfrom=op.pl; dkim=pass (1024-bit key) header.d=op.pl header.i=@op.pl header.b=jh4Larx6; arc=none smtp.client-ip=141.105.16.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=op.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=op.pl
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=op.pl header.i=@op.pl header.b="jh4Larx6"
-Received: from wolf (arr80.internetdsl.tpnet.pl [83.17.203.80])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: wkuz@op.pl)
-	by smtp.poczta.onet.pl (Onet) with ESMTPSA id 4VVhCX0LrDz2K2nq6
-	for <fsverity@lists.linux.dev>; Thu,  2 May 2024 19:44:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=op.pl; s=2011;
-	t=1714671896; bh=7SgpTePPB9SBh0nHszu2DpnMDXogd6U2nS7WmLAvVLw=;
-	h=Date:From:To:Subject:From;
-	b=jh4Larx6UsT+/BTw+tKAHvxYfH+KsyGmB7Q03kU8YFo/Mw+E9LBpp5fnXobd9Ef+6
-	 lx9JZulrcJwdFWF+ak6DHxSpUerztjg00eIEvPFh0x7ww77VDcH72fEaL1JZ0oYbkw
-	 /l/1BAGWh6yyCe/U0/F9qIs3fns1AZvmyv485m0c=
-Date: Thu, 2 May 2024 19:44:49 +0200
-From: Wojciech Kuzyszyn <wkuz@op.pl>
-To: fsverity@lists.linux.dev
-Subject: FS_IOC_ENABLE_VERITY error: invalid argument
-Message-ID: <20240502194449.23bf074b@wolf>
+	s=arc-20240116; t=1714731522; c=relaxed/simple;
+	bh=bSiwM9bJWMdoeTblNRzq8u1xjjle8uFUX6aDOrxh7ME=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=PmMjbDnnNaFW1SeKsUGN9hdFnHBPR1MTYLkdkq2RuoEzFsBeyPaJqdECUL4OAkBJOiD2ddqFxW77XYNVWi74VLKljMK8jfvgpGk8+B/YqYvaLmEhoas/A2Wey2LF5GIlONjdcXdA+GjRWzszzoWqKfF9Yawy415tNsTiRR2cPeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1s2pzr-009uSG-2o;
+	Fri, 03 May 2024 18:18:32 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 03 May 2024 18:18:32 +0800
+Date: Fri, 3 May 2024 18:18:32 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org, ardb@kernel.org,
+	samitolvanen@google.com, bvanassche@acm.org
+Subject: Re: [PATCH v2 1/8] crypto: shash - add support for finup2x
+Message-ID: <ZjS5-Im1wWGawfUy@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/+kdMMRRX5hyw_dLy3Ffic.w";
- protocol="application/pgp-signature"; micalg=pgp-sha512
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240422203544.195390-2-ebiggers@kernel.org>
+X-Newsgroups: apana.lists.os.linux.cryptoapi
 
---Sig_/+kdMMRRX5hyw_dLy3Ffic.w
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> For now the API only supports 2-way interleaving, as the usefulness and
+> practicality seems to drop off dramatically after 2.  The arm64 CPUs I
+> tested don't support more than 2 concurrent SHA-256 hashes.  On x86_64,
+> AMD's Zen 4 can do 4 concurrent SHA-256 hashes (at least based on a
+> microbenchmark of the sha256rnds2 instruction), and it's been reported
+> that the highest SHA-256 throughput on Intel processors comes from using
+> AVX512 to compute 16 hashes in parallel.  However, higher interleaving
+> factors would involve tradeoffs such as no longer being able to cache
+> the round constants in registers, further increasing the code size (both
+> source and binary), further increasing the amount of state that users
+> need to keep track of, and causing there to be more "leftover" hashes.
 
-Hello!
+I think the lack of extensibility is the biggest problem with this
+API.  Now I confess I too have used the magic number 2 in the
+lskcipher patch-set, but there I think at least it was more
+justifiable based on the set of algorithms we currently support.
 
-I made a fresh file to pretend being a disk with:
+Here I think the evidence for limiting this to 2 is weak.  And the
+amount of work to extend this beyond 2 would mean ripping this API
+out again.
 
-$ truncate -s 40M test
+So let's get this right from the start.  Rather than shoehorning
+this into shash, how about we add this to ahash instead where an
+async return is a natural part of the API?
 
-I then made it a block device and formatted it:
+In fact, if we do it there we don't need to make any major changes
+to the API.  You could simply add an optional flag that to the
+request flags to indicate that more requests will be forthcoming
+immediately.
 
-# losetup -f test
-# mkfs.ext4 -L test -O verity /dev/loop1
+The algorithm could then either delay the current request if it
+is supported, or process it immediately as is the case now.
 
-When trying to enable fs-verity on a test file inside this new
-fake-device I always get the error mentioned in the subject. Of course
-I have CONFIG_FS_VERITY built-in to kernel, and the file I'm testing is
-a regular file created with:
-
-$ dd if=3D/dev/urandom bs=3D1K count=3D20 | base64 > a.txt
-
-Any ideas, what's going on?
-
-I will really appreciate help!
-
-Thanks,
-Wojciech Kuzyszyn
-
---=20
-xWK
-
---Sig_/+kdMMRRX5hyw_dLy3Ffic.w
-Content-Type: application/pgp-signature
-Content-Description: Podpis cyfrowy OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iIEEARYKACkWIQSR3iw/A+cPGAg6ljJXqyS1DcwN6QUCZjPREQscd2t1ekBvcC5w
-bAAKCRBXqyS1DcwN6dTeAP90QSQdfycsPaNfoHF7kVuSBF8Q4BhSgxbUUG48WZqU
-RQD/Yj7pv/btv1VcX+69VxdMpXsUIHVeNFUCc2qI+1m3iw0=
-=k15n
------END PGP SIGNATURE-----
-
---Sig_/+kdMMRRX5hyw_dLy3Ffic.w--
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
