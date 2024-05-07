@@ -1,258 +1,126 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C30197;
-	Sun,  5 May 2024 00:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64929622;
+	Tue,  7 May 2024 00:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714868127; cv=none; b=UKfEUqhfPDDa1c+gm6WspE0at0AKpNFxw+XDMFmJe/GCxgR1m22ZCX9/h/ktITOlNV8boYHZ5JXbHOCEWSOAbPvSx3hqOAIPoSdbRyHkK3GAa6N/C66anzOefcWoDCBcG+vw0dAmU4a0SI0GLwx/c8OMR7uffv7q9stoelNB2ZM=
+	t=1715041516; cv=none; b=I/VPT+fidbITC8gjaT1WbVjopR4RE2xBCDGXSdGNrAdnGTd02Nm/oVS7oh64wizqT+685s/S4iDB2cz9679F+rz2pw3rX2ujGXJ4KqhXra4zRU89apS23XJ+bzG24Yn7663MMziu5tfyqmjN8/9AA/1lEjqYu5HYk6jYqpuAJ+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714868127; c=relaxed/simple;
-	bh=Us12kLS2/JZzE9OjnNQSSWjgW41q/1qK+0tYJ109430=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ml0hN+F7hmY0dNB/qbNqRkGeHmGPxrW8wMuXHeQscMMNyhFqD90g0vR+2iPWLhndWK5vwcJT0ehR+4hfl5GoAXoC2SrSP0iMtOK8BQ708bZg1VlthA9DRagEgyX7MUQyNDkktPZxkRw1+9l5muLDXIFdu9ctmik7ejMSnvkF96I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AiBb9jnn; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715041516; c=relaxed/simple;
+	bh=s7eBMIDMnKUPCUXSt92sBihifomPay5rghqvBJKTjqk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ta5mrlH5WXhZmsjp/azLgZhWNN6mSPCKV6eDRTw6PXwn3sQ2A0p72b98kGq/odTK567Lo9FGB6BQ28/vak7EZCf1Fc1FwuNRSnI/Yc/Vlu5pQ02rRoz3ptMXnbLCaG7wORXtEG+5GE5L7kMk0a6zvIv9bX6CmC350FFnRFGAL+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKFHtSIz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AiBb9jnn"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1ec486198b6so6673685ad.1;
-        Sat, 04 May 2024 17:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714868125; x=1715472925; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wgS8JoAt6F27d1bbCvSCcX4fIE1TnZzCg1FmdDqGcZI=;
-        b=AiBb9jnnOV8ccKeIGtW3v5uskVKc1Ll4vfHtLPyBtfGfOGwkIrrajZtYLKUUk0RCtV
-         udHZHSKX+AyX4cEdzAr5gKiluniF816AxT9f+soXo0Szq44R+rr8PpCR7CQ5ES8FcwSi
-         l+EBTjVSWU69w8bH2r6tBQ5BTZqsvRxif9vDl+QD1GrhsERFf4JYTKIVpN7WBUTjd+VH
-         D1qLV2m5bVO3dhdR34C8O7Y0NfdI9HRClhMP9kRotYk6OYlxTZucwYiLL4mOIb8Dplh9
-         Y74aq3UjJuYKTAmoWWuxwPQCOdqhXqUFlrtEPYGEiUJMKbumq9vnX20e673g5x7dzgeV
-         Qp8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714868125; x=1715472925;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wgS8JoAt6F27d1bbCvSCcX4fIE1TnZzCg1FmdDqGcZI=;
-        b=ZVvCYFQGxGHbx+3jeh+m1R7bCAgA/F3tIGHVrfsoI463JFHrIvLYq04Ng0jUk8G1ty
-         FFoFs3Ib6LL7giAhPE2rlSoAf7LBq84HixEIAAPZ5tcs25N8GK8NhW/L66KWXZx4Urrk
-         msM7w9d2yK9K29xTAQ6PcufNw1hTXlvgO0LoV1gnJhd5BCPjKBZG5BmeIhSvpfDi2M+A
-         cjbZaAxyrsdMT4WQNAZ54SJrO4R/iNSuxqNbdYSGTtTvTn3YoqhXqJnO0jAHtMXjcrel
-         2SLXjfCqn/Zjt0EyDu7ynzI+MJlJOnRIM2XHhw3J9y/k8xPITU8kCcohInx/OMx3jv21
-         5/Gw==
-X-Forwarded-Encrypted: i=1; AJvYcCXk8fE0pw01ZINozEfQp6G2P0AdHWufe6EJBeOsCm+BYe77b2oCY2wf9+9JDYzp1CubpJKFafyvEQEAgNdF7DTQ+b+AJxrifSTqh4lXPEujMn5te4bUKG2OxcQzZSoH9E3x4g==
-X-Gm-Message-State: AOJu0YxW93p+thBzwF2i4XaNKzyQyQZSFj02ngezcR0lHmhjZrgyafd+
-	mjx5riFdJdYoRzj/SXFwGGIh/jhKJgEgQlo2wg9m/oRfzGd9OUp+
-X-Google-Smtp-Source: AGHT+IEuepOKmbUX0nP6tkkmgH/wJcdmWEBFxatponT+7JHJdiSXjE9CQIyDOyyrEvUleV3UtJK/YA==
-X-Received: by 2002:a17:903:2403:b0:1e5:8175:4968 with SMTP id e3-20020a170903240300b001e581754968mr5632206plo.9.1714868124735;
-        Sat, 04 May 2024 17:15:24 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id ld14-20020a170902face00b001e0c568ae8fsm5583101plb.192.2024.05.04.17.15.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 May 2024 17:15:24 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 133A9184947D8; Sun, 05 May 2024 07:15:18 +0700 (WIB)
-Date: Sun, 5 May 2024 07:15:18 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu,
-	ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v18 20/21] Documentation: add ipe documentation
-Message-ID: <ZjbPlk8ZwFZwdqJJ@archie.me>
-References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
- <1714775551-22384-21-git-send-email-wufan@linux.microsoft.com>
- <ZjXsBjAFs-qp9xY4@archie.me>
- <ab7054cd-affd-47c3-bd98-2cf47d6a6376@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKFHtSIz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A76A4C116B1;
+	Tue,  7 May 2024 00:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715041515;
+	bh=s7eBMIDMnKUPCUXSt92sBihifomPay5rghqvBJKTjqk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DKFHtSIzwCtggFmwgVNyvFpYLdhnLcCxCQPuHNK4a5PxuijN0Tf6AHz/0noYtG9zT
+	 Sep4DM7tMwaUOrbZ2Y0DXhUnEj9pEQrOiLsUgwYqbdqyy68jNRYkiXAUbEhA7xdlWK
+	 87vSxjbRIGh8Dy4R9dJemz3OEvcFshe9IO1vvZhPdDFkLOA8ZLt1nETEcIU+4GR7vr
+	 Se2KmaAfUIuXOKDb++oC/wCPx95eOeedCLoVNxISpFpggzYzqd1hvRfFMuUN8W76MX
+	 uzr43qdjXmKCsMS0g9OvUD3bTNBsacI09UjVD+h8EbxupBl7M+NjbDEcXgYn5HP19C
+	 pdKq/AIJhz7PA==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-crypto@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev
+Cc: x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Bart Van Assche <bvanassche@acm.org>
+Subject: [PATCH v3 0/8] Optimize dm-verity and fsverity using multibuffer hashing
+Date: Mon,  6 May 2024 17:23:35 -0700
+Message-ID: <20240507002343.239552-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="InlbHezzGTuEcuIT"
-Content-Disposition: inline
-In-Reply-To: <ab7054cd-affd-47c3-bd98-2cf47d6a6376@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+
+On many modern CPUs, it is possible to compute the SHA-256 hash of two
+equal-length messages in about the same time as a single message, if all
+the instructions are interleaved.  This is because each SHA-256 (and
+also most other cryptographic hash functions) is inherently serialized
+and therefore can't always take advantage of the CPU's full throughput.
+
+An earlier attempt to support multibuffer hashing in Linux was based
+around the ahash API.  That approach had some major issues.  This
+patchset instead takes a much simpler approach of just adding a
+synchronous API for hashing equal-length messages.
+
+This works well for dm-verity and fsverity, which use Merkle trees and
+therefore hash large numbers of equal-length messages.
+
+This patchset is organized as follows:
+
+- Patch 1-3 add crypto_shash_finup_mb() and tests for it.
+- Patch 4-5 implement finup_mb on x86_64 and arm64, using an
+  interleaving factor of 2.
+- Patch 6-8 update fsverity and dm-verity to use crypto_shash_finup_mb()
+  to hash pairs of data blocks when possible.  Note: the patch
+  "dm-verity: hash blocks with shash import+finup when possible" is
+  revived from its original submission
+  (https://lore.kernel.org/dm-devel/20231030023351.6041-1-ebiggers@kernel.org/)
+  because this new work provides a new motivation for it.
+
+On CPUs that support multiple concurrent SHA-256's (all arm64 CPUs I
+tested, and AMD Zen CPUs), raw SHA-256 hashing throughput increases by
+70-98%, and the throughput of cold-cache reads from dm-verity and
+fsverity increases by very roughly 35%.
+
+Changed in v3:
+  - Change API from finup2x to finup_mb.  It now takes arrays of data
+    buffer and output buffers, avoiding hardcoding 2x in the API.
+
+Changed in v2:
+  - Rebase onto cryptodev/master
+  - Add more comments to assembly
+  - Reorganize some of the assembly slightly
+  - Fix the claimed throughput improvement on arm64
+  - Fix incorrect kunmap order in fs/verity/verify.c
+  - Adjust testmgr generation logic slightly
+  - Explicitly check for INT_MAX before casting unsigned int to int
+  - Mention SHA3 based parallel hashes
+  - Mention AVX512-based approach
+
+Eric Biggers (8):
+  crypto: shash - add support for finup_mb
+  crypto: testmgr - generate power-of-2 lengths more often
+  crypto: testmgr - add tests for finup_mb
+  crypto: x86/sha256-ni - add support for finup_mb
+  crypto: arm64/sha256-ce - add support for finup_mb
+  fsverity: improve performance by using multibuffer hashing
+  dm-verity: hash blocks with shash import+finup when possible
+  dm-verity: improve performance by using multibuffer hashing
+
+ arch/arm64/crypto/sha2-ce-core.S    | 281 +++++++++++++-
+ arch/arm64/crypto/sha2-ce-glue.c    |  40 ++
+ arch/x86/crypto/sha256_ni_asm.S     | 368 ++++++++++++++++++
+ arch/x86/crypto/sha256_ssse3_glue.c |  39 ++
+ crypto/shash.c                      |  60 +++
+ crypto/testmgr.c                    |  91 ++++-
+ drivers/md/dm-verity-fec.c          |  31 +-
+ drivers/md/dm-verity-fec.h          |   7 +-
+ drivers/md/dm-verity-target.c       | 563 ++++++++++++++++++++--------
+ drivers/md/dm-verity.h              |  43 +--
+ fs/verity/fsverity_private.h        |   5 +
+ fs/verity/hash_algs.c               |  32 +-
+ fs/verity/open.c                    |   6 +
+ fs/verity/verify.c                  | 177 +++++++--
+ include/crypto/hash.h               |  45 ++-
+ 15 files changed, 1543 insertions(+), 245 deletions(-)
 
 
---InlbHezzGTuEcuIT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: ed265f7fd9a635d77c8022fc6d9a1b735dd4dfd7
+-- 
+2.45.0
 
-On Sat, May 04, 2024 at 01:13:16PM -0700, Fan Wu wrote:
->=20
->=20
-> On 5/4/2024 1:04 AM, Bagas Sanjaya wrote:
-> > On Fri, May 03, 2024 at 03:32:30PM -0700, Fan Wu wrote:
-> > > +IPE does not mitigate threats arising from malicious but authorized
-> > > +developers (with access to a signing certificate), or compromised
-> > > +developer tools used by them (i.e. return-oriented programming attac=
-ks).
-> > > +Additionally, IPE draws hard security boundary between userspace and
-> > > +kernelspace. As a result, IPE does not provide any protections again=
-st a
-> > > +kernel level exploit, and a kernel-level exploit can disable or tamp=
-er
-> > > +with IPE's protections.
-> >=20
-> > So how to mitigate kernel-level exploits then?
-> >=20
-> One possible way is to use hypervisor to protect the kernel integrity.
-> https://github.com/heki-linux is one project on this direction. Perhaps I
-> should also add this link to the doc.
-
-OK.
-
->=20
-> > > +Allow only initramfs
-> > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > <snipped>...
-> > > +Allow any signed and validated dm-verity volume and the initramfs
-> > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > <snipped>...
-> >=20
-> > htmldocs build reports new warnings:
-> >=20
-> > Documentation/admin-guide/LSM/ipe.rst:694: WARNING: Title underline too=
- short.
-> >=20
-> > Allow any signed and validated dm-verity volume and the initramfs
-> > ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > Documentation/admin-guide/LSM/ipe.rst:694: WARNING: Title underline too=
- short.
-> >=20
-> > Allow any signed and validated dm-verity volume and the initramfs
-> > ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > Documentation/arch/x86/resctrl.rst:577: WARNING: Title underline too sh=
-ort.
-> >=20
-> > I have to match these sections underline length:
-> >=20
-> > ---- >8 ----
-> > diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admi=
-n-guide/LSM/ipe.rst
-> > index 1a3bf1d8aa23f0..a47e14e024a90d 100644
-> > --- a/Documentation/admin-guide/LSM/ipe.rst
-> > +++ b/Documentation/admin-guide/LSM/ipe.rst
-> > @@ -681,7 +681,7 @@ Allow all
-> >      DEFAULT action=3DALLOW
-> >   Allow only initramfs
-> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +~~~~~~~~~~~~~~~~~~~~
-> >   ::
-> > @@ -691,7 +691,7 @@ Allow only initramfs
-> >      op=3DEXECUTE boot_verified=3DTRUE action=3DALLOW
-> >   Allow any signed and validated dm-verity volume and the initramfs
-> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >   ::
-> > @@ -725,7 +725,7 @@ Allow only a specific dm-verity volume
-> >      op=3DEXECUTE dmverity_roothash=3Dsha256:401fcec5944823ae12f62726e8=
-184407a5fa9599783f030dec146938 action=3DALLOW
-> >   Allow any fs-verity file with a valid built-in signature
-> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >   ::
-> > @@ -735,7 +735,7 @@ Allow any fs-verity file with a valid built-in sign=
-ature
-> >      op=3DEXECUTE fsverity_signature=3DTRUE action=3DALLOW
-> >   Allow execution of a specific fs-verity file
-> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >   ::
-> >=20
-> > > +Additional Information
-> > > +----------------------
-> > > +
-> > > +- `Github Repository <https://github.com/microsoft/ipe>`_
-> > > +- Documentation/security/ipe.rst
-> >=20
-> > Link title to both this admin-side and developer docs can be added for
-> > disambiguation (to avoid confusion on readers):
-> >=20
-> > ---- >8 ----
-> > diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admi=
-n-guide/LSM/ipe.rst
-> > index a47e14e024a90d..25b17e11559149 100644
-> > --- a/Documentation/admin-guide/LSM/ipe.rst
-> > +++ b/Documentation/admin-guide/LSM/ipe.rst
-> > @@ -7,7 +7,8 @@ Integrity Policy Enforcement (IPE)
-> >      This is the documentation for admins, system builders, or individu=
-als
-> >      attempting to use IPE. If you're looking for more developer-focused
-> > -   documentation about IPE please see Documentation/security/ipe.rst
-> > +   documentation about IPE please see :doc:`the design docs
-> > +   </security/ipe>`.
-> >   Overview
-> >   --------
-> > @@ -748,7 +749,7 @@ Additional Information
-> >   ----------------------
-> >   - `Github Repository <https://github.com/microsoft/ipe>`_
-> > -- Documentation/security/ipe.rst
-> > +- :doc:`Developer and design docs for IPE </security/ipe>`
-> >   FAQ
-> >   ---
-> > diff --git a/Documentation/security/ipe.rst b/Documentation/security/ip=
-e.rst
-> > index 07e3632241285d..fd1b1a852d2165 100644
-> > --- a/Documentation/security/ipe.rst
-> > +++ b/Documentation/security/ipe.rst
-> > @@ -7,7 +7,7 @@ Integrity Policy Enforcement (IPE) - Kernel Documentati=
-on
-> >      This is documentation targeted at developers, instead of administr=
-ators.
-> >      If you're looking for documentation on the usage of IPE, please see
-> > -   Documentation/admin-guide/LSM/ipe.rst
-> > +   `IPE admin guide </admin-guide/LSM/ipe.rst>`_.
-> >   Historical Motivation
-> >   ---------------------
-> >=20
-> > Thanks.
-> >=20
->=20
-> My apologies for these format issues and thanks for the suggestions. I wi=
-ll
-> fix them.
-
-Oh, I forgot to also add :doc: directive for the last reference link:
-
----- >8 ----
-diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
-index fd1b1a852d2165..aa2e64d4119f3e 100644
---- a/Documentation/security/ipe.rst
-+++ b/Documentation/security/ipe.rst
-@@ -7,7 +7,7 @@ Integrity Policy Enforcement (IPE) - Kernel Documentation
-=20
-    This is documentation targeted at developers, instead of administrators.
-    If you're looking for documentation on the usage of IPE, please see
--   `IPE admin guide </admin-guide/LSM/ipe.rst>`_.
-+   :doc:`IPE admin guide </admin-guide/LSM/ipe>`.
-=20
- Historical Motivation
- ---------------------
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---InlbHezzGTuEcuIT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjbPjgAKCRD2uYlJVVFO
-o8HPAQDxhozqHxPAtlb/vByqFj4O4DT+qZVm5PvJcv9tnq0aCQD7BQbQr6wEPrYZ
-0lIMQIcpVMj+XdMBtixikEDTadIDHQI=
-=mp4a
------END PGP SIGNATURE-----
-
---InlbHezzGTuEcuIT--
