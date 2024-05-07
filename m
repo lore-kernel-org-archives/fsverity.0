@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B43391;
-	Tue,  7 May 2024 00:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF02A18732F;
+	Tue,  7 May 2024 21:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715041991; cv=none; b=Ivk9kmZ2IhAwsIbLZFAlZbmjS+p2wKhBUfGUR20E/ySA4zCYfp9udaK/qHQLXitipQax3EU0niKN3R/J27g2inRKFHId3Yk/fotNfFw8DIF0eHdWCO399iSk3wKbnC2UFUSuW77lT1dPBbL0D7rYwzF9UABGG/vGcjDcASKVKfs=
+	t=1715117095; cv=none; b=Qy1qayJCskt0Wc494TGkz5B6A5EKQMsaU3b7wm9/GzNpqfLf/gSfNVaGLF0e+YrrBsoQBD4+IvUjITbVnooHogYD9d620rvSHwr7Dwnrw4DI36+tURB7zFiMM0fkY4NljdPooDkQ3TRPtXvVosCONeVLgctbfTwhTu+acHhMPJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715041991; c=relaxed/simple;
-	bh=kyXSE/1/9DSfrUdCoQ7zo6XwGE50mgMUeEBfoEZHCKY=;
+	s=arc-20240116; t=1715117095; c=relaxed/simple;
+	bh=cy7st7EyP+EM7doY/mAhsWHVlF3KUN+bu8pmqtqkyeQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B0I5kXtYwpk7iEFsSeeJFXu8fZ0RL5VSnFQivSlMg4YrbBjGaer3w/rFcpsXRbUuuPHD0lybimwEDWH3xw/B8dEqR/7w8WPa1T/U+59jDs/4EBywrUtzCUE13aCC93ZQ3tog+ztUmZhuyClSsN4rgrT7PVoT1T31gE6NgLDloxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKxBgi7y; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TspHHe+HiKLWREdBKIxKREJ4vEGOI7KLce3wXpf02CdkJVUsAh+NmziC4g4kZtHNLr3KLFw1j9GriUdFy1MCe5Adr4dYdLWCrsf/luDoPlRZlSC0BzjCUQFuTl6bipPLmGSe8XuiMg/9CTtFtPq472nDivCCvfJB2s/qOnnZKQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=drW1aEEl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKxBgi7y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDB6C116B1;
-	Tue,  7 May 2024 00:33:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="drW1aEEl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80A28C2BBFC;
+	Tue,  7 May 2024 21:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715041991;
-	bh=kyXSE/1/9DSfrUdCoQ7zo6XwGE50mgMUeEBfoEZHCKY=;
+	s=k20201202; t=1715117094;
+	bh=cy7st7EyP+EM7doY/mAhsWHVlF3KUN+bu8pmqtqkyeQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JKxBgi7ytUA2NJCFUerOeOfKkDAyWyRFNk4I0SuhU3gQ5tOju1583qJTWUaRL2qvB
-	 Xa0/mVe0eokC/FmGq3hRRvfxkW8DuGHZYGEHkjF3YT08o9efzUMmF+COBfZIgv3xX/
-	 qJFslQ3BtP9kaC5iloOhLFHCPIdWOy51cTxW4gJzi1aspYcJZ3EeWX4j+TVmyD0OyV
-	 liBS5wB1co+hziXnGra4OIfgaGb5iJZL6iKjO626BvJQSMVDXtbbl5yvH3TCkYD0Tu
-	 c9kCgV3VsLlRma7LZsJl2JiC4CnU6NF1IdxOky/RVBY3RuN2FgAYUJi9NAwXYHjfMN
-	 j+vFJlckdZ7WA==
-Date: Mon, 6 May 2024 17:33:09 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
-	dm-devel@lists.linux.dev, x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org, ardb@kernel.org,
-	samitolvanen@google.com, bvanassche@acm.org
-Subject: Re: [PATCH v2 1/8] crypto: shash - add support for finup2x
-Message-ID: <20240507003309.GA192875@sol.localdomain>
-References: <20240422203544.195390-2-ebiggers@kernel.org>
- <ZjS5-Im1wWGawfUy@gondor.apana.org.au>
- <20240503152810.GA1132@sol.localdomain>
+	b=drW1aEElx5HczBAMt6e7l2fZIh9ts4GDER7Xny9szpa20MHAAzPOw4P8iB6oYJR0K
+	 RJsyLOLg56/87vaR4Oj0AKzpxB7SW7LZZGn8bLYOGq2fGJHjercq4hQvdfORyEE48Y
+	 snUgc/pQyx0KngBMTM980C7IDy4UR2JfbJOlCp8k0VTvkDHvpGI/EZx6yjzyPqCc3K
+	 L0sRzY2RAplvUAeXpSQQrtjIcz+h7qHOTo32PTqi1ovLrsT3Sak6MpcCSaKsimwjTO
+	 +FV3xAehoZwdrgavdGZw+a7TbueMSJzUEyb9XXc28VkGY+09lKBjQRr6lS1v2dN7wn
+	 xCo9kgPFnYaWg==
+Date: Tue, 7 May 2024 14:24:54 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: aalbersh@redhat.com, ebiggers@kernel.org, linux-xfs@vger.kernel.org,
+	alexl@redhat.com, walters@verbum.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 18/26] xfs: use merkle tree offset as attr hash
+Message-ID: <20240507212454.GX360919@frogsfrogsfrogs>
+References: <171444680291.957659.15782417454902691461.stgit@frogsfrogsfrogs>
+ <171444680671.957659.2149857258719599236.stgit@frogsfrogsfrogs>
+ <ZjHmzBRVc3HcyX7-@infradead.org>
+ <ZjHt1pSy4FqGWAB6@infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -46,92 +46,62 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240503152810.GA1132@sol.localdomain>
+In-Reply-To: <ZjHt1pSy4FqGWAB6@infradead.org>
 
-On Fri, May 03, 2024 at 08:28:10AM -0700, Eric Biggers wrote:
-> On Fri, May 03, 2024 at 06:18:32PM +0800, Herbert Xu wrote:
-> > Eric Biggers <ebiggers@kernel.org> wrote:
-> > >
-> > > For now the API only supports 2-way interleaving, as the usefulness and
-> > > practicality seems to drop off dramatically after 2.  The arm64 CPUs I
-> > > tested don't support more than 2 concurrent SHA-256 hashes.  On x86_64,
-> > > AMD's Zen 4 can do 4 concurrent SHA-256 hashes (at least based on a
-> > > microbenchmark of the sha256rnds2 instruction), and it's been reported
-> > > that the highest SHA-256 throughput on Intel processors comes from using
-> > > AVX512 to compute 16 hashes in parallel.  However, higher interleaving
-> > > factors would involve tradeoffs such as no longer being able to cache
-> > > the round constants in registers, further increasing the code size (both
-> > > source and binary), further increasing the amount of state that users
-> > > need to keep track of, and causing there to be more "leftover" hashes.
+On Wed, May 01, 2024 at 12:23:02AM -0700, Christoph Hellwig wrote:
+> On Tue, Apr 30, 2024 at 11:53:00PM -0700, Christoph Hellwig wrote:
+> > This and the header hacks suggest to me that shoe horning the fsverity
+> > blocks into attrs just feels like the wrong approach.
 > > 
-> > I think the lack of extensibility is the biggest problem with this
-> > API.  Now I confess I too have used the magic number 2 in the
-> > lskcipher patch-set, but there I think at least it was more
-> > justifiable based on the set of algorithms we currently support.
-> > 
-> > Here I think the evidence for limiting this to 2 is weak.  And the
-> > amount of work to extend this beyond 2 would mean ripping this API
-> > out again.
-> > 
-> > So let's get this right from the start.  Rather than shoehorning
-> > this into shash, how about we add this to ahash instead where an
-> > async return is a natural part of the API?
-> > 
-> > In fact, if we do it there we don't need to make any major changes
-> > to the API.  You could simply add an optional flag that to the
-> > request flags to indicate that more requests will be forthcoming
-> > immediately.
-> > 
-> > The algorithm could then either delay the current request if it
-> > is supported, or process it immediately as is the case now.
-> > 
+> > They don't really behave like attrs, they aren't key/value paris that
+> > are separate, but a large amount of same sized blocks with logical
+> > indexing.  All that is actually nicely solved by the original fsverity
+> > used by ext4/f2fs, while we have to pile workarounds ontop of
+> > workarounds to make attrs work.
 > 
-> The kernel already had ahash-based multibuffer hashing years ago.  It failed
-> spectacularly, as it was extremely complex, buggy, slow, and potentially
-> insecure as it mixed requests from different contexts.  Sure, it could have been
-> improved slightly by adding flush support, but most issues would have remained.
+> Taking this a bit further:  If we want to avoid the problems associated
+> with the original scheme, mostly the file size limitation, and the (IMHO
+> more cosmetic than real) confusion with post-EOF preallocations, we
+> can still store the data in the attr fork, but not in the traditional
+> attr format.  The attr fork provides the logical index to physical
+> translation as the data fork, and while that is current only used for
+> dabtree blocks and remote attr values, that isn't actually a fundamental
+> requirement for using it.
 > 
-> Synchronous hashing really is the right model here.  One of the main performance
-> issues we are having with dm-verity and fs-verity is the scheduling hops
-> associated with the workqueues on which the dm-verity and fs-verity work runs.
-> If there was another scheduling hop from the worker task to another task to do
-> the actual hashing, that would be even worse and would defeat the point of doing
-> multibuffer hashing.  And with the ahash based API this would be difficult to
-> avoid, as when an individual request gets submitted and put on a queue somewhere
-> it would lose the information about the original submitter, so when it finally
-> gets hashed it might be by another task (which the original task would then have
-> to wait for).  I guess the submitter could provide some sort of tag that makes
-> the request be put on a dedicated queue that would eventually get processed only
-> by the same task (which might also be needed for security reasons anyway, due to
-> all the CPU side channels), but that would add lots of complexity to add tag
-> support to the API and support an arbitrary number of queues.
+> All the attr fork placement works through xfs_bmap_first_unused() to
+> find completely random free space in the logic address space.
 > 
-> And then there's the issue of request lengths.  With one at a time submission
-> via 'ahash_request', each request would have its own length.  Having to support
-> multibuffer hashing of different length requests would add a massive amount of
-> complexity and edge cases that are difficult to get correct, as was shown by the
-> old ahash based code.  This suggests that either the API needs to enforce that
-> all the lengths are the same, or it needs to provide a clean API (my patch)
-> where the caller just provides a single length that applies to all messages.
-> 
-> So the synchronous API really seems like the right approach, whereas shoehorning
-> it into the asynchronous hash API would result in something much more complex
-> and not actually useful for the intended use cases.
-> 
-> If you're concerned about the hardcoding to 2x specifically, how about the
-> following API instead:
-> 
->     int crypto_shash_finup_mb(struct shash_desc *desc,
->                               const u8 *datas[], unsigned int len,
->                               u8 *outs[], int num_msgs)
-> 
-> This would allow extension to higher interleaving factors.
-> 
-> I do suspect that anything higher than 2x isn't going to be very practical for
-> in-kernel use cases, where code size, latency, and per-request memory usage tend
-> to be very important.  Regardless, this would make the API able to support
-> higher interleaving factors.
+> Now if we reserved say the high bit for verity blocks in verity enabled
+> file systems we can simply use the bmap btree to do the mapping from
+> the verity index to the on-disk verify blocks without any other impact
+> to the attr code.
 
-I've sent out a new version that makes the change to crypto_shash_finup_mb().
+Since we know the size of the merkle data ahead of time, we could also
+preallocate space in the attr fork and create a remote ATTR_VERITY xattr
+named "merkle" that points to the allocated space.  Then we don't have
+to have magic meanings for the high bit.
 
-- Eric
+Though I guess the question is, given the format:
+
+struct xfs_attr_leaf_name_remote {
+	__be32	valueblk;		/* block number of value bytes */
+	__be32	valuelen;		/* number of bytes in value */
+	__u8	namelen;		/* length of name bytes */
+	/*
+	 * In Linux 6.5 this flex array was converted from name[1] to name[].
+	 * Be very careful here about extra padding at the end; see
+	 * xfs_attr_leaf_entsize_remote() for details.
+	 */
+	__u8	name[];			/* name bytes */
+};
+
+Will we ever have a merkle tree larger than 2^32-1 bytes in length?  If
+that's possible, then either we shard the merkle tree, or we have to rev
+the ondisk xfs_attr_leaf_name_remote structure.
+
+I think we have to rev the format anyway, since with nrext64==1 we can
+have attr fork extents that start above 2^32 blocks, and the codebase
+will blindly truncate the 64-bit quantity returned by
+xfs_bmap_first_unused.
+
+--D
