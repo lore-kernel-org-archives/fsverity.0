@@ -1,75 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1717112FF9B;
-	Thu,  9 May 2024 15:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FFF17584
+	for <fsverity@lists.linux.dev>; Thu,  9 May 2024 17:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715269405; cv=none; b=FfisGE6dFN1CsiO2jiQHJvKwIXztQ680RDkogHCOpz15J3427RfjXDgWeB9idpDzSuPQ2YCiW9OuMLj3PR/Wz0IJvYLNdhAKZBxDaSf3Ez39DSXI5XIKQy39kB6jBvWC20ac8q2E/P0yuL0wMGNEvXlXv2qkerMI9+1W0el5X4U=
+	t=1715274442; cv=none; b=TYUmbUwi+gZvo25/TkZCr6RWyyKySAWtvTrNsJCn5wgIpPzgP5xMLw1WR8bP2a3Zl0HF0a4JVPB28F3WTa3zyMTeoHh/UvPU6C1DVcAuqcktSiV8tGGZlYWeKV0uo+3hqBxLQbziN/vpG28U1xLfNP/EjA1TTIYx7UBtQIWx16o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715269405; c=relaxed/simple;
-	bh=207D5gedUS0H7dOrIEonnPzjDRf/Z+vBpczF3w0EEjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nXyAskgSdIJAdRyxEca0DUw+zMHKj6D+lE6mzu+mB3JnvTbeCrffUT4bW/ZNEOWc3L+SZFxRpT9GMdr/CMtijw6qS/fKwB4unbE2P0jgMmkjgxT725wKJR2e0fRUbmxQzyyRvtDhvkhLNxcYVoRvJMxHEizOabyqSenRYu3eIPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pEnjTcis; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715274442; c=relaxed/simple;
+	bh=JTqRwvs7ATnblMDzbI8kYx5IrTBxMWNprcLAXd5ODXg=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=pZrXb7GkbblKb6VNWvtflnrB31xyjC7Vw2uK8ohGtQO030PUnVHic1X9tY5qY/ZsetzFz3GKayDF95l3TlTDur3eijq3Jit8i1X3nEZdaBw5ZXNRMAzyu9FJhd9xto2GNnny0+rUlvORBY00aemg8pLpw3FNIW093uGYQJ+OoeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GvpKdYu1; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pEnjTcis"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E10EC116B1;
-	Thu,  9 May 2024 15:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715269404;
-	bh=207D5gedUS0H7dOrIEonnPzjDRf/Z+vBpczF3w0EEjE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pEnjTcisbonIWJXJPbBuslJmKmyDhwtp3BuV0PYOxLqK8pb2YG70xFQYZBRQJ9aSQ
-	 H0vQf8qzNfD0DeSf0WLArQnOoNxRPQOpsLbHI1Dk1zL1fkkChd3EhSqTP9NtvLj82p
-	 FPJPGYfvinQtzf5r0Im4rv/yhAcBilugNumN4BlBqqHTjIkgoDrSKrEFZ+D6kZuC7q
-	 80p3ZMcqY5PqS08ZlNFTBXhisi1bv1ptmiLRlpSoaLfPqQ9UjDtTusmMODQPEpAbuE
-	 LCbPFT6FGHmI4pvMvzOaEG/D8BBO3m3jkFdVxAhqHF0ZDdJtD0hqvQ9Q3TD7f5keIJ
-	 5GWhYBSzzOtAQ==
-Date: Thu, 9 May 2024 08:43:23 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, aalbersh@redhat.com,
-	linux-xfs@vger.kernel.org, alexl@redhat.com, walters@verbum.org,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 25/26] xfs: make it possible to disable fsverity
-Message-ID: <20240509154323.GM360919@frogsfrogsfrogs>
-References: <171444680792.957659.14055056649560052839.stgit@frogsfrogsfrogs>
- <ZjHlventem1xkuuS@infradead.org>
- <20240501225007.GM360919@frogsfrogsfrogs>
- <20240502001501.GB1853833@google.com>
- <20240508203148.GE360919@frogsfrogsfrogs>
- <ZjxZRShZLTb7SS3d@infradead.org>
- <20240509144542.GJ360919@frogsfrogsfrogs>
- <Zjzmho9jm2wisUPj@infradead.org>
- <20240509150955.GL360919@frogsfrogsfrogs>
- <ZjzoLKev1WqnsBx-@infradead.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GvpKdYu1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1715274439;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1Ca9Pf11lzbP4jlatyhKofM52bEPeu8vNmdS1FsH4a8=;
+	b=GvpKdYu10fnHDW/pAoyK20EECRTJN/Yec8Sow2na6ca6Jc0DaUwN+Rqcd9dAwzM34sF2Nr
+	pb9GzTIbh/vMFHEhBxGN4T6FJVQ28pnUuYGyYScmpFQG3HifUkBUXmOstiOWHkHpwdtvSD
+	ymBkaQTaKH7QV3JuzvR3zdMZNMbVkP8=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-182-Y19FXQdzO2eI8S9NubSUHw-1; Thu,
+ 09 May 2024 13:07:16 -0400
+X-MC-Unique: Y19FXQdzO2eI8S9NubSUHw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71A903802292;
+	Thu,  9 May 2024 17:07:14 +0000 (UTC)
+Received: from file1-rdu.file-001.prod.rdu2.dc.redhat.com (unknown [10.11.5.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CB1CB1169588;
+	Thu,  9 May 2024 17:07:13 +0000 (UTC)
+Received: by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix, from userid 12668)
+	id A5F3A30C1B8F; Thu,  9 May 2024 17:07:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix) with ESMTP id 9F5133E683;
+	Thu,  9 May 2024 19:07:13 +0200 (CEST)
+Date: Thu, 9 May 2024 19:07:13 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Fan Wu <wufan@linux.microsoft.com>
+cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
+    tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
+    snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com, 
+    linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+    linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
+    linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
+    audit@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
+In-Reply-To: <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
+Message-ID: <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com> <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com> <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com> <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZjzoLKev1WqnsBx-@infradead.org>
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 
-On Thu, May 09, 2024 at 08:13:48AM -0700, Christoph Hellwig wrote:
-> On Thu, May 09, 2024 at 08:09:55AM -0700, Darrick J. Wong wrote:
-> > xfs doesn't do data block checksums.
-> > 
-> > I already have a dumb python program that basically duplicates fsverity
-> > style merkle trees but I was looking forward to sunsetting it... :P
+
+
+On Wed, 8 May 2024, Fan Wu wrote:
+
 > 
-> Well, fsverity as-is is intended for use cases where you care about
-> integrity of the file.  For that disabling it really doesn't make
-> sense.  If we have other use cases we can probably add a variant
-> of fsverity that clearly deals with non-integrity checksums.
-> Although just disabling them if they mismatch still feels like a
-> somewhat odd usage model.
+> 
+> On 5/8/2024 10:17 AM, Mikulas Patocka wrote:
+> > 
+> > 
+> > On Fri, 3 May 2024, Fan Wu wrote:
+> > 
+> >> This patch adds a target finalize hook.
+> >>
+> >> The hook is triggered just before activating an inactive table of a
+> >> mapped device. If it returns an error the __bind get cancelled.
+> >>
+> >> The dm-verity target will use this hook to attach the dm-verity's
+> >> roothash metadata to the block_device struct of the mapped device.
+> >>
+> >> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> > 
+> > Hi
+> > 
+> > Why not use the preresume callback?
+> > 
+> > Is there some reason why do we need a new callback instead of using the
+> > existing one?
+> > 
+> > Mikulas
+> Thanks for the suggestion.
+> 
+> Mike suggested the new finalize() callback. I think the reason for not using
+> the preresume() callback is that there are multiple points that can fail
+> before activating an inactive table of a mapped device which can potentially
+> lead to inconsistent state.
+> 
+> In our specific case, we are trying to associate dm-verity's roothash metadata
+> with the block_device struct of the mapped device inside the callback.
+> 
+> If we use the preresume() callback for the work and an error occurs between
+> the callback and the table activation, this leave the block_device struct in
+> an inconsistent state.
 
-Yeah, it definitely exists in the same weird grey area of turning off
-metadata checksum validation to extract as many files from a busted fs
-as can be done.
+The preresume callback is the final GO/NO-GO decision point. If all the 
+targets return zero in their preresume callback, then there's no turning 
+back and the table will be activated.
 
---D
+> This is because now the block device contains the roothash metadata of it's
+> inactive table due to the preresume() callback, but the activation failed so
+> the mapped device is still using the old table.
+> 
+> The new finalize() callback guarantees that the callback happens just before
+> the table activation, thus avoiding the inconsistency.
+
+In your patch, it doesn't guarantee that.
+
+do_resume calls dm_swap_table, dm_swap_table calls __bind, __bind calls 
+ti->type->finalize. Then we go back to do_resume and call dm_resume which 
+calls __dm_resume which calls dm_table_resume_targets which calls the 
+preresume callback on all the targets. If some of them fails, it returns a 
+failure (despite the fact that ti->type->finalize succeeded), if all of 
+them succeed, it calls the resume callback on all of them.
+
+So, it seems that the preresume callback provides the guarantee that you 
+looking for.
+
+> -Fan
+
+Mikulas
+
