@@ -1,139 +1,67 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FFF17584
-	for <fsverity@lists.linux.dev>; Thu,  9 May 2024 17:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C32FBFD;
+	Thu,  9 May 2024 17:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715274442; cv=none; b=TYUmbUwi+gZvo25/TkZCr6RWyyKySAWtvTrNsJCn5wgIpPzgP5xMLw1WR8bP2a3Zl0HF0a4JVPB28F3WTa3zyMTeoHh/UvPU6C1DVcAuqcktSiV8tGGZlYWeKV0uo+3hqBxLQbziN/vpG28U1xLfNP/EjA1TTIYx7UBtQIWx16o=
+	t=1715276814; cv=none; b=OD9Aa/AJzizQJ4Pn/562S++PxUGgzVx1Tv6ez4Z5ES9afrOXwB/qY86FutWDVUXH2Mj/9nUypxWRwHR7R9XbdXK6YOtQd5sR/X8JVzPgUQfdtPRGV24QDqxM/6C0tfR4zH+jN3aZk/SLzYCkj8qN3QPc1wnhsKJb2FAHPNv7esE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715274442; c=relaxed/simple;
-	bh=JTqRwvs7ATnblMDzbI8kYx5IrTBxMWNprcLAXd5ODXg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=pZrXb7GkbblKb6VNWvtflnrB31xyjC7Vw2uK8ohGtQO030PUnVHic1X9tY5qY/ZsetzFz3GKayDF95l3TlTDur3eijq3Jit8i1X3nEZdaBw5ZXNRMAzyu9FJhd9xto2GNnny0+rUlvORBY00aemg8pLpw3FNIW093uGYQJ+OoeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GvpKdYu1; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1715276814; c=relaxed/simple;
+	bh=60olD59E1KrxpBeHp8XDeSOe0xnUAY99qj5zWDoqPSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=balty9e2EtFBYG5wqBuQCwzDfklmQvxDxSRAb7J0JJk9rKv2GB34yJeKA+ZSmp1pmazSwwxZeVGjB8QRPbyaAIc1scuwXvj+uk/DRh9lnNMoWwNiCbrvjKsICrRRKaYPLOeitvp0y+M6cJaDVgzXDvXyWwt43P4HpozO2dAKTF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RuAMFIQ+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GvpKdYu1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715274439;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1Ca9Pf11lzbP4jlatyhKofM52bEPeu8vNmdS1FsH4a8=;
-	b=GvpKdYu10fnHDW/pAoyK20EECRTJN/Yec8Sow2na6ca6Jc0DaUwN+Rqcd9dAwzM34sF2Nr
-	pb9GzTIbh/vMFHEhBxGN4T6FJVQ28pnUuYGyYScmpFQG3HifUkBUXmOstiOWHkHpwdtvSD
-	ymBkaQTaKH7QV3JuzvR3zdMZNMbVkP8=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-182-Y19FXQdzO2eI8S9NubSUHw-1; Thu,
- 09 May 2024 13:07:16 -0400
-X-MC-Unique: Y19FXQdzO2eI8S9NubSUHw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71A903802292;
-	Thu,  9 May 2024 17:07:14 +0000 (UTC)
-Received: from file1-rdu.file-001.prod.rdu2.dc.redhat.com (unknown [10.11.5.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CB1CB1169588;
-	Thu,  9 May 2024 17:07:13 +0000 (UTC)
-Received: by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix, from userid 12668)
-	id A5F3A30C1B8F; Thu,  9 May 2024 17:07:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix) with ESMTP id 9F5133E683;
-	Thu,  9 May 2024 19:07:13 +0200 (CEST)
-Date: Thu, 9 May 2024 19:07:13 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Fan Wu <wufan@linux.microsoft.com>
-cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
-    tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
-    snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com, 
-    linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-    linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-    linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
-    audit@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
-In-Reply-To: <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
-Message-ID: <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
-References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com> <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com> <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com> <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RuAMFIQ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ED1EC116B1;
+	Thu,  9 May 2024 17:46:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715276814;
+	bh=60olD59E1KrxpBeHp8XDeSOe0xnUAY99qj5zWDoqPSI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RuAMFIQ+YzaqnvgBKjDqo8aJOLX+xtpufy8lF+7sY7Q7zcKOtoi3a624AKH4r3MaT
+	 Glh/7eELP/HsWAg1gb0yggGhFyuiOapSprBPdX+24sauefGeXe+ziZSXoyTQhfw5nT
+	 4MsHII0ler0LgPxyrSkRgNqq7n+/iZYIb5/51u2ECeDcYL8yi7ZEfoYIG0XRcCcv7r
+	 WofoER4XNU4lzGUpHYI+w6qpicZ8Efd1sYHZpYD0JJSn2ttkzm5p0F37EZmjARo8C2
+	 ItjRAtGTXoEbSXvaxHOJZsoiD/suE3mRac4BngZz7eTjux8ils2A217wTahkGrUgWP
+	 MUlfTJPBYF6+w==
+Date: Thu, 9 May 2024 10:46:52 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, aalbersh@redhat.com,
+	linux-xfs@vger.kernel.org, alexl@redhat.com, walters@verbum.org,
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 18/26] xfs: use merkle tree offset as attr hash
+Message-ID: <20240509174652.GA2127@sol.localdomain>
+References: <171444680291.957659.15782417454902691461.stgit@frogsfrogsfrogs>
+ <171444680671.957659.2149857258719599236.stgit@frogsfrogsfrogs>
+ <ZjHmzBRVc3HcyX7-@infradead.org>
+ <ZjHt1pSy4FqGWAB6@infradead.org>
+ <20240507212454.GX360919@frogsfrogsfrogs>
+ <ZjtmVIST_ujh_ld6@infradead.org>
+ <20240508202603.GC360919@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240508202603.GC360919@frogsfrogsfrogs>
 
-
-
-On Wed, 8 May 2024, Fan Wu wrote:
-
+On Wed, May 08, 2024 at 01:26:03PM -0700, Darrick J. Wong wrote:
+> > If we did that would be yet another indicator that they aren't attrs
+> > but something else.  But maybe I should stop banging that drum and
+> > agree that everything is a nail if all you got is a hammer.. :)
 > 
+> Hammer?  All I've got is a big block of cheese. :P
 > 
-> On 5/8/2024 10:17 AM, Mikulas Patocka wrote:
-> > 
-> > 
-> > On Fri, 3 May 2024, Fan Wu wrote:
-> > 
-> >> This patch adds a target finalize hook.
-> >>
-> >> The hook is triggered just before activating an inactive table of a
-> >> mapped device. If it returns an error the __bind get cancelled.
-> >>
-> >> The dm-verity target will use this hook to attach the dm-verity's
-> >> roothash metadata to the block_device struct of the mapped device.
-> >>
-> >> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> > 
-> > Hi
-> > 
-> > Why not use the preresume callback?
-> > 
-> > Is there some reason why do we need a new callback instead of using the
-> > existing one?
-> > 
-> > Mikulas
-> Thanks for the suggestion.
+> FWIW the fsverity code seems to cut us off at U32_MAX bytes of merkle
+> data so that's going to be the limit until they rev the ondisk format.
 > 
-> Mike suggested the new finalize() callback. I think the reason for not using
-> the preresume() callback is that there are multiple points that can fail
-> before activating an inactive table of a mapped device which can potentially
-> lead to inconsistent state.
-> 
-> In our specific case, we are trying to associate dm-verity's roothash metadata
-> with the block_device struct of the mapped device inside the callback.
-> 
-> If we use the preresume() callback for the work and an error occurs between
-> the callback and the table activation, this leave the block_device struct in
-> an inconsistent state.
 
-The preresume callback is the final GO/NO-GO decision point. If all the 
-targets return zero in their preresume callback, then there's no turning 
-back and the table will be activated.
+Where does that happen?
 
-> This is because now the block device contains the roothash metadata of it's
-> inactive table due to the preresume() callback, but the activation failed so
-> the mapped device is still using the old table.
-> 
-> The new finalize() callback guarantees that the callback happens just before
-> the table activation, thus avoiding the inconsistency.
-
-In your patch, it doesn't guarantee that.
-
-do_resume calls dm_swap_table, dm_swap_table calls __bind, __bind calls 
-ti->type->finalize. Then we go back to do_resume and call dm_resume which 
-calls __dm_resume which calls dm_table_resume_targets which calls the 
-preresume callback on all the targets. If some of them fails, it returns a 
-failure (despite the fact that ti->type->finalize succeeded), if all of 
-them succeed, it calls the resume callback on all of them.
-
-So, it seems that the preresume callback provides the guarantee that you 
-looking for.
-
-> -Fan
-
-Mikulas
-
+- Eric
