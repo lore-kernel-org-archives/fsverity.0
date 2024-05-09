@@ -1,39 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4839E1A291;
-	Thu,  9 May 2024 14:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE1514B097;
+	Thu,  9 May 2024 15:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715265943; cv=none; b=QijXVNSDG/f9tNtv/Rv9d/lYFo5YGj49IRBzpRp6uL5QiD2K4mMP0CRMSbxLz4RGtMkOrLwQjdYWngdqrnkXLm6a29oc1kqR2feO7fkFr1PSkuTYLm25bb1ab38EAbqJRfxdi8iT1mI4Strj7RClrIpSzeXOzpX87zwoM2GYH2E=
+	t=1715267208; cv=none; b=O5XOdSVxE06twBAkvDI3YFwshDWTPJ6U9mLbyeGcoij/0IPHtu3IdFCO1bfYf7J4HDeTF4n8Is7G3FbuOhcWSQWB45FKn5a0VNFNoBxYQoEDEJl5l+Uj4Pi3AU7mw+CLPe2hd6NTkLXksFqwwTpM2j8fAHJfVrwcJO7eZHyMHBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715265943; c=relaxed/simple;
-	bh=5DAd3egjLUB5DhTkJFPxOSvu9VRu9lndvlj9IQrlv4A=;
+	s=arc-20240116; t=1715267208; c=relaxed/simple;
+	bh=x6JHJAdbVrRwR/f2aIKQZAixI0xnklootlO8nZFSZ58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RE0h2KrvPIhJ82m7mtyeteGuflia4i0oT0zGx5lr+JAoKgUdzPcwrpfB1futoSuamuvvblByqXwnP1FnuQuzeKVkEuhLbRPWQxyai1+hVLnwo7DeCFotYQTtC0769y+XD60oIBBnb8fhdzIht+3pGiiFZwoFoXcRQkqCoucumtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W1VEh47e; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ImXjWXWhxmW5uVPOpvwTOXrvw13l+irJUtc7462aR+uAuIAdNVyXR4hQJMU0+csWROLcWQ7XIGvOVhZGBJlJVcGJfiFbDLw0gpWOkdL1aSwjItpQkYeB5uGAWdFSUOdpe6kAbJ+52hDT1L1iGgr7GJn9g9SXVsF6MxqWUE5NVq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dRnqPC+A; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1VEh47e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB83C116B1;
-	Thu,  9 May 2024 14:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715265942;
-	bh=5DAd3egjLUB5DhTkJFPxOSvu9VRu9lndvlj9IQrlv4A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W1VEh47e/zLe7EUtYA/+dUybkppzZd6E6rnydfYP7HpBvDmMSrshUds2Ps+RUeY4N
-	 YL3e0V8UAJl+vHgvped+guKrIHSc0CfV8Rp5+pqDV/DoeVkaWi/j3PWT0diafJdgo0
-	 TLogzGC0H9KmoGdRqj4SI66HiTEwCcp8+5snKa2c/4b5/6c6+7nc7Cfo4fEBGqjWU4
-	 LECzSvs8Fd5CEAxw7jP8aJYYvopWLPqEL6f5RJbGxSiHzC5qi4+BsmZxvexYD8w+1B
-	 VafQbkkBbHnRqjOfD1YsAdzTXUY8WSTtOD8Jia3eEXJGtHQtx1fGLl+pQ/z1mtIuUz
-	 xm1fNoRgUYR2A==
-Date: Thu, 9 May 2024 07:45:42 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, aalbersh@redhat.com,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dRnqPC+A"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=5bGAAussnDq0PNHB0NWRX56OjrRoHTwmKLfsWPNPwM0=; b=dRnqPC+AtmI8x0tQnujQqNDaiA
+	KO3XojqLNuWeEtlUmYx3PNP6m1CfmBdlJlqBLLIzqjPbPwkY3ISVoAUKXt3we+gtbTU1fKugH55q7
+	OJKgVDgHSYikLOlienPwFCPjk9XYCB5lc6lIXmD1JDil55sHYb0t3Ck5pHFMF43NRRsT5Tw1/Qqe0
+	b6GnIRpftuhCpP/32MvAHUG5AwU2K92/ekYWNCz/4ndMqcp5Jif7PvU6mhQDzs62+nhK1L0rRfXkG
+	uenNqpl9EmM2h/Zo+uXsEwUK9f4P9iXU9vN53Il/0BsXryrUAP0drB+N9QXFI79I7VluUhKGeaOOM
+	PubhICsg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s55M6-00000001oxT-1nxB;
+	Thu, 09 May 2024 15:06:46 +0000
+Date: Thu, 9 May 2024 08:06:46 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Eric Biggers <ebiggers@kernel.org>, aalbersh@redhat.com,
 	linux-xfs@vger.kernel.org, alexl@redhat.com, walters@verbum.org,
 	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH 25/26] xfs: make it possible to disable fsverity
-Message-ID: <20240509144542.GJ360919@frogsfrogsfrogs>
+Message-ID: <Zjzmho9jm2wisUPj@infradead.org>
 References: <171444680291.957659.15782417454902691461.stgit@frogsfrogsfrogs>
  <171444680792.957659.14055056649560052839.stgit@frogsfrogsfrogs>
  <ZjHlventem1xkuuS@infradead.org>
@@ -41,6 +45,7 @@ References: <171444680291.957659.15782417454902691461.stgit@frogsfrogsfrogs>
  <20240502001501.GB1853833@google.com>
  <20240508203148.GE360919@frogsfrogsfrogs>
  <ZjxZRShZLTb7SS3d@infradead.org>
+ <20240509144542.GJ360919@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -49,27 +54,14 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZjxZRShZLTb7SS3d@infradead.org>
+In-Reply-To: <20240509144542.GJ360919@frogsfrogsfrogs>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, May 08, 2024 at 10:04:05PM -0700, Christoph Hellwig wrote:
-> On Wed, May 08, 2024 at 01:31:48PM -0700, Darrick J. Wong wrote:
-> > Hmm.  What if did something like what fsdax does to update the file
-> > access methods?  We could clear the ondisk iflag but not the incore one;
-> > set DONTCACHE on the dentry and the inode so that it will get reclaimed
-> > ASAP instead of being put on the lru; and then tell userspace they have
-> > to wait until the inode gets reclaimed and reloaded?
-> 
-> Yikes.  That's a completely mess I'd rather get rid of than add more of
-> it.
-> 
-> What is the use case of disabling fsverity to start with vs just
-> removing a fsverity enabled file after copying the content out?
+On Thu, May 09, 2024 at 07:45:42AM -0700, Darrick J. Wong wrote:
+> How do you salvage the content of a fsverity file if the merkle tree
+> hashes don't match the data?  I'm thinking about the backup disk usecase
+> where you enable fsverity to detect bitrot in your video files but
+> they'd otherwise be mostly playable if it weren't for the EIO.
 
-How do you salvage the content of a fsverity file if the merkle tree
-hashes don't match the data?  I'm thinking about the backup disk usecase
-where you enable fsverity to detect bitrot in your video files but
-they'd otherwise be mostly playable if it weren't for the EIO.
+Why would you enable fsverity for DVD images on your backup files?
 
-I guess you could always ddrescue the file, right?
-
---D
