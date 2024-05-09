@@ -1,43 +1,39 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE1514B097;
-	Thu,  9 May 2024 15:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10D23D978;
+	Thu,  9 May 2024 15:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715267208; cv=none; b=O5XOdSVxE06twBAkvDI3YFwshDWTPJ6U9mLbyeGcoij/0IPHtu3IdFCO1bfYf7J4HDeTF4n8Is7G3FbuOhcWSQWB45FKn5a0VNFNoBxYQoEDEJl5l+Uj4Pi3AU7mw+CLPe2hd6NTkLXksFqwwTpM2j8fAHJfVrwcJO7eZHyMHBI=
+	t=1715267396; cv=none; b=AL9CXRJMLWXkLZNjmOXaJikh0FmBLbR7RYHSU0E5UPQmX7f6fBBAcsGqALjTGMm2i9iySam82h5NHVGdfiqs1vJtxgVSmE763KM933vIZkVMgo3pk9PXq/XEFmunZrcvOPVWLXxkiSTtw8TvBTijvzUE7YblUSD7CzR5TxUPH/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715267208; c=relaxed/simple;
-	bh=x6JHJAdbVrRwR/f2aIKQZAixI0xnklootlO8nZFSZ58=;
+	s=arc-20240116; t=1715267396; c=relaxed/simple;
+	bh=LDRB5h++1Bmx8L1UYublREI5KmY1jV7zloFWJs7b9xw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ImXjWXWhxmW5uVPOpvwTOXrvw13l+irJUtc7462aR+uAuIAdNVyXR4hQJMU0+csWROLcWQ7XIGvOVhZGBJlJVcGJfiFbDLw0gpWOkdL1aSwjItpQkYeB5uGAWdFSUOdpe6kAbJ+52hDT1L1iGgr7GJn9g9SXVsF6MxqWUE5NVq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dRnqPC+A; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=A2XeMQTNx8EWgb5ssnWAEEMObs5JL5XvCrY9Rg6GbP/Yg/b9R2AQH98iB7+m4G3Cy3QnCaXqe/IpEqCEnd1T3i/TO5qB61EFgYkqpuoy0wxxnNQMYtYaD2PiEmVjC5olLCe5DUz4xu5LNyMhJWegwJfc9S8EryRmeXg+m26Flh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MD080vjH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dRnqPC+A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=5bGAAussnDq0PNHB0NWRX56OjrRoHTwmKLfsWPNPwM0=; b=dRnqPC+AtmI8x0tQnujQqNDaiA
-	KO3XojqLNuWeEtlUmYx3PNP6m1CfmBdlJlqBLLIzqjPbPwkY3ISVoAUKXt3we+gtbTU1fKugH55q7
-	OJKgVDgHSYikLOlienPwFCPjk9XYCB5lc6lIXmD1JDil55sHYb0t3Ck5pHFMF43NRRsT5Tw1/Qqe0
-	b6GnIRpftuhCpP/32MvAHUG5AwU2K92/ekYWNCz/4ndMqcp5Jif7PvU6mhQDzs62+nhK1L0rRfXkG
-	uenNqpl9EmM2h/Zo+uXsEwUK9f4P9iXU9vN53Il/0BsXryrUAP0drB+N9QXFI79I7VluUhKGeaOOM
-	PubhICsg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s55M6-00000001oxT-1nxB;
-	Thu, 09 May 2024 15:06:46 +0000
-Date: Thu, 9 May 2024 08:06:46 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Eric Biggers <ebiggers@kernel.org>, aalbersh@redhat.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MD080vjH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EF55C116B1;
+	Thu,  9 May 2024 15:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715267396;
+	bh=LDRB5h++1Bmx8L1UYublREI5KmY1jV7zloFWJs7b9xw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MD080vjH7BbzzrPAmRqgt2FOfWZajb17ls12aeoeKSm/pE6h+6p2z58ZCWbA9Kphk
+	 2Rgs58GYlP2bQ5tLNk02kbkRPld0mPgWoMFprS1LHX9phnVo3g+yUbj+G0DAJzfmeH
+	 FjHK2RSvTita/yHkWGXWRkusxyJUK/R+Isae1XngY3xpJ/IPA9NPTWCYJdirsN/M7N
+	 ut5mDjFBi3f7cVAywiaNR/BT6ryZh903P1lE20izTrk2SJj8enE0FsUDHFgnQsCkZV
+	 gaw7wk6QviNLatCGptjNYg0roqtaRfQ1nj07OzkAL+Ovx7dIdf4QyQNfoxLY5obWeb
+	 QTXgEIglVt3dw==
+Date: Thu, 9 May 2024 08:09:55 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Eric Biggers <ebiggers@kernel.org>, aalbersh@redhat.com,
 	linux-xfs@vger.kernel.org, alexl@redhat.com, walters@verbum.org,
 	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH 25/26] xfs: make it possible to disable fsverity
-Message-ID: <Zjzmho9jm2wisUPj@infradead.org>
+Message-ID: <20240509150955.GL360919@frogsfrogsfrogs>
 References: <171444680291.957659.15782417454902691461.stgit@frogsfrogsfrogs>
  <171444680792.957659.14055056649560052839.stgit@frogsfrogsfrogs>
  <ZjHlventem1xkuuS@infradead.org>
@@ -46,6 +42,7 @@ References: <171444680291.957659.15782417454902691461.stgit@frogsfrogsfrogs>
  <20240508203148.GE360919@frogsfrogsfrogs>
  <ZjxZRShZLTb7SS3d@infradead.org>
  <20240509144542.GJ360919@frogsfrogsfrogs>
+ <Zjzmho9jm2wisUPj@infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -54,14 +51,20 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240509144542.GJ360919@frogsfrogsfrogs>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <Zjzmho9jm2wisUPj@infradead.org>
 
-On Thu, May 09, 2024 at 07:45:42AM -0700, Darrick J. Wong wrote:
-> How do you salvage the content of a fsverity file if the merkle tree
-> hashes don't match the data?  I'm thinking about the backup disk usecase
-> where you enable fsverity to detect bitrot in your video files but
-> they'd otherwise be mostly playable if it weren't for the EIO.
+On Thu, May 09, 2024 at 08:06:46AM -0700, Christoph Hellwig wrote:
+> On Thu, May 09, 2024 at 07:45:42AM -0700, Darrick J. Wong wrote:
+> > How do you salvage the content of a fsverity file if the merkle tree
+> > hashes don't match the data?  I'm thinking about the backup disk usecase
+> > where you enable fsverity to detect bitrot in your video files but
+> > they'd otherwise be mostly playable if it weren't for the EIO.
+> 
+> Why would you enable fsverity for DVD images on your backup files?
 
-Why would you enable fsverity for DVD images on your backup files?
+xfs doesn't do data block checksums.
 
+I already have a dumb python program that basically duplicates fsverity
+style merkle trees but I was looking forward to sunsetting it... :P
+
+--D
