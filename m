@@ -1,81 +1,202 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077461494DE;
-	Fri, 10 May 2024 06:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC55F802
+	for <fsverity@lists.linux.dev>; Sat, 11 May 2024 05:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715322023; cv=none; b=p/lpnU/AF1Z5/HrmcNvtye04YC+wu3t6+L7po5XJO3OHM5fG/+jWq6fOiMoxuDm9XzYezM2q9uKEHwlo6rmhM3RHv1gfXoOS36A4VL/JCcHoMZxtmnncfDc42NfGpU6mIR1MBRXR5cQxC09BOdmswlCMLWqm+7h04cKSZYp1fKw=
+	t=1715404084; cv=none; b=VOMt6qDDwB5mBYG27E6ARvb935q8jm+bI/LVHTFD0+yo+Pu3G0QNqNFZWX058Ayq0A9F4WeY4RZ736NVqitwEGUoVoOpZ9QF29uOKuyELWS5pyTTTURwiWYdIU5p30j6ED3c31ZKp19kxmnOOK9YMiuBd9Klkvk3FLM/dqrpjy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715322023; c=relaxed/simple;
-	bh=MXB8yULq8IhEcfPSgfRUb3LoqfN1ihZb5DfjgDQ83ZA=;
+	s=arc-20240116; t=1715404084; c=relaxed/simple;
+	bh=2av7ldVmFODATl7G8x4XJ+ukXmnPObiC8mhBCT9hXG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YdhOOMNBNpTlpIQHdGqU2PzxR6aYlnwZoflTJwLiBonhFyd0LI4srHuFJTpng7yxtZdfZmfFa5CLeqdypByt93uPZnANyHq74O57sQ0NC+w+ChswsX9WVSpsgcZm1swPWf9GyCrmPoXvVuEsbsyWQDIFFoyKPFTj/Z8O+D/jq+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AIlrARjZ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 In-Reply-To:Content-Type:Content-Disposition; b=dbx56mFDNRAuKfiYiFihvY6I4TzmQv/NMcQt5d+5j24Ts26WMEpS5fQJYfuM8VsrzA5792GenHmm97fsU7YunJa4gd1H4o0iJyvQ+POynnduleM6YjRQFTbEFb/B1i9Zb/0j+rcl+blJFUmG5wjYhQol03flXDRe4Uq9lPSZ30o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hGrs0mEx; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AIlrARjZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=tWbLPpe1dxAUAnS/VIXTnCfeoHbQYCROBhp9omQeVas=; b=AIlrARjZRQ5GemdOQ+DXBoAZFM
-	U/d8TrSy87aVZ1nDBjzhYvOZ1KAq/gf/7MfzhCIUFgY3mymY1lQRroEqJ0h35wxP9acMycZ+8kpE8
-	nnBeMpdTPe2sPxxqLkyi0aFDIBcbh20oYX0igwNKPZo8p/Nvi7pZ3vYuC8pTBtLiEvWBYZB8AjoLZ
-	2y5T9ILibr8jTdt0coPaKcZ21oYr6KckIkVYP9ebyZFT/Ns+ErDBpH0Q+ASsp2VSnwQdf8bj92b8Q
-	EeIte/xkPzqr5K8fTTfS+o+axvalsfpNESyVEj/rD3hcLQ+4DywsEIHgN6l+nmzZiyuQIOBu0rFOH
-	NifxF0rQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s5Jc9-00000004Bts-2VHG;
-	Fri, 10 May 2024 06:20:17 +0000
-Date: Thu, 9 May 2024 23:20:17 -0700
-From: Christoph Hellwig <hch@infradead.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hGrs0mEx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1715404081;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TDNPYoMHZa+LiLBXZt4zxOSaybPS9naQJyx782OpWkg=;
+	b=hGrs0mExMVNvzrLVk5bIckvRSYApFN2/82QnEyU/cW6zxhDb4riiwOluB0Vca90mF6MwN8
+	67AsEHvP4Z7hxUoo3Nd52JZ0ZY33GjFCSV0hk4dYjjR2NHeIQjbzAILiC371KbcCofuCU7
+	PLBI/EkK0mlIwZ/c9I6Njbl9P7/dJrI=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-33-7tXcEjK7OrmzHGg779XwAg-1; Sat, 11 May 2024 01:01:52 -0400
+X-MC-Unique: 7tXcEjK7OrmzHGg779XwAg-1
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-61e5d65daceso2498566a12.0
+        for <fsverity@lists.linux.dev>; Fri, 10 May 2024 22:01:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715403711; x=1716008511;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TDNPYoMHZa+LiLBXZt4zxOSaybPS9naQJyx782OpWkg=;
+        b=rpvX7gHCICz7sNnHH1aquv6bNbeL2hR/jTa8wb/QErf7Qq0Al43XV84DRSaeWbImdN
+         pAyCfnZ68GOB5xIdlIZKgRudOo0mDGmYagdUPo65W4e9bpPydWpqTjtapCO2LzJ9RXF3
+         d7Y1ILtox40o0p1uzrOKgotCff/fR0vi7SbwcFmyyq3MIAZcY7U8TvYBWiMPc6MdpeUX
+         TW6u9TsNumxg2JD7MSlD1PZrXDrTNahVZWfRlnVCJJLFbLWbeuzX2abMj/1ih0EJCfDB
+         5ScRILCAN+0VqRYJXEym+TccoDvDSeMVKyUjmJLr1yfuqEzBg8C3RcC2M3h/KfOvd7qj
+         e3Jw==
+X-Gm-Message-State: AOJu0YwLh/6YLuA6RXBB1/iTbN/4h58JDHMgFgybi9m1/838RRv4E4mk
+	IxratJaOBHrLj1WeYod/OqulFSm6/AUHA6DJ8+yNx7+1+4yINHZ40Ch7dN3PBaExNpDflaOyKq+
+	Zv5REn5f+nsIBbz/hPDOCkXyaQZE5ymgKPuBDpValTB0hCTJiLsj8Z+VX
+X-Received: by 2002:a05:6a20:7fa6:b0:1a9:6c18:7e96 with SMTP id adf61e73a8af0-1afde0e69demr4892819637.19.1715403710722;
+        Fri, 10 May 2024 22:01:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGBhS7yx2/bYWVvxBcMHhgvRgVdDMAnNnxTYn3AXqsfsQ/3xg5yARrJakUCW2UTPsJc3GeR9Q==
+X-Received: by 2002:a05:6a20:7fa6:b0:1a9:6c18:7e96 with SMTP id adf61e73a8af0-1afde0e69demr4892793637.19.1715403710008;
+        Fri, 10 May 2024 22:01:50 -0700 (PDT)
+Received: from dell-per750-06-vm-08.rhts.eng.pek2.redhat.com ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b671782d89sm4030893a91.55.2024.05.10.22.01.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 May 2024 22:01:49 -0700 (PDT)
+Date: Sat, 11 May 2024 13:01:46 +0800
+From: Zorro Lang <zlang@redhat.com>
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, aalbersh@redhat.com,
-	ebiggers@kernel.org, linux-xfs@vger.kernel.org, alexl@redhat.com,
-	walters@verbum.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 18/26] xfs: use merkle tree offset as attr hash
-Message-ID: <Zj28oXB6leJGem-9@infradead.org>
-References: <171444680291.957659.15782417454902691461.stgit@frogsfrogsfrogs>
- <171444680671.957659.2149857258719599236.stgit@frogsfrogsfrogs>
- <ZjHmzBRVc3HcyX7-@infradead.org>
- <ZjHt1pSy4FqGWAB6@infradead.org>
- <20240507212454.GX360919@frogsfrogsfrogs>
- <ZjtmVIST_ujh_ld6@infradead.org>
- <20240508202603.GC360919@frogsfrogsfrogs>
- <ZjxY_LbTOhv1i24m@infradead.org>
- <20240509200250.GQ360919@frogsfrogsfrogs>
- <Zj2r0Ewrn-MqNKwc@infradead.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, fstests@vger.kernel.org
+Subject: Re: [PATCHSET v5.6] fstests: fs-verity support for XFS
+Message-ID: <20240511050146.vc4jr2gagwjwwhdp@dell-per750-06-vm-08.rhts.eng.pek2.redhat.com>
+References: <20240430031134.GH360919@frogsfrogsfrogs>
+ <171444687971.962488.18035230926224414854.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <171444687971.962488.18035230926224414854.stgit@frogsfrogsfrogs>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zj2r0Ewrn-MqNKwc@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-FYI, I spent some time looking over the core verity and ext4 code,
-and I can't find anything enforcing any kind of size limit.  Of course
-testing that is kinda hard without taking sparseness into account.
+Hi Darrick,
 
-Eric, should fsverity or the fs backend check for a max size instead
-od trying to build the merkle tree and evnetually failing to write it
-out?
+Due to only half of this patchset got reviewed, so I'd like to wait for your
+later version. I won't pick up part of this patchset to merge this time, I
+think better to merge it as an integrated patchset.
 
-An interesting note I found in the ext4 code is:
+Thanks,
+Zorro
 
-  Note that the verity metadata *must* be encrypted when the file is,
-  since it contains hashes of the plaintext data.
+On Mon, Apr 29, 2024 at 08:19:24PM -0700, Darrick J. Wong wrote:
+> Hi all,
+> 
+> This patchset adds support for fsverity to XFS.  In keeping with
+> Andrey's original design, XFS stores all fsverity metadata in the
+> extended attribute data.  However, I've made a few changes to the code:
+> First, it now caches merkle tree blocks directly instead of abusing the
+> buffer cache.  This reduces lookup overhead quite a bit, at a cost of
+> needing a new shrinker for cached merkle tree blocks.
+> 
+> To reduce the ondisk footprint further, I also made the verity
+> enablement code detect trailing zeroes whenever fsverity tells us to
+> write a buffer, and elide storing the zeroes.  To further reduce the
+> footprint of sparse files, I also skip writing merkle tree blocks if the
+> block contents are entirely hashes of zeroes.
+> 
+> Next, I implemented more of the tooling around verity, such as debugger
+> support, as much fsck support as I can manage without knowing the
+> internal format of the fsverity information; and added support for
+> xfs_scrub to read fsverity files to validate the consistency of the data
+> against the merkle tree.
+> 
+> Finally, I add the ability for administrators to turn off fsverity,
+> which might help recovering damaged data from an inconsistent file.
+> 
+> From Andrey Albershteyn:
+> 
+> Here's v5 of my patchset of adding fs-verity support to XFS.
+> 
+> This implementation uses extended attributes to store fs-verity
+> metadata. The Merkle tree blocks are stored in the remote extended
+> attributes. The names are offsets into the tree.
+> From Darrick J. Wong:
+> 
+> This v5.3 patchset builds upon v5.2 of Andrey's patchset to implement
+> fsverity for XFS.
+> 
+> The biggest thing that I didn't like in the v5 patchset is the abuse of
+> the data device's buffer cache to store the incore version of the merkle
+> tree blocks.  Not only do verity state flags end up in xfs_buf, but the
+> double-alloc flag wastes memory and doesn't remain internally consistent
+> if the xattrs shift around.
+> 
+> I replaced all of that with a per-inode xarray that indexes incore
+> merkle tree blocks.  For cache hits, this dramatically reduces the
+> amount of work that xfs has to do to feed fsverity.  The per-block
+> overhead is much lower (8 bytes instead of ~300 for xfs_bufs), and we no
+> longer have to entertain layering violations in the buffer cache.  I
+> also added a per-filesystem shrinker so that reclaim can cull cached
+> merkle tree blocks, starting with the leaf tree nodes.
+> 
+> I've also rolled in some changes recommended by the fsverity maintainer,
+> fixed some organization and naming problems in the xfs code, fixed a
+> collision in the xfs_inode iflags, and improved dead merkle tree cleanup
+> per the discussion of the v5 series.  At this point I'm happy enough
+> with this code to start integrating and testing it in my trees, so it's
+> time to send it out a coherent patchset for comments.
+> 
+> For v5.3, I've added bits and pieces of online and offline repair
+> support, reduced the size of partially filled merkle tree blocks by
+> removing trailing zeroes, changed the xattr hash function to better
+> avoid collisions between merkle tree keys, made the fsverity
+> invalidation bitmap unnecessary, and made it so that we can save space
+> on sparse verity files by not storing merkle tree blocks that hash
+> totally zeroed data blocks.
+> 
+> From Andrey Albershteyn:
+> 
+> Here's v5 of my patchset of adding fs-verity support to XFS.
+> 
+> This implementation uses extended attributes to store fs-verity
+> metadata. The Merkle tree blocks are stored in the remote extended
+> attributes. The names are offsets into the tree.
+> 
+> If you're going to start using this code, I strongly recommend pulling
+> from my git trees, which are linked below.
+> 
+> This has been running on the djcloud for months with no problems.  Enjoy!
+> Comments and questions are, as always, welcome.
+> 
+> --D
+> 
+> kernel git tree:
+> https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fsverity
+> 
+> xfsprogs git tree:
+> https://git.kernel.org/cgit/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=fsverity
+> 
+> fstests git tree:
+> https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fsverity
+> ---
+> Commits in this patchset:
+>  * common/verity: enable fsverity for XFS
+>  * xfs/{021,122}: adapt to fsverity xattrs
+>  * xfs/122: adapt to fsverity
+>  * xfs: test xfs_scrub detection and correction of corrupt fsverity metadata
+>  * xfs: test disabling fsverity
+>  * common/populate: add verity files to populate xfs images
+> ---
+>  common/populate    |   24 +++++++++
+>  common/verity      |   39 ++++++++++++++-
+>  tests/xfs/021      |    3 +
+>  tests/xfs/122.out  |    3 +
+>  tests/xfs/1880     |  135 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/xfs/1880.out |   37 ++++++++++++++
+>  tests/xfs/1881     |  111 +++++++++++++++++++++++++++++++++++++++++++
+>  tests/xfs/1881.out |   28 +++++++++++
+>  8 files changed, 378 insertions(+), 2 deletions(-)
+>  create mode 100755 tests/xfs/1880
+>  create mode 100644 tests/xfs/1880.out
+>  create mode 100755 tests/xfs/1881
+>  create mode 100644 tests/xfs/1881.out
+> 
 
-While xfs doesn't currently support fscrypyt it would actually be very
-useful feature, so we're locking us into encrypting attrs or at least
-magic attr fork data if we do our own non-standard fsverity storage.
-I'm getting less and less happy with not just doing the normal post
-i_size storage.  Yes, it's not pretty (so isn't the whole fsverity idea
-of shoehorning the hashes into file systems not built for it), but it
-avoid adding tons of code and beeing very different.
