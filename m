@@ -1,66 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EDD12E7F;
-	Tue, 14 May 2024 16:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A479118131A
+	for <fsverity@lists.linux.dev>; Tue, 14 May 2024 19:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715705879; cv=none; b=lhBUR6HkxB+OWa627zKTm4ne2R0XLUcTDdwGBFqUZq8nTGAX10JxbBluivooF89PiUBYPuj3jC/6RCpLTrMaoB/LEmxRMGQiCJWpxMoDy5EC/XLCGYe3eNn5nfKROrTGE5VlBhvDHDVu7fiVAUo+LINRkC8mpd0pUFCrsPCGYIs=
+	t=1715716223; cv=none; b=BCrKPg23pRSTuVahtOzCjZSV/UmylwBK67cDLkq84QlrvnZ6GGBLevRk96apHZXRiBw2lFGq/qGgwWKzKnM1b4bB+692BiQCVyNeTZTtCJOoFrWyXJTtI333EWOlmbKbK79tb6eSxKH/t1D6Ej+eexomEXiXXKJN85VTM3eRqpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715705879; c=relaxed/simple;
-	bh=/MWaahrhjj80ErYEg4hyCfK00+nuIf3V/pFFDQ1dDcE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a8xBqyByP02A5TS5F+71N7F9X8zFMYrH1SymYT5VT2QakJujvSlXGCKYZ4BEov464hu+sJoJyuLr+W8McVCNyeoPXvYf0NrNJ4iXKXohUA+oajc8YAgXYkwquA+fFX6aD6p79z95dvTiLNdfij7yotta49iCC9oEgvEknrikFCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cD4kWrCz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715716223; c=relaxed/simple;
+	bh=xCGobSiEZZKVIGvtlb17VkXzrJav2cpynpYO5pxHsTg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jY7+YcrEigRexTOkQbNiWzM35hjTSsEUL5LpaO5BrjqKcu/xkYWGMk7z8+i58nykC8Tml0vUbfLYb+wpeK9RcKCpckpMkSgczrJZjk8tZkVwaOfG3sdRxwdl9P+6OHRxXXLP8pc6n2MF3h2OhNS+WYVPf88/jJdhkdEBYKHcx9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=FsrdjJ+u; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cD4kWrCz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA6D9C2BD10;
-	Tue, 14 May 2024 16:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715705879;
-	bh=/MWaahrhjj80ErYEg4hyCfK00+nuIf3V/pFFDQ1dDcE=;
-	h=Date:From:To:Cc:Subject:From;
-	b=cD4kWrCzvXn66YbXS2XukhORlHDcf7NxfoIyxBIaWQEdKvyZrYYpHEB1mDZXAyHXX
-	 TxLHaZWQt2AhWTz4XUTN9uNsXAr1M/3BisH5dYMwFpvBKyV0wV/7cJFbDLwcXisG1E
-	 o0oj82iAe9Zxvhjw7FMzSI55FWsHhY7+0/fKj3QIh525XwEvEXT4ya7ShiNAzT5B3Y
-	 /DQz2etKHa76ProUATy2bE9mZXpwyIqhWWrjhLIg6udUFihFHlNSQB7E36g89jrOtE
-	 h/C0TzVdIHyb+yUGnz+k2vyOksP/1Jwf43cURCOHYvduSiznpszfZ2EC6yTyO0mR4t
-	 aSEixemzZEZUQ==
-Date: Tue, 14 May 2024 09:57:57 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>
-Subject: [GIT PULL] fsverity update for 6.10
-Message-ID: <20240514165757.GB2965@sol.localdomain>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="FsrdjJ+u"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-ddda842c399so5911753276.3
+        for <fsverity@lists.linux.dev>; Tue, 14 May 2024 12:50:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1715716220; x=1716321020; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lkp4I1/EP34xCsXz894jXcfOHu9Xc+3+8P13l0GVrxE=;
+        b=FsrdjJ+urqRTzC5lf4qySgxxH+ygrJ2lZO3mxqMb4VDcYmlI4Jv8HEgT3CLes0GfLo
+         0b7enJ6Z/Ubyfdc2SQ7wf4aYphE3ryBqLsAZ74iyttkPt0j3ILc+O378GbwG/FhJAgWo
+         X9WGFbrXfz1jOhEGw3FI5EFg5R8RgOYOEsf5Gc+0GPRkMmM+bptirTzG3WNdEKrwtGvf
+         bePOZ2H280HSCuDrw/jTL3FGsADqKfVF7wIDxpJ3s+srKnbt6TW4A/w784zkIfIje39s
+         6uBcROogTXJ3+sNhx5nbMPXZj/GzimwfIcTRaH0VonMIHH3wBWcn1txUDBMkvFNXwioQ
+         f7Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715716220; x=1716321020;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lkp4I1/EP34xCsXz894jXcfOHu9Xc+3+8P13l0GVrxE=;
+        b=oYI9vvO1PPMu7A8uKwJVk3glecw8qURAF/rbfgpP46WxTmfBGdGPe5OJGI103SUMI+
+         085+UnXg7f2W3zaH+nf2dV5NNOozjgIhJXO7Uqm9YIi2KRdqvvXpoQVuaCXyOnCO/bJY
+         PaksUnVw9pp3Y1OWDQtpg5CHpGAbM6MlnBJhrGN2AnjkiYHTAIRa7ERWbLyfbvpz4z/P
+         KDHnJIwYe7/y1ODgTl/X1q75WPrsCEqpFFk7Tu38dRQhEUvjEkoYDJeLKon/ftDOthyk
+         9TlrvNw3EbGTONDeRmQ0kvUxh6wnDlzHmnKrJj+uE5obZOj2CAlHUnZNd+OcmxM5Oe45
+         X0bg==
+X-Forwarded-Encrypted: i=1; AJvYcCWpUfDQGGZUrDiYAlFpfITmHhntHH40WhwR+zbslEcEVnGuSMQsKGQGyuKAiBVMvKmErp+TuPEKF14kx6qGuFHDQdobEsZ7U2k=
+X-Gm-Message-State: AOJu0YxUpFd1CItnbG47j2fkHfWQvjnrLqzknvLV9yZsu1a/ziNM2TCr
+	ylPjH3ZhlzsYbkDoS6L11C2YKg3+EooPSrckX1aZAjD0M4oafviMA0c/zXlR458+vpagfLm24wN
+	7FKwoYqGd9U/U3h7pWuzGDUixmi9YztckitIM
+X-Google-Smtp-Source: AGHT+IFWIy5UA2F/+z955H9aT1kkILcAstR0rQ1Z6k7ELYYSk3poMncJ+M812qPYw6M0u0TMB7AFkJo/BviRvM2KHkE=
+X-Received: by 2002:a05:6902:218f:b0:dee:8da8:aeb7 with SMTP id
+ 3f1490d57ef6-dee8da8b092mr8719461276.25.1715716220678; Tue, 14 May 2024
+ 12:50:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
+ <1714775551-22384-21-git-send-email-wufan@linux.microsoft.com>
+ <ZjXsBjAFs-qp9xY4@archie.me> <ab7054cd-affd-47c3-bd98-2cf47d6a6376@linux.microsoft.com>
+In-Reply-To: <ab7054cd-affd-47c3-bd98-2cf47d6a6376@linux.microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 14 May 2024 15:50:09 -0400
+Message-ID: <CAHC9VhQewDL4cWXSiAgzvrHa8N5rd6TbhSCM3jRp29=Kmr3m-Q@mail.gmail.com>
+Subject: Re: [PATCH v18 20/21] Documentation: add ipe documentation
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, corbet@lwn.net, zohar@linux.ibm.com, 
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
+	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit e67572cd2204894179d89bd7b984072f19313b03:
+On Sat, May 4, 2024 at 4:13=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> w=
+rote:
+> On 5/4/2024 1:04 AM, Bagas Sanjaya wrote:
+> > On Fri, May 03, 2024 at 03:32:30PM -0700, Fan Wu wrote:
+> >> +IPE does not mitigate threats arising from malicious but authorized
+> >> +developers (with access to a signing certificate), or compromised
+> >> +developer tools used by them (i.e. return-oriented programming attack=
+s).
+> >> +Additionally, IPE draws hard security boundary between userspace and
+> >> +kernelspace. As a result, IPE does not provide any protections agains=
+t a
+> >> +kernel level exploit, and a kernel-level exploit can disable or tampe=
+r
+> >> +with IPE's protections.
+> >
+> > So how to mitigate kernel-level exploits then?
+>
+> One possible way is to use hypervisor to protect the kernel integrity.
+> https://github.com/heki-linux is one project on this direction. Perhaps
+> I should also add this link to the doc.
 
-  Linux 6.9-rc6 (2024-04-28 13:47:24 -0700)
+I wouldn't spend a lot of time on kernel exploits in the IPE
+documentation as it is out of scope for IPE.  In face, I would say
+just that in the last sentence in the paragraph above:
 
-are available in the Git repository at:
+"As a result, kernel-level exploits are considered outside the scope
+of IPE and mitigation is left to other mechanisms."
 
-  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+(or something similar)
 
-for you to fetch changes up to ee5814dddefbaa181cb247a75676dd5103775db1:
-
-  fsverity: use register_sysctl_init() to avoid kmemleak warning (2024-05-03 08:30:58 -0700)
-
-----------------------------------------------------------------
-
-Fix a false positive kmemleak warning.
-
-----------------------------------------------------------------
-Eric Biggers (1):
-      fsverity: use register_sysctl_init() to avoid kmemleak warning
-
- fs/verity/init.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+--=20
+paul-moore.com
