@@ -1,41 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB29C399;
-	Fri, 17 May 2024 15:56:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6AB13DB83;
+	Fri, 17 May 2024 17:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715961390; cv=none; b=bGVCBrqTrzrjltDV1F33DqQPkjof5TxBzr5UpsQM5xKCtF6ane0rbhpmnSXjmGJBmli5CqJ0y+0BdUAECiNW4AKgw02+DT3FpIj7xxEO5xVKyjaG6ncwNnaqnINMjRY5S5H63AJjEwm3PmTpQYI/BxZkOG/TeKPNeyRmPLhdMIs=
+	t=1715966242; cv=none; b=Tf42k9D537g8GAee+x2PFjxrItVaJsIPiMzm1AP7wXFNEsuj4YyZIPJVqksRAOeU9Xk8I4IoMZhw/Vs4lGvLJw80lFsF89o0BporOzdGTDe0TuGvpyerr1VjFwjNc5Q/RkTLfmpq1RYLRn15lzYP7Ry7NC6OgV4tPXdp3BBNUIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715961390; c=relaxed/simple;
-	bh=nd1PdYlGsC/QzJZOWPgYLrKd4b9pdsPDAgH20vsDd2c=;
+	s=arc-20240116; t=1715966242; c=relaxed/simple;
+	bh=kuXbjsBIjFBldlivZBrKJlUteBHLDKXPu1KqkN8bBgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dosnj8Jrt+eNtRQ+9cvr0ScwmJMgGMi6p1AQhiri9ANdGPNQXfUX4aHErj2Bkg14/IWqwp/3U73VPnrb1wjJnoTqtREfNuvO1Ru/06DHp303jRyzo8oZhlcMVyfIs8fTUy74ibVzhOnAx+9fcyEu8ZpfHPpFRbws0pDLJJmDi9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kUNgytXP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPNewZs4Iwdqr+4K7l8CF5hqsZ89w9/4eqgkHMOnVmKQSgkEvS+nKzLynHuQ2jnR/XJFSH5bD0wMqiDc+G9U3LJxdXVqADeMMc7lHhproCkS1rSeHiTJ5IKAZcDRuNsGpttRjFAnjRQGMXvOJAhxpvTLC82BKAHyjD9Lx5dwruM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MuLT3Isq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kUNgytXP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E924C2BD10;
-	Fri, 17 May 2024 15:56:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MuLT3Isq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90CB1C2BD10;
+	Fri, 17 May 2024 17:17:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715961390;
-	bh=nd1PdYlGsC/QzJZOWPgYLrKd4b9pdsPDAgH20vsDd2c=;
+	s=k20201202; t=1715966241;
+	bh=kuXbjsBIjFBldlivZBrKJlUteBHLDKXPu1KqkN8bBgU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kUNgytXPDsJDnd36NEfB6qy3xgyzJoQXnX2qjM9AfXMRmisYE9datL2emeAW+89V2
-	 MmmjVsRYaSK/EEQrCRCpdf+WDpBtRCjB/iEQ8UpqO/NxJgKQZaLn07pK7PMz3wtNT6
-	 LBxWPiR4x7fag8RQdmfDMMrANKAmO3Aue4ta45ZZoNQgnRFKTmsXvSgHIjava7Hcq1
-	 vVZ7D8ShM9O2keL/o19P/tV/hLD6bdkzf8aMFbxmHnZAaSqQRPF9ZHfgsU5u8gzESw
-	 PgRePemdmycWjy8QjoKUGTKyaY9q+DPySoYQhkS/OiP5jdpSOLIdhc+GP7eqe5Q4tW
-	 Q9dERIVXoylLA==
-Date: Fri, 17 May 2024 08:56:29 -0700
+	b=MuLT3IsqZvlqm2U4XAeWdUsrV6RSwzdQLnMG7oJItAfDkVcWbNpYi6Br8igDt0UTy
+	 kUh5BndYj0hs36GIGHiPV7leUEMRSTe8ZSQfm2JXRyJnTDkNudWUyMeBymdMzxQwTK
+	 pUb+9VjyrJu+1n1guH6OFmR2aNIm26r1Y+inJTSdgsX5D3fr/XXmBfv6elT2/V8jBI
+	 mJZi0CUrq54DxQVkQiAp9JtS/96aql79122Ciijg1dNNT/7ig3Eew8tz9kJYNBpU/8
+	 6PADXedbAjONc408OGT186spxqusS6jC/OWlyOP+TWUFN3UaUiri+D49NQyUXguy6S
+	 SZmZw2K6oFoug==
+Date: Fri, 17 May 2024 10:17:20 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Zorro Lang <zlang@redhat.com>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, fstests@vger.kernel.org
-Subject: Re: [PATCHSET v5.6] fstests: fs-verity support for XFS
-Message-ID: <20240517155629.GL360908@frogsfrogsfrogs>
-References: <20240430031134.GH360919@frogsfrogsfrogs>
- <171444687971.962488.18035230926224414854.stgit@frogsfrogsfrogs>
- <20240511050146.vc4jr2gagwjwwhdp@dell-per750-06-vm-08.rhts.eng.pek2.redhat.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: aalbersh@redhat.com, ebiggers@kernel.org, linux-xfs@vger.kernel.org,
+	alexl@redhat.com, walters@verbum.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 18/26] xfs: use merkle tree offset as attr hash
+Message-ID: <20240517171720.GA360919@frogsfrogsfrogs>
+References: <171444680671.957659.2149857258719599236.stgit@frogsfrogsfrogs>
+ <ZjHmzBRVc3HcyX7-@infradead.org>
+ <ZjHt1pSy4FqGWAB6@infradead.org>
+ <20240507212454.GX360919@frogsfrogsfrogs>
+ <ZjtmVIST_ujh_ld6@infradead.org>
+ <20240508202603.GC360919@frogsfrogsfrogs>
+ <ZjxY_LbTOhv1i24m@infradead.org>
+ <20240509200250.GQ360919@frogsfrogsfrogs>
+ <Zj2r0Ewrn-MqNKwc@infradead.org>
+ <Zj28oXB6leJGem-9@infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -44,136 +52,35 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240511050146.vc4jr2gagwjwwhdp@dell-per750-06-vm-08.rhts.eng.pek2.redhat.com>
+In-Reply-To: <Zj28oXB6leJGem-9@infradead.org>
 
-On Sat, May 11, 2024 at 01:01:46PM +0800, Zorro Lang wrote:
-> Hi Darrick,
+On Thu, May 09, 2024 at 11:20:17PM -0700, Christoph Hellwig wrote:
+> FYI, I spent some time looking over the core verity and ext4 code,
+> and I can't find anything enforcing any kind of size limit.  Of course
+> testing that is kinda hard without taking sparseness into account.
 > 
-> Due to only half of this patchset got reviewed, so I'd like to wait for your
-> later version. I won't pick up part of this patchset to merge this time, I
-> think better to merge it as an integrated patchset.
+> Eric, should fsverity or the fs backend check for a max size instead
+> od trying to build the merkle tree and evnetually failing to write it
+> out?
+> 
+> An interesting note I found in the ext4 code is:
+> 
+>   Note that the verity metadata *must* be encrypted when the file is,
+>   since it contains hashes of the plaintext data.
 
-Christoph and I talked about the future of this patchset at LSF and
-there are some file format changes in store, so please hold off on
-analyzing this patchset for now.
+Refresh my memory of fscrypt -- does it encrypt directory names, xattr
+names, and xattr values too?  Or does it only do that to file data?
+
+> While xfs doesn't currently support fscrypyt it would actually be very
+> useful feature, so we're locking us into encrypting attrs or at least
+> magic attr fork data if we do our own non-standard fsverity storage.
+> I'm getting less and less happy with not just doing the normal post
+> i_size storage.  Yes, it's not pretty (so isn't the whole fsverity idea
+> of shoehorning the hashes into file systems not built for it), but it
+> avoid adding tons of code and beeing very different.
+
+And if we copy the ext4 method of putting the merkle data after eof and
+loading it into the pagecache, how much of the generic fs/verity cleanup
+patches do we really need?
 
 --D
-
-> Thanks,
-> Zorro
-> 
-> On Mon, Apr 29, 2024 at 08:19:24PM -0700, Darrick J. Wong wrote:
-> > Hi all,
-> > 
-> > This patchset adds support for fsverity to XFS.  In keeping with
-> > Andrey's original design, XFS stores all fsverity metadata in the
-> > extended attribute data.  However, I've made a few changes to the code:
-> > First, it now caches merkle tree blocks directly instead of abusing the
-> > buffer cache.  This reduces lookup overhead quite a bit, at a cost of
-> > needing a new shrinker for cached merkle tree blocks.
-> > 
-> > To reduce the ondisk footprint further, I also made the verity
-> > enablement code detect trailing zeroes whenever fsverity tells us to
-> > write a buffer, and elide storing the zeroes.  To further reduce the
-> > footprint of sparse files, I also skip writing merkle tree blocks if the
-> > block contents are entirely hashes of zeroes.
-> > 
-> > Next, I implemented more of the tooling around verity, such as debugger
-> > support, as much fsck support as I can manage without knowing the
-> > internal format of the fsverity information; and added support for
-> > xfs_scrub to read fsverity files to validate the consistency of the data
-> > against the merkle tree.
-> > 
-> > Finally, I add the ability for administrators to turn off fsverity,
-> > which might help recovering damaged data from an inconsistent file.
-> > 
-> > From Andrey Albershteyn:
-> > 
-> > Here's v5 of my patchset of adding fs-verity support to XFS.
-> > 
-> > This implementation uses extended attributes to store fs-verity
-> > metadata. The Merkle tree blocks are stored in the remote extended
-> > attributes. The names are offsets into the tree.
-> > From Darrick J. Wong:
-> > 
-> > This v5.3 patchset builds upon v5.2 of Andrey's patchset to implement
-> > fsverity for XFS.
-> > 
-> > The biggest thing that I didn't like in the v5 patchset is the abuse of
-> > the data device's buffer cache to store the incore version of the merkle
-> > tree blocks.  Not only do verity state flags end up in xfs_buf, but the
-> > double-alloc flag wastes memory and doesn't remain internally consistent
-> > if the xattrs shift around.
-> > 
-> > I replaced all of that with a per-inode xarray that indexes incore
-> > merkle tree blocks.  For cache hits, this dramatically reduces the
-> > amount of work that xfs has to do to feed fsverity.  The per-block
-> > overhead is much lower (8 bytes instead of ~300 for xfs_bufs), and we no
-> > longer have to entertain layering violations in the buffer cache.  I
-> > also added a per-filesystem shrinker so that reclaim can cull cached
-> > merkle tree blocks, starting with the leaf tree nodes.
-> > 
-> > I've also rolled in some changes recommended by the fsverity maintainer,
-> > fixed some organization and naming problems in the xfs code, fixed a
-> > collision in the xfs_inode iflags, and improved dead merkle tree cleanup
-> > per the discussion of the v5 series.  At this point I'm happy enough
-> > with this code to start integrating and testing it in my trees, so it's
-> > time to send it out a coherent patchset for comments.
-> > 
-> > For v5.3, I've added bits and pieces of online and offline repair
-> > support, reduced the size of partially filled merkle tree blocks by
-> > removing trailing zeroes, changed the xattr hash function to better
-> > avoid collisions between merkle tree keys, made the fsverity
-> > invalidation bitmap unnecessary, and made it so that we can save space
-> > on sparse verity files by not storing merkle tree blocks that hash
-> > totally zeroed data blocks.
-> > 
-> > From Andrey Albershteyn:
-> > 
-> > Here's v5 of my patchset of adding fs-verity support to XFS.
-> > 
-> > This implementation uses extended attributes to store fs-verity
-> > metadata. The Merkle tree blocks are stored in the remote extended
-> > attributes. The names are offsets into the tree.
-> > 
-> > If you're going to start using this code, I strongly recommend pulling
-> > from my git trees, which are linked below.
-> > 
-> > This has been running on the djcloud for months with no problems.  Enjoy!
-> > Comments and questions are, as always, welcome.
-> > 
-> > --D
-> > 
-> > kernel git tree:
-> > https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fsverity
-> > 
-> > xfsprogs git tree:
-> > https://git.kernel.org/cgit/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=fsverity
-> > 
-> > fstests git tree:
-> > https://git.kernel.org/cgit/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fsverity
-> > ---
-> > Commits in this patchset:
-> >  * common/verity: enable fsverity for XFS
-> >  * xfs/{021,122}: adapt to fsverity xattrs
-> >  * xfs/122: adapt to fsverity
-> >  * xfs: test xfs_scrub detection and correction of corrupt fsverity metadata
-> >  * xfs: test disabling fsverity
-> >  * common/populate: add verity files to populate xfs images
-> > ---
-> >  common/populate    |   24 +++++++++
-> >  common/verity      |   39 ++++++++++++++-
-> >  tests/xfs/021      |    3 +
-> >  tests/xfs/122.out  |    3 +
-> >  tests/xfs/1880     |  135 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  tests/xfs/1880.out |   37 ++++++++++++++
-> >  tests/xfs/1881     |  111 +++++++++++++++++++++++++++++++++++++++++++
-> >  tests/xfs/1881.out |   28 +++++++++++
-> >  8 files changed, 378 insertions(+), 2 deletions(-)
-> >  create mode 100755 tests/xfs/1880
-> >  create mode 100644 tests/xfs/1880.out
-> >  create mode 100755 tests/xfs/1881
-> >  create mode 100644 tests/xfs/1881.out
-> > 
-> 
-> 
