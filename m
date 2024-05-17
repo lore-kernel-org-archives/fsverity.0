@@ -1,86 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6AB13DB83;
-	Fri, 17 May 2024 17:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81ABA13F015;
+	Fri, 17 May 2024 19:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715966242; cv=none; b=Tf42k9D537g8GAee+x2PFjxrItVaJsIPiMzm1AP7wXFNEsuj4YyZIPJVqksRAOeU9Xk8I4IoMZhw/Vs4lGvLJw80lFsF89o0BporOzdGTDe0TuGvpyerr1VjFwjNc5Q/RkTLfmpq1RYLRn15lzYP7Ry7NC6OgV4tPXdp3BBNUIc=
+	t=1715973215; cv=none; b=UaxBx6SYVThYnl36M51ZTnba7Hl5xUkx7nR8/rmrdvuzptcucvv600yHW1ZlayO8BbDNGaZEjipdqAWZ75M8KuxQxik45YR/yHTZc4CKT5uPgClOnVilb1zaHV0vo1TZ7q/RvzI9fpKaDb/nzZGAr8Ct5Fg/Vggus2BGCi92Qm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715966242; c=relaxed/simple;
-	bh=kuXbjsBIjFBldlivZBrKJlUteBHLDKXPu1KqkN8bBgU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPNewZs4Iwdqr+4K7l8CF5hqsZ89w9/4eqgkHMOnVmKQSgkEvS+nKzLynHuQ2jnR/XJFSH5bD0wMqiDc+G9U3LJxdXVqADeMMc7lHhproCkS1rSeHiTJ5IKAZcDRuNsGpttRjFAnjRQGMXvOJAhxpvTLC82BKAHyjD9Lx5dwruM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MuLT3Isq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715973215; c=relaxed/simple;
+	bh=cl5z+RypzfaYXGWf+rnBBjI5OlA1WYqdwNwX6Edu4uM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VaoX/Mkf+ITTV+m5NFhu/VCAWAXdfdtjcPbqpMmf8PREM6nTIrDuqQAspB8ryI0jg8u0Dl8QenC5S24Mer3RtHgMF/nDVYJBe9/6HPVAbdMmDqoFw8ekXtsknzW32V3LkUCMOq9j238Pe3+OYJ1sUon+bIQixbRBc58KS0q6coA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fpp/vl3D; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MuLT3Isq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90CB1C2BD10;
-	Fri, 17 May 2024 17:17:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715966241;
-	bh=kuXbjsBIjFBldlivZBrKJlUteBHLDKXPu1KqkN8bBgU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MuLT3IsqZvlqm2U4XAeWdUsrV6RSwzdQLnMG7oJItAfDkVcWbNpYi6Br8igDt0UTy
-	 kUh5BndYj0hs36GIGHiPV7leUEMRSTe8ZSQfm2JXRyJnTDkNudWUyMeBymdMzxQwTK
-	 pUb+9VjyrJu+1n1guH6OFmR2aNIm26r1Y+inJTSdgsX5D3fr/XXmBfv6elT2/V8jBI
-	 mJZi0CUrq54DxQVkQiAp9JtS/96aql79122Ciijg1dNNT/7ig3Eew8tz9kJYNBpU/8
-	 6PADXedbAjONc408OGT186spxqusS6jC/OWlyOP+TWUFN3UaUiri+D49NQyUXguy6S
-	 SZmZw2K6oFoug==
-Date: Fri, 17 May 2024 10:17:20 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: aalbersh@redhat.com, ebiggers@kernel.org, linux-xfs@vger.kernel.org,
-	alexl@redhat.com, walters@verbum.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 18/26] xfs: use merkle tree offset as attr hash
-Message-ID: <20240517171720.GA360919@frogsfrogsfrogs>
-References: <171444680671.957659.2149857258719599236.stgit@frogsfrogsfrogs>
- <ZjHmzBRVc3HcyX7-@infradead.org>
- <ZjHt1pSy4FqGWAB6@infradead.org>
- <20240507212454.GX360919@frogsfrogsfrogs>
- <ZjtmVIST_ujh_ld6@infradead.org>
- <20240508202603.GC360919@frogsfrogsfrogs>
- <ZjxY_LbTOhv1i24m@infradead.org>
- <20240509200250.GQ360919@frogsfrogsfrogs>
- <Zj2r0Ewrn-MqNKwc@infradead.org>
- <Zj28oXB6leJGem-9@infradead.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fpp/vl3D"
+Received: from [10.137.106.151] (unknown [167.220.2.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6FAD220B915A;
+	Fri, 17 May 2024 12:13:27 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6FAD220B915A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1715973207;
+	bh=2p1wopyKvglG1K22JP2DhRwV85SJbq4dKxtjT1xHvtY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fpp/vl3DKUdjSDRpvAjyDgeuyiVrUyujnX4va9QRUjeu+quEuTpy1VLMWrbI1o4O2
+	 7tFT61OD7MvfnS0fygEkUh5vIkJKB8wvWKhgP7fqsqhi6YbLFLZ5KpReHrkz8TRyK5
+	 gfobGVgWsvo7PzhwRCDJDIgnL1vDR71OaQIF5phw=
+Message-ID: <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
+Date: Fri, 17 May 2024 12:13:26 -0700
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zj28oXB6leJGem-9@infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
+To: Mikulas Patocka <mpatocka@redhat.com>, Mike Snitzer <snitzer@kernel.org>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+ tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
+ snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+ linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ audit@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
+ <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com>
+ <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com>
+ <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
+ <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
+Content-Language: en-CA
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 09, 2024 at 11:20:17PM -0700, Christoph Hellwig wrote:
-> FYI, I spent some time looking over the core verity and ext4 code,
-> and I can't find anything enforcing any kind of size limit.  Of course
-> testing that is kinda hard without taking sparseness into account.
+
+
+On 5/9/2024 10:07 AM, Mikulas Patocka wrote:
 > 
-> Eric, should fsverity or the fs backend check for a max size instead
-> od trying to build the merkle tree and evnetually failing to write it
-> out?
 > 
-> An interesting note I found in the ext4 code is:
+> On Wed, 8 May 2024, Fan Wu wrote:
 > 
->   Note that the verity metadata *must* be encrypted when the file is,
->   since it contains hashes of the plaintext data.
+>>
+>>
+>> On 5/8/2024 10:17 AM, Mikulas Patocka wrote:
+>>>
+>>>
+>>> On Fri, 3 May 2024, Fan Wu wrote:
+>>>
+>>>> This patch adds a target finalize hook.
+>>>>
+>>>> The hook is triggered just before activating an inactive table of a
+>>>> mapped device. If it returns an error the __bind get cancelled.
+>>>>
+>>>> The dm-verity target will use this hook to attach the dm-verity's
+>>>> roothash metadata to the block_device struct of the mapped device.
+>>>>
+>>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+>>>
+>>> Hi
+>>>
+>>> Why not use the preresume callback?
+>>>
+>>> Is there some reason why do we need a new callback instead of using the
+>>> existing one?
+>>>
+>>> Mikulas
+>> Thanks for the suggestion.
+>>
+>> Mike suggested the new finalize() callback. I think the reason for not using
+>> the preresume() callback is that there are multiple points that can fail
+>> before activating an inactive table of a mapped device which can potentially
+>> lead to inconsistent state.
+>>
+>> In our specific case, we are trying to associate dm-verity's roothash metadata
+>> with the block_device struct of the mapped device inside the callback.
+>>
+>> If we use the preresume() callback for the work and an error occurs between
+>> the callback and the table activation, this leave the block_device struct in
+>> an inconsistent state.
+> 
+> The preresume callback is the final GO/NO-GO decision point. If all the
+> targets return zero in their preresume callback, then there's no turning
+> back and the table will be activated.
+> 
+>> This is because now the block device contains the roothash metadata of it's
+>> inactive table due to the preresume() callback, but the activation failed so
+>> the mapped device is still using the old table.
+>>
+>> The new finalize() callback guarantees that the callback happens just before
+>> the table activation, thus avoiding the inconsistency.
+> 
+> In your patch, it doesn't guarantee that.
+> 
+> do_resume calls dm_swap_table, dm_swap_table calls __bind, __bind calls
+> ti->type->finalize. Then we go back to do_resume and call dm_resume which
+> calls __dm_resume which calls dm_table_resume_targets which calls the
+> preresume callback on all the targets. If some of them fails, it returns a
+> failure (despite the fact that ti->type->finalize succeeded), if all of
+> them succeed, it calls the resume callback on all of them.
+> 
+> So, it seems that the preresume callback provides the guarantee that you
+> looking for.
+> 
+>> -Fan
+> 
+> Mikulas
 
-Refresh my memory of fscrypt -- does it encrypt directory names, xattr
-names, and xattr values too?  Or does it only do that to file data?
+Thanks for the info. I have tested and verified that the preresume() 
+hook can also work for our case.
 
-> While xfs doesn't currently support fscrypyt it would actually be very
-> useful feature, so we're locking us into encrypting attrs or at least
-> magic attr fork data if we do our own non-standard fsverity storage.
-> I'm getting less and less happy with not just doing the normal post
-> i_size storage.  Yes, it's not pretty (so isn't the whole fsverity idea
-> of shoehorning the hashes into file systems not built for it), but it
-> avoid adding tons of code and beeing very different.
+ From the source code 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm-ioctl.c#n1149, 
+the whole resume process appears to be:
 
-And if we copy the ext4 method of putting the merkle data after eof and
-loading it into the pagecache, how much of the generic fs/verity cleanup
-patches do we really need?
+1. Check if there is a new map for the device. If so, attempt to 
+activate the new map using dm_swap_table() (where the finalize() 
+callback occurs).
 
---D
+2. Check if the device is suspended. If so, use dm_resume() (where the 
+preresume() callback occurs) to resume the device.
+
+3. If a new map is activated, use dm_table_destroy() to destroy the old map.
+
+For our case:
+
+- Using the finalize() callback, the metadata of the dm-verity target 
+inside the table is attached to the mapped device every time a new table 
+is activated.
+- Using the preresume() callback, the same metadata is attached every 
+time the device resumes from suspension.
+
+If I understand the code correctly, resuming from suspension is a 
+necessary step for loading a new mapping table. Thus, the preresume() 
+callback covers all conditions where the finalize() callback would be 
+triggered. However, the preresume() callback can also be triggered when 
+the device resumes from suspension without loading a new table, in which 
+case there is no new metadata in the table to attach to the mapped device.
+
+In the scenario where the finalize() callback succeeds but the 
+preresume() callback fails, it seems the device will remain in a 
+suspended state, the newly activated table will be kept, and the old 
+table will be destroyed, so it seems there is no inconsistency using 
+finalize() even preresume() potentially fails.
+
+I believe both the finalize() callback proposed by Mike and the 
+preresume() callback suggested by Mikulas can work for our case. I am 
+fine with either approach, but I would like to know which one is 
+preferred by the maintainers and would appreciate an ACK for the chosen 
+approach.
+
+-Fan
