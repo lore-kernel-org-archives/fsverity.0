@@ -1,173 +1,90 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81ABA13F015;
-	Fri, 17 May 2024 19:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A3113E404
+	for <fsverity@lists.linux.dev>; Fri, 17 May 2024 19:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715973215; cv=none; b=UaxBx6SYVThYnl36M51ZTnba7Hl5xUkx7nR8/rmrdvuzptcucvv600yHW1ZlayO8BbDNGaZEjipdqAWZ75M8KuxQxik45YR/yHTZc4CKT5uPgClOnVilb1zaHV0vo1TZ7q/RvzI9fpKaDb/nzZGAr8Ct5Fg/Vggus2BGCi92Qm4=
+	t=1715974625; cv=none; b=PyNnjUsdzhtG3x8dd1qqICqS1pUfmG/f+3YlOjAyWeM03butpwPzZVn1k7B9nM6dhWfVBzRY3oHk6Wo2Zqqn9nnwNEzLkiIWGbReREx8VOM6r+QQF7ndlcA/oUWLpsKjXKhZmTGTX+zhfNuwGA7v9LHW7xszU+qU5WPkK7vOcDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715973215; c=relaxed/simple;
-	bh=cl5z+RypzfaYXGWf+rnBBjI5OlA1WYqdwNwX6Edu4uM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VaoX/Mkf+ITTV+m5NFhu/VCAWAXdfdtjcPbqpMmf8PREM6nTIrDuqQAspB8ryI0jg8u0Dl8QenC5S24Mer3RtHgMF/nDVYJBe9/6HPVAbdMmDqoFw8ekXtsknzW32V3LkUCMOq9j238Pe3+OYJ1sUon+bIQixbRBc58KS0q6coA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fpp/vl3D; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1715974625; c=relaxed/simple;
+	bh=JAA8iSyx6bgiRG8Ddo2k0qxje0uyk0tV5RfZ/HiAvnk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JXB/rlMlJkdPY+YY+lqw1hRCiXfeSb/aOu/UPU6oRDxn3WtD3GdvzEA8bJLYUT1SU7TCv78C3d0scvfMIkAxZFHCuLUIubPxh/lNZkjeqvAIHTbJv/gwqmpuftgvV+ieYacnndgRq+nrXS2b4LY37vuYGbGImq5C3fsk4uh1QlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=EclpJ7PQ; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fpp/vl3D"
-Received: from [10.137.106.151] (unknown [167.220.2.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6FAD220B915A;
-	Fri, 17 May 2024 12:13:27 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6FAD220B915A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1715973207;
-	bh=2p1wopyKvglG1K22JP2DhRwV85SJbq4dKxtjT1xHvtY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fpp/vl3DKUdjSDRpvAjyDgeuyiVrUyujnX4va9QRUjeu+quEuTpy1VLMWrbI1o4O2
-	 7tFT61OD7MvfnS0fygEkUh5vIkJKB8wvWKhgP7fqsqhi6YbLFLZ5KpReHrkz8TRyK5
-	 gfobGVgWsvo7PzhwRCDJDIgnL1vDR71OaQIF5phw=
-Message-ID: <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
-Date: Fri, 17 May 2024 12:13:26 -0700
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="EclpJ7PQ"
+Received: from cwcc.thunk.org (pool-173-48-113-2.bstnma.fios.verizon.net [173.48.113.2])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 44HJaevV011512
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 May 2024 15:36:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1715974602; bh=art33/7wTYbQAOP1A+9aiHxSsPpImcDO5odsBbbfpUQ=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=EclpJ7PQjaegxz8wu5lKouYqK1JbiU4EjkVr+hWch040PZby/TBfP1l1T7G9Ayisx
+	 viipOADDd+813uFUK7KcegkdN8stsYl7MtSldKfeudFInaciKEVKGdeodtg8Dl2eGQ
+	 U5DI2kA0ISW2iYIX8BcTV4JJyiwHIzhq3wwnkzfzDikMnzkYLG/nnGNB9Q7mpdOP+B
+	 Km6IBJZ4PE/yx4kiExEQvBJmpXoi6fDy8Ad8ZbpRaJ02w/KItoBMxUTNqbv1ZCQlLs
+	 WVqJ2wQXUbyUFS6GFJ2NXVhFVcLQ7T5AvLfEe3YwTWEimpYgP1e6lkN3gXgjeblySd
+	 w/NjYcktGc0fw==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+	id D12E415C00DC; Fri, 17 May 2024 15:36:39 -0400 (EDT)
+Date: Fri, 17 May 2024 15:36:39 -0400
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Eric Biggers <ebiggers@kernel.org>,
+        aalbersh@redhat.com, linux-xfs@vger.kernel.org, alexl@redhat.com,
+        walters@verbum.org, fsverity@lists.linux.dev,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 25/26] xfs: make it possible to disable fsverity
+Message-ID: <20240517193639.GA65648@mit.edu>
+References: <ZjHlventem1xkuuS@infradead.org>
+ <20240501225007.GM360919@frogsfrogsfrogs>
+ <20240502001501.GB1853833@google.com>
+ <20240508203148.GE360919@frogsfrogsfrogs>
+ <ZjxZRShZLTb7SS3d@infradead.org>
+ <20240509144542.GJ360919@frogsfrogsfrogs>
+ <Zjzmho9jm2wisUPj@infradead.org>
+ <20240509150955.GL360919@frogsfrogsfrogs>
+ <ZjzoLKev1WqnsBx-@infradead.org>
+ <20240509154323.GM360919@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
-To: Mikulas Patocka <mpatocka@redhat.com>, Mike Snitzer <snitzer@kernel.org>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
- snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
- linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
- <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com>
- <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com>
- <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
- <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
-Content-Language: en-CA
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240509154323.GM360919@frogsfrogsfrogs>
 
-
-
-On 5/9/2024 10:07 AM, Mikulas Patocka wrote:
+On Thu, May 09, 2024 at 08:43:23AM -0700, Darrick J. Wong wrote:
+> > Well, fsverity as-is is intended for use cases where you care about
+> > integrity of the file.  For that disabling it really doesn't make
+> > sense.  If we have other use cases we can probably add a variant
+> > of fsverity that clearly deals with non-integrity checksums.
+> > Although just disabling them if they mismatch still feels like a
+> > somewhat odd usage model.
 > 
-> 
-> On Wed, 8 May 2024, Fan Wu wrote:
-> 
->>
->>
->> On 5/8/2024 10:17 AM, Mikulas Patocka wrote:
->>>
->>>
->>> On Fri, 3 May 2024, Fan Wu wrote:
->>>
->>>> This patch adds a target finalize hook.
->>>>
->>>> The hook is triggered just before activating an inactive table of a
->>>> mapped device. If it returns an error the __bind get cancelled.
->>>>
->>>> The dm-verity target will use this hook to attach the dm-verity's
->>>> roothash metadata to the block_device struct of the mapped device.
->>>>
->>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
->>>
->>> Hi
->>>
->>> Why not use the preresume callback?
->>>
->>> Is there some reason why do we need a new callback instead of using the
->>> existing one?
->>>
->>> Mikulas
->> Thanks for the suggestion.
->>
->> Mike suggested the new finalize() callback. I think the reason for not using
->> the preresume() callback is that there are multiple points that can fail
->> before activating an inactive table of a mapped device which can potentially
->> lead to inconsistent state.
->>
->> In our specific case, we are trying to associate dm-verity's roothash metadata
->> with the block_device struct of the mapped device inside the callback.
->>
->> If we use the preresume() callback for the work and an error occurs between
->> the callback and the table activation, this leave the block_device struct in
->> an inconsistent state.
-> 
-> The preresume callback is the final GO/NO-GO decision point. If all the
-> targets return zero in their preresume callback, then there's no turning
-> back and the table will be activated.
-> 
->> This is because now the block device contains the roothash metadata of it's
->> inactive table due to the preresume() callback, but the activation failed so
->> the mapped device is still using the old table.
->>
->> The new finalize() callback guarantees that the callback happens just before
->> the table activation, thus avoiding the inconsistency.
-> 
-> In your patch, it doesn't guarantee that.
-> 
-> do_resume calls dm_swap_table, dm_swap_table calls __bind, __bind calls
-> ti->type->finalize. Then we go back to do_resume and call dm_resume which
-> calls __dm_resume which calls dm_table_resume_targets which calls the
-> preresume callback on all the targets. If some of them fails, it returns a
-> failure (despite the fact that ti->type->finalize succeeded), if all of
-> them succeed, it calls the resume callback on all of them.
-> 
-> So, it seems that the preresume callback provides the guarantee that you
-> looking for.
-> 
->> -Fan
-> 
-> Mikulas
+> Yeah, it definitely exists in the same weird grey area of turning off
+> metadata checksum validation to extract as many files from a busted fs
+> as can be done.
 
-Thanks for the info. I have tested and verified that the preresume() 
-hook can also work for our case.
+I've certainly thought about the possibilities of adding a CRC
+checksum type.  We do need to explicitly mark this as a
+non-cryptographic checksum since it might have make a difference for
+IMA policies, etc.  This would be useful for detecting problems for
+people's video or music archives, for example.
 
- From the source code 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm-ioctl.c#n1149, 
-the whole resume process appears to be:
+I can imagine situations where it might make sense to allow the file
+owner to be able to disable fsverity, whether the checksum and use
+case involves cryptographic or non-cryptographic checksums.  Having a
+flag in the fsverity header indicating whether dropping fsverity
+protection requires elevated privileged or can be done by the file
+owner seems to make sense to me.
 
-1. Check if there is a new map for the device. If so, attempt to 
-activate the new map using dm_swap_table() (where the finalize() 
-callback occurs).
-
-2. Check if the device is suspended. If so, use dm_resume() (where the 
-preresume() callback occurs) to resume the device.
-
-3. If a new map is activated, use dm_table_destroy() to destroy the old map.
-
-For our case:
-
-- Using the finalize() callback, the metadata of the dm-verity target 
-inside the table is attached to the mapped device every time a new table 
-is activated.
-- Using the preresume() callback, the same metadata is attached every 
-time the device resumes from suspension.
-
-If I understand the code correctly, resuming from suspension is a 
-necessary step for loading a new mapping table. Thus, the preresume() 
-callback covers all conditions where the finalize() callback would be 
-triggered. However, the preresume() callback can also be triggered when 
-the device resumes from suspension without loading a new table, in which 
-case there is no new metadata in the table to attach to the mapped device.
-
-In the scenario where the finalize() callback succeeds but the 
-preresume() callback fails, it seems the device will remain in a 
-suspended state, the newly activated table will be kept, and the old 
-table will be destroyed, so it seems there is no inconsistency using 
-finalize() even preresume() potentially fails.
-
-I believe both the finalize() callback proposed by Mike and the 
-preresume() callback suggested by Mikulas can work for our case. I am 
-fine with either approach, but I would like to know which one is 
-preferred by the maintainers and would appreciate an ACK for the chosen 
-approach.
-
--Fan
+      	       	    	     - Ted
