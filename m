@@ -1,90 +1,139 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A3113E404
-	for <fsverity@lists.linux.dev>; Fri, 17 May 2024 19:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7546BB47
+	for <fsverity@lists.linux.dev>; Mon, 20 May 2024 12:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715974625; cv=none; b=PyNnjUsdzhtG3x8dd1qqICqS1pUfmG/f+3YlOjAyWeM03butpwPzZVn1k7B9nM6dhWfVBzRY3oHk6Wo2Zqqn9nnwNEzLkiIWGbReREx8VOM6r+QQF7ndlcA/oUWLpsKjXKhZmTGTX+zhfNuwGA7v9LHW7xszU+qU5WPkK7vOcDY=
+	t=1716208284; cv=none; b=BbLLetlHOR5riqJjZ2b2OKCq1go0xNHmGc4iZC5x76bQBh6BGneDcPIgEL4z9z3zSOAjAXOpxTHluI0KdJD6sQhqd78WfXTYCC5mqZaS0Rlqa7s07XcQgKG47DQ0FWqiwJi4Bir1Yji4cvageXZf6LebbYKj5siflJwXi/dMkeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715974625; c=relaxed/simple;
-	bh=JAA8iSyx6bgiRG8Ddo2k0qxje0uyk0tV5RfZ/HiAvnk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JXB/rlMlJkdPY+YY+lqw1hRCiXfeSb/aOu/UPU6oRDxn3WtD3GdvzEA8bJLYUT1SU7TCv78C3d0scvfMIkAxZFHCuLUIubPxh/lNZkjeqvAIHTbJv/gwqmpuftgvV+ieYacnndgRq+nrXS2b4LY37vuYGbGImq5C3fsk4uh1QlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=EclpJ7PQ; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1716208284; c=relaxed/simple;
+	bh=ce6oru7LPD9lbhzZfnzBKS2IPT8JY+sTsV2gMVxtYCk=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=XGbwYWti34lRGg1rdcMZFtuUlMNwZHZ82mEB9dUNf41MpEnC7hBubJ6WXRhf3keT8lpznLAekHlIvPLMwA3l0OvRVI0DefP0LqH9R3/bwGPJZX3NWCjEHjGkdipu4rucEjeaQpIKeSCig0w2Q4l6AIk+TB3+yANEAGSWcDtLcgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HFP1hM52; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="EclpJ7PQ"
-Received: from cwcc.thunk.org (pool-173-48-113-2.bstnma.fios.verizon.net [173.48.113.2])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 44HJaevV011512
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 May 2024 15:36:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1715974602; bh=art33/7wTYbQAOP1A+9aiHxSsPpImcDO5odsBbbfpUQ=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=EclpJ7PQjaegxz8wu5lKouYqK1JbiU4EjkVr+hWch040PZby/TBfP1l1T7G9Ayisx
-	 viipOADDd+813uFUK7KcegkdN8stsYl7MtSldKfeudFInaciKEVKGdeodtg8Dl2eGQ
-	 U5DI2kA0ISW2iYIX8BcTV4JJyiwHIzhq3wwnkzfzDikMnzkYLG/nnGNB9Q7mpdOP+B
-	 Km6IBJZ4PE/yx4kiExEQvBJmpXoi6fDy8Ad8ZbpRaJ02w/KItoBMxUTNqbv1ZCQlLs
-	 WVqJ2wQXUbyUFS6GFJ2NXVhFVcLQ7T5AvLfEe3YwTWEimpYgP1e6lkN3gXgjeblySd
-	 w/NjYcktGc0fw==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-	id D12E415C00DC; Fri, 17 May 2024 15:36:39 -0400 (EDT)
-Date: Fri, 17 May 2024 15:36:39 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Eric Biggers <ebiggers@kernel.org>,
-        aalbersh@redhat.com, linux-xfs@vger.kernel.org, alexl@redhat.com,
-        walters@verbum.org, fsverity@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 25/26] xfs: make it possible to disable fsverity
-Message-ID: <20240517193639.GA65648@mit.edu>
-References: <ZjHlventem1xkuuS@infradead.org>
- <20240501225007.GM360919@frogsfrogsfrogs>
- <20240502001501.GB1853833@google.com>
- <20240508203148.GE360919@frogsfrogsfrogs>
- <ZjxZRShZLTb7SS3d@infradead.org>
- <20240509144542.GJ360919@frogsfrogsfrogs>
- <Zjzmho9jm2wisUPj@infradead.org>
- <20240509150955.GL360919@frogsfrogsfrogs>
- <ZjzoLKev1WqnsBx-@infradead.org>
- <20240509154323.GM360919@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HFP1hM52"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716208281;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9xxq06coPp2aoGXiJwR3/gZ9zYxOiYsiplvRA2+0uqY=;
+	b=HFP1hM526Bj4ww30PVw945Te/GG7f4bYD0Ec3xBImzXXA7BDRFQSZbHCAxgFhgbGGbQ9Ze
+	KqYspKEfjm1mdJI4Cou3r59EwNXUYDUyHSmVEBhtT5fd7YL+A5UtHQ5BY9UMVfGBT3txIR
+	yl1gBiAr9FpM6htqR2y6jEHJaZ1W5FU=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-604-6Z3kB0usO7OYs13PWUSzNQ-1; Mon,
+ 20 May 2024 08:31:18 -0400
+X-MC-Unique: 6Z3kB0usO7OYs13PWUSzNQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 848A73C0C2C4;
+	Mon, 20 May 2024 12:31:17 +0000 (UTC)
+Received: from file1-rdu.file-001.prod.rdu2.dc.redhat.com (unknown [10.11.5.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BA0B40C6EB7;
+	Mon, 20 May 2024 12:31:17 +0000 (UTC)
+Received: by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix, from userid 12668)
+	id E330530C1C33; Mon, 20 May 2024 12:31:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix) with ESMTP id E05EF3FB52;
+	Mon, 20 May 2024 14:31:16 +0200 (CEST)
+Date: Mon, 20 May 2024 14:31:16 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Fan Wu <wufan@linux.microsoft.com>
+cc: Mike Snitzer <snitzer@kernel.org>, corbet@lwn.net, zohar@linux.ibm.com, 
+    jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
+    axboe@kernel.dk, agk@redhat.com, eparis@redhat.com, paul@paul-moore.com, 
+    linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+    linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
+    linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
+    audit@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
+In-Reply-To: <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
+Message-ID: <889a7880-8336-a44a-bea4-a4c81c5e5cce@redhat.com>
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com> <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com> <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com> <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
+ <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com> <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240509154323.GM360919@frogsfrogsfrogs>
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
-On Thu, May 09, 2024 at 08:43:23AM -0700, Darrick J. Wong wrote:
-> > Well, fsverity as-is is intended for use cases where you care about
-> > integrity of the file.  For that disabling it really doesn't make
-> > sense.  If we have other use cases we can probably add a variant
-> > of fsverity that clearly deals with non-integrity checksums.
-> > Although just disabling them if they mismatch still feels like a
-> > somewhat odd usage model.
+
+
+On Fri, 17 May 2024, Fan Wu wrote:
+
+> > So, it seems that the preresume callback provides the guarantee that you
+> > looking for.
+> > 
+> >> -Fan
+> > 
+> > Mikulas
 > 
-> Yeah, it definitely exists in the same weird grey area of turning off
-> metadata checksum validation to extract as many files from a busted fs
-> as can be done.
+> Thanks for the info. I have tested and verified that the preresume() hook can
+> also work for our case.
+> 
+> From the source code
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm-ioctl.c#n1149,
+> the whole resume process appears to be:
+> 
+> 1. Check if there is a new map for the device. If so, attempt to activate the
+> new map using dm_swap_table() (where the finalize() callback occurs).
+> 
+> 2. Check if the device is suspended. If so, use dm_resume() (where the
+> preresume() callback occurs) to resume the device.
+> 
+> 3. If a new map is activated, use dm_table_destroy() to destroy the old map.
+> 
+> For our case:
+> 
+> - Using the finalize() callback, the metadata of the dm-verity target inside
+> the table is attached to the mapped device every time a new table is
+> activated.
+> - Using the preresume() callback, the same metadata is attached every time the
+> device resumes from suspension.
+> 
+> If I understand the code correctly, resuming from suspension is a necessary
+> step for loading a new mapping table. Thus, the preresume() callback covers
+> all conditions where the finalize() callback would be triggered.
 
-I've certainly thought about the possibilities of adding a CRC
-checksum type.  We do need to explicitly mark this as a
-non-cryptographic checksum since it might have make a difference for
-IMA policies, etc.  This would be useful for detecting problems for
-people's video or music archives, for example.
+Yes.
 
-I can imagine situations where it might make sense to allow the file
-owner to be able to disable fsverity, whether the checksum and use
-case involves cryptographic or non-cryptographic checksums.  Having a
-flag in the fsverity header indicating whether dropping fsverity
-protection requires elevated privileged or can be done by the file
-owner seems to make sense to me.
+> However, the preresume() callback can also be triggered when the device 
+> resumes from suspension without loading a new table, in which case there 
+> is no new metadata in the table to attach to the mapped device.
 
-      	       	    	     - Ted
+Yes.
+
+> In the scenario where the finalize() callback succeeds but the preresume()
+> callback fails, it seems the device will remain in a suspended state, the
+> newly activated table will be kept, and the old table will be destroyed, so it
+> seems there is no inconsistency using finalize() even preresume() potentially
+> fails.
+
+What does your security module do when the verification of the dm-verity 
+hash fails? Does it halt the whole system? Does it destroy just the 
+failing dm device? Or does it attempt to recover somehow from this 
+situation?
+
+> I believe both the finalize() callback proposed by Mike and the preresume()
+> callback suggested by Mikulas can work for our case. I am fine with either
+> approach, but I would like to know which one is preferred by the maintainers
+> and would appreciate an ACK for the chosen approach.
+> 
+> -Fan
+
+I would prefer preresume - we shouldn't add new callbacks unless it's 
+necessary.
+
+Mikulas
+
