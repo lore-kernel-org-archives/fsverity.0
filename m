@@ -1,45 +1,40 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1934156B95;
-	Mon, 20 May 2024 12:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9F728E7;
+	Mon, 20 May 2024 16:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716208809; cv=none; b=tMw26AzFsKhC+r6uVwtgRfWKnSJ2ocrCHhxUGbfdv6sGBUjEaQW2XtXquQCCVlGs6u4IYq8zaSz2rJqiiFaeQEY0UshKhtXBqFZ0YFd9XhgeB1fwTfR2VI4a+nOURQDtOiqMsAtEo2MNSMMqQEHemWSbo+fEI0EpFaWwGnOFta4=
+	t=1716220981; cv=none; b=aDte7AGmhinfqdbQyAWiugP56vup+OWlyAlksXFrqTFJ2E0Q1G6+LY7Be0u4HFYY25yaUG5OyS0jezcdHPu2pbddT7c8DT0KdWhdNw0QttxZdiymOVt/KbW+0bSI7tEir4ALkABedPV2qDiiqkf9AbDMbUh6HuF6rjgRX6Cw1dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716208809; c=relaxed/simple;
-	bh=UHuJp186W8hPuQ0ApjYWHKIEpdT5Jpa7PNQ4ZgrHTZA=;
+	s=arc-20240116; t=1716220981; c=relaxed/simple;
+	bh=x4pQtNrsoD9GLUzcxphICTbPaHI4aq7I5znYggVn9t0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=itDBK/c4AxnIbjykyAxKRCrGkl8AeD+mKnvgA4Ziys+aOeKnYn67ZQrl7thdxAHznksBHKhtlveSZLj0od/eWxNZGSU+c24cNdblPJ1Oh0nTDIRvhaN4raS4oGth93jlQk85NdPHaMp7ESHYa+M8s7toTPlPg+mXRqD2nu6tLLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=29ZpxJSn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Up0p/PSpWfCJ/3cV4NHJtfHvWes0KysWqFMUrSF5tiAIkMy6g87IPk9sSWSctUU0TJxeXpsuNf57UevlxP29pUCog/wYKxBjjCJBmPfOTDxVeTJqzqvRPKL1E8mSw/UfuLirUYEBGc+ur4XH8HVr2HZ3dzCVJNBOqC27jbRwn2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ILY1sWOu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="29ZpxJSn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=qHlixz9bFfcZf4eMGD0ltC5/B7X3PK4eEszEI6XMsCE=; b=29ZpxJSn2kOch3TPgW5Pby4OKP
-	IEyDs8e80+nKAbHa8oAKH9HS0roNE+dQV5HgbbcDG9L2RLO/NBP2MLqnxN4tSW/QmFM/oO/Ntl9Pr
-	i6hxglgpGYBEMfTVHhzic1zowMPaz/Srbx121DmSk75BhpqeSSim7Qvw7jKANk8YdxUEW2aFOSVHx
-	wsKkYBKoe1b/GR1LgBWh8oaqgDJdxRk3s/9Jvxo19FbNkqqrMlpf1zSnM0G818LcRKBSccn+Uo82z
-	G5s+7Sfb/cJReyQuxN0WAEmxK0IM09yH3a7IR8i9WuZ8awKr68t/KxXRdGLKlvHdQFGQonEqxvBWS
-	W/Zx3QOA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s92J5-0000000ETTm-3J1x;
-	Mon, 20 May 2024 12:39:59 +0000
-Date: Mon, 20 May 2024 05:39:59 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, aalbersh@redhat.com,
-	ebiggers@kernel.org, linux-xfs@vger.kernel.org, alexl@redhat.com,
-	walters@verbum.org, fsverity@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ILY1sWOu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5104EC2BD10;
+	Mon, 20 May 2024 16:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716220981;
+	bh=x4pQtNrsoD9GLUzcxphICTbPaHI4aq7I5znYggVn9t0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ILY1sWOun2yxTNj78UuuizIJB4E9D2O56aztH0eyLV0cZZsk/o2agJ81GZTKahxmK
+	 RU3Uq/zpIMI0HS/HDdZJxjMISDwvSE9gZrH/pXPrvu9Dt6OCNqHMf3/FOhS84hcNuC
+	 AAsUzOfURNTkr5GBRE9m/KGoezvflT3tGskzIGwAAq3gLFUgFM4PgkrUdrONTaU74d
+	 kRNQE4ZyGC/n+OMPG2oMSp/gPNM81tdn9h76Ar2XodE8nhpTaKWrNALRVAci3VL56V
+	 Tqh5x4UcQs8QvnQDUlVN2yzoh4M8VVE5y2xRxX7I8mq46ADgDtTvsGRAv+M8GAnj4D
+	 mzYrfO3pi8quA==
+Date: Mon, 20 May 2024 09:02:59 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: aalbersh@redhat.com, ebiggers@kernel.org, linux-xfs@vger.kernel.org,
+	alexl@redhat.com, walters@verbum.org, fsverity@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org
 Subject: Re: [PATCH 18/26] xfs: use merkle tree offset as attr hash
-Message-ID: <ZktEn5KOZTiy42c8@infradead.org>
-References: <ZjHmzBRVc3HcyX7-@infradead.org>
- <ZjHt1pSy4FqGWAB6@infradead.org>
+Message-ID: <20240520160259.GA25546@frogsfrogsfrogs>
+References: <ZjHt1pSy4FqGWAB6@infradead.org>
  <20240507212454.GX360919@frogsfrogsfrogs>
  <ZjtmVIST_ujh_ld6@infradead.org>
  <20240508202603.GC360919@frogsfrogsfrogs>
@@ -48,6 +43,7 @@ References: <ZjHmzBRVc3HcyX7-@infradead.org>
  <Zj2r0Ewrn-MqNKwc@infradead.org>
  <Zj28oXB6leJGem-9@infradead.org>
  <20240517171720.GA360919@frogsfrogsfrogs>
+ <ZktEn5KOZTiy42c8@infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -56,23 +52,44 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240517171720.GA360919@frogsfrogsfrogs>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <ZktEn5KOZTiy42c8@infradead.org>
 
-On Fri, May 17, 2024 at 10:17:20AM -0700, Darrick J. Wong wrote:
-> >   Note that the verity metadata *must* be encrypted when the file is,
-> >   since it contains hashes of the plaintext data.
+On Mon, May 20, 2024 at 05:39:59AM -0700, Christoph Hellwig wrote:
+> On Fri, May 17, 2024 at 10:17:20AM -0700, Darrick J. Wong wrote:
+> > >   Note that the verity metadata *must* be encrypted when the file is,
+> > >   since it contains hashes of the plaintext data.
+> > 
+> > Refresh my memory of fscrypt -- does it encrypt directory names, xattr
+> > names, and xattr values too?  Or does it only do that to file data?
 > 
-> Refresh my memory of fscrypt -- does it encrypt directory names, xattr
-> names, and xattr values too?  Or does it only do that to file data?
+> It does encrypt the file names in the directories, but nothing in
+> xattrs as far as I can tell.
 
-It does encrypt the file names in the directories, but nothing in
-xattrs as far as I can tell.
+Do we want that for user.* attrs?  That seems like quite an omission.
 
-> And if we copy the ext4 method of putting the merkle data after eof and
-> loading it into the pagecache, how much of the generic fs/verity cleanup
-> patches do we really need?
+> > And if we copy the ext4 method of putting the merkle data after eof and
+> > loading it into the pagecache, how much of the generic fs/verity cleanup
+> > patches do we really need?
+> 
+> We shouldn't need anything.  A bunch of cleanup
 
-We shouldn't need anything.  A bunch of cleanup and the support for not
-generating a hash for holes might still be nice to have, though.
+Should we do the read/drop_merkle_tree_block cleanup anyway?
 
+One of the advantages of xfs caching merkle tree blocks ourselves
+is that we neither extend the usage of PageChecked when merkle blocksize
+== pagesize nor become subject to the 1-million merkle block limit when
+merkle blocksize < pagesize.  There's a tripping hazard if you mount a 4k
+merkle block filesystem on a computer with 64k pages -- now you can't
+open 6T verity files.
+
+That said, it also sounds dumb to maintain a separate index for
+pagecache pages to track a single bit.  Maybe we should port verity to
+use xbitmap64 from xfs instead of single static buffer?
+
+>                                                 and the support for not
+> generating a hash for holes might still be nice to have, though.
+
+Yeah, though I think that's only usable for xfs if merkle blocksize ==
+fs blocksize, since xfs doesn't store sub-fsblock unwritten state.
+
+--D
