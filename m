@@ -1,139 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7546BB47
-	for <fsverity@lists.linux.dev>; Mon, 20 May 2024 12:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1934156B95;
+	Mon, 20 May 2024 12:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716208284; cv=none; b=BbLLetlHOR5riqJjZ2b2OKCq1go0xNHmGc4iZC5x76bQBh6BGneDcPIgEL4z9z3zSOAjAXOpxTHluI0KdJD6sQhqd78WfXTYCC5mqZaS0Rlqa7s07XcQgKG47DQ0FWqiwJi4Bir1Yji4cvageXZf6LebbYKj5siflJwXi/dMkeE=
+	t=1716208809; cv=none; b=tMw26AzFsKhC+r6uVwtgRfWKnSJ2ocrCHhxUGbfdv6sGBUjEaQW2XtXquQCCVlGs6u4IYq8zaSz2rJqiiFaeQEY0UshKhtXBqFZ0YFd9XhgeB1fwTfR2VI4a+nOURQDtOiqMsAtEo2MNSMMqQEHemWSbo+fEI0EpFaWwGnOFta4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716208284; c=relaxed/simple;
-	bh=ce6oru7LPD9lbhzZfnzBKS2IPT8JY+sTsV2gMVxtYCk=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=XGbwYWti34lRGg1rdcMZFtuUlMNwZHZ82mEB9dUNf41MpEnC7hBubJ6WXRhf3keT8lpznLAekHlIvPLMwA3l0OvRVI0DefP0LqH9R3/bwGPJZX3NWCjEHjGkdipu4rucEjeaQpIKeSCig0w2Q4l6AIk+TB3+yANEAGSWcDtLcgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HFP1hM52; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1716208809; c=relaxed/simple;
+	bh=UHuJp186W8hPuQ0ApjYWHKIEpdT5Jpa7PNQ4ZgrHTZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=itDBK/c4AxnIbjykyAxKRCrGkl8AeD+mKnvgA4Ziys+aOeKnYn67ZQrl7thdxAHznksBHKhtlveSZLj0od/eWxNZGSU+c24cNdblPJ1Oh0nTDIRvhaN4raS4oGth93jlQk85NdPHaMp7ESHYa+M8s7toTPlPg+mXRqD2nu6tLLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=29ZpxJSn; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HFP1hM52"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716208281;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9xxq06coPp2aoGXiJwR3/gZ9zYxOiYsiplvRA2+0uqY=;
-	b=HFP1hM526Bj4ww30PVw945Te/GG7f4bYD0Ec3xBImzXXA7BDRFQSZbHCAxgFhgbGGbQ9Ze
-	KqYspKEfjm1mdJI4Cou3r59EwNXUYDUyHSmVEBhtT5fd7YL+A5UtHQ5BY9UMVfGBT3txIR
-	yl1gBiAr9FpM6htqR2y6jEHJaZ1W5FU=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-604-6Z3kB0usO7OYs13PWUSzNQ-1; Mon,
- 20 May 2024 08:31:18 -0400
-X-MC-Unique: 6Z3kB0usO7OYs13PWUSzNQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 848A73C0C2C4;
-	Mon, 20 May 2024 12:31:17 +0000 (UTC)
-Received: from file1-rdu.file-001.prod.rdu2.dc.redhat.com (unknown [10.11.5.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BA0B40C6EB7;
-	Mon, 20 May 2024 12:31:17 +0000 (UTC)
-Received: by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix, from userid 12668)
-	id E330530C1C33; Mon, 20 May 2024 12:31:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix) with ESMTP id E05EF3FB52;
-	Mon, 20 May 2024 14:31:16 +0200 (CEST)
-Date: Mon, 20 May 2024 14:31:16 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Fan Wu <wufan@linux.microsoft.com>
-cc: Mike Snitzer <snitzer@kernel.org>, corbet@lwn.net, zohar@linux.ibm.com, 
-    jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
-    axboe@kernel.dk, agk@redhat.com, eparis@redhat.com, paul@paul-moore.com, 
-    linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-    linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-    linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
-    audit@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
-In-Reply-To: <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
-Message-ID: <889a7880-8336-a44a-bea4-a4c81c5e5cce@redhat.com>
-References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com> <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com> <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com> <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
- <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com> <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="29ZpxJSn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=qHlixz9bFfcZf4eMGD0ltC5/B7X3PK4eEszEI6XMsCE=; b=29ZpxJSn2kOch3TPgW5Pby4OKP
+	IEyDs8e80+nKAbHa8oAKH9HS0roNE+dQV5HgbbcDG9L2RLO/NBP2MLqnxN4tSW/QmFM/oO/Ntl9Pr
+	i6hxglgpGYBEMfTVHhzic1zowMPaz/Srbx121DmSk75BhpqeSSim7Qvw7jKANk8YdxUEW2aFOSVHx
+	wsKkYBKoe1b/GR1LgBWh8oaqgDJdxRk3s/9Jvxo19FbNkqqrMlpf1zSnM0G818LcRKBSccn+Uo82z
+	G5s+7Sfb/cJReyQuxN0WAEmxK0IM09yH3a7IR8i9WuZ8awKr68t/KxXRdGLKlvHdQFGQonEqxvBWS
+	W/Zx3QOA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s92J5-0000000ETTm-3J1x;
+	Mon, 20 May 2024 12:39:59 +0000
+Date: Mon, 20 May 2024 05:39:59 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, aalbersh@redhat.com,
+	ebiggers@kernel.org, linux-xfs@vger.kernel.org, alexl@redhat.com,
+	walters@verbum.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 18/26] xfs: use merkle tree offset as attr hash
+Message-ID: <ZktEn5KOZTiy42c8@infradead.org>
+References: <ZjHmzBRVc3HcyX7-@infradead.org>
+ <ZjHt1pSy4FqGWAB6@infradead.org>
+ <20240507212454.GX360919@frogsfrogsfrogs>
+ <ZjtmVIST_ujh_ld6@infradead.org>
+ <20240508202603.GC360919@frogsfrogsfrogs>
+ <ZjxY_LbTOhv1i24m@infradead.org>
+ <20240509200250.GQ360919@frogsfrogsfrogs>
+ <Zj2r0Ewrn-MqNKwc@infradead.org>
+ <Zj28oXB6leJGem-9@infradead.org>
+ <20240517171720.GA360919@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240517171720.GA360919@frogsfrogsfrogs>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-
-
-On Fri, 17 May 2024, Fan Wu wrote:
-
-> > So, it seems that the preresume callback provides the guarantee that you
-> > looking for.
-> > 
-> >> -Fan
-> > 
-> > Mikulas
+On Fri, May 17, 2024 at 10:17:20AM -0700, Darrick J. Wong wrote:
+> >   Note that the verity metadata *must* be encrypted when the file is,
+> >   since it contains hashes of the plaintext data.
 > 
-> Thanks for the info. I have tested and verified that the preresume() hook can
-> also work for our case.
-> 
-> From the source code
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm-ioctl.c#n1149,
-> the whole resume process appears to be:
-> 
-> 1. Check if there is a new map for the device. If so, attempt to activate the
-> new map using dm_swap_table() (where the finalize() callback occurs).
-> 
-> 2. Check if the device is suspended. If so, use dm_resume() (where the
-> preresume() callback occurs) to resume the device.
-> 
-> 3. If a new map is activated, use dm_table_destroy() to destroy the old map.
-> 
-> For our case:
-> 
-> - Using the finalize() callback, the metadata of the dm-verity target inside
-> the table is attached to the mapped device every time a new table is
-> activated.
-> - Using the preresume() callback, the same metadata is attached every time the
-> device resumes from suspension.
-> 
-> If I understand the code correctly, resuming from suspension is a necessary
-> step for loading a new mapping table. Thus, the preresume() callback covers
-> all conditions where the finalize() callback would be triggered.
+> Refresh my memory of fscrypt -- does it encrypt directory names, xattr
+> names, and xattr values too?  Or does it only do that to file data?
 
-Yes.
+It does encrypt the file names in the directories, but nothing in
+xattrs as far as I can tell.
 
-> However, the preresume() callback can also be triggered when the device 
-> resumes from suspension without loading a new table, in which case there 
-> is no new metadata in the table to attach to the mapped device.
+> And if we copy the ext4 method of putting the merkle data after eof and
+> loading it into the pagecache, how much of the generic fs/verity cleanup
+> patches do we really need?
 
-Yes.
-
-> In the scenario where the finalize() callback succeeds but the preresume()
-> callback fails, it seems the device will remain in a suspended state, the
-> newly activated table will be kept, and the old table will be destroyed, so it
-> seems there is no inconsistency using finalize() even preresume() potentially
-> fails.
-
-What does your security module do when the verification of the dm-verity 
-hash fails? Does it halt the whole system? Does it destroy just the 
-failing dm device? Or does it attempt to recover somehow from this 
-situation?
-
-> I believe both the finalize() callback proposed by Mike and the preresume()
-> callback suggested by Mikulas can work for our case. I am fine with either
-> approach, but I would like to know which one is preferred by the maintainers
-> and would appreciate an ACK for the chosen approach.
-> 
-> -Fan
-
-I would prefer preresume - we shouldn't add new callbacks unless it's 
-necessary.
-
-Mikulas
+We shouldn't need anything.  A bunch of cleanup and the support for not
+generating a hash for holes might still be nice to have, though.
 
