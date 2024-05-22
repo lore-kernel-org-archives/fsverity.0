@@ -1,154 +1,108 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90CBD2AE6C;
-	Tue, 21 May 2024 21:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF65E17550;
+	Wed, 22 May 2024 14:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716327770; cv=none; b=lAQiKsbORL3csm6lFm/DdOyP+KIONYpWHFrMEethpVR3BDZpH6YJmu1CCUU8LviCs9eK6JfVUZRNhQBU59u6mQV31/vmq8Z3oNlMd38/35IVGT/+X/TA1HJ4DhKYoA1++Zp5U9QaMFKs3m79kzf4aT5VtWC5eDOOjG3O9qgYVRs=
+	t=1716388647; cv=none; b=Qtp+NRRFjp6WFBcy3IC9pBBzKPGqhdA0E8wcpZArO07707LGP8MmxyBbTC6eG6ysRWmm2HS0LpNwlVmh1EHRadcw87zOzmstVrcVVXKPUNUPNzrhz79AK/bQd7xVL1RgaBjzBdMNzMYbhUQmWI7DdUmI9hkcbOBM/6Mdm/XcUTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716327770; c=relaxed/simple;
-	bh=u9OHQk1eGnLPF7q8QnB3x/3atmb+9wZIs5n85uU/v2c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d9MM7xsvtqLN903geLKBlL7Ptr5pjIxAR5nNs5wW/QUUAvSHPVLvnMnuIRHV3h4HBOW+cC61ySxfdAHqjSxyfLVdoxR42EHHl8yeQ+JENPKLntuokb/MJKgLGpsIaiLIvg3go5yapjMUkft6Z5IslzH9vmhVAio//1r5b4UsaQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pobkyxdG; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1716388647; c=relaxed/simple;
+	bh=hxmhP567s4dSC9jpCW+zdbc4PJzsQqx6YlXvRACd2is=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WvBh2FrSN1lAcLCCill1tZp02ZFLwISaV9ccCHKVslw+BhReywdYHfgTkO6fuClmn7MWxgrLVp2D9oEaQUmVkK8kDqBui+Hbl5D9lgglV9HeK728LmzHINHZOB+kWVdCkk0GHnE36ZOXjZUwAE6cSXV8fAMt1vT3MNC2LdSKRp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pIEJ0Wpi; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pobkyxdG"
-Received: from [10.137.106.151] (unknown [167.220.2.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CCF0E2067900;
-	Tue, 21 May 2024 14:42:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CCF0E2067900
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1716327768;
-	bh=BUSVrQbwhWTK6SmDrPgyWJrCD0hgOdRhFqYqUq240sk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pobkyxdGe7YVFwF3dkaJkJgWbG+KavLPiuQF6SQQN1zBASMoAM9wcAdd5EmYZaB/L
-	 61ecccz7Ow8aijjoRWVO+F98iR9BjxIC5czqVksM0Y0rMb0ZRRAKkfCOJ6tvNTRUK0
-	 vikUnzUoW2A/1EOMAGY+LrNlY0+QdhS1KLRy/ENA=
-Message-ID: <3bd4d9a8-58ce-4cb2-a91e-c0d33174d951@linux.microsoft.com>
-Date: Tue, 21 May 2024 14:42:47 -0700
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pIEJ0Wpi"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=I8E1hYnWG4Q3QnCoU6Xf7Jd0qzrKBRB6EdoIRleFSv8=; b=pIEJ0WpiPen6MsG0bCFP7QKQfi
+	1jyJCsEWaTO0vqdgEVHEDEYA5cdYX0mqfEuG7vivgDpcFYEfp0aU7EZEcjv/bgH0CVozHq0y9bV8h
+	Y4HCuGVuJzjsWBsgZLf+0VH1jhi8V/ykqSUm9BssvrmWWJDne2hgWYb56UUqhE0HwLtphv1CS05y4
+	okWbseLm13A8IZi6nK1xu2VE1UgXnighmjqOW9EJHG623gjjX13jmQvKqYlzZ9oXVQiFj42hsokdD
+	hsacBYeoJ2LyOI23NP4ippDnfNCxRNrwPWiDfal92qwbc+raAu80aoa/B4Yy2KGLry+6AfW8VBcT9
+	fpY86kMQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s9n5n-00000003EKQ-39ku;
+	Wed, 22 May 2024 14:37:23 +0000
+Date: Wed, 22 May 2024 07:37:23 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, aalbersh@redhat.com,
+	ebiggers@kernel.org, linux-xfs@vger.kernel.org, alexl@redhat.com,
+	walters@verbum.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 18/26] xfs: use merkle tree offset as attr hash
+Message-ID: <Zk4DIzXJX_gVoj2-@infradead.org>
+References: <20240507212454.GX360919@frogsfrogsfrogs>
+ <ZjtmVIST_ujh_ld6@infradead.org>
+ <20240508202603.GC360919@frogsfrogsfrogs>
+ <ZjxY_LbTOhv1i24m@infradead.org>
+ <20240509200250.GQ360919@frogsfrogsfrogs>
+ <Zj2r0Ewrn-MqNKwc@infradead.org>
+ <Zj28oXB6leJGem-9@infradead.org>
+ <20240517171720.GA360919@frogsfrogsfrogs>
+ <ZktEn5KOZTiy42c8@infradead.org>
+ <20240520160259.GA25546@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
-To: Mikulas Patocka <mpatocka@redhat.com>
-Cc: Mike Snitzer <snitzer@kernel.org>, corbet@lwn.net, zohar@linux.ibm.com,
- jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
- axboe@kernel.dk, agk@redhat.com, eparis@redhat.com, paul@paul-moore.com,
- linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
- <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com>
- <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com>
- <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
- <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
- <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
- <889a7880-8336-a44a-bea4-a4c81c5e5cce@redhat.com>
-Content-Language: en-CA
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <889a7880-8336-a44a-bea4-a4c81c5e5cce@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240520160259.GA25546@frogsfrogsfrogs>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Mon, May 20, 2024 at 09:02:59AM -0700, Darrick J. Wong wrote:
+> On Mon, May 20, 2024 at 05:39:59AM -0700, Christoph Hellwig wrote:
+> > On Fri, May 17, 2024 at 10:17:20AM -0700, Darrick J. Wong wrote:
+> > > >   Note that the verity metadata *must* be encrypted when the file is,
+> > > >   since it contains hashes of the plaintext data.
+> > > 
+> > > Refresh my memory of fscrypt -- does it encrypt directory names, xattr
+> > > names, and xattr values too?  Or does it only do that to file data?
+> > 
+> > It does encrypt the file names in the directories, but nothing in
+> > xattrs as far as I can tell.
+> 
+> Do we want that for user.* attrs?  That seems like quite an omission.
 
+I'll let Eric answer that.  Btw, is the threat model for fscrypt written
+down somewhere?
 
-On 5/20/2024 5:31 AM, Mikulas Patocka wrote:
+> > > And if we copy the ext4 method of putting the merkle data after eof and
+> > > loading it into the pagecache, how much of the generic fs/verity cleanup
+> > > patches do we really need?
+> > 
+> > We shouldn't need anything.  A bunch of cleanup
 > 
-> 
-> On Fri, 17 May 2024, Fan Wu wrote:
-> 
->>> So, it seems that the preresume callback provides the guarantee that you
->>> looking for.
->>>
->>>> -Fan
->>>
->>> Mikulas
->>
->> Thanks for the info. I have tested and verified that the preresume() hook can
->> also work for our case.
->>
->>  From the source code
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm-ioctl.c#n1149,
->> the whole resume process appears to be:
->>
->> 1. Check if there is a new map for the device. If so, attempt to activate the
->> new map using dm_swap_table() (where the finalize() callback occurs).
->>
->> 2. Check if the device is suspended. If so, use dm_resume() (where the
->> preresume() callback occurs) to resume the device.
->>
->> 3. If a new map is activated, use dm_table_destroy() to destroy the old map.
->>
->> For our case:
->>
->> - Using the finalize() callback, the metadata of the dm-verity target inside
->> the table is attached to the mapped device every time a new table is
->> activated.
->> - Using the preresume() callback, the same metadata is attached every time the
->> device resumes from suspension.
->>
->> If I understand the code correctly, resuming from suspension is a necessary
->> step for loading a new mapping table. Thus, the preresume() callback covers
->> all conditions where the finalize() callback would be triggered.
-> 
-> Yes.
-> 
->> However, the preresume() callback can also be triggered when the device
->> resumes from suspension without loading a new table, in which case there
->> is no new metadata in the table to attach to the mapped device.
-> 
-> Yes.
-> 
->> In the scenario where the finalize() callback succeeds but the preresume()
->> callback fails, it seems the device will remain in a suspended state, the
->> newly activated table will be kept, and the old table will be destroyed, so it
->> seems there is no inconsistency using finalize() even preresume() potentially
->> fails.
-> 
-> What does your security module do when the verification of the dm-verity
-> hash fails? Does it halt the whole system? Does it destroy just the
-> failing dm device? Or does it attempt to recover somehow from this
-> situation?
->
+> Should we do the read/drop_merkle_tree_block cleanup anyway?
 
-I'm not sure which hash verification is being referred to here, but it 
-could be either root hash signature verification or block-level hash 
-verification. Our security module does not intervene in these processes, 
-so the behavior remains as dm-verity currently handles it.
+To me the block based interface seems a lot cleaner, but Eric has some
+reservations due to the added indirect call on the drop side.
 
-Within the device mapper, our security module uses the device mapper 
-callback to duplicate the root hash of a dm-verity target and record the 
-signature verification state of the dm-verity target, then attach this 
-information to the security field of the block_device structure. This 
-process can only fail if the system is out of memory.
-
-With the root hash and signature verification state attached to the 
-security field of the block device, the security system can access this 
-important metadata to enforce policies. For example, these policies can 
-include only allowing files from a dm-verity volume specified by its 
-root hash to execute or only allowing files from a verified signed 
-dm-verity volume to execute.
-
->> I believe both the finalize() callback proposed by Mike and the preresume()
->> callback suggested by Mikulas can work for our case. I am fine with either
->> approach, but I would like to know which one is preferred by the maintainers
->> and would appreciate an ACK for the chosen approach.
->>
->> -Fan
+> One of the advantages of xfs caching merkle tree blocks ourselves
+> is that we neither extend the usage of PageChecked when merkle blocksize
+> == pagesize nor become subject to the 1-million merkle block limit when
+> merkle blocksize < pagesize.  There's a tripping hazard if you mount a 4k
+> merkle block filesystem on a computer with 64k pages -- now you can't
+> open 6T verity files.
 > 
-> I would prefer preresume - we shouldn't add new callbacks unless it's
-> necessary.
-> 
-> Mikulas
->
+> That said, it also sounds dumb to maintain a separate index for
+> pagecache pages to track a single bit.
 
-Thanks for the confirmation. I will switch to use prereume and I will 
-send a new version later this week.
+Yeah.  As I mentioned earlier I think fsverify really should enforce
+a size limit.  Right now it will simply run out space eventually which
+doesn't seem like a nice failure mode.
 
--Fan
+> Maybe we should port verity to
+> use xbitmap64 from xfs instead of single static buffer?
+
+The seems like a bit of overkill for the current use cases.
+
