@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C97F1CA89;
-	Fri, 31 May 2024 18:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A140DD26A;
+	Fri, 31 May 2024 20:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717181489; cv=none; b=rKiBCUeeMQHwZAU1oDO6dbW1ca5z77EHthW8QUA6kVIvCNHXd9NCUPC8i6Gb1l717jdqRs8uv2eFuE5QGinUvVvYjtQbbUFNQinPkVrhO4P1gLV8qCx4DaLfVIcWweRKH5gBDJBux7zlEyG4XoFPlgGh6DPkJOJJrfbOIlKxH+4=
+	t=1717188524; cv=none; b=g33iwToOGa2Sd7eJLlK2ngkQE0KbLMa/kLIJ45B7yx3JIO+8atXXd/xRgA9hAM47G6R37UOxQqO+BoTSBStQTObG7QczHVvky5cJ6SJkr9D9d/yYehtXDBn9i+46S2GV0y2rjAnjuVfYQorp7oCgVFmF1q7u+BxIZKdfopE0gc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717181489; c=relaxed/simple;
-	bh=425DZ3UCisx8otC/gkXIPtUZJzI0dGvveryU7QJMn1I=;
+	s=arc-20240116; t=1717188524; c=relaxed/simple;
+	bh=rFnHh2wJYNoB76Ml+22NnUsLEKD+h/GAxFGey/czVOQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OYqyPJe0NJ8zZyayRvc9YPZ96genSU3EHWOI8vDrnuUlDT7iSLgL4ZykQjszKVMeGawsE+mO6h4sNSsHvYVmHLxPunmYLASQPvh6qn5LFsMyuMFublV/09+mlwKIa9OgWlcEY+U8gos59M3tJzT9nyIyB0sTLeATYmrt1T+JIog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U6+A2RRF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=u6bfn4W3V81iwPmpO3omBTG3wRIgBqaryg98uL3LOozJWOERAlX0XPNwB1L39PjP+dK1hPeCdqkI1CRcOQqzgaldGmSoX8WZlVE+uYLwsSHPXrem506APX7Q04TmgWOoRZXj7AfukOBzbMd80AmqwsYBEm2OzcZsm6TJ7Gy+UKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCV0st2r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U6+A2RRF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9668BC116B1;
-	Fri, 31 May 2024 18:51:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCV0st2r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16EA2C116B1;
+	Fri, 31 May 2024 20:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717181488;
-	bh=425DZ3UCisx8otC/gkXIPtUZJzI0dGvveryU7QJMn1I=;
+	s=k20201202; t=1717188524;
+	bh=rFnHh2wJYNoB76Ml+22NnUsLEKD+h/GAxFGey/czVOQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U6+A2RRFyGIHsAjGQ6xAKJCMtrdiNLyterSfNkeWqKSAdCsxac5rAYlmq164zeqQM
-	 bzmNi9gCIYj5DF7lP5oge4jy8fdOrkDGoSHVuBRqWiyLH6FYED/BngevptVBDWYLGM
-	 ZyA4rTnUdHw4WTSJBwAOss8k8hE6pAkHFBUFxQSFl/kIPWjSwD474mif6AKN98x7Ia
-	 ABjuyg3y1DnBmfY8cxX2N8HuVmKB2xVc8jQBfDquiifcPu8rw4jPov8wRpBBg4LY2g
-	 gQvMCTOX8CX/fWmh78AtB9A4sTQ23avCpGo9wz7Q7fYTdYGWNQljxOeNZiaJza1u27
-	 lelAZ+JKM7PzA==
-Date: Fri, 31 May 2024 11:51:26 -0700
+	b=cCV0st2rQscuWQRRD66py/Md9Mf8mIse5f5jZSqyArOSjheLY3FWzSZ0nnPnPNuDe
+	 dX3NKU8cFLky+rp9zE1/dWqI9QumqMPadZXRguN/uqvqIy8JCxKqaT5mNWb2ddSTOP
+	 WW3nTZoNUs3ooPHdjzSuivJ9cfYPEbub+Xi5sXHD8VdV0/X3G2UgRyohnG3NOyg4xP
+	 HLW1WEdF0saOukDjTRCAHk8oZxhEhtrC+LbbXgmEUyHYqE4kDzV8OVVj9w3J3qszx/
+	 OuZc8w6Q7BVzPPGo29tNFxZb8EPKfAFfd/Cq3VAehojM71REySKXZqSyAjrLTJO2hM
+	 NBSeyCI3HYUHQ==
+Date: Fri, 31 May 2024 20:48:42 +0000
 From: Eric Biggers <ebiggers@kernel.org>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
-	dm-devel@lists.linux.dev, x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org, ardb@kernel.org,
-	samitolvanen@google.com, bvanassche@acm.org
-Subject: Re: [PATCH v3 6/8] fsverity: improve performance by using
- multibuffer hashing
-Message-ID: <20240531185126.GA1153@sol.localdomain>
-References: <20240507002343.239552-7-ebiggers@kernel.org>
- <ZllXDOJKW2pHWBTz@gondor.apana.org.au>
- <20240531061348.GG6505@sol.localdomain>
- <20240531065258.GH6505@sol.localdomain>
- <ZlmPGEt68OyAfuWo@gondor.apana.org.au>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+	snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com,
+	paul@paul-moore.com, linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH v19 11/20] block,lsm: add LSM blob and new LSM hooks for
+ block device
+Message-ID: <20240531204842.GA2838215@google.com>
+References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com>
+ <1716583609-21790-12-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -49,51 +51,96 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZlmPGEt68OyAfuWo@gondor.apana.org.au>
+In-Reply-To: <1716583609-21790-12-git-send-email-wufan@linux.microsoft.com>
 
-On Fri, May 31, 2024 at 04:49:28PM +0800, Herbert Xu wrote:
-> On Thu, May 30, 2024 at 11:52:58PM -0700, Eric Biggers wrote:
-> >
-> > Looking at it again a bit more closely, both fsverity and dm-verity have
-> > per-block information that they need to keep track of in the queue in addition
-> > to the data buffers and hashes: the block number, and in dm-verity's case also a
-> > bvec_iter pointing to that block.
+On Fri, May 24, 2024 at 01:46:40PM -0700, Fan Wu wrote:
+> From: Deven Bowers <deven.desai@linux.microsoft.com>
 > 
-> Again I'm not asking you to make this API asynchronous at all.
+> Some block devices have valuable security properties that is only
+> accessible during the creation time.
+>
+> For example, when creating a dm-verity block device, the dm-verity's
+> roothash and roothash signature, which are extreme important security
+> metadata, are passed to the kernel. However, the roothash will be saved
+> privately in dm-verity, which prevents the security subsystem to easily
+> access that information. Worse, in the current implementation the
+> roothash signature will be discarded after the verification, making it
+> impossible to utilize the roothash signature by the security subsystem.
 
-What exactly are you suggesting, then?  It seems that you want multibuffer
-hashing to be supported by the existing ahash API.  However, that only works if
-it's made asynchronous, given how the messages would have to be queued up on a
-global queue.  That has a huge number of issues which I've already explained.
-(And it was even tried before, and it failed.)
+This patch seems to be assuming that creating the block device == setting up
+dm-verity.  That's not how it actually works.  The way that device-mapper works
+is that first a device-mapper device is created, and then targets are loaded
+into it.  The targets can be changed later, any number of times.
 
-> I was just commenting on the added complexity in fsverify due to
-> the use of the linear shash API instead of the page-based ahash API.
+So, while the creation of the block device is when the LSM blob is allocated,
+it's not when the actual contents of it are initialized.  And its contents can
+vary over the lifetime of the block device, including changing from something
+the LSM "trusts" to something it doesn't "trust".
 
-It's the other way around.  The shash version is much simpler.  Just look at the
-diff of commit 8fcd94add6c5 that changed from ahash to shash:
+I'm not sure if this is "just" a documentation issue or if there are bugs
+resulting from not handling changes properly.  The code itself *looks* correct,
+but seeing it's not clear how much this has been considered and that getting
+this wrong would allow the LSM checks to be bypassed, I thought I'd draw
+attention to it.  This is really something that ought to be called out
+explicitly in comments, for example.
 
-    4 files changed, 71 insertions(+), 200 deletions(-)
+> For example, LSM can use the new LSM blob to save the roothash signature of a
+> dm-verity, and LSM can make access decision based on the data inside the
+> signature, like the signer certificate.
 
-> This complexity was then compounded by the multi-buffer support.
+This isn't what IPE actually does, though.  So this doesn't seem like a
+particularly useful example in this context.
 
-fsverity and dm-verity will have to be updated to use multibuffer hashing
-anyway, given that transparently supporting it in the existing API is not
-viable.  If your concern is that in my current patchset fsverity and dm-verity
-have separate code paths for multibuffer vs. single-buffer, as I mentioned I can
-address that by restructuring them to operate on arrays (similar to what I
-already did with the crypto API part).
+> For example, for dm-verity, LSMs can use this hook to save
+> the roothash signature of a dm-verity into the security blob,
+> and LSMs can make access decisions based on the data inside
+> the signature, like the signer certificate.
 
-> I think this would look a lot simpler if it moved back to ahash.
-> 
-> The original commit mentioned that ahash was bad for fsverify
-> because of vmalloc.  But the only use of linear pointers in fsverify
-> seems to be from kmalloc.  Where is the vmalloc coming from?
+Likewise.
 
-XFS is working on adding support for fsverity, and XFS was planning to provide
-their Merkle tree blocks in vmalloced buffers.  Their plans have shifted several
-times, and I think their latest plan no longer uses vmalloced buffers.  But in
-any case it's still very convenient and much simpler to be able to just use
-virtual addresses without having to worry about what type of memory it is.
+> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> index 781c4500491b..eaa28f366d98 100644
+> --- a/include/linux/blk_types.h
+> +++ b/include/linux/blk_types.h
+> @@ -71,6 +71,9 @@ struct block_device {
+>  
+>  	struct partition_meta_info *bd_meta_info;
+>  	int			bd_writers;
+> +#ifdef CONFIG_SECURITY
+> +	void			*security;
+> +#endif
+
+All the other fields in struct block_device are prefixed with "bd_", so please
+use the same pattern for this new field (bd_security).
+
+> diff --git a/security/security.c b/security/security.c
+> index b419166979da..743652e5e893 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+[...]
+> +/**
+> + * security_bdev_setintegrity() - Set the device's integrity data
+> + * @bdev: block device
+> + * @type: type of integrity, e.g. hash digest, signature, etc
+> + * @value: the integrity value
+> + * @size: size of the integrity value
+> + *
+> + * Register a verified integrity measurement of a bdev with LSMs.
+> + * LSMs should free the previously saved data if @value is NULL.
+> + *
+> + * Return: Returns 0 on success, negative values on failure.
+> + */
+> +int security_bdev_setintegrity(struct block_device *bdev,
+> +			       enum lsm_integrity_type type, const void *value,
+> +			       size_t size)
+> +{
+> +	return call_int_hook(bdev_setintegrity, bdev, type, value, size);
+> +}
+> +EXPORT_SYMBOL(security_bdev_setintegrity);
+
+This might be a good place to explicitly document that the block device's
+integrity properties may change over the lifetime of the block device and that
+LSMs *must* (not "should") handle all possible types of updates, including
+updates from a non-NULL value of a property to a NULL value.
 
 - Eric
