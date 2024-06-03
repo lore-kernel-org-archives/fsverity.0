@@ -1,253 +1,131 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59B315D1
-	for <fsverity@lists.linux.dev>; Mon,  3 Jun 2024 01:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B0B137939;
+	Mon,  3 Jun 2024 18:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717378848; cv=none; b=njnN/SJjIUBFXzj/oXdqg2nJ8GPNNxMFapCoYVzwSGI8TNrsUBwbMaSZ28ncdlONkUotgxQ0FhBYwTnWoF6WulEJ9255cO8SvBODjhZKtxHtWSzEk4tl4i8CvXbI79Oi20/4lyhGJ0GdjTyaI+F2BiacFk15SUKsS7lJvyTM8go=
+	t=1717439943; cv=none; b=dhKUK6EGOmdcQO9wZH9bNkUF/Mh9nsVQ6aIcv14KZ8osNmMsKIYrUfI6Qc+PuDWoXCIFW/AdNHlxHFObrAs5WwZSSyfTa27aPODlqs8zmhjxlaVwLMVvRmYbPT9Aa1NzRqOO+v5Me/acmppcmq6YM+5/q1vGoKy3+6B/g6RTOCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717378848; c=relaxed/simple;
-	bh=uDNSXK89staAi5wtMKyMoU94EEY42WkdDv0RK++eZMI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VUXELP3ZjKiJnsD4Smf3/M1MzXxSVG5f1f5MJeoh40jlB8t48zuPs7KvCjPOQE2eSHYAHFHmtLyZwJpvc4glJjxOd9mBQZaZ2fref0kbEdNnMmBkC1YFkblDTMzWTGlnx4spsq17gCMG1iNwn36UMtgoFNAavKrrFx3YiprOd/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=LkHtzEit; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1717439943; c=relaxed/simple;
+	bh=cuaWNZB+W8ps7z5awlku/z83BkDgv1blEbXuyhu0RU4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RitMZ3rvmQJCRC5tFMi5dfMFMZT85dmUgUtwxBAQFD7zWX1gnXHSNRc5W/gZwBhQSV8EAqICmRw+iPbXh075k1DBZup2qYYCbDo3NtXVYBVisD7RKDooMzmF7g8UzRPI7XLPAyboSC/9RG1mk/0cHO/tunlDq914bPlGDo5Gva0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVDmVIBB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="LkHtzEit"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-62a0827316eso26683847b3.1
-        for <fsverity@lists.linux.dev>; Sun, 02 Jun 2024 18:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1717378846; x=1717983646; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/TDOjHWp8bXjvFuOeUFIDKGP58ph/UwrghwjNGtMBFo=;
-        b=LkHtzEitj7JK1WetdVx8HDTQtlNtGc0r1ctX4P/J9RDSvtAZPEZ0AZ+sagEMyK+gpG
-         UZnfthlSdu5FIL9Xy1rFTVFmimvTWhEB4pI4VCs0tg+QkF8qC22UX9K3jmsOHnW2etSQ
-         vxcXr8AnFu0Jop0XNt8GkTUV5pGTiV8uan0uSwtRxz0vrU4rP0CflvQz5Xpb9NfBFRFm
-         6BOODGjixE+gPWyhlVD+3XKdCRLa37fynoP7ETw5rRGitFhE3qqQ1oNTf+S8Gg44luOF
-         wri4caKV7h8Drl9oUD0L4JrduZ2ICN/VeKj0uZnbs3LZyCCaSVUaNjzuThtJaa1wha80
-         VqEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717378846; x=1717983646;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/TDOjHWp8bXjvFuOeUFIDKGP58ph/UwrghwjNGtMBFo=;
-        b=CqDqKijcNhWjydOdQEn5cAgksJMzywWx/t0Azl2h129PEW4KQRMX8sMYyzK4wYk13M
-         p9uUjKNkNgcjAeDq6kBDeiFw9FmCT5VkkGV+NNuWKlF9asr6MhsT9vGx2txRePob2NrU
-         fmoCKY6Ahubl9OGsSzplNodIJsi3nS5wS22YevNCfYCigPGOOPq9jdyrnRMTFOSmpN0j
-         EYWCdd/ntByI+/YDFQ70TsO+dx+EIT4dBqu9DsVIT0XvYZO3V273adv6ARHv/FKrw9PD
-         MmF9FgXETXLkILPyyETu8OmRZX53Ri0I8WIgNp5yR/eEG2W7kX4bJMV29B07HjS/es56
-         QKkg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsYkkzzGXSWRpc8VwqMM74wIMZDZ+O8m/7l4Tqnd3lkDAuGJfufdR/wvGdf6BuCZuK/RdWcXh5LHJAIZuMopXNV2wQE6sSH8Y=
-X-Gm-Message-State: AOJu0YziBYNJwtw0ZjY+8aEtHWH7Qp9KW1LLWDElI69xb1xCkXXJcvFF
-	AR962UCkNzFkDPvE6rzlSO1N6R5T4pbZ14T2izRpqlRk1nhfs9sz5X7vrvAPPQ3HlleO6U1Jepk
-	tbQZPZRWWa1o7E0uEbM1nx3jMqxN41KUyfDH3
-X-Google-Smtp-Source: AGHT+IFp652CCfD0M3qHSzvSxnuvYGSkS9KDgo5K/vd2UhiOAnsvsgHt4NTZTmN643EolwNgor3GheXekQ2a83RNBjY=
-X-Received: by 2002:a81:ae42:0:b0:627:e414:2f46 with SMTP id
- 00721157ae682-62c79708847mr83808507b3.28.1717378845664; Sun, 02 Jun 2024
- 18:40:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVDmVIBB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D00EBC2BD10;
+	Mon,  3 Jun 2024 18:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717439943;
+	bh=cuaWNZB+W8ps7z5awlku/z83BkDgv1blEbXuyhu0RU4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LVDmVIBB/u9JAy2fKk7Att6u6L85xJe6vmd8Wj9JE5RUJRwaQ8l8b9bZl2oWq6FAX
+	 GyOTI4YeJtrH1BoL/FKgKYEy256xAAk6K7+20ZPD0aQGqzkpPJGEmwiWTDWIAxzfi7
+	 RE7yLEpyC4hbikfnQN5mkot1TboxNqo0FF6AH40ncEuzN+Gms7SZ+O9mIHLiWVQ9Aq
+	 5EljsdCUiXfifbe4vWw77Sz+NurqU4wt6uWThFLv0BGnj/LkYQYRibcBL4L9Bo3q2F
+	 BcVXlEDeCKf9R0eSl7CVhWHV59O8d4UmqCAT8j9THNUI63AVANadbj+Llcgl1FlbDV
+	 hflvAehx52Sgg==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-crypto@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Cc: x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Bart Van Assche <bvanassche@acm.org>
+Subject: [PATCH v4 0/8] Optimize dm-verity and fsverity using multibuffer hashing
+Date: Mon,  3 Jun 2024 11:37:23 -0700
+Message-ID: <20240603183731.108986-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com>
- <1716583609-21790-16-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRsnGjZATBj7-evK6Gdryr54raTTKMYO_vup8AGXLwjQg@mail.gmail.com>
- <20240530030605.GA29189@sol.localdomain> <CAHC9VhRySQ0c16UZz5xKT-y5Tn39wXxe4-f7LNjFY+ROGGxpaQ@mail.gmail.com>
- <20240531004321.GA1238@sol.localdomain> <CAHC9VhRRuBdnv3u2VjKZCR672p4oj_smA72P-181ysdDXGJ-AA@mail.gmail.com>
- <20240531174710.GA1199@sol.localdomain>
-In-Reply-To: <20240531174710.GA1199@sol.localdomain>
-From: Paul Moore <paul@paul-moore.com>
-Date: Sun, 2 Jun 2024 21:40:34 -0400
-Message-ID: <CAHC9VhQDPnq3X0fFOXf5zY38K_STffmZJMqHp50sVqWW6pcabw@mail.gmail.com>
-Subject: Re: [PATCH v19 15/20] fsverity: expose verified fsverity built-in
- signatures to LSMs
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, 
-	agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com, 
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 31, 2024 at 1:47=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
-wrote:
-> On Fri, May 31, 2024 at 11:51:47AM -0400, Paul Moore wrote:
-> > On Thu, May 30, 2024 at 8:43=E2=80=AFPM Eric Biggers <ebiggers@kernel.o=
-rg> wrote:
-> > > On Thu, May 30, 2024 at 04:54:37PM -0400, Paul Moore wrote:
-> > > > On Wed, May 29, 2024 at 11:06=E2=80=AFPM Eric Biggers <ebiggers@ker=
-nel.org> wrote:
-> > > > > On Wed, May 29, 2024 at 09:46:57PM -0400, Paul Moore wrote:
-> > > > > > On Fri, May 24, 2024 at 4:46=E2=80=AFPM Fan Wu <wufan@linux.mic=
-rosoft.com> wrote:
-> > > > > > >
-> > > > > > > This patch enhances fsverity's capabilities to support both i=
-ntegrity and
-> > > > > > > authenticity protection by introducing the exposure of built-=
-in
-> > > > > > > signatures through a new LSM hook. This functionality allows =
-LSMs,
-> > > > > > > e.g. IPE, to enforce policies based on the authenticity and i=
-ntegrity of
-> > > > > > > files, specifically focusing on built-in fsverity signatures.=
- It enables
-> > > > > > > a policy enforcement layer within LSMs for fsverity, offering=
- granular
-> > > > > > > control over the usage of authenticity claims. For instance, =
-a policy
-> > > > > > > could be established to permit the execution of all files wit=
-h verified
-> > > > > > > built-in fsverity signatures while restricting kernel module =
-loading
-> > > > > > > from specified fsverity files via fsverity digests.
-> > > >
-> > > > ...
-> > > >
-> > > > > > Eric, can you give this patch in particular a look to make sure=
- you
-> > > > > > are okay with everything?  I believe Fan has addressed all of y=
-our
-> > > > > > previous comments and it would be nice to have your Ack/Review =
-tag if
-> > > > > > you are okay with the current revision.
-> > > > >
-> > > > > Sorry, I've just gotten a bit tired of finding so many basic issu=
-es in this
-> > > > > patchset even after years of revisions.
-> > > > >
-> > > > > This patch in particular is finally looking better.  There are a =
-couple issues
-> > > > > that I still see.  (BTW, you're welcome to review it too to help =
-find these
-> > > > > things, given that you seem to have an interest in getting this l=
-anded...):
-> > > >
-> > > > I too have been reviewing this patchset across multiple years and h=
-ave
-> > > > worked with Fan to fix locking issues, parsing issues, the initramf=
-s
-> > > > approach, etc.
-> > >
-> > > Sure, but none of the patches actually have your Reviewed-by.
-> >
-> > As a general rule I don't post Acked-by/Reviewed-by tags for patches
-> > that are targeting a subsystem that I maintain.  The logic being that
-> > I'm going to be adding my Signed-off-by tag to the patches and arguing
-> > these in front of Linus, so adding a Acked-by/Reviewed-by simply
-> > creates more work later on where I have to strip them off and replace
-> > them with my sign-off.
-> >
-> > If the lack of a Reviewed-by tag is *really* what is preventing you
-> > from reviewing the fs-verity patch, I can post that starting with the
-> > next revision, but I'm guessing the lack of my tag isn't your core
-> > issue (or at least I would argue it shouldn't be).
-> >
-> > > > My interest in getting this landed is simply a
-> > > > combination of fulfilling my role as LSM maintainer as well as bein=
-g
-> > > > Fan's coworker.  While I realize you don't work with Fan, you are
-> > > > listed as the fs-verity maintainer and as such I've been looking to
-> > > > you to help review and authorize the fs-verity related code.  If yo=
-u
-> > > > are too busy, frustrated, or <fill in the blank> to continue review=
-ing
-> > > > this patchset it would be helpful if you could identify an authoriz=
-ed
-> > > > fs-verity reviewer.  I don't see any besides you and Ted listed in =
-the
-> > > > MAINTAINERS file, but perhaps the fs-verity entry is dated.
-> > > >
-> > > > Regardless, I appreciate your time and feedback thus far and I'm su=
-re
-> > > > Fan does as well.
-> > >
-> > > Maintainers are expected to do reviews and acks, but not to the exten=
-t of
-> > > extensive hand-holding of a half-baked submission.
-> >
-> > Considering the current state of this patchset I don't believe that
-> > verdict to be fair, or very considerate.
-> >
-> > We clearly have different styles and approaches towards subsystem
-> > maintainer roles.  I've had the good fortune to work with both hostile
-> > and helpful senior developers during the early years of my time
-> > working in the Linux kernel, and it helped reinforce the impact
-> > patience and mentoring can have on contributors who are new to the
-> > Linux kernel or perhaps system programming in general.  While I'm far
-> > from perfect in this regard, I do hope and recommend that all of us in
-> > maintainer, or senior developer, roles remember to exercise some
-> > additional patience and education when working with new contributors.
-> >
->
-> It's not clear to me that you've done a close review of the verity relate=
-d
-> patches, including not just this one but the dm-verity related ones and t=
-he
-> fsverity and dm-verity support in IPE itself, given the issues that I've =
-been
-> finding in them in the last couple months.
+On many modern CPUs, it is possible to compute the SHA-256 hash of two
+equal-length messages in about the same time as a single message, if all
+the instructions are interleaved.  This is because each SHA-256 (and
+also most other cryptographic hash functions) is inherently serialized
+and therefore can't always take advantage of the CPU's full throughput.
 
-I have not been able to give the fs-verify or dm-verity patches the
-same level of scrutiny as the associated subsystem maintainers simply
-because I lack the deep history and background; I rely on the
-associated maintainers to catch the important "gotchas" as we've seen
-in the patchset.
+An earlier attempt to support multibuffer hashing in Linux was based
+around the ahash API.  That approach had some major issues.  This
+patchset instead takes a much simpler approach of just adding a
+synchronous API for hashing equal-length messages.
 
-> As I said before, I'm not too
-> enthusiastic about IPE myself, for various reasons I've explained, so I'v=
-e
-> really been looking to the people who actually want it to help drive it f=
-orward.
+This works well for dm-verity and fsverity, which use Merkle trees and
+therefore hash large numbers of equal-length messages.
 
-Once again, that is what I have been doing in my effort to get this to
-a point where it can be merged and sent to Linus.  I've spent numerous
-hours reviewing patches on-list (and catching quite a few issues), and
-working with Fan off-list, to ensure these patches continue to
-improve.  I'm asking you to review the fs-verity patch(es) for two
-main reasons: 1) to identify any fs-verity interaction problems, 2) as
-a courtesy since you are the fs-verity maintainer and I want you to be
-aware of this and accepting of the code being introduced in the
-subsystem you are responsible for maintaining.
+This patchset is organized as follows:
 
-> Anyway, as I also said, the fsverity and dm-verity support does seem to b=
-e
-> improved now after all the rounds of feedback, and I think it's close to =
-the
-> finish line.
+- Patch 1-3 add crypto_shash_finup_mb() and tests for it.
+- Patch 4-5 implement finup_mb on x86_64 and arm64, using an
+  interleaving factor of 2.
+- Patch 6-8 update fsverity and dm-verity to use crypto_shash_finup_mb()
+  to hash pairs of data blocks when possible.  Note: the patch
+  "dm-verity: hash blocks with shash import+finup when possible" is
+  revived from its original submission
+  (https://lore.kernel.org/dm-devel/20231030023351.6041-1-ebiggers@kernel.org/)
+  because this new work provides a new motivation for it.
 
-I agree.  I appreciate your help in reviewing this patchset, and those
-that came before it.  I've seen Fan voice his appreciation too
-on-list.
+On CPUs that support multiple concurrent SHA-256's (all arm64 CPUs I
+tested, and AMD Zen CPUs), raw SHA-256 hashing throughput increases by
+70-98%, and the throughput of cold-cache reads from dm-verity and
+fsverity increases by very roughly 35%.
 
->  I just hope you can understand that I'm also a bit burnt out now,
+Changed in v4:
+  - Reorganized the fsverity and dm-verity code to have a unified code
+    path for single-block vs. multi-block processing.  For data blocks
+    they now use only crypto_shash_finup_mb().
 
-I can understand that, and I'm sympathetic.  I've been doing this long
-enough to have gone through my own cycles of burnout and rejuvenation
-and I know how disheartening it can be at times.
+Changed in v3:
+  - Change API from finup2x to finup_mb.  It now takes arrays of data
+    buffer and output buffers, avoiding hardcoding 2x in the API.
 
-> and getting asked for an ack on this patch again and then seeing a bug in=
- it
-> (despite it having been simplified to only a few lines now) and also stil=
-l
-> misleading information in the commit message that I asked to be fixed bef=
-ore, is
-> a bit frustrating.  I think it's reasonable to expect a bit better, espec=
-ially
-> for a security oriented feature.
+Changed in v2:
+  - Rebase onto cryptodev/master
+  - Add more comments to assembly
+  - Reorganize some of the assembly slightly
+  - Fix the claimed throughput improvement on arm64
+  - Fix incorrect kunmap order in fs/verity/verify.c
+  - Adjust testmgr generation logic slightly
+  - Explicitly check for INT_MAX before casting unsigned int to int
+  - Mention SHA3 based parallel hashes
+  - Mention AVX512-based approach
 
-I firmly believe that no one writes perfect code, and no one performs
-a perfect review.  As far as I'm concerned, the important bit is that
-you respond, learn, and strive to do better next time.
+Eric Biggers (8):
+  crypto: shash - add support for finup_mb
+  crypto: testmgr - generate power-of-2 lengths more often
+  crypto: testmgr - add tests for finup_mb
+  crypto: x86/sha256-ni - add support for finup_mb
+  crypto: arm64/sha256-ce - add support for finup_mb
+  fsverity: improve performance by using multibuffer hashing
+  dm-verity: hash blocks with shash import+finup when possible
+  dm-verity: improve performance by using multibuffer hashing
 
---=20
-paul-moore.com
+ arch/arm64/crypto/sha2-ce-core.S    | 281 +++++++++++++-
+ arch/arm64/crypto/sha2-ce-glue.c    |  40 ++
+ arch/x86/crypto/sha256_ni_asm.S     | 368 +++++++++++++++++++
+ arch/x86/crypto/sha256_ssse3_glue.c |  39 ++
+ crypto/shash.c                      |  60 +++
+ crypto/testmgr.c                    |  90 ++++-
+ drivers/md/dm-verity-fec.c          |  31 +-
+ drivers/md/dm-verity-fec.h          |   7 +-
+ drivers/md/dm-verity-target.c       | 545 ++++++++++++++++++++--------
+ drivers/md/dm-verity.h              |  43 +--
+ fs/verity/fsverity_private.h        |   7 +
+ fs/verity/hash_algs.c               |   8 +-
+ fs/verity/verify.c                  | 173 +++++++--
+ include/crypto/hash.h               |  45 ++-
+ 14 files changed, 1494 insertions(+), 243 deletions(-)
+
+
+base-commit: aabbf2135f9a9526991f17cb0c78cf1ec878f1c2
+-- 
+2.45.1
+
