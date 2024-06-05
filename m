@@ -1,44 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05100801;
-	Tue,  4 Jun 2024 19:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA7E18C324;
+	Wed,  5 Jun 2024 09:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717529145; cv=none; b=rzv5ndgc1rJrH7mkY/+mnjk1X78FLFrBwbrKzEMjsukjMVEG5VtbFo6caKgqtf854HEDZZ8RGL18Cj+l/LEV/tHEtdHmDvvM2pHs2MxH+yJ8cJECHvB/XA7LrEmWp/C7UH3PuxkHY6JRLwpk/TtUZIW8SP0dukLpmWiPw6szO8g=
+	t=1717579153; cv=none; b=lUltweXE428TKL2Z735a9rjaMLPjMFi/EHY9ZCNR1O3Qrh+Cbp4AUARfbLIgKn/ujT7FDKISAFtpJgKarnVpqR6G/Dlae7gwJwg8S+s6E/TPa3754flNI+8V3A5vnDTg3g8CEvzOwBUNfiKjpdUKWfZnnYfV+Gufx5Cusm+w2XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717529145; c=relaxed/simple;
-	bh=CfdX3QgpBeGkiViJGYp7o44OH979z8N7+Zs7t2WW+f4=;
+	s=arc-20240116; t=1717579153; c=relaxed/simple;
+	bh=MrxZ/G9F0uWEM4pRHqrms1rajBedIxzdSelMDZ0BuZg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dJaHosSxXLOImWLbK4Sc9T7+b5NBIWV3fRjqPNyCYxjbb3w48gLRHfUP3f41nX28c3swQmkwa+ee2Uuw5lZ4+JBBKg9Jr3Zv2JUsy5lkUhZmXQ9LGtJU1mqM5zP7WSEnRZtZ8QXzAbIbHAI4huMXVU1lgMcwtm1/AQdRjexx92w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A4f+pTcO; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A4f+pTcO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36641C2BBFC;
-	Tue,  4 Jun 2024 19:25:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717529144;
-	bh=CfdX3QgpBeGkiViJGYp7o44OH979z8N7+Zs7t2WW+f4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A4f+pTcO0TotuaZzcRhFq6IxIsRM4Qm8d2eF2w0RCHVEGfvBUyiY26sLeUEe2H+yZ
-	 gt+rOwUYrpWu7NmOPqtcgwQjhrRVFuM+pmeaMmkqPFln5SwJ5z/HtlucTFd/eiwTWk
-	 VPaDNYps3o6VgZXIrGE8d4/XgTxJnCm5q/AzQgP7D+LjJScqnfEdjk+cv2s+MNDLgk
-	 rA0n2GJkJeX6VJ9e1wBFVE5tF7LFKDdfyBMgYTZov8WakYIeJuoQ2h1fwXSPV0jlAC
-	 041k0uANAgAnRtlSfIENmxulVOMGM7ee+vei2prIem8AOmci/IVlsIqa+Bo2EKGS6M
-	 iVExfLAsdSi1Q==
-Date: Tue, 4 Jun 2024 12:25:42 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Ard Biesheuvel <ardb@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tXhI1c2YgeL50hvmeiBUCD6AqN1ZZHX/Nk+oTGrU/pdTugMJzLGEqxx+rDW/6+GCoMltfEy354iAe0HR6pbCTntRkgdadwtJurLSZoWxvu6VV67tY9dVL8vr5SAAfYRksJ5zuALjqb+kkf3FW9z0hYURbNgqlCN82B6ZtIeDOuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1sEmnK-005t8z-2C;
+	Wed, 05 Jun 2024 17:18:59 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 05 Jun 2024 17:19:01 +0800
+Date: Wed, 5 Jun 2024 17:19:01 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Eric Biggers <ebiggers@kernel.org>
 Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
-	dm-devel@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>,
-	x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+	dm-devel@lists.linux.dev, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
 	Sami Tolvanen <samitolvanen@google.com>,
 	Bart Van Assche <bvanassche@acm.org>
-Subject: Re: [PATCH v4 1/8] crypto: shash - add support for finup_mb
-Message-ID: <20240604192542.GD1566@sol.localdomain>
+Subject: Re: [PATCH v4 6/8] fsverity: improve performance by using
+ multibuffer hashing
+Message-ID: <ZmAthcxC8V3V3sm3@gondor.apana.org.au>
 References: <20240603183731.108986-1-ebiggers@kernel.org>
- <20240603183731.108986-2-ebiggers@kernel.org>
- <CAMj1kXHVbVhydU60zzUc8a-jVkboRz1pz0TW7Sx_5N_AvdhZdA@mail.gmail.com>
+ <20240603183731.108986-7-ebiggers@kernel.org>
+ <Zl7gYOMyscYDKZ8_@gondor.apana.org.au>
+ <20240604184220.GC1566@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -47,34 +43,53 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMj1kXHVbVhydU60zzUc8a-jVkboRz1pz0TW7Sx_5N_AvdhZdA@mail.gmail.com>
+In-Reply-To: <20240604184220.GC1566@sol.localdomain>
 
-On Tue, Jun 04, 2024 at 08:55:48PM +0200, Ard Biesheuvel wrote:
-> >
-> > This patch takes a new approach of just adding an API
-> > crypto_shash_finup_mb() that synchronously computes the hash of multiple
-> > equal-length messages, starting from a common state that represents the
-> > (possibly empty) common prefix shared by the messages.
-> >
-> 
-> This is an independent optimization, right? This could be useful even
-> more sequential hashing, and is not a fundamental aspect of parallel
-> hashing?
+On Tue, Jun 04, 2024 at 11:42:20AM -0700, Eric Biggers wrote:
+>
+> This doesn't make any sense, though.  First, the requests need to be enqueued
+> for the task, but crypto_ahash_finup() would only have the ability to enqueue it
+> in a queue associated with the tfm, which is shared by many tasks.  So it can't
 
-If you're referring to the part about using a common starting state, that's not
-an independent optimization.  Only multibuffer hashing processes multiple
-messages in one call and therefore has an opportunity to share a starting
-shash_desc for finup.  This isn't just an optimization but it also makes the
-multibuffer hashing API and its implementation much simpler.
+OK I screwed up that one.  But that's not hard to fix.  We could
+simply add request chaining:
 
-With single-buffer there has to be one shash_desc per message as usual.
+	ahash_request_chain(req1, req2);
+	ahash_request_chain(req2, req3);
+	...
+	ahash_request_chain(reqn1, reqn);
 
-If you're asking if crypto_shash_finup_mb() can be used even without multibuffer
-hashing support, the answer is yes.  This patchset makes crypto_shash_finup_mb()
-fall back to crypto_shash_finup() as needed, and this is used by fsverity and
-dm-verity to have one code path that uses crypto_shash_finup_mb() instead of
-separate code paths that use crypto_shash_finup_mb() and crypto_shash_finup().
-This just makes things a bit simpler and isn't an optimization; note that the
-fallback has to copy the shash_desc for each message beyond the first.
+	err = crypto_ahash_finup(req1);
 
-- Eric
+> actually work unless the tfm maintained a separate queue for each task, which
+> would be really complex.  Second, it adds a memory allocation per block which is
+> very undesirable.  You claim that it's needed anyway, but actually it's not;
+> with my API there is only one initial hash state regardless of how high the
+> interleaving factor is.  In fact, if multiple initial states were allowed,
+
+Sure you don't need it for two interleaved requests.  But as you
+scale up to 16 and beyond, surely at some point you're going to
+want to move the hash states off the stack.
+
+> multibuffer hashing would become much more complex because the underlying
+> algorithm would need to validate that these different states are synced up.  My
+> proposal is much simpler and avoids all this unnecessary overhead.
+
+We could simply state that these chained requests must be on block
+boundaries, similar to how we handle block ciphers.  This is not a
+big deal.
+
+> Really the only reason to even consider ahash at all would be try to support
+> software hashing and off-CPU hardware accelerators using the "same" code.
+> However, your proposal would not achieve that either, as it would not use the
+> async callback.  Note, as far as I know no one actually cares about off-CPU
+> hardware accelerator support in fsverity anyway...
+
+The other thing is that verity doesn't benefit from shash at all.
+It appears to be doing kmap's on every single request.
+
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
