@@ -1,34 +1,27 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C79E13C9C7;
-	Wed,  5 Jun 2024 19:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3869D1640B;
+	Thu,  6 Jun 2024 02:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717614852; cv=none; b=CoZclH4MK5o1FMnoLTbu8uW2//+wV1JscN8k8EMLkEnVxe5gBdPlEHQk8QsQOUb/brs9h8M2puScqSI0aKxuJMTc8HIpm4z8wFc4GUkxRO1sfuWEuIvf4VrAms12sfZLGeSe1h0jW4Urk4QRJTPltPrOCj+/2WpIxKl0Bq8Dct0=
+	t=1717639215; cv=none; b=Cgl3n4fjw6m7mQqZ0O+rb2igMm6NbYlpl2gkaHNWe4qK+VmA90/Kxb6qjXtUAXyYWDh6+GsMXeABRszqQkywpYx6sHq1DOci2juQaf6yHalGW5GAzt8yUEBUa5S43ooHuzYRjRSins6nd9o7lktyzFL8P8sV+UVasC1nbeFeHrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717614852; c=relaxed/simple;
-	bh=anJCOkwW/JCOoSR2rAINEuJ0OMo6WwM1LrBeDLnzJ+k=;
+	s=arc-20240116; t=1717639215; c=relaxed/simple;
+	bh=kkvO7EElqVqextV2I737BAyQ3mN/zZQaz2lFoD4r/yM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ioIg54q+ff7pCCNNmxXT8xBLUE7DPoWCcRI3/JRAwXXK33RgKNkDgfWfax9Kr/O4EtNb8/szDykRb3p3FwiPZZJKlF5fOH7ByCXl1ckCRavHAd6jElBEFdg5VMehQ0ZfGS7f5023tiHQwInzF2mbKauql+pFJYM/xLTvWzeF0BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PmNAZJkq; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PmNAZJkq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE59C2BD11;
-	Wed,  5 Jun 2024 19:14:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717614852;
-	bh=anJCOkwW/JCOoSR2rAINEuJ0OMo6WwM1LrBeDLnzJ+k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PmNAZJkqpGyH6vjNz47hE1ihjyXMSZTKTyoxMHhsiKfjXaljY0BTR417ondXgtokP
-	 0jKANCFz07Dmgf+Vky5fYkDRhoxj8uCoebggx0Z8Q1djaJknCIvsfjINlfF9dy85CE
-	 6WW38NV01bsMeRVwzeqQo3cDuSZyjB927EtHkUXwIndbI+rh5+RO6JDC16fwnR5SKg
-	 hglKztyr1w/MqT5KmbdkXB4ozoW6HFvVCGSt0a0whfigTl20B3QGWYiasLzizdsBtI
-	 zkX5Nznmb2/svFBIuTCUL4023Hl8en/suEUqcR2P8Cp0Sk0Z20RAO32FQkjeTnByMz
-	 zsTjoIXuPhmFw==
-Date: Wed, 5 Jun 2024 12:14:10 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Herbert Xu <herbert@gondor.apana.org.au>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MdpQH3FKzEHufjolF5SVR15mROadksCOrZH363I3+SpQE+QX1OXIbmrZBzr3DigatON6xyVOWEpP0hsYPQXbiov02XQKcm3ja8hNsahJ/y+ZMzLoEcB1/cqX7+MvkvmzYL+gB38oLyHw0noOF/ouODPDkkVevYxqt0y3cw1s6gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1sF2Q6-006DkZ-2b;
+	Thu, 06 Jun 2024 10:00:03 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 06 Jun 2024 10:00:05 +0800
+Date: Thu, 6 Jun 2024 10:00:05 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Eric Biggers <ebiggers@kernel.org>
 Cc: Steffen Klassert <steffen.klassert@secunet.com>, netdev@vger.kernel.org,
 	linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
 	dm-devel@lists.linux.dev, x86@kernel.org,
@@ -38,7 +31,7 @@ Cc: Steffen Klassert <steffen.klassert@secunet.com>, netdev@vger.kernel.org,
 	Bart Van Assche <bvanassche@acm.org>
 Subject: Re: [PATCH v4 6/8] fsverity: improve performance by using
  multibuffer hashing
-Message-ID: <20240605191410.GB1222@sol.localdomain>
+Message-ID: <ZmEYJQFHQRFKC5JM@gondor.apana.org.au>
 References: <20240603183731.108986-1-ebiggers@kernel.org>
  <20240603183731.108986-7-ebiggers@kernel.org>
  <Zl7gYOMyscYDKZ8_@gondor.apana.org.au>
@@ -46,6 +39,7 @@ References: <20240603183731.108986-1-ebiggers@kernel.org>
  <ZmAthcxC8V3V3sm3@gondor.apana.org.au>
  <ZmAuTceqwZlRJqHx@gondor.apana.org.au>
  <ZmAz8-glRX2wl13D@gondor.apana.org.au>
+ <20240605191410.GB1222@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -54,41 +48,22 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZmAz8-glRX2wl13D@gondor.apana.org.au>
+In-Reply-To: <20240605191410.GB1222@sol.localdomain>
 
-On Wed, Jun 05, 2024 at 05:46:27PM +0800, Herbert Xu wrote:
-> On Wed, Jun 05, 2024 at 05:22:21PM +0800, Herbert Xu wrote:
-> >
-> > However, I really dislike the idea of shoehorning this into shash.
-> > I know you really like shash, but I think there are some clear
-> > benefits to be had by coupling this with ahash.
+On Wed, Jun 05, 2024 at 12:14:10PM -0700, Eric Biggers wrote:
 > 
-> If we do this properly, we should be able to immediately use the
-> mb code with IPsec.  In the network stack, we already aggregate
-> the data prior to IPsec with GSO.  So at the boundary between
-> IPsec and the Crypto API, it's dividing chunks of data up to 64K
-> into 1500-byte packets and feeding them to crypto one at a time.
-> 
-> It really should be sending the whole chain of packets to us as
-> a unit.
-> 
-> Once we have a proper mb interface, we can fix that and immediately
-> get the benefit of mb hashing.
-> 
+> This would at most apply to AH, not to ESP.  Is AH commonly used these days?
 
-This would at most apply to AH, not to ESP.  Is AH commonly used these days?
-Also even for AH, the IPsec code would need to be significantly restructured to
-make use of multibuffer hashing.  See how the segmentation happens in
-xfrm_output_gso(), but the ahash calls happen much lower in the stack.
+No AH is completely useless.  However, this applies perfectly to
+ESP, in conjunction with authenc.  Obviously we would need to add
+request linking to authenc (AEAD) as well so that it can pass it
+along to sha.
 
-I'm guessing that you've had the AH use case in mind since your earlier
-comments.  Given you were originally pushing for this to be supported using the
-existing async support in the ahash API (which would have required fewer code
-changes on the AH side), but we now agree that is not feasible, maybe it is time
-to reconsider whether it would still be worthwhile to make all the changes to
-the AH code needed to support this?
+BTW, does any of this interleaving apply to AES? If so we should
+explore adding request linking to skcipher as well.
 
-Also, even if it would be worthwhile and would use ahash, ahash is almost always
-just a wrapper for shash.  So the shash support would be needed anyway.
-
-- Eric
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
