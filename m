@@ -1,70 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCDBA95E;
-	Sun,  9 Jun 2024 01:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CD3158A07;
+	Mon, 10 Jun 2024 16:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717896944; cv=none; b=BYwaxGfgDLSxFxXK2wSy2QckP+qkfRL48Mp1VQeR6FOicSySHlzZTLfONXKHS5Zj5rOC1xPi022Bzyw2yifCcBlU+v5T63MJYIPTezyRQRAq+jBU58ZO5LgBv2q2LISGgopAW3a9/lAY4b31GQ02gL//mP5tj5OJ5n+zIBwO9gc=
+	t=1718037781; cv=none; b=N4X8ycnXv94C1/cWiVeqAwYk1hFbXqfCC+O1aqR9BOQGINEECIoHJu0jrSC81Uog5mcsIJePk+yJmTyFHhaRgRcvEOlwMq7wwdIeULlrTSijhNoutdqOOeXa5Ve+qkMpRzUy+dvWwsOIpSO8xhFylZC4oabs8f1pp8uY6fS+x3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717896944; c=relaxed/simple;
-	bh=uuVNQBEbGHZU8TAMitouVvc/s+dScyMtALH78R/ZsgA=;
+	s=arc-20240116; t=1718037781; c=relaxed/simple;
+	bh=9hodINBTmc3Fj62igWgGsiX5FyUrqiDJA19e2g9Falo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vFkiCd/rHKxCEPNNkvDa1vl3XY/32ovjWZHra1bSrEucvvjXj2yXGjDQ8uwZtOMUCL0bjHFe9AwX/k8O/cTjphijUwOEdJPBvKiJPPAotCMoV3byAMUGvo11EX9pP95Zwh0OigLg37BxoZwATHvyXnhe2Qx1a4F7MTVqIEqjllg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtO52xLi; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UVqfWf9iQFq5R4EuUErI76NzTmmwaEKGuzUPf5CL9WunO7riRdHzshF0umZDPBsyjbFolI26xOwa5fKN2R8CRCPv3FryX8j8NFuWKoDqnR+l6mEEfXIq6gFK7lBoKyph8xFoVwQNTeMw+eKTkVtRMsZJy7ny7Ab88aK5PkuBXOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9TiFmnh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtO52xLi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717896942; x=1749432942;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uuVNQBEbGHZU8TAMitouVvc/s+dScyMtALH78R/ZsgA=;
-  b=gtO52xLidn4b/jyOYwnKYwv38z6G9DLfwaSXbd7f9sfiD8/lyovY5KpL
-   A2fY1TIsww4vCeTiZ1F8ngwuN1q6KFinODnV7aUX7MCYCvzwTZI5aRMAQ
-   vefevJr5a533j4pjXRdNMKsjUw5AW3kIphsI3T6a0iLQ/APBLi7Bz8pdt
-   8u67Aqla+xjQeV7E1XACK2t1p8cWjy+QXTzTZ9j+40m2j3KMyHhNrG/nA
-   mR4MxczipxIen3L9wfQ9PrOFdXQyJFTx1RF3s1IxVxzcQ65pYFh/D0gow
-   TUE5/XA1HS7Yb10WRhE5Ujv0KxgVJiUxC7yyN4i0zhAL79fCbtER4WCtq
-   g==;
-X-CSE-ConnectionGUID: ujdLLsH5QOe7TZFIBJ7MpA==
-X-CSE-MsgGUID: /DYFP5PDTxGPMFdFgNrk2A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11097"; a="25162530"
-X-IronPort-AV: E=Sophos;i="6.08,224,1712646000"; 
-   d="scan'208";a="25162530"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2024 18:35:42 -0700
-X-CSE-ConnectionGUID: Uy+YTGRITdiRj8jqpSDYRg==
-X-CSE-MsgGUID: NiQMr05vR2SEI8vtLGHx8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,224,1712646000"; 
-   d="scan'208";a="43129201"
-Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Jun 2024 18:35:36 -0700
-Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sG7T3-0000jX-1K;
-	Sun, 09 Jun 2024 01:35:33 +0000
-Date: Sun, 9 Jun 2024 09:35:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Xu <dxu@dxuuu.xyz>, rostedt@goodmis.org, martin.lau@linux.dev,
-	shuah@kernel.org, song@kernel.org, mhiramat@kernel.org,
-	ast@kernel.org, andrii@kernel.org, pabeni@redhat.com,
-	ebiggers@kernel.org, tytso@mit.edu, vadim.fedorenko@linux.dev,
-	eddyz87@gmail.com, davem@davemloft.net, edumazet@google.com,
-	daniel@iogearbox.net, hawk@kernel.org, kuba@kernel.org,
-	john.fastabend@gmail.com, olsajiri@gmail.com, quentin@isovalent.com,
-	alan.maguire@oracle.com, acme@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	yonghong.song@linux.dev, kpsingh@kernel.org, sdf@google.com,
-	haoluo@google.com, jolsa@kernel.org, mathieu.desnoyers@efficios.com,
-	mykolal@fb.com, fsverity@lists.linux.dev
-Subject: Re: [PATCH bpf-next v4 09/12] bpf: treewide: Align kfunc signatures
- to prog point-of-view
-Message-ID: <202406090949.IpHo1F5q-lkp@intel.com>
-References: <677377439845fcb9135151d1dac1102ed3d6c924.1717881178.git.dxu@dxuuu.xyz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9TiFmnh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 363B7C4AF1D;
+	Mon, 10 Jun 2024 16:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718037780;
+	bh=9hodINBTmc3Fj62igWgGsiX5FyUrqiDJA19e2g9Falo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f9TiFmnhaLVsCE0YSsw3qNorpz1+kERHXTivzjy6KwZrmRYkRo1bdmITCW+rxwke8
+	 tSus1yA+1UtkuIsCHS9OmqcLhO8JLmnkZo5IiXo8xsoKvYKgjWTX3O+Ud7k3F8VV9m
+	 1HyH0IHkSSrAOTHFSzKGxF2YxC2nQQBEvAvOCxaforW22EZYcJBIUObUBBA8RVRj2E
+	 3jOMa6cA9bn/Zk0tDn48Ps+sus++qyabKVC7X5cjddz2lHBIOM9eqqf7km43hJvZQn
+	 RVNw9FSyMV7XoWZO13kTFUXMZAaUyjJBkYJm5Co9x+XpVJY3TYPuth4nqEleLUBSYl
+	 pU1VlDDQ54VRg==
+Date: Mon, 10 Jun 2024 09:42:58 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	netdev@vger.kernel.org, linux-crypto@vger.kernel.org,
+	fsverity@lists.linux.dev, dm-devel@lists.linux.dev, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Tim Chen <tim.c.chen@linux.intel.com>
+Subject: Re: [PATCH v4 6/8] fsverity: improve performance by using
+ multibuffer hashing
+Message-ID: <20240610164258.GA3269@sol.localdomain>
+References: <20240605191410.GB1222@sol.localdomain>
+ <ZmEYJQFHQRFKC5JM@gondor.apana.org.au>
+ <20240606052801.GA324380@sol.localdomain>
+ <ZmFL-AXZ8lphOCUC@gondor.apana.org.au>
+ <CAMj1kXHLt6v03qkpKfwbN34oyeeCnJb=tpG4GvTn6E1cJQRTOw@mail.gmail.com>
+ <ZmFmiWZAposV5N1O@gondor.apana.org.au>
+ <CAMj1kXFt_E9ghN7GfpYHR4-yaLsz_J-D1Nc3XsVqUamZ6yXHGQ@mail.gmail.com>
+ <ZmFucW37DI6P6iYL@gondor.apana.org.au>
+ <CAMj1kXEpw5b3Rpfe+sRKbQQqVfgWjO_GsGd-EyFvB4_8Bk8T0Q@mail.gmail.com>
+ <ZmF-JHxCfMRuR05G@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -73,94 +58,110 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <677377439845fcb9135151d1dac1102ed3d6c924.1717881178.git.dxu@dxuuu.xyz>
+In-Reply-To: <ZmF-JHxCfMRuR05G@gondor.apana.org.au>
 
-Hi Daniel,
+Hi Herbert,
 
-kernel test robot noticed the following build warnings:
+On Thu, Jun 06, 2024 at 05:15:16PM +0800, Herbert Xu wrote:
+> On Thu, Jun 06, 2024 at 10:33:15AM +0200, Ard Biesheuvel wrote:
+> >
+> > Are you suggesting that, e.g., the arm64 sha2 shash implementation
+> > that is modified by this series should instead expose both an shash as
+> > before, and an ahash built around the same asm code that exposes the
+> > multibuffer capability?
+> 
+> Yes the multi-request handling should be implemented as ahash
+> only.
+> 
 
-[auto build test WARNING on bpf-next/master]
+That is not a reasonable way to do it.  It would be much more complex, more
+error-prone, and slower than my proposal.  Also your proposal wouldn't actually
+bring you much closer to being able to optimize your authenc use case.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Xu/kbuild-bpf-Tell-pahole-to-DECL_TAG-kfuncs/20240609-052326
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/677377439845fcb9135151d1dac1102ed3d6c924.1717881178.git.dxu%40dxuuu.xyz
-patch subject: [PATCH bpf-next v4 09/12] bpf: treewide: Align kfunc signatures to prog point-of-view
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20240609/202406090949.IpHo1F5q-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240609/202406090949.IpHo1F5q-lkp@intel.com/reproduce)
+First, each algorithm implementation that wants to support your scheme would
+need to implement the ahash API alongside shash.  This would be a lot of
+duplicated code, and it would need to support all quirks of the ahash API
+including scatterlists.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406090949.IpHo1F5q-lkp@intel.com/
+Second, allowing an ahash_request to actually be a list of requests creates an
+ambiguity where it will often be unclear when code is supposed to operate on an
+ahash_request individually vs. on the whole list.  This is error-prone, as it
+invites bugs where a crypto operation is done on only one request of the list.
+This is a bad design, especially for a cryptographic API.  We would have
+crypto_ahash_*() do some checks to prevent multi-requests from reaching
+algorithms that don't support the particular kind of request being made.  But
+there will be a lot of cases to consider.
 
-All warnings (new ones prefixed by >>):
+Third, it would be hard to actually implement multibuffer hashing given an
+arbitrary list of requests.  For multibuffer hashing to work, the lengths of all
+the buffers must be synced up, including the internal buffers in the hash states
+as well as every buffer that is produced while walking the scatterlists.  We can
+place constraints on what is supported, but those constraints will need to be
+clearly specified, and each algorithm will actually need to check for them and
+do something sane (error or fallback) when they are not met.  Note that it would
+be possible for the messages to get out of sync in the middle of walking the
+scatterlists, which would be difficult to handle.  All this would add a lot of
+complexity and overhead compared to my proposal, which naturally expresses the
+same-length constraints in the API.
 
->> fs/verity/measure.c:121: warning: Function parameter or struct member 'digest_p' not described in 'bpf_get_fsverity_digest'
->> fs/verity/measure.c:121: warning: Excess function parameter 'digest_ptr' description in 'bpf_get_fsverity_digest'
---
->> kernel/trace/bpf_trace.c:1384: warning: Function parameter or struct member 'data_p' not described in 'bpf_verify_pkcs7_signature'
->> kernel/trace/bpf_trace.c:1384: warning: Function parameter or struct member 'sig_p' not described in 'bpf_verify_pkcs7_signature'
->> kernel/trace/bpf_trace.c:1384: warning: Excess function parameter 'data_ptr' description in 'bpf_verify_pkcs7_signature'
->> kernel/trace/bpf_trace.c:1384: warning: Excess function parameter 'sig_ptr' description in 'bpf_verify_pkcs7_signature'
->> kernel/trace/bpf_trace.c:1459: warning: Function parameter or struct member 'value_p' not described in 'bpf_get_file_xattr'
->> kernel/trace/bpf_trace.c:1459: warning: Excess function parameter 'value_ptr' description in 'bpf_get_file_xattr'
+Fourth, having the API be ahash-only would also force fsverity to switch back to
+the ahash API, which would add complexity and overhead.  The shash API is easier
+to use even when working with pages, as the diffstat of commit 8fcd94add6c5
+clearly shows.  The ahash API also has more overhead, including in doing the
+needed memory allocation, setting up a scatterlist, initializing required but
+irrelevant or redundant fields in the ahash_request, and shash_ahash_finup()
+running the fully generalized scatterlist walker on the scatterlist just to
+finally end up with a pointer which the caller could have provided directly.
+All this overhead adds up, even when hashing 4K blocks.  Back when CPU-based
+crypto was slow this didn't really matter, but now it's fast and these small
+overheads are significant when trying to keep up with storage device speeds
+(which are also fast now).  E.g., even disregarding the memory allocation,
+hashing a 4K block is about 5% faster with shash than with ahash on x86_64.
 
+Of course, I'd need to support ahash in fsverity anyway if someone were to
+actually need support for non-inline hardware offload in fsverity (and if I
+decide to accept that despite many hardware drivers being buggy).  But really
+the best way to do this would be to support ahash alongside shash, like what I'm
+proposing in dm-verity -- perhaps with ahash support limited to the data blocks
+only, as that's the most performance critical part.  The ahash code path would
+use the async callback to actually properly support offload, which would mean
+the code would be substantially different anyway due to the fundamentally
+different computational model, especially vs. multibuffer hashing.  A "single"
+API, that works for both hardware offload and for the vast majority of users
+that simply need very low overhead software crypto, would be nice in theory.
+But I'm afraid it's been shown repeatedly that just doesn't work...  The
+existence of lib/crypto/, shash, lskcipher, and scomp all reflect this.
 
-vim +121 fs/verity/measure.c
+I understand that you think the ahash based API would make it easier to add
+multibuffer support to "authenc(hmac(sha256),cbc(aes))" for IPsec, which seems
+to be a very important use case for you (though it isn't relevant to nearly as
+many systems as dm-verity and fsverity are).  Regardless, the reality is that it
+would be much more difficult to take advantage of multibuffer crypto in the
+IPsec authenc use case than in dm-verity and fsverity.  authenc uses multiple
+underlying algorithms, AES-CBC and HMAC-SHA256, that would both have to use
+multibuffer crypto in order to see a significant benefit, seeing as even if the
+SHA-256 support could be wired up through HMAC-SHA256, encryption would be
+bottlenecked on AES-CBC, especially on Intel CPUs.  It also looks like the IPsec
+code would need a lot of updates to support multibuffer crypto.
 
-67814c00de3161 Song Liu  2023-11-29  110  
-67814c00de3161 Song Liu  2023-11-29  111  /**
-67814c00de3161 Song Liu  2023-11-29  112   * bpf_get_fsverity_digest: read fsverity digest of file
-67814c00de3161 Song Liu  2023-11-29  113   * @file: file to get digest from
-67814c00de3161 Song Liu  2023-11-29  114   * @digest_ptr: (out) dynptr for struct fsverity_digest
-67814c00de3161 Song Liu  2023-11-29  115   *
-67814c00de3161 Song Liu  2023-11-29  116   * Read fsverity_digest of *file* into *digest_ptr*.
-67814c00de3161 Song Liu  2023-11-29  117   *
-67814c00de3161 Song Liu  2023-11-29  118   * Return: 0 on success, a negative value on error.
-67814c00de3161 Song Liu  2023-11-29  119   */
-ec3b75c0e6eb53 Daniel Xu 2024-06-08  120  __bpf_kfunc int bpf_get_fsverity_digest(struct file *file, struct bpf_dynptr *digest_p)
-67814c00de3161 Song Liu  2023-11-29 @121  {
-ec3b75c0e6eb53 Daniel Xu 2024-06-08  122  	struct bpf_dynptr_kern *digest_ptr = (struct bpf_dynptr_kern *)digest_p;
-67814c00de3161 Song Liu  2023-11-29  123  	const struct inode *inode = file_inode(file);
-67814c00de3161 Song Liu  2023-11-29  124  	u32 dynptr_sz = __bpf_dynptr_size(digest_ptr);
-67814c00de3161 Song Liu  2023-11-29  125  	struct fsverity_digest *arg;
-67814c00de3161 Song Liu  2023-11-29  126  	const struct fsverity_info *vi;
-67814c00de3161 Song Liu  2023-11-29  127  	const struct fsverity_hash_alg *hash_alg;
-67814c00de3161 Song Liu  2023-11-29  128  	int out_digest_sz;
-67814c00de3161 Song Liu  2023-11-29  129  
-67814c00de3161 Song Liu  2023-11-29  130  	if (dynptr_sz < sizeof(struct fsverity_digest))
-67814c00de3161 Song Liu  2023-11-29  131  		return -EINVAL;
-67814c00de3161 Song Liu  2023-11-29  132  
-67814c00de3161 Song Liu  2023-11-29  133  	arg = __bpf_dynptr_data_rw(digest_ptr, dynptr_sz);
-67814c00de3161 Song Liu  2023-11-29  134  	if (!arg)
-67814c00de3161 Song Liu  2023-11-29  135  		return -EINVAL;
-67814c00de3161 Song Liu  2023-11-29  136  
-67814c00de3161 Song Liu  2023-11-29  137  	if (!IS_ALIGNED((uintptr_t)arg, __alignof__(*arg)))
-67814c00de3161 Song Liu  2023-11-29  138  		return -EINVAL;
-67814c00de3161 Song Liu  2023-11-29  139  
-67814c00de3161 Song Liu  2023-11-29  140  	vi = fsverity_get_info(inode);
-67814c00de3161 Song Liu  2023-11-29  141  	if (!vi)
-67814c00de3161 Song Liu  2023-11-29  142  		return -ENODATA; /* not a verity file */
-67814c00de3161 Song Liu  2023-11-29  143  
-67814c00de3161 Song Liu  2023-11-29  144  	hash_alg = vi->tree_params.hash_alg;
-67814c00de3161 Song Liu  2023-11-29  145  
-67814c00de3161 Song Liu  2023-11-29  146  	arg->digest_algorithm = hash_alg - fsverity_hash_algs;
-67814c00de3161 Song Liu  2023-11-29  147  	arg->digest_size = hash_alg->digest_size;
-67814c00de3161 Song Liu  2023-11-29  148  
-67814c00de3161 Song Liu  2023-11-29  149  	out_digest_sz = dynptr_sz - sizeof(struct fsverity_digest);
-67814c00de3161 Song Liu  2023-11-29  150  
-67814c00de3161 Song Liu  2023-11-29  151  	/* copy digest */
-67814c00de3161 Song Liu  2023-11-29  152  	memcpy(arg->digest, vi->file_digest,  min_t(int, hash_alg->digest_size, out_digest_sz));
-67814c00de3161 Song Liu  2023-11-29  153  
-67814c00de3161 Song Liu  2023-11-29  154  	/* fill the extra buffer with zeros */
-67814c00de3161 Song Liu  2023-11-29  155  	if (out_digest_sz > hash_alg->digest_size)
-67814c00de3161 Song Liu  2023-11-29  156  		memset(arg->digest + arg->digest_size, 0, out_digest_sz - hash_alg->digest_size);
-67814c00de3161 Song Liu  2023-11-29  157  
-67814c00de3161 Song Liu  2023-11-29  158  	return 0;
-67814c00de3161 Song Liu  2023-11-29  159  }
-67814c00de3161 Song Liu  2023-11-29  160  
+At the same time, an easier way to optimize "authenc(hmac(sha256),cbc(aes))"
+would be to add an implementation of it to arch/x86/crypto/ that interleaves the
+AES-CBC and SHA-256 and also avoids the overhead associated with the template
+based approach (such as all the extra indirect calls).  Of course, that would
+require writing assembly, but so would multibuffer crypto.  It seems unlikely
+that someone would step in to do all the work to implement a multibuffer
+optimization for this algorithm and its use in IPsec, when no one has ever
+bothered to optimize the single-buffer case in the first place, which has been
+possible all along and would require no API or IPsec changes...
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In any case, any potential multi-request support in ahash, skcipher, or aead
+should be separate considerations from the simple function in shash that I'm
+proposing.  It makes sense to have the shash support regardless.
+
+Ultimately, I need to have dm-verity and fsverity be properly optimized in the
+downstreams that are most relevant to me.  If you're not going to allow the
+upstream crypto API to provide the needed functionality in a reasonable way,
+then I'll need to shift my focus to getting this patchset into downstream
+kernels such as Android and Chrome OS instead.
+
+- Eric
