@@ -1,104 +1,97 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26116433CE
-	for <fsverity@lists.linux.dev>; Tue, 11 Jun 2024 16:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EFF12E61;
+	Tue, 11 Jun 2024 20:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718123294; cv=none; b=ZmviXs/jV+HCror5CvHi0jm0Dj1fZBe45RPDZo4sz5uNpJlSBBEqA247JvbiIPwosS4c3wKA9rCwUn8Y0xDsOOxskcRoHMfVtK5Eq3x/IeyKr9ZW1GaB7agBRlXM8OsZx2/6rg68R1OSGrZjj3DK4wAugzZwaUlfGN7/faygdEE=
+	t=1718137141; cv=none; b=Dc3Ipx4aAB8RtTRoq+agM0Rq3pjM8PQfmAt3y9x7Hbl0yDRm5Y9rCtzWopCksAHfA+sAvC3M6u7WANsuCAw5g7ZB9HR7Q3ciZGbXupZfv2Ed+S2MN1vIWBy9zNRwInISnY7Njx+xsSP6BdW4BQO5/bQOJ6zBI3lJVlfOfMBq/cU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718123294; c=relaxed/simple;
-	bh=N4evEqm5Lsj9muDRZ0FKGlEsgvOKjl0qugGTleH/ab8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bXYkniy54JewNoTMk8fZIJd5EKBV1NPWsWYWwecr6YqL8RupipFJlVzZGTOmP/z9d85Py0CXksYuwboZsPJILYQ+sLIXCkZLtpNvPt8e231if1jhwNKBq7ydl7a8LeGGPYD8nUFmWx81MgASAHgBC4RqioIXrRqXsGWo4+DQPqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qohxpE05; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718137141; c=relaxed/simple;
+	bh=gtTMkJYRvzc11WF2seK68wjURAdaNya0C5PddHKpdUM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j4pjcRsxja/dpEZIlpe8F9dCEVRpXHB7ATRTXFge6iKFemz+HKQF3xTD6WLj1DQQnBT42pe8gujseZNYM+Bw8ZquS1BUemu77NNnxoBITlOMIpjeWEh/1jSitG5nQUkI/a+lr4pB4SCBd+CzTpdYfywiurcFTVCg0X2y5GqMyEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tg4w6+Jd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qohxpE05"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3d22368713aso1801749b6e.1
-        for <fsverity@lists.linux.dev>; Tue, 11 Jun 2024 09:28:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718123292; x=1718728092; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BG7XPsDBrgukiLlYYahx3Tk9saQ0mEeAf77iSA+2xAk=;
-        b=qohxpE052TXJjsmcMVpwSmZ2pvvzd3GWiJQJWO9n95V/ccHoPIeNtP0b7j59sPbIb4
-         OyhOPq3MJRBzxiCvwI4HpWq4v8HQCEmgaCUFTJBR3wMh7R1uJ21tk1To+pFJEdKAPkrf
-         vA3sMzR5Iv+G99bwTJ8gA/LPIJRmVoG3iMw8acPY5HOGhnkajTXJVR05k0OHo8XNrqcI
-         m4AbTx9pNnMJDAsZqYBnHdZIefN1R8KDihp7xti0kd1E/p1MHIKCy8CDeGGbNg6Xa2Ok
-         mgt1FPUetHM8TqPCxFS9X3vumkHcnQdfMhuATcuay/Kh6ECsFPOBU8MuXCAfvFFW01/w
-         8f9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718123292; x=1718728092;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BG7XPsDBrgukiLlYYahx3Tk9saQ0mEeAf77iSA+2xAk=;
-        b=IcJ9AoLg+BWQx7Hvxih7qbYBVIWdoL2F0QzKc51IXDze/730vjgjdt0f09ajyLkPyy
-         rOeprpsDbmgGoQmtcUTPpUIIizr8F/DpxqQk4kpw2XZqyFzNjeD/lrVaq7JRrca42vdp
-         9DxZqh4ALV8SIKnymUuNQemAOsJOWXjHnG92+bPmLPuyHM3l7ooe3wORYRUSDErp+xni
-         mTyI7tKwX09MqUEEoje60M3xJu2eWcfRuG7plRfsFRnEpzzmg8vw6yhWcJCqBTfcaOyS
-         vnyheJGs793RQ++LDvpsvtyTTO+pg02EvNhPB1fVkOje+2L8d1eDzLWmsxg+zLRaM8Ka
-         H57g==
-X-Forwarded-Encrypted: i=1; AJvYcCWZr8QZI2+56GyzFWQpEwbutLcuPT9uhVsrbyOybi3A91OmKhhIhwIjwmeKtqgu8U0mUC7YY9VQxzhImH2LP2jzjSdBh7GSA74=
-X-Gm-Message-State: AOJu0YwqerdlKdFxh8VIf0sKC709OmML2RfJsN6p64nwb3P/aAmCzZp9
-	CfNyaTVyc87LYE6sxLzQnZT8KAAdwU7Q2nrEnRCEDquxE23ANG2ryPPeoqWUVoC+hDzVXQMNDTr
-	1U3tjVcJHyLUpHUeAF4f1SH0yVHHWBj8B71aD
-X-Google-Smtp-Source: AGHT+IGsoxkLL97yYbUdTS+m9HxBL/aA7VS6tK+dAweHiy1stwZYh0uBGwlgxKNC988k8KBFPrrE/j5bFzDX0CXaftQ=
-X-Received: by 2002:a05:6808:2183:b0:3d2:1f88:3e86 with SMTP id
- 5614622812f47-3d21f88455amr12786369b6e.37.1718123292024; Tue, 11 Jun 2024
- 09:28:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tg4w6+Jd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F4D4C2BD10;
+	Tue, 11 Jun 2024 20:19:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718137140;
+	bh=gtTMkJYRvzc11WF2seK68wjURAdaNya0C5PddHKpdUM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Tg4w6+JdHhFxJdi4TnsqqM/VB92iMDH+/U5LYjnE2oucxYyHNoYL6hd/t2ucaGpqi
+	 MoMgRkjwlMDaMU/QbFTds8e7j2TTxvqa7GWcWpN0QZuhI4R7S15A4YpMi+GXeIkju8
+	 ONuWoutk4kJTocbsp41zeLdPmpRfeldqNLgZ6RNufQ6kcR6Jo2FCvN2+7f0gd2ZktV
+	 a+mLDeyfRdQtGhbuQI1i7YJoVZ38wME27wLvflfJjcFKA3eMCh/QrUUjWcRoymhZ4a
+	 tPfpBeKRwt8nI9jOk4zvQl9T9nTOUaAl+M4rkU88SYx6HpP/b0s79oC+teD4onsnwP
+	 xzSfHlcvR7rIw==
+Date: Tue, 11 Jun 2024 13:18:58 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	netdev@vger.kernel.org, linux-crypto@vger.kernel.org,
+	fsverity@lists.linux.dev, dm-devel@lists.linux.dev, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Tim Chen <tim.c.chen@linux.intel.com>
+Subject: Re: [PATCH v4 6/8] fsverity: improve performance by using
+ multibuffer hashing
+Message-ID: <20240611201858.GA128642@sol.localdomain>
+References: <20240606052801.GA324380@sol.localdomain>
+ <ZmFL-AXZ8lphOCUC@gondor.apana.org.au>
+ <CAMj1kXHLt6v03qkpKfwbN34oyeeCnJb=tpG4GvTn6E1cJQRTOw@mail.gmail.com>
+ <ZmFmiWZAposV5N1O@gondor.apana.org.au>
+ <CAMj1kXFt_E9ghN7GfpYHR4-yaLsz_J-D1Nc3XsVqUamZ6yXHGQ@mail.gmail.com>
+ <ZmFucW37DI6P6iYL@gondor.apana.org.au>
+ <CAMj1kXEpw5b3Rpfe+sRKbQQqVfgWjO_GsGd-EyFvB4_8Bk8T0Q@mail.gmail.com>
+ <ZmF-JHxCfMRuR05G@gondor.apana.org.au>
+ <20240610164258.GA3269@sol.localdomain>
+ <Zmhrh1nodUE-O6Jj@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240611034822.36603-1-ebiggers@kernel.org>
-In-Reply-To: <20240611034822.36603-1-ebiggers@kernel.org>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 11 Jun 2024 09:27:32 -0700
-Message-ID: <CABCJKuf-yUQVh_gpO80qbifGyonQYDC-=QxL+PPwUzprXqQBUw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] Optimize dm-verity and fsverity using
- multibuffer hashing
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev, 
-	dm-devel@lists.linux.dev, x86@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Ard Biesheuvel <ardb@kernel.org>, 
-	Bart Van Assche <bvanassche@acm.org>, Herbert Xu <herbert@gondor.apana.org.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zmhrh1nodUE-O6Jj@gondor.apana.org.au>
 
-Hi Eric,
+On Tue, Jun 11, 2024 at 11:21:43PM +0800, Herbert Xu wrote:
+> 
+> BTW, I found an old Intel paper that claims through their multi-
+> buffer strategy they were able to make AES-CBC-XCBC beat AES-GCM.
+> I wonder if we could still replicate this today:
+> 
+> https://github.com/intel/intel-ipsec-mb/wiki/doc/fast-multi-buffer-ipsec-implementations-ia-processors-paper.pdf
 
-On Mon, Jun 10, 2024 at 8:49=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
-wrote:
->
-> On many modern CPUs, it is possible to compute the SHA-256 hash of two
-> equal-length messages in about the same time as a single message, if all
-> the instructions are interleaved.  This is because each SHA-256 (and
-> also most other cryptographic hash functions) is inherently serialized
-> and therefore can't always take advantage of the CPU's full throughput.
->
-> An earlier attempt to support multibuffer hashing in Linux was based
-> around the ahash API.  That approach had some major issues, as does the
-> alternative ahash-based approach proposed by Herbert (see my response at
-> https://lore.kernel.org/linux-crypto/20240610164258.GA3269@sol.localdomai=
-n/).
-> This patchset instead takes a much simpler approach of just adding a
-> synchronous API for hashing equal-length messages.
->
-> This works well for dm-verity and fsverity, which use Merkle trees and
-> therefore hash large numbers of equal-length messages.
+No, not even close.  Even assuming that the lack of parallelizability in AES-CBC
+and AES-XCBC can be entirely compensated for via multibuffer crypto (which
+really it can't -- consider single packets, for example), doing AES twice is
+much more expensive than doing AES and GHASH.  GHASH is a universal hash
+function, and computing a universal hash function is inherently cheaper than
+computing a cryptographic hash function.  But also modern Intel CPUs have very
+fast carryless multiplication, and it uses a different execution port from what
+AES uses.  So the overhead of AES + GHASH over AES alone is very small.  By
+doing AES twice, you'd be entirely bottlenecked by the ports that can execute
+the AES instructions, while the other ports go nearly unused.  So it would
+probably be approaching twice as slow as AES-GCM.
 
-Thank you for continuing to work on this! Improving dm-verity
-performance is a high priority for Android, and this patch series
-shows very promising results. FWIW, I would like to see this merged
-upstream, and any ahash improvements handled in follow-up patches. For
-the series:
+Westmere (2010) through Ivy Bridge (2012) are the only Intel CPUs where
+multibuffer AES-CBC-XCBC could plausibly be faster than AES-GCM (given a
+sufficiently large number of messages at once), due to the very slow pclmulqdq
+instruction on those CPUs.  This is long since fixed, as pclmulqdq became much
+faster in Haswell (2013), and faster still in Broadwell.  This is exactly what
+that Intel paper shows; they show AES-GCM becoming fastest in "Gen 4", i.e.
+Haswell.  The paper is from 2012, so of course they don't show anything after
+that.  But AES-GCM has only pulled ahead even more since then.
 
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+In theory something like AES-CBC + SHA-256 could be slightly more competitive
+than AES-CBC + AES-XCBC.  But it would still be worse than simply doing AES-GCM
+-- which again, doesn't need multibuffer, and my recent patches have already
+fully optimized for recent x86_64 CPUs.
 
-Sami
+- Eric
