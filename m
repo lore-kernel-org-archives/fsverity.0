@@ -1,91 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B36C171C4;
-	Wed, 12 Jun 2024 03:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551B616D9D7;
+	Wed, 12 Jun 2024 09:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718164439; cv=none; b=gOqVoF/2UXUdWKSFuay7bAkDAXAiV3jd25wtyfLImnnRtRjsj+Oo1UB21pD6nOpuywcY8EAx9hz4jS+6nbzhnYA7Icpl+0pW++HLprodEUXeAn8QijI2L9WoM5atC20aNptyArsKkxNp1xiDMcFOBMjBH6S3jcj+lt5wOcrkeMs=
+	t=1718184686; cv=none; b=WyQNeAtSwXghvqJAZwXPNjhp/CsliyAc3mEVm5bN6ErGq/TeR4ma4eOhiWEHWbslMBR6T3DgXBorVektZn6Ckbv92FVNVbHZNBsoqa91A4JmQGDb9O8rf9fJq+zin9YEe5XbGX7DK6b+9Cnuf2m7NNFOcb/fE19zZJC1TuSSFUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718164439; c=relaxed/simple;
-	bh=Gm3l44/yk0jha05XNf0EnDiNhjAQDV0ZE4m01kVK26I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZwdhYfgNLWfNIHW6mBPsMoLP6Vvp+6Huf/rYI0Bmt6GBN2dX5IDIh8GHYTdd77OtZC9GNJZNnSS2k53pGLuBw0e48boFxnJBpbyFWH1gDxgGNgxhnGMBFBsyL+a4rQljboICDksbgthZhF71/+yrOdex90nJJhcA7OyM9Hp22+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=duwwjL3P; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="duwwjL3P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5EFBC32786;
-	Wed, 12 Jun 2024 03:53:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718164438;
-	bh=Gm3l44/yk0jha05XNf0EnDiNhjAQDV0ZE4m01kVK26I=;
-	h=From:To:Cc:Subject:Date:From;
-	b=duwwjL3PiZR1pAsDccJKuWA47s5+sGdZPrDfXN12fmHi8KfYrgWjqVl6Tga7nm/h1
-	 AtVFlIcg6DOQkH1biyKB5ov2rZ7uy8MGmyVoc1PPNKMgmPgG3CXSBztgCWivVAorS/
-	 halpIlcrbqhcPcnCOoVbeZprws3FpqQ4pd+gHJuQZoPM8cCvx4cMi1QhwacNUFp2B0
-	 YFtOuVgoX2uLFdq0PPHdtB9cRQoql/kh83fdZSJcyHmWvSoquXCFOJSnbVhhKST/HL
-	 /sjJvXivW5oyqOaooiNatweIDlvLR8tQOKbO01Rs6dlLRlqlrjrvI0futycFB7R0wo
-	 rHJqpCXq2JVYw==
-From: Eric Biggers <ebiggers@kernel.org>
-To: fstests@vger.kernel.org
-Cc: fsverity@lists.linux.dev
-Subject: [xfstests PATCH] generic/574: test corruption at more offsets
-Date: Tue, 11 Jun 2024 20:53:34 -0700
-Message-ID: <20240612035334.134434-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1718184686; c=relaxed/simple;
+	bh=czj37hS5b9rszt+tPfOCPAknH6MH3W6BEpQDBvEPz2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BEwyHN4AJl3gmshp6QqcdH1w07iQ9BmJ2Icl30WxUFbzVoxIKHRyzNnPjS3ke4UK8TDfyGWQPlUj18FWb/FGqsjSWCAEKa8rA1a/0FKiIm3BavPdA+/74h6oAIEdEK1SmwuLjaQU4liNRSC6wdZUJaTPtveRkw8OkKC9s5uF/0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1sHKK3-008Q3x-05;
+	Wed, 12 Jun 2024 17:31:16 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 12 Jun 2024 17:31:17 +0800
+Date: Wed, 12 Jun 2024 17:31:17 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Bart Van Assche <bvanassche@acm.org>
+Subject: Re: [PATCH v5 15/15] dm-verity: improve performance by using
+ multibuffer hashing
+Message-ID: <Zmlq5Y5MgEAVF42C@gondor.apana.org.au>
+References: <20240611034822.36603-1-ebiggers@kernel.org>
+ <20240611034822.36603-16-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240611034822.36603-16-ebiggers@kernel.org>
 
-From: Eric Biggers <ebiggers@google.com>
+On Mon, Jun 10, 2024 at 08:48:22PM -0700, Eric Biggers wrote:
+>
+> +		if (++io->num_pending == v->mb_max_msgs) {
+> +			r = verity_verify_pending_blocks(v, io, bio);
+> +			if (unlikely(r))
+> +				goto error;
+>  		}
 
-Expand generic/574 to test for corruption in more different parts of the
-file to try to exercise any hashing optimizations that might be used.
+What is the overhead if you just let it accumulate as large a
+request as possible? We should let the underlying algorithm decide
+how to divide this up in the most optimal fashion.
 
-There is no existing bug that this finds.  This is just to prevent
-future bugs, considering optimizations along the lines of
-https://lore.kernel.org/fsverity/20240611034822.36603-7-ebiggers@kernel.org/
-
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- tests/generic/574 | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/tests/generic/574 b/tests/generic/574
-index cb42baaa..72440d49 100755
---- a/tests/generic/574
-+++ b/tests/generic/574
-@@ -194,10 +194,25 @@ test_block_size()
- 	corruption_test $block_size 131072 0 5
- 	corruption_test $block_size 131072 4091 5
- 	corruption_test $block_size 131072 65536 65536
- 	corruption_test $block_size 131072 131067 5
- 
-+	# Test corrupting a block in files of length 1..4 blocks, and test
-+	# corrupting each block of a 4-block file.  This ensures that all code
-+	# paths that might exist due to multi-block hashing optimizations the
-+	# fsverity implementation may use get covered, assuming no more than 4
-+	# blocks are hashed at once.  E.g., consider an fsverity implementation
-+	# that verifies sets of blocks but has a bug when given a single block,
-+	# or that has a bug that makes it not verify all the blocks of each set.
-+	local i
-+	for i in $(seq 1 4); do
-+		corruption_test $block_size $((i*block_size)) $((block_size/2)) 5
-+	done
-+	for i in $(seq 0 3); do
-+		corruption_test $block_size $((4*block_size)) $((i*block_size)) 5
-+	done
-+
- 	corrupt_eof_block_test $block_size 130999 72
- 
- 	# Merkle tree corruption.
- 	corruption_test $block_size 200000 100 10 true
- 
-
-base-commit: e46fa3a7dae4a65fd80128bf381dba4fd5036ebb
+Cheers,
 -- 
-2.45.2
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
