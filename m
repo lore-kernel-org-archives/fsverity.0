@@ -1,47 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77ACEBE;
-	Fri, 21 Jun 2024 04:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54528EA4;
+	Fri, 21 Jun 2024 04:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718944513; cv=none; b=ASEC52mF+Ouvy8FAZkymt3FOu4FWqlIQ9uLPgPMyIegBJEzCSARPe5ovEFyj5Z/VgAmR4POdoi3mhO0FyXJBBcECeZH8QfHp+bh3EYkSlU1FsGn3W8D6hgbKfBiy73qBtoDuYaAC837J1DvxoVBhfmmnwIcDa+/jXPajd+7FgUE=
+	t=1718945544; cv=none; b=fvVcdnzOdyVpWkageM9UWDPFNCtoUer6SCm45hriTnRJ27iF8gMoobI90SllW8heTKuPiaTfxHhEBl1oLleW5/RIl+3lClN0YmMOIDtAFDKKvH+S7PrIVJTfgfk/Pnxt4tmIXZN4P0HxmqP1bj2z3v/3cFUv+u9J4aWuzOtRmGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718944513; c=relaxed/simple;
-	bh=UCXRqV1KMPZ2nMdi2XM86gZf1jEPD+22vk2MLWPtqcM=;
+	s=arc-20240116; t=1718945544; c=relaxed/simple;
+	bh=ajy+KLxY/ieI/yLzejIbvCWPXMBqncPl8RSV/M5PEm0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B23v2QPAstsc7ADUmVojxj6RVKgFRJG9VLO3hr+vcCgkGCoyo49tV172Ng7Rqo+kh8bAxfWwfkofVFx9fMyme/LhJ9Snzrepg48mUzbQfSpWRdzGJBm069yfKTok2sQolAoKJ6NHhCB7FBx0MR/ZKADZ54ILdN7hv4XWQR/t0HQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=byK7Q8MI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0RQhdgKNGEwpcSniv19eyPuhnnaRek8yeykmq+jxkGWRCDEoUUISw9HLyPiZck0+6Nbkj6NIUAOMiKPuX5hWTihIgJM1Q6AZaujpeZBVfNKp//fDiDWEGUP7ABAZkUmqGUc7oZF/01lckqqBIHxiQjlxFt5iyPIW4T1q9sQspc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P1YHXbNL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="byK7Q8MI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0229AC2BBFC;
-	Fri, 21 Jun 2024 04:35:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P1YHXbNL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D66C2BBFC;
+	Fri, 21 Jun 2024 04:52:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718944513;
-	bh=UCXRqV1KMPZ2nMdi2XM86gZf1jEPD+22vk2MLWPtqcM=;
+	s=k20201202; t=1718945543;
+	bh=ajy+KLxY/ieI/yLzejIbvCWPXMBqncPl8RSV/M5PEm0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=byK7Q8MI31WbjWzPwehPgEAy6rnPL5AmQF8yrAONXidPhjn7ODm2YlNqgtSzsdRk/
-	 qa918nxq7zllYH728ykhZUvlWZnmqbO5w1u8UtwR+AlblvvoFbTOFJ3GHbRcVZt+Bs
-	 FWwUEcQFiPRzjBI6ukkVJiVrGan6g4esw1/0Xsm0F0VNzS604J8CGllfi9pxwU/8JH
-	 R8t0SkeR08dClNtfMGrBkdqzx8plHsBSN88E9YT8VeS2Ln8FjpuKOSroVcX6E92Eg4
-	 XYn6IYPhg6bIgqyAhZt56hbM4VV8wmCVnQ1NmLta7U7ybVtjUEsVPXvkrN06ssWCXY
-	 tYVRW9+27h2LA==
-Date: Thu, 20 Jun 2024 21:35:11 -0700
+	b=P1YHXbNLBEluxtOo7FqssS+id8P35oyQtU4uiVJg1FAJLnuETPowLfVlon93zt1RG
+	 YONC7FKMeT8kMvv+VoSDqtRNklctn6cW05dICA7RMNXM1t53FGhsXp0lVevQ8mpT8W
+	 aav2Ez3sAoDHi0ebXENyRHWYQywV0rDhFZirsbfmwkpDOkKdXKOGcvS6DHdwkYKtDX
+	 FVYXtVBsNr238ZLkBDlWdh7j0rISnpwB4O4/ohh8Fz0q9T4OCPNs/VS1Z8muj7+W6O
+	 LwAEBGU1TuDdrVEqsZjaPSPIsdRbhqDMfBWkcd53lsJuVrp2544Ig/bQ2K3FLOYiJ9
+	 WWnLPc7tPK88w==
+Date: Thu, 20 Jun 2024 21:52:22 -0700
 From: Eric Biggers <ebiggers@kernel.org>
 To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
-	Dave Chinner <david@fromorbit.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	xfs <linux-xfs@vger.kernel.org>,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	fsverity@lists.linux.dev, Eric Sandeen <sandeen@redhat.com>,
-	Shirley Ma <shirley.ma@oracle.com>
-Subject: Re: Handing xfs fsverity development back to you
-Message-ID: <20240621043511.GB4362@sol.localdomain>
-References: <20240612190644.GA3271526@frogsfrogsfrogs>
- <vg3n7rusjj2cnkdfm45bnsgf4jacts5elc2umbyxcfhcatmtvc@z7u64a5n4wc6>
+Cc: fstests@vger.kernel.org, fsverity@lists.linux.dev
+Subject: Re: [xfstests PATCH] generic/574: test corruption at more offsets
+Message-ID: <20240621045222.GD4362@sol.localdomain>
+References: <20240612035334.134434-1-ebiggers@kernel.org>
+ <rgy632iwsrbmwoiquqosutpj6wsfua3jzhcgb4eac4hz2zuqm5@f5qbqkh4qjae>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -50,93 +42,69 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <vg3n7rusjj2cnkdfm45bnsgf4jacts5elc2umbyxcfhcatmtvc@z7u64a5n4wc6>
+In-Reply-To: <rgy632iwsrbmwoiquqosutpj6wsfua3jzhcgb4eac4hz2zuqm5@f5qbqkh4qjae>
 
-On Mon, Jun 17, 2024 at 11:34:13AM +0200, Andrey Albershteyn wrote:
-> On 2024-06-12 12:06:44, Darrick J. Wong wrote:
-> > Hi Andrey,
+On Wed, Jun 19, 2024 at 02:49:23PM +0200, Andrey Albershteyn wrote:
+> On 2024-06-11 20:53:34, Eric Biggers wrote:
+> > From: Eric Biggers <ebiggers@google.com>
 > > 
-> > Yesterday during office hours I mentioned that I was going to hand the
-> > xfs fsverity patchset back to you once I managed to get a clean fstests
-> > run on my 6.10 tree.  I've finally gotten there, so I'm ready to
-> > transfer control of this series back to you:
+> > Expand generic/574 to test for corruption in more different parts of the
+> > file to try to exercise any hashing optimizations that might be used.
 > > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fsverity_2024-06-12
-> > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfsprogs-dev.git/log/?h=fsverity_2024-06-12
-> > https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fsverity_2024-06-12
+> > There is no existing bug that this finds.  This is just to prevent
+> > future bugs, considering optimizations along the lines of
+> > https://lore.kernel.org/fsverity/20240611034822.36603-7-ebiggers@kernel.org/
 > > 
-> > At this point, we have a mostly working implementation of fsverity
-> > that's still based on your original design of stuffing merkle data into
-> > special ATTR_VERITY extended attributes, and a lightweight buffer cache
-> > for merkle data that can track verified status.  No contiguously
-> > allocated bitmap required, etc.  At this point I've done all the design
-> > and coding work that I care to do, EXCEPT:
+> > Signed-off-by: Eric Biggers <ebiggers@google.com>
+> > ---
+> >  tests/generic/574 | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
 > > 
-> > Unfortunately, the v5.6 review produced a major design question that has
-> > not been resolved, and that is the question of where to store the ondisk
-> > merkle data.  Someone (was it hch?) pointed out that if xfs were to
-> > store that fsverity data in some post-eof range of the file (ala
-> > ext4/f2fs) then the xfs fsverity port wouldn't need the large number of
-> > updates to fs/verity; and that a future xfs port to fscrypt could take
-> > advantage of the encryption without needing to figure out how to encrypt
-> > the verity xattrs.
+> > diff --git a/tests/generic/574 b/tests/generic/574
+> > index cb42baaa..72440d49 100755
+> > --- a/tests/generic/574
+> > +++ b/tests/generic/574
+> > @@ -194,10 +194,25 @@ test_block_size()
+> >  	corruption_test $block_size 131072 0 5
+> >  	corruption_test $block_size 131072 4091 5
+> >  	corruption_test $block_size 131072 65536 65536
+> >  	corruption_test $block_size 131072 131067 5
+> >  
+> > +	# Test corrupting a block in files of length 1..4 blocks, and test
+> > +	# corrupting each block of a 4-block file.  This ensures that all code
+> > +	# paths that might exist due to multi-block hashing optimizations the
+> > +	# fsverity implementation may use get covered, assuming no more than 4
+> > +	# blocks are hashed at once.  E.g., consider an fsverity implementation
+> > +	# that verifies sets of blocks but has a bug when given a single block,
+> > +	# or that has a bug that makes it not verify all the blocks of each set.
+> > +	local i
+> > +	for i in $(seq 1 4); do
+> > +		corruption_test $block_size $((i*block_size)) $((block_size/2)) 5
+> > +	done
+> > +	for i in $(seq 0 3); do
+> > +		corruption_test $block_size $((4*block_size)) $((i*block_size)) 5
+> > +	done
+> > +
+> >  	corrupt_eof_block_test $block_size 130999 72
+> >  
+> >  	# Merkle tree corruption.
+> >  	corruption_test $block_size 200000 100 10 true
+> >  
 > > 
-> > On the other side of the fence, I'm guessing you and Dave are much more
-> > in favor of the xattr method since that was (and still is) the original
-> > design of the ondisk metadata.  I could be misremembering this, but I
-> > think willy isn't a fan of the post-eof pagecache use either.
+> > base-commit: e46fa3a7dae4a65fd80128bf381dba4fd5036ebb
+> > -- 
+> > 2.45.2
 > > 
-> > I don't have the expertise to make this decision because I don't know
-> > enough (or anything) about cryptography to know just how difficult it
-> > actually would be to get fscrypt to encrypt merkle tree data that's not
-> > simply located in the posteof range of a file.  I'm aware that btrfs
-> > uses the pagecache for caching merkle data but stores that data
-> > elsewhere, and that they are contemplating an fscrypt implementation,
-> > which is why Sweet Tea is on the cc list.  Any thoughts?
 > > 
-> > (This is totally separate from fscrypt'ing regular xattrs.)
-> > 
-> > If it's easy to adapt fscrypt to encrypt fsverity data stored in xattrs
-> > then I think we can keep the current design of the patchset and try to
-> > merge it for 6.11.  If not, then I think the rest of you need to think
-> > hard about the tradeoffs and make a decision.  Either way, the depth of
-> > my knowledge about this decision is limited to thinking that I have a
-> > good enough idea about whom to cc.
+> 
+> The addition looks fine to me, why is it 4 blocks though, isn't 2
+> enough?
+> 
+> Reviewed-by: Andrey Albershteyn <aalbersh@redhat.com>
+> 
 
-Assuming that you'd like to make the Merkle tree be totally separate from the
-file contents stream (which would preclude encrypting it as part of that stream
-even if it was stored separately), I think the logical way to encrypt it would
-be to derive a Merkle tree encryption key for each file and encrypt the Merkle
-tree using that key, using the same algorithm as file contents.  These days
-fscrypt uses HKDF, so it's relatively straightforward to derive new keys.
-
-> > 
-> > Other notes about the branches I linked to:
-> > 
-> > I think it's safe to skip all the patches that mention disabling
-> > fsverity because that's likely DOA anyway.
-> > 
-> > Christoph also has a patch to convert the other fsverity implementations
-> > (btrfs/ext4/f2fs) to use the read/drop_merkle_tree_block interfaces:
-> > https://lore.kernel.org/linux-xfs/ZjMZnxgFZ_X6c9aB@infradead.org/
-> > 
-> > I'm not sure if it actually handles PageChecked for the case that the
-> > merkle tree block size != base page size.
-> > 
-
-Note that I worked on this more at
-https://lore.kernel.org/fsverity/20240515015320.323443-1-ebiggers@kernel.org/
-
-As I said: my reworked patch seems good to me, but it only makes sense to apply
-it if XFS is going to use it.
-
-Though, now I'm wondering if ->read_merkle_tree_block should hand back a (page,
-offset) pair instead of a virtual address, and let fs/verity/ handle the
-kmap_local_page() and kunmap_local().  Currently verify_data_block() does want
-the kmap of each block to live as long as the reference to the block itself, for
-up to FS_VERITY_MAX_LEVELS blocks at a time.  The virtual address based
-interface works well for that.  But I realized recently that there's a slightly
-more efficient way to implement verify_data_block() that would also have the
-side effect of there being only one kmap needed at a time.
+For the currently proposed fsverity patch, 2 is enough.  The same approach could
+be extended to more blocks later, though.  So using something a bit higher in
+the test from the beginning makes sense.
 
 - Eric
