@@ -1,53 +1,34 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from norbury.hmeau.com (helcar.hmeau.com [216.24.177.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55F9273FE;
-	Sat, 22 Jun 2024 05:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C987EF;
+	Fri, 28 Jun 2024 00:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.24.177.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719033553; cv=none; b=iEBVn3VZXWiArIeiLNYMjq7IA4yRK4tLoTWShI011UabPdue+3WDOrHZeiNuTOt/2mvPh5UMVFL+jcUxfy7CLGdz9T0id7m59EPibt9G3rSWyauPsV4f/y9uadZtmmeiB+gvFTelUOykDriVCSI1EXT6HuEIiUfSPPIDDj0ZgWg=
+	t=1719536003; cv=none; b=DCYtHeKtinpUsLVC82+msAHM2fXqXWm613SqzpTgQqolv+qe8SQb72Ya8RiAnGxy7ngxk1i05S2dvPSIeyRFjQgx+1yBb/dpDwjkkzJl/XAbL2KfvFvLy4A5bxZ7LUsZKYp6Ec/0jgaBrZlIjy0Wlgsz+tWInTlxEEg2HK2dQzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719033553; c=relaxed/simple;
-	bh=unfZ6xHIh8OTUujtOq3+fBHT0LUHUTuPqbFOHN7UAYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C9CEGjJ1C42ds3Bp6wdhw7062nl0pnoIeQ5rjZonoilIG0Ytq9q+VRJ4AWS22KXKxyukzhPRjQ+YpTPfh4hvRzUDkcnvUgTN82I65K9LWOP9xj1r4Ij7ktFWvka1ly9lGZTk988DXWOvPgQCLntOk9KAlrhxPg6g50wBAi/jksM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vCbRsdey; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vCbRsdey"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=bPXBrH9ln0Qs9gRrnExlKlHWl4LYgq9/5kBdLz3ri4Q=; b=vCbRsdeyzNGPyeNzVT1EXcxnrw
-	nIjIuSxk0d3Kps6bCygkxFbiKG8sc3ERHWF//di7pCogE8Y2hxlsNn4X6ranwugvXAK/Azq49BeLq
-	/dzc+typzNa6t/o28KtFKVfHo3wRcet8SYihSkUPKTSKaW10tAPmZQydrDyczcYCofVgrn+A40Yuj
-	ZMv1OyBe9Hekd1YafGBDRQk9hQtvuTr8e81Jb/3zBvBSmALO8u0qfFMt9G9SE9XLiwXamcmMWJsJc
-	CrYCNo+y94xLLhpmyuM7Ww9WfeJRDH6UDJQbkty6hx9vO3WXPtLVygzeUPI3an2Nq8riD813fPfwc
-	jdILDqQQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sKt9Z-0000000BR14-1YMM;
-	Sat, 22 Jun 2024 05:19:09 +0000
-Date: Fri, 21 Jun 2024 22:19:09 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Eric Biggers <ebiggers@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Dave Chinner <david@fromorbit.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	xfs <linux-xfs@vger.kernel.org>,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	fsverity@lists.linux.dev, Eric Sandeen <sandeen@redhat.com>,
-	Shirley Ma <shirley.ma@oracle.com>
-Subject: Re: Handing xfs fsverity development back to you
-Message-ID: <ZnZezSymGy2VyeeG@infradead.org>
-References: <20240612190644.GA3271526@frogsfrogsfrogs>
- <vg3n7rusjj2cnkdfm45bnsgf4jacts5elc2umbyxcfhcatmtvc@z7u64a5n4wc6>
- <20240621043511.GB4362@sol.localdomain>
- <20240621172720.GD3058325@frogsfrogsfrogs>
+	s=arc-20240116; t=1719536003; c=relaxed/simple;
+	bh=md4UEyG78C4av5K4/Tc6cdXxdAV8iqaxrjZavqHeHHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ISM0o4uajbY4QUf/hnNxNbKTXAvK3xGfa9n3dIQ6A92mN0OGC8xY1R8XhnZRGezC0hydTz6yR8ROUpCX82Krgwyjctmb5Ev+zWL79MvEsaDpccv1CcypbUsVZA8fs9oKnv5TVUBciYiT7zsyoJ/sAJEx7/adcq4a6mnemKq/kgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=216.24.177.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+	by norbury.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1sMzrE-004FY5-0A;
+	Fri, 28 Jun 2024 10:52:57 +1000
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 28 Jun 2024 10:52:56 +1000
+Date: Fri, 28 Jun 2024 10:52:56 +1000
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org, ardb@kernel.org,
+	samitolvanen@google.com, bvanassche@acm.org, agk@redhat.com,
+	snitzer@kernel.org, mpatocka@redhat.com
+Subject: Re: [PATCH v6 01/15] crypto: shash - add support for finup_mb
+Message-ID: <Zn4JaMjT6K+4gX2C@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -56,15 +37,30 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240621172720.GD3058325@frogsfrogsfrogs>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20240621165922.77672-2-ebiggers@kernel.org>
+X-Newsgroups: apana.lists.os.linux.cryptoapi
 
-On Fri, Jun 21, 2024 at 10:27:20AM -0700, Darrick J. Wong wrote:
-> That sounds like a good approach for ext4 which will likely be feeding
-> you folios from the pagecache anyway.  If Andrey sticks with the buffer
-> cache that I wrote, then the virtual address is a slab allocation which
-> is already mapped.
+Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> +static noinline_for_stack int
+> +shash_finup_mb_fallback(struct shash_desc *desc, const u8 * const data[],
+> +                       unsigned int len, u8 * const outs[],
+> +                       unsigned int num_msgs)
+> +{
 
-... yet another reasons to not be pointleslly different code and create
-special cases and extra code in every layer of the stack..
+I haven't got around to my version but just to recap, I'm not going
+to plumb this into shash at all.  My mb interface will be ahash only.
 
+At the same time, I will add a new vaddr interface to the top side
+of ahash so that vaddr users do not have to create an SG list
+unnecessarily.  The API will handle the mechanics of plumbing this
+into drivers that require SG lists.  Whether all vaddrs are allowed
+or only a subset (kmalloc + vmalloc) is yet to be decided.  Of
+course it wouldn't be hard to extend (kmalloc + vmalloc) to all
+addresses by simply allocating a bounce buffer + copying.
+
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
