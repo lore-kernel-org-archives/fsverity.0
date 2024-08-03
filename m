@@ -1,86 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8398003F;
-	Thu, 11 Jul 2024 06:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAC231F171;
+	Sat,  3 Aug 2024 06:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720678245; cv=none; b=PgLcC/PzBl1Ftu7uMeBH0FedB/v8fnV6Z1tnNOjrdR4rutZ68wfeU7oAEJIeab2Wpx15gQyTESDW3iTZAPEpSSDxbGM+JwJwYovU7p3oqW6yhNmHC/Mm4XM9dy3ttIRuF4rW8qWZCAgnnAzsxP2OsQX1K1TGuQRAgIlgDHIgmHU=
+	t=1722665328; cv=none; b=Jm5b0GYEqTmSccm5vrqd7xfxFk/nzL9F8gtBbtAOF9+wPk6BIYJoIHpxTC2goYCkQ1krD3Blb1nLEuMok22Clp5Meo366O0yCSJJfIe3eXRhl0QOeV8MnR0l2bRdpUJFhzrqmUPkK5qFgNSsa/ljGMfYAbURSZpnDtz3fkjxcpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720678245; c=relaxed/simple;
-	bh=lcFAHfMhzImkUJyJbyq2URb1/vfTm36nfxaZxI+rK4M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E7eVQ3XctmdSeNTJeok+VvpdvPL5UdN/ZtPVoTLuJWBeltaYHGoGBwcBe4TiM2qzFJGVWzGfvRu4aPkSnCaJ8SKNmOKrrI2cBhLKbcfKy7egn/BNrKNLNhhK/x6kwMsONRrUUNpSzMCO8bPWMEIHh9ODWOFFwbZqA/EEG1JXFM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ud4PPCSb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722665328; c=relaxed/simple;
+	bh=FbbjoEJWtRg0tu+QiXU/sS7HGCx9RUDF461Ew5L3Diw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=rf1uWuFcfKGYAS0d6Ylan9a9Ddnob4NjNMJxGSAAnECkiZx5nkA8J/Ywsp7UC4MkZqufgf1kJt90KKHTd79hD+6LRJQcjpnvJylcAv6x2H0Aw7mL7Ei6hynBS4A+T9wM4hpekOxffdiPr3aGrueRErPJhrUhvYyAzLiSC/KHlmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WyWfsoKS; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ud4PPCSb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 295A2C116B1;
-	Thu, 11 Jul 2024 06:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720678245;
-	bh=lcFAHfMhzImkUJyJbyq2URb1/vfTm36nfxaZxI+rK4M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ud4PPCSbRhk1MEoErVjRMLr7XPObor4He8oXVNIXeLDMCTO8GFyYFa9nmLkPypm//
-	 r4Lb4i43UJxzob1XE6BQDAyXI7EbFke/JSRjMn0KXm/I6lQv6d2jj5e38U7WZsaVJv
-	 6QHOWi7w5PjdxueZWgYLzqc5NEgw1igXink99VUmOYDVPZKOR3TVA5aX4d029x6E30
-	 AXwvgrOAzCl4Lbk0Bq4TQun3EAgqOuesqsXRFZB5PBmLzRo4j28YO5hkJAVF/uRZCc
-	 qsJS8i+p8+JxigWL65aRnkbNUrAXEMBzEk6jDLL1JbNjANIo2IHsKdN96WmVeORiRd
-	 fu/YQbvqjgOUw==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ee9b098bd5so6741511fa.0;
-        Wed, 10 Jul 2024 23:10:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUQcGmtBeWMHX1U87jdXSEHIN3mcc4398fTohOg7A693gfd/LPekbM2PHgxmIPuHp96QqyotbpTZfr4sSNoOnugW60jQBLWWTLBvDhGFVCve7nwUzKiNpSI/pKCzEEd3WxWKQ==
-X-Gm-Message-State: AOJu0Yxc+I7qOMb/wYoZknu34vdzePrMTB2XtrHwT6SJ6eZqjGqsdxQQ
-	ZAvr+v3syzCFjIV7y3B5PQagoXVVxkH8XOpbAjhmQiyvhftZf4YS8u1v7OpaCBcQ+hYSJ79jcQ1
-	fFB6YdwmHnkOeTZtTMyO7PSfb8ZU=
-X-Google-Smtp-Source: AGHT+IGEmHzUODhJODXm9h1hdOQCtHw3ie4m+DSYFIxj0QjKcEgNjBY9E0S/lNiIqJuXMpdBbexxDBZCzxgSieNAVPA=
-X-Received: by 2002:a2e:95cf:0:b0:2ee:7af6:54ec with SMTP id
- 38308e7fff4ca-2eeb30b9a59mr52392031fa.1.1720678243542; Wed, 10 Jul 2024
- 23:10:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WyWfsoKS"
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+	id 5A23220B7009; Fri,  2 Aug 2024 23:08:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5A23220B7009
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1722665320;
+	bh=+xwZZ0ZSndF+Fn5ZmGROZ4NabyOx7lvuqXUT/ULZVeU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WyWfsoKSQTY9T+XUTCc59l1ZfTGTZlpgB8LtFU85TTSgG4fFWXE7j4dQh0r29X205
+	 ewlBrBusBsVIov0LPoQkN40e44c2ULF8B/aPjwQCv7LUrhdyGptavGgh/wfZN9q6dM
+	 dJYC0iTUama/HwD3nue6f5GIDimqGTsnfFWxLIHc=
+From: Fan Wu <wufan@linux.microsoft.com>
+To: corbet@lwn.net,
+	zohar@linux.ibm.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	tytso@mit.edu,
+	ebiggers@kernel.org,
+	axboe@kernel.dk,
+	agk@redhat.com,
+	snitzer@kernel.org,
+	mpatocka@redhat.com,
+	eparis@redhat.com,
+	paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	audit@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fan Wu <wufan@linux.microsoft.com>
+Subject: [PATCH v20 05/20] initramfs|security: Add a security hook to do_populate_rootfs()
+Date: Fri,  2 Aug 2024 23:08:19 -0700
+Message-Id: <1722665314-21156-6-git-send-email-wufan@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
+References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20240611034822.36603-1-ebiggers@kernel.org> <7097bafd-e146-99a5-7f86-369e8e2b080@redhat.com>
- <20240710181417.GA58377@google.com>
-In-Reply-To: <20240710181417.GA58377@google.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 11 Jul 2024 08:10:32 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXFsa83=1atXR4DksAgViw9j5dhc3fAautPpMoNYPzuRZw@mail.gmail.com>
-Message-ID: <CAMj1kXFsa83=1atXR4DksAgViw9j5dhc3fAautPpMoNYPzuRZw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] Optimize dm-verity and fsverity using
- multibuffer hashing
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Mikulas Patocka <mpatocka@redhat.com>, linux-crypto@vger.kernel.org, 
-	fsverity@lists.linux.dev, dm-devel@lists.linux.dev, x86@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Sami Tolvanen <samitolvanen@google.com>, 
-	Bart Van Assche <bvanassche@acm.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Mike Snitzer <snitzer@kernel.org>, Jonathan Brassow <jbrassow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 10 Jul 2024 at 20:14, Eric Biggers <ebiggers@kernel.org> wrote:
->
-> On Wed, Jul 10, 2024 at 12:54:24PM +0200, Mikulas Patocka wrote:
-> > Hi
-> >
-> > I'd like to ask what's the status of this patchset.
-> >
-> > Will Herbert accept it? What's the planned kernel version where it will
-> > appear?
-> >
-> > Mikulas
->
-> It's blocked by Herbert wanting to design the multibuffer hashing API in a more
-> complex way that doesn't make sense.  See the previous discussions.  I don't
-> know when Herbert will change his mind, so for now I've shifted my focus to the
-> Android kernels.
+This patch introduces a new hook to notify security system that the
+content of initramfs has been unpacked into the rootfs.
 
-Yeah, this is really quite unfortunate, especially since the
-alternative approach doesn't appear to be forthcoming.
+Upon receiving this notification, the security system can activate
+a policy to allow only files that originated from the initramfs to
+execute or load into kernel during the early stages of booting.
 
-I'd prefer Eric's approach over what Herbert is proposing, as the
-former is available today and only addressess problems that are
-actually known to exist, rather than handwavy claims about what future
-developments in IPsec or h/w crypto accelerators might make meaningful
-use of.
+This approach is crucial for minimizing the attack surface by
+ensuring that only trusted files from the initramfs are operational
+in the critical boot phase.
+
+Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+
+---
+v1-v11:
+  + Not present
+
+v12:
+  + Introduced
+
+v13:
+  + Rename the hook name to initramfs_populated()
+
+v14:
+  + No changes
+
+v15:
+  + No changes
+
+v16:
+  + No changes
+
+v17:
+  + Fix ocumentation style issues
+
+v18:
+  + No changes
+
+v19:
+  + No changes
+
+v20:
+  + Move the hook call after the done tag in do_populate_rootfs()
+---
+ include/linux/lsm_hook_defs.h |  2 ++
+ include/linux/security.h      |  8 ++++++++
+ init/initramfs.c              |  3 +++
+ security/security.c           | 10 ++++++++++
+ 4 files changed, 23 insertions(+)
+
+diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+index 855db460e08b..078161e51bd9 100644
+--- a/include/linux/lsm_hook_defs.h
++++ b/include/linux/lsm_hook_defs.h
+@@ -452,3 +452,5 @@ LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
+ LSM_HOOK(int, 0, uring_sqpoll, void)
+ LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
+ #endif /* CONFIG_IO_URING */
++
++LSM_HOOK(void, LSM_RET_VOID, initramfs_populated, void)
+diff --git a/include/linux/security.h b/include/linux/security.h
+index 1390f1efb4f0..a4ccaf1d7bd5 100644
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -2256,4 +2256,12 @@ static inline int security_uring_cmd(struct io_uring_cmd *ioucmd)
+ #endif /* CONFIG_SECURITY */
+ #endif /* CONFIG_IO_URING */
+ 
++#ifdef CONFIG_SECURITY
++extern void security_initramfs_populated(void);
++#else
++static inline void security_initramfs_populated(void)
++{
++}
++#endif /* CONFIG_SECURITY */
++
+ #endif /* ! __LINUX_SECURITY_H */
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 814241b64827..bc911e466d5b 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -17,6 +17,7 @@
+ #include <linux/namei.h>
+ #include <linux/init_syscalls.h>
+ #include <linux/umh.h>
++#include <linux/security.h>
+ 
+ #include "do_mounts.h"
+ 
+@@ -712,6 +713,8 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+ 	}
+ 
+ done:
++	security_initramfs_populated();
++
+ 	/*
+ 	 * If the initrd region is overlapped with crashkernel reserved region,
+ 	 * free only memory that is not part of crashkernel region.
+diff --git a/security/security.c b/security/security.c
+index 8218c745d5e2..5126a3321a41 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -5704,3 +5704,13 @@ int security_uring_cmd(struct io_uring_cmd *ioucmd)
+ 	return call_int_hook(uring_cmd, ioucmd);
+ }
+ #endif /* CONFIG_IO_URING */
++
++/**
++ * security_initramfs_populated() - Notify LSMs that initramfs has been loaded
++ *
++ * Tells the LSMs the initramfs has been unpacked into the rootfs.
++ */
++void security_initramfs_populated(void)
++{
++	call_void_hook(initramfs_populated);
++}
+-- 
+2.44.0
+
