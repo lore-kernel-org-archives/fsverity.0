@@ -1,85 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6061D540;
-	Mon,  5 Aug 2024 18:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34192158DDC
+	for <fsverity@lists.linux.dev>; Tue,  6 Aug 2024 20:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722883895; cv=none; b=rV6IlLO2tY6Me+jmagYzXgwDOmnyctXAEjm5Ln0EhKjB+JldjJubRjuIhIQh/3GHZQgBpCPGgEZ0ATRnWpbIds5uZX458UPK1GVaosCv7t2MTe0j1RJW1YoaE/OYPH4DHH010nRBZSp4MVwkz/FlEV7xPniq+qVInSfJagjr1oY=
+	t=1722977710; cv=none; b=b62hyinxEdnzkHjPhp0la7woW7StKOgxnK7s+SnM2ESxv/CO1U+EPvWbfSzeF3vb9KdLRS74Ovp76FNTd1edkkLKr7bwfPLs0MCXKYmO9YUmEizM+bX2WJRoyK84izMbQnisyw1waNuLIfrIH7Zj/tCNvV/4Hex34PBhhUEZ1GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722883895; c=relaxed/simple;
-	bh=uf8ILAskZN/4P/S4F7SKa3SGrBWodGKtmv2kZoh7MLg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AMsKY4XqP4toGx9mb03nqi6KmI/x0dlU076EHz7HoK4T9csZpZrFK/xIasHUaX1sUtJNMVb5JM2GErVDvunGba/p4ntmh0gi71cdJGXhigmdaTJjciD18Lz0a2o4ZXthrWW6GyW2RkcSAmiX87yMYUQYhaSvhi8YQOxl8lAw/+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3pyDbbA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722977710; c=relaxed/simple;
+	bh=Q1EFjItpPAJVvRpOJiKVEeB9t84orASFY/TzMasrm54=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Dn2Iic+rmasp54kf3MbpGk22gYUooFySisgBlHL8EL9RSt9KwVxfsQOA2AA1RqFdDh951JbRMS0lmErgkpRZK7RctfUtCpM17C/t0m7h6hgvVlr4rJU62GIDFthyJLbTNGLEdXqYotWTWrUw5ZMHtCToGRm3NSpw13QiC872QSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ZN4j74PL; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3pyDbbA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25914C32782;
-	Mon,  5 Aug 2024 18:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722883894;
-	bh=uf8ILAskZN/4P/S4F7SKa3SGrBWodGKtmv2kZoh7MLg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F3pyDbbAzcvONmuquDw8PZ6flxoE46it5ePJVAuMwygCo/wGsmYpgJVJ7p9MzEJqD
-	 9ectkAhOEZoTUJz9r5RZ54q/pujI84cU6X4o3xzNRV4IGgUaRUgmwJJNrsBp7qoyPs
-	 RYtYLOXeyPac2aKqmsjr3M3MExOj8mVd4KC8mmd6Rhdx5KTd75sw3mlQ1vma60VRe6
-	 IJKXxmRXfMEvWGx9NpeG7XCIxv8XKud0y24Gs+GEQP30a1QLMTPE6vpcVCexMz+Frr
-	 71TZOsBY0fwczfFhAYylvjyHoCcCvIHjfrDun0Xl/r+rM0zxm5kqHEn2OHEGN/fIMA
-	 A9ZYjjwyFvq7Q==
-Date: Mon, 5 Aug 2024 11:51:32 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com,
-	paul@paul-moore.com, linux-doc@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v20 15/20] fsverity: expose verified fsverity built-in
- signatures to LSMs
-Message-ID: <20240805185132.GC1564@sol.localdomain>
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
- <1722665314-21156-16-git-send-email-wufan@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ZN4j74PL"
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e0b2d502c6eso1011586276.0
+        for <fsverity@lists.linux.dev>; Tue, 06 Aug 2024 13:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1722977707; x=1723582507; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ddUgUKkImUJBZRqaPBh4WpQntM2pgtbxW0LlNFNQthQ=;
+        b=ZN4j74PLIaZYxu8Tzci6neF7bnnY+BBRxHx2Vvd0nkHPmFs+GtH8QtkDn+MNv26Ypu
+         +KczsoqNF3639cp9MwjJLlPK2ynzlo/OkVVAL1YKFnR310Aefzh7J+yAWZyrPsnN6qpa
+         9zAxfQvzGd6F+GZNBABqwYHsRxV7slXYjAoP9J+3uNa5UYuewNTMEpqtL6GfqAn3tud+
+         RiNAonH4Pl3cQGo0PKjia8iIe1SuoGnYH9T7djmMR8PoGI/Xn42QRrlMiSPks6MDP08R
+         T4tjIzJL7nRFso+6AyRcqj+YnUuzZ7EE2g28Ulyyt8ffHP3n3PzCAAqyzs1ZIeLdaMWq
+         /92Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722977707; x=1723582507;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ddUgUKkImUJBZRqaPBh4WpQntM2pgtbxW0LlNFNQthQ=;
+        b=WJhIRllssZxmrYqrxLyNF0+T+yWpwFV+DD5ehXrVjVGWQ+Ygbhlvjde0uC7QQlxQVS
+         ZQJuz1/Blm26HGvDFy9URDBaAye+rGE8SgM5RY+iKJHADqP+K3oj9MRwbHMbE2uOS3Mc
+         opIQrML3PBHcMHqAJqSXRgIMvcwp27eSR0osUW3qbiQdaiSkQqDc4qNRp6g+iZnf3vVV
+         ozTE7XVjaRK241FoUEidyVcz0HuZ0sv9x1zsSpK9DBb8QrHldHwWhczD9SEnlP/unpVY
+         L+C4VPlbFRRqGmOX9ia5UFRn0T6q4gdg3f8fEDeVKS+WCDMEIcCxNtrl9ppBdd2CDLYL
+         4dqw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6khl2O9ww6wKedDzYkCXv2AXqFroJAr23l9fZpaciXS2PMVfr+m7ZUdVhSIPQQHx/9QApbRTqmw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzZrzRgBNr+yNSvZkFN3xolGw/CYm4LHEseKd3eLTfeSUqh7+I
+	q0iXkaqwKtwjn7MpyRkC7eS2IZVO/d/c7njcRSdqM0zQxzHbCwEtvrJox51Xr7CcZgAzfRVz2Sk
+	RzQtepfrPZyn3ZIj/aXZQYf8xspDsYH5dKOGB
+X-Google-Smtp-Source: AGHT+IEV3DoSxpbwywgyClpobkg3f96r+2vacgaYADkIDoHb8BVfBMUuKoLI3KKW3kNSXmapcP0+yqslrTw3VHo3MFI=
+X-Received: by 2002:a05:6902:dc9:b0:e03:5bca:aee6 with SMTP id
+ 3f1490d57ef6-e0e54be0a4amr8897314276.54.1722977707114; Tue, 06 Aug 2024
+ 13:55:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1722665314-21156-16-git-send-email-wufan@linux.microsoft.com>
+References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com>
+ <1722665314-21156-21-git-send-email-wufan@linux.microsoft.com> <de7857fb-63d9-42fc-af1e-12ffcdfcdda8@molgen.mpg.de>
+In-Reply-To: <de7857fb-63d9-42fc-af1e-12ffcdfcdda8@molgen.mpg.de>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 6 Aug 2024 16:54:56 -0400
+Message-ID: <CAHC9VhRmcReVM_Le5bYor2deotnSe4OT08UYhL6xhiKCu0+3kA@mail.gmail.com>
+Subject: Re: [PATCH v20 20/20] MAINTAINERS: ipe: add ipe maintainer information
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
+	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com, 
+	eparis@redhat.com, linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 02, 2024 at 11:08:29PM -0700, Fan Wu wrote:
-> This patch enhances fsverity's capabilities to support both integrity and
-> authenticity protection by introducing the exposure of built-in
-> signatures through a new LSM hook. This functionality allows LSMs,
-> e.g. IPE, to enforce policies based on the authenticity and integrity of
-> files, specifically focusing on built-in fsverity signatures. It enables
-> a policy enforcement layer within LSMs for fsverity, offering granular
-> control over the usage of authenticity claims. For instance, a policy
-> could be established to only permit the execution of all files with
-> verified built-in fsverity signatures.
-> 
-> The introduction of a security_inode_setintegrity() hook call within
-> fsverity's workflow ensures that the verified built-in signature of a file
-> is exposed to LSMs. This enables LSMs to recognize and label fsverity files
-> that contain a verified built-in fsverity signature. This hook is invoked
-> subsequent to the fsverity_verify_signature() process, guaranteeing the
-> signature's verification against fsverity's keyring. This mechanism is
-> crucial for maintaining system security, as it operates in kernel space,
-> effectively thwarting attempts by malicious binaries to bypass user space
-> stack interactions.
-> 
-> The second to last commit in this patch set will add a link to the IPE
-> documentation in fsverity.rst.
-> 
-> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+On Sat, Aug 3, 2024 at 4:15=E2=80=AFAM Paul Menzel <pmenzel@molgen.mpg.de> =
+wrote:
+>
+> Dear Fan,
+>
+>
+> Thank you very much for your patch. Two nits, should you sent another
+> interation: A more specific summary would avoid people having to look at
+> the message body or diff, and `git log --oneline` would be enough.
+>
+> MAINTAINERS: Add IPE entry with M: Fan Wu
+>
+> MAINTAINERS: Add IPE entry with Fan Wu as maintainer
+>
+> Am 03.08.24 um 08:08 schrieb Fan Wu:
+> > Update MAINTAINERS to include ipe maintainer information.
+>
+> I=E2=80=99d at least mention Integrity Policy Enforcement. As you not onl=
+y
+> include the maintainer information but add a new entry, I=E2=80=99d leave=
+ the
+> body out, or mention that a new entry is added.
+>
+> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 
-Acked-by: Eric Biggers <ebiggers@google.com>
+Working under the current assumption that a new revision is not
+needed, I can fix this up during the merge.  Fan, other-Paul, are you
+both okay with the following:
 
-- Eric
+  "MAINTAINERS: add IPE entry with Fan Wu as maintainer
+
+   Add a MAINTAINERS entry for the Integrity Policy Enforcement (IPE) LSM."
+
+> > --
+> > v1-v16:
+> >    + Not present
+> >
+> > v17:
+> >    + Introduced
+> >
+> > v18:
+> >    + No changes
+> >
+> > v19:
+> >    + No changes
+> >
+> > v20:
+> >    + No changes
+> > ---
+> >   MAINTAINERS | 10 ++++++++++
+> >   1 file changed, 10 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 8766f3e5e87e..4cdf2d5a2058 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11118,6 +11118,16 @@ T:   git git://git.kernel.org/pub/scm/linux/ke=
+rnel/git/zohar/linux-integrity.git
+> >   F:  security/integrity/
+> >   F:  security/integrity/ima/
+> >
+> > +INTEGRITY POLICY ENFORCEMENT (IPE)
+> > +M:   Fan Wu <wufan@linux.microsoft.com>
+> > +L:   linux-security-module@vger.kernel.org
+> > +S:   Supported
+> > +T:   git https://github.com/microsoft/ipe.git
+> > +F:   Documentation/admin-guide/LSM/ipe.rst
+> > +F:   Documentation/security/ipe.rst
+> > +F:   scripts/ipe/
+> > +F:   security/ipe/
+> > +
+> >   INTEL 810/815 FRAMEBUFFER DRIVER
+> >   M:  Antonino Daplas <adaplas@gmail.com>
+> >   L:  linux-fbdev@vger.kernel.org
+>
+> Kind regards,
+>
+> Paul
+
+--=20
+paul-moore.com
