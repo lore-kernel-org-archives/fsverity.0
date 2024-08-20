@@ -1,104 +1,109 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A5F381A4
-	for <fsverity@lists.linux.dev>; Tue, 20 Aug 2024 02:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51C117836E
+	for <fsverity@lists.linux.dev>; Tue, 20 Aug 2024 06:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724122330; cv=none; b=kLUNol9bGT2SIBmEwJmp5fPjHtYY53BmLV5Z29nK2waS1ZH3nXu9+1bOgGRn0htYV0Xc8F2vCLB5hzQ1cA7DQDN1O6DfJWKadbYhaB1Oe6fQ9fEjkiWt/by71+Cfbt76ibhRlEJZ/kCv3j7Q5SOSOy6uNefvb4HGAGggCwJWb70=
+	t=1724135678; cv=none; b=pc9xGxn52T4VRfA+RpPQlxvubpWmXVV0XYSAlWwrAvnz8AEs56AoylV5dlNgCi108id+LOsATRiStaEL5nTluxYj1yeUaYdEWeQsklCEZPr80IAMIRFGh4/4gs8mwv/lC9uyBMdFOIFCrSd5uYvYQSLMs4EedJVxDuGluKcWEWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724122330; c=relaxed/simple;
-	bh=ZDr5ZbxqvFQWLLGyxixOKscT+4fsLzUr364GEc8bx4k=;
+	s=arc-20240116; t=1724135678; c=relaxed/simple;
+	bh=Cp3w7kkVxT1uWBiSkJuqzh8y0qcCGvAe5kQ4ewJ5zHg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vFcS0gjlFZfPtUBS0E23+I7Co+3Bn/StPpDay35L/bUVYXqfcfrjhIKgUFfqQhYuf+rnYoYDTNuG0KuxlZU9qeS/iXR+8wqWiq38Jxc+3x9kBm8jleXTI9OkPi2QJYnjfl/Y8vjMn6rqeEpORyku+AbVTZhdSg4PZNEo8iCPL5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=c3JxdOjc; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=GfsLQmtZSm7z2jSXHOsjvPS+9Ja6/bTtivGY2/H7+JErL2neFRIufa0J2XFQypVtKU7TkL6fSOAmQ5CSUJogPBoKC1VzRe8dXXn6ydrD7ztVL7UE+Unxqqmn+RuNXqeyXHASE32gWmsBzeaxGpRF49+qjqtDNc5Yp8aPuBoi8K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m7MV9SN+; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="c3JxdOjc"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e1654a42cb8so184361276.1
-        for <fsverity@lists.linux.dev>; Mon, 19 Aug 2024 19:52:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m7MV9SN+"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4280bca3960so44799185e9.3
+        for <fsverity@lists.linux.dev>; Mon, 19 Aug 2024 23:34:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1724122327; x=1724727127; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1724135675; x=1724740475; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dMMqIhR8mNN7qbNLvHC3cSRq9saBfgJ6P2Pudx1fscs=;
-        b=c3JxdOjctdUq0VFWEd1HVu35bhGlvnLt8lGsMjbHr8aml9bui6rFgp/atBc5jY7J8O
-         J8Pts9AqOokh6TUrImva43b/aMyVZFP+qrnMvLiqwCA2WcL7e79keEAJKu2l1lRVgjPy
-         f5LVwSNRqOlJkYCF0kqsAm91ukeKFxayvCRQa6mVDGcukk5p4hwjD0JyZ4q+dDDtqZGW
-         mrQsouhU329H6kjP5j247xWrh6O/Kd1dtX1nO72PBwUS5zCCtYhlWoVDEjOMcI4MKyZt
-         NNP7MpTKmVYMqq8ecy4AKllXe8tuHdbcuFbLM6wf1ikfSGeu2lRTN+unk4SMGIG5ht2E
-         r8ZQ==
+        bh=Cp3w7kkVxT1uWBiSkJuqzh8y0qcCGvAe5kQ4ewJ5zHg=;
+        b=m7MV9SN+1oCBjewi+mZ0xnAVbAX+Uq90mNCkIvDP9SMf8QLKVifhTbJyZkJ+fg4Hzl
+         i8PprCMBe9RiGVdqT1qX56dnk52sIUeno+3xKGxybTKRIutuBaqR7m2yq9LWUlTPNdYD
+         YJtyZz1Md03bW+VZjw/U8EOAXhmhoKRXSF7ZZ7V5osYS4pJ+QvYM9tm4Dksr+gATL3dx
+         ls6Fm5MCCWUX+4Q99sl287kwYB3qKGkRn9t55xAjtq3eUsa1ahC7B1S4wpjfANzNQCw5
+         EL+I/C+KLk7OPw3ysubQXcJGckyp1OoZU75tDXr24yHgioOfPVmFPq7rursP/YcUg0sl
+         TyqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724122327; x=1724727127;
+        d=1e100.net; s=20230601; t=1724135675; x=1724740475;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dMMqIhR8mNN7qbNLvHC3cSRq9saBfgJ6P2Pudx1fscs=;
-        b=r/pZ1DGsHlw8LXfST1//avSl0vGJL2qlhdzbHGhAj1hXTSXFcSi7szADvMHEdbAk9+
-         CAW3RMh1x7aEYjIcQEHpI3pZTy2VGCHv2g8cpsStZZRYy/JEI4HgaabxoG3YWxCF9F/U
-         LGpCuVOgLKm2dUyYMtH/44qcw5HbPzE4BpKGqMLKz3yiuMUfOvgbsua5Iac6pqeRAqoY
-         nIUQVta7fktqxIKEvnaewmyXW4+HTr4fOymWqOjz8iJZ+EFqT1E8xSRK9ecQEAruio2W
-         q49tgCCqLAzJEBVysD2La2cVK7v11J1TxyQhN4/beEHEUAVJd+OqJ/RO+PPpBYKnAT+R
-         euQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXOm9TsoMMTZsOwZB90/ZAznX1bBOcubWP+NIaS4JZtI1sqPpCxs0yGEiU5Q5GFJQl01Jxr6AW5AQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyfqpMZVv3OCl8TJzFrrV3Dc7RlbYYpMD7KuD/Q+0Lx1gQbWGRE
-	PDjtNT/VJMK+1DqLzTMG6JK3TZMRctzh/1mDiZel409JRGO4Y2xXlGNBKeYivuf0oO0zBaVQLmN
-	CFhOWfWB955dnK5WLpr5qTpNuRo4n22CYbWtA
-X-Google-Smtp-Source: AGHT+IGx4BZUDH+LCtHEYeY3Jj6i77Krk/e4mCpEtrxZEdqLSGFNLBDOXv3VOnuXbn9YLa/m+2U6fa38CFBTVrK6h9g=
-X-Received: by 2002:a25:d8ce:0:b0:e11:83ac:a024 with SMTP id
- 3f1490d57ef6-e1183acaecemr11644146276.39.1724122327544; Mon, 19 Aug 2024
- 19:52:07 -0700 (PDT)
+        bh=Cp3w7kkVxT1uWBiSkJuqzh8y0qcCGvAe5kQ4ewJ5zHg=;
+        b=aSlcYF4K3BOflmPlzY89I/9+Co4lLE0XZUDFk4oPLoCaXOqCEwNF+LtE9gdezf94Es
+         nok2N2ZSiFm7FBQgO6/ZCpsboBTBjVu/JfN2yjOgRnX5kE1UyL5nfe5vsZw2OLBPF23a
+         IIITjABrMhB1vb3phlIwb/FkqLfJVHg43UZcyjwE+m0CBwMWZPdocaBNDZBOqwiVWOwN
+         4Bm4e5UgPdG3RhjuAiSe026HUVObHzoaBmG10ESLFKGQA3NPwhdERFMp9BIg5CjlnOMn
+         8BQZJZdzRej6cD2Ud9Lp21lJ47jXiEMlEeHE35KvlcTWYIGsXTyDM70sHwE+g6Pa8Dx2
+         VFmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVbup0tDr8ZKTM+QAI/1j+zpD8Vcn0AYrXMLk0slBo7ZbfiD+lwgfh3AFNHlV2oU6n7TzmjqJ7HVw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAI1ldPHIEMfGy7WNlQFtFTRJ+aFI8CZ3+23XsXY2pq8/TrVzt
+	Iq2MLvamwQrdwxdfmPjVbjK7WJT4rHHRto7K4XltfSkmzx/qNJhB57tWVP/kbTpPQ04QJslrJDu
+	34YbcdKKQtEBLticKoyPp0ADp9wk=
+X-Google-Smtp-Source: AGHT+IF6za5LfGR9PignCMfdAU4RNKydBE/DzDRowSAFw6jEwJKhTPBuMISHwbyJUdIMUQaOdSTMFb1oGckbgA2aLOw=
+X-Received: by 2002:a05:600c:3ba5:b0:426:6667:5c42 with SMTP id
+ 5b1f17b1804b1-429ed7856camr83213885e9.4.1724135674405; Mon, 19 Aug 2024
+ 23:34:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com> <CAHC9VhQ3LobZks+JtcmOxiDH1_kbjXq3ao8th4V_VXO8VAh6YA@mail.gmail.com>
-In-Reply-To: <CAHC9VhQ3LobZks+JtcmOxiDH1_kbjXq3ao8th4V_VXO8VAh6YA@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 19 Aug 2024 22:51:56 -0400
-Message-ID: <CAHC9VhR7CEBmzjnruFaHHpepYWSRu0bvPUxYk_jz7oXRS5yJUw@mail.gmail.com>
-Subject: Re: [PATCH v20 00/20] Integrity Policy Enforcement LSM (IPE)
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
-	tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
-	snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com, 
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20240820000245.61787-1-technoboy85@gmail.com>
+In-Reply-To: <20240820000245.61787-1-technoboy85@gmail.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 20 Aug 2024 08:34:23 +0200
+Message-ID: <CAADnVQKYLu4gW95gK=kbFUCT+vCZtb595vdd5jVNVzcLn7qsiw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
+To: Matteo Croce <technoboy85@gmail.com>
+Cc: bpf <bpf@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Matt Bobrowski <mattbobrowski@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	David Ahern <dsahern@kernel.org>, Pablo Neira Ayuso <pablo@netfilter.org>, 
+	Jozsef Kadlecsik <kadlec@netfilter.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Shuah Khan <shuah@kernel.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, 
+	fsverity@lists.linux.dev, 
+	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, 
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
+	Network Development <netdev@vger.kernel.org>, netfilter-devel <netfilter-devel@vger.kernel.org>, 
+	coreteam@netfilter.org, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Matteo Croce <teknoraver@meta.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 6, 2024 at 4:59=E2=80=AFPM Paul Moore <paul@paul-moore.com> wro=
-te:
-> On Sat, Aug 3, 2024 at 2:08=E2=80=AFAM Fan Wu <wufan@linux.microsoft.com>=
- wrote:
-> >
-> > IPE is a Linux Security Module that takes a complementary approach to
-> > access control. Unlike traditional access control mechanisms that rely =
-on
-> > labels and paths for decision-making, IPE focuses on the immutable secu=
-rity
-> > properties inherent to system components. These properties are fundamen=
-tal
-> > attributes or features of a system component that cannot be altered,
-> > ensuring a consistent and reliable basis for security decisions.
-> >
-> > ...
+On Tue, Aug 20, 2024 at 2:03=E2=80=AFAM Matteo Croce <technoboy85@gmail.com=
+> wrote:
 >
-> There was some minor merge fuzz, a handful of overly long lines in the
-> comments, and some subject lines that needed some minor tweaking but
-> overall I think this looks good.  I only see one thing holding me back
-> from merging this into the LSM tree: an updated ACK from the
-> device-mapper folks; if we can get that within the next week or two
-> that would be great.
+> From: Matteo Croce <teknoraver@meta.com>
+>
+> Pass to register_btf_kfunc_id_set() a btf_kfunc_hook directly, instead
+> of a bpf_prog_type.
+> Many program types share the same kfunc hook, so some calls to
+> register_btf_kfunc_id_set() can be removed.
+>
+> Tested compiling the kernel with -Werror=3Denum-conversion to catch all
+> the occourrences.
+>
+> Signed-off-by: Matteo Croce <teknoraver@meta.com>
 
-I've just merged IPE into the lsm/dev branch, it should go up to Linus
-during the next merge window.  Thanks everyone!
-
---=20
-paul-moore.com
+I think it's too soon to do this kind of cleanup.
+We need to refactor this logic to accommodate sched-ext
+allow/deny pattern for kfunc per struct-ops hook.
+Let's keep this code as-is for now.
+pw-bot: cr
