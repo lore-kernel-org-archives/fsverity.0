@@ -1,652 +1,104 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B8023A9
-	for <fsverity@lists.linux.dev>; Tue, 20 Aug 2024 00:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A5F381A4
+	for <fsverity@lists.linux.dev>; Tue, 20 Aug 2024 02:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724112180; cv=none; b=WFwZjxaG3O4tEWaTeBm5dVaG7t4pWiR7tGyXg9aiAq/qMAyh3ld43/+KJeXLDYPUioSY7dy/AdYRu4EhItHFChEN4jkgFmxfAsWKYDnqgeAcz0fKK85YdvPpmiRvu9njP/LKI1QKxQR5Sd+nw5hqKKKGADRrvajHesSgnxi8fPo=
+	t=1724122330; cv=none; b=kLUNol9bGT2SIBmEwJmp5fPjHtYY53BmLV5Z29nK2waS1ZH3nXu9+1bOgGRn0htYV0Xc8F2vCLB5hzQ1cA7DQDN1O6DfJWKadbYhaB1Oe6fQ9fEjkiWt/by71+Cfbt76ibhRlEJZ/kCv3j7Q5SOSOy6uNefvb4HGAGggCwJWb70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724112180; c=relaxed/simple;
-	bh=gsEyl/35PxKqUwY83k+Ml4u4iQeYFAEAD9BT2YbPGr4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aho7V5PbZPANakCr8hPLSDCttfv6oMiA2HYBxGm/BjzhJ/NLFHhyPx/hqcZ+sTbiWTDcG0Bd7C/0LOhMsd02l5Y6HIToHngXtjNlHSYhLF86aeDHXHykdadoisPKnwKx/iWl/DPs39vC17CL2MeaRAH0TYVZIVaBvDuzPV7sK9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LuLUum06; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724122330; c=relaxed/simple;
+	bh=ZDr5ZbxqvFQWLLGyxixOKscT+4fsLzUr364GEc8bx4k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=vFcS0gjlFZfPtUBS0E23+I7Co+3Bn/StPpDay35L/bUVYXqfcfrjhIKgUFfqQhYuf+rnYoYDTNuG0KuxlZU9qeS/iXR+8wqWiq38Jxc+3x9kBm8jleXTI9OkPi2QJYnjfl/Y8vjMn6rqeEpORyku+AbVTZhdSg4PZNEo8iCPL5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=c3JxdOjc; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LuLUum06"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4281d812d3eso53472825e9.3
-        for <fsverity@lists.linux.dev>; Mon, 19 Aug 2024 17:02:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="c3JxdOjc"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e1654a42cb8so184361276.1
+        for <fsverity@lists.linux.dev>; Mon, 19 Aug 2024 19:52:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724112174; x=1724716974; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5qU1SAQVHVazii1bSXv2tYRfm2ITBmJg84ilEUHKC4o=;
-        b=LuLUum06Kg1UR9+3E3XwAixi9r9cYvIJX5nE0HmhQWaZJmd387JamK+Q2quV18a0Rg
-         DT/TEvvFx6ec10CAhXxA/7hImU3BDrdfXr+S81CYaSW2XgBSb/OjAzbWtKPw0dVzKYkF
-         qYeaPwu8IAFkEvCOfWgrjVkuGCL/9TMlFPxwNGOx+cETj/oL7EQVF5SNyxubWDo5Pv1c
-         MuwblV/miHQFRg1lZX2HyKG2qWyEzb8YoyY4VtYCrdPdOWLryrg/nSdwVTJm/G6evxHD
-         zYH85pe7Uk1MY/G5tw2LtqZbGSLuLuP4auXQu51aPZNfWrFM8v+fytGzhDjPd/8wkeLy
-         wgqA==
+        d=paul-moore.com; s=google; t=1724122327; x=1724727127; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dMMqIhR8mNN7qbNLvHC3cSRq9saBfgJ6P2Pudx1fscs=;
+        b=c3JxdOjctdUq0VFWEd1HVu35bhGlvnLt8lGsMjbHr8aml9bui6rFgp/atBc5jY7J8O
+         J8Pts9AqOokh6TUrImva43b/aMyVZFP+qrnMvLiqwCA2WcL7e79keEAJKu2l1lRVgjPy
+         f5LVwSNRqOlJkYCF0kqsAm91ukeKFxayvCRQa6mVDGcukk5p4hwjD0JyZ4q+dDDtqZGW
+         mrQsouhU329H6kjP5j247xWrh6O/Kd1dtX1nO72PBwUS5zCCtYhlWoVDEjOMcI4MKyZt
+         NNP7MpTKmVYMqq8ecy4AKllXe8tuHdbcuFbLM6wf1ikfSGeu2lRTN+unk4SMGIG5ht2E
+         r8ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724112174; x=1724716974;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5qU1SAQVHVazii1bSXv2tYRfm2ITBmJg84ilEUHKC4o=;
-        b=DDw8Qv4iOTTJ1TK6oGmIWJKgOlYkEX0ZkY5knvXgS8EFaF11DbfynhH4nlS3Z+mAk7
-         o/K2kFjSdzwiFqsktn9wwE1WvY7JH88jk5kWH30vY5pYLKlLo0ezYEeY5i9PgAyDrMI3
-         2qwzsepSNv9ulF4quhqyiE8stoD6HHgJBHfrwmA3JJlF9SK0+SpS8IdL11BoW4wXpQN6
-         TW4Lq2YPj8gbaO+c4d1Gxzosjvzu0losvzsebuQm4m2Hd3Wc9s64cz7jn5+X63o9Hwsx
-         2hSh3dWT8Y6L7sJRBcoTZsjLoUfLe5mvszE5kir1WhfDHjVsBpwlX0vja1eZwEThXqOz
-         dRcA==
-X-Forwarded-Encrypted: i=1; AJvYcCUErjksqZvazKtXNZhbipm+cIDyFvY2DD6m+vfyyeHDes6uS64yqrAs9VsIYGmduYA+rlkTJvA6f8Jy2OPs/VF6HbxP74V7tJA=
-X-Gm-Message-State: AOJu0YxFq+2GJk26q9LWCYavQCEjsMCv2vW36WhkOzQl3h65v4uevO7+
-	5Qcj9hqTNFcCYdJrToovRVFZ6QASZROQlGpdRrbvfMKAEjDA/wfJ
-X-Google-Smtp-Source: AGHT+IGTKKQJxuwuxszbBfonRMkQNG6HN3gfrmxU0H6E6otd3YbEkek87NfMz7RceHt6MhIUit6PJA==
-X-Received: by 2002:adf:b1c3:0:b0:371:8e85:c58e with SMTP id ffacd0b85a97d-37194651b45mr9278891f8f.33.1724112174023;
-        Mon, 19 Aug 2024 17:02:54 -0700 (PDT)
-Received: from teknoraver-mbp.fritz.box ([151.72.56.206])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37189896c50sm11681892f8f.85.2024.08.19.17.02.51
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 19 Aug 2024 17:02:53 -0700 (PDT)
-From: Matteo Croce <technoboy85@gmail.com>
-To: bpf@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Matt Bobrowski <mattbobrowski@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Shuah Khan <shuah@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-doc@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	fsverity@lists.linux.dev,
-	cgroups@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Matteo Croce <teknoraver@meta.com>
-Subject: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
-Date: Tue, 20 Aug 2024 02:02:45 +0200
-Message-ID: <20240820000245.61787-1-technoboy85@gmail.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1724122327; x=1724727127;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dMMqIhR8mNN7qbNLvHC3cSRq9saBfgJ6P2Pudx1fscs=;
+        b=r/pZ1DGsHlw8LXfST1//avSl0vGJL2qlhdzbHGhAj1hXTSXFcSi7szADvMHEdbAk9+
+         CAW3RMh1x7aEYjIcQEHpI3pZTy2VGCHv2g8cpsStZZRYy/JEI4HgaabxoG3YWxCF9F/U
+         LGpCuVOgLKm2dUyYMtH/44qcw5HbPzE4BpKGqMLKz3yiuMUfOvgbsua5Iac6pqeRAqoY
+         nIUQVta7fktqxIKEvnaewmyXW4+HTr4fOymWqOjz8iJZ+EFqT1E8xSRK9ecQEAruio2W
+         q49tgCCqLAzJEBVysD2La2cVK7v11J1TxyQhN4/beEHEUAVJd+OqJ/RO+PPpBYKnAT+R
+         euQw==
+X-Forwarded-Encrypted: i=1; AJvYcCXOm9TsoMMTZsOwZB90/ZAznX1bBOcubWP+NIaS4JZtI1sqPpCxs0yGEiU5Q5GFJQl01Jxr6AW5AQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfqpMZVv3OCl8TJzFrrV3Dc7RlbYYpMD7KuD/Q+0Lx1gQbWGRE
+	PDjtNT/VJMK+1DqLzTMG6JK3TZMRctzh/1mDiZel409JRGO4Y2xXlGNBKeYivuf0oO0zBaVQLmN
+	CFhOWfWB955dnK5WLpr5qTpNuRo4n22CYbWtA
+X-Google-Smtp-Source: AGHT+IGx4BZUDH+LCtHEYeY3Jj6i77Krk/e4mCpEtrxZEdqLSGFNLBDOXv3VOnuXbn9YLa/m+2U6fa38CFBTVrK6h9g=
+X-Received: by 2002:a25:d8ce:0:b0:e11:83ac:a024 with SMTP id
+ 3f1490d57ef6-e1183acaecemr11644146276.39.1724122327544; Mon, 19 Aug 2024
+ 19:52:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1722665314-21156-1-git-send-email-wufan@linux.microsoft.com> <CAHC9VhQ3LobZks+JtcmOxiDH1_kbjXq3ao8th4V_VXO8VAh6YA@mail.gmail.com>
+In-Reply-To: <CAHC9VhQ3LobZks+JtcmOxiDH1_kbjXq3ao8th4V_VXO8VAh6YA@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 19 Aug 2024 22:51:56 -0400
+Message-ID: <CAHC9VhR7CEBmzjnruFaHHpepYWSRu0bvPUxYk_jz7oXRS5yJUw@mail.gmail.com>
+Subject: Re: [PATCH v20 00/20] Integrity Policy Enforcement LSM (IPE)
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
+	tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
+	snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com, 
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Matteo Croce <teknoraver@meta.com>
+On Tue, Aug 6, 2024 at 4:59=E2=80=AFPM Paul Moore <paul@paul-moore.com> wro=
+te:
+> On Sat, Aug 3, 2024 at 2:08=E2=80=AFAM Fan Wu <wufan@linux.microsoft.com>=
+ wrote:
+> >
+> > IPE is a Linux Security Module that takes a complementary approach to
+> > access control. Unlike traditional access control mechanisms that rely =
+on
+> > labels and paths for decision-making, IPE focuses on the immutable secu=
+rity
+> > properties inherent to system components. These properties are fundamen=
+tal
+> > attributes or features of a system component that cannot be altered,
+> > ensuring a consistent and reliable basis for security decisions.
+> >
+> > ...
+>
+> There was some minor merge fuzz, a handful of overly long lines in the
+> comments, and some subject lines that needed some minor tweaking but
+> overall I think this looks good.  I only see one thing holding me back
+> from merging this into the LSM tree: an updated ACK from the
+> device-mapper folks; if we can get that within the next week or two
+> that would be great.
 
-Pass to register_btf_kfunc_id_set() a btf_kfunc_hook directly, instead
-of a bpf_prog_type.
-Many program types share the same kfunc hook, so some calls to
-register_btf_kfunc_id_set() can be removed.
+I've just merged IPE into the lsm/dev branch, it should go up to Linus
+during the next merge window.  Thanks everyone!
 
-Tested compiling the kernel with -Werror=enum-conversion to catch all
-the occourrences.
-
-Signed-off-by: Matteo Croce <teknoraver@meta.com>
----
- Documentation/bpf/kfuncs.rst                  |  2 +-
- drivers/hid/bpf/hid_bpf_dispatch.c            |  4 +--
- fs/bpf_fs_kfuncs.c                            |  2 +-
- fs/verity/measure.c                           |  2 +-
- include/linux/btf.h                           | 22 ++++++++++++++--
- kernel/bpf/arena.c                            |  2 +-
- kernel/bpf/btf.c                              | 23 +----------------
- kernel/bpf/cpumask.c                          |  6 ++---
- kernel/bpf/crypto.c                           |  8 +++---
- kernel/bpf/helpers.c                          | 15 +++++------
- kernel/bpf/map_iter.c                         |  2 +-
- kernel/cgroup/rstat.c                         |  2 +-
- kernel/trace/bpf_trace.c                      |  4 +--
- net/bpf/test_run.c                            |  6 ++---
- net/core/filter.c                             | 25 ++++++++-----------
- net/core/xdp.c                                |  2 +-
- net/ipv4/bpf_tcp_ca.c                         |  2 +-
- net/ipv4/fou_bpf.c                            |  2 +-
- net/ipv4/tcp_bbr.c                            |  2 +-
- net/ipv4/tcp_cubic.c                          |  2 +-
- net/ipv4/tcp_dctcp.c                          |  2 +-
- net/netfilter/nf_conntrack_bpf.c              |  4 +--
- net/netfilter/nf_flow_table_bpf.c             |  2 +-
- net/netfilter/nf_nat_bpf.c                    |  4 +--
- net/xfrm/xfrm_interface_bpf.c                 |  2 +-
- net/xfrm/xfrm_state_bpf.c                     |  2 +-
- .../selftests/bpf/bpf_testmod/bpf_testmod.c   |  8 +++---
- 27 files changed, 76 insertions(+), 83 deletions(-)
-
-diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
-index a8f5782bd833..136c449b26d4 100644
---- a/Documentation/bpf/kfuncs.rst
-+++ b/Documentation/bpf/kfuncs.rst
-@@ -359,7 +359,7 @@ type. An example is shown below::
- 
-         static int init_subsystem(void)
-         {
--                return register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &bpf_task_kfunc_set);
-+                return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING, &bpf_task_kfunc_set);
-         }
-         late_initcall(init_subsystem);
- 
-diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-index a272a086c950..37a87d70a382 100644
---- a/drivers/hid/bpf/hid_bpf_dispatch.c
-+++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-@@ -660,13 +660,13 @@ static int __init hid_bpf_init(void)
- 	 * This is not a big deal: nobody will be able to use the functionality.
- 	 */
- 
--	err = register_btf_kfunc_id_set(BPF_PROG_TYPE_STRUCT_OPS, &hid_bpf_kfunc_set);
-+	err = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_STRUCT_OPS, &hid_bpf_kfunc_set);
- 	if (err) {
- 		pr_warn("error while setting HID BPF tracing kfuncs: %d", err);
- 		return 0;
- 	}
- 
--	err = register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &hid_bpf_syscall_kfunc_set);
-+	err = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SYSCALL, &hid_bpf_syscall_kfunc_set);
- 	if (err) {
- 		pr_warn("error while setting HID BPF syscall kfuncs: %d", err);
- 		return 0;
-diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
-index 3fe9f59ef867..2661c9a4f858 100644
---- a/fs/bpf_fs_kfuncs.c
-+++ b/fs/bpf_fs_kfuncs.c
-@@ -179,7 +179,7 @@ static const struct btf_kfunc_id_set bpf_fs_kfunc_set = {
- 
- static int __init bpf_fs_kfuncs_init(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM, &bpf_fs_kfunc_set);
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING, &bpf_fs_kfunc_set);
- }
- 
- late_initcall(bpf_fs_kfuncs_init);
-diff --git a/fs/verity/measure.c b/fs/verity/measure.c
-index 175d2f1bc089..00f1a6077a77 100644
---- a/fs/verity/measure.c
-+++ b/fs/verity/measure.c
-@@ -181,7 +181,7 @@ static const struct btf_kfunc_id_set bpf_fsverity_set = {
- 
- void __init fsverity_init_bpf(void)
- {
--	register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM, &bpf_fsverity_set);
-+	register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING, &bpf_fsverity_set);
- }
- 
- #endif /* CONFIG_BPF_SYSCALL */
-diff --git a/include/linux/btf.h b/include/linux/btf.h
-index cffb43133c68..2da205e0f923 100644
---- a/include/linux/btf.h
-+++ b/include/linux/btf.h
-@@ -114,6 +114,24 @@ struct bpf_prog;
- 
- typedef int (*btf_kfunc_filter_t)(const struct bpf_prog *prog, u32 kfunc_id);
- 
-+enum btf_kfunc_hook {
-+	BTF_KFUNC_HOOK_COMMON,
-+	BTF_KFUNC_HOOK_XDP,
-+	BTF_KFUNC_HOOK_TC,
-+	BTF_KFUNC_HOOK_STRUCT_OPS,
-+	BTF_KFUNC_HOOK_TRACING,
-+	BTF_KFUNC_HOOK_SYSCALL,
-+	BTF_KFUNC_HOOK_FMODRET,
-+	BTF_KFUNC_HOOK_CGROUP,
-+	BTF_KFUNC_HOOK_SCHED_ACT,
-+	BTF_KFUNC_HOOK_SK_SKB,
-+	BTF_KFUNC_HOOK_SOCKET_FILTER,
-+	BTF_KFUNC_HOOK_LWT,
-+	BTF_KFUNC_HOOK_NETFILTER,
-+	BTF_KFUNC_HOOK_KPROBE,
-+	BTF_KFUNC_HOOK_MAX,
-+};
-+
- struct btf_kfunc_id_set {
- 	struct module *owner;
- 	struct btf_id_set8 *set;
-@@ -566,7 +584,7 @@ u32 *btf_kfunc_id_set_contains(const struct btf *btf, u32 kfunc_btf_id,
- 			       const struct bpf_prog *prog);
- u32 *btf_kfunc_is_modify_return(const struct btf *btf, u32 kfunc_btf_id,
- 				const struct bpf_prog *prog);
--int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
-+int register_btf_kfunc_id_set(enum btf_kfunc_hook hook,
- 			      const struct btf_kfunc_id_set *s);
- int register_btf_fmodret_id_set(const struct btf_kfunc_id_set *kset);
- s32 btf_find_dtor_kfunc(struct btf *btf, u32 btf_id);
-@@ -620,7 +638,7 @@ static inline u32 *btf_kfunc_id_set_contains(const struct btf *btf,
- {
- 	return NULL;
- }
--static inline int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
-+static inline int register_btf_kfunc_id_set(enum btf_kfunc_hook hook,
- 					    const struct btf_kfunc_id_set *s)
- {
- 	return 0;
-diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-index e52b3ad231b9..07bafb9327ec 100644
---- a/kernel/bpf/arena.c
-+++ b/kernel/bpf/arena.c
-@@ -576,6 +576,6 @@ static const struct btf_kfunc_id_set common_kfunc_set = {
- 
- static int __init kfunc_init(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_UNSPEC, &common_kfunc_set);
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_COMMON, &common_kfunc_set);
- }
- late_initcall(kfunc_init);
-diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-index b12db397303e..975c1d61aa2d 100644
---- a/kernel/bpf/btf.c
-+++ b/kernel/bpf/btf.c
-@@ -204,24 +204,6 @@
- DEFINE_IDR(btf_idr);
- DEFINE_SPINLOCK(btf_idr_lock);
- 
--enum btf_kfunc_hook {
--	BTF_KFUNC_HOOK_COMMON,
--	BTF_KFUNC_HOOK_XDP,
--	BTF_KFUNC_HOOK_TC,
--	BTF_KFUNC_HOOK_STRUCT_OPS,
--	BTF_KFUNC_HOOK_TRACING,
--	BTF_KFUNC_HOOK_SYSCALL,
--	BTF_KFUNC_HOOK_FMODRET,
--	BTF_KFUNC_HOOK_CGROUP,
--	BTF_KFUNC_HOOK_SCHED_ACT,
--	BTF_KFUNC_HOOK_SK_SKB,
--	BTF_KFUNC_HOOK_SOCKET_FILTER,
--	BTF_KFUNC_HOOK_LWT,
--	BTF_KFUNC_HOOK_NETFILTER,
--	BTF_KFUNC_HOOK_KPROBE,
--	BTF_KFUNC_HOOK_MAX,
--};
--
- enum {
- 	BTF_KFUNC_SET_MAX_CNT = 256,
- 	BTF_DTOR_KFUNC_MAX_CNT = 256,
-@@ -8389,11 +8371,9 @@ static int __register_btf_kfunc_id_set(enum btf_kfunc_hook hook,
- }
- 
- /* This function must be invoked only from initcalls/module init functions */
--int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
-+int register_btf_kfunc_id_set(enum btf_kfunc_hook hook,
- 			      const struct btf_kfunc_id_set *kset)
- {
--	enum btf_kfunc_hook hook;
--
- 	/* All kfuncs need to be tagged as such in BTF.
- 	 * WARN() for initcall registrations that do not check errors.
- 	 */
-@@ -8402,7 +8382,6 @@ int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
- 		return -EINVAL;
- 	}
- 
--	hook = bpf_prog_type_to_kfunc_hook(prog_type);
- 	return __register_btf_kfunc_id_set(hook, kset);
- }
- EXPORT_SYMBOL_GPL(register_btf_kfunc_id_set);
-diff --git a/kernel/bpf/cpumask.c b/kernel/bpf/cpumask.c
-index 33c473d676a5..1a34689b2c3d 100644
---- a/kernel/bpf/cpumask.c
-+++ b/kernel/bpf/cpumask.c
-@@ -472,9 +472,9 @@ static int __init cpumask_kfunc_init(void)
- 	};
- 
- 	ret = bpf_mem_alloc_init(&bpf_cpumask_ma, sizeof(struct bpf_cpumask), false);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &cpumask_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_STRUCT_OPS, &cpumask_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &cpumask_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING, &cpumask_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_STRUCT_OPS, &cpumask_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SYSCALL, &cpumask_kfunc_set);
- 	return  ret ?: register_btf_id_dtor_kfuncs(cpumask_dtors,
- 						   ARRAY_SIZE(cpumask_dtors),
- 						   THIS_MODULE);
-diff --git a/kernel/bpf/crypto.c b/kernel/bpf/crypto.c
-index 94854cd9c4cc..1010ffbffa10 100644
---- a/kernel/bpf/crypto.c
-+++ b/kernel/bpf/crypto.c
-@@ -380,10 +380,10 @@ static int __init crypto_kfunc_init(void)
- 		},
- 	};
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &crypt_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_ACT, &crypt_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &crypt_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL,
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC, &crypt_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SCHED_ACT, &crypt_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_XDP, &crypt_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SYSCALL,
- 					       &crypt_init_kfunc_set);
- 	return  ret ?: register_btf_id_dtor_kfuncs(bpf_crypto_dtors,
- 						   ARRAY_SIZE(bpf_crypto_dtors),
-diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
-index 12e3aa40b180..3f3b68207941 100644
---- a/kernel/bpf/helpers.c
-+++ b/kernel/bpf/helpers.c
-@@ -3070,16 +3070,17 @@ static int __init kfunc_init(void)
- #endif
- 	};
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &generic_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &generic_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &generic_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_STRUCT_OPS, &generic_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &generic_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_CGROUP_SKB, &generic_kfunc_set);
-+
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING, &generic_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC, &generic_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_XDP, &generic_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_STRUCT_OPS, &generic_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SYSCALL, &generic_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_CGROUP, &generic_kfunc_set);
- 	ret = ret ?: register_btf_id_dtor_kfuncs(generic_dtors,
- 						  ARRAY_SIZE(generic_dtors),
- 						  THIS_MODULE);
--	return ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_UNSPEC, &common_kfunc_set);
-+	return ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_COMMON, &common_kfunc_set);
- }
- 
- late_initcall(kfunc_init);
-diff --git a/kernel/bpf/map_iter.c b/kernel/bpf/map_iter.c
-index 9575314f40a6..60f8133abd05 100644
---- a/kernel/bpf/map_iter.c
-+++ b/kernel/bpf/map_iter.c
-@@ -224,6 +224,6 @@ static const struct btf_kfunc_id_set bpf_map_iter_kfunc_set = {
- 
- static int init_subsystem(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_UNSPEC, &bpf_map_iter_kfunc_set);
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_COMMON, &bpf_map_iter_kfunc_set);
- }
- late_initcall(init_subsystem);
-diff --git a/kernel/cgroup/rstat.c b/kernel/cgroup/rstat.c
-index a06b45272411..afaa9a437c1b 100644
---- a/kernel/cgroup/rstat.c
-+++ b/kernel/cgroup/rstat.c
-@@ -649,7 +649,7 @@ static const struct btf_kfunc_id_set bpf_rstat_kfunc_set = {
- 
- static int __init bpf_rstat_kfunc_init(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING,
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING,
- 					 &bpf_rstat_kfunc_set);
- }
- late_initcall(bpf_rstat_kfunc_init);
-diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-index b69a39316c0c..c30264e9c3cb 100644
---- a/kernel/trace/bpf_trace.c
-+++ b/kernel/trace/bpf_trace.c
-@@ -1408,7 +1408,7 @@ static const struct btf_kfunc_id_set bpf_key_sig_kfunc_set = {
- 
- static int __init bpf_key_sig_kfuncs_init(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING,
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING,
- 					 &bpf_key_sig_kfunc_set);
- }
- 
-@@ -3473,7 +3473,7 @@ static const struct btf_kfunc_id_set bpf_kprobe_multi_kfunc_set = {
- 
- static int __init bpf_kprobe_multi_kfuncs_init(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_KPROBE, &bpf_kprobe_multi_kfunc_set);
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_KPROBE, &bpf_kprobe_multi_kfunc_set);
- }
- 
- late_initcall(bpf_kprobe_multi_kfuncs_init);
-diff --git a/net/bpf/test_run.c b/net/bpf/test_run.c
-index 6d7a442ceb89..2ce805125cb2 100644
---- a/net/bpf/test_run.c
-+++ b/net/bpf/test_run.c
-@@ -1753,9 +1753,9 @@ static int __init bpf_prog_test_run_init(void)
- 	int ret;
- 
- 	ret = register_btf_fmodret_id_set(&bpf_test_modify_return_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &bpf_prog_test_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &bpf_prog_test_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &bpf_prog_test_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC, &bpf_prog_test_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING, &bpf_prog_test_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SYSCALL, &bpf_prog_test_kfunc_set);
- 	return ret ?: register_btf_id_dtor_kfuncs(bpf_prog_test_dtor_kfunc,
- 						  ARRAY_SIZE(bpf_prog_test_dtor_kfunc),
- 						  THIS_MODULE);
-diff --git a/net/core/filter.c b/net/core/filter.c
-index 78a6f746ea0b..ce764c31240c 100644
---- a/net/core/filter.c
-+++ b/net/core/filter.c
-@@ -12095,20 +12095,15 @@ static int __init bpf_kfunc_init(void)
- {
- 	int ret;
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_ACT, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SK_SKB, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SOCKET_FILTER, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_CGROUP_SKB, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_LWT_OUT, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_LWT_IN, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_LWT_XMIT, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_LWT_SEG6LOCAL, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_NETFILTER, &bpf_kfunc_set_skb);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &bpf_kfunc_set_xdp);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_CGROUP_SOCK_ADDR,
--					       &bpf_kfunc_set_sock_addr);
--	return ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &bpf_kfunc_set_tcp_reqsk);
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC, &bpf_kfunc_set_skb);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SCHED_ACT, &bpf_kfunc_set_skb);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SK_SKB, &bpf_kfunc_set_skb);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SOCKET_FILTER, &bpf_kfunc_set_skb);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_CGROUP, &bpf_kfunc_set_skb);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_LWT, &bpf_kfunc_set_skb);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_NETFILTER, &bpf_kfunc_set_skb);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_XDP, &bpf_kfunc_set_xdp);
-+	return ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC, &bpf_kfunc_set_tcp_reqsk);
- }
- late_initcall(bpf_kfunc_init);
- 
-@@ -12168,6 +12163,6 @@ static const struct btf_kfunc_id_set bpf_sk_iter_kfunc_set = {
- 
- static int init_subsystem(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &bpf_sk_iter_kfunc_set);
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING, &bpf_sk_iter_kfunc_set);
- }
- late_initcall(init_subsystem);
-diff --git a/net/core/xdp.c b/net/core/xdp.c
-index bcc5551c6424..d602b9184686 100644
---- a/net/core/xdp.c
-+++ b/net/core/xdp.c
-@@ -797,7 +797,7 @@ bool bpf_dev_bound_kfunc_id(u32 btf_id)
- 
- static int __init xdp_metadata_init(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &xdp_metadata_kfunc_set);
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_XDP, &xdp_metadata_kfunc_set);
- }
- late_initcall(xdp_metadata_init);
- 
-diff --git a/net/ipv4/bpf_tcp_ca.c b/net/ipv4/bpf_tcp_ca.c
-index 554804774628..a1fc378cc58c 100644
---- a/net/ipv4/bpf_tcp_ca.c
-+++ b/net/ipv4/bpf_tcp_ca.c
-@@ -341,7 +341,7 @@ static int __init bpf_tcp_ca_kfunc_init(void)
- {
- 	int ret;
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_STRUCT_OPS, &bpf_tcp_ca_kfunc_set);
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_STRUCT_OPS, &bpf_tcp_ca_kfunc_set);
- 	ret = ret ?: register_bpf_struct_ops(&bpf_tcp_congestion_ops, tcp_congestion_ops);
- 
- 	return ret;
-diff --git a/net/ipv4/fou_bpf.c b/net/ipv4/fou_bpf.c
-index 54984f3170a8..f9a68a20cd7c 100644
---- a/net/ipv4/fou_bpf.c
-+++ b/net/ipv4/fou_bpf.c
-@@ -112,6 +112,6 @@ static const struct btf_kfunc_id_set fou_bpf_kfunc_set = {
- 
- int register_fou_bpf(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS,
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC,
- 					 &fou_bpf_kfunc_set);
- }
-diff --git a/net/ipv4/tcp_bbr.c b/net/ipv4/tcp_bbr.c
-index 760941e55153..49d80dbd5f26 100644
---- a/net/ipv4/tcp_bbr.c
-+++ b/net/ipv4/tcp_bbr.c
-@@ -1177,7 +1177,7 @@ static int __init bbr_register(void)
- 
- 	BUILD_BUG_ON(sizeof(struct bbr) > ICSK_CA_PRIV_SIZE);
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_STRUCT_OPS, &tcp_bbr_kfunc_set);
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_STRUCT_OPS, &tcp_bbr_kfunc_set);
- 	if (ret < 0)
- 		return ret;
- 	return tcp_register_congestion_control(&tcp_bbr_cong_ops);
-diff --git a/net/ipv4/tcp_cubic.c b/net/ipv4/tcp_cubic.c
-index 5dbed91c6178..2ed23f429a8c 100644
---- a/net/ipv4/tcp_cubic.c
-+++ b/net/ipv4/tcp_cubic.c
-@@ -533,7 +533,7 @@ static int __init cubictcp_register(void)
- 	/* divide by bic_scale and by constant Srtt (100ms) */
- 	do_div(cube_factor, bic_scale * 10);
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_STRUCT_OPS, &tcp_cubic_kfunc_set);
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_STRUCT_OPS, &tcp_cubic_kfunc_set);
- 	if (ret < 0)
- 		return ret;
- 	return tcp_register_congestion_control(&cubictcp);
-diff --git a/net/ipv4/tcp_dctcp.c b/net/ipv4/tcp_dctcp.c
-index 8a45a4aea933..b86007e9487d 100644
---- a/net/ipv4/tcp_dctcp.c
-+++ b/net/ipv4/tcp_dctcp.c
-@@ -291,7 +291,7 @@ static int __init dctcp_register(void)
- 
- 	BUILD_BUG_ON(sizeof(struct dctcp) > ICSK_CA_PRIV_SIZE);
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_STRUCT_OPS, &tcp_dctcp_kfunc_set);
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_STRUCT_OPS, &tcp_dctcp_kfunc_set);
- 	if (ret < 0)
- 		return ret;
- 	return tcp_register_congestion_control(&dctcp);
-diff --git a/net/netfilter/nf_conntrack_bpf.c b/net/netfilter/nf_conntrack_bpf.c
-index 4a136fc3a9c0..356559e5505f 100644
---- a/net/netfilter/nf_conntrack_bpf.c
-+++ b/net/netfilter/nf_conntrack_bpf.c
-@@ -531,8 +531,8 @@ int register_nf_conntrack_bpf(void)
- {
- 	int ret;
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &nf_conntrack_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &nf_conntrack_kfunc_set);
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_XDP, &nf_conntrack_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC, &nf_conntrack_kfunc_set);
- 	if (!ret) {
- 		mutex_lock(&nf_conn_btf_access_lock);
- 		nfct_btf_struct_access = _nf_conntrack_btf_struct_access;
-diff --git a/net/netfilter/nf_flow_table_bpf.c b/net/netfilter/nf_flow_table_bpf.c
-index 4a5f5195f2d2..0166882856a2 100644
---- a/net/netfilter/nf_flow_table_bpf.c
-+++ b/net/netfilter/nf_flow_table_bpf.c
-@@ -115,7 +115,7 @@ static const struct btf_kfunc_id_set nf_flow_kfunc_set = {
- 
- int nf_flow_register_bpf(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_XDP,
- 					 &nf_flow_kfunc_set);
- }
- EXPORT_SYMBOL_GPL(nf_flow_register_bpf);
-diff --git a/net/netfilter/nf_nat_bpf.c b/net/netfilter/nf_nat_bpf.c
-index 481be15609b1..a3300e3618ab 100644
---- a/net/netfilter/nf_nat_bpf.c
-+++ b/net/netfilter/nf_nat_bpf.c
-@@ -67,11 +67,11 @@ int register_nf_nat_bpf(void)
- {
- 	int ret;
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_XDP,
- 					&nf_bpf_nat_kfunc_set);
- 	if (ret)
- 		return ret;
- 
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS,
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC,
- 					 &nf_bpf_nat_kfunc_set);
- }
-diff --git a/net/xfrm/xfrm_interface_bpf.c b/net/xfrm/xfrm_interface_bpf.c
-index 5ea15037ebd1..4c3149d22712 100644
---- a/net/xfrm/xfrm_interface_bpf.c
-+++ b/net/xfrm/xfrm_interface_bpf.c
-@@ -105,6 +105,6 @@ static const struct btf_kfunc_id_set xfrm_interface_kfunc_set = {
- 
- int __init register_xfrm_interface_bpf(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS,
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC,
- 					 &xfrm_interface_kfunc_set);
- }
-diff --git a/net/xfrm/xfrm_state_bpf.c b/net/xfrm/xfrm_state_bpf.c
-index 2248eda741f8..90a3a245c6de 100644
---- a/net/xfrm/xfrm_state_bpf.c
-+++ b/net/xfrm/xfrm_state_bpf.c
-@@ -129,6 +129,6 @@ static const struct btf_kfunc_id_set xfrm_state_xdp_kfunc_set = {
- 
- int __init register_xfrm_state_bpf(void)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
-+	return register_btf_kfunc_id_set(BTF_KFUNC_HOOK_XDP,
- 					 &xfrm_state_xdp_kfunc_set);
- }
-diff --git a/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c b/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-index 3687a40b61c6..fbb4d739597d 100644
---- a/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-+++ b/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.c
-@@ -1088,10 +1088,10 @@ static int bpf_testmod_init(void)
- 	void **tramp;
- 	int ret;
- 
--	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_UNSPEC, &bpf_testmod_common_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SCHED_CLS, &bpf_testmod_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING, &bpf_testmod_kfunc_set);
--	ret = ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_SYSCALL, &bpf_testmod_kfunc_set);
-+	ret = register_btf_kfunc_id_set(BTF_KFUNC_HOOK_COMMON, &bpf_testmod_common_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TC, &bpf_testmod_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_TRACING, &bpf_testmod_kfunc_set);
-+	ret = ret ?: register_btf_kfunc_id_set(BTF_KFUNC_HOOK_SYSCALL, &bpf_testmod_kfunc_set);
- 	ret = ret ?: register_bpf_struct_ops(&bpf_bpf_testmod_ops, bpf_testmod_ops);
- 	ret = ret ?: register_bpf_struct_ops(&bpf_testmod_ops2, bpf_testmod_ops2);
- 	ret = ret ?: register_btf_id_dtor_kfuncs(bpf_testmod_dtors,
--- 
-2.45.2
-
+--=20
+paul-moore.com
