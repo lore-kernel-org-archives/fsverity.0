@@ -1,109 +1,150 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51C117836E
-	for <fsverity@lists.linux.dev>; Tue, 20 Aug 2024 06:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252821C6F51;
+	Tue,  1 Oct 2024 15:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724135678; cv=none; b=pc9xGxn52T4VRfA+RpPQlxvubpWmXVV0XYSAlWwrAvnz8AEs56AoylV5dlNgCi108id+LOsATRiStaEL5nTluxYj1yeUaYdEWeQsklCEZPr80IAMIRFGh4/4gs8mwv/lC9uyBMdFOIFCrSd5uYvYQSLMs4EedJVxDuGluKcWEWs=
+	t=1727797160; cv=none; b=oON7yQiZtECOlbFRvgGVkhCLMtrlI3g9/RbsP+pTTEzLEB1T662TYsIOw54aBqajd3//5uvExqaL5WXZOrV2U+hAS/23ZAqJyRT3EYdXpM2zoMb/U6iwdFgV+93Vo3qkSkDAf8mE886ia4wEVRDC6v/FotyXxMwN1IgIcRkKwz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724135678; c=relaxed/simple;
-	bh=Cp3w7kkVxT1uWBiSkJuqzh8y0qcCGvAe5kQ4ewJ5zHg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GfsLQmtZSm7z2jSXHOsjvPS+9Ja6/bTtivGY2/H7+JErL2neFRIufa0J2XFQypVtKU7TkL6fSOAmQ5CSUJogPBoKC1VzRe8dXXn6ydrD7ztVL7UE+Unxqqmn+RuNXqeyXHASE32gWmsBzeaxGpRF49+qjqtDNc5Yp8aPuBoi8K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m7MV9SN+; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727797160; c=relaxed/simple;
+	bh=SohKAUfLV7IzJXvpfUahCfDYMFsDrTqFD0/Qs1d6Vqs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LzKzF2CbilTbqLxOgv/ynJFU2pynonVRKO3rzEF2NTtjgsjAcms4cWXVrSvLio/FkdDMCH+8qi9ejuTTwS35diKPf/4hpkZ3BKWqH5zLEF0AMpMD7pwHnPeb6l9MDctKyCtzqdgR//mr1/eut4j+To6e6QJ65ItO8TDhU0V3O9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFclFuvp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m7MV9SN+"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4280bca3960so44799185e9.3
-        for <fsverity@lists.linux.dev>; Mon, 19 Aug 2024 23:34:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724135675; x=1724740475; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cp3w7kkVxT1uWBiSkJuqzh8y0qcCGvAe5kQ4ewJ5zHg=;
-        b=m7MV9SN+1oCBjewi+mZ0xnAVbAX+Uq90mNCkIvDP9SMf8QLKVifhTbJyZkJ+fg4Hzl
-         i8PprCMBe9RiGVdqT1qX56dnk52sIUeno+3xKGxybTKRIutuBaqR7m2yq9LWUlTPNdYD
-         YJtyZz1Md03bW+VZjw/U8EOAXhmhoKRXSF7ZZ7V5osYS4pJ+QvYM9tm4Dksr+gATL3dx
-         ls6Fm5MCCWUX+4Q99sl287kwYB3qKGkRn9t55xAjtq3eUsa1ahC7B1S4wpjfANzNQCw5
-         EL+I/C+KLk7OPw3ysubQXcJGckyp1OoZU75tDXr24yHgioOfPVmFPq7rursP/YcUg0sl
-         TyqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724135675; x=1724740475;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cp3w7kkVxT1uWBiSkJuqzh8y0qcCGvAe5kQ4ewJ5zHg=;
-        b=aSlcYF4K3BOflmPlzY89I/9+Co4lLE0XZUDFk4oPLoCaXOqCEwNF+LtE9gdezf94Es
-         nok2N2ZSiFm7FBQgO6/ZCpsboBTBjVu/JfN2yjOgRnX5kE1UyL5nfe5vsZw2OLBPF23a
-         IIITjABrMhB1vb3phlIwb/FkqLfJVHg43UZcyjwE+m0CBwMWZPdocaBNDZBOqwiVWOwN
-         4Bm4e5UgPdG3RhjuAiSe026HUVObHzoaBmG10ESLFKGQA3NPwhdERFMp9BIg5CjlnOMn
-         8BQZJZdzRej6cD2Ud9Lp21lJ47jXiEMlEeHE35KvlcTWYIGsXTyDM70sHwE+g6Pa8Dx2
-         VFmg==
-X-Forwarded-Encrypted: i=1; AJvYcCVbup0tDr8ZKTM+QAI/1j+zpD8Vcn0AYrXMLk0slBo7ZbfiD+lwgfh3AFNHlV2oU6n7TzmjqJ7HVw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwAI1ldPHIEMfGy7WNlQFtFTRJ+aFI8CZ3+23XsXY2pq8/TrVzt
-	Iq2MLvamwQrdwxdfmPjVbjK7WJT4rHHRto7K4XltfSkmzx/qNJhB57tWVP/kbTpPQ04QJslrJDu
-	34YbcdKKQtEBLticKoyPp0ADp9wk=
-X-Google-Smtp-Source: AGHT+IF6za5LfGR9PignCMfdAU4RNKydBE/DzDRowSAFw6jEwJKhTPBuMISHwbyJUdIMUQaOdSTMFb1oGckbgA2aLOw=
-X-Received: by 2002:a05:600c:3ba5:b0:426:6667:5c42 with SMTP id
- 5b1f17b1804b1-429ed7856camr83213885e9.4.1724135674405; Mon, 19 Aug 2024
- 23:34:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aFclFuvp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F181C4CEC6;
+	Tue,  1 Oct 2024 15:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727797159;
+	bh=SohKAUfLV7IzJXvpfUahCfDYMFsDrTqFD0/Qs1d6Vqs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aFclFuvpEBpcM7lzq45poOnrpcXgakd7NUms9f4tP2tmMXKwMX3xVLQH//aJ2ELwY
+	 TwsWF3R3rmEcfhzNaG+u/78GpCwEoS6SCnSjbjfPMoH+dAla2eaG4uEnXydONtY8P+
+	 9cgENhCzUXFnx0SiMgxib2iXun4B0Of0/0j/lzVvdbzeHsAGxckQ+o1Jz2MhnYlfWS
+	 mjpmksmEcKMr0/ftnZdzVhGODAQ6iwWveOtFhCIRyTeDM/eTodXl/7h2bkWXHNv0PX
+	 cx8bnenb/32+ymWnQ63p8nTFjf071HOVyfVXD06xy1qPT1gi3S452Wt57tHotRwl8c
+	 RVO0jIOM2Gyjw==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-crypto@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	dm-devel@lists.linux.dev
+Cc: x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>
+Subject: [PATCH v7 0/7] Optimize dm-verity and fsverity using multibuffer hashing
+Date: Tue,  1 Oct 2024 08:37:11 -0700
+Message-ID: <20241001153718.111665-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240820000245.61787-1-technoboy85@gmail.com>
-In-Reply-To: <20240820000245.61787-1-technoboy85@gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 20 Aug 2024 08:34:23 +0200
-Message-ID: <CAADnVQKYLu4gW95gK=kbFUCT+vCZtb595vdd5jVNVzcLn7qsiw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] bpf: use kfunc hooks instead of program types
-To: Matteo Croce <technoboy85@gmail.com>
-Cc: bpf <bpf@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Matt Bobrowski <mattbobrowski@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	David Ahern <dsahern@kernel.org>, Pablo Neira Ayuso <pablo@netfilter.org>, 
-	Jozsef Kadlecsik <kadlec@netfilter.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Shuah Khan <shuah@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, 
-	fsverity@lists.linux.dev, 
-	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, 
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
-	Network Development <netdev@vger.kernel.org>, netfilter-devel <netfilter-devel@vger.kernel.org>, 
-	coreteam@netfilter.org, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Matteo Croce <teknoraver@meta.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 20, 2024 at 2:03=E2=80=AFAM Matteo Croce <technoboy85@gmail.com=
-> wrote:
->
-> From: Matteo Croce <teknoraver@meta.com>
->
-> Pass to register_btf_kfunc_id_set() a btf_kfunc_hook directly, instead
-> of a bpf_prog_type.
-> Many program types share the same kfunc hook, so some calls to
-> register_btf_kfunc_id_set() can be removed.
->
-> Tested compiling the kernel with -Werror=3Denum-conversion to catch all
-> the occourrences.
->
-> Signed-off-by: Matteo Croce <teknoraver@meta.com>
+On many modern CPUs, it is possible to compute the SHA-256 hash of two
+equal-length messages in about the same time as a single message, if all
+the instructions are interleaved.  This is because each SHA-256 (and
+also most other cryptographic hash functions) is inherently serialized
+and therefore can't always take advantage of the CPU's full throughput.
 
-I think it's too soon to do this kind of cleanup.
-We need to refactor this logic to accommodate sched-ext
-allow/deny pattern for kfunc per struct-ops hook.
-Let's keep this code as-is for now.
-pw-bot: cr
+An earlier attempt to support multibuffer hashing in Linux was based
+around the ahash API.  That approach had some major issues, as does the
+alternative ahash-based approach proposed by Herbert (see my response at
+https://lore.kernel.org/linux-crypto/20240610164258.GA3269@sol.localdomain/).
+This patchset instead takes a much simpler approach of just adding a
+synchronous API for hashing equal-length messages.
+
+This works well for dm-verity and fsverity, which use Merkle trees and
+therefore hash large numbers of equal-length messages.
+
+This patchset is organized as follows:
+
+- Patch 1-2 add crypto_shash_finup_mb() and tests for it.
+- Patch 3-4 implement finup_mb on x86_64 and arm64, using an
+  interleaving factor of 2.
+- Patch 5 adds multibuffer hashing support to fsverity.
+- Patch 6-7 add multibuffer hashing support to dm-verity.
+
+This patchset increases raw SHA-256 hashing throughput by up to 98%,
+depending on the CPU (see patches for per-CPU results).  The throughput
+of cold-cache reads from dm-verity and fsverity increases by around 35%.
+
+Changed in v7:
+  - Rebased onto v6.12-rc1 and dropped patches that were upstreamed.
+  - Added performance results for more CPUs.
+
+Changed in v6:
+  - All patches: added Reviewed-by and Acked-by tags
+  - "crypto: testmgr - add tests for finup_mb": Whitespace fix
+  - "crypto: testmgr - generate power-of-2 lengths more often":
+    Fixed undefined behavior
+  - "fsverity: improve performance by using multibuffer hashing":
+    Simplified a comment
+  - "dm-verity: reduce scope of real and wanted digests":
+    Fixed mention of nonexistent function in commit message
+  - "dm-verity: improve performance by using multibuffer hashing":
+    Two small optimizations, and simplified a comment
+
+Changed in v5:
+  - Reworked the dm-verity patches again.  Split the preparation work
+    into separate patches, fixed two bugs, and added some new cleanups.
+  - Other small cleanups
+
+Changed in v4:
+  - Reorganized the fsverity and dm-verity code to have a unified code
+    path for single-block vs. multi-block processing.  For data blocks
+    they now use only crypto_shash_finup_mb().
+
+Changed in v3:
+  - Change API from finup2x to finup_mb.  It now takes arrays of data
+    buffer and output buffers, avoiding hardcoding 2x in the API.
+
+Changed in v2:
+  - Rebase onto cryptodev/master
+  - Add more comments to assembly
+  - Reorganize some of the assembly slightly
+  - Fix the claimed throughput improvement on arm64
+  - Fix incorrect kunmap order in fs/verity/verify.c
+  - Adjust testmgr generation logic slightly
+  - Explicitly check for INT_MAX before casting unsigned int to int
+  - Mention SHA3 based parallel hashes
+  - Mention AVX512-based approach
+
+Eric Biggers (7):
+  crypto: shash - add support for finup_mb
+  crypto: testmgr - add tests for finup_mb
+  crypto: x86/sha256-ni - add support for finup_mb
+  crypto: arm64/sha256-ce - add support for finup_mb
+  fsverity: improve performance by using multibuffer hashing
+  dm-verity: reduce scope of real and wanted digests
+  dm-verity: improve performance by using multibuffer hashing
+
+ arch/arm64/crypto/sha2-ce-core.S    | 281 ++++++++++++++++++++-
+ arch/arm64/crypto/sha2-ce-glue.c    |  40 +++
+ arch/x86/crypto/sha256_ni_asm.S     | 368 ++++++++++++++++++++++++++++
+ arch/x86/crypto/sha256_ssse3_glue.c |  39 +++
+ crypto/shash.c                      |  58 +++++
+ crypto/testmgr.c                    |  73 +++++-
+ drivers/md/dm-verity-fec.c          |  19 +-
+ drivers/md/dm-verity-fec.h          |   5 +-
+ drivers/md/dm-verity-target.c       | 192 +++++++++++----
+ drivers/md/dm-verity.h              |  34 +--
+ fs/verity/fsverity_private.h        |   7 +
+ fs/verity/hash_algs.c               |   8 +-
+ fs/verity/verify.c                  | 169 ++++++++++---
+ include/crypto/hash.h               |  52 +++-
+ 14 files changed, 1224 insertions(+), 121 deletions(-)
+
+
+base-commit: 9852d85ec9d492ebef56dc5f229416c925758edc
+-- 
+2.46.2
+
