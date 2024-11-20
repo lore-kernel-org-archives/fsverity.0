@@ -1,93 +1,159 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2761E3DF6;
-	Thu, 10 Oct 2024 08:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79001E545;
+	Wed, 20 Nov 2024 05:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728548984; cv=none; b=RR7t953Ep/ZfnzFM2wtSibQE5adIrY6d/QEkB2Kd+dC9dflBIBLZSdMB58kGGGCB/r+533MhIcTi8i4O0mHW8Js5GUmOB963FtZb3wVx7UDiE0uOexhd7Q8NLmbrOUm9/FSm7kw5W3Nl0AuEBkXZJd4rnOMm011YWLT41pn9wDg=
+	t=1732081975; cv=none; b=nqpk5RxZQVffSYbFEi8yMSwcekAIV/UffMxRfdiDTMVZ55chwCXcJcMorUygl6ZETIL2+AUzej4sP93Vs4PJAXoCKemBPpOdPEQD9FxFuwdyiA0ELiOuwwmlOa/XfQQFTkcttB/xmZFBzajNSJt114oFIWayrVjOoi15ZuDwKlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728548984; c=relaxed/simple;
-	bh=ih0n5MnDNgmXeFiXjpgX3NP3LTeWznZ1HWBgx1vwbn4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=tyCZON78RaWZZd6zK+6LcBwtgtEqmhNTAJEiXsoSNfhjIb2QZ5b+4V6K9j+dhO4PIGxQlQQGLHcIMXj/pLuT4/rWa56RzldKcmu2LtkIbKYsKrdqxKOPFZi+6lV8EqdVKsy2tROgzxsC8S7mlndeW3npcKrIKAVqMKo7jY+H0K0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=bq6JuCrd; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1732081975; c=relaxed/simple;
+	bh=HhjLfZzAV2GlW3VZGQfySWZBZmERQ56RLr3tlOdBncI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KCjMiE4LoFVAZbOpaMSWZmKbi7cZP2h8wzHNZ+9/YUGYxckNtd5g/5sO6J4800t3mjYpAy8n+n1+lWQU7ufFd24qWl2MZB+hCSQ6UYkTqVnJMzQL7XUb2g8pWHbOhYlwFIRGiMBvWbOiwnXL+U96ce9x0LkdZQ3Szugn3RS4200=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kh7ZVabP; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="bq6JuCrd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:
-	From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Im59ssyjwW40lSePUqHW9DJ6MO9mRhJ4dqLRPo6b0ME=; b=bq6JuCrdgBWvh+jknAK3i18pxX
-	sb9eEjs+sZ0EZpOb1nDSzjVofphRDHVqDqlMtnyrGKaLSKLKBvu3VLZnEdcBTjVgQKntrYjldsuPi
-	mEY0DP6ZncCaVUBeBmMA6aUO7q/jMPFHrRB5LGgvnl5bmnRnaJO0DYbDggGrzr5YfX1efojBJs6Hg
-	dqa4JGAdhoF1G2La5c+tjNba81t3ZMyvLJbyOZ0NE8qXmg7IamByzBy/FvkbTEeRwFmPh1t5qEQjx
-	enCZEHA1Drc60IEU6M5AwE7/VwavOs+78etJylYFA54ygtNBc/vJ9UakcF0FmSYtqXYjNuX2Jr4S6
-	kI8OkFlA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1syoOJ-008HBz-2U;
-	Thu, 10 Oct 2024 16:29:38 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Thu, 10 Oct 2024 16:29:37 +0800
-Date: Thu, 10 Oct 2024 16:29:37 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-crypto@vger.kernel.org, fsverity@lists.linux.dev,
-	dm-devel@lists.linux.dev, x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org, ardb@kernel.org,
-	samitolvanen@google.com, agk@redhat.com, snitzer@kernel.org,
-	mpatocka@redhat.com
-Subject: Re: [PATCH v7 1/7] crypto: shash - add support for finup_mb
-Message-ID: <ZweQcXZV9kUGgVrO@gondor.apana.org.au>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kh7ZVabP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=jr9WLGkJrrZOa98eYcd077ebF/TWB7trxnSnvwKlbOA=; b=kh7ZVabPW5MmiXgGZnnRsh4lkh
+	Gg1CIt2l7b5iHBPiouaBLfNYV01fDd0h5SqmXhjsLrZ8dDFYnxnSfrortlmqNYXMq1X4BrNkbLTkQ
+	ppa4U+c5/YOt5Si1+Lv53bfvTktL4UckV7fCMB0+55GUs/s9S/iQ5iEPsfMnMIJGEjmMTehHroyf1
+	kAPqZYhMI9Gy4xW6nJAKx/Ky91oKFFuIQpp4TPDlVCzMReUs01J/vLUUAm1G+nXn6tEM+YGY2PnXs
+	+XQMNjd7a9gnA3KfsMSVxUxVdXe0FesnCvQQg42PSKg7V+ofsoBMio1mkTctA03W6o1F9kHnsN7ur
+	ZSLQ/mkQ==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tDddx-0000000ESJw-0Ma0;
+	Wed, 20 Nov 2024 05:52:49 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	Ian Kent <raven@themaw.net>,
+	autofs@vger.kernel.org,
+	Alexander Aring <aahringo@redhat.com>,
+	David Teigland <teigland@redhat.com>,
+	gfs2@lists.linux.dev,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	fsverity@lists.linux.dev,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	ocfs2-devel@lists.linux.dev
+Subject: [PATCH] Documentation: filesystems: update filename extensions
+Date: Tue, 19 Nov 2024 21:52:46 -0800
+Message-ID: <20241120055246.158368-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241001153718.111665-2-ebiggers@kernel.org>
-X-Newsgroups: apana.lists.os.linux.cryptoapi
+Content-Transfer-Encoding: 8bit
 
-Eric Biggers <ebiggers@kernel.org> wrote:
-> 
-> Linux actually used to support SHA-256 multibuffer hashing on x86_64,
-> before it was removed by commit ab8085c130ed ("crypto: x86 - remove SHA
-> multibuffer routines and mcryptd").  However, it was integrated with the
-> crypto API in a weird way, where it behaved as an asynchronous hash that
-> queued up and executed all requests on a global queue.  This made it
-> very complex, buggy, and virtually unusable.
-> 
-> This patch takes a new approach of just adding an API
-> crypto_shash_finup_mb() that synchronously computes the hash of multiple
-> equal-length messages, starting from a common state that represents the
-> (possibly empty) common prefix shared by the messages.
+Update references to most txt files to rst files.
+Update one reference to an md file to a rst file.
+Update one file path to its current location.
 
-I absolutely love the multi-buffer idea that you've come up with.
-But (as you know) I dislike the shash implementation.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Ian Kent <raven@themaw.net>
+Cc: autofs@vger.kernel.org
+Cc: Alexander Aring <aahringo@redhat.com>
+Cc: David Teigland <teigland@redhat.com>
+Cc: gfs2@lists.linux.dev
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Theodore Y. Ts'o <tytso@mit.edu>
+Cc: fsverity@lists.linux.dev
+Cc: Mark Fasheh <mark@fasheh.com>
+Cc: Joel Becker <jlbec@evilplan.org>
+Cc: Joseph Qi <joseph.qi@linux.alibaba.com>
+Cc: ocfs2-devel@lists.linux.dev
+---
+ Documentation/filesystems/autofs.rst                 |    2 +-
+ Documentation/filesystems/dlmfs.rst                  |    2 +-
+ Documentation/filesystems/fsverity.rst               |    2 +-
+ Documentation/filesystems/path-lookup.rst            |    2 +-
+ Documentation/filesystems/path-lookup.txt            |    2 +-
+ Documentation/filesystems/ramfs-rootfs-initramfs.rst |    2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-I'm almost there with the ahash version of this, there's just a few
-corner cases I need to cover due to the addition of virt address
-support to ahash.  Incidentally this also means that I'm going to
-scrap lskcipher and redo it as a normal skcipher with virt address
-support.
-
-BTW, I just discovered a new application for this.  The marvell/cesa
-driver wants to chain multiple hash requests together to reduce IRQs
-and improve efficiency.  It was doing some ad-hoc (and possibly buggy)
-chaining in its queueing code to achieve this.
-
-I think having a chained submission interface solves this in a much
-nicer way.  The driver could then simply pick up a submission chain,
-transform it, and then feed it directly to the hardware.
-
-Cheers,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+--- linux-next-20241119.orig/Documentation/filesystems/autofs.rst
++++ linux-next-20241119/Documentation/filesystems/autofs.rst
+@@ -442,7 +442,7 @@ which can be used to communicate directl
+ It requires CAP_SYS_ADMIN for access.
+ 
+ The 'ioctl's that can be used on this device are described in a separate
+-document `autofs-mount-control.txt`, and are summarised briefly here.
++document `autofs-mount-control.rst`, and are summarised briefly here.
+ Each ioctl is passed a pointer to an `autofs_dev_ioctl` structure::
+ 
+         struct autofs_dev_ioctl {
+--- linux-next-20241119.orig/Documentation/filesystems/dlmfs.rst
++++ linux-next-20241119/Documentation/filesystems/dlmfs.rst
+@@ -36,7 +36,7 @@ None
+ Usage
+ =====
+ 
+-If you're just interested in OCFS2, then please see ocfs2.txt. The
++If you're just interested in OCFS2, then please see ocfs2.rst. The
+ rest of this document will be geared towards those who want to use
+ dlmfs for easy to setup and easy to use clustered locking in
+ userspace.
+--- linux-next-20241119.orig/Documentation/filesystems/fsverity.rst
++++ linux-next-20241119/Documentation/filesystems/fsverity.rst
+@@ -16,7 +16,7 @@ btrfs filesystems.  Like fscrypt, not to
+ code is needed to support fs-verity.
+ 
+ fs-verity is similar to `dm-verity
+-<https://www.kernel.org/doc/Documentation/device-mapper/verity.txt>`_
++<https://www.kernel.org/doc/Documentation/admin-guide/device-mapper/verity.rst>`_
+ but works on files rather than block devices.  On regular files on
+ filesystems supporting fs-verity, userspace can execute an ioctl that
+ causes the filesystem to build a Merkle tree for the file and persist
+--- linux-next-20241119.orig/Documentation/filesystems/path-lookup.rst
++++ linux-next-20241119/Documentation/filesystems/path-lookup.rst
+@@ -531,7 +531,7 @@ this retry process in the next article.
+ Automount points are locations in the filesystem where an attempt to
+ lookup a name can trigger changes to how that lookup should be
+ handled, in particular by mounting a filesystem there.  These are
+-covered in greater detail in autofs.txt in the Linux documentation
++covered in greater detail in autofs.rst in the Linux documentation
+ tree, but a few notes specifically related to path lookup are in order
+ here.
+ 
+--- linux-next-20241119.orig/Documentation/filesystems/ramfs-rootfs-initramfs.rst
++++ linux-next-20241119/Documentation/filesystems/ramfs-rootfs-initramfs.rst
+@@ -315,7 +315,7 @@ the above threads) is:
+ 2) The cpio archive format chosen by the kernel is simpler and cleaner (and
+    thus easier to create and parse) than any of the (literally dozens of)
+    various tar archive formats.  The complete initramfs archive format is
+-   explained in buffer-format.txt, created in usr/gen_init_cpio.c, and
++   explained in buffer-format.rst, created in usr/gen_init_cpio.c, and
+    extracted in init/initramfs.c.  All three together come to less than 26k
+    total of human-readable text.
+ 
+--- linux-next-20241119.orig/Documentation/filesystems/path-lookup.txt
++++ linux-next-20241119/Documentation/filesystems/path-lookup.txt
+@@ -379,4 +379,4 @@ Papers and other documentation on dcache
+ 
+ 2. http://lse.sourceforge.net/locking/dcache/dcache.html
+ 
+-3. path-lookup.md in this directory.
++3. path-lookup.rst in this directory.
