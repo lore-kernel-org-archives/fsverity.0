@@ -1,96 +1,94 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5F415CD60;
-	Fri, 22 Nov 2024 17:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BEE18B47C
+	for <fsverity@lists.linux.dev>; Mon, 25 Nov 2024 08:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732296844; cv=none; b=H76Tb9ZiArVF9M0l3GpNBUXg/hl+cF5RG4DH7IW09pmzu2OPO5c0QP3pK37OlQ42rOeyui1yxGYMfJw5oB5ns/3SLCJou1qqDue3kkhY8qvsK7e3Agv0VL0qDePgwYuStqd0ov15U/lXC3tEa7DbeWz1D+g/v+Mw5xYVeqQZ1aU=
+	t=1732524169; cv=none; b=QHGK0Qafyko1B+Tlz+bh8IZLpnHVKr4A51O/EGt9s61evuzuW3uItp1Xd9W2SICTRm9nAm7zq9PAUFCHxnkVF7JBeI67ST60GApk9CU/qrqb0eTIXnVckQ3CsTlXyPQE1C1pn8hRNF37JUv7gciCGHJwnm0KEaGzc7FQapM8+aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732296844; c=relaxed/simple;
-	bh=2sHi/a+0wuB3fqVGPacRh7HtzqPdmGXg+wZjiwrdo48=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bvaw10jcD3LAl7PEgEDma21UWD0J8lrrRg13Rm3vLrY3SvGmXtQO6A4NjR/J+At0g8Yh6Mj+vwtY38ZJH2fV2aUrjyNWW5nXBL73AqUMEeghYZO8VG1C4y2ThgXSaJQu1V+OZPLBzZe+wXojlLQt/hL/I8ygxn3Vat7dO7vqZyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CzKMkrcE; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1732524169; c=relaxed/simple;
+	bh=e5Cjyx5A0Necq0mJdOMMbroPaULHvnBhTFMzPX11pBo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AA1N+hrNnVqfh7InVAtNcbGwoF1y1rQ3w3UX9pS64w8w3gzDTikrHpFXgNLYHF0H8+YEHogsDLShGgWdFQuDdZ4Hxw4uxdeFZYvt2bm1/lai5uxVdKVga2OLWnIFNCPJtA8ayzx8avQ2pOWeLHOxb9hLdNhuQcxFZhdgee8jY2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=InMTAUxR; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CzKMkrcE"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EAE50403E9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1732296842; bh=mGnMSq8J7sgcF7jpZFZz2wdJr2vNucWms4i6GJBNlr4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CzKMkrcEB78tvbB+uNDHs6JKg5GQNVTEx1w2hx/9rV/OF9s318qZQFEzh5gEJ1i9J
-	 xeeISVRGAI/t9weGAbhP0Ih4vdiWsI3OQNtbv0PkabR36nFYYTZ3min3X8noudj0er
-	 E6wUPzaqmsNXvCisyLpCCgBExaBQ5BE6+X9TRVCF1ni2m5m3VD4HepkXeIfPZKagFu
-	 m4o+GWOf7ONpauAy6knmowpDQ/PF/cpFzMTK1GSnykkxdAe0kD2J4iS2vkLZWOoDFR
-	 eS1M66WYy2smr9XGJe+QJTZsrtUuHRsM8vMPeWwOBngiBaD9BgG+/2AStIeM1oC8tk
-	 4KHMwCrcC+tKg==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="InMTAUxR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732524167;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VfdCAaP3/vRfI2OC8oL1fh5qtOJvB6UMqMWhM374ZCY=;
+	b=InMTAUxR45qhxlvIHo8pYACOFug65tXCx791tEB8Rbj2/5BScvMKhqP7UHO79q8G/AID6I
+	kgtktK1nmo510K93jU5HNKz5HLhsayEfHntej3w6z3ZRzBXI1z1pb35NvAfm6Kzyvz5LES
+	8hswbBSUBSclU9ZRtH9YgM7aXeQ8vIQ=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-593-NYl4axT0PHWbViomINw-2w-1; Mon,
+ 25 Nov 2024 03:42:43 -0500
+X-MC-Unique: NYl4axT0PHWbViomINw-2w-1
+X-Mimecast-MFC-AGG-ID: NYl4axT0PHWbViomINw-2w
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EAE50403E9;
-	Fri, 22 Nov 2024 17:34:01 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Ian Kent <raven@themaw.net>,
- autofs@vger.kernel.org, Alexander Aring <aahringo@redhat.com>, David
- Teigland <teigland@redhat.com>, gfs2@lists.linux.dev, Eric Biggers
- <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- fsverity@lists.linux.dev, Mark Fasheh <mark@fasheh.com>, Joel Becker
- <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
- ocfs2-devel@lists.linux.dev
-Subject: Re: [PATCH] Documentation: filesystems: update filename extensions
-In-Reply-To: <20241120055246.158368-1-rdunlap@infradead.org>
-References: <20241120055246.158368-1-rdunlap@infradead.org>
-Date: Fri, 22 Nov 2024 10:34:01 -0700
-Message-ID: <874j3z41h2.fsf@trenco.lwn.net>
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F288619560AD;
+	Mon, 25 Nov 2024 08:42:41 +0000 (UTC)
+Received: from toolbx.fritz.box (unknown [10.39.194.41])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E837330000DF;
+	Mon, 25 Nov 2024 08:42:39 +0000 (UTC)
+From: Allison Karlitskaya <allison.karlitskaya@redhat.com>
+To: Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y . Ts'o" <tytso@mit.edu>
+Cc: linux-btrfs@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	Allison Karlitskaya <allison.karlitskaya@redhat.com>
+Subject: [PATCH] btrfs: add FS_IOC_READ_VERITY_METADATA ioctl
+Date: Mon, 25 Nov 2024 09:41:11 +0100
+Message-ID: <20241125084111.141386-1-allison.karlitskaya@redhat.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+e17fe6579de0 introduced FS_IOC_READ_VERITY_METADATA to directly query
+the Merkle tree, descriptor and signature blocks for fs-verity enabled
+files.  It also added the ioctl implementation to ext4 and f2fs, but
+seems to have forgotten about btrfs.
 
-> Update references to most txt files to rst files.
-> Update one reference to an md file to a rst file.
-> Update one file path to its current location.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: Ian Kent <raven@themaw.net>
-> Cc: autofs@vger.kernel.org
-> Cc: Alexander Aring <aahringo@redhat.com>
-> Cc: David Teigland <teigland@redhat.com>
-> Cc: gfs2@lists.linux.dev
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Theodore Y. Ts'o <tytso@mit.edu>
-> Cc: fsverity@lists.linux.dev
-> Cc: Mark Fasheh <mark@fasheh.com>
-> Cc: Joel Becker <jlbec@evilplan.org>
-> Cc: Joseph Qi <joseph.qi@linux.alibaba.com>
-> Cc: ocfs2-devel@lists.linux.dev
-> ---
->  Documentation/filesystems/autofs.rst                 |    2 +-
->  Documentation/filesystems/dlmfs.rst                  |    2 +-
->  Documentation/filesystems/fsverity.rst               |    2 +-
->  Documentation/filesystems/path-lookup.rst            |    2 +-
->  Documentation/filesystems/path-lookup.txt            |    2 +-
->  Documentation/filesystems/ramfs-rootfs-initramfs.rst |    2 +-
->  6 files changed, 6 insertions(+), 6 deletions(-)
+Add the (trival) implementation for btrfs: we just need to wire it
+through to the fs-verity code, the same way as was done for the other
+two filesystems.  The fs-verity code already has access to the required
+data.
 
-Applied, thanks.
+FS_IOC_READ_VERITY_METADATA remains unimplemented for FUSE, but
+implementing it there would be more involved.
 
-jon
+Signed-off-by: Allison Karlitskaya <allison.karlitskaya@redhat.com>
+---
+ fs/btrfs/ioctl.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+index c9302d193187..392322a70ce8 100644
+--- a/fs/btrfs/ioctl.c
++++ b/fs/btrfs/ioctl.c
+@@ -5290,6 +5290,8 @@ long btrfs_ioctl(struct file *file, unsigned int
+ 		return fsverity_ioctl_enable(file, (const void __user *)argp);
+ 	case FS_IOC_MEASURE_VERITY:
+ 		return fsverity_ioctl_measure(file, argp);
++	case FS_IOC_READ_VERITY_METADATA:
++		return fsverity_ioctl_read_metadata(file, argp);
+ 	case BTRFS_IOC_ENCODED_READ:
+ 		return btrfs_ioctl_encoded_read(file, argp, false);
+ 	case BTRFS_IOC_ENCODED_WRITE:
+-- 
+2.47.0
+
