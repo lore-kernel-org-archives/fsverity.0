@@ -1,99 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7050A9454;
-	Tue, 26 Nov 2024 02:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0238117BA0
+	for <fsverity@lists.linux.dev>; Tue, 26 Nov 2024 08:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732588395; cv=none; b=R6nfDsfJL5oLJBAtp5Hc7x4gu4OQ3B2FloZd5gyIwUn1lunfJIS8lHfi/GQNQV7PC8w3p4NTsGagpQeQGxBhdUQbFChkpCPgm/NDWsnJHsIAhTpShF0h2qTV7FmWW+r6N9pNZXL6QrIDVwMkQpxj/NZdz6nM9gaWcu9mvowR2Dk=
+	t=1732611055; cv=none; b=AhMs4XalemK6J4SOaVbZtRdqzuglCQPeLLxhTHvIFlHIhL07IBfdWlK8eITll3PIIOis6HcBeSVP4I3CjtqEM/OFF3qk1DZEvXTyYJshqU2YfjKMxaDEhybfZHEZltosN45/PVk+/EXw1wsxHiOIIGEoRgUE6GP0lu7+EzW0na8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732588395; c=relaxed/simple;
-	bh=h2/5GOftG0OYXcw1yjUbii2ie2yHBv7jjaduTgfM7b4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l4h1SCRdHY5h1nRlIBlmYAsYrTmJ7HnDeMfpO/QMSH+IuhVF3m22YpE3OnKZ2ONfQ08DEMg+M+OfFnu+BUtxLU+yIqFw1cPzzhTyM9cV1szVA2cXceF9Fix1KMv4tDnJT3E2WHbgKzxJebupQtf4JP7n4ORr+OKnH42bBAfm3rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EN7CrrTv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732611055; c=relaxed/simple;
+	bh=IUhwwt+ITIX4SPkoM87abxZfmerRNWd6+ZyHckcNp4Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:content-type; b=tRI+splgEBuzS/PfEtsLGFlfU0+PW1MOIAFLVjJSrNxpvL7MHiKbVjYzLXJrjTLu6Jv9ovdpmQLSFm7vmDdgbV3gKo+/H9B/EE+tl2a99dViF8D+upCxTeEc8iZ+y9n84P230O5c8x9Bl4gFps+mQVbAl8PBdBV79NWWEF8/MfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TFKTZ2V1; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EN7CrrTv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C16C4CECE;
-	Tue, 26 Nov 2024 02:33:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732588394;
-	bh=h2/5GOftG0OYXcw1yjUbii2ie2yHBv7jjaduTgfM7b4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EN7CrrTvxBnDfv5wqp5CB4AuZzxwLQLNOMorJX0Zf20RtNG42ffzUQxrSUZ3KJgbx
-	 KS8v5YKPachma08nLJR9dklq5dKgIAP4X58ZvqtWOYfcHUDZimfVD7+H9ehT+5JR7A
-	 m5oQOHE0UWmg6jOK1RGbQSm+las/lCf1qmhJAYlD9Byy9oxKkFuM6N77Un3kctN4DD
-	 YYn58l4wcG0JoIv95kYRfsiFXq3SjrErEsvuKyeDEZUrAAzYGwC5Xmw3KXv8qEAZNv
-	 XrIU6991LSiI0NzGRy8Jwal3aFUvwB4VI1PROlD5XDW2uuBq5zNkaI6pL5mnfErALI
-	 Ji6nC6yYVTnew==
-Date: Tue, 26 Nov 2024 02:33:13 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Allison Karlitskaya <allison.karlitskaya@redhat.com>
-Cc: "Theodore Y . Ts'o" <tytso@mit.edu>, linux-btrfs@vger.kernel.org,
-	fsverity@lists.linux.dev
-Subject: Re: [PATCH] btrfs: add FS_IOC_READ_VERITY_METADATA ioctl
-Message-ID: <20241126023313.GA3095319@google.com>
-References: <20241125084111.141386-1-allison.karlitskaya@redhat.com>
- <20241125181117.GB1242949@google.com>
- <CAOYeF9W0BUAkrAf0LTpKiD_Au5W8OUdeBZAdDOYxu=HLbC=jHQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TFKTZ2V1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732611052;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/8zf0IBOqjP1m87T0wdS5BOeWr+jryQc1HjiPPmPRzo=;
+	b=TFKTZ2V141CuYBCdF9xkK8ulLTyqfArw++Uy2ajc4FSMIpk0qUQ25IE0bPbYAkDquPwP2z
+	jIiiOZTgRZZphLsdELodNKlNifqjSywewe3NCIrRdZqIc371A7ErrNobjC+e4CicCxkn3U
+	kod6hmBjUiEtbVfwvY7DlAl9rMWoMnc=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-74-41xFrCeDMaiQYmBR3ochhQ-1; Tue,
+ 26 Nov 2024 03:50:49 -0500
+X-MC-Unique: 41xFrCeDMaiQYmBR3ochhQ-1
+X-Mimecast-MFC-AGG-ID: 41xFrCeDMaiQYmBR3ochhQ
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 17B13195395B;
+	Tue, 26 Nov 2024 08:50:48 +0000 (UTC)
+Received: from toolbx.redhat.com (unknown [10.39.193.207])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 97E8E30000DF;
+	Tue, 26 Nov 2024 08:50:45 +0000 (UTC)
+From: Allison Karlitskaya <allison.karlitskaya@redhat.com>
+To: Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y . Ts'o" <tytso@mit.edu>
+Cc: fsverity@lists.linux.dev,
+	Allison Karlitskaya <allison.karlitskaya@redhat.com>
+Subject: [PATCH] Documentation: add a usecase for FS_IOC_READ_VERITY_METADATA
+Date: Tue, 26 Nov 2024 09:48:33 +0100
+Message-ID: <20241126084833.70538-1-allison.karlitskaya@redhat.com>
+In-Reply-To: <20241126023313.GA3095319@google.com>
+References: <20241126023313.GA3095319@google.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOYeF9W0BUAkrAf0LTpKiD_Au5W8OUdeBZAdDOYxu=HLbC=jHQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: AygnIvbfBfcLG1ziShgPCMIsytbj5Oqcwz9bP6Ts-Nc_1732611048
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Mon, Nov 25, 2024 at 09:06:25PM +0100, Allison Karlitskaya wrote:
-> hi Eric,
-> 
-> Thanks for the reply.
-> 
-> On Mon, 25 Nov 2024 at 19:11, Eric Biggers <ebiggers@kernel.org> wrote:
-> > At the time, btrfs did not support fs-verity.
-> 
-> Oops.  I missed that detail. :)  I wonder why they did the
-> implementation without the metadata ioctl, then...
-> 
-> Would you like me to change the commit message?  (or feel free to do
-> it yourself...)
+Mention another potential usecase for FS_IOC_READ_VERITY_METADATA:
+creating filesystem images which contain fs-verity-enabled files,
+without having to redo all of the work in userspace.
 
-Please go ahead and update it.  Thanks!
+Signed-off-by: Allison Karlitskaya <allison.karlitskaya@redhat.com>
+---
+ Documentation/filesystems/fsverity.rst | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-BTW, I recommend that this be taken through the btrfs tree.
+diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
+index 0e2fac7a16da..8bcded27b517 100644
+--- a/Documentation/filesystems/fsverity.rst
++++ b/Documentation/filesystems/fsverity.rst
+@@ -248,11 +248,17 @@ FS_IOC_READ_VERITY_METADATA
+ The FS_IOC_READ_VERITY_METADATA ioctl reads verity metadata from a
+ verity file.  This ioctl is available since Linux v5.12.
+ 
+-This ioctl allows writing a server program that takes a verity file
+-and serves it to a client program, such that the client can do its own
+-fs-verity compatible verification of the file.  This only makes sense
+-if the client doesn't trust the server and if the server needs to
+-provide the storage for the client.
++This ioctl is useful for cases where the verity verification should be
++performed somewhere other than the currently running kernel.
++
++One example is a server program that takes a verity file and serves it
++to a client program, such that the client can do its own fs-verity
++compatible verification of the file. This only makes sense if the
++client doesn't trust the server and if the server needs to provide the
++storage for the client.
++
++Another example is copying verity metadata when creating filesystem
++images in userspace (such as with `mkfs.ext4 -d`).
+ 
+ This is a fairly specialized use case, and most fs-verity users won't
+ need this ioctl.
+-- 
+2.47.0
 
-> > This ioctl isn't too useful, but I suppose adding it to btrfs can't hurt.
-> 
-> I ran into the missing implementation because I'm trying to use it here:
->   https://github.com/tytso/e2fsprogs/pull/203
-> for the ultimate purpose of this:
->   https://github.com/containers/composefs-rs/blob/main/examples/uki/build
-> 
-> tl;dr: I'm trying to build filesystem images in user-space with
-> fs-verity-enabled files inside of them, by copying the metadata up
-> from the host filesystem.   I have btrfs on my work machine, so for me
-> this ioctl is definitely very useful at the moment. :)
-
-Hmm, interesting.  I guess that makes sense, though this wasn't an anticipated
-use case for this ioctl.  Maybe the documentation for
-FS_IOC_READ_VERITY_METADATA in Documentation/filesystems/fsverity.rst could use
-an update to mention this use case.
-
-> I guess it's not particularly relevant to verity the functioning of
-> this API, though.
-> 
-> In its place, I've included some manual tests for querying the
-> merkle_tree (both for a file that gets directly hashed into the
-> descriptor, and also for one that requires a tree layer) plus the
-> descriptors for those.  I'd really prefer if I didn't have to build
-> another kernel: my laptop isn't so beefy and this one already took
-> most of my work day...
-> 
-> Please let me know if you need any extra information.
-
-Thanks for testing it!  It should be enough for now, but in the future for
-kernel patches I'm afraid you need to get used to building kernels.
-
-- Eric
