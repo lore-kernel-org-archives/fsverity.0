@@ -1,95 +1,149 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157A41D47C1
-	for <fsverity@lists.linux.dev>; Tue, 26 Nov 2024 15:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932B21D9A76
+	for <fsverity@lists.linux.dev>; Tue, 26 Nov 2024 16:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732634669; cv=none; b=NNj6Y+JkvEXInwXEOTlGufEbIlM/kS9gjuHq+SNBpJcypD9eEvzDmSwP05Tuntgy8RtupSBq+fDiTlmeX7uEHShbxwugXZk0JBedUrGtoyVSyaS5LfBeus8vasp9bRzR+COaMweNkgoA+Id9Ca92yQP7YF5zVDpqIIOIoXDvI5A=
+	t=1732638247; cv=none; b=arm2TCE6H9ESAyxytSsiugTu4tDaxz1K0xPpstvtAv9G00+qiie4pDngcb3FaPx3aoaztJfeknXBMosEdPzKUnOr0QHK5lUgWNiJpLdecCEAQdJ+RV5fVT9Mds6bRFVXwR2yk1Lyq/De8I/RJw6tkIHuHmBfbjCqr0HhHxUeS/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732634669; c=relaxed/simple;
-	bh=0nft9+2InSXfMNHbACxebYYRMVsPma/YV3+FO83lLFI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g/6j/h88RhayvnEU8rAv+CU0J2av8UOXj6g4uWzGzb8F9fxYA0XQ8almgL8ECaHr/HCdnIYVXm0U+VIjF4d/rJQJeESbPIkhdAn2bj2veo1r9Zs81a1Kz9Eow3MdNSIvYmVU+TnTm3Z5EQ1IvJg999JsZqdMwV+2JdWrNBfJb5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XD0kxN6g; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1732638247; c=relaxed/simple;
+	bh=GOJKLlLUw5Y+CPxQP7IBKM0WmwxqKL1D0ctk/hAdHjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aV4/VefS0Zzd13JG6M0Jj9FcLU6aLvtUP0vXp/DmLZ4AOKOFi2q65VlvUWadvun+qS/FceRSeFjTqHDpR9G7fevEY3OU48JCXQf3sKOk6/e0Pppn3V4ZypHlcNJGWpTYVmQzEV8pDzKWy99tzzvo9kao1mYVHpyLXLJPmnCD7Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eWqNYyrS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZuA+4uGY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=eWqNYyrS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZuA+4uGY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XD0kxN6g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732634667;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjDx8OlXD2/WfS8jDjPYSgHlVJb6xQJh3y8DAKeGSnE=;
-	b=XD0kxN6gZAnOsb9hmSsZ7TdYFq91sNk2fJrk4WKfzWActgDoWU1v7HfW/rzmQ3pyqZfISc
-	LaaO66UEjKGKWIQdPnUXcWIdeLjXywZWIbzYS1v79i7kLceOtQ/EaaV7TNnQI9TZGrPYeV
-	tIPYVv3rJpeHNGbJ4tJdo9lFpQBY4g0=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-146-ThjAZ9pfNomGLp6x-Xjb_Q-1; Tue,
- 26 Nov 2024 10:24:23 -0500
-X-MC-Unique: ThjAZ9pfNomGLp6x-Xjb_Q-1
-X-Mimecast-MFC-AGG-ID: ThjAZ9pfNomGLp6x-Xjb_Q
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eWqNYyrS";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZuA+4uGY";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="eWqNYyrS";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZuA+4uGY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D825419560B8;
-	Tue, 26 Nov 2024 15:24:21 +0000 (UTC)
-Received: from toolbx.fritz.box (unknown [10.39.193.176])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8B4A01955F67;
-	Tue, 26 Nov 2024 15:24:19 +0000 (UTC)
-From: Allison Karlitskaya <allison.karlitskaya@redhat.com>
-To: dsterba@suse.cz
-Cc: allison.karlitskaya@redhat.com,
-	ebiggers@kernel.org,
-	fsverity@lists.linux.dev,
-	linux-btrfs@vger.kernel.org,
-	tytso@mit.edu
-Subject: [PATCH] btrfs: add FS_IOC_READ_VERITY_METADATA ioctl
-Date: Tue, 26 Nov 2024 16:23:31 +0100
-Message-ID: <20241126152331.90434-1-allison.karlitskaya@redhat.com>
-In-Reply-To: <20241126151123.GF31418@twin.jikos.cz>
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BC28D2115E;
+	Tue, 26 Nov 2024 16:24:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1732638243;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vWmWPGH6ouotSFOjlPtAPz7Oh4NOAMzdgCeLxdfVSzc=;
+	b=eWqNYyrSQ0nqiVSET0Hkn7tQkeHdEUtb6/amEyOkPj9FN3kduxJkbGlY1U4IB+IaiIQGrR
+	qxQCh2drc0AruPYszqt7Ze3kNWW2CxZfI+oYAe8oK+6MWcwo/pZqb4h5akzAYGYcIoxQk8
+	pmCh6PYDZpUDoLnZRD15I46dYsz8f48=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1732638243;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vWmWPGH6ouotSFOjlPtAPz7Oh4NOAMzdgCeLxdfVSzc=;
+	b=ZuA+4uGYHITb/KYSkwxWEKIEuYDFiwugC7bQAodPe8a9fdOPqRmpgtLpPDthOVn9zIB+WA
+	pTNJuKNUo1lOjtCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=eWqNYyrS;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ZuA+4uGY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1732638243;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vWmWPGH6ouotSFOjlPtAPz7Oh4NOAMzdgCeLxdfVSzc=;
+	b=eWqNYyrSQ0nqiVSET0Hkn7tQkeHdEUtb6/amEyOkPj9FN3kduxJkbGlY1U4IB+IaiIQGrR
+	qxQCh2drc0AruPYszqt7Ze3kNWW2CxZfI+oYAe8oK+6MWcwo/pZqb4h5akzAYGYcIoxQk8
+	pmCh6PYDZpUDoLnZRD15I46dYsz8f48=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1732638243;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vWmWPGH6ouotSFOjlPtAPz7Oh4NOAMzdgCeLxdfVSzc=;
+	b=ZuA+4uGYHITb/KYSkwxWEKIEuYDFiwugC7bQAodPe8a9fdOPqRmpgtLpPDthOVn9zIB+WA
+	pTNJuKNUo1lOjtCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9EC06139AA;
+	Tue, 26 Nov 2024 16:24:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ldNRJiP2RWcjIQAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Tue, 26 Nov 2024 16:24:03 +0000
+Date: Tue, 26 Nov 2024 17:23:58 +0100
+From: David Sterba <dsterba@suse.cz>
+To: Allison Karlitskaya <allison.karlitskaya@redhat.com>
+Cc: dsterba@suse.cz, ebiggers@kernel.org, fsverity@lists.linux.dev,
+	linux-btrfs@vger.kernel.org, tytso@mit.edu
+Subject: Re: [PATCH] btrfs: add FS_IOC_READ_VERITY_METADATA ioctl
+Message-ID: <20241126162358.GL31418@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
 References: <20241126151123.GF31418@twin.jikos.cz>
+ <20241126152331.90434-1-allison.karlitskaya@redhat.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241126152331.90434-1-allison.karlitskaya@redhat.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Rspamd-Queue-Id: BC28D2115E
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.21 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.21
+X-Spam-Flag: NO
 
-146054090b085 introduced fs-verity support for btrfs, but didn't add
-support for FS_IOC_READ_VERITY_METADATA to directly query the Merkle
-tree, descriptor and signature blocks for fs-verity enabled files.
+On Tue, Nov 26, 2024 at 04:23:31PM +0100, Allison Karlitskaya wrote:
+> 146054090b085 introduced fs-verity support for btrfs, but didn't add
 
-Add the (trival) implementation: we just need to wire it through to the
-fs-verity code, the same way as is done in the other two filesystems
-which support this ioctl (ext4, f2fs). The fs-verity code already has
-access to the required data.
+Please use full reference of commits with the subject lines, like
+146054090b08 ("btrfs: initial fsverity support")
 
-Signed-off-by: Allison Karlitskaya <allison.karlitskaya@redhat.com>
----
- fs/btrfs/ioctl.c | 2 ++
- 1 file changed, 2 insertions(+)
+The git alias command for that is below, you can name it like you want:
 
-diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
-index c9302d193187..392322a70ce8 100644
---- a/fs/btrfs/ioctl.c
-+++ b/fs/btrfs/ioctl.c
-@@ -5290,6 +5290,8 @@ long btrfs_ioctl(struct file *file, unsigned int
- 		return fsverity_ioctl_enable(file, (const void __user *)argp);
- 	case FS_IOC_MEASURE_VERITY:
- 		return fsverity_ioctl_measure(file, argp);
-+	case FS_IOC_READ_VERITY_METADATA:
-+		return fsverity_ioctl_read_metadata(file, argp);
- 	case BTRFS_IOC_ENCODED_READ:
- 		return btrfs_ioctl_encoded_read(file, argp, false);
- 	case BTRFS_IOC_ENCODED_WRITE:
--- 
-2.47.0
+	show -s --pretty='format:%h (\"%s\")'
 
+> support for FS_IOC_READ_VERITY_METADATA to directly query the Merkle
+> tree, descriptor and signature blocks for fs-verity enabled files.
+> 
+> Add the (trival) implementation: we just need to wire it through to the
+> fs-verity code, the same way as is done in the other two filesystems
+> which support this ioctl (ext4, f2fs). The fs-verity code already has
+> access to the required data.
+> 
+> Signed-off-by: Allison Karlitskaya <allison.karlitskaya@redhat.com>
+
+Added to for-next, thanks.
