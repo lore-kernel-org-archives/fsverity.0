@@ -1,125 +1,141 @@
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D061D6182
-	for <fsverity@lists.linux.dev>; Tue, 28 Jan 2025 15:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CD01DA4E
+	for <fsverity@lists.linux.dev>; Wed, 29 Jan 2025 04:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738079006; cv=none; b=uDaq9wchAPuG26ztn76FzpiyMZC5fRAORlMX22tDx4bdpBXK6R4h73lOdWAqHZQkvUdzArV9MGsWht6OUOy/1QpF4JkARI8VGPoIpzIrFFnTh8EbjRRBlhPNNuPy7whEVdbMe7X0CDfJ32JUSsZoYfuicYdglx2HOcyp+AYVqU8=
+	t=1738123458; cv=none; b=q2bIBaKUKH871cQzygdA5f3ZmxOEpkYBMt9w7rZAOdzIdsVwlOKCvSNVMO0uehhC4taPocmTTeNIkU+oOuLhjeopMyH+yHam2KvzqMZbA0Wxln2xOB6yWdlG7evEVPC7s8Gy2ZcFuf6ZU5SEsHPuu7cdrcOF0U+kZb7cGDsAYik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738079006; c=relaxed/simple;
-	bh=4CM+Y34LzyqTPbJa964bMKTZoegb6ZCbeVLJYvxkr2Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OMt+AABMPuVgu7ja5s1rp9eLS84Yh5NYyPLm0iPu7GsIbZ0f2vnK3d0oRfBQjVxiRBWBIYpAVVinACgPqtmNY8+3IgWwGUmgbMhg9iqPcSYFTJB3ZtzjJqzGBXpVvTOcsVZodRINwFeSS/c9F8ewctDNEojiQX+Su0l1OzcCsQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=WgxtXWfC; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1738123458; c=relaxed/simple;
+	bh=/2BRx+7k3AMH4tjpfVtA67toYsKBkqeAs1+pigAYko8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MiC8xv0SEZOGRulQsB7hVfDs6e90AJmSP3Bh5gHZ/UKLdqlckrlr+sp+yatOGocsUk+qiQ3Dan/le8FmPmVg5eyiJkWpyz6SrWdNGToSlY3swAx1dBaMh4x1uWiJuxKQ4A3BbPLR8f9WqvPSWMjOI3NIdCbmCD9bK6euSQhzSL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qbxmpitb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="WgxtXWfC"
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e5447fae695so10101573276.2
-        for <fsverity@lists.linux.dev>; Tue, 28 Jan 2025 07:43:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1738079001; x=1738683801; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4CM+Y34LzyqTPbJa964bMKTZoegb6ZCbeVLJYvxkr2Y=;
-        b=WgxtXWfCKj/d44b6zvg4GWicB0EgP6HKpBcAwwUMyPFn+Vm4rkTI2lCJ9UNJHmvOaH
-         uGsqnYQvu5W8zffwK+eJghs9YtrorK+WTv6AmVifbAFf24dcez99KqyZrS5CgPhfTdDv
-         Xix+E3TUWS73CJgbLwoghdg6HhTeGwu2wBQ8+QoycohfUlH0P5LBzZ1rBdz5VQsgpWzu
-         BDyqdsKQNc0jECbXjxCiP61BKJMGfb3DjQKqgF/7CL/bzCkzFvNpVT+36mNNGHuePZGj
-         7lucaDpgm1LxMZuT9U42zjxwbswKhvjm8v1zqvFCiPLbWKYbbYh/31LYNJRrafP4Ktw4
-         9G3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738079001; x=1738683801;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4CM+Y34LzyqTPbJa964bMKTZoegb6ZCbeVLJYvxkr2Y=;
-        b=q7KNiMN18aSHJizWGDY0daUU2m9r8GxGarDXx6bnsKDPn6dL9MvdkOSDuoJ8cYA2ZA
-         h2Whunylysm/U6LY1F+8kHbZQnZyMYRi3PFAiyGIJwtgNo+VbuPvloScYmNWYDr14Y8h
-         qAw8VmGq56/Gs8N34rNSnnK/OENrmKJRftU+sM7fNMeVUZqMS045Cwub0GPJXOhTJBrn
-         mrYEidrpwMEgufYqFhxp4gcJFNs1A5+RpeMGWFxD3J2zhSHHYqdLooX64MQVgsRlNMhv
-         NkPFepCzmt40BxRQ/PNCVvRLHb9eBxRTSI71lHoakQfvn2iYgYYRMm3GC31Qrq/aWbYH
-         q7vg==
-X-Forwarded-Encrypted: i=1; AJvYcCXSVmuPKAwwN/67Um1bhyV3ejBjoFdx+YsMWnoEeWHrN5EwxnEjraqUy92iMggDLHkR/J6umui3uQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOijUAN2+r+D0+EWRAohzBEa5DkXoRrwFCxXGQqPqZM2YYDFTr
-	30zTmyY3UWIs7Cp4Ca4xyJTcbQft04cVnPfJEMhP0ae908M694PR9BwVQyWuUh1HYS1y1PwObR0
-	wQ0yG2P/poSIRRs85XvL23u+rYrVKWyzZKn8Y
-X-Gm-Gg: ASbGncvoHRh/5BNob6w+FnhzaUDTziZJ0tt6CD9NMw4yOT85kqi3A2yi+fJ8ROfJYmB
-	a8nz+zIhMPe8Q/i+dRrxALoHxYH98vGjCqOGWPL1KuzXqcFQu3WJ70XahijIV/ZUBGsD9w/8=
-X-Google-Smtp-Source: AGHT+IGuLqrmdoXiE8apV7tzhOJZ5Xm1OF/NxWm8Kjkh7RMoG05FR1MdO9WMx2ebniwyt0o5rEC0Jv+xP432BtVJDY0=
-X-Received: by 2002:a05:690c:4d02:b0:6ef:6646:b50a with SMTP id
- 00721157ae682-6f6eb6b2881mr361409457b3.20.1738079001445; Tue, 28 Jan 2025
- 07:43:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qbxmpitb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35D0C4CED3;
+	Wed, 29 Jan 2025 04:04:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738123457;
+	bh=/2BRx+7k3AMH4tjpfVtA67toYsKBkqeAs1+pigAYko8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qbxmpitb5PxfiSOQhycoxjQYQwDYPqEJ32xETLUscMo4l5XGG6y9s6UGsoS2wumD6
+	 9dUseXcw3D/ZR7oGEgAY1WDQuTEdfuxTK4rahEwOLRGiK2Q5Me/XzThBQlaRCPyoSk
+	 qrLcGSQh2RATfFr7tdvRjNsTT2nvhbO2NN770YWwQcrEY2JMqhSujz7l8RTgF1EBkn
+	 Adxo9WGthpFzOWRShCGtT5IdBDc6nsP893xZ26ZJg3APsN3fQasP9Hfh0jhtAqRIQg
+	 kJdiS/r591qTxbp+DphcsrVK4SBLllbRhrielpjTyapq4r2Ld2i4fE5f/iaR3t9N83
+	 pN/7zOrepLqag==
+From: Eric Biggers <ebiggers@kernel.org>
+To: fsverity@lists.linux.dev
+Cc: Disha Goel <disgoel@linux.ibm.com>,
+	Aleksander Adamowski <olo@fb.com>
+Subject: [fsverity-utils PATCH] lib/sign_digest: disable PKCS#11 support when not available in OpenSSL
+Date: Tue, 28 Jan 2025 20:03:01 -0800
+Message-ID: <20250129040301.311001-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250110-jag-ctl_table_const-v2-1-0000e1663144@kernel.org>
- <Z4+jwDBrZNRgu85S@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
- <nslqrapp4v3rknjgtfk4cg64ha7rewrrg24aslo2e5jmxfwce5@t4chrpuk632k>
- <CAMj1kXEZPe8zk7s67SADK9wVH3cfBup-sAZSC6_pJyng9QT7aw@mail.gmail.com>
- <f4lfo2fb7ajogucsvisfd5sg2avykavmkizr6ycsllcrco4mo3@qt2zx4zp57zh>
- <87jzag9ugx.fsf@intel.com> <Z5epb86xkHQ3BLhp@casper.infradead.org> <u2fwibsnbfvulxj6adigla6geiafh2vuve4hcyo4vmeytwjl7p@oz6xonrq5225>
-In-Reply-To: <u2fwibsnbfvulxj6adigla6geiafh2vuve4hcyo4vmeytwjl7p@oz6xonrq5225>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 28 Jan 2025 10:43:10 -0500
-X-Gm-Features: AWEUYZkHRaUuCTQsu1U9C5jhigmIE9c2_8OmkE_i2Qv7ILXtAaTfDLC5EcLBZNk
-Message-ID: <CAHC9VhQnB_bsQaezBfAcA0bE7Zoc99QXrvO1qjpHA-J8+_doYg@mail.gmail.com>
-Subject: Re: Re: Re: Re: [PATCH v2] treewide: const qualify ctl_tables where applicable
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, Jani Nikula <jani.nikula@intel.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Kees Cook <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	openipmi-developer@lists.sourceforge.net, intel-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-raid@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-serial@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev, 
-	codalist@coda.cs.cmu.edu, linux-mm@kvack.org, linux-nfs@vger.kernel.org, 
-	ocfs2-devel@lists.linux.dev, fsverity@lists.linux.dev, 
-	linux-xfs@vger.kernel.org, io-uring@vger.kernel.org, bpf@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-trace-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, keyrings@vger.kernel.org, 
-	Song Liu <song@kernel.org>, "Steven Rostedt (Google)" <rostedt@goodmis.org>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Corey Minyard <cminyard@mvista.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 28, 2025 at 6:22=E2=80=AFAM Joel Granados <joel.granados@kernel=
-.org> wrote:
-> On Mon, Jan 27, 2025 at 03:42:39PM +0000, Matthew Wilcox wrote:
-> > On Mon, Jan 27, 2025 at 04:55:58PM +0200, Jani Nikula wrote:
-> > > You could have static const within functions too. You get the rodata
-> > > protection and function local scope, best of both worlds?
-> >
-> > timer_active is on the stack, so it can't be static const.
-> >
-> > Does this really need to be cc'd to such a wide distribution list?
-> That is a very good question. I removed 160 people from the original
-> e-mail and left the ones that where previously involved with this patch
-> and left all the lists for good measure. But it seems I can reduce it
-> even more.
->
-> How about this: For these treewide efforts I just leave the people that
-> are/were involved in the series and add two lists: linux-kernel and
-> linux-hardening.
->
-> Unless someone screams, I'll try this out on my next treewide.
+From: Eric Biggers <ebiggers@google.com>
 
-I'm not screaming about it :) but anything that touches the LSM,
-SELinux, or audit code (or matches the regex in MAINTAINERS) I would
-prefer to see on the associated mailing list.
+This is needed to fix the build on Fedora, due to
+https://fedoraproject.org/wiki/Changes/OpensslNoEngine.
 
---=20
-paul-moore.com
+There may be a new way to support PKCS#11 tokens, but I'll leave that to
+someone who cares about that feature (if anyone still cares about it).
+
+Link: https://lore.kernel.org/r/d42c3dd4-47b4-4e98-9814-99cd9c1d112d@linux.ibm.com
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ lib/sign_digest.c | 24 +++++++++++++-----------
+ man/fsverity.1    |  4 ++--
+ 2 files changed, 15 insertions(+), 13 deletions(-)
+
+diff --git a/lib/sign_digest.c b/lib/sign_digest.c
+index d726772..9699671 100644
+--- a/lib/sign_digest.c
++++ b/lib/sign_digest.c
+@@ -219,19 +219,10 @@ out:
+ 	OPENSSL_free(name_der);
+ 	OPENSSL_free(pkcs7_data);
+ 	return err;
+ }
+ 
+-static int
+-load_pkcs11_private_key(const struct libfsverity_signature_params *sig_params
+-			__attribute__((unused)),
+-			EVP_PKEY **pkey_ret __attribute__((unused)))
+-{
+-	libfsverity_error_msg("BoringSSL doesn't support PKCS#11 tokens");
+-	return -EINVAL;
+-}
+-
+ #else /* OPENSSL_IS_BORINGSSL */
+ 
+ static BIO *new_mem_buf(const void *buf, size_t size)
+ {
+ 	BIO *bio;
+@@ -331,10 +322,22 @@ out:
+ 	PKCS7_free(p7);
+ 	BIO_free(bio);
+ 	return err;
+ }
+ 
++#endif /* !OPENSSL_IS_BORINGSSL */
++
++#ifdef OPENSSL_NO_ENGINE
++static int
++load_pkcs11_private_key(const struct libfsverity_signature_params *sig_params
++			__attribute__((unused)),
++			EVP_PKEY **pkey_ret __attribute__((unused)))
++{
++	libfsverity_error_msg("libfsverity was linked to a version of OpenSSL that doesn't support PKCS#11 tokens.");
++	return -EINVAL;
++}
++#else
+ static int
+ load_pkcs11_private_key(const struct libfsverity_signature_params *sig_params,
+ 			EVP_PKEY **pkey_ret)
+ {
+ 	ENGINE *engine;
+@@ -373,12 +376,11 @@ load_pkcs11_private_key(const struct libfsverity_signature_params *sig_params,
+ 		error_msg_openssl("failed to load private key from PKCS#11 token");
+ 		return -EINVAL;
+ 	}
+ 	return 0;
+ }
+-
+-#endif /* !OPENSSL_IS_BORINGSSL */
++#endif
+ 
+ /* Get a private key, either from disk or from a PKCS#11 token. */
+ static int
+ get_private_key(const struct libfsverity_signature_params *sig_params,
+ 		EVP_PKEY **pkey_ret)
+diff --git a/man/fsverity.1 b/man/fsverity.1
+index 0bb9f01..1214b24 100644
+--- a/man/fsverity.1
++++ b/man/fsverity.1
+@@ -207,12 +207,12 @@ The signature will be written to \f[I]OUT_SIGFILE\f[R] in PKCS#7 DER format.
+ The private key can be specified either by key file or by PKCS#11 token.
+ To use a key file, provide \f[B]--key\f[R] and optionally \f[B]--cert\f[R].
+ To use a PKCS#11 token, provide \f[B]--pkcs11-engine\f[R],
+ \f[B]--pkcs11-module\f[R], \f[B]--cert\f[R], and optionally
+ \f[B]--pkcs11-keyid\f[R].
+-PKCS#11 token support is unavailable when fsverity-utils was built with
+-BoringSSL rather than OpenSSL.
++PKCS#11 token support is unavailable if fsverity-utils was built with a version
++of OpenSSL that does not support PKCS#11 tokens.
+ .PP
+ \f[B]fsverity sign\f[R] should only be used if you need compatibility with
+ fs-verity built-in signatures.
+ It is not the only way to do signatures with fs-verity.
+ For more information, see the fsverity-utils README.
+-- 
+2.48.1
+
