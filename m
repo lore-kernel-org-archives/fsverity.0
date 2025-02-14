@@ -1,131 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E80A1DDC00;
-	Fri, 14 Feb 2025 06:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F4624A062;
+	Fri, 14 Feb 2025 10:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739513522; cv=none; b=kLsS3mmD/HwI6Y969TjC/8WrW60E5cup/+vZJ9QqDvuzSY0RguCyGWnuuDSb44s4MBuOcKL61I1aKa7MniF11cbLjZhQPeP/kdn/FoDdyUmNFduVjGX4hVwOYQRPS6TcMJqN9UgS6tMqhsDxSuLvq9mHMwmf/LfgpbKPV0x1XIs=
+	t=1739530263; cv=none; b=ukrsRa3rtFdSmfweaNN06X8pXA7NJ20tnJKXiQZkEozLO2nN4MF1pnYGAvHtxOHEsciz0hyeQR1r9KG878vxOpLMTCw+PtRhYIAcDSAPEXKcFk5e4+cPtHAaaSG1Z2WWK4HyuySkTilRvqP9zaGPKMo6oIvWJYTlyxUBrRPveiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739513522; c=relaxed/simple;
-	bh=kjKHneaaDBuIXsWcKyGK0NM3OpIrEwVZV5f1ZO7dz88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S5mSfLaPitiAQlr7IcgIErbby68xo/bhUkVIo7aizRIepgMxpwsrzESw2/DzueWrlnIIwCYKld1TjNfMX5oO9ZBzY73gqvUu1ziWqETY38lL10YJmN+TjJ/NyGScUNJ0vat8ytk7FHV+3UcWnkjEFsfRYiniVw3eYDovjH+GKpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jNYIiPYq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739530263; c=relaxed/simple;
+	bh=6Jn8hY/sj0Vyp9Oc8m9BXlUSR+CXepQ6Dz6GoxyvGmM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YMJlFOA8HZ/KJ4J/qgaj4BaCP7e7nIU56JM9GM7HfAgPOC24kwsIPrfFa0xYCbsWDDwVvSSVNnt1fT0PzEHxKE0ECnC0FIPSco449J0OrJANXgB3A60HdjtlLvpERDxrKPLVyeQ0/zcqHWaH/HZd73f5esI4e5tAuFUeiWDiQ5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VRsIYOrX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jNYIiPYq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40A4BC4CED1;
-	Fri, 14 Feb 2025 06:12:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VRsIYOrX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96715C4CEE8;
+	Fri, 14 Feb 2025 10:51:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739513521;
-	bh=kjKHneaaDBuIXsWcKyGK0NM3OpIrEwVZV5f1ZO7dz88=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jNYIiPYqj9k89L1AKdVGtNfga4LBPcic0J5cebK2pXX6HgY567bCvRpJVgbuS9m3L
-	 WVF/bU4zCZhy8J9rWmbVca5XFTefAOvM1HsSZ9lI6L8eN4cBOQ6JlNTxhsvf4tI9wO
-	 Pn3AezEVm4n1xUe/vQOPiVD55BvBVEf4l93S+4V1PD//j6Twur6PjqopS8ehqzdQYQ
-	 4tQvvuiao6KylzQ6cKbYYrZ/U1K2mKihuddgDMcbEyfQCOB9j+JLI27W4jZOLqRmEf
-	 iT3kd0zNFnUfuG3R99ecdcN7VDDqzkQ7Se2W1QVmsv3//FM+OIV8k36mNLqOC0aune
-	 v2GD8WXX8XNIw==
-Date: Thu, 13 Feb 2025 22:11:59 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: fsverity@lists.linux.dev, linux-crypto@vger.kernel.org,
-	dm-devel@lists.linux.dev, x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	David Howells <dhowells@redhat.com>, netdev@vger.kernel.org
-Subject: Re: [PATCH v8 0/7] Optimize dm-verity and fsverity using multibuffer
- hashing
-Message-ID: <20250214061159.GC2771@sol.localdomain>
-References: <20250212154718.44255-1-ebiggers@kernel.org>
- <Z61yZjslWKmDGE_t@gondor.apana.org.au>
- <20250213063304.GA11664@sol.localdomain>
- <Z66uH_aeKc7ubONg@gondor.apana.org.au>
- <20250214033518.GA2771@sol.localdomain>
- <Z669mxPsSpej6K6K@gondor.apana.org.au>
- <20250214042951.GB2771@sol.localdomain>
- <Z67M6iSoMyvGwkAF@gondor.apana.org.au>
+	s=k20201202; t=1739530262;
+	bh=6Jn8hY/sj0Vyp9Oc8m9BXlUSR+CXepQ6Dz6GoxyvGmM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=VRsIYOrXB4NBmaHnCnh1uRaIbgK1hXsNVaNz80MfbnD6MVpllwkX+Ak12MXoDJHcV
+	 ys6MmQ9o2cpS8i3Vi7Bu3Lc0qaPCyUl/+Wehmwb+DWyODTsnbbG70xkXTu09G85ek6
+	 oKOzzzEfsyiggpI64zaVrWPSzL7j2WgI8P+RDQH0vdoZuqQ/SL8X7IFVD98QPIX2up
+	 Yymer9b//q1dKe/m4zomdwTDoM8rJOr3/EgutNtanp1n1AQiwty6iUdSBdjPo2XY+M
+	 CQ0VKj0yNlCs2PAom9g9m52G7jyDnzJIpE1f6SMrCUf09pyfQt2/ehewrWeFXSS//H
+	 GhfM6r7edJq/w==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5452c29bacfso305760e87.3;
+        Fri, 14 Feb 2025 02:51:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUOJQK+OY//2ezc0+Lo4z7r+ekgV5kvPl4mVdPtxwnSpiI2oEaCPceKh2wq4iVCsQFXNM30rz0q6g==@lists.linux.dev, AJvYcCUer5d6/E1yjVHianylPwxqxR+it9lDh9VWCljnpxcqzGcvZSUimLbo/Tx0cETM0l5n2mGCziQr/uQ=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxes1VI8s6zWzEV7JYSudLypLabtCVMSueCSw+jnG2G9idyVDIx
+	Wgi6YdrxbEJBHTZsG+47gr5VT5WdUapdT4hNE+X3wqH2KvX39M1v9AfRHRAQlRtjzmYwbvTDXYu
+	wdcw8sgN7NEVMwd6Q6g1yzoHCVjk=
+X-Google-Smtp-Source: AGHT+IE51G43p8pR1toPTVSYBg68ovY9ZnGfaoNwwqJs6GgOaOCJnB/+CJEzpaQ+RZJoWPf4T1kKfJId9pTwob2I0YE=
+X-Received: by 2002:a05:6512:1155:b0:545:296e:ac28 with SMTP id
+ 2adb3069b0e04-545296eaef4mr578053e87.24.1739530260860; Fri, 14 Feb 2025
+ 02:51:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z67M6iSoMyvGwkAF@gondor.apana.org.au>
+References: <20250212154718.44255-1-ebiggers@kernel.org> <Z61yZjslWKmDGE_t@gondor.apana.org.au>
+ <20250213063304.GA11664@sol.localdomain> <Z66uH_aeKc7ubONg@gondor.apana.org.au>
+ <20250214033518.GA2771@sol.localdomain> <Z669mxPsSpej6K6K@gondor.apana.org.au>
+In-Reply-To: <Z669mxPsSpej6K6K@gondor.apana.org.au>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 14 Feb 2025 11:50:49 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXHS+BaLnUSQf9uiTvXhSee=+8W1B-DY5MFHTxgpe1iMyg@mail.gmail.com>
+X-Gm-Features: AWEUYZk9BVG_mnviM5EBJUUBfeH7CmJgTUXwh6dulpUSYK22Lsgwd5629FUH9e4
+Message-ID: <CAMj1kXHS+BaLnUSQf9uiTvXhSee=+8W1B-DY5MFHTxgpe1iMyg@mail.gmail.com>
+Subject: Re: [PATCH v8 0/7] Optimize dm-verity and fsverity using multibuffer hashing
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Eric Biggers <ebiggers@kernel.org>, fsverity@lists.linux.dev, 
+	linux-crypto@vger.kernel.org, dm-devel@lists.linux.dev, x86@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Sami Tolvanen <samitolvanen@google.com>, Alasdair Kergon <agk@redhat.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	Mikulas Patocka <mpatocka@redhat.com>, David Howells <dhowells@redhat.com>, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Feb 14, 2025 at 12:56:10PM +0800, Herbert Xu wrote:
-> On Thu, Feb 13, 2025 at 08:29:51PM -0800, Eric Biggers wrote:
+On Fri, 14 Feb 2025 at 04:51, Herbert Xu <herbert@gondor.apana.org.au> wrote:
+>
+> On Thu, Feb 13, 2025 at 07:35:18PM -0800, Eric Biggers wrote:
 > >
-> > That doesn't actually exist, and your code snippet is also buggy (undefined
-> > behavior) because it never sets the tfm pointer in the ahash_request.  So this
-> 
-> Well thanks for pointing out that deficiency.  It would be good
-> to be able to set the tfm in the macro, something like:
-> 
-> #define SYNC_AHASH_REQUEST_ON_STACK(name, _tfm) \
-> 	char __##name##_desc[sizeof(struct ahash_request) + \
-> 			     MAX_SYNC_AHASH_REQSIZE \
-> 			    ] CRYPTO_MINALIGN_ATTR; \
-> 	struct ahash_request *name = (((struct ahash_request *)__##name##_desc)->base.tfm = crypto_sync_ahash_tfm((_tfm)), (void *)__##name##_desc)
+> > It absolutely is designed for an obsolete form of hardware offload.  Have you
+> > ever tried actually using it?  Here's how to hash a buffer of data with shash:
+> >
+> >       return crypto_shash_tfm_digest(tfm, data, size, out)
+> >
+> > ... and here's how to do it with the SHA-256 library, for what it's worth:
+> >
+> >       sha256(data, size, out)
+> >
+> > and here's how to do it with ahash:
+>
+> Try the new virt ahash interface, and we could easily put the
+> request object on the stack for sync algorithms:
+>
+>         SYNC_AHASH_REQUEST_ON_STACK(req, alg);
+>
+>         ahash_request_set_callback(req, CRYPTO_TFM_REQ_MAY_SLEEP, NULL, NULL);
+>         ahash_request_set_virt(req, data, out, size);
+>
+>         return crypto_ahash_digest(req);
+>
 
-I'm not sure what you intended with the second line, which looks like it won't
-compile.  The first line also shows that ahash_request has a large alignment for
-DMA, which is irrelevant for CPU based crypto.  And I'm not sure
-__attribute__((aligned)) with that alignment on the stack even works reliably
-all architectures; we've had issues with that in the past.  So again you're
-still proposing APIs with weird quirks caused by bolting CPU-based crypto
-support onto an API designed for an obsolete style of hardware offload.
+Whatever happened to not adding infrastructure to the kernel without a user?
 
-> > just shows that you still can't use your own proposed APIs correctly because
-> > they're still too complex.  Yes the virt address support would be an improvement
-> > on current ahash, but it would still be bolted onto an interface that wasn't
-> > designed for it.  There would still be the weirdness of having to initialize so
-> > many unnecessary fields in the request, and having "synchronous asynchronous
-> > hashes" which is always a fun one to try to explain to people.  The shash and
-> > lib/crypto/ interfaces are much better as they do not have these problems.
-> 
-> I'm more than happy to rename ahash to hash.  The only reason
-> it was called ahash is to distinguish it from shash, which will
-> no longer be necessary.
-> 
-> > never use exactly the same API anyway, just similar ones.  And FWIW, zswap is
-> > synchronous, so yet again all the weird async stuff just gets in the way.
-> 
-> I think you're again conflating two different concepts.  Yes
-> zswap/iaa are sleepable, but they're not synchronous.  
+You keep saying how great this will all work for hypothetical cases,
+and from any other contributor, we would expect to see working code
+that demonstrates the advantages of the approach.
 
-Here's the compression in zswap:
+But it seems you have no interest in actually writing this networking
+code, and nor has anybody else, as far as I can tell, which makes your
+claims rather dubious.
 
-    comp_ret = crypto_wait_req(crypto_acomp_compress(acomp_ctx->req), &acomp_ctx->wait);
-
-And here's the decompression:
-
-    BUG_ON(crypto_wait_req(crypto_acomp_decompress(acomp_ctx->req), &acomp_ctx->wait));
-
-It waits synchronously for each request to complete.
-
-It doesn't want an asynchronous API.
-
-> iaa is also useable by IPsec, which is most certainly not sleepable.
-
-The IAA driver doesn't actually support encryption, so that's a very bad start.
-But even assuming it was added, the premise of IAA being helpful for IPsec seems
-questionable.  AES-GCM is already accelerated via the VAES and VPCLMULQDQ
-instructions, performing at 10-30 GB/s per thread on recent processors.  It's
-hard to see how legacy-style offload can beat that in practice, when accounting
-for all the driver overhead and the fact that memory often ends up as the
-bottleneck these days.  But of course for optimal IPsec performance you actually
-need adapter-level offload (inline crypto) which does not use the crypto API at
-all, so again the legacy-style offload support in the crypto API is irrelevant.
-
-But, this is tangential to this discussion, since we can still keep the legacy
-style hardware offload APIs around for the few users that think they want them.
-The point is that we shouldn't let them drag down everyone else.
-
-- Eric
+IOW, even if all your claims are correct, it really makes no
+difference when nobody can be bothered to take advantage of it, and we
+should just go with Eric's working code.
