@@ -1,84 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44563237160
-	for <fsverity@lists.linux.dev>; Mon, 17 Feb 2025 19:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172CF1714C0;
+	Tue, 18 Feb 2025 03:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739821421; cv=none; b=M2jh9dSQ6RMGyyR0uzjkR+9Bj+MplQlzgZ0T/EbiJjYHQHLlSUinWKHNQDvAlU3IoWzd1BjWSOgwl7nl9kJ3PsVsppVKYMA69u3y9HQH6pENzFMon6bbp7XJsHoxAQkzy48EDDKyL55KmvVZjXVqwbxVRtplM+PTRqLm0/5YlRE=
+	t=1739850179; cv=none; b=PyZqbBuxUtjw2XAZMle0GWPl3fpewGkTKKrciAv1rjGfkP45sncEclHnO3SqzGSPXQ5PulMCLzepnO06/Fz11Qq5i6CZQi5/eZR2n7bPL4v+lc25+o0YC3VdqH409oYpgSy8O/Spd7g/hvGZERLwGNId7BTmW9AjEc8T4hQUDmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739821421; c=relaxed/simple;
-	bh=uafwRf7i12m281cPfWq8453lJP3CKKStPf2uuPBrNTc=;
+	s=arc-20240116; t=1739850179; c=relaxed/simple;
+	bh=oxnmzV0u7YLeSdOMcjT0XG/CoG1KcOL8BTBtJhEF4gk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qWBNlZ9zBQ8+v4jeZn1LpExC8YKynthhNBHLLwMSTHxjuXGrSQJpK+actTUQE2q2RKTh1ms5SYDfu+V+r0wytDkiGXP48roisCEa9m0J4wNhpY9g19gWEGWj4+exZKEJadYmMNZ9tHjg3Qz8hafzVkzd3Adk5VH2jeljIggC82k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CCZwjECk; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QieapwRs1szyLapSnfN0Tt9JcuiRQCNC2kcSa3BasVGINOD5/k/Pp2coWsR//6kNElfMv5JIOX0ZdMltwhnPUnpLQuwbKyXK39LbnB7R1ZtcFSQuTV/V7bJa6jN6VbfUcoPqP/nNLIBxlw1KoNxa099L0hv8lIHVym0R+WWVRqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=aFOI1FU6; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CCZwjECk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DBCDC4CED1;
-	Mon, 17 Feb 2025 19:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739821420;
-	bh=uafwRf7i12m281cPfWq8453lJP3CKKStPf2uuPBrNTc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CCZwjECkAQbUtTJLSxcec1/l1C8rkrtIlDmhuwIAjL/x1UkY04pchAIX+T44dLlL2
-	 yNyhtlMxb4vtRJ5kxgWuvAZun33CBGzGH+HVKMFFWu7BCd2bvDLwiGJOrsoSg0a5tD
-	 OmuW/rwk/uYs1s+tgxwd2ZolDHyYDjjD1+t2bsffA88UEHuTLD6TCO/vW6aVX8DoWP
-	 lpF6eVVz6q34UcVOznrBLBncuGxBUiUK4MbeVjFsHWPbUhvq9FoX4JPjH0hMCQ8W4G
-	 grMctneradbPPy94GqKur6V/5/7avnT8ZaLKAGiZZvJGPBK/8HR+IYxi80LHEX4xpv
-	 nDSQVNNxPIfIA==
-Date: Mon, 17 Feb 2025 11:43:39 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Disha Goel <disgoel@linux.ibm.com>
-Cc: fsverity@lists.linux.dev, Aleksander Adamowski <olo@fb.com>
-Subject: Re: OpenSSL engine removal and fsverity-utils compilation issue
-Message-ID: <20250217194339.GE1258@sol.localdomain>
-References: <d42c3dd4-47b4-4e98-9814-99cd9c1d112d@linux.ibm.com>
- <20250123182436.GB2117666@google.com>
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="aFOI1FU6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=vyRhLFHRB6fmclm1Piz9ZAXQjUujdHyc/1CCpu4kda0=; b=aFOI1FU6shtJerIQ7DxiFI+Ewt
+	neYE/ji6PhieKsTYzsfnrOIyHGle3ecc8D/lsYZjcRB3ZTlju51sq+UzE1cNTkIUNAWD9aJX0aHU6
+	FkCq5fgTjmknPu6V+aWzQ4nimBemr84uYqb4SNiODjzJAQggytL4AXm5q6Ujdz5pGb3sJbrfhT5Pj
+	QNBUo/kShIgx7+0rrhrOQxr8Ndt+m7t9dT9Ye7skKBgUpGiN9gH5qvrCyJolhV3Yr8WO694bOTNf2
+	cdqRkjUXjZXH47/5bas+iIhxf0+HsIuyEIjs78jtZKjjPxHIQ2Dz7TYfZUmvATqV1uj7lY6kx8yoq
+	2Z09xE0g==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1tkEIa-0018pK-04;
+	Tue, 18 Feb 2025 11:42:49 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 18 Feb 2025 11:42:48 +0800
+Date: Tue, 18 Feb 2025 11:42:48 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Eric Biggers <ebiggers@kernel.org>, fsverity@lists.linux.dev,
+	linux-crypto@vger.kernel.org, dm-devel@lists.linux.dev,
+	x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	David Howells <dhowells@redhat.com>, netdev@vger.kernel.org
+Subject: Re: [PATCH v8 0/7] Optimize dm-verity and fsverity using multibuffer
+ hashing
+Message-ID: <Z7QBuIvr4Asiezgc@gondor.apana.org.au>
+References: <20250212154718.44255-1-ebiggers@kernel.org>
+ <Z61yZjslWKmDGE_t@gondor.apana.org.au>
+ <20250213063304.GA11664@sol.localdomain>
+ <20250215090412.46937c11@kernel.org>
+ <Z7FM9rhEA7n476EJ@gondor.apana.org.au>
+ <20250217094032.3cbe64c7@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250123182436.GB2117666@google.com>
+In-Reply-To: <20250217094032.3cbe64c7@kernel.org>
 
-On Thu, Jan 23, 2025 at 06:24:36PM +0000, Eric Biggers wrote:
-> On Thu, Jan 23, 2025 at 04:02:46PM +0530, Disha Goel wrote:
-> > Hi,
-> > 
-> > Some distributions have started removing OpenSSL engine support, replacing
-> > engine.h with an empty dummy header file. As a result, fsverity-utils fails
-> > to compile with the following error.
-> > 
-> > Is there any plan to address this issue and support these distributions?
-> > 
-> > Please seehttps://fedoraproject.org/wiki/Changes/OpensslDeprecateEngine for more details.
-> > 
-> > # make
-> >   CC       lib/compute_digest.o
-> >   CC       lib/enable.o
-> >   CC       lib/hash_algs.o
-> >   CC       lib/sign_digest.o
-> > lib/sign_digest.c: In function ‘load_pkcs11_private_key’:
-> > lib/sign_digest.c:350:9: error: implicit declaration of function ‘ENGINE_load_dynamic’ [-Wimplicit-function-declaration]
-> >   350 |         ENGINE_load_dynamic();
-> >       |         ^~~~~~~~~~~~~~~~~~~
-> 
-> This is my first time hearing about this, but yes this has to be fixed.  Thanks
-> for reporting it.
-> 
-> It's just the PKCS#11 token feature that is causing problems.  This feature was
-> contributed by Aleksander Adamowski <olo@fb.com> (Cc'ed) several years ago.  I
-> don't have much context on how/whether it is still being used.
-> 
-> I'm tempted to just make the PKCS#11 token support conditional on
-> !defined(OPENSSL_NO_ENGINE) for now.  If someone still cares about PKCS#11 token
-> support they can look into finding a way to keep it working with latest OpenSSL.
-> 
+On Mon, Feb 17, 2025 at 09:40:32AM -0800, Jakub Kicinski wrote:
+>
+> Yes, that's true for tunnels and for IPsec.
+> TLS does crypto in sendmsg/recvmsg, process context.
 
-Now fixed in the master branch of fsverity-utils.
+OK that's good to know.  So whether SIMD is always allowed or
+not won't impact TLS at least.
 
-- Eric
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
