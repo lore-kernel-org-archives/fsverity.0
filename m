@@ -1,66 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2046D8BEC
-	for <fsverity@lists.linux.dev>; Tue, 17 Jun 2025 03:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26829293C52;
+	Mon, 30 Jun 2025 17:24:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750130726; cv=none; b=SYCM7j42s43b5QXfoFxZnC1QEFSsHMA4JpTMSqKOvRl0jhmQBMs2h31sii93vKerV5cERtGCWpL4EWuEwvCKawl3PNebAfuabvvgKEWQ/GVI++4vPGaSo8s33lmClK5ypbdwVyImOvAAXiUtAjxLfYWcPCwoW8zN8U/1reYWYXo=
+	t=1751304249; cv=none; b=M7QDTw7mBjQJjo3ov4mddS5xC0M/afAK0JpHHXcYJ94Eb1IqatoawW0iQL6zCjT8Xs4hPhS03VC4JJYcpaXkjr4dOsk8k6dKkgO+uasPT7GVMUmZ0L+Dg7336WyyT5AHKO8oB0pewd4qlzqfnlC43aB1JVSQK1l0ryFVYvZwYMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750130726; c=relaxed/simple;
-	bh=0GTtVfvBliSS+zp23BaZZJfOr4WpeyIInlcCMtAc9XM=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qW2sa7jZYalWHTsTUlOw3nUMw2GjtAFaEqicl+40NLhVYbamYn1lRZ0TQJsseHkahXM/Cv5HdH1rye7xgB13EpfPUuhGSUZ8b8erwkSsficdfr+hNb/JlBtrvHDluRhAjGsSQy0jYtdnHp3q6yWks/uou8skM2KxayIA7cU7ff4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kXT+8/7v; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751304249; c=relaxed/simple;
+	bh=2ss1z+u5lNz4mtpxqOkRg3/823azXS0wN/bTXoBHKxY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VvUk6Mm1EGawS8AdrImYr4V8PeXHEypalTGQ0lEJatTdZLuJ0XPTYecZV+SCJ6vgXWjeiJ0NlTvP+ITOLUO1UMXFyqQDD0kBSlcCIdvRDbeDEpMXsU6gcc1OugPiJAzSQbOlbtKGVFLsl5QHH9clO0VANYrbJYpTaTMl9UJAVSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+dvIOd6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kXT+8/7v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99595C4CEEA
-	for <fsverity@lists.linux.dev>; Tue, 17 Jun 2025 03:25:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+dvIOd6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F0F1C4CEE3;
+	Mon, 30 Jun 2025 17:24:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750130725;
-	bh=0GTtVfvBliSS+zp23BaZZJfOr4WpeyIInlcCMtAc9XM=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=kXT+8/7vHIAIZQoifqy2F1TGVUyOksXvv5OhZ3FsXHJ0oVpw1QGmkodm4JZq3Wu/v
-	 hNNIsipaM70P6tQ48lx+oQr8FKAWNvsk/wwE5lGgY5nk1BcvJ8M0JhpqreIjNgk2zX
-	 D7bwXprgGG+H6zQPb9UwWxnD3w0Tfxso3yJ7i/twcQMBscrHYv6X0k33MAoS6ZJwUS
-	 1odXhkgQRPJTPUOsLoFtxYvMJzbh03MwNWd4/Oxg3mUqBu85GGndaex5KdNsjeJ3Qt
-	 363cwGZwxI7b3rtgYk3im3eyLXjb53dOrg8OBoXQ7S79RpU4RaCgK9fWRVMsPCsUxu
-	 KEihkG1T45sQA==
-Date: Mon, 16 Jun 2025 20:24:55 -0700
+	s=k20201202; t=1751304248;
+	bh=2ss1z+u5lNz4mtpxqOkRg3/823azXS0wN/bTXoBHKxY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=s+dvIOd6tblfiP+FP5N3YqoXcALT9orqIV2/EdJGByixJ+wy2EpolTgjDbQiQBNdC
+	 /041gDK/TVoafEDYTGqo/lw91xjV+QIB+hAsyWJK9MOaE7M+vryw0pzRgN7ZWHrq2D
+	 fcBnjz2YShIC0Giw0nfbbtQxtontWDOyc9pLKIe4I71FKF4PZ4WPvS6uczM3wQ2q4j
+	 pTzaZYjRj98jZg06wWJouMvOpUpGVJhvH0/0USGnxgQCypu1sAr4/nAu5nd8M+aLpi
+	 Htk4dm8mQa2CX5FwFpXNOo+P8P5oMwjgZzVze8wdYacN3J2xnCRFfxQn1aKShmLCje
+	 3mdc0OzLVjbaA==
 From: Eric Biggers <ebiggers@kernel.org>
 To: fsverity@lists.linux.dev
-Subject: Re: [PATCH] fsverity: explicitly include <linux/export.h>
-Message-ID: <20250617032455.GA8289@sol>
-References: <20250614221723.131827-1-ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH 0/2] Convert fs/verity/ to use SHA-2 library API
+Date: Mon, 30 Jun 2025 10:22:22 -0700
+Message-ID: <20250630172224.46909-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250614221723.131827-1-ebiggers@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 14, 2025 at 03:17:23PM -0700, Eric Biggers wrote:
-> From: Eric Biggers <ebiggers@google.com>
-> 
-> Fix build warnings with W=1 that started appearing after
-> commit a934a57a42f6 ("scripts/misc-check: check missing #include
-> <linux/export.h> when W=1").
-> 
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> ---
-> 
-> This patch applies to v6.16-rc1 and is targeting fsverity/for-next
-> 
->  fs/verity/enable.c        | 1 +
->  fs/verity/measure.c       | 1 +
->  fs/verity/open.c          | 1 +
->  fs/verity/read_metadata.c | 1 +
->  fs/verity/verify.c        | 1 +
->  5 files changed, 5 insertions(+)
+This series, including all its prerequisites, is also available at:
 
-Applied to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
+    git fetch https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git fsverity-libcrypto-v1
 
-- Eric
+This series makes fs/verity/ use the SHA-2 library API instead of the
+old-school crypto API.  This is simpler and more efficient.
+
+This depends on my SHA-2 library improvements for 6.17 (many patches),
+so this patchset might need to wait until 6.18.  But I'm also thinking
+about just basing the fsverity tree on libcrypto-next for 6.17.
+
+Eric Biggers (2):
+  lib/crypto: hash_info: Move hash_info.c into lib/crypto/
+  fsverity: Switch from crypto_shash to SHA-2 library
+
+ Documentation/filesystems/fsverity.rst |   3 +-
+ crypto/Kconfig                         |   3 -
+ crypto/Makefile                        |   1 -
+ fs/verity/Kconfig                      |   6 +-
+ fs/verity/enable.c                     |   8 +-
+ fs/verity/fsverity_private.h           |  24 +--
+ fs/verity/hash_algs.c                  | 194 +++++++++----------------
+ fs/verity/open.c                       |  36 ++---
+ fs/verity/verify.c                     |   7 +-
+ lib/crypto/Kconfig                     |   3 +
+ lib/crypto/Makefile                    |   2 +
+ {crypto => lib/crypto}/hash_info.c     |   0
+ 12 files changed, 107 insertions(+), 180 deletions(-)
+ rename {crypto => lib/crypto}/hash_info.c (100%)
+
+-- 
+2.50.0
+
