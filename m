@@ -1,141 +1,174 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E4B27CB0A
-	for <fsverity@lists.linux.dev>; Mon, 28 Jul 2025 20:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59EB279917
+	for <fsverity@lists.linux.dev>; Mon, 28 Jul 2025 20:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753734696; cv=none; b=LYs2RoKVYHq9sbR50FvUJgo9d6ZC3pu06W4tD4DJxiOaHpQeffcRmoS+X08giQtQ1vIH4dhkAk86rdqaDe/BzqLrFluLIsB4MnrGycsccQlgX7rbsnyysujo1iCwzhDuBPejx/WT7IcRmuTZ3G31BLEgRCH1GLvmM3Yfrf6z3AA=
+	t=1753734697; cv=none; b=EcX42+I8RzRiJdXCs9lmUCOGH3PtqUYEE2JAamSnYHcWy2MY6BqoQwJkgQSaFLpylvXI/ESqrQRJkqlVYMupLfbEqVVWQeq5HEko+2u3tpvT39sX6YRuuAhmJ/oHoTBhmLDBb05ptDBVQ5+UcEPYCnWRoObV8EleKD/EqQ8qAQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753734696; c=relaxed/simple;
-	bh=V8qNbzjsE4JBu1MhTEPPGAHCYOvhHUKvJ9SI0FfHYX0=;
+	s=arc-20240116; t=1753734697; c=relaxed/simple;
+	bh=YNyZSYIBFJ1w4feKF//aic1Pa6JAduIDo3IdHQgUxNM=;
 	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
-	 To:Content-Type; b=BDQ4lOPCozfkL3GWeHDnRsOd+lG6uProKT/1f09mWVWEwXJPGgp8TkJc524IICFDswizqp/jbnN90BhDUPuxLnJBCNxf4TrjZnXclcwFvgofIPOAHHuyfPfX7XpGxOH5KfJLDJbzcHTJnwEqo7gF1XTEn3LOBuhsnWLQfoFSorY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dZ6yFRcv; arc=none smtp.client-ip=170.10.129.124
+	 To:Content-Type; b=Tl4o6a7g2/GLjHLMGZ/5YfvgxFhkJ3xH9GLmKQ5mo99dfwVNDRr0iQGf4sIDDuMEHc1dvxvGnR3aKky6G5TdazBcti5JNoX8/ycR4DyUgPPEDTOqmhsACHoPIyXUWDSzW2QRsAWgsZi/3JykmPCqOq+k0ZaGBNYvQPQMlq7+ygA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A/lxNWhp; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dZ6yFRcv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A/lxNWhp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753734693;
+	s=mimecast20190719; t=1753734694;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zPq7ioMuDIU1givclwrLOed+wUzgBQHM4Krd29hrZGg=;
-	b=dZ6yFRcvIo/hzmgHj6zHwRoabKg3UK15OA/7BP22RBGjU8dH/ZH5xyp5hGJWNsMRXsWAlz
-	Vm3397f7VfEvAH/e6t3dLauGKBOrr6NurOqDG44XLjB1aOEKOPDTD+1GER5XCJGJetStT7
-	TWtVCLKrZ93pRNvfOWlGdiQbPbBpq/s=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Wzkb/NVAkTBakvI6MpNnn+id6RW4IMwHyuQvB6ou1yQ=;
+	b=A/lxNWhpHzXLuXlOz51+TEM0RuT2x9H4s0wSonsoM0pVB26xSr74xEuymqQf7MuE8zSMqD
+	hehqNtN3ykXAuHfFD6/10NheSwkUnXflBL2fkG3Y8KXGeBFdVZR7KohFRYWhuO+YHDTqof
+	7+LWVVpWYwZXxbkpdywmeF7pvPmTxW8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-633-6n-ZcuS8NJiJ8YyYZIRkLA-1; Mon, 28 Jul 2025 16:31:32 -0400
-X-MC-Unique: 6n-ZcuS8NJiJ8YyYZIRkLA-1
-X-Mimecast-MFC-AGG-ID: 6n-ZcuS8NJiJ8YyYZIRkLA_1753734691
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-612be84c047so5107778a12.2
+ us-mta-639-3RuvZDrCNAW_sbeY5M6xXw-1; Mon, 28 Jul 2025 16:31:33 -0400
+X-MC-Unique: 3RuvZDrCNAW_sbeY5M6xXw-1
+X-Mimecast-MFC-AGG-ID: 3RuvZDrCNAW_sbeY5M6xXw_1753734692
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-612e67cee87so3873158a12.0
         for <fsverity@lists.linux.dev>; Mon, 28 Jul 2025 13:31:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753734691; x=1754339491;
+        d=1e100.net; s=20230601; t=1753734692; x=1754339492;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zPq7ioMuDIU1givclwrLOed+wUzgBQHM4Krd29hrZGg=;
-        b=gh9dBSrWpowb4JT+/VdtBP3S/RnQTNbXsH+pBfxUBXonGTS+loGGrdEJH+vnHBs/9g
-         VDVFS1Fy8t+gHudMgynyEXhx4Xu0qceCbenEeWqCveRGxFZcmhJuT0HlfBoBm/xX9qah
-         l0hM4q9qmIIaN/V1PF+1eFjwICswCPoR9uyDM97G1Rg2z0fuXtxSQkdDqjYKo5gG3Og+
-         r2lrIYJYrm2MWamdIoG0dONApzISWGJvrFtBm3TX6dnRLnrz1NAs5NQ8RbwbQaaJKQuN
-         QciAvHq7X1lVEYlzE7SmEDCPUPGiHc8qbHqlQtutcsE3mllPvWhG3sh7NEQBb3hqsPRV
-         BUjA==
-X-Gm-Message-State: AOJu0YzIIRr7aQr/38xJGr2z3oJMNAx/7CNZfEcmK90dZtEHOZ5fPgyH
-	g72OjGj9JgAGvxc0qvqQGOIXbJVJNFmVLbeKN3ZtdaZM6nfv7opvcAhgX/4/Tba4e150u4WQEvT
-	TeCGkIPvnwEt/p7okPN9HEt+ZhOBUUeHmnYXwslh84rAuQX12eLscnHtroM4=
-X-Gm-Gg: ASbGncuY2OYbxh5Xn5uL1E72E/3fSOaHI0K0gMNpRW8RFPelj3s8sS0XVbeJkcWR+Ws
-	FqZo4K8K74gaqfnL4HAA8i5u8YiPeIPgatT6EQvfKYiBMPRUGNY7hB7/qFoFrOHctHFRxDnOsc0
-	qVX9b+LshuuMwSHkU2BRxqFliKsodn3BgdwWqf1ZtNBI/zVCebZvDx1JfghdfO1yz5z/k/Sh5qF
-	gXQdz4YB/EyTecTUt5Ty3E1XV2fvYI40K+M6PgpKouFb1aqxJjrgPlkbulGG7iL6EstMkgzsZmB
-	LPS7efMtmc4qqj87CZa4jQyd5OrbTuLMwsjOx4DirR2Ejg==
-X-Received: by 2002:a05:6402:2807:b0:60e:23d:43b1 with SMTP id 4fb4d7f45d1cf-614f1df695bmr12503523a12.16.1753734691234;
+        bh=Wzkb/NVAkTBakvI6MpNnn+id6RW4IMwHyuQvB6ou1yQ=;
+        b=d8PpKfQtKjzVK8FercFSCZfJ/eUSit3+y9wOg6HTCJi5d/7XUhrCHGyE/5E4s3A5oB
+         iTqFbKqIiHeehVzXOhyREIB5ffKeLXcdUJxA4HGHp5bpWoU24vK9qQDd03htPDXZUMmS
+         9RvVTe785JgYrZ92+/UJM+98ZBHodemtAexl5TxoNBy2xChmp1hqf5kTVd4lDXhEyYRq
+         XjRSJKlL7etvjlEGOrALttieXnxBUNr/If3IRL101i9JL/yLjIh7cLDiLsZm9BSvcTT6
+         3igTXjA9FkSStUhKpomX8xX+0FwLlmy8d9CcCGWffJUBhwHxp71dWhO8Q0VtLXCx/4Kn
+         qfgQ==
+X-Gm-Message-State: AOJu0Yze6WAXPgw2KBEihmad9URtm5XInGKxBVlLvOYNWdS26TFLPDiU
+	F3bjyGz0ow76KRzlv/wV5erFA06bIASjn+hJ0aq3dhK7WGHPiQgeLObOjwBwA75ka2Lzbo1t74C
+	L94B/eoscIEnDE8U6QTagzdGFTOqOE0RqHRpTzzbEount5J49Id/ytYp9XsE=
+X-Gm-Gg: ASbGncv4O+s5yqd4xUmN7EIa5SdqDUcjmcMQRJaXrxKz+NttyusWrC8wdC7hDR8SngV
+	Wo+0TNHmwa8HsmQxjprdmZZpHEWtd0wIkIGPCOZukPEUCz310gWnBpzws2Ydjhno9V4Ig5Gwtoj
+	qKR0w856It/X54bhKroM4Z76LpgZcJkaE+PlyQROYqvQF0kA8rwhxQpxVu7udCU3Wp7MuJvBNSY
+	Q0Yat1v3QFmX3oAGRRobdcLaMR2q0yeJ6J9YddZ/8/EKLitY7FcWjc0WUog7t7qhcQeJm3JPW0a
+	byuA8CHfX41o93ml1u41Dy313qsdH7MunL0Fi/dVsA8I9A==
+X-Received: by 2002:a05:6402:4602:20b0:614:f03d:b990 with SMTP id 4fb4d7f45d1cf-614f1d60968mr9214060a12.22.1753734691846;
         Mon, 28 Jul 2025 13:31:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEJO8IlWhrpYESDaiCimQKB8ZcKiDQlQp927UKgU705UcobB9htySU5iKjsIwV3f3uW8HK5fQ==
-X-Received: by 2002:a05:6402:2807:b0:60e:23d:43b1 with SMTP id 4fb4d7f45d1cf-614f1df695bmr12503495a12.16.1753734690764;
-        Mon, 28 Jul 2025 13:31:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFcZe33k0BLoG6A+mlDJXqoo8AHPS7/tq95Z/DmRgYYP6h21kfw89TtPwVRwazuXA7cJjvTow==
+X-Received: by 2002:a05:6402:4602:20b0:614:f03d:b990 with SMTP id 4fb4d7f45d1cf-614f1d60968mr9214046a12.22.1753734691478;
+        Mon, 28 Jul 2025 13:31:31 -0700 (PDT)
 Received: from [127.0.0.2] (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615226558d3sm2730656a12.45.2025.07.28.13.31.29
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615226558d3sm2730656a12.45.2025.07.28.13.31.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 13:31:30 -0700 (PDT)
+        Mon, 28 Jul 2025 13:31:31 -0700 (PDT)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 X-Google-Original-From: Andrey Albershteyn <aalbersh@kernel.org>
-Date: Mon, 28 Jul 2025 22:30:14 +0200
-Subject: [PATCH RFC 10/29] btrfs: use a per-superblock fsverity workqueue
+Date: Mon, 28 Jul 2025 22:30:15 +0200
+Subject: [PATCH RFC 11/29] fsverity: remove system-wide workqueue
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <20250728-fsverity-v1-10-9e5443af0e34@kernel.org>
+Message-Id: <20250728-fsverity-v1-11-9e5443af0e34@kernel.org>
 References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
 In-Reply-To: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
 To: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
  linux-xfs@vger.kernel.org, david@fromorbit.com, djwong@kernel.org, 
  ebiggers@kernel.org, hch@lst.de
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1310; i=aalbersh@kernel.org;
- h=from:subject:message-id; bh=kuOn1nMdlYjue/gx8Se2FoLjVY/GfmNvzXVoSFxJQLY=;
- b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMtrviQdOW/4+UExSWf7seuPldh/jPvRu3Mjtucsj6
- 39LeJhNYn5HKQuDGBeDrJgiyzppralJRVL5Rwxq5GHmsDKBDGHg4hSAibw6yfBPKy6t/d68ZbPT
- JxV8DZ5d7r6gb7Z+Us6O/f0W04RtCi67MjL07RM9G7V6tuLfTUuTPn9OjZ+/7kvtz7wM7cArTX0
- zDI6zAwBm2EpH
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2492; i=aalbersh@kernel.org;
+ h=from:subject:message-id; bh=/JE2Dbo4OAeZtzIugw6Qkxtx4bvySBi5Hu03+/rIzv8=;
+ b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMtrvif+1/lXlf9L82YH5PuHpW+7ZzHrhvf7VHA2FT
+ 6J7w9pu/PnaUcrCIMbFICumyLJOWmtqUpFU/hGDGnmYOaxMIEMYuDgFYCIaSxn+SqXwzbMS/D75
+ adgaAz3HDIHkvpJfVTz18V+W7fzByrqJnZHhmX6ryLK5bnOiH1mzP1snpqS+e9c+5h+G6hcu75R
+ Ye0WXBQB8tkhu
 X-Developer-Key: i=aalbersh@kernel.org; a=openpgp;
  fpr=AE1B2A9562721A6FC4307C1F46A7EA18AC33E108
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5Qp1Y4Wl7Y29YXZgGk-DwPptm07pkEcUWiS74ZHFLjs_1753734691
+X-Mimecast-MFC-PROC-ID: ZWC6Z3LTXy4hDOKnMywa2pTJdc15gZYnK9ocTc8xDp8_1753734692
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 From: "Darrick J. Wong" <djwong@kernel.org>
 
-Switch btrfs to use a per-sb fsverity workqueue instead of a systemwide
-workqueue.
+Now that we've made the verity workqueue per-superblock, we don't need
+the systemwide workqueue.  Get rid of the old implementation.
 
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/btrfs/super.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ fs/verity/fsverity_private.h |  2 --
+ fs/verity/init.c             |  1 -
+ fs/verity/verify.c           | 21 +--------------------
+ 3 files changed, 1 insertion(+), 23 deletions(-)
 
-diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-index a0c65adce1ab..cf82c260da9c 100644
---- a/fs/btrfs/super.c
-+++ b/fs/btrfs/super.c
-@@ -28,6 +28,7 @@
- #include <linux/btrfs.h>
- #include <linux/security.h>
- #include <linux/fs_parser.h>
-+#include <linux/fsverity.h>
- #include "messages.h"
- #include "delayed-inode.h"
- #include "ctree.h"
-@@ -954,6 +955,19 @@ static int btrfs_fill_super(struct super_block *sb,
- 	sb->s_export_op = &btrfs_export_ops;
- #ifdef CONFIG_FS_VERITY
- 	sb->s_vop = &btrfs_verityops;
-+	/*
-+	 * Use a high-priority workqueue to prioritize verification work, which
-+	 * blocks reads from completing, over regular application tasks.
-+	 *
-+	 * For performance reasons, don't use an unbound workqueue.  Using an
-+	 * unbound workqueue for crypto operations causes excessive scheduler
-+	 * latency on ARM64.
-+	 */
-+	err = fsverity_init_wq(sb, WQ_HIGHPRI, num_online_cpus());
-+	if (err) {
-+		btrfs_err(fs_info, "fsverity_init_wq failed");
-+		return err;
-+	}
- #endif
- 	sb->s_xattr = btrfs_xattr_handlers;
- 	sb->s_time_gran = 1;
+diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
+index 04dd471d791c..2de28be775ea 100644
+--- a/fs/verity/fsverity_private.h
++++ b/fs/verity/fsverity_private.h
+@@ -152,8 +152,6 @@ static inline void fsverity_init_signature(void)
+ 
+ /* verify.c */
+ 
+-void __init fsverity_init_workqueue(void);
+-
+ #include <trace/events/fsverity.h>
+ 
+ #endif /* _FSVERITY_PRIVATE_H */
+diff --git a/fs/verity/init.c b/fs/verity/init.c
+index d65206608583..b252493496df 100644
+--- a/fs/verity/init.c
++++ b/fs/verity/init.c
+@@ -61,7 +61,6 @@ static int __init fsverity_init(void)
+ {
+ 	fsverity_check_hash_algs();
+ 	fsverity_init_info_cache();
+-	fsverity_init_workqueue();
+ 	fsverity_init_sysctl();
+ 	fsverity_init_signature();
+ 	fsverity_init_bpf();
+diff --git a/fs/verity/verify.c b/fs/verity/verify.c
+index ef5d27039c98..0edbf514dd31 100644
+--- a/fs/verity/verify.c
++++ b/fs/verity/verify.c
+@@ -10,8 +10,6 @@
+ #include <crypto/hash.h>
+ #include <linux/bio.h>
+ 
+-static struct workqueue_struct *fsverity_read_workqueue;
+-
+ /*
+  * Returns true if the hash block with index @hblock_idx in the tree, located in
+  * @hpage, has already been verified.
+@@ -371,23 +369,6 @@ EXPORT_SYMBOL_GPL(fsverity_init_wq);
+ void fsverity_enqueue_verify_work(struct super_block *sb,
+ 				  struct work_struct *work)
+ {
+-	queue_work(sb->s_verity_wq ?: fsverity_read_workqueue, work);
++	queue_work(sb->s_verity_wq, work);
+ }
+ EXPORT_SYMBOL_GPL(fsverity_enqueue_verify_work);
+-
+-void __init fsverity_init_workqueue(void)
+-{
+-	/*
+-	 * Use a high-priority workqueue to prioritize verification work, which
+-	 * blocks reads from completing, over regular application tasks.
+-	 *
+-	 * For performance reasons, don't use an unbound workqueue.  Using an
+-	 * unbound workqueue for crypto operations causes excessive scheduler
+-	 * latency on ARM64.
+-	 */
+-	fsverity_read_workqueue = alloc_workqueue("fsverity_read_queue",
+-						  WQ_HIGHPRI,
+-						  num_online_cpus());
+-	if (!fsverity_read_workqueue)
+-		panic("failed to allocate fsverity_read_queue");
+-}
 
 -- 
 2.50.0
