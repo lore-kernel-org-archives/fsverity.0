@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E78C1A23A5;
-	Tue, 29 Jul 2025 15:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA1C21B908;
+	Tue, 29 Jul 2025 22:07:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753802920; cv=none; b=IaBNHp02e07lddG4CJ2fDGVbnhUZgNpUaxXAown7NMtjXAEcqzTMES54XbDoKsbaW4RhSY1GTslLDGroPykE+8Xgryc4VpZkGkPvAUZMJm0d9cogrRDnIlkMXIgiSbprSkitV6nV34H34zrH+jhZX+qmyjqhMk12jAIfy9JXK5g=
+	t=1753826864; cv=none; b=MNfVFWb89+7uzqY6oKkYiyYQgzuMeKzfqdgcczUCarXIWsHT+1nA1E6Row7P7fHy4Bs60XsWFu/UMC59Jxb/E4u8uTTLrWq+Jokv65Dqgzaj6C4AuQ5J4Jf8odU9V7JARORHb7p27p4uuqNS6J9Syou55WShuH79ZY1CzfIzZyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753802920; c=relaxed/simple;
-	bh=imj0Xnn77C0P9RrgqOaapYr87u2R8WwKoXYbTpeH8m0=;
+	s=arc-20240116; t=1753826864; c=relaxed/simple;
+	bh=Sfq5QjFkz2SK/zAK/YtWTk1A6MRQh5sud+qPxZdZ2UI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oiN7rZkYuG4lYzMgH976ky1JDsrEYs36Xpm44lrztLj+UBxFXjTalxMkMgZuc2HTXKwhMLrrE6Zx9TYU2DwFJ+Rk3U6ACbF3d/4FUBzZp+8bsK1SkSAiFZyJFcsM4sGd+6BzYwz8B2eZs7DcgaLzYVF75pK8oNZmMxc7ILk7sVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e0D+XaCe; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qVTNgYqYPn4GTqKWuf1xQ5JzOB1fY2vzNyS324HyJtELPWstFrkd2l5LPGzFnVnEaHRWjFBzTlKTQrTTem4Ul8Drg5ddXk0syxLwgwkHW1/ivNYz2U5Q6koTbgTPn9r+rnYoDLPVxhT8Ia3fB5VnWn0jDs5Cc0w0gD6WZpBL8Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tiEv0YZD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e0D+XaCe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06D77C4CEEF;
-	Tue, 29 Jul 2025 15:28:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tiEv0YZD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E36C4CEEF;
+	Tue, 29 Jul 2025 22:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753802920;
-	bh=imj0Xnn77C0P9RrgqOaapYr87u2R8WwKoXYbTpeH8m0=;
+	s=k20201202; t=1753826864;
+	bh=Sfq5QjFkz2SK/zAK/YtWTk1A6MRQh5sud+qPxZdZ2UI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e0D+XaCeJxQ5Zv3dlttMj4HWY3BVNGoFD6k89e4Js+oN6GkNi1cbDRzJ4a3wXtasU
-	 bwZOiZw6o0+F1uyxxeB2Kt5NMxFZpvglGiQolXJp0h/UyzVgq//dsc0kNqIJ39uV1u
-	 9u61tyEga4ais5JJGKMiYwUI/uKWWpUjKnJYaTmslMbiqi2602Spu7N0gKFfgmGyvB
-	 my+ZnVRRYc0aMulpNzgCNiRabXR56mAZKaA47ct3rtzyGCrWe4A0yvDADhpcoyf53F
-	 8IOnU9UtvU33a4zV38Oyi0cMYlbrQ5RGhPdYhLr5H3MBq4bWEAiunsQfOxY6eE9dm3
-	 3lPUMRsfWk0aA==
-Date: Tue, 29 Jul 2025 08:28:39 -0700
+	b=tiEv0YZDlW9mt7pcAEZrIjsReOnlk/q2o2nmkTr+6pj4Tum/Hwh2Z8/qlLqORRpD3
+	 KnFnkONMivW7z0uuWTy/R+iVy6F7A7c2tHEzUgIB7/hY6BE/5VbI/lR5WN5vNwgtWI
+	 p4HJfkPEG0THW0p4M8uAQjZ7Z10Kv2Al/2jcrieGR95EH4AAhUGHwkCbhTwcdff5P6
+	 ur68rXT/89u36NUzfE3NTADEjEtoSiZhq8E+Z1W1nltJUsgUmvapM7/rbc62v00nqk
+	 V0HniZxZ2Tv4PeVd6NiOwSkLVoDbW/4X1olB0gQUEhmBGkzJ6N49tGGgLgfqK5L3f0
+	 0nz4oj2sDrmQg==
+Date: Tue, 29 Jul 2025 15:07:43 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: Andrey Albershteyn <aalbersh@redhat.com>
 Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
 	linux-xfs@vger.kernel.org, david@fromorbit.com, ebiggers@kernel.org,
 	hch@lst.de, Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH RFC 26/29] xfs: fix scrub trace with null pointer in
- quotacheck
-Message-ID: <20250729152839.GC2672049@frogsfrogsfrogs>
+Subject: Re: [PATCH RFC 01/29] iomap: add iomap_writepages_unbound() to write
+ beyond EOF
+Message-ID: <20250729220743.GI2672049@frogsfrogsfrogs>
 References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
- <20250728-fsverity-v1-26-9e5443af0e34@kernel.org>
+ <20250728-fsverity-v1-1-9e5443af0e34@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -45,37 +45,139 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250728-fsverity-v1-26-9e5443af0e34@kernel.org>
+In-Reply-To: <20250728-fsverity-v1-1-9e5443af0e34@kernel.org>
 
-On Mon, Jul 28, 2025 at 10:30:30PM +0200, Andrey Albershteyn wrote:
-> The quotacheck doesn't initialize sc->ip.
+On Mon, Jul 28, 2025 at 10:30:05PM +0200, Andrey Albershteyn wrote:
+> From: Andrey Albershteyn <aalbersh@redhat.com>
 > 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> Add iomap_writepages_unbound() without limit in form of EOF. XFS
+> will use this to write metadata (fs-verity Merkle tree) in range far
+> beyond EOF.
 
-Looks good,
-Cc: <stable@vger.kernel.org> # v6.8
-Fixes: 21d7500929c8a0 ("xfs: improve dquot iteration for scrub")
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+...and I guess some day fscrypt might use it to encrypt merkle trees
+too?
+
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> ---
+>  fs/iomap/buffered-io.c | 51 +++++++++++++++++++++++++++++++++++++++-----------
+>  include/linux/iomap.h  |  3 +++
+>  2 files changed, 43 insertions(+), 11 deletions(-)
+> 
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index 3729391a18f3..7bef232254a3 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -1881,18 +1881,10 @@ static int iomap_writepage_map(struct iomap_writepage_ctx *wpc,
+>  	int error = 0;
+>  	u32 rlen;
+>  
+> -	WARN_ON_ONCE(!folio_test_locked(folio));
+> -	WARN_ON_ONCE(folio_test_dirty(folio));
+> -	WARN_ON_ONCE(folio_test_writeback(folio));
+> -
+> -	trace_iomap_writepage(inode, pos, folio_size(folio));
+> -
+> -	if (!iomap_writepage_handle_eof(folio, inode, &end_pos)) {
+> -		folio_unlock(folio);
+> -		return 0;
+> -	}
+>  	WARN_ON_ONCE(end_pos <= pos);
+>  
+> +	trace_iomap_writepage(inode, pos, folio_size(folio));
+> +
+>  	if (i_blocks_per_folio(inode, folio) > 1) {
+>  		if (!ifs) {
+>  			ifs = ifs_alloc(inode, folio, 0);
+> @@ -1956,6 +1948,23 @@ static int iomap_writepage_map(struct iomap_writepage_ctx *wpc,
+>  	return error;
+>  }
+>  
+> +/* Map pages bound by EOF */
+> +static int iomap_writepage_map_eof(struct iomap_writepage_ctx *wpc,
+
+iomap_writepage_map_within_eof ?
+
+> +		struct writeback_control *wbc, struct folio *folio)
+> +{
+> +	int error;
+> +	struct inode *inode = folio->mapping->host;
+> +	u64 end_pos = folio_pos(folio) + folio_size(folio);
+> +
+> +	if (!iomap_writepage_handle_eof(folio, inode, &end_pos)) {
+> +		folio_unlock(folio);
+> +		return 0;
+> +	}
+> +
+> +	error = iomap_writepage_map(wpc, wbc, folio);
+> +	return error;
+> +}
+> +
+>  int
+>  iomap_writepages(struct address_space *mapping, struct writeback_control *wbc,
+>  		struct iomap_writepage_ctx *wpc,
+> @@ -1972,9 +1981,29 @@ iomap_writepages(struct address_space *mapping, struct writeback_control *wbc,
+>  			PF_MEMALLOC))
+>  		return -EIO;
+>  
+> +	wpc->ops = ops;
+> +	while ((folio = writeback_iter(mapping, wbc, folio, &error))) {
+> +		WARN_ON_ONCE(!folio_test_locked(folio));
+> +		WARN_ON_ONCE(folio_test_dirty(folio));
+> +		WARN_ON_ONCE(folio_test_writeback(folio));
+> +
+> +		error = iomap_writepage_map_eof(wpc, wbc, folio);
+> +	}
+> +	return iomap_submit_ioend(wpc, error);
+> +}
+> +EXPORT_SYMBOL_GPL(iomap_writepages);
+> +
+> +int
+> +iomap_writepages_unbound(struct address_space *mapping, struct writeback_control *wbc,
+
+Might want to leave a comment here explaining what's the difference
+between the two iomap_writepages exports:
+
+/*
+ * Write dirty pages, including any beyond EOF.  This is solely for use
+ * by files that allow post-EOF pagecache, which means fsverity.
+ */
+
+> +		struct iomap_writepage_ctx *wpc,
+> +		const struct iomap_writeback_ops *ops)
+> +{
+> +	struct folio *folio = NULL;
+> +	int error;
+> +
+
+...and you might want a:
+
+	WARN_ON(!IS_VERITY(wpc->inode));
+
+to keep it that way.
 
 --D
 
-> ---
->  fs/xfs/scrub/trace.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/xfs/scrub/trace.h b/fs/xfs/scrub/trace.h
-> index d7c4ced47c15..4368f08e91c6 100644
-> --- a/fs/xfs/scrub/trace.h
-> +++ b/fs/xfs/scrub/trace.h
-> @@ -479,7 +479,7 @@ DECLARE_EVENT_CLASS(xchk_dqiter_class,
->  		__field(xfs_exntst_t, state)
->  	),
->  	TP_fast_assign(
-> -		__entry->dev = cursor->sc->ip->i_mount->m_super->s_dev;
-> +		__entry->dev = cursor->sc->mp->m_super->s_dev;
->  		__entry->dqtype = cursor->dqtype;
->  		__entry->ino = cursor->quota_ip->i_ino;
->  		__entry->cur_id = cursor->id;
+>  	wpc->ops = ops;
+>  	while ((folio = writeback_iter(mapping, wbc, folio, &error)))
+>  		error = iomap_writepage_map(wpc, wbc, folio);
+>  	return iomap_submit_ioend(wpc, error);
+>  }
+> -EXPORT_SYMBOL_GPL(iomap_writepages);
+> +EXPORT_SYMBOL_GPL(iomap_writepages_unbound);
+> diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+> index 522644d62f30..4a0b5ebb79e9 100644
+> --- a/include/linux/iomap.h
+> +++ b/include/linux/iomap.h
+> @@ -464,6 +464,9 @@ void iomap_sort_ioends(struct list_head *ioend_list);
+>  int iomap_writepages(struct address_space *mapping,
+>  		struct writeback_control *wbc, struct iomap_writepage_ctx *wpc,
+>  		const struct iomap_writeback_ops *ops);
+> +int iomap_writepages_unbound(struct address_space *mapping,
+> +		struct writeback_control *wbc, struct iomap_writepage_ctx *wpc,
+> +		const struct iomap_writeback_ops *ops);
+>  
+>  /*
+>   * Flags for direct I/O ->end_io:
 > 
 > -- 
 > 2.50.0
