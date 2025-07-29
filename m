@@ -1,207 +1,63 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5578527FD44
-	for <fsverity@lists.linux.dev>; Mon, 28 Jul 2025 20:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599A91C6FF6;
+	Tue, 29 Jul 2025 01:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753734716; cv=none; b=HW4okFNBy42WKAxoFxGW2nDSDOiEC5biyxhNMCPnIeqxdTm5RFhE99WUUrsBnGQbm/yjHDcPef1fDjBlNtGBkz+xKpsVN7yIVnLDehdlQAAzwvpSmwj+w8otw6fMN1fcnzNrv35l5Gz9U3w8HnZy6d/1thikQ4uS8h6d5uFi82k=
+	t=1753751523; cv=none; b=WJ4xjszjkv0Rd4jP7S8djoKNlvYTj8nILdUVQ7XlCf3ne3ZIps3vdG9lnHhdtkkIn4w9QvA+J5hzyd44aYfD+K2TGhVTQanp3peMDruWAjMQ6BqXnuIxodULQziYM6NRwO63bMnx/Cz7N6O6vJjRWjVuZp8iBoexnHr3bO2QTP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753734716; c=relaxed/simple;
-	bh=zC5E6t95NKV87LeykIKXUMiD57k/Zr4doqPRYj1WOUY=;
-	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
-	 To:Cc:Content-Type; b=OTCzBtIRSg2FPL4G2kRDiYG9hX+l7bfVcZQOb7UeHRe8cNLKXrjxGwwRywUV1FK3JADCQPjL7B8GR059zPgF5XiHu5bS6rqZMgYpUdTA3GuYbKcciL1+JBXZcMggi1tpfUgGpmzJ0VGQ0tS+CzdmbM5ljXFAXYybWMwcRMU/72k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P0fVCTH4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1753751523; c=relaxed/simple;
+	bh=4HvhE2BJsTW/nGWIJs21PM1ZhGsIQTNgAJvcYNkWczc=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=UIs05L9CGbhJcMRKgxCtpiDxdUQxb10iZwpEqRpiSNS64PD+PMoha1hgAPqCkG+CBrPkarm7gqor+GT7LsPdVnVBlJL9RKeRgfaPc5eNUeHwSEEbhWlj2hGWsgdW4Z+iztNaxPcJekzRcJFR72tYYKIls7s66wIVp/AVVdYrmto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/ILjos6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P0fVCTH4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753734713;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ay9CP0eRiEH4X8+UtxY4a/Tvb9542kVaQrAsuecmxfU=;
-	b=P0fVCTH4VDZevqADytFa8GAvrsL5T/1WV0Eg0edcLwlyhwZa0VfV7lw2k+B+/brk8/I7xv
-	TpA6Re6tncpYtHn/4RyActNkG3Zm5p2qYXf4hmJ4uHV4sbTpKyoX+WVVwW9Xv7CVTZ4qwh
-	3WOTRzbMpUcV5S7zfywDWp8MlO8iOOM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-368-2sdYOeWUM2u_1p3hzehRsA-1; Mon, 28 Jul 2025 16:31:51 -0400
-X-MC-Unique: 2sdYOeWUM2u_1p3hzehRsA-1
-X-Mimecast-MFC-AGG-ID: 2sdYOeWUM2u_1p3hzehRsA_1753734710
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6097b1faec9so3671199a12.3
-        for <fsverity@lists.linux.dev>; Mon, 28 Jul 2025 13:31:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753734710; x=1754339510;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ay9CP0eRiEH4X8+UtxY4a/Tvb9542kVaQrAsuecmxfU=;
-        b=qhX7dpQ0SkDsoJ2H4/kxwi4GzH5DzHqmkVZe0SrGThCv9GGkiv/SHL00ujDS0GnSez
-         iTk8FFeOBHu+vQvslEa3sp6AOOc/O2Fcw33oVVtG3CtxwwTb5khWjj5paOxI8gonV+cm
-         BWBL0GsaQn+Gxh7JE/Lw6W8jgfdVUdMEN9Fzz5xCD4y64reLMRJ0xyS/mNEdWXlcSt3+
-         2TiMbu+z3MwDtWvbIqTXxed5NPXy2SOkNBPINY7bjF2uXRpBLZ9wLq6PvQ1qD4GbKPsv
-         4STzRnVtDH9lJbeTRwzpLcyGiFEM9JjO2wwveONFmD7S4LC+dLVQIG96Bf687sWgDqpi
-         jjAQ==
-X-Gm-Message-State: AOJu0Yz8sh+uCU9Zu4GkTNKw2W7nL3ha/7niCbqPF7bMufwPfNfaEc2N
-	DS9J+kbAKeOvQJjPAcTXY9R0wxG7H7QOlzsOXyt805bhz4xjJlod2kqNSftLsqdTQNySdqBX89l
-	3OYepkf/k+j8+zFkaLcUdoXPSPBFHUQFr1tBBvQcqwqEZd7qZ2ZHmn1CkEKU=
-X-Gm-Gg: ASbGnctAY1nGUTT/XDWpKautToctft9XC1pEuptcSk8195+e3pr8pBlLNKleoD1SZzv
-	vlKjj422ouyyxmsUPSkbzybTelwNEb7oGGdpMTsKuKwG1tt1FwfVFnp6njnX0W2GmEaIm/2uY3d
-	o04uk1JA35uw0fywoB7IRDpNo/Zm70kDtUpdDFhDeeP6dGLoPA4yMaoCIWVNmMA4zt4Caxc89r7
-	n4AhRrXP65rTWgYxrxTt8GTiFy8gTW7UrDvy+J7/c0o1tU6+1pYB609062ED0B8GSy8sX/Qn3h7
-	OZQwVygeKCjye3SQQIyYXLIGwg3glmE5VOK7pRge+4HOSg==
-X-Received: by 2002:a05:6402:42cf:b0:612:cdb2:d4d7 with SMTP id 4fb4d7f45d1cf-614f1d3568emr11519139a12.15.1753734709853;
-        Mon, 28 Jul 2025 13:31:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGWVuXfhSdv4DcTIieq2CDA0gSu5AdlwV/ayJ9zVp7zCRLwOwcFOnGZNpS+aNUh2oAGLJrmSg==
-X-Received: by 2002:a05:6402:42cf:b0:612:cdb2:d4d7 with SMTP id 4fb4d7f45d1cf-614f1d3568emr11519113a12.15.1753734709413;
-        Mon, 28 Jul 2025 13:31:49 -0700 (PDT)
-Received: from [127.0.0.2] (ip-217-030-074-039.aim-net.cz. [217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615226558d3sm2730656a12.45.2025.07.28.13.31.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 13:31:49 -0700 (PDT)
-From: Andrey Albershteyn <aalbersh@redhat.com>
-X-Google-Original-From: Andrey Albershteyn <aalbersh@kernel.org>
-Date: Mon, 28 Jul 2025 22:30:32 +0200
-Subject: [PATCH RFC 28/29] xfs: add fsverity traces
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/ILjos6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE67AC4CEF6;
+	Tue, 29 Jul 2025 01:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753751523;
+	bh=4HvhE2BJsTW/nGWIJs21PM1ZhGsIQTNgAJvcYNkWczc=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=A/ILjos60Xqg0Vaq3yMINQsxdvdNnjl3hwoG+WYvClUwZYL4ahd1I24B8b3l0W3GV
+	 HYVNIx0SFNIYgP1eQJXonDSuwZhNUkJ198a+todzePRR+swl9edqPhzJPPpI9F1JSq
+	 0w1G4UZcnOYtN74yima1x41UDKKPe1OeqnD1P8YV88zBwxy17YXIvGGUHOBnhsuHiI
+	 MHyCp9rAUFN/J62kRlg6Un6hkiGfSQRvtwii1MBEliqRNKnl4Q+I4FsK9A4HZRaF7c
+	 JzYL4gQ47Wg0tmA0DC8qAQKW5Cu4vDSz2wCGw63fL+thHNR1ZhvA0HnJoXhVb/psrp
+	 RnypLtQqr2+WQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADCFA383BF5F;
+	Tue, 29 Jul 2025 01:12:20 +0000 (UTC)
+Subject: Re: [GIT PULL] Crypto library conversions for 6.17
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20250727234542.GC1261@sol>
+References: <20250727234542.GC1261@sol>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20250727234542.GC1261@sol>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git tags/libcrypto-conversions-for-linus
+X-PR-Tracked-Commit-Id: 998646b3c1129188f1fdffac3779feb9708b4b4a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4b65b859f55b036649a4525f09fa7c5bbbab384e
+Message-Id: <175375153939.918485.1163691169468282516.pr-tracker-bot@kernel.org>
+Date: Tue, 29 Jul 2025 01:12:19 +0000
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, fsverity@lists.linux.dev, apparmor@lists.ubuntu.com, Ard Biesheuvel <ardb@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, John Johansen <john.johansen@canonical.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Message-Id: <20250728-fsverity-v1-28-9e5443af0e34@kernel.org>
-References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
-In-Reply-To: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
-To: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
- linux-xfs@vger.kernel.org, david@fromorbit.com, djwong@kernel.org, 
- ebiggers@kernel.org, hch@lst.de
-Cc: Andrey Albershteyn <aalbersh@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3248; i=aalbersh@kernel.org;
- h=from:subject:message-id; bh=zC5E6t95NKV87LeykIKXUMiD57k/Zr4doqPRYj1WOUY=;
- b=owJ4nJvAy8zAJea2/JXEGuOHHIyn1ZIYMtrvSX7Ttr43pVubVcn7UNkRz++GEfckXyldvqHz4
- YPm+4ZPmlkdpSwMYlwMsmKKLOuktaYmFUnlHzGokYeZw8oEMoSBi1MAJtI1m5FhrWemVnxkIl+R
- eH5Ru7LXMqFfa/8t0bz/kHXefiX2jTuLGBn6NLbW8a7m5rHnEs+708a5aUXPJx7+R0bNi61f9fx
- hb+cCAAbtRJg=
-X-Developer-Key: i=aalbersh@kernel.org; a=openpgp;
- fpr=AE1B2A9562721A6FC4307C1F46A7EA18AC33E108
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: BcfcL_fdesZs4Bz0vC5969YMCPfleCBiZ3zR7V5P5_A_1753734710
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
 
-Even though fsverity has traces, debugging issues with varying block
-sizes could a bit less transparent without read/write traces.
+The pull request you sent on Sun, 27 Jul 2025 16:45:42 -0700:
 
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
----
- fs/xfs/xfs_fsverity.c |  8 ++++++++
- fs/xfs/xfs_trace.h    | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+> https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git tags/libcrypto-conversions-for-linus
 
-diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
-index dfe7b0bcd97e..4d3fd00237b1 100644
---- a/fs/xfs/xfs_fsverity.c
-+++ b/fs/xfs/xfs_fsverity.c
-@@ -70,6 +70,8 @@ xfs_fsverity_get_descriptor(
- 	};
- 	int			error = 0;
- 
-+	trace_xfs_fsverity_get_descriptor(ip);
-+
- 	/*
- 	 * The fact that (returned attribute size) == (provided buf_size) is
- 	 * checked by xfs_attr_copy_value() (returns -ERANGE).  No descriptor
-@@ -267,6 +269,8 @@ xfs_fsverity_read_merkle(
- 	 */
- 	xfs_fsverity_adjust_read(&region);
- 
-+	trace_xfs_fsverity_read_merkle(XFS_I(inode), region.pos, region.length);
-+
- 	folio = iomap_read_region(&region);
- 	if (IS_ERR(folio))
- 		return ERR_PTR(-EIO);
-@@ -297,6 +301,8 @@ xfs_fsverity_write_merkle(
- 		.ops				= &xfs_buffered_write_iomap_ops,
- 	};
- 
-+	trace_xfs_fsverity_write_merkle(XFS_I(inode), region.pos, region.length);
-+
- 	if (region.pos + region.length > inode->i_sb->s_maxbytes)
- 		return -EFBIG;
- 
-@@ -309,6 +315,8 @@ xfs_fsverity_file_corrupt(
- 	loff_t			pos,
- 	size_t			len)
- {
-+	trace_xfs_fsverity_file_corrupt(XFS_I(inode), pos, len);
-+
- 	xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_DATA);
- }
- 
-diff --git a/fs/xfs/xfs_trace.h b/fs/xfs/xfs_trace.h
-index 50034c059e8c..4477d5412e53 100644
---- a/fs/xfs/xfs_trace.h
-+++ b/fs/xfs/xfs_trace.h
-@@ -5979,6 +5979,52 @@ DEFINE_EVENT(xfs_freeblocks_resv_class, name, \
- DEFINE_FREEBLOCKS_RESV_EVENT(xfs_freecounter_reserved);
- DEFINE_FREEBLOCKS_RESV_EVENT(xfs_freecounter_enospc);
- 
-+TRACE_EVENT(xfs_fsverity_get_descriptor,
-+	TP_PROTO(struct xfs_inode *ip),
-+	TP_ARGS(ip),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(xfs_ino_t, ino)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = VFS_I(ip)->i_sb->s_dev;
-+		__entry->ino = ip->i_ino;
-+	),
-+	TP_printk("dev %d:%d ino 0x%llx",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino)
-+);
-+
-+DECLARE_EVENT_CLASS(xfs_fsverity_class,
-+	TP_PROTO(struct xfs_inode *ip, u64 pos, unsigned int length),
-+	TP_ARGS(ip, pos, length),
-+	TP_STRUCT__entry(
-+		__field(dev_t, dev)
-+		__field(xfs_ino_t, ino)
-+		__field(u64, pos)
-+		__field(unsigned int, length)
-+	),
-+	TP_fast_assign(
-+		__entry->dev = VFS_I(ip)->i_sb->s_dev;
-+		__entry->ino = ip->i_ino;
-+		__entry->pos = pos;
-+		__entry->length = length;
-+	),
-+	TP_printk("dev %d:%d ino 0x%llx pos %llx length %x",
-+		  MAJOR(__entry->dev), MINOR(__entry->dev),
-+		  __entry->ino,
-+		  __entry->pos,
-+		  __entry->length)
-+)
-+
-+#define DEFINE_FSVERITY_EVENT(name) \
-+DEFINE_EVENT(xfs_fsverity_class, name, \
-+	TP_PROTO(struct xfs_inode *ip, u64 pos, unsigned int length), \
-+	TP_ARGS(ip, pos, length))
-+DEFINE_FSVERITY_EVENT(xfs_fsverity_read_merkle);
-+DEFINE_FSVERITY_EVENT(xfs_fsverity_write_merkle);
-+DEFINE_FSVERITY_EVENT(xfs_fsverity_file_corrupt);
-+
- #endif /* _TRACE_XFS_H */
- 
- #undef TRACE_INCLUDE_PATH
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4b65b859f55b036649a4525f09fa7c5bbbab384e
+
+Thank you!
 
 -- 
-2.50.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
