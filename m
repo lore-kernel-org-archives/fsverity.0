@@ -1,57 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C07205E02;
-	Mon, 11 Aug 2025 13:35:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190A219D88F;
+	Mon, 11 Aug 2025 15:31:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754919330; cv=none; b=DnCyGRIGRRISCIgJHoosP5VbNjOHvGUQy2MImj/Z21DYQvdCBOlGvsa6BCGotNusJ9q7BS30A7deY/AUtCxEzQVegr67t+6eGAts7RTK1fIwwJSsHvzogtkrirbv80Zka1+BwmkCBUWWpw0eUPRRPdrD97RHCi2/9my2oesVZhs=
+	t=1754926303; cv=none; b=SqivB4xwM/pWOY+wBkMDbnwYu5ue9s/AF2sFPAMjo6o3M8I9hpTd9jzPjoax/xE9c6OWFJKoCHsk9pcP2wd4NFerKwUKXp+M4VvKCCebsmy5YMde+9mLzVEutdJhebjrpjFktYiYvq/PBFHUUSWiAz7lj00Ew1ZRWjYCUQH5aLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754919330; c=relaxed/simple;
-	bh=JU+C8jrRoBvIHpuTBFOVPaJSBYeLJuKp6ZRbyTV8tUc=;
+	s=arc-20240116; t=1754926303; c=relaxed/simple;
+	bh=0So7KQGnjijVzM0TWA5+/BW8vDimww8+bmIianA+pQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PH8DHpuV4GlG2ICbOWrIg/pTxWcaxAhVd16Nt87Hq+/KMhgtAPCHa0HGVCds/01FvyOyg3Rhv8YIv6zERQfuamXIJ5izU8XO3UcfpUqCxinuoOu3uEXRACoqCyhXQxOJ5t0QqLHV2YlpGtYYCFgLN7RLjeJ35Q1uAyDrtxaDS2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QanpJ1FF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qhXhI0xVX2vGRpi4qOUm+ckFnMHz4GQrvCa3/5mzxHNQdm7DyxVVt87voJ+NDIsHmuHz4Sid8bCFkIPBOOH3YCislRXzX7e9VaTyuu+NlEdOp65hfhVj6yzutX6t3GcZ9c2LJbOTKuxnTf7Od3/KT02prwE0vcDRIfmJp0XayG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XGVAw1Da; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QanpJ1FF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E39DC4CEED;
-	Mon, 11 Aug 2025 13:35:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XGVAw1Da"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92702C4CEED;
+	Mon, 11 Aug 2025 15:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754919329;
-	bh=JU+C8jrRoBvIHpuTBFOVPaJSBYeLJuKp6ZRbyTV8tUc=;
+	s=k20201202; t=1754926302;
+	bh=0So7KQGnjijVzM0TWA5+/BW8vDimww8+bmIianA+pQE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QanpJ1FFAEOTenI/ZExSMKMWz/vWwwP0RGPtT6qjmkKBX4nap9yqO0U3SmhN0mft7
-	 0XEsDyKzmiQ3MPArUXx7Xibr1PndFK+QUTgL3JK9LaIVUhTreuZbdIBreTgk2CfMxQ
-	 Gm8/UGW+xYIDrCTnXv0I60EocErHUvb+5Kqq7DSDZ/mQ7zNKRfJUzcxUkMhzug1uD1
-	 8bh6XQagbanat13424yqY1iXeT3fLg0pvOpA0uXXnszQuwLw3dGXGt6BbyRF22ekUs
-	 JmUCratJjiyWB9323y6oClHqu5I+dElILQ4KxZ59JBn8QQ28Rbay5gQFZ4RXLQSWSB
-	 iV0FOE4Xqmf/Q==
-Date: Mon, 11 Aug 2025 15:35:25 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-fscrypt@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, linux-btrfs@vger.kernel.org, 
-	ceph-devel@vger.kernel.org
-Subject: Re: [PATCH v5 00/13] Move fscrypt and fsverity info out of struct
- inode
-Message-ID: <20250811-weismachen-anhieb-987a766c8e6e@brauner>
-References: <20250810075706.172910-1-ebiggers@kernel.org>
- <aJixkUfWPo5t8Ron@infradead.org>
- <20250810170311.GA16624@sol>
+	b=XGVAw1DaymnZ+EX5FBTOzydJAkEv2+wIPPKKSQ/YAiODdwDjzr0niPMHIEQt4Vp13
+	 Hju/LgNaJJ50bf//ckE9Dr/0v7g+CeqnlwaQyk71f4R98Ez/TOc1j9khQ+ZcUsT9pc
+	 LTRh4oGt1FaNriVmubhqzM7nVZeL6QmPI+lnJKlINttjW/Ya3e5Mez6TpNsbXq1QeQ
+	 a/SLYuXv70/BJ7BzcEGGYk4KgSFaIVGfVUS71jDcsIVmgpApuEG+2EWqeajWWm2A+x
+	 7vEDbhYAN0YtK7XrKqUxsRA+JChbqRl8FUIOXYq6hUgS27E3ZcqpE5oOUVa8Ct50ro
+	 1wUREb/80ViXQ==
+Date: Mon, 11 Aug 2025 08:31:42 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	david@fromorbit.com, ebiggers@kernel.org
+Subject: Re: [PATCH RFC 06/29] fsverity: report validation errors back to the
+ filesystem
+Message-ID: <20250811153142.GJ7965@frogsfrogsfrogs>
+References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
+ <20250728-fsverity-v1-6-9e5443af0e34@kernel.org>
+ <20250811114603.GB8969@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250810170311.GA16624@sol>
+In-Reply-To: <20250811114603.GB8969@lst.de>
 
-> The fs-specific field solution from this patchset is much more efficient
-> than the rhashtable: efficient enough that we don't really have to worry
-> about it, regardless of fscrypt or fsverity.  So I think it's a good
-> middle ground, and I'd like to just do it this way.
+On Mon, Aug 11, 2025 at 01:46:03PM +0200, Christoph Hellwig wrote:
+> On Mon, Jul 28, 2025 at 10:30:10PM +0200, Andrey Albershteyn wrote:
+> > From: "Darrick J. Wong" <djwong@kernel.org>
+> > 
+> > Provide a new function call so that validation errors can be reported
+> > back to the filesystem.
+> 
+> This feels like an awfull generic name for a very specific error
+> condition.
 
-I agree.
+<shrug> ->verity_failure?
+
+> > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> 
+> Btw, this is missing a signoff from Andrey as the series submitter
+> needs to sign off after the author.
+
+Yes.
+
+--D
