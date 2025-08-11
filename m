@@ -1,51 +1,32 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C9F2BE640
-	for <fsverity@lists.linux.dev>; Mon, 11 Aug 2025 11:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05EF26D4CE
+	for <fsverity@lists.linux.dev>; Mon, 11 Aug 2025 11:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754910847; cv=none; b=B97AVtlui4uF1k4pph0CnmbxJluxaL9OQtzTlnpimBY56tlTOu7Jtim30FW7lETwE8qbcBowYomrxThEpbzt+IIo48KaLtIH2iUdBSjHkZe0g+LERrZQglID0Y+zpiV9/o/xU6SB8YJGCExbltwbvW6GTjYn0/RSmowPznCuPDA=
+	t=1754912623; cv=none; b=GlHlM5bFZjMpmG/hKQ3K+IwDVrR8rJdJPCmzUABQTaoM3zZDZyE5WBL0SMcVsDiXOg90ZzB4vgrGc1+xqHJYcnfuxULmErphDPSIj3SOEdlHNdsEZJvb5LHImhTuz/hfjJmaKXLXyTTWLzGP3x8l8ISSILCP5lswYeGymkLnSkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754910847; c=relaxed/simple;
-	bh=otpdYSy1ilfGEXWcocGLxg4mSn5osOgKnmShKt0EkyU=;
+	s=arc-20240116; t=1754912623; c=relaxed/simple;
+	bh=vDOfSTyaDKm9qIzU1tftk6AfsmG88YiZ4f11kGku9mg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z6FVrUilWUQayMfUdQqt16thpv7kPPWkSdsiojxp7B2Enx6cWXfoIgX84+aj4v2tKIoYm7R3IM+Lh5Kv9cD7FRjmep6yw1Bg0UKHoTISS3+QMZP8nAyuNf4he7Ej3pkZy7y9aGpFw8mYXxvkDpw+XGIWKiBlZs4Iv6TSz4m9sI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=gcppwGYu; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="gcppwGYu"
-Received: from trampoline.thunk.org (pool-173-48-111-121.bstnma.fios.verizon.net [173.48.111.121])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 57BBDu6B029953
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Aug 2025 07:13:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1754910838; bh=eCERekx2qJbgICEDcQPb6BFVY0/fxG8tnJnx/oSJL5Y=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=gcppwGYuGui0YtwkeJc3OxTfMVHnLyj8Jh2ayVIvazlrORmfq8SYE2nQXClK46QIJ
-	 ZC4MvRWdgnmb+9xymUny2kGzBvOpXv44DovveuB6LHwx2tDKwSM+qvnWX1L+1WZtGM
-	 sHlkIBeFhaDnjkHqLKKEDm/cDTdrkPzXs+RbdbiXLTxcYkeqjx7BzzVWFMXxGhyhw4
-	 D63qXjT2VoccbtPx3dD4W0KJhjvZMLjyy/WZsSax9xtdH2TU8IEqZaf1pUFsRChFPS
-	 YaRJ6ZTPNZbn2JHO8qqNSq+z14T0v/9iIeuCk4jZZHW+d2bD47RhcYK55V1j+21s+y
-	 OrgeOillPmPnw==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 63E212E00D6; Mon, 11 Aug 2025 07:13:56 -0400 (EDT)
-Date: Mon, 11 Aug 2025 07:13:56 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-fscrypt@vger.kernel.org, fsverity@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org,
-        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v5 09/13] ext4: move verity info pointer to fs-specific
- part of inode
-Message-ID: <20250811111356.GC984814@mit.edu>
-References: <20250810075706.172910-1-ebiggers@kernel.org>
- <20250810075706.172910-10-ebiggers@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJEmsUiDqOi1ysYpZqtkKtUlDHFufTcyrUBsL7MRFsf9GD+iuX03Scj64ZjqvXXtw517BDewfoIH5zAG++f6F/KQXJKaM1DwI5h46zgIcarJrimKbbS3RWKJu3dj/gqoKRNK1QrHlE4+BwOghZ0iNqRijbr9/1kblY9R1/u/iUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B520768AA6; Mon, 11 Aug 2025 13:43:37 +0200 (CEST)
+Date: Mon, 11 Aug 2025 13:43:37 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	david@fromorbit.com, ebiggers@kernel.org, hch@lst.de,
+	Andrey Albershteyn <aalbersh@kernel.org>
+Subject: Re: [PATCH RFC 02/29] iomap: introduce iomap_read/write_region
+ interface
+Message-ID: <20250811114337.GA8850@lst.de>
+References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org> <20250728-fsverity-v1-2-9e5443af0e34@kernel.org> <20250729222252.GJ2672049@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -54,19 +35,22 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250810075706.172910-10-ebiggers@kernel.org>
+In-Reply-To: <20250729222252.GJ2672049@frogsfrogsfrogs>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Sun, Aug 10, 2025 at 12:57:02AM -0700, Eric Biggers wrote:
-> Move the fsverity_info pointer into the filesystem-specific part of the
-> inode by adding the field ext4_inode_info::i_verity_info and configuring
-> fsverity_operations::inode_info_offs accordingly.
+On Tue, Jul 29, 2025 at 03:22:52PM -0700, Darrick J. Wong wrote:
+> ...and these sound a lot like filemap_read and iomap_write_iter.
+> Why not use those?  You'd get readahead for free.  Though I guess
+> filemap_read cuts off at i_size so maybe that's why this is necessary?
 > 
-> This is a prerequisite for a later commit that removes
-> inode::i_verity_info, saving memory and improving cache efficiency on
-> filesystems that don't support fsverity.
+> (and by extension, is this why the existing fsverity implementations
+> seem to do their own readahead and reading?)
 > 
-> Co-developed-by: Christian Brauner <brauner@kernel.org>
-> Signed-off-by: Christian Brauner <brauner@kernel.org>
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> ((and now I guess I see why this isn't done through the regular kiocb
+> interface, because then we'd be exposing post-EOF data hiding to
+> everyone in the system))
 
-Acked-by: Theodore Ts'o <tytso@mit.edu>
+Same thoughts here.  It seems like we should just have a beyond-EOF or
+fsverity flag for ->read_iter / ->write_iter and consolidate all this
+code.  That'll also go along nicely with the flag in the writepage_ctx
+suggested by Joanne.
