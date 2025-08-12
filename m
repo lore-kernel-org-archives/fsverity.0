@@ -1,31 +1,31 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C2F2DA76C
-	for <fsverity@lists.linux.dev>; Tue, 12 Aug 2025 07:44:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD662D4817
+	for <fsverity@lists.linux.dev>; Tue, 12 Aug 2025 07:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754984661; cv=none; b=EELpk8fswA4AOzRLBK3RYLC+H+zk1p4B8A2aY2+e4uawnox2Lor6YRdlgoYzAwtQghhu5gBDbT+04m0J4EW6fBw45OQpGy05ccdcZQf0pLy1Kp/y0YfAMgA8U7UNNN7UvVYcijZ8sItEJ/NDWO+WdUT3kulvE7iz8y7Le/F9VGM=
+	t=1754985103; cv=none; b=cxeMnEliVza7SCa76DGAIM9gVg+pGMDogSkpwPwNSmpXiK3csZ5mSj3z+DuB6/tgUWPQ5D2xT42XKwqbQxiR1JSX63ZIfZIwU6/y0mCAgQJLrauUgAAYxjj+pW+h47SLEcDR+a7DF2oNVkvBhf1HYd2angZzsmFMJwcjOSGTkkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754984661; c=relaxed/simple;
-	bh=EOnGf5A0r9WqcQ9tnVmSaq/bK7rmh2qYIHr/mwirnEA=;
+	s=arc-20240116; t=1754985103; c=relaxed/simple;
+	bh=vI/FrNY/ncVlMyuCYZypTddXFGvYbqgqV6uGU0x1VIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B4DARirw61+KV6i4u8JkYam6UU0pRIrkG0Slf5020kqz2k0rnMuXlRFwInsWaf9BJ6kiUGvFcFtnJ88cd3oC7VoUWZzaa8c0SjrggmrfOZeLrum40eoMQyZ9ior2Yeoo83w8XKUDPbhU9iuCPNtQ3DQ9m1AxzK9/7XCcyN+tSVY=
+	 Content-Type:Content-Disposition:In-Reply-To; b=BbUm2S5yEodDJz8EubX5P2OEGI8xYYkjsgDLavZx4yGb50m2xm66wTc+OJQmxUpsDQLRdotcm0qh6R1dYTn/m22E0b1HhqNmgrsCP1aCvNpv/KWVwdUPbBggK20QgtnF7e2r+XWAMPRkSGOVdGxkvNv5Upwl8aInyZjZgrbM8Bk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A539868AA6; Tue, 12 Aug 2025 09:44:16 +0200 (CEST)
-Date: Tue, 12 Aug 2025 09:44:15 +0200
+	id 0239468AA6; Tue, 12 Aug 2025 09:51:37 +0200 (CEST)
+Date: Tue, 12 Aug 2025 09:51:36 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	david@fromorbit.com, djwong@kernel.org, ebiggers@kernel.org,
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, david@fromorbit.com, djwong@kernel.org,
+	ebiggers@kernel.org, hch@lst.de,
 	Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH RFC 14/29] xfs: add attribute type for fs-verity
-Message-ID: <20250812074415.GD18413@lst.de>
-References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org> <20250728-fsverity-v1-14-9e5443af0e34@kernel.org> <20250811115023.GD8969@lst.de> <je3ryqpl3dyryplaxt6a5h6vtvsa2tpemfzraofultyfccr4a4@mftein7jfwmt>
+Subject: Re: [PATCH RFC 03/29] fs: add FS_XFLAG_VERITY for verity files
+Message-ID: <20250812075136.GA19693@lst.de>
+References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org> <20250728-fsverity-v1-3-9e5443af0e34@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -34,13 +34,17 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <je3ryqpl3dyryplaxt6a5h6vtvsa2tpemfzraofultyfccr4a4@mftein7jfwmt>
+In-Reply-To: <20250728-fsverity-v1-3-9e5443af0e34@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, Aug 11, 2025 at 09:00:29PM +0200, Andrey Albershteyn wrote:
-> Mostly because it was already implemented. But looking for benefits,
-> attr can be inode LOCAL so a bit of saved space? Also, seems like a
-> better interface than to look at a magic offset
+On Mon, Jul 28, 2025 at 10:30:07PM +0200, Andrey Albershteyn wrote:
+> From: Andrey Albershteyn <aalbersh@redhat.com>
+> 
+> Add extended attribute FS_XFLAG_VERITY for inodes with fs-verity
+> enabled.
 
-Well, can you document the rationale somewhere?
+This is independent of the XFS support and just offers the verity
+bit over formally XFS and now VFS fsxattr interface, right?  If so
+can you just sent it off to Eric after writing a more complete
+commit log explaining this?
 
