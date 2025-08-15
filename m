@@ -1,76 +1,137 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0808274420;
-	Tue, 12 Aug 2025 19:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7425022ACE3;
+	Fri, 15 Aug 2025 14:28:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755028343; cv=none; b=F9cYp7xv81u5aQyHocu99xPVWuGSjbU+ef+ktVr7qjDNTKQ/tiBJlF801GubUpZpXjtnUPtW1WWDXIH2qBd2Om/TZzBxou9UUIpLfaSplDpUkzYqOxtByfdzLaKMmGnoNeKsW/I52LI2Kq7I+Sp/7GNCn9gdWMl14KMHIJ0XBu8=
+	t=1755268102; cv=none; b=Z/rntE2sW3xxNNvGS11EyHHwJjvqneZJpoLqDfPEXM5q99PO3PG8Jnb8MuagpIgHoPVWj8tuqwwqG3n+iDvAqyvITSCY2jjUQVpaqZIjhaJHIg7n+AF2v6KNIKnp978YfJg7IQg7MlF4x6Vl2nYrBS0lnvMDKMklXLnABdN7RVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755028343; c=relaxed/simple;
-	bh=EWG5kAL/Ns/8hOr1OySYjFtWDg18A78ZP5BXzP7VvO4=;
+	s=arc-20240116; t=1755268102; c=relaxed/simple;
+	bh=NjlA2V0nQx0tBL4rAiZ29YI48biAV1hmLhasXfWKjKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V8QiAwqGYV3JHHgDEItYEWY1LCIycHGEkMLlO6RUhkuIfV7WC5zSk9Rewez9ckEUEDwvxigmn0Qq4JGqAEnT1v733O7qCTKFoq4jW0lNt+5U2yhUDHM49IqarmOW/v9xzKKdEOhoaUZjkYPx9GmEUNdyL+yJMnds4BsAOKRwUEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LMEMalru; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gEFTh7OvubPuOaia+v9NweX9aTPIi5hp9v8P/vsREXGlUqNIidtjfwBH5zkJ8r3344JQVfEANyn2KxH1iZAHS9INzPO8KzQieXl7Q9X3iMI1a0BpMpvHVA9qyjXHLaOdhFnNmRLs3pRULRQ0Ddrkq4XJkA7z1GnkN3pr6k0djjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vi/jyHyC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LMEMalru"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A748C4CEF0;
-	Tue, 12 Aug 2025 19:52:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vi/jyHyC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BE4C4CEF5;
+	Fri, 15 Aug 2025 14:28:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755028342;
-	bh=EWG5kAL/Ns/8hOr1OySYjFtWDg18A78ZP5BXzP7VvO4=;
+	s=k20201202; t=1755268102;
+	bh=NjlA2V0nQx0tBL4rAiZ29YI48biAV1hmLhasXfWKjKM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LMEMalruz0fBGUDsTe5fSqjlX7I48DWPERT1R6ba/W2X0fqhj0G5XuE7aXt4SNSMS
-	 H8mIbw+5JIP9hQjYT6KZZ1Y027/Pe0CkqmsHt0flMHaalKQyqZ/b48CVMp+UjFjV2W
-	 8NMIPU61zIDSCSInhterr0Uc9zUQH+MXBhlBxegErTv8p033WePHuQHmGDb+rH9MhY
-	 EaEYSr2ZWlFWOZshqrM165pC1u6vND/tukpZY3a2aKk7H141AEr0GXKcwqA/u3wEl6
-	 B07Nq0qGvmqcXHvGqjrUefhvpxwU3DjwyfO4Nx5VktUXc+GT53jXePtEbKWEykZ0zK
-	 /DoaCjr+zIT+w==
-Date: Tue, 12 Aug 2025 09:52:21 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	david@fromorbit.com, djwong@kernel.org, ebiggers@kernel.org,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 04/29] fsverity: add per-sb workqueue for post read
- processing
-Message-ID: <aJubdUBFAFnxe7C_@slm.duckdns.org>
-References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
- <20250728-fsverity-v1-4-9e5443af0e34@kernel.org>
- <20250811114519.GA8969@lst.de>
- <aJotnxPj_OXkrc42@slm.duckdns.org>
- <20250812074350.GC18413@lst.de>
+	b=Vi/jyHyCpW3IS1hb6zQ4jJ+oAYD0DXsY2Im5ys51K44DIEZQHnGkTVraWsoFcqbwC
+	 JxJq03+C9R3fjpoMc9nQd4QG10bfgmJDeOjpatQAYOyzqylhQ1n0AYRglhszfcGetS
+	 FjhIcW7orUVId79eVQDk4m6yVnMF8nfROWLKKC2DlG1gQDlsTg5ndmXNr61rMo4qLc
+	 FwgVzCRxDCjKmjVaJfryczmqUHzyfxIQC23QMXOHkNvThADLMLAyeNAgSC/7uGhDd7
+	 iOBJ7p+fW43/8ExrYdQawHBPv3mNoLE+f/MSAzjfGGQ+rUABw1kKle6THgz2+iucuP
+	 LOrp6gISP0oAQ==
+Date: Fri, 15 Aug 2025 16:28:17 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-fscrypt@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, linux-btrfs@vger.kernel.org, 
+	ceph-devel@vger.kernel.org
+Subject: Re: [PATCH v5 00/13] Move fscrypt and fsverity info out of struct
+ inode
+Message-ID: <20250815-pension-geleugnet-0b0502f0555c@brauner>
+References: <20250810075706.172910-1-ebiggers@kernel.org>
+ <20250810-tortur-gerammt-8d9ffd00da19@brauner>
+ <20250810090302.GA1274@sol>
+ <20250811-distribuieren-nilpferd-bef047fa7992@brauner>
+ <20250811-unbedacht-vollmond-1a805b76212b@brauner>
+ <20250811163907.GA1268@sol>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250812074350.GC18413@lst.de>
+In-Reply-To: <20250811163907.GA1268@sol>
 
-Hello,
-
-On Tue, Aug 12, 2025 at 09:43:50AM +0200, Christoph Hellwig wrote:
-...
-> Andrey (or others involved with previous versions):  is interference
-> with the log completion workqueue what you ran into?
+On Mon, Aug 11, 2025 at 09:39:07AM -0700, Eric Biggers wrote:
+> On Mon, Aug 11, 2025 at 03:34:35PM +0200, Christian Brauner wrote:
+> > On Mon, Aug 11, 2025 at 03:17:01PM +0200, Christian Brauner wrote:
+> > > On Sun, Aug 10, 2025 at 02:03:02AM -0700, Eric Biggers wrote:
+> > > > On Sun, Aug 10, 2025 at 10:47:32AM +0200, Christian Brauner wrote:
+> > > > > On Sun, Aug 10, 2025 at 12:56:53AM -0700, Eric Biggers wrote:
+> > > > > > This is a cleaned-up implementation of moving the i_crypt_info and
+> > > > > > i_verity_info pointers out of 'struct inode' and into the fs-specific
+> > > > > > part of the inode, as proposed previously by Christian at
+> > > > > > https://lore.kernel.org/r/20250723-work-inode-fscrypt-v4-0-c8e11488a0e6@kernel.org/
+> > > > > > 
+> > > > > > The high-level concept is still the same: fs/crypto/ and fs/verity/
+> > > > > > locate the pointer by adding an offset to the address of struct inode.
+> > > > > > The offset is retrieved from fscrypt_operations or fsverity_operations.
+> > > > > > 
+> > > > > > I've cleaned up a lot of the details, including:
+> > > > > > - Grouped changes into patches differently
+> > > > > > - Rewrote commit messages and comments to be clearer
+> > > > > > - Adjusted code formatting to be consistent with existing code
+> > > > > > - Removed unneeded #ifdefs
+> > > > > > - Improved choice and location of VFS_WARN_ON_ONCE() statements
+> > > > > > - Added missing kerneldoc for ubifs_inode::i_crypt_info
+> > > > > > - Moved field initialization to init_once functions when they exist
+> > > > > > - Improved ceph offset calculation and removed unneeded static_asserts
+> > > > > > - fsverity_get_info() now checks IS_VERITY() instead of v_ops
+> > > > > > - fscrypt_put_encryption_info() no longer checks IS_ENCRYPTED(), since I
+> > > > > >   no longer think it's actually correct there.
+> > > > > > - verity_data_blocks() now keeps doing a raw dereference
+> > > > > > - Dropped fscrypt_set_inode_info() 
+> > > > > > - Renamed some functions
+> > > > > > - Do offset calculation using int, so we don't rely on unsigned overflow
+> > > > > > - And more.
+> > > > > > 
+> > > > > > For v4 and earlier, see
+> > > > > > https://lore.kernel.org/r/20250723-work-inode-fscrypt-v4-0-c8e11488a0e6@kernel.org/
+> > > > > > 
+> > > > > > I'd like to take this series through the fscrypt tree for 6.18.
+> > > > > > (fsverity normally has a separate tree, but by choosing just one tree
+> > > > > > for this, we'll avoid conflicts in some places.)
+> > > > > 
+> > > > > Woh woh. First, I had a cleaned up version ready for v6.18 so if you
+> > > > > plan on taking over someone's series and resend then maybe ask the
+> > > > > author first whether that's ok or not. I haven't seen you do that. You
+> > > > > just caused duplicated work for no reason.
+> > > > 
+> > > > Ah, sorry about that.  When I started looking at it again yesterday
+> > > > there turned out to be way too many cleanups and fixes I wanted to make
+> > > > (beyond the comments I gave earlier), and I hadn't seen activity from
+> > > > you on it in a while.  So I figured it would be easier to just send a
+> > > > series myself.  But I should have asked you first, sorry.
+> > > 
+> > > So I started working on this pretty much right away. And I had planned
+> > > on sending it out rather soon but then thought to better wait for -rc1
+> > > to be released because I saw you had a bunch of crypto changes in for
+> > > -rc1 that would've caused merge conflicts. It's no big deal overall but
+> > > I just don't like that I wasted massaging all that stuff. So next time a
+> > > heads-up would be nice. Thank you!
+> > 
+> > I just pulled the series and now I see that you also changed the
+> > authorship of every single patch in the series from me to you and put my
+> > Co-developed-by in there.
+> > 
+> > I mean I acknowledge that there's changes between the branches and
+> > there's some function renaming but it's not to the point where
+> > authorship should be changed. And if you think that's necessary than it
+> > would be something you would want to talk to me about first.
+> > 
+> > I don't care about the stats but it was always hugely frustrating to me
+> > when I started kernel development when senior kernel developers waltzed
+> > in and thought they'd just take things over so I try very hard to not do
+> > that unless this is agreed upon first.
 > 
-> Tejun, are you going to prepare a patch to fix the rescuer priority?
+> If you want to keep the authorship that's fine with me.  Make sure
+> you've checked the diff: the diff between v4 and v5 is larger than the
+> diff between the base and either version.  And as I mentioned, I rewrote
+> the commit messages and divided some of the changes into commits
+> differently as well.  If the situation was flipped, I wouldn't want to
+> be kept as the author.  But I realize there are different opinions about
+> this sort of thing, and I'm totally fine with whatever you prefer.
 
-NVM, I was confused. All rescuers, regardless of the associated workqueue,
-set their nice level to MIN_NICE. IIRC, the rationale was that by the time
-rescuer triggers the queued work items already have experienced noticeable
-latencies and that rescuer invocations would be pretty rare. I'd be
-surprised if rescuer behavior is showing up as easily observable
-interferences in most cases. The system should already be thrashing quite a
-bit for rescuers to be active and whatever noise rescuer behavior might
-cause should usually be drowned by other things.
-
-Thanks.
-
--- 
-tejun
+It's not that I oppose it per se it's just that it would be nice to have
+gotten a heads-up about both the rewrite and the authorship change.
+(Sorry, still on vacation and so answers are delayed.)
