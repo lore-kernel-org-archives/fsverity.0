@@ -1,137 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7425022ACE3;
-	Fri, 15 Aug 2025 14:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642A5285079;
+	Fri, 29 Aug 2025 07:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755268102; cv=none; b=Z/rntE2sW3xxNNvGS11EyHHwJjvqneZJpoLqDfPEXM5q99PO3PG8Jnb8MuagpIgHoPVWj8tuqwwqG3n+iDvAqyvITSCY2jjUQVpaqZIjhaJHIg7n+AF2v6KNIKnp978YfJg7IQg7MlF4x6Vl2nYrBS0lnvMDKMklXLnABdN7RVE=
+	t=1756454136; cv=none; b=F4k4CX6n0UrCinC4vKaBtHP4hCYHu9lSRmf4UIZt9tcohM4c1tXg64jx76Ug0HJxgU6cq1cgAzEi83/mjgTYBsddMw3Bh0hbjL4pFXUifEYfBHDaojUzcl7FH9rqhmYjhWsA2nCjorRygPhFoOM8PcVvpbQRZQRE9t77N0IX3cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755268102; c=relaxed/simple;
-	bh=NjlA2V0nQx0tBL4rAiZ29YI48biAV1hmLhasXfWKjKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gEFTh7OvubPuOaia+v9NweX9aTPIi5hp9v8P/vsREXGlUqNIidtjfwBH5zkJ8r3344JQVfEANyn2KxH1iZAHS9INzPO8KzQieXl7Q9X3iMI1a0BpMpvHVA9qyjXHLaOdhFnNmRLs3pRULRQ0Ddrkq4XJkA7z1GnkN3pr6k0djjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vi/jyHyC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756454136; c=relaxed/simple;
+	bh=UJUK8/oCaP8or4xMM6dYj2gtHalMI9xq0zTRRM+Er48=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CQvZ1G9ecPqnXZg+rVVzVsDNpKcJQ1fObEzlTBXSdyJphpfsmHGTXkUqSdyAVIjigHHnNYSkVO+yuwc+a5FfCeVpTRW83LCc2cYrM9xvQXCYajhbkYGWN2UjcBfUfAzWUpvpYXh6yD2/M0lKQA3VL/pIMjpKLWxvAZQWYmKE8ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7mzxIaS; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vi/jyHyC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BE4C4CEF5;
-	Fri, 15 Aug 2025 14:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755268102;
-	bh=NjlA2V0nQx0tBL4rAiZ29YI48biAV1hmLhasXfWKjKM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vi/jyHyCpW3IS1hb6zQ4jJ+oAYD0DXsY2Im5ys51K44DIEZQHnGkTVraWsoFcqbwC
-	 JxJq03+C9R3fjpoMc9nQd4QG10bfgmJDeOjpatQAYOyzqylhQ1n0AYRglhszfcGetS
-	 FjhIcW7orUVId79eVQDk4m6yVnMF8nfROWLKKC2DlG1gQDlsTg5ndmXNr61rMo4qLc
-	 FwgVzCRxDCjKmjVaJfryczmqUHzyfxIQC23QMXOHkNvThADLMLAyeNAgSC/7uGhDd7
-	 iOBJ7p+fW43/8ExrYdQawHBPv3mNoLE+f/MSAzjfGGQ+rUABw1kKle6THgz2+iucuP
-	 LOrp6gISP0oAQ==
-Date: Fri, 15 Aug 2025 16:28:17 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-fscrypt@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-mtd@lists.infradead.org, linux-btrfs@vger.kernel.org, 
-	ceph-devel@vger.kernel.org
-Subject: Re: [PATCH v5 00/13] Move fscrypt and fsverity info out of struct
- inode
-Message-ID: <20250815-pension-geleugnet-0b0502f0555c@brauner>
-References: <20250810075706.172910-1-ebiggers@kernel.org>
- <20250810-tortur-gerammt-8d9ffd00da19@brauner>
- <20250810090302.GA1274@sol>
- <20250811-distribuieren-nilpferd-bef047fa7992@brauner>
- <20250811-unbedacht-vollmond-1a805b76212b@brauner>
- <20250811163907.GA1268@sol>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7mzxIaS"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-246648f833aso11818045ad.3;
+        Fri, 29 Aug 2025 00:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756454134; x=1757058934; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=e1dzl/9HN9fCmWWoku2EUAe+4oZJtgdEcU9UZmXN/7A=;
+        b=I7mzxIaS44E2M0haVPAdsK6azfyI6aFzGFCqOJ7b3Ai9oe3aJRn4id5X2qB07g7AYO
+         KMptdGjPm8ZS26E7nDCTGCTrm4gv6NPb0GvnSRbTH3UaaHMIdYzasB3bz+ICIYf5GgNp
+         gKU6jvOksMJfPY7mJtI9fy/k6/6KETuwPa4mqcsaxNIf8fI87tvGZRLxdupJyEgEYScg
+         R+z0GAHUsrnkKAbhVJKPVG3bcFUBvNVwtSJEveXr3sWXxiHhs5JvZWUw841qYWQeqsx2
+         MnXZNywo1Bn5e1MZIH9e0b6SltcquvSYJZIlS+mX1YkZWEckL6oY06B8eEZIy93xgtjD
+         qR2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756454134; x=1757058934;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e1dzl/9HN9fCmWWoku2EUAe+4oZJtgdEcU9UZmXN/7A=;
+        b=wXH50YTdA+YRFRUc5YKxfhKwEBQClzJY7uo6GNmREExsNHSgi0PrqAJIpVZcMNYNDX
+         wmlJkRYgwEbeMvcQjZQ9vMK9sbxhR3v4H+RoWf/4CTY1GIGFceqo8rwzRgQc/z2Y9GF1
+         ttyzVzversrESEE4DZLSFYbpiiUTYRED2uLARLsEmFRUNBMcrbCuEIOEfef906msFs/u
+         fu5ATglCDzYrtvNqG5Mj6RPCcDdsHGNtEeJAdqfUCGQg01AUhyLhDs2pifl+VfuHA5+2
+         TMXnq7umw2z1iwTXSmUoFhBvSDxLhSQ8h5O2hzasg0jY5YboAu1ZTPGmPyuwQHUtJFwy
+         CIbg==
+X-Forwarded-Encrypted: i=1; AJvYcCV71SYibJI/lvsptK/TMiSlHYLHEjHqQcNhv7+mS7tUQ2yqIXSGc/3Vogil37fDkMeEilcqBb7WqDI=@lists.linux.dev, AJvYcCVv/f7L0xQfzX4X8ozjDWGlFf8oyiYCLb1LheIPXmnJVmkKi+jOxxwB3cLtRgZ+kmvP88lDyA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3zEZSkMDRBFzOu70vDONx7odlj2D1FvRHX7+120y3mXGROjuM
+	3h4PmWVRk6BiWN42bL9e9L4j3BMYgQvSAPMrBLjgeHbwN0toKKEPTecq
+X-Gm-Gg: ASbGncsBwfVHuGfIIDkSsPd/akUWXXcFQNtgbs9I8Hqyf1/d3nDNQDadRf/edUgrdG9
+	1gpKs+Ck6mQo9cjn/TNrejviVIu30sH2RTUkNTK6vX2CxQEijdSUF5VFrivfVXEdnr5eUY50FN+
+	CeF0WW1rQSSkQB/k0Q7DkXOz4MC+nW2slLQ29MD1fVHo+BIBuYlB1AEoyhKfnBYBtt82N6lpdNE
+	NQXNC4gatl5tu2gNd4d2C1LK7KghDpFkzCBGNDVHZ1kW7a7XLC3wXCnrrborGSh20KwGY57QGm8
+	t8v4QYozlED0uTwgq4dP3n9O+gv7aprb0hucWxdE7hKDlvLdNwuU/5Csj2jAeODxMd991p4Tgtp
+	oaApHTH9/zz1JzGYqk8OYZAJxC0BO5ycPj8yD
+X-Google-Smtp-Source: AGHT+IHHspv4kBSvuOju+syLfWNvxBR1WSkz7mrwJNK9paKzC+4NcNK8VdwZC8CcLSepusoSJLIitw==
+X-Received: by 2002:a17:903:15ce:b0:246:c7dd:8da7 with SMTP id d9443c01a7336-246c7dd91f6mr219457635ad.32.1756454133503;
+        Fri, 29 Aug 2025 00:55:33 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-249037043b3sm17009045ad.22.2025.08.29.00.55.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Aug 2025 00:55:31 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 92CC9411BF96; Fri, 29 Aug 2025 14:55:27 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DAMON <damon@lists.linux.dev>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Power Management <linux-pm@vger.kernel.org>,
+	Linux Block Devices <linux-block@vger.kernel.org>,
+	Linux BPF <bpf@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Linux KASAN <kasan-dev@googlegroups.com>,
+	Linux Devicetree <devicetree@vger.kernel.org>,
+	Linux fsverity <fsverity@lists.linux.dev>,
+	Linux MTD <linux-mtd@lists.infradead.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux Sound <linux-sound@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Huang Rui <ray.huang@amd.com>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	tytso@mit.edu,
+	Richard Weinberger <richard@nod.at>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Waiman Long <longman@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Shay Agroskin <shayagr@amazon.com>,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	David Arinzon <darinzon@amazon.com>,
+	Saeed Bishara <saeedb@amazon.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Alexandru Ciobotaru <alcioa@amazon.com>,
+	The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Steve French <stfrench@microsoft.com>,
+	Meetakshi Setiya <msetiya@microsoft.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 00/14] Internalize www.kernel.org/doc cross-reference
+Date: Fri, 29 Aug 2025 14:55:10 +0700
+Message-ID: <20250829075524.45635-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250811163907.GA1268@sol>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3498; i=bagasdotme@gmail.com; h=from:subject; bh=UJUK8/oCaP8or4xMM6dYj2gtHalMI9xq0zTRRM+Er48=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY17c4br6T35GuJHFF8Yt24416R5lZZr0d5nIjOkLd Wbtjd2k0FHKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJxIow/NNvVZZWvf59gvln 8f09a96zlV1ddP/qfkeet3OelO1bF7GW4X+WSslpN8ZtovrZdcGNj+0m353MlHX12bkXf15P2h5 ctoADAA==
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 11, 2025 at 09:39:07AM -0700, Eric Biggers wrote:
-> On Mon, Aug 11, 2025 at 03:34:35PM +0200, Christian Brauner wrote:
-> > On Mon, Aug 11, 2025 at 03:17:01PM +0200, Christian Brauner wrote:
-> > > On Sun, Aug 10, 2025 at 02:03:02AM -0700, Eric Biggers wrote:
-> > > > On Sun, Aug 10, 2025 at 10:47:32AM +0200, Christian Brauner wrote:
-> > > > > On Sun, Aug 10, 2025 at 12:56:53AM -0700, Eric Biggers wrote:
-> > > > > > This is a cleaned-up implementation of moving the i_crypt_info and
-> > > > > > i_verity_info pointers out of 'struct inode' and into the fs-specific
-> > > > > > part of the inode, as proposed previously by Christian at
-> > > > > > https://lore.kernel.org/r/20250723-work-inode-fscrypt-v4-0-c8e11488a0e6@kernel.org/
-> > > > > > 
-> > > > > > The high-level concept is still the same: fs/crypto/ and fs/verity/
-> > > > > > locate the pointer by adding an offset to the address of struct inode.
-> > > > > > The offset is retrieved from fscrypt_operations or fsverity_operations.
-> > > > > > 
-> > > > > > I've cleaned up a lot of the details, including:
-> > > > > > - Grouped changes into patches differently
-> > > > > > - Rewrote commit messages and comments to be clearer
-> > > > > > - Adjusted code formatting to be consistent with existing code
-> > > > > > - Removed unneeded #ifdefs
-> > > > > > - Improved choice and location of VFS_WARN_ON_ONCE() statements
-> > > > > > - Added missing kerneldoc for ubifs_inode::i_crypt_info
-> > > > > > - Moved field initialization to init_once functions when they exist
-> > > > > > - Improved ceph offset calculation and removed unneeded static_asserts
-> > > > > > - fsverity_get_info() now checks IS_VERITY() instead of v_ops
-> > > > > > - fscrypt_put_encryption_info() no longer checks IS_ENCRYPTED(), since I
-> > > > > >   no longer think it's actually correct there.
-> > > > > > - verity_data_blocks() now keeps doing a raw dereference
-> > > > > > - Dropped fscrypt_set_inode_info() 
-> > > > > > - Renamed some functions
-> > > > > > - Do offset calculation using int, so we don't rely on unsigned overflow
-> > > > > > - And more.
-> > > > > > 
-> > > > > > For v4 and earlier, see
-> > > > > > https://lore.kernel.org/r/20250723-work-inode-fscrypt-v4-0-c8e11488a0e6@kernel.org/
-> > > > > > 
-> > > > > > I'd like to take this series through the fscrypt tree for 6.18.
-> > > > > > (fsverity normally has a separate tree, but by choosing just one tree
-> > > > > > for this, we'll avoid conflicts in some places.)
-> > > > > 
-> > > > > Woh woh. First, I had a cleaned up version ready for v6.18 so if you
-> > > > > plan on taking over someone's series and resend then maybe ask the
-> > > > > author first whether that's ok or not. I haven't seen you do that. You
-> > > > > just caused duplicated work for no reason.
-> > > > 
-> > > > Ah, sorry about that.  When I started looking at it again yesterday
-> > > > there turned out to be way too many cleanups and fixes I wanted to make
-> > > > (beyond the comments I gave earlier), and I hadn't seen activity from
-> > > > you on it in a while.  So I figured it would be easier to just send a
-> > > > series myself.  But I should have asked you first, sorry.
-> > > 
-> > > So I started working on this pretty much right away. And I had planned
-> > > on sending it out rather soon but then thought to better wait for -rc1
-> > > to be released because I saw you had a bunch of crypto changes in for
-> > > -rc1 that would've caused merge conflicts. It's no big deal overall but
-> > > I just don't like that I wasted massaging all that stuff. So next time a
-> > > heads-up would be nice. Thank you!
-> > 
-> > I just pulled the series and now I see that you also changed the
-> > authorship of every single patch in the series from me to you and put my
-> > Co-developed-by in there.
-> > 
-> > I mean I acknowledge that there's changes between the branches and
-> > there's some function renaming but it's not to the point where
-> > authorship should be changed. And if you think that's necessary than it
-> > would be something you would want to talk to me about first.
-> > 
-> > I don't care about the stats but it was always hugely frustrating to me
-> > when I started kernel development when senior kernel developers waltzed
-> > in and thought they'd just take things over so I try very hard to not do
-> > that unless this is agreed upon first.
-> 
-> If you want to keep the authorship that's fine with me.  Make sure
-> you've checked the diff: the diff between v4 and v5 is larger than the
-> diff between the base and either version.  And as I mentioned, I rewrote
-> the commit messages and divided some of the changes into commits
-> differently as well.  If the situation was flipped, I wouldn't want to
-> be kept as the author.  But I realize there are different opinions about
-> this sort of thing, and I'm totally fine with whatever you prefer.
+Cross-references to other docs (so-called internal links) are typically
+done following Documentation/doc-guide/sphinx.rst: either simply
+write the target docs (preferred) or use :doc: or :ref: reST directives
+(for use-cases like having anchor text or cross-referencing sections).
+In some places, however, links to https://www.kernel.org/doc
+are used instead (outgoing, external links), owing inconsistency as
+these requires Internet connection only to see docs that otherwise
+can be accessed locally (after building with ``make htmldocs``).
 
-It's not that I oppose it per se it's just that it would be nice to have
-gotten a heads-up about both the rewrite and the authorship change.
-(Sorry, still on vacation and so answers are delayed.)
+Convert such external links to internal links. Note that this does not
+cover docs.kernel.org links nor touching Documentation/tools (as
+docs containing external links are in manpages).
+
+This series is based on docs-next tree.
+
+Bagas Sanjaya (14):
+  Documentation: hw-vuln: l1tf: Convert kernel docs external links
+  Documentation: damon: reclaim: Convert "Free Page Reporting" citation
+    link
+  Documentation: perf-security: Convert security credentials
+    bibliography link
+  Documentation: amd-pstate: Use internal link to kselftest
+  Documentation: blk-mq: Convert block layer docs external links
+  Documentation: bpf: Convert external kernel docs link
+  Documentation: kasan: Use internal link to kunit
+  Documentation: gpu: Use internal link to kunit
+  Documentation: filesystems: Fix stale reference to device-mapper docs
+  Documentation: smb: smbdirect: Convert KSMBD docs link
+  Documentation: net: Convert external kernel networking docs
+  ASoC: doc: Internally link to Writing an ALSA Driver docs
+  nitro_enclaves: Use internal cross-reference for kernel docs links
+  Documentation: checkpatch: Convert kernel docs references
+
+ Documentation/admin-guide/hw-vuln/l1tf.rst    |   9 +-
+ .../admin-guide/mm/damon/reclaim.rst          |   2 +-
+ Documentation/admin-guide/perf-security.rst   |   2 +-
+ Documentation/admin-guide/pm/amd-pstate.rst   |   3 +-
+ Documentation/block/blk-mq.rst                |  23 ++--
+ Documentation/bpf/bpf_iterators.rst           |   3 +-
+ Documentation/bpf/map_xskmap.rst              |   5 +-
+ Documentation/dev-tools/checkpatch.rst        | 121 ++++++++++++------
+ Documentation/dev-tools/kasan.rst             |   6 +-
+ .../bindings/submitting-patches.rst           |   2 +
+ .../driver-api/driver-model/device.rst        |   2 +
+ Documentation/filesystems/fsverity.rst        |  11 +-
+ Documentation/filesystems/smb/smbdirect.rst   |   4 +-
+ Documentation/filesystems/sysfs.rst           |   2 +
+ .../filesystems/ubifs-authentication.rst      |   4 +-
+ Documentation/gpu/todo.rst                    |   6 +-
+ Documentation/kbuild/reproducible-builds.rst  |   2 +
+ Documentation/locking/lockdep-design.rst      |   2 +
+ .../can/ctu/ctucanfd-driver.rst               |   3 +-
+ .../device_drivers/ethernet/amazon/ena.rst    |   4 +-
+ Documentation/networking/ethtool-netlink.rst  |   3 +-
+ Documentation/networking/snmp_counter.rst     |  12 +-
+ Documentation/process/coding-style.rst        |  15 +++
+ Documentation/process/deprecated.rst          |   4 +
+ Documentation/process/submitting-patches.rst  |   4 +
+ Documentation/sound/soc/codec.rst             |   4 +-
+ Documentation/sound/soc/platform.rst          |   4 +-
+ Documentation/virt/ne_overview.rst            |  10 +-
+ 28 files changed, 165 insertions(+), 107 deletions(-)
+
+
+base-commit: ee9a6691935490dc39605882b41b9452844d5e4e
+-- 
+An old man doll... just what I always wanted! - Clara
+
