@@ -1,137 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D2932F740;
-	Wed,  3 Sep 2025 03:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9AF1E3769
+	for <fsverity@lists.linux.dev>; Tue,  9 Sep 2025 12:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756870341; cv=none; b=UKNfRQPDhSb7p+4/Wfv3XTdfIs51PaiHxO7AlU7Uco5oz+sqOxjHF438ibH4JKa8AP2YMf+khgEPDyedmjsftH24qI+mIFRJnPUHcYo8z5Qlx+IYXF72k7g1MAh2uhXjB1ImChypZP2VO0mj/WCiIinulK1zPAzhlEwEgx3o4L0=
+	t=1757421021; cv=none; b=E6zcHu3/s1ER7kbbTGyttRTEwF+EGsp2zVBpnKBlgqwZIhYfhWtJISEcNYC1Ug3cBYjpq87Hqq333FIhandDVcEabgrUQEX1h7SWFmFx2drh7Wg9K4Zme0xKU9+OKOzO/0hu9u6NWbEUcg70A7H9Tqy/BtnrvHApFlBILj3mF20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756870341; c=relaxed/simple;
-	bh=1armfrQSPhghEXbEgCR40kMT3Mz1KUNVgAlY6GjrTLM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J5t5VZXgL/5Iof6OoWLFo3U1JfXrDUBu3hVZfePtCs16N4B/zwrcpCdWF5EmmR9bz4kftQTc+tOyppvPyFtKM+m5+YtnovbWV3uiDJ8FjlShx5IrpkZg3QttQElhH/1khn+snkJjD9WDehyCIr2qMeogk0BceX0EmBfunuymcOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6/aA16+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757421021; c=relaxed/simple;
+	bh=s92S74rkTQygVdBylBjRnsGIqHJ3GyRJ+UufBEDW444=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=Iqgf3MWcaN0wQHJpL5oQnunF6l2V1dHRbXmBciRqSgk7PawxJjylVtbTaPo42LLkdswVjCG3T1BuO4eS0JN6Jf/NXJQjrNaysasFyiPyJDh6vMJUw48nQWPSjhRGPBJIdFRfehh0a6D/6k4P9ahjHOwnMWt3kIM9sVoUelK7+kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h59UmyRB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6/aA16+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C22F8C4CEF0;
-	Wed,  3 Sep 2025 03:32:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756870340;
-	bh=1armfrQSPhghEXbEgCR40kMT3Mz1KUNVgAlY6GjrTLM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=c6/aA16+bBkQH51tR2bcv5SM6tXtTwJMULf4022Tate2FmzdfUbzGvPiP2fkcVpWI
-	 RriSmrsN2ZlJj0IloB/qX3FQ3Nx9cN4lqbucrjYT4KLxt2DgUbVBqvIKo2olMXLgfB
-	 9N5kKv4v3IBmC1YJev3/3rxoXwXwhR46dCAt8jPxByNLb/XkehQ3Po6KdKfM7VpmMm
-	 1Q1BM8WVxFsEMqVtGOxGMqeKmeEKRty2lb7WMxAWqJ6tmtHvJWE+KovB1IE7Kw9o50
-	 ge8OGusvBxfm+9So2e0mbnLX+HsjFa6ZxAt4PFAo/YR4SAEcoNc0h0IuibbyWbTQJn
-	 FVh2NdAaEjS2A==
-Message-ID: <3242f4a2-9a5f-4165-8d24-5c2387967277@kernel.org>
-Date: Tue, 2 Sep 2025 22:32:05 -0500
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h59UmyRB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757421018;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=00MIITktQKpeu4Npo919IC2v222FV9c+T1/KFxmzFFk=;
+	b=h59UmyRB75xi7w3nVLnf7EIAh4x0kQpEQhVrHGMXh+Q++u7fHM6y/cefhQ9qUUOlajinzD
+	EsBwxnSKA/EaJIm1+MKWgtg65rk/xySfRLN+AHqzGBTEBs1SYo/qfvLbcw8bFt7/UJSYuC
+	iHax0b9VOwczJdbAXO+D7odYd3J0Ijw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-128-W28x3_NWMTmtkG2ZzoK9Cg-1; Tue, 09 Sep 2025 08:30:17 -0400
+X-MC-Unique: W28x3_NWMTmtkG2ZzoK9Cg-1
+X-Mimecast-MFC-AGG-ID: W28x3_NWMTmtkG2ZzoK9Cg_1757421016
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-45cb5dbda9cso34377475e9.2
+        for <fsverity@lists.linux.dev>; Tue, 09 Sep 2025 05:30:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757421016; x=1758025816;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=00MIITktQKpeu4Npo919IC2v222FV9c+T1/KFxmzFFk=;
+        b=aGsUfTfG5dzwdmvuSCY41SbXrrmQVgpNzijP0A0/8784lbe9OjMMhNqMi5vzxwonxy
+         DcAvWJk0Ze+NzYajtJXlca1LzPudtLedlaAb+Gx9rxF1DuQKGM9Fo6rMjT614tjRVFoM
+         5G9RQVkBhvmPlXMDJhkGgPs1mGbU8gCZN2TwuofXPYuHJi48JugPP1sF48ttZ/LgUHRn
+         +RgNk5PlJ0ySVkjUhl6jciKkHWgoqKIprri+VUrtUXtrkui6zxHFZZi4mV8RI/wMF98n
+         29AxErsPrC0xpburYZdEjnJTbBbLXXk/Tt4DIsSMcVg/ICyyKLWUEZ90vujc/VqQXtYt
+         AaNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWt7pX7UJViNBZ75c49ZyqZQtb3+okfYiA/THxgeenlhJ6e3EO2bxwGHCQ4lESNUgJ2v1BuETMrQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzuA/wfvdqvXyH0ddCoC9HzZ9fdbadLu61czgR3DI8EEYGD5Wvd
+	ULm8Ow8ihlRu6qAB4bB3pyPywSN04jViBnp/03q1I5AtVH3ekb/XArdfueyB/WCTsCF7sOfQ38l
+	b7rb+1+lCNWivwCuwuBcPX5KUzkp5+bbdVxgfmjEHUGUj/UFBrND5sUY2fm8=
+X-Gm-Gg: ASbGncvPbPROu94Zey1oDi2j9+gvum/oPfIeBYg7LxCSpnaruWV15s+QJ/md39Iq/KB
+	TlPs0tfMPHimj2eBnC2IaMsfNhKoGAILCt1n/ZRpsdwtiaRmRmfmT9Si2RFTkNK1iiFGpezdBJR
+	GvdKKexV9GhQEY+JsCk0vWXje2S4rkVSjx9tQvf43Ti+LuA+npzHpOxnMAWsM3rNnMdIPcMdiBU
+	99TH9LFC7z0VeuMlxfZnywMEa0krEmqZ1NxDlSA44/89omeeHeGLAjd4kPG26vlap/ng9HDkGPx
+	Ogo2z04vgRT5ejVBiOIbbAFxOgTHbGI7
+X-Received: by 2002:a05:600c:1c1b:b0:45b:7185:9e5 with SMTP id 5b1f17b1804b1-45df6334418mr607525e9.5.1757421016406;
+        Tue, 09 Sep 2025 05:30:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF90lk9hKimn7/9fXuczdVmK4Oq8YW/IoH85cs4kzzTgo9MhmHaqu+WdCnHoNhq9HRvmfB8fQ==
+X-Received: by 2002:a05:600c:1c1b:b0:45b:7185:9e5 with SMTP id 5b1f17b1804b1-45df6334418mr607245e9.5.1757421015994;
+        Tue, 09 Sep 2025 05:30:15 -0700 (PDT)
+Received: from thinky ([91.245.205.131])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7521bfd8csm2646333f8f.11.2025.09.09.05.30.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 05:30:15 -0700 (PDT)
+Date: Tue, 9 Sep 2025 14:30:14 +0200
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, fsverity@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, david@fromorbit.com, 
+	ebiggers@kernel.org, Andrey Albershteyn <aalbersh@kernel.org>
+Subject: Re: [PATCH RFC 02/29] iomap: introduce iomap_read/write_region
+ interface
+Message-ID: <pz7g2o6lo6ef5onkgrn7zsdyo2o3ir5lpvo6d6p2ao5egq33tw@dg7vjdsyu5mh>
+References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
+ <20250728-fsverity-v1-2-9e5443af0e34@kernel.org>
+ <20250729222252.GJ2672049@frogsfrogsfrogs>
+ <20250811114337.GA8850@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/14] Documentation: amd-pstate: Use internal link to
- kselftest
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DAMON <damon@lists.linux.dev>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux Power Management <linux-pm@vger.kernel.org>,
- Linux Block Devices <linux-block@vger.kernel.org>,
- Linux BPF <bpf@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Linux KASAN <kasan-dev@googlegroups.com>,
- Linux Devicetree <devicetree@vger.kernel.org>,
- Linux fsverity <fsverity@lists.linux.dev>,
- Linux MTD <linux-mtd@lists.infradead.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>,
- Linux Sound <linux-sound@vger.kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
- Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
- tytso@mit.edu, Richard Weinberger <richard@nod.at>,
- Zhihao Cheng <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>,
- David Arinzon <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>,
- Andrew Lunn <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>,
- The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Steve French <stfrench@microsoft.com>,
- Meetakshi Setiya <msetiya@microsoft.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Bart Van Assche <bvanassche@acm.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
- <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
-References: <20250829075524.45635-1-bagasdotme@gmail.com>
- <20250829075524.45635-5-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250829075524.45635-5-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20250811114337.GA8850@lst.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: PPlwM_FviT-RtoJn4nX3h3cbgeZiZeUke8Lu_nFRaSg_1757421016
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 8/29/2025 2:55 AM, Bagas Sanjaya wrote:
-> Convert kselftest docs link to internal cross-reference.
+On 2025-08-11 13:43:37, Christoph Hellwig wrote:
+> On Tue, Jul 29, 2025 at 03:22:52PM -0700, Darrick J. Wong wrote:
+> > ...and these sound a lot like filemap_read and iomap_write_iter.
+> > Why not use those?  You'd get readahead for free.  Though I guess
+> > filemap_read cuts off at i_size so maybe that's why this is necessary?
+> > 
+> > (and by extension, is this why the existing fsverity implementations
+> > seem to do their own readahead and reading?)
+> > 
+> > ((and now I guess I see why this isn't done through the regular kiocb
+> > interface, because then we'd be exposing post-EOF data hiding to
+> > everyone in the system))
 > 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->   Documentation/admin-guide/pm/amd-pstate.rst | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+> Same thoughts here.  It seems like we should just have a beyond-EOF or
+> fsverity flag for ->read_iter / ->write_iter and consolidate all this
+> code.  That'll also go along nicely with the flag in the writepage_ctx
+> suggested by Joanne.
 > 
-> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-> index e1771f2225d5f0..37082f2493a7c1 100644
-> --- a/Documentation/admin-guide/pm/amd-pstate.rst
-> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
-> @@ -798,5 +798,4 @@ Reference
->   .. [3] Processor Programming Reference (PPR) for AMD Family 19h Model 51h, Revision A1 Processors
->          https://www.amd.com/system/files/TechDocs/56569-A1-PUB.zip
->   
-> -.. [4] Linux Kernel Selftests,
-> -       https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
-> +.. [4] Documentation/dev-tools/kselftest.rst
 
-Acked-by: Mario Limonciello (AMD) <superm1@kernel.org>
+In addition to being bound by the isize the fiemap_read() copies
+data to the iov_iter, which is not really needed for fsverity. Also,
+even on fsverity systems this function will not be called on the
+fsverity metadata, not sure how much overhead these checks would add
+but this is probably not desired anyway.
+
+Is adding something like fiemap_fetch or fiemap_read_unbound to just
+call filemap_get_pages() would be better? A filemap_read() without
+isize check and copying basically
+
+The write path seems to be fine, adding kiocb->ki_flags and
+iomap_iter->flags flag to work beyond EOF to skip inode size updates
+in iomap_write_iter() seems to be enough.
+
+-- 
+- Andrey
 
