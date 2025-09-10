@@ -1,373 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95A828B501;
-	Tue,  9 Sep 2025 23:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBC6242D9E;
+	Wed, 10 Sep 2025 02:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757459789; cv=none; b=kmXdpdclavVD4DgRLAyUUqTle3mw0Q1r8p28YhCU6KncdoIZ9YHMTBo+iffAo0tSsWtNlpF0gmo+PLKZ3LxIK+pv5xhkzy3Jihed3HjeB2XAYGVKf6quNfPPj9ZKGhiKme5psYW8xU9y3qHI81lue1GZAGx2vG1Mvl/VJA3ZmW0=
+	t=1757472237; cv=none; b=RTdJYKViv0Ehq3z7mkAII/6au3SR1I3wCcXLbOAq5sfMXuvxPX1wyjZqy4fSupXyGD2xIpVn0AyMqZZqHaLQ8ddvDecTD7ccL7+hhMOhBebfkNi1JN28TSI71/jbjLFNPimPwzFEdomHpJ4fjc21ewLEdllGPi0NAlLYz0L398g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757459789; c=relaxed/simple;
-	bh=yOte++q8p6jqC8tT4uRqUh3/T6hbvaXSszTlzpMDbXE=;
+	s=arc-20240116; t=1757472237; c=relaxed/simple;
+	bh=oQ/U51BIIgNGsRun+kwInz/tmig5xTqHruGeEvNRxQQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=omJMfYC9t4cUvZPoVYzJ1rwvvugfo4YbQU2t4qg6hHSDKrMLHKeMUqOF+viYc35LEkmh5SE5byhFnCTLzh+kFS704w2Ya+qzWm9TSBiAvUB6lLnbsCBlQxIYUnqddNplYYlKjsw4iu2asfOGEzZxlaUOxCiSHzkxDnoGynhShWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qbnG4BZm; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Bb6IxsHVVut96lWBeobQSowCpRqQJASXeUhxZjT0xs1ik5SFLijCQtv71WXCJUITXWgZuCqjYGovRFITuDeK49N6qkSHLqFQYo1cyboGZeHa515m6URpl7v1hhTqhm2gtn3xz44r+EXeY6hNk09Y3QHsYbY7fUhm1ufj3x2pi98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UqGLTpO6; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qbnG4BZm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD76C4CEF8;
-	Tue,  9 Sep 2025 23:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757459788;
-	bh=yOte++q8p6jqC8tT4uRqUh3/T6hbvaXSszTlzpMDbXE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qbnG4BZmy4Gd9CqiZ0/4goByTkMc81NLzxpH5RO5d77rJlwvJtBIuqLpfMArscktQ
-	 GH/Z8hkZPB+AeDzS2LcPlG1BDczphjAcf2zw9x/iIPAburg54ImTeN+qekb9WAVGol
-	 1iLndTVEDJ/QQwYmEw0VENiaMg4cHIwzGhT78vQ40LdFLw+VrwPPVCkeEoRFMdjHkM
-	 3ymXEPLartqtb1FUiSGe8eW8xiPAxdPQA7pyYKRgKYDDx1PSKce2nYjtkrn3zqWNB/
-	 bEBVCHg3Px6XdhTeQT1SIvBTZ69EXi8soBRYz0mHrETQphHrtU7mFB7z0Jcxwj1YDp
-	 MzS4tfChwsKdw==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-crypto@vger.kernel.org,
-	fsverity@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Jason A . Donenfeld" <Jason@zx2c4.com>,
-	x86@kernel.org,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH 6/6] fsverity: Use 2-way interleaved SHA-256 hashing when supported
-Date: Tue,  9 Sep 2025 16:13:26 -0700
-Message-ID: <20250909231326.1074672-7-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250909231326.1074672-1-ebiggers@kernel.org>
-References: <20250909231326.1074672-1-ebiggers@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UqGLTpO6"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24c89867a17so63300165ad.1;
+        Tue, 09 Sep 2025 19:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757472235; x=1758077035; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PKHUedwTpnE+6902OLKWJUrKeeyE0icmaP4M6h8VeIM=;
+        b=UqGLTpO6SPxluFRMPmdmKII1pHAIGUIaU+po60Wcoq6RPQuxl1gqTlreZVlwoXXPt7
+         cD0s94ubbHzXVCfQts2PmS+G29dnW8Oqc9vkeeuXqydOjrDnrGi+2OuFJhKsjByiyYx9
+         EwyqtHOj1k/nlESWHvafH1gTKb+hnnF11disYhlFGcSnJ8HJpLeT43HnWaTLrJumsYMk
+         7eFgIqZq0H1g666n83dBF7ZvMVNZYK7nc4EMIyAX50zbQPkeOaPKHRZRMHArT45nu/bt
+         T9pGrrK65wKqI+plb82svaGiHhH4Wli4+NOd3UG0ASfuoMT4T7uzbvDrA6uPmjxphZDW
+         3aCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757472235; x=1758077035;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PKHUedwTpnE+6902OLKWJUrKeeyE0icmaP4M6h8VeIM=;
+        b=RmBj5WxP0sVljJAzkayA19k6rnz1EzkvmcKxyBbPObr7neKr8vIYLSSPxzYwI6FDS1
+         U1g7rrR7JI9H90c2WQb95yCzqb5EtCnXnTZQc2b+RqxzsnnKfSfXgxhNVhJm4MHd/Frw
+         60iOh2vgCrgqCOo8zfvyEy2zEn574WL2gGPLUQYKJEujbu0jIFwuZ/CFV172SyFfmP6a
+         ifZCZ0vDgHeiOaNqblSqHHVwvTTBU5cLlzug6dwehoaKlevUKnrYtqIPWLrzFXx0LkvM
+         jq1EztExQt+R4T4Vxs6S6O6OZjtjl7XsH+AvYkdPmWy91ccshD3W1u0Be32STLUGzru7
+         J+Iw==
+X-Forwarded-Encrypted: i=1; AJvYcCU//h2a3tHYPP5slb6uG52zEJdH1PoGtIknkGrwRYfz6gUPuKiSZXKXhDLNxYPhBwSL71AAMw==@lists.linux.dev, AJvYcCUc4lZAKDieYltqL/diF69wP05PwDcwMqUe5bjxBdSxGucHRB3Cyq/souIdS3a+5DBzJkHdBdciPHU=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0ZftUluTJOaJ6xRK6wk83bCZe43P2LWObusj2cf6uRMhrPU4G
+	nO+yGW85okgTpTqz/5rEIyOsG20UO1oi7vSuMsNVkGicC2AtlPejsqk8kkQM/1gZZVI=
+X-Gm-Gg: ASbGncu8N70P0L1AvbIzs8xKMKuz9x19eeTCcR2O8gIdqS5uWPszjiX6wngq1wLqYzt
+	eRCc5b0yDkX4DOks+G74l88U9p7fKqm0CLnzRE0GNEe2o5QJ23ZC0dP60ygVUZqesyVqQjl0OOI
+	1y/PhwrhVhQ5AcgOe9viaNRBqQBP63pISrjUPsHIzBBkMKjSfsqVF+AS0uZ+8QRMG9xKZg34NOX
+	o3C/APzMmMioDdxwXDtJ4zg5tLC7wf8HfCy3+NbPiAKhcVArd9LrkGfxNeICvCdJ+wIdG6l2NNT
+	ePBR+SNPZZ3CHpcuKVzjmz+tMyPp2B4o5gWXwali7aWaNKqG2J0KJ/nqKArB1Az8VjW9s8h3ltt
+	OEvDM9T7cKJ6mCfhFdTjoRFnhWWceFiPlIh/L
+X-Google-Smtp-Source: AGHT+IHbDjWZY3VztYJWV/FENnSrT7+pUTw9iPKJIW8vQLIXrlNVN5ahZX5GB9eL2BwlCwOB0bsRtA==
+X-Received: by 2002:a17:902:fc50:b0:24b:640:ab6d with SMTP id d9443c01a7336-25172b4b335mr233139385ad.49.1757472234639;
+        Tue, 09 Sep 2025 19:43:54 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25a27422ffdsm11441735ad.17.2025.09.09.19.43.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 19:43:53 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id E4226420A809; Wed, 10 Sep 2025 09:43:51 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DAMON <damon@lists.linux.dev>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Power Management <linux-pm@vger.kernel.org>,
+	Linux Block Devices <linux-block@vger.kernel.org>,
+	Linux BPF <bpf@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Linux KASAN <kasan-dev@googlegroups.com>,
+	Linux Devicetree <devicetree@vger.kernel.org>,
+	Linux fsverity <fsverity@lists.linux.dev>,
+	Linux MTD <linux-mtd@lists.infradead.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux Sound <linux-sound@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Huang Rui <ray.huang@amd.com>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	tytso@mit.edu,
+	Richard Weinberger <richard@nod.at>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Waiman Long <longman@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Shay Agroskin <shayagr@amazon.com>,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	David Arinzon <darinzon@amazon.com>,
+	Saeed Bishara <saeedb@amazon.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Alexandru Ciobotaru <alcioa@amazon.com>,
+	The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Ranganath V N <vnranganath.20@gmail.com>,
+	Steve French <stfrench@microsoft.com>,
+	Meetakshi Setiya <msetiya@microsoft.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH v2 01/13] Documentation: hw-vuln: l1tf: Convert kernel docs external links
+Date: Wed, 10 Sep 2025 09:43:16 +0700
+Message-ID: <20250910024328.17911-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250910024328.17911-1-bagasdotme@gmail.com>
+References: <20250910024328.17911-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1333; i=bagasdotme@gmail.com; h=from:subject; bh=oQ/U51BIIgNGsRun+kwInz/tmig5xTqHruGeEvNRxQQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkHnig6a/JZLY81M41OfrJ5W/1jtyyro8lZM99fCflwN Zg5yrW3o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABOplmZkWLE7pDLv7RVG0Wlf H5ewasZymzr2NV7tNPkiErzi6eK/vxgZzoS7uJzLvPvRJPIa/z7RCs5jTcdeb3Q8EmZgt2n66RO ZTAA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-When the crypto library provides an optimized implementation of
-sha256_finup_2x(), use it to interleave the hashing of pairs of data
-blocks.  On some CPUs this nearly doubles hashing performance.  The
-increase in overall throughput of cold-cache fsverity reads that I'm
-seeing on arm64 and x86_64 is roughly 35% (though this metric is hard to
-measure as it jumps around a lot).
+Convert external links to kernel docs to use internal cross-references.
 
-For now this is only done on the verification path, and only for data
-blocks, not Merkle tree blocks.  We could use sha256_finup_2x() on
-Merkle tree blocks too, but that is less important as there aren't as
-many Merkle tree blocks as data blocks, and that would require some
-additional code restructuring.  We could also use sha256_finup_2x() to
-accelerate building the Merkle tree, but verification performance is
-more important.
-
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- fs/verity/verify.c | 173 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 139 insertions(+), 34 deletions(-)
+ Documentation/admin-guide/hw-vuln/l1tf.rst | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-index d7d5f65700b03..6dd03468e2a26 100644
---- a/fs/verity/verify.c
-+++ b/fs/verity/verify.c
-@@ -8,10 +8,35 @@
- #include "fsverity_private.h"
+diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
+index 3eeeb488d95527..60bfabbf0b6e2d 100644
+--- a/Documentation/admin-guide/hw-vuln/l1tf.rst
++++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
+@@ -239,9 +239,8 @@ Guest mitigation mechanisms
+    scenarios.
  
- #include <linux/bio.h>
- #include <linux/export.h>
- 
-+#define FS_VERITY_MAX_PENDING_BLOCKS 2
-+
-+struct fsverity_pending_block {
-+	const void *data;
-+	u64 pos;
-+	u8 real_hash[FS_VERITY_MAX_DIGEST_SIZE];
-+};
-+
-+struct fsverity_verification_context {
-+	struct inode *inode;
-+	struct fsverity_info *vi;
-+	unsigned long max_ra_pages;
-+
-+	/*
-+	 * This is the queue of data blocks that are pending verification.  When
-+	 * the crypto layer supports interleaved hashing, we allow multiple
-+	 * blocks to be queued up in order to utilize it.  This can improve
-+	 * performance significantly vs. sequential hashing of each block.
-+	 */
-+	int num_pending;
-+	int max_pending;
-+	struct fsverity_pending_block
-+		pending_blocks[FS_VERITY_MAX_PENDING_BLOCKS];
-+};
-+
- static struct workqueue_struct *fsverity_read_workqueue;
- 
- /*
-  * Returns true if the hash block with index @hblock_idx in the tree, located in
-  * @hpage, has already been verified.
-@@ -77,23 +102,24 @@ static bool is_hash_block_verified(struct fsverity_info *vi, struct page *hpage,
- 	SetPageChecked(hpage);
- 	return false;
- }
- 
- /*
-- * Verify a single data block against the file's Merkle tree.
-+ * Verify the hash of a single data block against the file's Merkle tree.
-  *
-  * In principle, we need to verify the entire path to the root node.  However,
-  * for efficiency the filesystem may cache the hash blocks.  Therefore we need
-  * only ascend the tree until an already-verified hash block is seen, and then
-  * verify the path to that block.
-  *
-  * Return: %true if the data block is valid, else %false.
-  */
--static bool
--verify_data_block(struct inode *inode, struct fsverity_info *vi,
--		  const void *data, u64 data_pos, unsigned long max_ra_pages)
-+static bool verify_data_block(struct inode *inode, struct fsverity_info *vi,
-+			      const struct fsverity_pending_block *dblock,
-+			      unsigned long max_ra_pages)
- {
-+	const u64 data_pos = dblock->pos;
- 	const struct merkle_tree_params *params = &vi->tree_params;
- 	const unsigned int hsize = params->digest_size;
- 	int level;
- 	u8 _want_hash[FS_VERITY_MAX_DIGEST_SIZE];
- 	const u8 *want_hash;
-@@ -113,23 +139,27 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 	 * The index of the previous level's block within that level; also the
- 	 * index of that block's hash within the current level.
- 	 */
- 	u64 hidx = data_pos >> params->log_blocksize;
- 
--	/* Up to 1 + FS_VERITY_MAX_LEVELS pages may be mapped at once */
--	BUILD_BUG_ON(1 + FS_VERITY_MAX_LEVELS > KM_MAX_IDX);
-+	/*
-+	 * Up to FS_VERITY_MAX_PENDING_BLOCKS + FS_VERITY_MAX_LEVELS pages may
-+	 * be mapped at once.
-+	 */
-+	static_assert(FS_VERITY_MAX_PENDING_BLOCKS + FS_VERITY_MAX_LEVELS <=
-+		      KM_MAX_IDX);
- 
- 	if (unlikely(data_pos >= inode->i_size)) {
- 		/*
- 		 * This can happen in the data page spanning EOF when the Merkle
- 		 * tree block size is less than the page size.  The Merkle tree
- 		 * doesn't cover data blocks fully past EOF.  But the entire
- 		 * page spanning EOF can be visible to userspace via a mmap, and
- 		 * any part past EOF should be all zeroes.  Therefore, we need
- 		 * to verify that any data blocks fully past EOF are all zeroes.
- 		 */
--		if (memchr_inv(data, 0, params->block_size)) {
-+		if (memchr_inv(dblock->data, 0, params->block_size)) {
- 			fsverity_err(inode,
- 				     "FILE CORRUPTED!  Data past EOF is not zeroed");
- 			return false;
- 		}
- 		return true;
-@@ -218,53 +248,110 @@ verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 		want_hash = _want_hash;
- 		kunmap_local(haddr);
- 		put_page(hpage);
- 	}
- 
--	/* Finally, verify the data block. */
--	fsverity_hash_block(params, data, real_hash);
--	if (memcmp(want_hash, real_hash, hsize) != 0)
-+	/* Finally, verify the hash of the data block. */
-+	if (memcmp(want_hash, dblock->real_hash, hsize) != 0)
- 		goto corrupted;
- 	return true;
- 
- corrupted:
--	fsverity_err(inode,
--		     "FILE CORRUPTED! pos=%llu, level=%d, want_hash=%s:%*phN, real_hash=%s:%*phN",
--		     data_pos, level - 1,
--		     params->hash_alg->name, hsize, want_hash,
--		     params->hash_alg->name, hsize, real_hash);
-+	fsverity_err(
-+		inode,
-+		"FILE CORRUPTED! pos=%llu, level=%d, want_hash=%s:%*phN, real_hash=%s:%*phN",
-+		data_pos, level - 1, params->hash_alg->name, hsize, want_hash,
-+		params->hash_alg->name, hsize,
-+		level == 0 ? dblock->real_hash : real_hash);
- error:
- 	for (; level > 0; level--) {
- 		kunmap_local(hblocks[level - 1].addr);
- 		put_page(hblocks[level - 1].page);
- 	}
- 	return false;
- }
- 
--static bool
--verify_data_blocks(struct folio *data_folio, size_t len, size_t offset,
--		   unsigned long max_ra_pages)
-+static void
-+fsverity_init_verification_context(struct fsverity_verification_context *ctx,
-+				   struct inode *inode,
-+				   unsigned long max_ra_pages)
- {
--	struct inode *inode = data_folio->mapping->host;
- 	struct fsverity_info *vi = inode->i_verity_info;
--	const unsigned int block_size = vi->tree_params.block_size;
-+
-+	ctx->inode = inode;
-+	ctx->vi = vi;
-+	ctx->max_ra_pages = max_ra_pages;
-+	ctx->num_pending = 0;
-+	if (vi->tree_params.hash_alg->algo_id == HASH_ALGO_SHA256 &&
-+	    sha256_finup_2x_is_optimized())
-+		ctx->max_pending = 2;
-+	else
-+		ctx->max_pending = 1;
-+}
-+
-+static void
-+fsverity_clear_pending_blocks(struct fsverity_verification_context *ctx)
-+{
-+	int i;
-+
-+	for (i = ctx->num_pending - 1; i >= 0; i--) {
-+		kunmap_local(ctx->pending_blocks[i].data);
-+		ctx->pending_blocks[i].data = NULL;
-+	}
-+	ctx->num_pending = 0;
-+}
-+
-+static bool
-+fsverity_verify_pending_blocks(struct fsverity_verification_context *ctx)
-+{
-+	struct fsverity_info *vi = ctx->vi;
-+	const struct merkle_tree_params *params = &vi->tree_params;
-+	int i;
-+
-+	if (ctx->num_pending == 2) {
-+		/* Implies algo_id == HASH_ALGO_SHA256 */
-+		sha256_finup_2x(params->hashstate ? &params->hashstate->sha256 :
-+						    NULL,
-+				ctx->pending_blocks[0].data,
-+				ctx->pending_blocks[1].data, params->block_size,
-+				ctx->pending_blocks[0].real_hash,
-+				ctx->pending_blocks[1].real_hash);
-+	} else {
-+		for (i = 0; i < ctx->num_pending; i++)
-+			fsverity_hash_block(params, ctx->pending_blocks[i].data,
-+					    ctx->pending_blocks[i].real_hash);
-+	}
-+
-+	for (i = 0; i < ctx->num_pending; i++) {
-+		if (!verify_data_block(ctx->inode, vi, &ctx->pending_blocks[i],
-+				       ctx->max_ra_pages))
-+			return false;
-+	}
-+	fsverity_clear_pending_blocks(ctx);
-+	return true;
-+}
-+
-+static bool fsverity_add_data_blocks(struct fsverity_verification_context *ctx,
-+				     struct folio *data_folio, size_t len,
-+				     size_t offset)
-+{
-+	struct fsverity_info *vi = ctx->vi;
-+	const struct merkle_tree_params *params = &vi->tree_params;
-+	const unsigned int block_size = params->block_size;
- 	u64 pos = (u64)data_folio->index << PAGE_SHIFT;
- 
- 	if (WARN_ON_ONCE(len <= 0 || !IS_ALIGNED(len | offset, block_size)))
- 		return false;
- 	if (WARN_ON_ONCE(!folio_test_locked(data_folio) ||
- 			 folio_test_uptodate(data_folio)))
- 		return false;
- 	do {
--		void *data;
--		bool valid;
+    For further information about confining guests to a single or to a group
+-   of cores consult the cpusets documentation:
 -
--		data = kmap_local_folio(data_folio, offset);
--		valid = verify_data_block(inode, vi, data, pos + offset,
--					  max_ra_pages);
--		kunmap_local(data);
--		if (!valid)
-+		ctx->pending_blocks[ctx->num_pending].data =
-+			kmap_local_folio(data_folio, offset);
-+		ctx->pending_blocks[ctx->num_pending].pos = pos + offset;
-+		if (++ctx->num_pending == ctx->max_pending &&
-+		    !fsverity_verify_pending_blocks(ctx))
- 			return false;
- 		offset += block_size;
- 		len -= block_size;
- 	} while (len);
- 	return true;
-@@ -282,11 +369,19 @@ verify_data_blocks(struct folio *data_folio, size_t len, size_t offset,
-  *
-  * Return: %true if the data is valid, else %false.
-  */
- bool fsverity_verify_blocks(struct folio *folio, size_t len, size_t offset)
- {
--	return verify_data_blocks(folio, len, offset, 0);
-+	struct fsverity_verification_context ctx;
-+
-+	fsverity_init_verification_context(&ctx, folio->mapping->host, 0);
-+
-+	if (fsverity_add_data_blocks(&ctx, folio, len, offset) &&
-+	    fsverity_verify_pending_blocks(&ctx))
-+		return true;
-+	fsverity_clear_pending_blocks(&ctx);
-+	return false;
- }
- EXPORT_SYMBOL_GPL(fsverity_verify_blocks);
+-   https://www.kernel.org/doc/Documentation/admin-guide/cgroup-v1/cpusets.rst
++   of cores consult the :doc:`cgroup cpusets documentation
++   <../cgroup-v1/cpusets>`.
  
- #ifdef CONFIG_BLOCK
- /**
-@@ -303,10 +398,12 @@ EXPORT_SYMBOL_GPL(fsverity_verify_blocks);
-  * filesystems) must instead call fsverity_verify_page() directly on each page.
-  * All filesystems must also call fsverity_verify_page() on holes.
-  */
- void fsverity_verify_bio(struct bio *bio)
- {
-+	struct inode *inode = bio_first_folio_all(bio)->mapping->host;
-+	struct fsverity_verification_context ctx;
- 	struct folio_iter fi;
- 	unsigned long max_ra_pages = 0;
+ .. _interrupt_isolation:
  
- 	if (bio->bi_opf & REQ_RAHEAD) {
- 		/*
-@@ -319,17 +416,25 @@ void fsverity_verify_bio(struct bio *bio)
- 		 * reduces the number of I/O requests made to the Merkle tree.
- 		 */
- 		max_ra_pages = bio->bi_iter.bi_size >> (PAGE_SHIFT + 2);
- 	}
+@@ -266,9 +265,7 @@ Guest mitigation mechanisms
  
-+	fsverity_init_verification_context(&ctx, inode, max_ra_pages);
-+
- 	bio_for_each_folio_all(fi, bio) {
--		if (!verify_data_blocks(fi.folio, fi.length, fi.offset,
--					max_ra_pages)) {
--			bio->bi_status = BLK_STS_IOERR;
--			break;
--		}
-+		if (!fsverity_add_data_blocks(&ctx, fi.folio, fi.length,
-+					      fi.offset))
-+			goto ioerr;
- 	}
-+
-+	if (!fsverity_verify_pending_blocks(&ctx))
-+		goto ioerr;
-+	return;
-+
-+ioerr:
-+	fsverity_clear_pending_blocks(&ctx);
-+	bio->bi_status = BLK_STS_IOERR;
- }
- EXPORT_SYMBOL_GPL(fsverity_verify_bio);
- #endif /* CONFIG_BLOCK */
+    Interrupt affinity can be controlled by the administrator via the
+    /proc/irq/$NR/smp_affinity[_list] files. Limited documentation is
+-   available at:
+-
+-   https://www.kernel.org/doc/Documentation/core-api/irq/irq-affinity.rst
++   available at Documentation/core-api/irq/irq-affinity.rst.
  
- /**
+ .. _smt_control:
+ 
 -- 
-2.50.1
+An old man doll... just what I always wanted! - Clara
 
