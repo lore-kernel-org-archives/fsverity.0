@@ -1,46 +1,32 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7500D56B81;
-	Fri, 12 Sep 2025 01:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CE1215198
+	for <fsverity@lists.linux.dev>; Fri, 12 Sep 2025 07:19:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757639674; cv=none; b=VTFL3iLMlB6IYk/SPdCbwVbpajsmmWgAVNKudGNio1EYOkOF60Dn0TzOowGdYTuuQcasipIc9PPDtxPF9YeHXGF///pc3Aau/Sr2uiivPPGU4X8n9HiN6NsBRsEAs9xujxxpai1dK5q3lADXjR3602b49NXPLn7j1UsjgfMu2ic=
+	t=1757661551; cv=none; b=rW5p522nNVMNTeduMQ1w/ohpC199BhAC3IRuu60mqJH/V+IshPygTNALn5Dzozj9mHklKQeJD30a2HuX6m3te4TTEqAl4wBzA3EHm/R5+/nEXzxU7wFNQwUtcjeOVFHXAzJ6/K30SKVyMKhsSmfA163oDFFqq5Iry8DZKKpMp+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757639674; c=relaxed/simple;
-	bh=lNzRuycIBl5ufDCs97QnXymPTsFsl8+QvZw+IB29ows=;
+	s=arc-20240116; t=1757661551; c=relaxed/simple;
+	bh=4VSxvnyitUuHbhqtl529rIPITQrQA9BPf6MhDT6TeK0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LWJMQUZT0Q8uG116oRcf8RJ2eTm1htmEKxwlU9OavGajpcJGO1POE+NsUibSS2yI1pIbyZgq7GlNwE9tiGm34BUpulzSlJNUVOELzgNDppCAveO4HvXsxuZU/ZLVR894eLGtCoSgi8FX2nXaBKFlBQ4ec0bgx+r4UMgboiMPZP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYBCVkGc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYBCVkGc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D75F6C4CEF0;
-	Fri, 12 Sep 2025 01:14:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757639673;
-	bh=lNzRuycIBl5ufDCs97QnXymPTsFsl8+QvZw+IB29ows=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WYBCVkGcMuBOGeFURrUK2aIoiHkdKfgj+E9d+UreyD87vxzUg4W30zSrb70fkmkct
-	 1tVdyPIL9W5gaI+6xOSaSG58jNfrsEbltfe42xTOlIwdCcaSX/uzr6+HHZDPDKSRla
-	 e2e/i2ivwOrneRotXuuazQiPgoqIhxdvmYBmvkFH5vl9Bn/OVUh27Z/bSyEUw18j9j
-	 162ywONXZwPB3JqafUzRdP11pPW+xa9RbsiZC4FZKsyk1ko4siBFUtqmA2N3nOxUXA
-	 3sOFbn6Xt9XjYn+P72Mf9KiIdY7YoNCzvUROMTv/WBh0fnR0bdL2Fiiw5eR3GzGFdm
-	 ZgHffs6+SABeg==
-Date: Thu, 11 Sep 2025 18:14:33 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=S/tG40PnjJjAShyeT0+b0vPjiFz8gDS0kLC6mR/XFW3Qbb4rGqpoNc9TQ+ZJZuUxW7y0XbjKnyRZrUkGvyWNO+YDmP1jivhsZCvuFR4WL+XvDllp4cfTcW1USFXLTKcn6PBxGSUkEqF1dKqWZzngo97hPisRakRGFRXzKR9xEuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 96F4068BFE; Fri, 12 Sep 2025 09:18:59 +0200 (CEST)
+Date: Fri, 12 Sep 2025 09:18:59 +0200
+From: Christoph Hellwig <hch@lst.de>
 To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	david@fromorbit.com, ebiggers@kernel.org,
+Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, david@fromorbit.com, ebiggers@kernel.org,
 	Andrey Albershteyn <aalbersh@kernel.org>
 Subject: Re: [PATCH RFC 02/29] iomap: introduce iomap_read/write_region
  interface
-Message-ID: <20250912011433.GH1587915@frogsfrogsfrogs>
-References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org>
- <20250728-fsverity-v1-2-9e5443af0e34@kernel.org>
- <20250729222252.GJ2672049@frogsfrogsfrogs>
- <20250811114337.GA8850@lst.de>
- <pz7g2o6lo6ef5onkgrn7zsdyo2o3ir5lpvo6d6p2ao5egq33tw@dg7vjdsyu5mh>
+Message-ID: <20250912071859.GB13505@lst.de>
+References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org> <20250728-fsverity-v1-2-9e5443af0e34@kernel.org> <20250729222252.GJ2672049@frogsfrogsfrogs> <20250811114337.GA8850@lst.de> <pz7g2o6lo6ef5onkgrn7zsdyo2o3ir5lpvo6d6p2ao5egq33tw@dg7vjdsyu5mh>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -50,21 +36,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <pz7g2o6lo6ef5onkgrn7zsdyo2o3ir5lpvo6d6p2ao5egq33tw@dg7vjdsyu5mh>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
 On Tue, Sep 09, 2025 at 02:30:14PM +0200, Andrey Albershteyn wrote:
-> On 2025-08-11 13:43:37, Christoph Hellwig wrote:
-> > On Tue, Jul 29, 2025 at 03:22:52PM -0700, Darrick J. Wong wrote:
-> > > ...and these sound a lot like filemap_read and iomap_write_iter.
-> > > Why not use those?  You'd get readahead for free.  Though I guess
-> > > filemap_read cuts off at i_size so maybe that's why this is necessary?
-> > > 
-> > > (and by extension, is this why the existing fsverity implementations
-> > > seem to do their own readahead and reading?)
-> > > 
-> > > ((and now I guess I see why this isn't done through the regular kiocb
-> > > interface, because then we'd be exposing post-EOF data hiding to
-> > > everyone in the system))
-> > 
 > > Same thoughts here.  It seems like we should just have a beyond-EOF or
 > > fsverity flag for ->read_iter / ->write_iter and consolidate all this
 > > code.  That'll also go along nicely with the flag in the writepage_ctx
@@ -72,28 +46,7 @@ On Tue, Sep 09, 2025 at 02:30:14PM +0200, Andrey Albershteyn wrote:
 > > 
 > 
 > In addition to being bound by the isize the fiemap_read() copies
-> data to the iov_iter, which is not really needed for fsverity. Also,
-> even on fsverity systems this function will not be called on the
-> fsverity metadata, not sure how much overhead these checks would add
-> but this is probably not desired anyway.
-> 
-> Is adding something like fiemap_fetch or fiemap_read_unbound to just
-> call filemap_get_pages() would be better? A filemap_read() without
-> isize check and copying basically
+> data to the iov_iter, which is not really needed for fsverity.
 
-TBH I've started wondering if what fsverity wants is filemap_fault(),
-but with a special flag that enables faults beyond EOF.  After all, it
-creates a folio, reads the data from disk, and returns a locked folio.
+Aka, you want an O_DIRECT read into a ITER_BVEC buffer for the data?
 
-> The write path seems to be fine, adding kiocb->ki_flags and
-> iomap_iter->flags flag to work beyond EOF to skip inode size updates
-> in iomap_write_iter() seems to be enough.
-
-<nod>
-
---D
-
-> -- 
-> - Andrey
-> 
-> 
