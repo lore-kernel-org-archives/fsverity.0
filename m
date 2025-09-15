@@ -1,66 +1,91 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F23C30B531
-	for <fsverity@lists.linux.dev>; Fri, 12 Sep 2025 13:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B8A248F68;
+	Mon, 15 Sep 2025 16:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757682601; cv=none; b=ffK3+BDS1zj9UQsa2qn2+V7pGOUB98ZWnQi1ymGIyRZh01nsei7IbI8+WLMDYKNfcxLVH8xS3uCZFL7xYJFEhwgApNbfSuZiJyfcjqxcgHEGvbgBtaDZ+uEQSwrhMOyYj5ocqj0ulCRyiuZbqDeH90VNlhrmapS9QS6kyEvsGRU=
+	t=1757952552; cv=none; b=VP9KoWAH2sDIhz3rWkg5qpRUhRGbZtuo6QuZioGQsUxZzcw7IvZxiI9py/IAK50blUj5mZFKhX9j2+VBDlpOYva1Ri/sSZKWXDWBw8DP+x4sZ/9Gz/jYhu+3BpOM0kufZ7UU6r9n5iFCZMsgkx/5QmFM/+9ltINg1FWvSxaqo9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757682601; c=relaxed/simple;
-	bh=A65bF41Ieqrq9K+IwzU4tiorMOIGX0Ztr+kfK9r/PUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xkq115Efmnyy+abhBvuRbDUtQFbT5ODGmcUrqj6IdCQJWDM5UFxemuPKeAFO74jP3WHafqrNg3u33UKRW5t0ZrH+CZ1bPbX+gfNpbOB9LImWRZ29YBtNfGsqKLUcAzhZGU/wXsAuyCFkUyxtiUKA4LborAm6p78zMRc4hj2zEZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 89A8968BEB; Fri, 12 Sep 2025 15:09:53 +0200 (CEST)
-Date: Fri, 12 Sep 2025 15:09:53 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, david@fromorbit.com, ebiggers@kernel.org,
-	Andrey Albershteyn <aalbersh@kernel.org>
-Subject: Re: [PATCH RFC 02/29] iomap: introduce iomap_read/write_region
- interface
-Message-ID: <20250912130953.GA6754@lst.de>
-References: <20250728-fsverity-v1-0-9e5443af0e34@kernel.org> <20250728-fsverity-v1-2-9e5443af0e34@kernel.org> <20250729222252.GJ2672049@frogsfrogsfrogs> <20250811114337.GA8850@lst.de> <pz7g2o6lo6ef5onkgrn7zsdyo2o3ir5lpvo6d6p2ao5egq33tw@dg7vjdsyu5mh> <20250912071859.GB13505@lst.de> <khoyx76se2x2z2ktzelsklcqnbjl4budasczm2mjknkgvlsbph@gckk675qmqkj>
+	s=arc-20240116; t=1757952552; c=relaxed/simple;
+	bh=2kwD057UDVqZKek/SB4FkUZbEOXrXs53qNd/kRtu9fI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iIuUIEPIn8z73LuuUS/GxP+DtNC+KyXfII//w7nV4tB2UW6+ncANIvv2lXornnudCdmAfiwdH4MpraR5GNvjsm0A9nlSiORJaRzvNeGj4/D9w2oT0DxWycuHn0wd8ChOYi8wDb1j92j5dmEpFOqqadwtEj2RIEAyObIQUaggrsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1eJrgHS; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1eJrgHS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B2DC4CEF1;
+	Mon, 15 Sep 2025 16:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757952551;
+	bh=2kwD057UDVqZKek/SB4FkUZbEOXrXs53qNd/kRtu9fI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=A1eJrgHSDSoCFgRMCcpY1lhPLcxXCBJbstJDNVMAHCDPETpIIFCEhyuIZ3XMhzlSg
+	 SzuOXgNl0q+HTBftEyyTm1KFQA9QuLp1xkWKicOFvhD5C5qynGI8PGhBe/1Vvhtzfh
+	 eN5t7Vh93GEkq8280+VaE98UhxN2VOmGeje+PNyB+eKvchw9Xf/tkSN9okVMXRQoWq
+	 xj3OWyTAew62N8YUndxfOhlkHK9HMH8aeKubZpVtr0G/nxFRZizt6uTiKlyGLqGHfZ
+	 HLc07DPkIC7zXndV+80NYS6lgQVRnO6vJJE6gwLVFfFnitlaWd3GbOou0Ew2nW+GCF
+	 Ipu7HjzCJNskA==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-crypto@vger.kernel.org,
+	fsverity@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	x86@kernel.org,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH v2 0/6] Optimize fsverity using 2-way interleaved SHA-256 hashing
+Date: Mon, 15 Sep 2025 11:08:13 -0500
+Message-ID: <20250915160819.140019-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <khoyx76se2x2z2ktzelsklcqnbjl4budasczm2mjknkgvlsbph@gckk675qmqkj>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 12, 2025 at 01:56:45PM +0200, Andrey Albershteyn wrote:
-> > > In addition to being bound by the isize the fiemap_read() copies
-> > > data to the iov_iter, which is not really needed for fsverity.
-> > 
-> > Aka, you want an O_DIRECT read into a ITER_BVEC buffer for the data?
-> > 
-> 
-> hmm, but we want fsverity merkle tree to be in page cache to use the
-> "verified page" flag.
+This series is targeting libcrypto-next.  It can also be retrieved from:
 
-Oh, right.  There's this thing called caching :)
+    git fetch https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git sha256_finup_2x-v2
 
-> As far as I understand iter_bvec will need a
-> page attached anyway, so this is the same. Or am I missing
-> something?
-> 
-> And with direct io there's no readahead then, and we don't get any
-> benefit going through vfs instead of directly calling to iomap.
+This series adds support for 2-way interleaved SHA-256 hashing to
+lib/crypto/, implements it for arm64 and x86_64, and makes fsverity use
+it.  This significantly improves fsverity performance on many CPUs.
 
-Yeah, strike my idea.  So yes, you probably do want a lower level
-interface that just reads the pages and gives you access to them.
+Later patches will make dm-verity use this optimization as well.
 
-> 
-> -- 
-> - Andrey
----end quoted text---
+Changed in v2:
+- Made the new arm64 assembly compatible with CONFIG_CPU_BIG_ENDIAN=y.
+- Omitted sha256_finup_2x() from pre-boot environments.
+- Made alloc_guarded_buf() assert that the allocation succeeded.
+- Minor tweaks to comments and whitespace.
+
+Eric Biggers (6):
+  lib/crypto: sha256: Add support for 2-way interleaved hashing
+  lib/crypto: arm64/sha256: Add support for 2-way interleaved hashing
+  lib/crypto: x86/sha256: Add support for 2-way interleaved hashing
+  lib/crypto: tests: Add tests and benchmark for sha256_finup_2x()
+  fsverity: Remove inode parameter from fsverity_hash_block()
+  fsverity: Use 2-way interleaved SHA-256 hashing when supported
+
+ fs/verity/enable.c              |  12 +-
+ fs/verity/fsverity_private.h    |   2 +-
+ fs/verity/hash_algs.c           |   3 +-
+ fs/verity/verify.c              | 175 ++++++++++++---
+ include/crypto/sha2.h           |  28 +++
+ lib/crypto/arm64/sha256-ce.S    | 284 +++++++++++++++++++++++-
+ lib/crypto/arm64/sha256.h       |  37 ++++
+ lib/crypto/sha256.c             |  71 +++++-
+ lib/crypto/tests/sha256_kunit.c | 184 ++++++++++++++++
+ lib/crypto/x86/sha256-ni-asm.S  | 368 ++++++++++++++++++++++++++++++++
+ lib/crypto/x86/sha256.h         |  39 ++++
+ 11 files changed, 1147 insertions(+), 56 deletions(-)
+
+base-commit: 54e7bb6ade8acd3fb1c486c9f3e2c0dfdc18f84e
+-- 
+2.51.0
+
