@@ -1,90 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D44717C91;
-	Sat, 27 Sep 2025 20:24:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF87A2798EA;
+	Mon, 29 Sep 2025 23:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759004654; cv=none; b=a2LC5crY7WywOl/7RW1WfJSTAa6FdRWsh7jw6D2fPxf/qDujoJvWMqrYxEBjWLpXVNzZBovB8xmHZd9wWvTfqlP6DFfJi1bJZutVezV1ZYbXSaEHvnAARvTjtmrBIinaJfDVK58QfStsjQh7TDNfZlVG54cZiKrAjRyG1NJvffY=
+	t=1759188165; cv=none; b=h/ZxqUIGD0ePMMnAinqlVvufzZxKxp1fztRsM7Qp4RA2guI+fGgp7+8uKtjPot6UfBBHwh3vKi9xPmCRrGjXT8lzvD8Rc4oaSPp81gOLx73qX+4GPDlRb2ts+wWnIKNAX1W+HxrXp2zjc5b1QTxQeYg01ifdluUHYibdGWEMu5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759004654; c=relaxed/simple;
-	bh=gHaLE/e9MgcbY9j9cPwK8UADfiY00me2043vymJmvMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QVtip1gQtFPbUIfpPcrVWRz3kzJR6orTbo67KPRkMY0Q7lAxcaaJEcyod2yJqjRGyVVK2mKKx9/IcYBmHIY8tqM66fQnnlc5/oizfS+KkXwphWhs+yzzPJlJ4pXrL5PJ7JSKca5u+rwzH2AgjWHW2npzLhSclXAacKtgrU2cXcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJFCe1Pc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759188165; c=relaxed/simple;
+	bh=0CkCUb5AHrwCbhgs0TmfvUpsJAwk/C9c7DyoA3JVUnM=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=FmGwSyEp7y0LDIT0ROiV9H7B5Tx+AilIek6F6Euh6bHUPrSq2evfoQKw0uVWccFHWJbhkQSlsNXHqK4XKxDPCjXRRWVfQs6/c9b/BvQef/bEto27jQnvvwo3LO2FlSNrF86412E2cf983PrqKUZ/8qTkXahecDm5JLSOStgvLS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K59uWTLb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJFCe1Pc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD65AC4CEE7;
-	Sat, 27 Sep 2025 20:24:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K59uWTLb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1DAAC116D0;
+	Mon, 29 Sep 2025 23:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759004653;
-	bh=gHaLE/e9MgcbY9j9cPwK8UADfiY00me2043vymJmvMI=;
-	h=Date:From:To:Cc:Subject:From;
-	b=JJFCe1Pc4PRc4ppUgaj4ahj2nj2RqdDfJ8tk3R2/H1Anz9/5GmxhUnTbB338hh/Jp
-	 r+xEzolXCry5D/1TxYGHuI7eHzBQKU9m/bcF5Ujef6f4JOn6knCTBkfkUGQ1ZzcNVG
-	 Vdfaacb15gqJW1Mdn13oFlUOmOcA4fZELM7zakN1yWJlBjw0YDcKI0Ja8cvTY+zug6
-	 QBAe7yTQiTk5/s6DQY9zy4UuAarNpMxgoa9JqPz7n9GACssy2Lffg/J3926AAbFyFx
-	 Zeik7z9H9Wdebb6cMlIfar+sZx9IGQ8f3BfKlqPV8RsENrw1f4F7xYy19MS9Ki+q3V
-	 sus0T+xfADxKQ==
-Date: Sat, 27 Sep 2025 13:24:10 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: fsverity@lists.linux.dev, linux-crypto@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Theodore Ts'o <tytso@mit.edu>, Ard Biesheuvel <ardb@kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [GIT PULL] Interleaved SHA-256 hashing support for 6.18
-Message-ID: <20250927202410.GC9798@quark>
+	s=k20201202; t=1759188165;
+	bh=0CkCUb5AHrwCbhgs0TmfvUpsJAwk/C9c7DyoA3JVUnM=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=K59uWTLbr7ZLPvRG8+y/aDM38kVDVvLVdUd7N+hyR0NxhN3B6sScQlBsOygk1y5Gz
+	 qQC7h12Mu0nsNhmUT5RELc7YIcKQLsumuEGYPbks37vXYHRYH9Yjrk3E4KUNbgG5v+
+	 7O63LH1TCzLXdwvCyqyFTssZLtOgzdntJE1KmvYq41Ske+gK95J+cLCL+r36XIJW3y
+	 VkToja4he4QrqcW9cBbzty9U6kBhmCPsYOHdS4OiboIQVAqdnorUlj5Ph3XHP4aftS
+	 X39M/zgUe3Oey0kGlYZxlcxZ886O5kT4OBQCEfG2LcMLXgnn/NqsMNYafsmNo+KPMF
+	 VZNCBxesad/zQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70CBE39D0C1A;
+	Mon, 29 Sep 2025 23:22:40 +0000 (UTC)
+Subject: Re: [GIT PULL] Interleaved SHA-256 hashing support for 6.18
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20250927202410.GC9798@quark>
+References: <20250927202410.GC9798@quark>
+X-PR-Tracked-List-Id: <linux-crypto.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20250927202410.GC9798@quark>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+X-PR-Tracked-Commit-Id: a1f692fd69ccdbe1e492d366788b63227d429753
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1896ce8eb6c61824f6c1125d69d8fda1f44a22f8
+Message-Id: <175918815909.1748288.13275666248310794325.pr-tracker-bot@kernel.org>
+Date: Mon, 29 Sep 2025 23:22:39 +0000
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, fsverity@lists.linux.dev, linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Ard Biesheuvel <ardb@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Note: this depends on the pull request
-"[GIT PULL 03/12 for v6.18] inode" from Christian Brauner.
+The pull request you sent on Sat, 27 Sep 2025 13:24:10 -0700:
 
-The following changes since commit f0883b9c395ecdf7e66a58b6027fd35056cf152c:
+> https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
 
-  Merge patch series "Move fscrypt and fsverity info out of struct inode" (2025-08-21 13:58:13 +0200)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1896ce8eb6c61824f6c1125d69d8fda1f44a22f8
 
-are available in the Git repository at:
+Thank you!
 
-  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
-
-for you to fetch changes up to a1f692fd69ccdbe1e492d366788b63227d429753:
-
-  fsverity: Use 2-way interleaved SHA-256 hashing when supported (2025-09-17 13:10:04 -0500)
-
-----------------------------------------------------------------
-
-Add support for 2-way interleaved SHA-256 hashing to lib/crypto/, and
-make fsverity use it for faster file data verification. This improves
-fsverity performance on many x86_64 and arm64 processors.
-
-Later, I plan to make dm-verity use this too.
-
-----------------------------------------------------------------
-Eric Biggers (6):
-      lib/crypto: sha256: Add support for 2-way interleaved hashing
-      lib/crypto: arm64/sha256: Add support for 2-way interleaved hashing
-      lib/crypto: x86/sha256: Add support for 2-way interleaved hashing
-      lib/crypto: tests: Add tests and benchmark for sha256_finup_2x()
-      fsverity: Remove inode parameter from fsverity_hash_block()
-      fsverity: Use 2-way interleaved SHA-256 hashing when supported
-
- fs/verity/enable.c              |  12 +-
- fs/verity/fsverity_private.h    |   2 +-
- fs/verity/hash_algs.c           |   3 +-
- fs/verity/verify.c              | 175 +++++++++++++++----
- include/crypto/sha2.h           |  28 +++
- lib/crypto/arm64/sha256-ce.S    | 284 ++++++++++++++++++++++++++++++-
- lib/crypto/arm64/sha256.h       |  37 ++++
- lib/crypto/sha256.c             |  71 +++++++-
- lib/crypto/tests/sha256_kunit.c | 184 ++++++++++++++++++++
- lib/crypto/x86/sha256-ni-asm.S  | 368 ++++++++++++++++++++++++++++++++++++++++
- lib/crypto/x86/sha256.h         |  39 +++++
- 11 files changed, 1147 insertions(+), 56 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
