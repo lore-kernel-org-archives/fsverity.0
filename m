@@ -1,184 +1,193 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5F72BE058
-	for <fsverity@lists.linux.dev>; Mon, 12 Jan 2026 14:52:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D922B2D9EF4
+	for <fsverity@lists.linux.dev>; Mon, 12 Jan 2026 14:52:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229541; cv=none; b=fraXC6XZjni6GP4mqndek++l5asMoeIKdXbE0ACrcPDoKuE2BV0ge2SUVP3d00yxKXethq2EvtGL56AFZUNltQTGv5wyJ7sPNBtqksDYyA4cbOohxnsv/x7Ok3hQLX+YcL+B5nSTqz9yUTZy9WCZaWpThG6VGqASjY/3moBOrck=
+	t=1768229547; cv=none; b=l2YagKuANp17r2/JndpHjpjjAkhBrkPFWcL8ilWIPTm6G6juo9dSeTn6n/n/AHppAEM3t/XHvdgynR/HCIR5WNMwBlNBdgO3PZ0k3sb+W4HlkVZFDGxpzT3L19xuiw5fUTW3C4Opf3dfQKtpQdCfS/6aBBsV8Aywx7EtPN9JLNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229541; c=relaxed/simple;
-	bh=DqGbPHihgvouI+HlmdtnScxnStrH4+HE2WznQSyP4j4=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=pD/rJt1db2lFAydqqNbzsre2cThjW6NvnjrlqZYHuOLmYc87pmi3txx1c7Sa7Bw0Q1ucuB2CzVkouGNa5jpFcemtFUrub7WVrJXMBz5z0iexlEDcKMgSVY2lIc6yO3QpZpSrKkWd85YxA5eangs2890wVXs7JNq3nR3DDnbY7Fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ajpV80lu; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1768229547; c=relaxed/simple;
+	bh=KR0cTxHaJS3TcZGRenZGtFBXNangwhA2X4UcgUh+yz4=;
+	h=From:Date:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lLjfT/eLQiJJKiVJlUZJ3YV4RB0qA0x0mXaMCIi96BjoFbypGavtEzYEmLzp4bF+RT4ZOZj6BEcRZHMfERKLoWzjMbJPG+KVkQzanLC+c2IUephtk15udApth384q8199Rl2eZDXJlUbWbSJ6m2doCESoeQbLeqrmzCxTRouE9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GdyoPcuM; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ajpV80lu"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GdyoPcuM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768229539;
+	s=mimecast20190719; t=1768229544;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xPYPAB6be13BNA+rNTQIlJZgdC6UYp82gudM/SKVgcg=;
-	b=ajpV80lupQygZrFxp2+p1dlsz/8KjwhggJTUDHNr/zvCJBe0cc0gkaispRvhj8pNCK15Bx
-	zyffd9Ohe1+vUtWlqd3igfPXkMsM8ix9W0UTLaagEDG90nrkdA2OeKQdNTb33h2iWH5n1O
-	g9OyAbUjH2px70t29VpQBWk6uUN6qm4=
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=JtQ4ZpPQA3h2q2Fz6cxHWY8WGs2l4npsNwLGIggSgs8=;
+	b=GdyoPcuM1P1ui1cuiahWtM5XnJtNuKwmtDSqQtQYVlzh0q0+BYd1QaYNfeMq/VthAP4+lC
+	xNlOmRzpnD9k2omsbx6uXeBd4fI/MFyhGivnwTOr34IAuplNK0dQWS0nd0tkETIyihcOhb
+	ipkzkSVR9F/X76tmesC+iWTEXZKCftU=
 Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
  [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-207-8vakJkCxM-uPbZPXHyE19A-1; Mon, 12 Jan 2026 09:52:18 -0500
-X-MC-Unique: 8vakJkCxM-uPbZPXHyE19A-1
-X-Mimecast-MFC-AGG-ID: 8vakJkCxM-uPbZPXHyE19A_1768229536
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-b801784f406so828784966b.0
-        for <fsverity@lists.linux.dev>; Mon, 12 Jan 2026 06:52:17 -0800 (PST)
+ us-mta-323-UajxzJj-O5itwHW9-7_kGg-1; Mon, 12 Jan 2026 09:49:48 -0500
+X-MC-Unique: UajxzJj-O5itwHW9-7_kGg-1
+X-Mimecast-MFC-AGG-ID: UajxzJj-O5itwHW9-7_kGg_1768229387
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-b8720608e53so106954466b.1
+        for <fsverity@lists.linux.dev>; Mon, 12 Jan 2026 06:49:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768229536; x=1768834336;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xPYPAB6be13BNA+rNTQIlJZgdC6UYp82gudM/SKVgcg=;
-        b=EiTbS9vfVJDpZucCOAKt//95Rn5JIkO7diSnHtbtT08GoLNQbrvwITkvsZX2ZIdc/T
-         Oj94A4wzvmeHOgAWquGtVRZry7BcOr21gKXhisDy36FVYCWrXRrhnDRk9qxqnnWVIh9M
-         F9Ntj17uxUGwzHBTVG73AMfRSwjVi7TXxVbsNrui64I5AbBY/d4xqM81LRLipgEZ6NRn
-         QCOGVN7U17xYqqZRLSKvsOjxOZEcxgUAzxL48N5+0dNxfIYqLu4CW6FuPB7y9cRfmLuB
-         SQzx2NcsGg4lpOU8QvGOJN/HacxFt/OO2QvBF+GzKT1rzi71e1X1kHkhsoyBCk/EWMQl
-         4lWQ==
-X-Gm-Message-State: AOJu0YwznV0vCP0sHD3jcYoHX1cA0KuUBSYZEG73lYvHSFa0Uq95FBvV
-	TMF7SH8WoNdp15m+LPA5kaN4AXtRCHmNgdMN8MzzDNxH011mZmEJiudXcgg5rhIzRb7JK3+ZgG9
-	lN4rjYCTswsIUCF/6cP9QXYJuSjdMLRSn8UTZm3k9lONhMHXFARbEjhfBYNT91JajuK6guBusOI
-	scacyMFXOluUMRw1k4CkOZ63MmSnIbzZ3emTIMaYImvRM=
-X-Gm-Gg: AY/fxX79XZYtBO5o+D/yag8VAXivtzZiYRIxO3HndnX53VvPrzmn/ky9A1ZhqXjdXa0
-	0KtZmasiwtT0wbmHeIAUbwTdNp8XeXCg6JwkI6wYCxT5xbXDxcyTy6ikCkh0a7zi4xNZEsp/737
-	KtYH58zdv7ADZvP6UtHpsh5/l0g8aQM5zy0cZy74hzdL2vAqg86DySINGp6QnC5yXpbx6DVb9Te
-	kuLoUe89sBB6FWq4JtiyDxAaV79wOiO5yJmNWp3lqRHxhYX9CtpuaWvu2dioW3fc14Lz88dnw15
-	OXzaHlLseEiosiYrA1mTis/hP2Xmm45AZRWmGiRAViO0W3OBA1aP2exTvi/c917Pz6ggOl3P
-X-Received: by 2002:a17:907:841:b0:b83:9767:c8ba with SMTP id a640c23a62f3a-b84451b5d1dmr1635825666b.17.1768229535927;
-        Mon, 12 Jan 2026 06:52:15 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH+AXG1fXAqNi7crMM7QiDNAwZR8bNUqqDvj5BznuxA4nKTk8GLk6KKY85CmsHuZWbeWD797w==
-X-Received: by 2002:a17:907:841:b0:b83:9767:c8ba with SMTP id a640c23a62f3a-b84451b5d1dmr1635820866b.17.1768229535247;
-        Mon, 12 Jan 2026 06:52:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768229386; x=1768834186;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JtQ4ZpPQA3h2q2Fz6cxHWY8WGs2l4npsNwLGIggSgs8=;
+        b=Yvu5yzun+P/VdTfzGA08c4jGJBNG5+Ojhyzq+fb5e2Dc7w/uM/3FpKGfOmZx3onHqr
+         zMZ2+scunVNhgrnKSCRIWE7TAmljeoQWlIhbir2YmDC/2jbgu9/xhsuc4tqtYclJOBBm
+         C4GDX8Jc3wbVtUR38CjDzONGLthpTOydBaFp2wFgCNtFn0YBfsc4auZb16koDwU2LDat
+         GIVhL3D/hHCFiDdKMQMeHEhq7a+E33t4z3pXdFcYNFqVmd55Jczl0ZciE8ElSIQT8NXw
+         bPCU5TBKpTmyMo6logjmSUbVAaaoTTjiNKg63UXNRvVxE/HaFvTjLRxr+9nULido9oFE
+         ZnMA==
+X-Gm-Message-State: AOJu0YwjeeV+jue8piQteljEgBwzzlq/mlzMWWiSOsg8pzuqxVQUjtVB
+	z2CPvozNgUyceAAdvyfxQLmskowdyYSpTaJlVmuHZBzpmiPje3EMQabtNQzXV0EU9hnPNaPXtQj
+	5AGHSIjEOcd+3E8gZK/gZzvLYYqnOZTPUeL1OxOKd/3SV/FPbrHbytgvn7G5mxhBUYEAhZciPu1
+	ZtFUU/raYmIXOXmp9RRvJx1xMNFX/BTqtwrpfGUcRUlD4=
+X-Gm-Gg: AY/fxX4IHI5gHGkNLNhEpnRbmLbZYF60Rs7MBBm/r53Sfk8QMXMs5UgJxyN4aLZWHkN
+	B30/FJ6ZHyVQ4IHWKgiPwYiyhu5UaXibtbBCs2dayy1mV3Qm2bwtCLxGDH1OmpG/NPnMjlOsIy3
+	T1Xta52WjJfLTLUGe7dak3Wuw3a1Ro0/jtvVv3Mes2LXftaWqsj4uVe6wOLKsjMr+uLv1Auc0ao
+	0zjpkwLA2990lWary9Zi8CvMM8U1aYa4M0iBc981YZPRzYy7MuwRdrxSGIOQpjOYVtlJb/7zXA5
+	jQ56RCS9Ba4HlzpRtDoHmBvew6JzfWs853VOlIkTAJVGeTDPmYkB0YwgFVr4VlfwkYBwAVh4g1c
+	=
+X-Received: by 2002:a17:906:fe4c:b0:b73:826a:9102 with SMTP id a640c23a62f3a-b8444fd0a3dmr1812183066b.49.1768229386395;
+        Mon, 12 Jan 2026 06:49:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGEJfpQO2bUi21cHmaMt6C52aF3UlwMys3fAQFJkDRHMGLFiJve64PAQ/gKcqGFmeCzVUIjhw==
+X-Received: by 2002:a17:906:fe4c:b0:b73:826a:9102 with SMTP id a640c23a62f3a-b8444fd0a3dmr1812179366b.49.1768229385851;
+        Mon, 12 Jan 2026 06:49:45 -0800 (PST)
 Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8429fdf4e7sm1985599466b.0.2026.01.12.06.52.14
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507b8c4484sm18054453a12.7.2026.01.12.06.49.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 06:52:14 -0800 (PST)
-From: "Darrick J. Wong" <aalbersh@redhat.com>
-X-Google-Original-From: "Darrick J. Wong" <djwong@kernel.org>
-Date: Mon, 12 Jan 2026 15:52:13 +0100
+        Mon, 12 Jan 2026 06:49:45 -0800 (PST)
+From: Andrey Albershteyn <aalbersh@redhat.com>
+X-Google-Original-From: Andrey Albershteyn <aalbersh@kernel.org>
+Date: Mon, 12 Jan 2026 15:49:44 +0100
 To: fsverity@lists.linux.dev, linux-xfs@vger.kernel.org, 
 	ebiggers@kernel.org, linux-fsdevel@vger.kernel.org, aalbersh@kernel.org, 
 	aalbersh@redhat.com, djwong@kernel.org
 Cc: djwong@kernel.org, david@fromorbit.com, hch@lst.de
-Subject: [PATCH v2 20/22] xfs: report verity failures through the health
- system
-Message-ID: <i4tsa4dqqhjfutocdlk6mqm6ovvzea7ki2w32j6mcew66aegay@tsllwgeogm3f>
-References: <cover.1768229271.patch-series@thinky>
+Subject: [PATCH v2 0/23] fs-verity support for XFS with post EOF merkle tree
+Message-ID: <cover.1768229271.patch-series@thinky>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <cover.1768229271.patch-series@thinky>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PUlnDSelKFIE3G6BnDKizFHStojhHXKM7LNGTjh2vrk_1768229536
+X-Mimecast-MFC-PROC-ID: WK6hyYKkeF6936rV7DsS-D8SIByZ1tB-dwEmN_DgIz4_1768229387
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Record verity failures and report them through the health system.
+Hi all,
 
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-Reviewed-by: Andrey Albershteyn <aalbersh@redhat.com>
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
----
- fs/xfs/libxfs/xfs_fs.h     |  1 +
- fs/xfs/libxfs/xfs_health.h |  4 +++-
- fs/xfs/xfs_fsverity.c      | 11 +++++++++++
- fs/xfs/xfs_health.c        |  1 +
- 4 files changed, 16 insertions(+), 1 deletion(-)
+This patch series adds fs-verity support for XFS. This version stores
+merkle tree beyond end of the file, the same way as ext4 does it. The
+verity descriptor is stored at the tail of the merkle tree.
 
-diff --git a/fs/xfs/libxfs/xfs_fs.h b/fs/xfs/libxfs/xfs_fs.h
-index 3db9beb579..b82fef9a1f 100644
---- a/fs/xfs/libxfs/xfs_fs.h
-+++ b/fs/xfs/libxfs/xfs_fs.h
-@@ -422,6 +422,7 @@
- #define XFS_BS_SICK_SYMLINK	(1 << 6)  /* symbolic link remote target */
- #define XFS_BS_SICK_PARENT	(1 << 7)  /* parent pointers */
- #define XFS_BS_SICK_DIRTREE	(1 << 8)  /* directory tree structure */
-+#define XFS_BS_SICK_DATA	(1 << 9)  /* file data */
- 
- /*
-  * Project quota id helpers (previously projid was 16bit only
-diff --git a/fs/xfs/libxfs/xfs_health.h b/fs/xfs/libxfs/xfs_health.h
-index b31000f719..fa91916ad0 100644
---- a/fs/xfs/libxfs/xfs_health.h
-+++ b/fs/xfs/libxfs/xfs_health.h
-@@ -104,6 +104,7 @@
- /* Don't propagate sick status to ag health summary during inactivation */
- #define XFS_SICK_INO_FORGET	(1 << 12)
- #define XFS_SICK_INO_DIRTREE	(1 << 13)  /* directory tree structure */
-+#define XFS_SICK_INO_DATA	(1 << 14)  /* file data */
- 
- /* Primary evidence of health problems in a given group. */
- #define XFS_SICK_FS_PRIMARY	(XFS_SICK_FS_COUNTERS | \
-@@ -140,7 +141,8 @@
- 				 XFS_SICK_INO_XATTR | \
- 				 XFS_SICK_INO_SYMLINK | \
- 				 XFS_SICK_INO_PARENT | \
--				 XFS_SICK_INO_DIRTREE)
-+				 XFS_SICK_INO_DIRTREE | \
-+				 XFS_SICK_INO_DATA)
- 
- #define XFS_SICK_INO_ZAPPED	(XFS_SICK_INO_BMBTD_ZAPPED | \
- 				 XFS_SICK_INO_BMBTA_ZAPPED | \
-diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
-index 691dc60778..f53a404578 100644
---- a/fs/xfs/xfs_fsverity.c
-+++ b/fs/xfs/xfs_fsverity.c
-@@ -18,6 +18,7 @@
- #include "xfs_quota.h"
- #include "xfs_fsverity.h"
- #include "xfs_iomap.h"
-+#include "xfs_health.h"
- #include <linux/fsverity.h>
- #include <linux/pagemap.h>
- 
-@@ -363,6 +364,15 @@
- 	return xfs_fsverity_write(ip, position, size, buf);
- }
- 
-+static void
-+xfs_fsverity_file_corrupt(
-+	struct inode		*inode,
-+	loff_t			pos,
-+	size_t			len)
-+{
-+	xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_DATA);
-+}
-+
- const ptrdiff_t info_offs = (int)offsetof(struct xfs_inode, i_verity_info) -
- 			    (int)offsetof(struct xfs_inode, i_vnode);
- 
-@@ -373,4 +383,5 @@
- 	.get_verity_descriptor		= xfs_fsverity_get_descriptor,
- 	.read_merkle_tree_page		= xfs_fsverity_read_merkle,
- 	.write_merkle_tree_block	= xfs_fsverity_write_merkle,
-+	.file_corrupt			= xfs_fsverity_file_corrupt,
- };
-diff --git a/fs/xfs/xfs_health.c b/fs/xfs/xfs_health.c
-index 3c1557fb1c..b851651c02 100644
---- a/fs/xfs/xfs_health.c
-+++ b/fs/xfs/xfs_health.c
-@@ -487,6 +487,7 @@
- 	{ XFS_SICK_INO_DIR_ZAPPED,	XFS_BS_SICK_DIR },
- 	{ XFS_SICK_INO_SYMLINK_ZAPPED,	XFS_BS_SICK_SYMLINK },
- 	{ XFS_SICK_INO_DIRTREE,	XFS_BS_SICK_DIRTREE },
-+	{ XFS_SICK_INO_DATA,	XFS_BS_SICK_DATA },
- };
- 
- /* Fill out bulkstat health info. */
+The patchset starts with a few fs-verity preparation patches. Then, a few
+patches to allow iomap to work in post EOF region. The XFS fs-verity
+implementation follows.
+
+Preallocations. The preallocations are disabled for fs-verity files. If
+inode is fs-verity one the allocation size is set to zero. This is fine
+as the only writing happening is merkle tree data and descriptor. It
+would be nice to allocate tree size on first write, this could be
+improved in the future.
+
+The tree is read by iomap into page cache at offset 1 << 53. This is far
+enough to handle any supported file size.
+
+Testing. The -g verity is passing for 1k, 8k and 4k with/without quota,
+the tests include different merkle tree block size.
+
+Feedback is welcomed :)
+
+xfsprogs:
+https://github.com/alberand/xfsprogs/tree/b4/fsverity
+
+xfstests:
+https://github.com/alberand/xfstests/tree/b4/fsverity
+
+Cc: fsverity@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+
+Cc: david@fromorbit.com
+Cc: djwong@kernel.org
+Cc: ebiggers@kernel.org
+Cc: hch@lst.de
+
+
+Andrey Albershteyn <aalbersh@kernel.org>:
+  fsverity: expose ensure_fsverity_info()
+  iomap: introduce IOMAP_F_BEYOND_EOF
+  iomap: allow iomap_file_buffered_write() take iocb without file
+  iomap: integrate fs-verity verification into iomap's read path
+  xfs: add fs-verity ro-compat flag
+  xfs: add inode on-disk VERITY flag
+  xfs: initialize fs-verity on file open and cleanup on inode destruction
+  xfs: don't allow to enable DAX on fs-verity sealed inode
+  xfs: disable direct read path for fs-verity files
+  xfs: add verity info pointer to xfs inode
+  xfs: introduce XFS_FSVERITY_CONSTRUCTION inode flag
+  xfs: introduce XFS_FSVERITY_REGION_START constant
+  xfs: disable preallocations for fsverity Merkle tree writes
+  xfs: add writeback and iomap reading of Merkle tree pages
+  xfs: add fs-verity support
+  xfs: add fs-verity ioctls
+  xfs: add fsverity traces
+  xfs: enable ro-compat fs-verity flag
+Darrick J. Wong <djwong@kernel.org>:
+  fsverity: report validation errors back to the filesystem
+  xfs: advertise fs-verity being available on filesystem
+  xfs: check and repair the verity inode flag state
+  xfs: report verity failures through the health system
+
+Diffstat:
+  fs/iomap/bio.c                  |  66 +++++++++++++++++++++++++---
+  fs/iomap/buffered-io.c          |  31 ++++++++++---
+  fs/iomap/ioend.c                |  41 ++++++++++++++++-
+  fs/iomap/trace.h                |   3 +-
+  fs/verity/open.c                |   4 +-
+  fs/verity/verify.c              |   4 +
+  fs/xfs/Makefile                 |   1 +
+  fs/xfs/libxfs/xfs_format.h      |  13 +++--
+  fs/xfs/libxfs/xfs_fs.h          |  24 ++++++++++
+  fs/xfs/libxfs/xfs_health.h      |   4 +-
+  fs/xfs/libxfs/xfs_inode_buf.c   |   8 +++
+  fs/xfs/libxfs/xfs_inode_util.c  |   2 +
+  fs/xfs/libxfs/xfs_sb.c          |   4 +
+  fs/xfs/scrub/attr.c             |   7 +++
+  fs/xfs/scrub/common.c           |  53 +++++++++++++++++++++++
+  fs/xfs/scrub/common.h           |   2 +
+  fs/xfs/scrub/inode.c            |   7 +++
+  fs/xfs/scrub/inode_repair.c     |  36 +++++++++++++++
+  fs/xfs/xfs_aops.c               |  20 +++++++-
+  fs/xfs/xfs_bmap_util.c          |   7 +++
+  fs/xfs/xfs_file.c               |  23 ++++++++--
+  fs/xfs/xfs_fsverity.c           | 395 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  fs/xfs/xfs_fsverity.h           |  12 +++++
+  fs/xfs/xfs_health.c             |   1 +
+  fs/xfs/xfs_icache.c             |   3 +
+  fs/xfs/xfs_inode.h              |  11 ++++
+  fs/xfs/xfs_ioctl.c              |  16 +++++++
+  fs/xfs/xfs_iomap.c              |  28 ++++++++++--
+  fs/xfs/xfs_iops.c               |   4 +
+  fs/xfs/xfs_message.c            |   4 +
+  fs/xfs/xfs_message.h            |   1 +
+  fs/xfs/xfs_mount.h              |   2 +
+  fs/xfs/xfs_super.c              |  16 +++++++
+  fs/xfs/xfs_trace.h              |  46 ++++++++++++++++++++
+  include/linux/fsverity.h        |  16 +++++++
+  include/linux/iomap.h           |  16 +++++++
+  include/trace/events/fsverity.h |  19 ++++++++
+  37 files changed, 924 insertions(+), 26 deletions(-)
 
 -- 
 - Andrey
