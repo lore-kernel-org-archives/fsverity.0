@@ -1,78 +1,79 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B679818A6D4
-	for <fsverity@lists.linux.dev>; Mon, 12 Jan 2026 14:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D282D94A1
+	for <fsverity@lists.linux.dev>; Mon, 12 Jan 2026 14:51:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768229490; cv=none; b=VzURB/R3c8xIZrW+PNK2rzeePSJMlW9YiEyjJwTnqD1dPMy53mjqQyHTDjxohit06FkfstUflbSMTW+k4RJm/omPo4AIkRg9yqpTbCb4Psc2XAj284LYi/+JZkeBezPM4owetvM0gyTeXg81jcC4yjP6Lpd8pDstQ5ho8J2ocgY=
+	t=1768229494; cv=none; b=XXRoPjM8L+51I2y4yPizdRRsMIa2zFA037Yye6X6bJe0t7Bi3jkdUu8sgR0EpHsDNGLsD/CNwQCKjE039MS4aorbCSK6IIDJhsc6PRuh6WiH1ek3Asfc16NgfnUqRwqjqll4R//cB8sbnvvOzsiRvM2vhoipL1I/gmgZiWpGSuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768229490; c=relaxed/simple;
-	bh=juaXjaWCdJhgUxdxDnPo/I5g1bovOuzvfAho0L4f/bA=;
+	s=arc-20240116; t=1768229494; c=relaxed/simple;
+	bh=G0tanH7Ti+k9Untiwo28pq9nTnDMDuydjlfNBKCMaYI=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=Kj+nQekz782mLB5nGyffWTadsM8Kx+cKOR13zkfOyxEsCAzG1cG10po9s8OJ6zh0gmiNIXxk2C4pdIYRDX83nB/FGsUb94CWtxc22stmXfdxd3OIn3uT2FWkawcyOXMrLPP/BWyCJTOk0N/RVcWp5OUEufhLlZAo1GIP54Wo8hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TIwnBj7B; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=LF4NtTyzZwOJYVN03oN8CY5biWbwgAr3Hlybp3rWXKSW3+Q4WzR3f67QP/Wz9RyExAa2bIgzo9QAVtr/m1pV9pOmRC95zcOQ7ucuR8hQrqv7V0Kdd/14+ACi8oEktzRrYIRPwEJ+WyuBaim8rf3975e6n+05k6KKuV08/greDTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e51eYJTu; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TIwnBj7B"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e51eYJTu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768229488;
+	s=mimecast20190719; t=1768229491;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R3lmcg/cu75BB25Wlh2Ox4/Pwg0aDpFEC5S3Bq4BJXs=;
-	b=TIwnBj7BwqSqmGAk4crcYvmXbPJRY8CH8Cuhh5ArZ5AsSUGL+8D8JLr2ODBIDRhEjkX0AY
-	SIbJmeoo6M5xJfkR/ePNv9nlOQ33p/sBeqpQRX9yKpXe5/LDo9hefds0PZgSBzP3/XOFoY
-	jQ5uRkjxX6JAAfDauJ2T3htmC7OnegQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=dq6aVc2SBP1ULPYVZkGBkgSZtTVfOp/X5bD2Y/FWtBU=;
+	b=e51eYJTuXtHt1txtlcM8bqCF1G33sIbjI70ZkhefjpIoe6xKJTrkZpmZ1Rjc82UJhnFD2o
+	QaRDU6bXcoYKaZEfziNiwXicje0+YQrY12OYD2gSoDzTyMWjOzyg4ps2cqznVt5QiBRxAp
+	27w6CAQ+Xjd537mBYnTy3O9WPIrzgA8=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-563-oFIHCK6yPiW-0FifX23akw-1; Mon, 12 Jan 2026 09:51:06 -0500
-X-MC-Unique: oFIHCK6yPiW-0FifX23akw-1
-X-Mimecast-MFC-AGG-ID: oFIHCK6yPiW-0FifX23akw_1768229465
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-b872c88d115so56949966b.2
-        for <fsverity@lists.linux.dev>; Mon, 12 Jan 2026 06:51:06 -0800 (PST)
+ us-mta-410-dSUUBOUrPNmchMFD0JUPJQ-1; Mon, 12 Jan 2026 09:51:28 -0500
+X-MC-Unique: dSUUBOUrPNmchMFD0JUPJQ-1
+X-Mimecast-MFC-AGG-ID: dSUUBOUrPNmchMFD0JUPJQ_1768229488
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-64b8a632dc7so8657832a12.3
+        for <fsverity@lists.linux.dev>; Mon, 12 Jan 2026 06:51:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768229465; x=1768834265;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R3lmcg/cu75BB25Wlh2Ox4/Pwg0aDpFEC5S3Bq4BJXs=;
-        b=F6xLDNiK3s57nRWoLSoF9PgusvYq8IqhyZ8QtNcYC+0cWmIDYcK6FPpc4851FZsZp0
-         pD+vFW4zzTXfZk+/WYIHCSdmX9eJXRi00TBRrwlosIZMh7mJvjXcysakL8ljGlqTK2tI
-         D/RUK4IoS9vcF6EUIdOczbOAKFWhjJQpX4qg1ne7rZEebZucsrFirdh5wtRina/tCDoy
-         nY56RYdeqk+6zaq0aLZQP05WTnMulzGANl+zkTKoZzkNUFdY2J0hISbqnCm7i56HFRgm
-         imqAy1BFNE9ybz0BIta4evqRiHaUXAHM7ELBFBDWMVgbcfXQ1C8xYYqriifgEkAxV9fs
-         rtcg==
-X-Gm-Message-State: AOJu0YxhVAme/VNbcN26OkW0qidlV2UfIixM1uo2Yk6uELnv4aafNgPu
-	PZBUsnP0kpx4aLfhtQ7L3iSJ3hSbdfPAgsfeRVPzNOr1BRcWlfAvZXV0bHEXO1Fs2BmvPNUcIEZ
-	iSSoqpLt41zE2uJjJ/I5UG4phmpoXyDP/ZsMJcLX4gHxclXd9OL/gHpGY38JbkPxlLE+Wanl6XY
-	KhvaBnyo5lHteeFVGDaRWdiKWm5as49ARP5chX5elPWqk=
-X-Gm-Gg: AY/fxX5qaz+WqAWyqu6zjyjfmjH++6187cHGQ1omOETySJA1IcKTQpZA2xvW5ViAoxS
-	3P4Ehxt5r6vbMM9DE16wIQkvGHUqFv45PrqwTbpiLkqeQMTKHLZ0VlG5rf5mfS7rJJMv+PYYloC
-	1GpZMtsepbjrpDvfEQsiffY94KY5FmAyc4a6XTBKjHRvdf3E7BQbpGwlkn8zF5P0/hTpTk8VbN+
-	+PQyFUQ927Y0oR/VG0CzpA1sZJuDC5qvmCPLGhWe2pYMiRO/X34EbopV7gtgZHEOiYPiazvoz13
-	3ck6OfN1eM5GWORVvpnePHuX5yEP4OXoUVIZQrBMVSpeotp0wZGiLeehScWCJXypoDIaLXX4B80
+        d=1e100.net; s=20230601; t=1768229487; x=1768834287;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dq6aVc2SBP1ULPYVZkGBkgSZtTVfOp/X5bD2Y/FWtBU=;
+        b=GwQSAdAKIcqox6vK/EY+Qpu6oZ3d/AzixYEWmXBn3YeK5YoLhgwHLTN9IiVFIoFWSL
+         3yG8Uemn9c/fIAooK2tuBAxQMXC2HTd2PTwOSurSp0qKSugJ6qVS3v4eCiKcz24tcLym
+         HZNwuZr08N4lsjaM9NoX2TU/AwCEL90KmVMCwBkFIwulzuArzQlq5PIPcx+BQfvysMJi
+         Oir+La9G7BfVBA1eRCItTYxap11izfouEwuW11NVdJ64Iz+Y3Z0efZ8p6cEhhOX1KIoo
+         HJXUJSD+gs9O9TJgvYsfn8TULn/68xNvt60WMlto8GZmtxKuY4eet/0L7v3HvyT/xpk+
+         Lp3g==
+X-Gm-Message-State: AOJu0Yy8XVCjuixw/sMP+rDg8xY2UXnAVxQzvLfaSUcuvRTQ8efq/ACH
+	QKc+JDjqluVf5NfUxC2xLC5Z3Ti932ba1m+e8nJHpo6QNnNJ58o6B0Nw283bv1z5pTNrVDyh1Z4
+	WVbnlWDpV1RS6bVVfQoCplpxQdT6y2rPGUCX9CcAOg2D7unJ9cCS6vt+4CNFTB9xqD3jn0KtkBz
+	JwuyS9A+edDnPM+m3cAAW7FABccoKqgncxUOrwEcMkldM=
+X-Gm-Gg: AY/fxX6UjsPq+vJTULMMwWyKaDNSENeYrpPZ9D8BaovIk4NzzKriXyECKBmmhmFRgqJ
+	VpXRVtY1h4NhrHTjtb7WmR1ePYiOX3gittdlbi6tzddEKRipL9Md4NvNDQZaupEPVkdfiWCPVpe
+	cdEPtUlVu42vQlrxHdSmDiy7cMUBpdq2agaqKIEjKZqx7WPm7qNq0nC8K/SidRSJFVOMWkJrsqH
+	y3bhk5ZLqQtEdrDaIrezGn7ZNE9p/EBzMJY405Fdmr6eSF/OPVh7WCsXgY84WRdIn6iL0ZmFK/p
+	n255FfURR0yAFc0NQBd+NuZ+c9fKmkLWjdmDDBYeAnfqQamEPQRKKwOA9n7moZDVcXimmGvELzE
 	=
-X-Received: by 2002:a17:907:968b:b0:b87:15a7:85e0 with SMTP id a640c23a62f3a-b8715a78b2cmr338221966b.26.1768229465088;
-        Mon, 12 Jan 2026 06:51:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IET2nU/xS7rTGGJI9aaTqCSFphZHua3LUHkxfJzBhZsDQMy1yw4maDpAej9bQDC3iRtIDmAUg==
-X-Received: by 2002:a17:907:968b:b0:b87:15a7:85e0 with SMTP id a640c23a62f3a-b8715a78b2cmr338218666b.26.1768229464502;
-        Mon, 12 Jan 2026 06:51:04 -0800 (PST)
+X-Received: by 2002:a05:6402:358f:b0:651:1107:d3cb with SMTP id 4fb4d7f45d1cf-6511107d7acmr3282600a12.24.1768229487281;
+        Mon, 12 Jan 2026 06:51:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHfxvOxfxzdEBvJzPLysHOh9QzRSHooaY9jamBd0ngvYg8b3UMPNPIM3r/hBbc0eI3X4Vj7fQ==
+X-Received: by 2002:a05:6402:358f:b0:651:1107:d3cb with SMTP id 4fb4d7f45d1cf-6511107d7acmr3282573a12.24.1768229486750;
+        Mon, 12 Jan 2026 06:51:26 -0800 (PST)
 Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b870776b642sm529509066b.21.2026.01.12.06.51.03
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507b9d4c0asm17933810a12.9.2026.01.12.06.51.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 06:51:04 -0800 (PST)
+        Mon, 12 Jan 2026 06:51:26 -0800 (PST)
 From: Andrey Albershteyn <aalbersh@redhat.com>
 X-Google-Original-From: Andrey Albershteyn <aalbersh@kernel.org>
-Date: Mon, 12 Jan 2026 15:51:03 +0100
+Date: Mon, 12 Jan 2026 15:51:25 +0100
 To: fsverity@lists.linux.dev, linux-xfs@vger.kernel.org, 
 	ebiggers@kernel.org, linux-fsdevel@vger.kernel.org, aalbersh@kernel.org, 
 	aalbersh@redhat.com, djwong@kernel.org
 Cc: djwong@kernel.org, david@fromorbit.com, hch@lst.de
-Subject: [PATCH v2 10/22] xfs: disable direct read path for fs-verity files
-Message-ID: <6rsqoybslyv6cguyk4usq5k2noetozrj3k67ygv5ko5fc57lvn@zv67vcnds7ts>
+Subject: [PATCH v2 13/22] xfs: introduce XFS_FSVERITY_REGION_START constant
+Message-ID: <qwtd222f5dtszwvacl5ywnommg2xftdtunco2eq4sni4pyyps7@ritrh57jm2eg>
 References: <cover.1768229271.patch-series@thinky>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
@@ -82,57 +83,51 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 In-Reply-To: <cover.1768229271.patch-series@thinky>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PbuZ4B8u2kkqbdjxloBeH0iAibbFQTuTRsRY-MkUrwM_1768229465
+X-Mimecast-MFC-PROC-ID: vItpwegh54jrNhouHXyOcbaSkp127FrX3PRbKcRE7Yg_1768229488
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The direct path is not supported on verity files. Attempts to use direct
-I/O path on such files should fall back to buffered I/O path.
+This constant defines location of fsverity metadata in page cache of
+an inode.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-[djwong: fix braces]
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- fs/xfs/xfs_file.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ fs/xfs/libxfs/xfs_fs.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+), 0 deletions(-)
 
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index 0c234ab449..87a96b81f0 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -254,7 +254,8 @@
- 	struct kiocb		*iocb,
- 	struct iov_iter		*to)
- {
--	struct xfs_inode	*ip = XFS_I(iocb->ki_filp->f_mapping->host);
-+	struct inode		*inode = iocb->ki_filp->f_mapping->host;
-+	struct xfs_inode	*ip = XFS_I(inode);
- 	ssize_t			ret = 0;
+diff --git a/fs/xfs/libxfs/xfs_fs.h b/fs/xfs/libxfs/xfs_fs.h
+index 12463ba766..b73458a7c2 100644
+--- a/fs/xfs/libxfs/xfs_fs.h
++++ b/fs/xfs/libxfs/xfs_fs.h
+@@ -1106,4 +1106,26 @@
+ #define BBTOB(bbs)	((bbs) << BBSHIFT)
+ #endif
  
- 	trace_xfs_file_dax_read(iocb, to);
-@@ -307,10 +308,18 @@
- 
- 	if (IS_DAX(inode))
- 		ret = xfs_file_dax_read(iocb, to);
--	else if (iocb->ki_flags & IOCB_DIRECT)
-+	else if ((iocb->ki_flags & IOCB_DIRECT) && !fsverity_active(inode))
- 		ret = xfs_file_dio_read(iocb, to);
--	else
-+	else {
-+		/*
-+		 * In case fs-verity is enabled, we also fallback to the
-+		 * buffered read from the direct read path. Therefore,
-+		 * IOCB_DIRECT is set and need to be cleared (see
-+		 * generic_file_read_iter())
-+		 */
-+		iocb->ki_flags &= ~IOCB_DIRECT;
- 		ret = xfs_file_buffered_read(iocb, to);
-+	}
- 
- 	if (ret > 0)
- 		XFS_STATS_ADD(mp, xs_read_bytes, ret);
++/* Merkle tree location in page cache. We take memory region from the inode's
++ * address space for Merkle tree.
++ *
++ * At maximum of 8 levels with 128 hashes per block (32 bytes SHA-256) maximum
++ * tree size is ((128^8 − 1)/(128 − 1)) = 567*10^12 blocks. This should fit in 53
++ * bits address space.
++ *
++ * At this Merkle tree size we can cover 295EB large file. This is much larger
++ * than the currently supported file size.
++ *
++ * For sha512 the largest file we can cover ends at 1 << 50 offset, this is also
++ * good.
++ *
++ * The metadata is stored on disk as follows:
++ *
++ *	[merkle tree...][descriptor.............desc_size]
++ *	^ (1 << 53)     ^ (block border)                 ^ (end of the block)
++ *	                ^--------------------------------^
++ *	                Can be FS_VERITY_MAX_DESCRIPTOR_SIZE
++ */
++#define XFS_FSVERITY_REGION_START (1ULL << 53)
++
+ #endif	/* __XFS_FS_H__ */
 
 -- 
 - Andrey
