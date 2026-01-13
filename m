@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AA0223336;
-	Mon, 12 Jan 2026 23:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49ECE55A;
+	Tue, 13 Jan 2026 01:29:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768259246; cv=none; b=d3KiZ9NyjsQYyFFAd6xC2qnxLhSCA78dWesDcUIl9JHTLO6UKC5DY2yzq6LMunl2//R+NxXfziWr3J+a6lYE6iSQcktN1zdifQF8OEPq6T0wDHOXMPsovOYkW4T8fPcjF+uYlyAe2sgV5i+SJKw0UQ3Re1AxpPQnwErbVznUAMo=
+	t=1768267752; cv=none; b=sSpYxvue/rZRABxYwB/pjAz35ufz6IDn50bvPWcbpD/X/C1m8BD22oOBwBcFrMsxB7JwDG3df69Y6QJdvvN0eE1XG4SYy+qKVATqq+k/nU7GSyrsCFxmbrrfZWxK51QgVCV7rB1j/hLyEDePdrKIp4dDi05AAQ9cQNaZUr9e5hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768259246; c=relaxed/simple;
-	bh=2e5I4mYop/xxj2YY719bBcpG6TTPkuUdCnMLvB/fepE=;
+	s=arc-20240116; t=1768267752; c=relaxed/simple;
+	bh=DpgrUEd9OSo4sZ0rvcGangN0ViInRL3ZVT23ypzGXbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G7f3GvO/+3Qw+3y8qn0FLqt6+mOVJrUKtGWAxnYIkJ00XqDDotqnJYmWbFa+DeQ1secHMGuYiy7MWJL3j19zxwed7NSIRDfKhQFjFhq4hmAAUcFC/StGBEVXHOZzK0bgaimHYZuW3gSGIofjFX3pyxFLfONMPrGvftb8QgVy6gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LTRP67Dh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ARm+f3K45cp34SYskPG+2rJWt5OVAv8Mh3kbVhaowOy63Rxu0tCprGeZQnWHYglaRVAUSSVKuI90Rcjk6EF9l66XnFekEuzjllBfgD3zobHRTALl55SaUCYLflFnuaeoDaPaxj7MFesLyepV2XkvtnIJJrdWJmJlYWQwzQPcsJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GCZliYtd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LTRP67Dh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDABFC116D0;
-	Mon, 12 Jan 2026 23:07:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GCZliYtd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46F0BC116D0;
+	Tue, 13 Jan 2026 01:29:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768259246;
-	bh=2e5I4mYop/xxj2YY719bBcpG6TTPkuUdCnMLvB/fepE=;
+	s=k20201202; t=1768267752;
+	bh=DpgrUEd9OSo4sZ0rvcGangN0ViInRL3ZVT23ypzGXbI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LTRP67DhTTBvYzbK4NXiagNFcYMgzB6WHGKaOvmwT0mCNLzTgZ1YdIEZP+jc/7t7t
-	 E65pBD5843ArJ9pmqStWrybluuW5OK5JIA68Ao+c2XLHNSqU8E21NeLGrgaeoo5PZ5
-	 VyFUQe5YhkZrBePpSgLAmtUtdGamEbby4b/8I4funGK/IlwTMfNDmbZfItoEX0HY9L
-	 F3V0XXLbKtmURDXTusDk/wseZbN2rq7Tr5ee7tVx1qeNFh5mIlX39JHVbfIGCDwYk+
-	 PTVTWX8YyQfLxUATLSseoht3ibn3V+S++2K6JbEbCCz8Dd+eBZ11d0NTqVZDPWAsRT
-	 NhGHzMzDGBtqw==
-Date: Mon, 12 Jan 2026 15:07:25 -0800
+	b=GCZliYtdkY0R2zYkZMa7Qzj3qsw+biOnl5XA7RZSTYPkXsklrna6za+gy9Cif/A+k
+	 cSggH8UBjXs8KwC41fJSwznHVx7/GrLtwF2QASmt3e2galk4i0KneBPWyJtwB0M3Gm
+	 /ftCk6qnHuhS228LlZC6zpW6CnAsm79UxUCIDDl3IVFXDhRd22vDBJ9Qk0x5r3x8R3
+	 zYCtoWl68nLYK56fcZx4pfY7nwpVv/TTN8QbGmcn3OcRDvV7U1xdZrLXiH2g2npVJc
+	 Di1bS+aBwOZobtzpX13Nrygic/8yxorx0bp7pG92ZV1AZI6m5hLXyrz5CUN8UeM/04
+	 A+uifafO2qVuA==
+Date: Mon, 12 Jan 2026 17:29:11 -0800
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
+To: "Darrick J. Wong" <aalbersh@redhat.com>
 Cc: fsverity@lists.linux.dev, linux-xfs@vger.kernel.org,
 	ebiggers@kernel.org, linux-fsdevel@vger.kernel.org,
 	aalbersh@kernel.org, david@fromorbit.com, hch@lst.de
-Subject: Re: [PATCH v2 21/22] xfs: add fsverity traces
-Message-ID: <20260112230725.GS15551@frogsfrogsfrogs>
+Subject: Re: [PATCH v2 1/22] fsverity: report validation errors back to the
+ filesystem
+Message-ID: <20260113012911.GU15551@frogsfrogsfrogs>
 References: <cover.1768229271.patch-series@thinky>
- <xvaenghd6d7rd5gnfbfm7zmp5dd4uqa2wchdxcfpxpp2cevp7i@a27fi4opexrk>
+ <dx6z2f5lrnevosqoqr4a2aa5bmxldmishn6ln22hvdkuxxmjqa@rddd4kri6bce>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -44,125 +45,102 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <xvaenghd6d7rd5gnfbfm7zmp5dd4uqa2wchdxcfpxpp2cevp7i@a27fi4opexrk>
+In-Reply-To: <dx6z2f5lrnevosqoqr4a2aa5bmxldmishn6ln22hvdkuxxmjqa@rddd4kri6bce>
 
-On Mon, Jan 12, 2026 at 03:52:20PM +0100, Andrey Albershteyn wrote:
-> Even though fsverity has traces, debugging issues with varying block
-> sizes could be a bit less transparent without read/write traces.
+> To: "Darrick J. Wong" <aalbersh@redhat.com>
+
+Say    ^^^^^^^ what?
+
+On Mon, Jan 12, 2026 at 03:49:50PM +0100, Darrick J. Wong wrote:
+> Provide a new function call so that validation errors can be reported
+> back to the filesystem.
 > 
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 > ---
->  fs/xfs/xfs_fsverity.c |  8 ++++++++
->  fs/xfs/xfs_trace.h    | 46 ++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 54 insertions(+), 0 deletions(-)
+>  fs/verity/verify.c              |  4 ++++
+>  include/linux/fsverity.h        | 14 ++++++++++++++
+>  include/trace/events/fsverity.h | 19 +++++++++++++++++++
+>  3 files changed, 37 insertions(+), 0 deletions(-)
 > 
-> diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
-> index f53a404578..06eac2561b 100644
-> --- a/fs/xfs/xfs_fsverity.c
-> +++ b/fs/xfs/xfs_fsverity.c
-> @@ -102,6 +102,8 @@
->  	uint32_t		blocksize = i_blocksize(VFS_I(ip));
->  	xfs_fileoff_t		last_block;
->  
-> +	trace_xfs_fsverity_get_descriptor(ip);
-> +
->  	ASSERT(inode->i_flags & S_VERITY);
->  	error = xfs_bmap_last_extent(NULL, ip, XFS_DATA_FORK, &rec, &is_empty);
->  	if (error)
-> @@ -330,6 +332,8 @@
->  	pgoff_t			offset =
->  			index | (XFS_FSVERITY_REGION_START >> PAGE_SHIFT);
->  
-> +	trace_xfs_fsverity_read_merkle(XFS_I(inode), offset, PAGE_SIZE);
-> +
->  	folio = __filemap_get_folio(inode->i_mapping, offset, FGP_ACCESSED, 0);
->  	if (IS_ERR(folio) || !folio_test_uptodate(folio)) {
->  		DEFINE_READAHEAD(ractl, NULL, NULL, inode->i_mapping, offset);
-> @@ -358,6 +362,8 @@
->  	struct xfs_inode	*ip = XFS_I(inode);
->  	loff_t			position = pos | XFS_FSVERITY_REGION_START;
->  
-> +	trace_xfs_fsverity_write_merkle(XFS_I(inode), pos, size);
-> +
->  	if (position + size > inode->i_sb->s_maxbytes)
->  		return -EFBIG;
->  
-> @@ -370,6 +376,8 @@
->  	loff_t			pos,
->  	size_t			len)
->  {
-> +	trace_xfs_fsverity_file_corrupt(XFS_I(inode), pos, len);
-> +
->  	xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_DATA);
->  }
->  
-> diff --git a/fs/xfs/xfs_trace.h b/fs/xfs/xfs_trace.h
-> index f70afbf3cb..1ce4e10b6b 100644
-> --- a/fs/xfs/xfs_trace.h
-> +++ b/fs/xfs/xfs_trace.h
-> @@ -5906,6 +5906,52 @@
->  DEFINE_FREEBLOCKS_RESV_EVENT(xfs_freecounter_reserved);
->  DEFINE_FREEBLOCKS_RESV_EVENT(xfs_freecounter_enospc);
->  
-> +TRACE_EVENT(xfs_fsverity_get_descriptor,
-> +	TP_PROTO(struct xfs_inode *ip),
-> +	TP_ARGS(ip),
-> +	TP_STRUCT__entry(
-> +		__field(dev_t, dev)
-> +		__field(xfs_ino_t, ino)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->dev = VFS_I(ip)->i_sb->s_dev;
-> +		__entry->ino = ip->i_ino;
-> +	),
-> +	TP_printk("dev %d:%d ino 0x%llx",
-> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-> +		  __entry->ino)
-> +);
-> +
-> +DECLARE_EVENT_CLASS(xfs_fsverity_class,
-> +	TP_PROTO(struct xfs_inode *ip, u64 pos, unsigned int length),
-> +	TP_ARGS(ip, pos, length),
-> +	TP_STRUCT__entry(
-> +		__field(dev_t, dev)
-> +		__field(xfs_ino_t, ino)
-> +		__field(u64, pos)
-> +		__field(unsigned int, length)
-> +	),
-> +	TP_fast_assign(
-> +		__entry->dev = VFS_I(ip)->i_sb->s_dev;
-> +		__entry->ino = ip->i_ino;
-> +		__entry->pos = pos;
-> +		__entry->length = length;
-> +	),
-> +	TP_printk("dev %d:%d ino 0x%llx pos %llx length %x",
+> diff --git a/fs/verity/verify.c b/fs/verity/verify.c
+> index 47a66f088f..ef411cf5d8 100644
+> --- a/fs/verity/verify.c
+> +++ b/fs/verity/verify.c
+> @@ -271,6 +271,10 @@
+>  		data_pos, level - 1, params->hash_alg->name, hsize, want_hash,
+>  		params->hash_alg->name, hsize,
+>  		level == 0 ? dblock->real_hash : real_hash);
+> +	trace_fsverity_file_corrupt(inode, data_pos, params->block_size);
+> +	if (inode->i_sb->s_vop->file_corrupt)
+> +		inode->i_sb->s_vop->file_corrupt(inode, data_pos,
+> +						 params->block_size);
 
-pos and length should have '0x' before them since they're presented in
-hexadecimal.
+If fserror_report[1] gets merged before this series, I think we should
+add a new FSERR_ type and call fserror_report instead.
 
-Otherwise this looks ok so
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+https://lore.kernel.org/linux-fsdevel/176826402610.3490369.4378391061533403171.stgit@frogsfrogsfrogs/T/#u
 
 --D
 
-
-> +		  MAJOR(__entry->dev), MINOR(__entry->dev),
-> +		  __entry->ino,
-> +		  __entry->pos,
-> +		  __entry->length)
-> +)
+>  error:
+>  	for (; level > 0; level--) {
+>  		kunmap_local(hblocks[level - 1].addr);
+> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
+> index 5bc7280425..b75e232890 100644
+> --- a/include/linux/fsverity.h
+> +++ b/include/linux/fsverity.h
+> @@ -128,6 +128,20 @@
+>  	 */
+>  	int (*write_merkle_tree_block)(struct inode *inode, const void *buf,
+>  				       u64 pos, unsigned int size);
 > +
-> +#define DEFINE_FSVERITY_EVENT(name) \
-> +DEFINE_EVENT(xfs_fsverity_class, name, \
-> +	TP_PROTO(struct xfs_inode *ip, u64 pos, unsigned int length), \
-> +	TP_ARGS(ip, pos, length))
-> +DEFINE_FSVERITY_EVENT(xfs_fsverity_read_merkle);
-> +DEFINE_FSVERITY_EVENT(xfs_fsverity_write_merkle);
-> +DEFINE_FSVERITY_EVENT(xfs_fsverity_file_corrupt);
-> +
->  #endif /* _TRACE_XFS_H */
+> +	/**
+> +	 * Notify the filesystem that file data is corrupt.
+> +	 *
+> +	 * @inode: the inode being validated
+> +	 * @pos: the file position of the invalid data
+> +	 * @len: the length of the invalid data
+> +	 *
+> +	 * This function is called when fs-verity detects that a portion of a
+> +	 * file's data is inconsistent with the Merkle tree, or a Merkle tree
+> +	 * block needed to validate the data is inconsistent with the level
+> +	 * above it.
+> +	 */
+> +	void (*file_corrupt)(struct inode *inode, loff_t pos, size_t len);
+>  };
 >  
->  #undef TRACE_INCLUDE_PATH
+>  #ifdef CONFIG_FS_VERITY
+> diff --git a/include/trace/events/fsverity.h b/include/trace/events/fsverity.h
+> index dab220884b..375fdddac6 100644
+> --- a/include/trace/events/fsverity.h
+> +++ b/include/trace/events/fsverity.h
+> @@ -137,6 +137,25 @@
+>  		__entry->hidx)
+>  );
+>  
+> +TRACE_EVENT(fsverity_file_corrupt,
+> +	TP_PROTO(const struct inode *inode, loff_t pos, size_t len),
+> +	TP_ARGS(inode, pos, len),
+> +	TP_STRUCT__entry(
+> +		__field(ino_t, ino)
+> +		__field(loff_t, pos)
+> +		__field(size_t, len)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ino = inode->i_ino;
+> +		__entry->pos = pos;
+> +		__entry->len = len;
+> +	),
+> +	TP_printk("ino %lu pos %llu len %zu",
+> +		(unsigned long) __entry->ino,
+> +		__entry->pos,
+> +		__entry->len)
+> +);
+> +
+>  #endif /* _TRACE_FSVERITY_H */
+>  
+>  /* This part must be outside protection */
 > 
 > -- 
 > - Andrey
