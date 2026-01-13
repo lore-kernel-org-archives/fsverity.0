@@ -1,162 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6917E3921E3
-	for <fsverity@lists.linux.dev>; Tue, 13 Jan 2026 10:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CCD38B7CA
+	for <fsverity@lists.linux.dev>; Tue, 13 Jan 2026 10:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768301414; cv=none; b=EBNoDtxX/eai8nOSXR0azdsSszKlQWqEYVCsbvyxZ/eG8F9vbtBsF7/3SZsbI5toRtO9Jx3ej35TdrVe6nAent04pGZ4BvXXtSEXrrk9QEJqJMQACxvs/nxVv9g+s/ErK9+siqJhBi/YutKkYy+OposwjqgcRJ1FKzbsmsG8uh8=
+	t=1768301591; cv=none; b=ESP2VchiXsryIahd+RFcxlb4qxkWW/dmS3VWRM33SJx/eegZHMG1El+phzhwowEUTe8lJ4DQcehUYosPAiqfMvdwmDhqWimzM7InT6fn14VNK7Il/eDvueGI6ZRlXzlzpMmHi+FbUf6JWfoXNhyT/86wGRgEqOGwNYdxi3FoXhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768301414; c=relaxed/simple;
-	bh=zs4+pY6UFBBhQer26MrIS2bBpKEtlbeski6Dk0lOabo=;
+	s=arc-20240116; t=1768301591; c=relaxed/simple;
+	bh=PjHHNXMU2ECbmiFzVWprvbt8oK2qCpnxqnQXWFkJbRY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=kp9qn8dIWrK4belIE76IGYELJZhCDjgsQ99kRRkhOBmPKXSBz2DMrUuaG9DJXI+g/NgV3nYcb+vcHKggi/us0bdv/2BAh10GPu0IXIwr8t+18wcmCZd9OhZEz+nM4toeAUJzC8r16lQgDl3b2rSkt+opxJkjqIcGEc2vCPE1RD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UenjutGG; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=Jb4VVMSfzwEhrmMJLKEdbKL4CSdkzKufdtcrTV6sulZevxtx27Wcwgypxgpj/3gTSiwlGsTyxvWjhg6tRxErooYkUpK320ADHOmo1FLzkflmRVu9k9eyqnAgLOwUCY/FHA9G+9nKLSV2rSTyD/C24+0hIYjgdFUcuW8MWupJRo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h2slBqe6; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UenjutGG"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h2slBqe6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768301411;
+	s=mimecast20190719; t=1768301589;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jZ3j0SOHASLnmo9OqDChCwBfxwLNuYXaGvQPIXl45AM=;
-	b=UenjutGGvRHrAJXE/eXDj0TfRyGehZ9g6C3siI8bA+dCO2LpqZpfWZ9pUwzPg2zhkLk9jU
-	c0Q9e+940xRgXIS914yP0quZuucb9anrGa/nPYmwnOgqnsz3KnAYhhh0yKfK9y+GWPaih3
-	+DP5OHW2by5fthewEn9OkSQrh2NdgzQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=RRzq/OiqJCPG2bkBaZVulxyOOCKnLsjXMbp4ew7Pkeg=;
+	b=h2slBqe6vwakrqvCTQzx6d0/75UXUAKQ1/vM4ZDAv/1K/Kf9HtKagXIUDEmFMIVqicbHdN
+	M6Q7Juw/0ZPOkpLX9+nAEnN+42HWaiZUs7oaW4H0aTdELaRpU7jzoG/4/TSsiB4U16/SCE
+	UcyUt9GVuE4Ka3gB9hTwwR6fV8a3ot4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-592-RgpEDmyGOH-GJi-p7o2xLw-1; Tue, 13 Jan 2026 05:50:10 -0500
-X-MC-Unique: RgpEDmyGOH-GJi-p7o2xLw-1
-X-Mimecast-MFC-AGG-ID: RgpEDmyGOH-GJi-p7o2xLw_1768301409
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-430fd96b2f5so5440152f8f.3
-        for <fsverity@lists.linux.dev>; Tue, 13 Jan 2026 02:50:09 -0800 (PST)
+ us-mta-561-4KY_KKDsMkecxMb-tr2j4g-1; Tue, 13 Jan 2026 05:53:08 -0500
+X-MC-Unique: 4KY_KKDsMkecxMb-tr2j4g-1
+X-Mimecast-MFC-AGG-ID: 4KY_KKDsMkecxMb-tr2j4g_1768301587
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-4325aa61c6bso4660673f8f.0
+        for <fsverity@lists.linux.dev>; Tue, 13 Jan 2026 02:53:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768301409; x=1768906209;
+        d=1e100.net; s=20230601; t=1768301587; x=1768906387;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jZ3j0SOHASLnmo9OqDChCwBfxwLNuYXaGvQPIXl45AM=;
-        b=BF1nCbOQcrKT3LSgqGdwj1d/drWnqSBI6pnsE7Sw4v+C7idvUYejOD4F7oXKQnTmsa
-         A3fr1tqDBhV/UZ9z6ATyhZdOG93kN/ucc+YZDERsn2coUgQBAxrA7s6p6Vxs7eEKFzI3
-         FyWUnWVlwijjhepa8rtQdWjw6Zz8NnFT0FqKKi+gAMvEmtk+2G8fXdpUW8kkuv8wNBOC
-         7mtJ9MplYqnXNqj/vpL0KUw0L+HWxSL8TxyhBtdiIyo+h6/3flTGC6vMO14OpEZpyIBq
-         SdMGfmo2pd5aHKt0bE96UpTxkhgYKrSEryckKFXXrg55Qrfu9G3BPrxrKxGMHjQbL4iz
-         8LnA==
-X-Forwarded-Encrypted: i=1; AJvYcCVCou/T0KTR2/miPItG7iwrze3Ev5wQ2XhYvt0ep8WPZPKeiLrSPzUIEXEbrgo7bjUDXGWs8d2ViQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyEecUEJ+j84Fz00ArA/3HWDQ72xdnI3TVQOc6ASOSIjYvRJ9i
-	OVwYyTqhjK47s2nNkoqpnVNiJI0n698cqXHRa4YehDzqi9HvzF/Lb1bH0vkqyW757pBiixXiRmV
-	IYl4I5MobhirG9PVbL4ZFqHAibJocMhqp73YYV/+ALFVXLZ8MmPJV6XnJ3BQ=
-X-Gm-Gg: AY/fxX575I9QavawaIrr8y97dsHRTaxyjGsVvCdwNVBvahlU9hcD5Ce/3n7s6Q7VmJM
-	5MecMph5L8qXfH8Hcv/TDTXx6HFaLclqkfRg4dUic0S7vNexMEZGNuBDWBER1pLu/DbEiaGGMHV
-	sSnp87IC5So1oq6bq0E7ZAwFD1Zj1qy7eZdm8aA4cWj/lvNOL+cT84NFD5nM0Yx5WTHME7VdSBk
-	9rnwnledNttNsd+HGyyPXOyvIJ61AyMQI3/YuKSVCYARBpiawQbdSx9fsqlAAHqRcTkF1rK+lV3
-	v0/i84fP/uEcc00pT397m5ARSdPIAj1LC+PZGqswsBSuaAsHo6a5gbNC2lxO8oSznMtDb8/t5jI
+        bh=RRzq/OiqJCPG2bkBaZVulxyOOCKnLsjXMbp4ew7Pkeg=;
+        b=u1KYP3zIgjuDoMj35IhNZDuxxIOQgfbojQNPofURMB+BXjpN03g++VNkSle0fLYKLv
+         wnIIBnojcrnSVn1Jkdull20Anmg5eEaLvLPF0d79ruhs8LagQeyg87+w9ts9XTREdUpF
+         A+VWJ2tlo8l6+ZYzJcp1F5kavyczvP7o2oMNWzK7vVFjctI/Y9K76GLeyvxOZrg6QvKj
+         zlIrE00U/6WSL3y+wHDCs1jzaQ29FYPt2Ew9AxWCjhQSmS6c0afF6GMi8dYGOCthYJY+
+         wyauHNgxt2tP3VtoUoGfPl6mpvHep7T9EMliGJM1Akbq/qH4+Ho37NhpN1B39O5zadTe
+         5FzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV4vvl2LfPcX9x86f7O2QMrPBolR4VAeXBEgb44UzvpbVnJvAZ6wal6u8+5frEwDHgCFylRX6dlhw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEDio7p4yWR81yHcllskMiF5nq5MxsTO7wuQEaL7+MAd9uVKZc
+	8+Co1KhkprHOepeyqn7vwkBcg6PxW68d4OfR+t3FeX3g3S1kVFQIeApKy2HjC1qkRi734tGsv4v
+	4C2W1GMWMEYHycpjJHEwkSzdNjgM30WUFSIV+FqwRJVer+KQbasyFXeDrN4w=
+X-Gm-Gg: AY/fxX5t5MDvW+4xWB4L0Vs52oLoy0Eh38tQyXmB1GCluN5hGbeZbs0uMUegABne5nT
+	cPAmjWYtFJaWHHPuKaUj4EswuV6tQDTii97kDj93/iUHzb9NbNz+YabsNIjgVDI/2bSfpePPMwb
+	QX7N6dsrT2sgJp4/mBYmQkmNpk2cUDndDZSZwS5p/J9iwW90vqmXmkao62sE3XReMRIjGznKtWZ
+	EXRoDYsOar/Jq4P5nqP27MUHeSRENNjnfTqWBLB5S5oqKrVtLZ8jSzKesgHrXg+OWy/zx5/V4Z8
+	+m1F3Re0iRaR+TNUOBA+3emGR9nxp920ay1bWOBqRhC0lNCO4jTMKOE93bZsMFaNrFxHVV9EuRI
 	=
-X-Received: by 2002:a05:6000:3102:b0:429:c851:69ab with SMTP id ffacd0b85a97d-432c38d22e5mr20813943f8f.55.1768301408659;
-        Tue, 13 Jan 2026 02:50:08 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGcmNmJys26XuZztJOyKdSJM/PHCDpO7qgbJlWds4OOLxDbjN5kxlCB20323N+1/6DIlpZFFA==
-X-Received: by 2002:a05:6000:3102:b0:429:c851:69ab with SMTP id ffacd0b85a97d-432c38d22e5mr20813895f8f.55.1768301408145;
-        Tue, 13 Jan 2026 02:50:08 -0800 (PST)
+X-Received: by 2002:a5d:64c4:0:b0:42f:bc44:1908 with SMTP id ffacd0b85a97d-432c3628318mr21995930f8f.6.1768301586767;
+        Tue, 13 Jan 2026 02:53:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFh4NEoqV1IGWMRybfYo/BPX2SnOF98P97L08GyHqewwRXa7H6fD1m4rMETsETdz+2sbqsNaQ==
+X-Received: by 2002:a5d:64c4:0:b0:42f:bc44:1908 with SMTP id ffacd0b85a97d-432c3628318mr21995903f8f.6.1768301586365;
+        Tue, 13 Jan 2026 02:53:06 -0800 (PST)
 Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432d286cdecsm29847812f8f.7.2026.01.13.02.50.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0daa78sm44253141f8f.6.2026.01.13.02.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 02:50:07 -0800 (PST)
-Date: Tue, 13 Jan 2026 11:50:07 +0100
+        Tue, 13 Jan 2026 02:53:06 -0800 (PST)
+Date: Tue, 13 Jan 2026 11:53:05 +0100
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: "Darrick J. Wong" <djwong@kernel.org>, fsverity@lists.linux.dev, 
 	linux-xfs@vger.kernel.org, ebiggers@kernel.org, linux-fsdevel@vger.kernel.org, 
 	aalbersh@kernel.org, david@fromorbit.com
-Subject: Re: [PATCH v2 3/22] iomap: introduce IOMAP_F_BEYOND_EOF
-Message-ID: <xjz5a35ypk3am6fbhkfdeeeilu54lhbcymginjv6srjve4qfjn@uucfin46ylhj>
+Subject: Re: [PATCH v2 4/22] iomap: allow iomap_file_buffered_write() take
+ iocb without file
+Message-ID: <3h675bqgb6rslcn5anicpg4f3n4j4irqqotyopmebh4bx2crqw@nh47jqrj3ucm>
 References: <cover.1768229271.patch-series@thinky>
- <d5fc72ldfwyzbgiypzlhn5diiqyijxaicpa3w6obx4iismuko3@kttpcgqjy6i5>
- <20260112221853.GI15551@frogsfrogsfrogs>
- <20260113081220.GB30809@lst.de>
+ <kibhid6bipmrndfn774tlbm6wcitya5qydhjws3n6tnjvbd4a3@bui63p535b3q>
+ <20260112222215.GJ15551@frogsfrogsfrogs>
+ <20260113081535.GC30809@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260113081220.GB30809@lst.de>
+In-Reply-To: <20260113081535.GC30809@lst.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: _4fkI9GTyCf-qvMMyehePPaDf-ZRroQ2F09vyBCWkec_1768301409
+X-Mimecast-MFC-PROC-ID: 9QCSehEgxPv1sWHInvvuDWVVgRzQdRAEIX-vNhqAGCs_1768301587
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 2026-01-13 09:12:20, Christoph Hellwig wrote:
-> On Mon, Jan 12, 2026 at 02:18:53PM -0800, Darrick J. Wong wrote:
-> > On Mon, Jan 12, 2026 at 03:50:05PM +0100, Andrey Albershteyn wrote:
-> > > Flag to indicate to iomap that read/write is happening beyond EOF and no
-> > > isize checks/update is needed.
-> > > 
-> > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > > ---
-> > >  fs/iomap/buffered-io.c | 13 ++++++++-----
-> > >  fs/iomap/trace.h       |  3 ++-
-> > >  include/linux/iomap.h  |  5 +++++
-> > >  3 files changed, 15 insertions(+), 6 deletions(-)
-> > > 
-> > > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> > > index e5c1ca440d..cc1cbf2a4c 100644
-> > > --- a/fs/iomap/buffered-io.c
-> > > +++ b/fs/iomap/buffered-io.c
-> > > @@ -533,7 +533,8 @@
+On 2026-01-13 09:15:35, Christoph Hellwig wrote:
+> On Mon, Jan 12, 2026 at 02:22:15PM -0800, Darrick J. Wong wrote:
+> > > +		iter.inode = iocb->ki_filp->f_mapping->host;
+> > > +	} else {
+> > > +		iter.inode = (struct inode *)private;
 > > 
-> > (Does your diff program not set --show-c-function?  That makes reviewing
-> > harder because I have to search on the comment text to figure out which
-> > function this is)
+> > @private is for the filesystem implementation to access, not the generic
+> > iomap code.  If this is intended for fsverity, then shouldn't merkle
+> > tree construction be the only time that fsverity writes to the file?
+> > And shouldn't fsverity therefore have access to the struct file?
 > 
-> Or use git-send-email which sidesteps all these issues :)
+> It's not passed down, but I think it could easily.
 > 
-> > Hrm.  The last test in iomap_block_needs_zeroing is if pos is at or
-> > beyond EOF, and iomap_adjust_read_range takes great pains to reduce plen
-> > so that poff/plen never cross EOF.  I think the intent of that code is
-> > to ensure that we always zero the post-EOF part of a folio when reading
-> > it in from disk.
 > > 
-> > For verity I can see why you don't want to zero the merkle tree blocks
-> > beyond EOF, but I think this code can expose unwritten junk in the
-> > post-EOF part of the EOF block on disk.
+> > > +		iter.flags |= IOMAP_F_BEYOND_EOF;
 > > 
-> > Would it be more correct to do:
+> > IOMAP_F_ flags are mapping state flags for struct iomap::flags, not the
+> > iomap_iter.
 > 
-> Or replace the generic past EOF flag with a FSVERITY flag making
-> the use case clear?
-> 
-
-I will rename it to _FSVERITY
-
-> > > @@ -1815,8 +1817,9 @@
-> > >  
-> > >  	trace_iomap_writeback_folio(inode, pos, folio_size(folio));
-> > >  
-> > > -	if (!iomap_writeback_handle_eof(folio, inode, &end_pos))
-> > > -		return 0;
-> > > +	if (!(wpc->iomap.flags & IOMAP_F_BEYOND_EOF) &&
-> > > +	    !iomap_writeback_handle_eof(folio, inode, &end_pos))
-> > 
-> > Hrm.  I /think/ this might break post-eof zeroing on writeback if
-> > BEYOND_EOF is set.  For verity this isn't a problem because there's no
-> > writeback, but it's a bit of a logic bomb if someone ever tries to set
-> > BEYOND_EOF on a non-verity file.
-> 
-> Maybe we should not even support the flag for writeback?
+> But we could fix this part as well by having a specific helper for
+> fsverity that is called instead of iomap_file_buffered_write.
+> Neither the iocb, nor struct file are used inside of iomap_write_iter.
+> So just add a new helper that takes an inode, sets the past-EOF/verify
+> flag and open codes the iomap_iter/iomap_write_iter loop.
 > 
 
-Hmm not sure how you see this, the verity pages need to get written
-somehow and as they are beyond EOF they will be zeroed out here.
-
-Regarding your comment in the thread to use direct IO, fsverity
-wants to use page cache as cache for verified pages (already
-verified page will have "verified" flag set, freshly read won't).
-
-So, I think writeback has to know how to handle them
+sure, sounds good
 
 -- 
 - Andrey
