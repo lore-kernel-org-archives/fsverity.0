@@ -1,47 +1,45 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109FD33ADA5;
-	Wed, 14 Jan 2026 05:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5202BE64A;
+	Wed, 14 Jan 2026 06:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768366863; cv=none; b=kdLJ0cQQJQdS18Qh3//Nuf3WOR3BoBfM6IYiHESxYZCOBQgMlb5qplnfjXLsDUz4ZGyUFgaJAgZoQozkaznytmcy78uyPqehaw4qRxJb8FoH4T4RRy06byLxfG7jBZ3sB5YomcvYdbczrZbSSXPyMBs3t/hJ4GqKhKvcExNhQyw=
+	t=1768371337; cv=none; b=JFXk26q4EMCw8sqv+D4oucSVV7+Ky2Styp3YYY6DbxUH7ETMOcK8BGPbzJeoWBrLY0WEYKyQ+My+6fT4uBOalgruZ4xiNd6gMxeGYSF9cA4HSw4Wm0K0hNMVuwRX0ZqYK4plBxE3M0EHLiMHLKL4YbAvj+WQxsutmWrnM421jkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768366863; c=relaxed/simple;
-	bh=4BKTaDv2D5YkNA73YpOclK8poiBgtZbrwGXtFc0K6g0=;
+	s=arc-20240116; t=1768371337; c=relaxed/simple;
+	bh=0iqekaHVK+2ijH4G+z+YGDBjBjZbUBYkebJj3HsANBw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sarABY+W3d95g0+7eD60ZVlPcc0UUFVhp7mzXMdZ7wTpK+bFsSLOq/qw9jyHR7eKKf3Io8TdSqO69uEieCXpyAQHSz30R063N5yKO4d2jq6Oe45auLAWusOBMLWZBUTPsyQOke/DUgf7YhoCbN/lOAd2tpe+jL2AYOwu+RYVLuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rlITGBJo; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ognpf+L4Lf1qr0S3giKis8W3K/opKzeyip3Ya6D5l/1ZRmHIXasrVEQJTHymql45eRnJ/y6y5i0OPrya3GcDBHY5e/2zt6Eihl56vb7ohIIH1pJRpvRUHXFkbMeQo4Ws+hsLVDYv3qGiw0h2OVMxnjjmxefKOAMKpHVrAAxlvnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZXDfK9O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rlITGBJo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=s7ksIaZ0R9GnpNVGzvI6paWd7X8ijDFbueiXkHm4znU=; b=rlITGBJoLP5VsQV4bw/44oRAHv
-	S3C7NE7l4t/4kTcfkul/CK8HL9jMkRgWhsHNSlQ+9btadkR0itSd0nvvdrhdgy/ENSikSItuqnkTn
-	eIQeaY302Dh6d0kosIo0gjtyU6DCOD7MyfnNxUe91W5E3ua28WfwRD8fa26Ijtz5U0JuOqeetPCoz
-	K66iLLMeJsuidNyO7Jn+5YCZLafqVowhMMwNZ7x8chy3SIpsba9ChfGLTTHhiHar8IrLb+HfwJbTM
-	psdfTQQRSHMt8G2YOqEkmucSCQL16vFIehEwgX1d8EeRzy2owtihQH7jcOBVxeWUfUtVZ4VkuSSme
-	A3SqvbBQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfszw-00000005iFi-04XG;
-	Wed, 14 Jan 2026 05:00:48 +0000
-Date: Wed, 14 Jan 2026 05:00:47 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: fsverity@lists.linux.dev, linux-xfs@vger.kernel.org,
-	ebiggers@kernel.org, linux-fsdevel@vger.kernel.org,
-	aalbersh@kernel.org, djwong@kernel.org, david@fromorbit.com,
-	hch@lst.de
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZXDfK9O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F25FC4CEF7;
+	Wed, 14 Jan 2026 06:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768371336;
+	bh=0iqekaHVK+2ijH4G+z+YGDBjBjZbUBYkebJj3HsANBw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IZXDfK9OhJal+gou4WtykyK2lJRuzraSDvdm1/gIN92Xe2Fb1FpyD5gUaRWkfYDFk
+	 O02Hq6ncVcbjVdveAaHCBU1cjAJzs40kUzS92nwnLkV8qeubGuxmb5rNA1a7QLMheQ
+	 vzEGrgdko2g+pF0l3VoQOTfMkIs7yhLuXiGydLwvd3UTp68EJG/9yFnsnDTlaaXz5r
+	 +DQI1cHS5MLdAP2wK3hqUACap3Eebvz7DPnBT+Nq43MvQ6wwtJ6hdbf7ZKhtRMweiC
+	 e+13174bE45LAYNggbDJfk+MaR3ciF3Z9nb9UCJbS4STg83ohEO+Hqykbr9TbEGrs8
+	 5qnEb0nprjndQ==
+Date: Tue, 13 Jan 2026 22:15:36 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, fsverity@lists.linux.dev,
+	linux-xfs@vger.kernel.org, ebiggers@kernel.org,
+	linux-fsdevel@vger.kernel.org, aalbersh@kernel.org,
+	david@fromorbit.com, hch@lst.de
 Subject: Re: [PATCH v2 0/23] fs-verity support for XFS with post EOF merkle
  tree
-Message-ID: <aWci_1Uu5XndYNkG@casper.infradead.org>
+Message-ID: <20260114061536.GG15551@frogsfrogsfrogs>
 References: <cover.1768229271.patch-series@thinky>
  <aWZ0nJNVTnyuFTmM@casper.infradead.org>
  <op5poqkjoachiv2qfwizunoeg7h6w5x2rxdvbs4vhryr3aywbt@cul2yevayijl>
+ <aWci_1Uu5XndYNkG@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -50,35 +48,47 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <op5poqkjoachiv2qfwizunoeg7h6w5x2rxdvbs4vhryr3aywbt@cul2yevayijl>
+In-Reply-To: <aWci_1Uu5XndYNkG@casper.infradead.org>
 
-On Tue, Jan 13, 2026 at 07:45:47PM +0100, Andrey Albershteyn wrote:
-> On 2026-01-13 16:36:44, Matthew Wilcox wrote:
-> > On Mon, Jan 12, 2026 at 03:49:44PM +0100, Andrey Albershteyn wrote:
-> > > The tree is read by iomap into page cache at offset 1 << 53. This is far
-> > > enough to handle any supported file size.
-> > 
-> > What happens on 32-bit systems?  (I presume you mean "offset" as
-> > "index", so this is 1 << 65 bytes on machines with a 4KiB page size)
-> > 
-> it's in bytes, yeah I missed 32-bit systems, I think I will try to
-> convert this offset to something lower on 32-bit in iomap, as
-> Darrick suggested.
+On Wed, Jan 14, 2026 at 05:00:47AM +0000, Matthew Wilcox wrote:
+> On Tue, Jan 13, 2026 at 07:45:47PM +0100, Andrey Albershteyn wrote:
+> > On 2026-01-13 16:36:44, Matthew Wilcox wrote:
+> > > On Mon, Jan 12, 2026 at 03:49:44PM +0100, Andrey Albershteyn wrote:
+> > > > The tree is read by iomap into page cache at offset 1 << 53. This is far
+> > > > enough to handle any supported file size.
+> > > 
+> > > What happens on 32-bit systems?  (I presume you mean "offset" as
+> > > "index", so this is 1 << 65 bytes on machines with a 4KiB page size)
+> > > 
+> > it's in bytes, yeah I missed 32-bit systems, I think I will try to
+> > convert this offset to something lower on 32-bit in iomap, as
+> > Darrick suggested.
+> 
+> Hm, we use all 32 bits of folio->index on 32-bit plaftorms.  That's
+> MAX_LFS_FILESIZE.  Are you proposing reducing that?
+> 
+> There are some other (performance) penalties to using 1<<53 as the lowest
+> index for metadata on 64-bit.  The radix tree is going to go quite high;
+> we use 6 bits at each level, so if you have a folio at 0 and a folio at
+> 1<<53, you'll have a tree of height 9 and use 17 nodes.
+> 
+> That's going to be a lot of extra cache misses when walking the XArray
+> to find any given folio.  Allowing the filesystem to decide where the
+> metadata starts for any given file really is an important optimisation.
+> Even if it starts at index 1<<29, you'll almost halve the number of
+> nodes needed.
 
-Hm, we use all 32 bits of folio->index on 32-bit plaftorms.  That's
-MAX_LFS_FILESIZE.  Are you proposing reducing that?
+1<<53 is only the location of the fsverity metadata in the ondisk
+mapping.  For the incore mapping, in theory we could load the fsverity
+anywhere in the post-EOF part of the pagecache to save some bits.
 
-There are some other (performance) penalties to using 1<<53 as the lowest
-index for metadata on 64-bit.  The radix tree is going to go quite high;
-we use 6 bits at each level, so if you have a folio at 0 and a folio at
-1<<53, you'll have a tree of height 9 and use 17 nodes.
+roundup(i_size_read(), 1<<folio_max_order)) would work, right?
 
-That's going to be a lot of extra cache misses when walking the XArray
-to find any given folio.  Allowing the filesystem to decide where the
-metadata starts for any given file really is an important optimisation.
-Even if it starts at index 1<<29, you'll almost halve the number of
-nodes needed.
+> Adding this ability to support RW merkel trees is certainly coming at
+> a cost.  Is it worth it?  I haven't seen a user need for that articulated,
+> but I haven't been paying close attention.
 
-Adding this ability to support RW merkel trees is certainly coming at
-a cost.  Is it worth it?  I haven't seen a user need for that articulated,
-but I haven't been paying close attention.
+I think the pagecache writes of fsverity metadata are only performed
+once, while enabling fsverity for a file.
+
+--D
