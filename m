@@ -1,108 +1,70 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144A8145348
-	for <fsverity@lists.linux.dev>; Fri, 16 Jan 2026 14:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E638246778;
+	Fri, 16 Jan 2026 21:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768575139; cv=none; b=R6zDUCbQ3advQdn45Hhjk5oM7ChntN3AtKPPyVxFvUXq4c41rBAxI/5h/lWhvSRtq1nugGuuSvN3XZCEIMB3OlSbON6edMh8LkuFPXnOONYC1kHI5owqk4Byl4W9qyNZwidulkaCOnEk19sCrp0BEIpo/vdJiY61pde71H54dVs=
+	t=1768600331; cv=none; b=FmRpZROLOAxt4VmFxeBc08WIrAY+GpHhDHWxY6/mPIs2FaVdyEy9Y1ugDycp7LHxQ4g6VNa5vk/o1LMZiz2yDLzrlD7Ymw68K38VkTAOY/kJXmD6jKOyjBM+jjdh7WrjNYt+p2esSBFbXtxN/Q9CJyggE6ZJeegIue2P9VwgAC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768575139; c=relaxed/simple;
-	bh=7cGeMk8GyRdqCvDdT0G0vEEeDlTTsLl/4l41tbPOOLE=;
+	s=arc-20240116; t=1768600331; c=relaxed/simple;
+	bh=8h3QxMODzy+mufmZR78WB1ljv+J8HT2qr17zgu8bbUk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=XjC6NtmZ3XvOf7Z2m8By6RyEf0zugjCBnzPjIIIwsTuoAYhwXwXdPk8rA+ytbCGOH5+uW/K/nOBnLbbs4coOGn8Ex9U4Yi7szl1pOtL5by/quNXzx845xgfQnFad+xXnbsTpEb4aNyMswECoM24bQ06iSK/hwrbOkD9poD07+0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WB4HYyfx; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ofCutfW3XjRAegPm3pCxgez9PzVOp0dscs/mOdxpeM6pA6uNYSJ44+5ejSYsnhVPihkEZwC3TLqmKRDOnSFMyHPUth0adtiecjHp/2/ozgk5gw7Q2HZyCCRy/4xzOWQh67kQCFrnfEMOinT8EW5t6e3Y+FkiTFUqO0e2Gk4W+Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lX+hDrhm; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WB4HYyfx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768575137;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0h8VbcliXJU5w8d5JITrLYVgYncPw3n5MJT/9tJnIiY=;
-	b=WB4HYyfxYtZnufUlvKIo+8nLniIYYJbfRWAjiebLLa3Xz/lO7eDcJg9ZSrwUsKLgc4Lgbx
-	pkJQRecdfWfNDE+xANtmAdiBCvO64jorHklmI1hYh6UCIpLw0FhII5gyUS59umWkdr2Mk+
-	9UDwRou+U08eMTmm0IzCLI1oeW0zXv8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-489-E4cFAVpPPpSRWDsjTMGGwg-1; Fri, 16 Jan 2026 09:52:15 -0500
-X-MC-Unique: E4cFAVpPPpSRWDsjTMGGwg-1
-X-Mimecast-MFC-AGG-ID: E4cFAVpPPpSRWDsjTMGGwg_1768575135
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-430fcf10287so1816430f8f.0
-        for <fsverity@lists.linux.dev>; Fri, 16 Jan 2026 06:52:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768575134; x=1769179934;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0h8VbcliXJU5w8d5JITrLYVgYncPw3n5MJT/9tJnIiY=;
-        b=Lpw7LxrTra6tYxtA5zo3MBf3cdqSlSWrqYxY3RXk8LgkuDXDYIegzxtQ0RLn0XoP2Y
-         TxyWfQlf90yh675I0yCb4uym1LWFgbJyaFq4yIV/kms8DNWt3MjWKD5bQF7GbKYKf/u0
-         cmgQX9mfScfJGloUiHLxpssjJ0fixAKn0i4TLDiz+062qHB52uLd7ZfToIsRTBaQjGh5
-         OnTKuQc46JNAp5MsS8sIUVHXds0qBqq2wDmzvkHVRqu76XbB3WL0ZZ3wkizplBjbqhdt
-         Hl/jHkDnc318Lb+D/DHJ+lZrp9Wb09sm8RIz8u1gIXB328AgS6+VE1VgIE0lzL/ZdRl1
-         mpKw==
-X-Gm-Message-State: AOJu0YxzQGGSpxBFZZpvdkEsvFNXTWDtJspuTRperUuOLv0FiNLQlMUf
-	34sRB10c0Tz57ThawBAzKbnOF6L/5Ko1bYu39HVBgCIauCvFcMjsj0R0GEii4RQZPd2vSHXs09y
-	JWVEVf7LS6p9z2CPeNDOXL1kEvMflBJi2yYKXEKXxySFmX2GG9lb97z1SWDg=
-X-Gm-Gg: AY/fxX6AlbXW1iIrn6c0LaoIqvuwLWsjixPfjCpQnilaQkD20VykPBYIJPbkKQKlbNe
-	GByL9ceDOg6ec2iKUwpYt8KoMem9sMPBvfCgx1YpZ7oGWsIQGcFoYassfKRV6yuQPHIAqEwKtez
-	EYL+p/1ijnGYHKqBjC6h0raALhTVgwxIV/gA5/ubIEAr9wtlI2OY/jUI50bPI1WllJriduhhZax
-	myW09hVRHVH5z4Zen1PneaOKbYMKKVRcqz7hwbpYIT3Rsf8w3QNKmNZEnUnz/Q27tkBoVYRyyRw
-	r/7Ns9x+U0BP70U+QPfs13N6K1LMX4BzhTzFU/npzWs1VWalQ2k2kKUAv5EumdCZhun+26bVPvs
-	=
-X-Received: by 2002:a05:6000:40e0:b0:431:701:4a1a with SMTP id ffacd0b85a97d-435699997a3mr4331553f8f.26.1768575134319;
-        Fri, 16 Jan 2026 06:52:14 -0800 (PST)
-X-Received: by 2002:a05:6000:40e0:b0:431:701:4a1a with SMTP id ffacd0b85a97d-435699997a3mr4331513f8f.26.1768575133696;
-        Fri, 16 Jan 2026 06:52:13 -0800 (PST)
-Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996d02dsm5633075f8f.23.2026.01.16.06.52.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 06:52:13 -0800 (PST)
-Date: Fri, 16 Jan 2026 15:52:12 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: fsverity@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	ebiggers@kernel.org, linux-fsdevel@vger.kernel.org, aalbersh@kernel.org, 
-	david@fromorbit.com, hch@lst.de
-Subject: Re: [PATCH v2 16/22] xfs: add fs-verity support
-Message-ID: <5s37vliyxikgz22dakooeml37yo2jnhqqinnnag5czbtz46io5@h6jikziw3qxr>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lX+hDrhm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=sO6CuLE2UcmPyAhaQw75xpslUY+1xUQo3AbRBzOid4Q=; b=lX+hDrhmUakvkXozmzSSlYRsS2
+	wu1OcECO80YjXoI9xrnOU76tIh1g8JajOiGVWkxmxOPhIolOR+U/tUtZtU5x0ePJS7vT3BWeS16NV
+	l8Gvl+P2Q3xsGwOL1M2WUFlVCFhGgb1iVD7oaBnT49zSbkELni1NGKU8oiZ1icLdtA8Gm2RlYC0b9
+	G/puvQxAlm15V5ubxLgCjgcMtEAvnDjhUTA+0+AIIYRImiOav5JS88OQpn+anq8a5o6vnDDc3VmU8
+	RTYj0zxxRZmqf+EBJYhfiUKvk3sXDFHHendCjarFTL63kVoAz2jol+z/dzq6q0lCe2jcaI63vH8QE
+	z08+V/+A==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vgrjj-00000009vGZ-1tXd;
+	Fri, 16 Jan 2026 21:52:07 +0000
+Date: Fri, 16 Jan 2026 21:52:07 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: fsverity@lists.linux.dev, linux-xfs@vger.kernel.org,
+	ebiggers@kernel.org, linux-fsdevel@vger.kernel.org,
+	aalbersh@kernel.org, djwong@kernel.org, david@fromorbit.com,
+	hch@lst.de
+Subject: Re: [PATCH v2 3/22] iomap: introduce IOMAP_F_BEYOND_EOF
+Message-ID: <aWqzB1K-iGrFwOIc@casper.infradead.org>
 References: <cover.1768229271.patch-series@thinky>
- <p4vwqbgks2zr5i4f4d2t2i3gs2l4tnsmi2eijay5jba5y4kx6e@g3k4uk4ia4es>
- <20260112230548.GR15551@frogsfrogsfrogs>
+ <d5fc72ldfwyzbgiypzlhn5diiqyijxaicpa3w6obx4iismuko3@kttpcgqjy6i5>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260112230548.GR15551@frogsfrogsfrogs>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: nCCux8Ee7u8R1Gal11U1M7OZgDOzl_igB7nlHJjVJuE_1768575135
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <d5fc72ldfwyzbgiypzlhn5diiqyijxaicpa3w6obx4iismuko3@kttpcgqjy6i5>
 
-> > +	desc_pos = round_down(desc_size_pos - desc_size, blocksize);
-> > +	error = xfs_fsverity_read(inode, buf, desc_size, desc_pos);
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	return desc_size;
-> > +}
-> 
-> You might want to wrap the integrity checks through XFS_IS_CORRUPT so
-> that we get some logging on corrupt fsverity data.  Also, if descriptor
-> corruption doesn't prevent iget from completing, then we ought to define
-> a new health state for the xfs_inode so that it can report those kinds
-> of failures via bulkstat.
+On Mon, Jan 12, 2026 at 03:50:05PM +0100, Andrey Albershteyn wrote:
+> Flag to indicate to iomap that read/write is happening beyond EOF and no
+> isize checks/update is needed.
 
-yeah, iget will complete as it doesn't trigger fsverity to read
-descriptor. I will add a new health state. Thanks!
+Darrick and I talked to Ted about this yesterday, and we think you don't
+need the writeback portions of this.  (As Darrick said, it's hard to
+tell if this is all writeback or just some of it).
 
--- 
-- Andrey
+The flow for creating a verity file should be:
+
+write data to pagecache
+calculate merkle tree data, write it to pagecache
+write_and_wait the entire file
+do verity magic
+
+If you follow this flow, there's never a need to do writeback past EOF.
+Or indeed writeback on a verity file at all, since it's now immutable.
 
