@@ -1,60 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6E52D6E78
-	for <fsverity@lists.linux.dev>; Sat, 17 Jan 2026 23:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7960FF4FA;
+	Mon, 19 Jan 2026 06:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768692893; cv=none; b=Yqe+PyZjD+B3haLJiY8e94p/aJHuZOVksvSJXzLGW64LlSgpM0a758HHkpbYcB6wF6ezZqEtQ+FeMHhOBkVpVwUieAGVldZQbJqGEIZGEjQaNnabGT+iInh+KOeTYEM/oYkY2yisv2aHjAXLW5LcMWlt0d8zUzHtzD9gfH0eIcU=
+	t=1768803784; cv=none; b=uEd2ZTCgAU8JGk12dIlWzfiKnKMxpepphRgEHFcU+PTNzrM99DaRtKoj6voOSAqdXtCc7ZNuPYsxArgNSKDZOjs2ikE9pyMFE1Qp6bq8ebLBu7cSpB6+kilvDRZzOP2lyxBSW6aQE9FgmhJqOZCAZs1JFesCWCUvlSpziJuq6os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768692893; c=relaxed/simple;
-	bh=HFPY5OstzPjEk0Sl7pKypVxgwWqkjB8bb7QY4A2iY0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AeFSgKyXc+6QhxmkNPv55CtRzEPiyT0tVythWQmEMupoMCyezMTAVJHUo9wpDPpKJeQvwv2gd/pzNtPCCcpLXKGakT2FiNvmoBSLatrrykAb/FSMwyNP/EuIEXvx2ez6D5VfYFt93mkFG4UFOrp2rS3apcLC+s1cFl12VCbrL3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tGLNOBoA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768803784; c=relaxed/simple;
+	bh=7ImVCdUFWJ5tfAQJGL2fAtn0fmRWFqdxtALAjyPT4gw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O3Vjh17H35jxubZUrLq73LUOLh0a46zpEEaRu/lFgJhoJwOtZAt6kCZiTVgdboBvgtGsZMqRzFnDzgJQIB6OegGrZmCe07mZujENVJ3BPwjf4Z2hyi/ITNtUM0GkBtudG4G0ry6j6YkmkUvrQcy0YNAAtR7EGIYEMeowYZwWIBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uv+zEQZW; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tGLNOBoA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91D7C4CEF7;
-	Sat, 17 Jan 2026 23:34:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768692890;
-	bh=HFPY5OstzPjEk0Sl7pKypVxgwWqkjB8bb7QY4A2iY0s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tGLNOBoAvq4fp1ATuRVaKavdwFpqlPEZgYzWbIWKbP5i1E17eDH9aYpm6fwxI+QSD
-	 2LXEEzBWsmdL5BG3CZAGnVNOz7p6UU6wQPefhEp8+5jjo2KHP1UAjrgPhYRBVADhuN
-	 evchjLBLEjf1uTHYka542b4E1TCa0w2eBcz7Fl70DzWDTTg3E9gBCwdlKmIqaY79nA
-	 VHzcINNxzKM0MhFEqvkKuUl+G3eVSOILV6oEACvIGrcLpIQxvTP0mdf13CM3oVCDlO
-	 V8tJVLoL++60x64wMdFWUrkYUhriUXjvV37JXPBXGRHLoQmkoQC5z/1qlwGmv0+vzh
-	 1v66zpKrUIFMQ==
-Date: Sat, 17 Jan 2026 15:34:43 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: fsverity@lists.linux.dev, aalbersh@kernel.org, djwong@kernel.org
-Subject: Re: [PATCH 0/3] Add traces and file attributes for fs-verity
-Message-ID: <20260117233443.GC74518@quark>
-References: <cover.1768219885.patch-series@thinky>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uv+zEQZW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=g1gUM1qUSn4H3JQ9fYis1PYTtD3a+GOXK7bkV07wamk=; b=uv+zEQZWbbt2YUP/gixE//7H64
+	dNgrrLieQtPM6kJp1hnWdwgiX1QtJdSg3ftE7FT+d3dNKBOIvZ93Ajp7JzHjwDmfyz9zCya2vi1Nw
+	rcaHQAgw4PcByMpAdw1NDFgWx1xCV0+Nvlv9OAspFHj+P0fhfqV7JvN1d3vuIELhDHl2TwijEucfw
+	g2LsrRR7FqINItaLtBXxPcr10EtiBJewvDKhVUTsLiMBXyTx2QeY6sqC+bBGXvU8D6oXjx2KddHCz
+	134IDuIXGsl8GIda/IcsASMmIwC94E7i9fBVw6GsNreGPgQdJOJaRX8KfmfdWoIdgPDUTgCoC+iTv
+	PZu3zjwg==;
+Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vhifB-00000001Ona-0jyL;
+	Mon, 19 Jan 2026 06:22:57 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	David Sterba <dsterba@suse.com>,
+	"Theodore Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	fsverity@lists.linux.dev
+Subject: fsverity optimzations and speedups
+Date: Mon, 19 Jan 2026 07:22:41 +0100
+Message-ID: <20260119062250.3998674-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1768219885.patch-series@thinky>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, Jan 12, 2026 at 01:13:35PM +0100, Andrey Albershteyn wrote:
-> Hi all,
-> 
-> This two small patches grew from fs-verity XFS patchset. I think
-> they're self-contained improvements which could go without XFS
-> implementation.
-> 
-> Andrey Albershteyn <aalbersh@kernel.org>:
->   fs: add FS_XFLAG_VERITY for fs-verity files
->   fsverity: add tracepoints
+Hi all,
 
-I assume there wasn't intended to be a third patch, despite the cover
-letter saying 0/3?
+this series has a hodge podge of fsverity enhances that I looked into as
+part of the review of the xfs fsverity support series.
 
-- Eric
+The first three patches call fsverity code from VFS code instead of
+requiring a lot of boilerplate in the file systems.  The first fixes a
+bug in btrfs as part of that, as btrfs was missing a check.  An xfstests
+test case for this will be sent separately.
+
+Patch 4 removes the need to have a pointer to the fsverity_info in the
+inode structure and uses a global resizable hash table instead.
+
+Patch 5 passes down the struct file in the write path.
+
+Patch 6 optimizes the fsvvrity read path by kicking off readahead for the
+fsverity hashes from the data read submission context, which in my
+simply testing showed huge benefits for sequential reads using dd.
+I haven't been able to get fio to run on a preallocated fio file, but
+I expect random read benefits would be significantly better than that
+still.
+
+Diffstat:
+ fs/attr.c                    |   12 +++
+ fs/btrfs/btrfs_inode.h       |    4 -
+ fs/btrfs/file.c              |    6 -
+ fs/btrfs/inode.c             |   13 ---
+ fs/btrfs/verity.c            |   11 +--
+ fs/ext4/ext4.h               |    4 -
+ fs/ext4/file.c               |    4 -
+ fs/ext4/inode.c              |    4 -
+ fs/ext4/readpage.c           |    4 +
+ fs/ext4/super.c              |    4 -
+ fs/ext4/verity.c             |   34 ++++-----
+ fs/f2fs/data.c               |    4 +
+ fs/f2fs/f2fs.h               |    3 
+ fs/f2fs/file.c               |    8 --
+ fs/f2fs/inode.c              |    1 
+ fs/f2fs/super.c              |    3 
+ fs/f2fs/verity.c             |   34 ++++-----
+ fs/inode.c                   |    9 ++
+ fs/open.c                    |    8 +-
+ fs/verity/enable.c           |   39 ++++++-----
+ fs/verity/fsverity_private.h |   17 ++--
+ fs/verity/open.c             |   90 ++++++++++++++-----------
+ fs/verity/read_metadata.c    |   10 +-
+ fs/verity/verify.c           |   98 +++++++++++++++++++--------
+ include/linux/fsverity.h     |  152 +++++++++----------------------------------
+ 25 files changed, 262 insertions(+), 314 deletions(-)
