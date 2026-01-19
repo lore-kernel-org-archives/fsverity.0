@@ -1,35 +1,89 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939DF268690
-	for <fsverity@lists.linux.dev>; Mon, 19 Jan 2026 06:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CA4338905
+	for <fsverity@lists.linux.dev>; Mon, 19 Jan 2026 09:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768804441; cv=none; b=rcQLr/Rrg5Ne3IhXFsMUykuriXbryP+XxDMqjPBYjtAwW02zXwTZwCG67cBlmj4zKSbnT8kpaVGw30bMPFJ/zc0M1wBQGG4wfrUm7PkE8NjhmqeBoXvRO8HvtjqsdqI1LDFBMhMUYT/f4G1rXmqNzVUGQQ1X99C+sx06o/rRdvc=
+	t=1768813560; cv=none; b=UxnOKVNi1igN4FuAKgStJWtwkC2K/O+JpxTrdX2/Tb2EZqYkiV1kbOshjwcNGe6B83tjHvVWYliVMGcQJrlpLSKHnPzoxgst8+Tj0lj/XTX9GaGV23sP3KF+mcpXXx9HJpmBzH2+TeuXi5EkkqTHxxcXQZ2drsw+ES5T01YBd3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768804441; c=relaxed/simple;
-	bh=tiasUID9V3LyXmNQ/3VFu+opuMBWShf55UGKactveAY=;
+	s=arc-20240116; t=1768813560; c=relaxed/simple;
+	bh=Z3MQ82CKvB/0Dcy3eWdwcjOOizGJHCIltkTjKhfKLLM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tKVqv/UbVYJpRKJC/XELu68MmQ4FAzk2xCmqzQl8FG1FeqgMP16yJedJ8TLCAWhLLYJo81+eyo5ULsxuuBP2K3YTmVCznfVHSSyxTRSoZrw+wahf52I1DbbcUCJuviTNYagjaHwoZRNsrPkjyv/sauW5WdNFI4ZE7eTGaBGgcbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B8DD9227A88; Mon, 19 Jan 2026 07:33:49 +0100 (CET)
-Date: Mon, 19 Jan 2026 07:33:49 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>, fsverity@lists.linux.dev,
-	linux-xfs@vger.kernel.org, ebiggers@kernel.org,
-	linux-fsdevel@vger.kernel.org, aalbersh@kernel.org,
-	david@fromorbit.com, hch@lst.de, tytso@mit.edu,
-	linux-ext4@vger.kernel.org, jaegeuk@kernel.org, chao@kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net
-Subject: fsverity metadata offset, was: Re: [PATCH v2 0/23] fs-verity
- support for XFS with post EOF merkle tree
-Message-ID: <20260119063349.GA643@lst.de>
-References: <cover.1768229271.patch-series@thinky> <aWZ0nJNVTnyuFTmM@casper.infradead.org> <op5poqkjoachiv2qfwizunoeg7h6w5x2rxdvbs4vhryr3aywbt@cul2yevayijl> <aWci_1Uu5XndYNkG@casper.infradead.org> <20260114061536.GG15551@frogsfrogsfrogs> <5z5r6jizgxqz5axvzwbdmtkadehgdf7semqy2oxsfytmzzu6ik@zfvhexcp3fz2> <6r24wj3o3gctl3vz4n3tdrfjx5ftkybdjmmye2hejdcdl6qseh@c2yvpd5d4ocf>
+	 Content-Type:Content-Disposition:In-Reply-To; b=igoW+5igMpx9GAZuwqKyQ3lbK5P5C+xl1rawElout5u9Osa+PgetJMVAOzK1z+HBqeiqVvXDnxVyZMmLWRtQH0Ol5Zo8qTDIrZOVgj7GKNsbA41b9ozYqqZ/ceM6xM6HRK6Jq72yxD8HxbEG4GC9LN5dq0S8B7tRYUmrsnBjD9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pqm1FT36; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2qBvuQr+; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pqm1FT36; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2qBvuQr+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pqm1FT36";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2qBvuQr+";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pqm1FT36";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2qBvuQr+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AAEEB5BD21;
+	Mon, 19 Jan 2026 09:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768813556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WV7bGoR2PRO6j4igxWjiYheWWlYULse5GUTsUYL8BDk=;
+	b=pqm1FT36/jm6jURdU2bqiIqexQSvOfmfk8LpRJfM36fns+qDwJ+Bg6bgf4NGPPbKGdsi3M
+	VtZHH3Td34t18FkNA03XtaX6NgiqhiZdlcj/0XhtZT+6ST64FEImwouEw0TAwBjhBJPR6m
+	0wt3rJBWJaZFCUfhi3E6x0PFg/T6nsw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768813556;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WV7bGoR2PRO6j4igxWjiYheWWlYULse5GUTsUYL8BDk=;
+	b=2qBvuQr+goPfaZg7KcDtjGzpWjwhz0o/abKRUT0ku2GkTCi9ZLDZ8J4N+yMb4BZ/jgPkMh
+	qozwGmwu1O0GnAAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=pqm1FT36;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=2qBvuQr+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768813556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WV7bGoR2PRO6j4igxWjiYheWWlYULse5GUTsUYL8BDk=;
+	b=pqm1FT36/jm6jURdU2bqiIqexQSvOfmfk8LpRJfM36fns+qDwJ+Bg6bgf4NGPPbKGdsi3M
+	VtZHH3Td34t18FkNA03XtaX6NgiqhiZdlcj/0XhtZT+6ST64FEImwouEw0TAwBjhBJPR6m
+	0wt3rJBWJaZFCUfhi3E6x0PFg/T6nsw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768813556;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WV7bGoR2PRO6j4igxWjiYheWWlYULse5GUTsUYL8BDk=;
+	b=2qBvuQr+goPfaZg7KcDtjGzpWjwhz0o/abKRUT0ku2GkTCi9ZLDZ8J4N+yMb4BZ/jgPkMh
+	qozwGmwu1O0GnAAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FB4A3EA63;
+	Mon, 19 Jan 2026 09:05:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MD76JvTzbWnZOwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 19 Jan 2026 09:05:56 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 67C91A0A29; Mon, 19 Jan 2026 10:05:56 +0100 (CET)
+Date: Mon, 19 Jan 2026 10:05:56 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>, 
+	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Andrey Albershteyn <aalbersh@redhat.com>, linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
+Subject: Re: [PATCH 3/6] fs,fsverity: handle fsverity in generic_file_open
+Message-ID: <tn4evey6q4ktzfu4vd2fmaz5j233cigw2grnyvzc4cnholsolb@z44vyuenknkl>
+References: <20260119062250.3998674-1-hch@lst.de>
+ <20260119062250.3998674-4-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -38,84 +92,77 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6r24wj3o3gctl3vz4n3tdrfjx5ftkybdjmmye2hejdcdl6qseh@c2yvpd5d4ocf>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260119062250.3998674-4-hch@lst.de>
+X-Spam-Score: -4.01
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: AAEEB5BD21
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-While looking at fsverity I'd like to understand the choise of offset
-in ext4 and f2fs, and wonder about an issue.
-
-Both ext4 and f2fs round up the inode size to the next 64k boundary
-and place the metadata there.  Both use the 65536 magic number for that
-instead of a well documented constant unfortunately.
-
-I assume this was picked to align up to the largest reasonable page
-size?  Unfortunately for that:
-
- a) not all architectures are reasonable.  As Darrick pointed out
-    hexagon seems to support page size up to 1MiB.  While I don't know
-    if they exist in real life, powerpc supports up to 256kiB pages,
-    and I know they are used for real in various embedded settings
- b) with large folio support in the page cache, the folios used to
-    map files can be much larger than the base page size, with all
-    the same issues as a larger page size
-
-So assuming that fsverity is trying to avoid the issue of a page/folio
-that covers both data and fsverity metadata, how does it copy with that?
-Do we need to disable fsverity on > 64k page size and disable large
-folios on fsverity files?  The latter would mean writing back all cached
-data first as well.
-
-And going forward, should we have a v2 format that fixes this?  For that
-we'd still need a maximum folio size of course.   And of course I'd like
-to get all these things right from the start in XFS, while still being as
-similar as possible to ext4/f2fs.
-
-On Wed, Jan 14, 2026 at 10:53:00AM +0100, Andrey Albershteyn wrote:
-> On 2026-01-14 09:20:34, Andrey Albershteyn wrote:
-> > On 2026-01-13 22:15:36, Darrick J. Wong wrote:
-> > > On Wed, Jan 14, 2026 at 05:00:47AM +0000, Matthew Wilcox wrote:
-> > > > On Tue, Jan 13, 2026 at 07:45:47PM +0100, Andrey Albershteyn wrote:
-> > > > > On 2026-01-13 16:36:44, Matthew Wilcox wrote:
-> > > > > > On Mon, Jan 12, 2026 at 03:49:44PM +0100, Andrey Albershteyn wrote:
-> > > > > > > The tree is read by iomap into page cache at offset 1 << 53. This is far
-> > > > > > > enough to handle any supported file size.
-> > > > > > 
-> > > > > > What happens on 32-bit systems?  (I presume you mean "offset" as
-> > > > > > "index", so this is 1 << 65 bytes on machines with a 4KiB page size)
-> > > > > > 
-> > > > > it's in bytes, yeah I missed 32-bit systems, I think I will try to
-> > > > > convert this offset to something lower on 32-bit in iomap, as
-> > > > > Darrick suggested.
-> > > > 
-> > > > Hm, we use all 32 bits of folio->index on 32-bit plaftorms.  That's
-> > > > MAX_LFS_FILESIZE.  Are you proposing reducing that?
-> > > > 
-> > > > There are some other (performance) penalties to using 1<<53 as the lowest
-> > > > index for metadata on 64-bit.  The radix tree is going to go quite high;
-> > > > we use 6 bits at each level, so if you have a folio at 0 and a folio at
-> > > > 1<<53, you'll have a tree of height 9 and use 17 nodes.
-> > > > 
-> > > > That's going to be a lot of extra cache misses when walking the XArray
-> > > > to find any given folio.  Allowing the filesystem to decide where the
-> > > > metadata starts for any given file really is an important optimisation.
-> > > > Even if it starts at index 1<<29, you'll almost halve the number of
-> > > > nodes needed.
-> > 
-> > Thanks for this overview!
-> > 
-> > > 
-> > > 1<<53 is only the location of the fsverity metadata in the ondisk
-> > > mapping.  For the incore mapping, in theory we could load the fsverity
-> > > anywhere in the post-EOF part of the pagecache to save some bits.
-> > > 
-> > > roundup(i_size_read(), 1<<folio_max_order)) would work, right?
-> > 
-> > Then, there's probably no benefits to have ondisk mapping differ,
-> > no?
+On Mon 19-01-26 07:22:44, Christoph Hellwig wrote:
+> Call into fsverity_file_open from generic_file_open instead of requiring
+> the file system to handle it explicitly.
 > 
-> oh, the fixed ondisk offset will help to not break if filesystem
-> would be mounted by machine with different page size.
-> 
-> -- 
-> - Andrey
----end quoted text---
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+...
+> -int generic_file_open(struct inode * inode, struct file * filp)
+> +int generic_file_open(struct inode *inode, struct file *filp)
+>  {
+>  	if (!(filp->f_flags & O_LARGEFILE) && i_size_read(inode) > MAX_NON_LFS)
+>  		return -EOVERFLOW;
+> +	if (IS_ENABLED(CONFIG_FS_VERITY) && IS_VERITY(inode)) {
+> +		if (filp->f_mode & FMODE_WRITE)
+> +			return -EPERM;
+> +		return fsverity_file_open(inode, filp);
+> +	}
+
+Why do you check f_mode here when fsverity_file_open() checks for it as
+well?
+
+> -int __fsverity_file_open(struct inode *inode, struct file *filp)
+> +/*
+> + * When opening a verity file, deny the open if it is for writing.  Otherwise,
+> + * set up the inode's verity info if not already done.
+> + *
+> + * When combined with fscrypt, this must be called after fscrypt_file_open().
+> + * Otherwise, we won't have the key set up to decrypt the verity metadata.
+> + */
+> +int fsverity_file_open(struct inode *inode, struct file *filp)
+>  {
+>  	if (filp->f_mode & FMODE_WRITE)
+>  		return -EPERM;
+>  	return ensure_verity_info(inode);
+>  }
+> -EXPORT_SYMBOL_GPL(__fsverity_file_open);
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
