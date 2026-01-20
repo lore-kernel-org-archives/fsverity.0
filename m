@@ -1,56 +1,35 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3886D16A395;
-	Mon, 19 Jan 2026 20:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3830838E120
+	for <fsverity@lists.linux.dev>; Tue, 20 Jan 2026 07:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768852854; cv=none; b=diMgkMDsGgLvdUxlJbW2aobrfxoIftptaijkXnN9TBPZBEKPb7CYcWXvAas0L2fDSpkl9ij0PzubPXepOgrBAgV1jY9agv6xkcbMjMCKcIuzD2ZC1MjU67xcXA8ni/C8M2eQFOgnqaGB8TyCnl/yrFgky0amIEm5PDecsDn+kdM=
+	t=1768894344; cv=none; b=q4DsNfuCsY3dsmf8rfMBrl+b3yonvMRdOZdD/yuaiCCk5XinRpUhbQwSHK+EiaRiRFVrsaJFp9ON0B5KQ1lMwaxEvrfSmfmtzBUnGvnuAxcSQzCM32vVXd10z/SqqcE2ST6FMyTtMhvvs4kvQqEgncnUqY/am2xgtB0j9+UgMx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768852854; c=relaxed/simple;
-	bh=BqkcSD9fWqlhrwz3aObG4sEFqK5z8A2c8MZ1+Xcp/uU=;
+	s=arc-20240116; t=1768894344; c=relaxed/simple;
+	bh=UcjeCV1pmWq68UG6mKTvuW3ZSkrfs3Ahq6enbyDbanU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jaEcDdqfNJxXjXIqSA65C4cYSJzCmX3NjdpJLelFjXk+CQc2ZTsrk+RNdOJUNIiplWWBs52JqzbhoO7lg7rcCeLRoPEf1UXattevrOZ8ax0z0ZkpY1a48y9rjHeW0aMRk2rdSDlEEj53xeyUl0HcPSYa7dqFJrfCypvncRewk84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PkKWgeLG; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PkKWgeLG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=FRKiCSA7rKWJel5+3BbX0cg/N3+Hr+jXkHWboVk9B18=; b=PkKWgeLGDbX9229PwsBfHnNC6a
-	ZROjbZ37Pu5RNnsaags+fn2KGYNRtGURT3Yq5twxJPoK5wMdWmchHOvhQlfZt1P20IV8EgAP/hx3G
-	ti6u8FqNn8o9ukls4Okp+XGa60zPjLmljUjTpdwweu1/af3IsRxrczqc9kSR0s3pld+FYJUEbtt3o
-	s+/pHjiU1na8EvCU77e7YSAW8VvnquMWFGWuaXgCYu6G8Cm5VG0gGhl9/e6xYDgjG4Arb3qs5HhnT
-	dmD6zT7a0lOMeAfQjo+drREd0Aen4TUdsje40EyK1i4GHDjZTw9J0iiccD208K6+AltBGN0+JJr9A
-	SN6zcziQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vhvQe-0000000DlZy-0U4y;
-	Mon, 19 Jan 2026 20:00:48 +0000
-Date: Mon, 19 Jan 2026 20:00:47 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=soiA8/OL4MQWIEFz5D1gfOexYKmCGtC1Ho+Ogq9B92x5Lcj5cPGdeoW8Vyaabeaj450rJia79TwOYE+ncKVpx0wNjObPHOY40sI4CyhluV+FUa43M7E+8ngq7GRKvixNkK6MybVfM5nRfV/h65fFhHq7E0h/Jo6OOqeOhfWcAUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B21F5227AA8; Tue, 20 Jan 2026 08:32:18 +0100 (CET)
+Date: Tue, 20 Jan 2026 08:32:18 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Eric Biggers <ebiggers@kernel.org>, Christoph Hellwig <hch@lst.de>,
 	Andrey Albershteyn <aalbersh@redhat.com>,
-	"Darrick J. Wong" <djwong@kernel.org>, fsverity@lists.linux.dev,
+	Matthew Wilcox <willy@infradead.org>, fsverity@lists.linux.dev,
 	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	aalbersh@kernel.org, david@fromorbit.com, tytso@mit.edu,
 	linux-ext4@vger.kernel.org, jaegeuk@kernel.org, chao@kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net
 Subject: Re: fsverity metadata offset, was: Re: [PATCH v2 0/23] fs-verity
  support for XFS with post EOF merkle tree
-Message-ID: <aW6NbyQgCMnjkFZ8@casper.infradead.org>
-References: <cover.1768229271.patch-series@thinky>
- <aWZ0nJNVTnyuFTmM@casper.infradead.org>
- <op5poqkjoachiv2qfwizunoeg7h6w5x2rxdvbs4vhryr3aywbt@cul2yevayijl>
- <aWci_1Uu5XndYNkG@casper.infradead.org>
- <20260114061536.GG15551@frogsfrogsfrogs>
- <5z5r6jizgxqz5axvzwbdmtkadehgdf7semqy2oxsfytmzzu6ik@zfvhexcp3fz2>
- <6r24wj3o3gctl3vz4n3tdrfjx5ftkybdjmmye2hejdcdl6qseh@c2yvpd5d4ocf>
- <20260119063349.GA643@lst.de>
- <20260119193242.GB13800@sol>
+Message-ID: <20260120073218.GA6757@lst.de>
+References: <cover.1768229271.patch-series@thinky> <aWZ0nJNVTnyuFTmM@casper.infradead.org> <op5poqkjoachiv2qfwizunoeg7h6w5x2rxdvbs4vhryr3aywbt@cul2yevayijl> <aWci_1Uu5XndYNkG@casper.infradead.org> <20260114061536.GG15551@frogsfrogsfrogs> <5z5r6jizgxqz5axvzwbdmtkadehgdf7semqy2oxsfytmzzu6ik@zfvhexcp3fz2> <6r24wj3o3gctl3vz4n3tdrfjx5ftkybdjmmye2hejdcdl6qseh@c2yvpd5d4ocf> <20260119063349.GA643@lst.de> <20260119193242.GB13800@sol> <20260119195816.GA15583@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -59,64 +38,31 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260119193242.GB13800@sol>
+In-Reply-To: <20260119195816.GA15583@frogsfrogsfrogs>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, Jan 19, 2026 at 11:32:42AM -0800, Eric Biggers wrote:
-> On Mon, Jan 19, 2026 at 07:33:49AM +0100, Christoph Hellwig wrote:
-> > While looking at fsverity I'd like to understand the choise of offset
-> > in ext4 and f2fs, and wonder about an issue.
-> > 
-> > Both ext4 and f2fs round up the inode size to the next 64k boundary
-> > and place the metadata there.  Both use the 65536 magic number for that
-> > instead of a well documented constant unfortunately.
-> > 
-> > I assume this was picked to align up to the largest reasonable page
-> > size?  Unfortunately for that:
-> > 
-> >  a) not all architectures are reasonable.  As Darrick pointed out
-> >     hexagon seems to support page size up to 1MiB.  While I don't know
-> >     if they exist in real life, powerpc supports up to 256kiB pages,
-> >     and I know they are used for real in various embedded settings
-> >  b) with large folio support in the page cache, the folios used to
-> >     map files can be much larger than the base page size, with all
-> >     the same issues as a larger page size
-> > 
-> > So assuming that fsverity is trying to avoid the issue of a page/folio
-> > that covers both data and fsverity metadata, how does it copy with that?
-> > Do we need to disable fsverity on > 64k page size and disable large
-> > folios on fsverity files?  The latter would mean writing back all cached
-> > data first as well.
-> > 
-> > And going forward, should we have a v2 format that fixes this?  For that
-> > we'd still need a maximum folio size of course.   And of course I'd like
-> > to get all these things right from the start in XFS, while still being as
-> > similar as possible to ext4/f2fs.
+On Mon, Jan 19, 2026 at 11:58:16AM -0800, Darrick J. Wong wrote:
+> > >  a) not all architectures are reasonable.  As Darrick pointed out
+> > >     hexagon seems to support page size up to 1MiB.  While I don't know
+> > >     if they exist in real life, powerpc supports up to 256kiB pages,
+> > >     and I know they are used for real in various embedded settings
 > 
-> Yes, if I recall correctly it was intended to be the "largest reasonable
-> page size".  It looks like PAGE_SIZE > 65536 can't work as-is, so indeed
-> we should disable fsverity support in that configuration.
+> They *did* way back in the day, I worked with some seekrit PPC440s early
+> in my career.  I don't know that any of them still exist, but the code
+> is still there...
 
-I don't think anybody will weep for lack of fsverity support in these
-weirdo large PAGE_SIZE configurations.
+Sorry, I meant I don't really know how real the hexagon large page
+sizes are.  I know about the ppcs one personally, too.
 
-> I don't think large folios are quite as problematic.
-> ext4_read_merkle_tree_page() and f2fs_read_merkle_tree_page() read a
-> folio and return the appropriate page in it, and fs/verity/verify.c
-> operates on the page.  If it's a page in the folio that spans EOF, I
-> think everything will actually still work, except userspace will be able
-> to see Merkle tree data after a 64K boundary past EOF if the file is
-> mmapped using huge pages.
+> > If we do need to fix this, there are a couple things we could consider
+> > doing without changing the on-disk format in ext4 or f2fs: putting the
+> > data in the page cache at a different offset than it exists on-disk, or
+> > using "small" pages for EOF specifically.
 > 
-> The mmap issue isn't great, but I'm not sure how much it matters,
-> especially when the zeroes do still go up to a 64K boundary.
+> I'd leave the ondisk offset as-is, but change the pagecache offset to
+> roundup(i_size_read(), mapping_max_folio_size_supported()) just to keep
+> file data and fsverity metadata completely separate.
 
-We actually refuse to map pages after EOF.  See filemap_map_pages()
-
-        if ((file_end >= folio_next_index(folio) || shmem_mapping(mapping)) &&
-            filemap_map_pmd(vmf, folio, start_pgoff)) {
-                ret = VM_FAULT_NOPAGE;
-                goto out;
-        }
-
-along with the other treatment of end_pgoff.
+Can we find a way to do that in common code and make ext4 and f2fs do
+the same?
 
