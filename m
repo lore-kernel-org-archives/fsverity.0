@@ -1,35 +1,26 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54779427A1A;
-	Tue, 20 Jan 2026 17:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84F32BEFE1
+	for <fsverity@lists.linux.dev>; Wed, 21 Jan 2026 15:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768930491; cv=none; b=U9ij2ztIFqC7JOLAmPRmY2ZI8G1uqIqAZ+ijqsn6ft7oXoM1Qb7ZG4aXP9KfNa6st9shS2xmFcnlBEo/CNv89jmcSdv+KWo5+xg2xibfiEdVER7KtklCv1f9JCFPlx9ipQlsVemTllf/bj7VKYI7IywbhhXzM17qdiHRZ7q9lgE=
+	t=1769007807; cv=none; b=Nt+wBjYbcSpobmgkQ/SUH0dYuLIbafXw1XDeADtYNC7msDU7Vqgn7JeoPITNih4bfKNKRLLjqh20bkBDPr8aq3UaILMWOA+o9gLIgvSahkuDlb894sBypswBixazGOjUhTr46iMjcHMf791ASyyPUSlzjJA7T5JkRN4DleL0fYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768930491; c=relaxed/simple;
-	bh=bbwKwfsUkmuvOMgOcdbOJxj3wN5bi2yJZMEPDyyRAmk=;
+	s=arc-20240116; t=1769007807; c=relaxed/simple;
+	bh=WGvtp5t1JvzWOVaCjEtgmyT2h4JVGx6fExdbiLFxNrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=anWP0IUiT0OrqaSMb+RTVEa8J+tbTQpnhxU2Tdfly1/1PPy8sm+vnwl+tuU5kvCpt5OtPR4uO73TqXDlu/JU3WRInR/0AmwxacK1ZhMXzbNd1ylZYqWTVu9/8ZbfqrSh4wSqJkTXVd7gy+lT3GV6VXIjNU1YNaCtAbP4eNTL1o0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oNwjuBdM; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oNwjuBdM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA559C19421;
-	Tue, 20 Jan 2026 17:34:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768930489;
-	bh=bbwKwfsUkmuvOMgOcdbOJxj3wN5bi2yJZMEPDyyRAmk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oNwjuBdMDLfek3/xIfvCw2Cg7Igj3Yx+mB7nJya6q5iHS+aEveDCYOpcpIXMHJVHK
-	 VikR47aGfhbX4f8sXZN781IN6Tnv6H6+NrFAeRqI9eYH7dC/T6zqDKaX99VASDB7NQ
-	 hYdK2YP1hL7PpEL0dc6J3+Vbg7qJK/PhxRvT0LlNYSnZ3yGcXdu4qqN69FHgjr1xR8
-	 WhRvVWarLotZ+67tOStY2TysV7KIJ5HB9sNtt6pvrE5xNQ1E1VZsmmd9Ccj1uGiogm
-	 aCjjn3sQDEIIYBt59WkxoUxhJcd4sNgNX1xxIYKMLWJBoVCXjJrGGORZiHCczGf23V
-	 f+O6KVgEi7Peg==
-Date: Tue, 20 Jan 2026 09:34:49 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=F9eXV4tqSRg72ZO3KsTuZod5pYtwyJAhZXBHogGh0lNKK7mlUzwtaWBS/n0gJbJqsKnUPZeHDxKNjQ41UEhm96fNiOU/DVu1qrW6Nk5V5dVOuqnqQCXQK1lbYSlnoPlvUG2x6qSW9GBNIrelqPSuRh/snh60OfLlIleEtgRUJGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5C378227AB0; Wed, 21 Jan 2026 16:03:21 +0100 (CET)
+Date: Wed, 21 Jan 2026 16:03:20 +0100
+From: Christoph Hellwig <hch@lst.de>
 To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Eric Biggers <ebiggers@kernel.org>,
+Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
 	Matthew Wilcox <willy@infradead.org>, fsverity@lists.linux.dev,
 	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	aalbersh@kernel.org, david@fromorbit.com, tytso@mit.edu,
@@ -37,17 +28,8 @@ Cc: Christoph Hellwig <hch@lst.de>, Eric Biggers <ebiggers@kernel.org>,
 	linux-f2fs-devel@lists.sourceforge.net
 Subject: Re: fsverity metadata offset, was: Re: [PATCH v2 0/23] fs-verity
  support for XFS with post EOF merkle tree
-Message-ID: <20260120173449.GT15551@frogsfrogsfrogs>
-References: <op5poqkjoachiv2qfwizunoeg7h6w5x2rxdvbs4vhryr3aywbt@cul2yevayijl>
- <aWci_1Uu5XndYNkG@casper.infradead.org>
- <20260114061536.GG15551@frogsfrogsfrogs>
- <5z5r6jizgxqz5axvzwbdmtkadehgdf7semqy2oxsfytmzzu6ik@zfvhexcp3fz2>
- <6r24wj3o3gctl3vz4n3tdrfjx5ftkybdjmmye2hejdcdl6qseh@c2yvpd5d4ocf>
- <20260119063349.GA643@lst.de>
- <20260119193242.GB13800@sol>
- <20260119195816.GA15583@frogsfrogsfrogs>
- <20260120073218.GA6757@lst.de>
- <5tse47xskuaofuworccgwhyftyymx5xj3mc6opwz7nfxa225u6@uvbk4gc2rktd>
+Message-ID: <20260121150320.GA14702@lst.de>
+References: <op5poqkjoachiv2qfwizunoeg7h6w5x2rxdvbs4vhryr3aywbt@cul2yevayijl> <aWci_1Uu5XndYNkG@casper.infradead.org> <20260114061536.GG15551@frogsfrogsfrogs> <5z5r6jizgxqz5axvzwbdmtkadehgdf7semqy2oxsfytmzzu6ik@zfvhexcp3fz2> <6r24wj3o3gctl3vz4n3tdrfjx5ftkybdjmmye2hejdcdl6qseh@c2yvpd5d4ocf> <20260119063349.GA643@lst.de> <20260119193242.GB13800@sol> <20260119195816.GA15583@frogsfrogsfrogs> <20260120073218.GA6757@lst.de> <5tse47xskuaofuworccgwhyftyymx5xj3mc6opwz7nfxa225u6@uvbk4gc2rktd>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -57,27 +39,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <5tse47xskuaofuworccgwhyftyymx5xj3mc6opwz7nfxa225u6@uvbk4gc2rktd>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
 On Tue, Jan 20, 2026 at 12:44:19PM +0100, Andrey Albershteyn wrote:
-> On 2026-01-20 08:32:18, Christoph Hellwig wrote:
-> > On Mon, Jan 19, 2026 at 11:58:16AM -0800, Darrick J. Wong wrote:
-> > > > >  a) not all architectures are reasonable.  As Darrick pointed out
-> > > > >     hexagon seems to support page size up to 1MiB.  While I don't know
-> > > > >     if they exist in real life, powerpc supports up to 256kiB pages,
-> > > > >     and I know they are used for real in various embedded settings
-> > > 
-> > > They *did* way back in the day, I worked with some seekrit PPC440s early
-> > > in my career.  I don't know that any of them still exist, but the code
-> > > is still there...
-> > 
-> > Sorry, I meant I don't really know how real the hexagon large page
-> > sizes are.  I know about the ppcs one personally, too.
-> > 
-> > > > If we do need to fix this, there are a couple things we could consider
-> > > > doing without changing the on-disk format in ext4 or f2fs: putting the
-> > > > data in the page cache at a different offset than it exists on-disk, or
-> > > > using "small" pages for EOF specifically.
-> > > 
 > > > I'd leave the ondisk offset as-is, but change the pagecache offset to
 > > > roundup(i_size_read(), mapping_max_folio_size_supported()) just to keep
 > > > file data and fsverity metadata completely separate.
@@ -93,13 +57,4 @@ On Tue, Jan 20, 2026 at 12:44:19PM +0100, Andrey Albershteyn wrote:
 > 	return roundup(i_size_read(), mapping_max_folio_size_supported());
 > }
 
-Yeah, that's probably the best we can do.  Please add a comment to that
-helper to state explicitly that this is the *incore* file offset of the
-merkle tree if the filesystem decides to cache it in the pagecache.
-
---D
-
-> -- 
-> - Andrey
-> 
-> 
+Something like that, yes.
