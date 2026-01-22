@@ -1,60 +1,121 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84F32BEFE1
-	for <fsverity@lists.linux.dev>; Wed, 21 Jan 2026 15:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2576B34CFBB;
+	Thu, 22 Jan 2026 08:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769007807; cv=none; b=Nt+wBjYbcSpobmgkQ/SUH0dYuLIbafXw1XDeADtYNC7msDU7Vqgn7JeoPITNih4bfKNKRLLjqh20bkBDPr8aq3UaILMWOA+o9gLIgvSahkuDlb894sBypswBixazGOjUhTr46iMjcHMf791ASyyPUSlzjJA7T5JkRN4DleL0fYw=
+	t=1769070148; cv=none; b=AauxjqTIl26MIOcMj+COFQSQBrTBhkL/7RC7SRP+2xXM0VScqZGUWS0qDvSfkbmB+BSmhmlqME0EF5+lBrdpg6bDV2d1yzQkTi3yuSBfeX3LUsgmrfmH1a/3fNOculV3p45hBZHfPgPL4GKoHwgM2E+lRt05UWz2Nq41p3moJZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769007807; c=relaxed/simple;
-	bh=WGvtp5t1JvzWOVaCjEtgmyT2h4JVGx6fExdbiLFxNrk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F9eXV4tqSRg72ZO3KsTuZod5pYtwyJAhZXBHogGh0lNKK7mlUzwtaWBS/n0gJbJqsKnUPZeHDxKNjQ41UEhm96fNiOU/DVu1qrW6Nk5V5dVOuqnqQCXQK1lbYSlnoPlvUG2x6qSW9GBNIrelqPSuRh/snh60OfLlIleEtgRUJGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5C378227AB0; Wed, 21 Jan 2026 16:03:21 +0100 (CET)
-Date: Wed, 21 Jan 2026 16:03:20 +0100
+	s=arc-20240116; t=1769070148; c=relaxed/simple;
+	bh=Hrwr/fMYLxj9ok/slq8sbviTQLTF9yXoiyXOpcXNa4c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WpFPtsfVkaZSEZBuQbnLXIuqhP0MaMLzCWD9XWwsBX10xcRRrP+NMVJqzfk0PLC+EUpF2GIKP62CROpJP4xmNzGq1ry7cQz2At+w6R9fGjP+H+5bmnqlO0g5513tnfc2GpmQ2F/gW38NXhaEODDv0QIFCt0gaEbbnTFjPwmOYgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rGgRTf0O; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rGgRTf0O"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=iXKlgI5mS16I9g4e1Orrg3wlBXZeyCMyoyxfvSYepqc=; b=rGgRTf0OcAev4pI/Wfx3GGpLO9
+	r5yxrrJ7Q7V58xtL6nEMg44KfYMJwSlGgtChkUNYr3Z8Egr6SffraBe04smzAX2NY/UZIbq8lc7sI
+	pwvVZ6eRzqYzPc/ZOxci/bVLX9tEJUdMuObov495cANoQlyUX5S6LWHF6DNvViI6lCqlDDcqcawRH
+	R80PmyQBsqIb0VKnLAtB3m43hjIJjd2Ydl1FiKXu0W5jzBBCMPh5rQQA7uqEqTH6GGp53lC/WQjrX
+	mKBDcXQB7eVHFNPJvuc+npqA2y+UOxWQ3zjtF0DIJ5oV7+/Enw9DF6skUT74FM7IHCAwOWYOS60Tz
+	0Gd15HEA==;
+Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vipxM-00000006dsU-3Z7U;
+	Thu, 22 Jan 2026 08:22:21 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, "Darrick J. Wong" <djwong@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>, fsverity@lists.linux.dev,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	aalbersh@kernel.org, david@fromorbit.com, tytso@mit.edu,
-	linux-ext4@vger.kernel.org, jaegeuk@kernel.org, chao@kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net
-Subject: Re: fsverity metadata offset, was: Re: [PATCH v2 0/23] fs-verity
- support for XFS with post EOF merkle tree
-Message-ID: <20260121150320.GA14702@lst.de>
-References: <op5poqkjoachiv2qfwizunoeg7h6w5x2rxdvbs4vhryr3aywbt@cul2yevayijl> <aWci_1Uu5XndYNkG@casper.infradead.org> <20260114061536.GG15551@frogsfrogsfrogs> <5z5r6jizgxqz5axvzwbdmtkadehgdf7semqy2oxsfytmzzu6ik@zfvhexcp3fz2> <6r24wj3o3gctl3vz4n3tdrfjx5ftkybdjmmye2hejdcdl6qseh@c2yvpd5d4ocf> <20260119063349.GA643@lst.de> <20260119193242.GB13800@sol> <20260119195816.GA15583@frogsfrogsfrogs> <20260120073218.GA6757@lst.de> <5tse47xskuaofuworccgwhyftyymx5xj3mc6opwz7nfxa225u6@uvbk4gc2rktd>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	David Sterba <dsterba@suse.com>,
+	"Theodore Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	fsverity@lists.linux.dev
+Subject: fsverity cleanups, speedup and memory usage optimization v2
+Date: Thu, 22 Jan 2026 09:21:56 +0100
+Message-ID: <20260122082214.452153-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5tse47xskuaofuworccgwhyftyymx5xj3mc6opwz7nfxa225u6@uvbk4gc2rktd>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, Jan 20, 2026 at 12:44:19PM +0100, Andrey Albershteyn wrote:
-> > > I'd leave the ondisk offset as-is, but change the pagecache offset to
-> > > roundup(i_size_read(), mapping_max_folio_size_supported()) just to keep
-> > > file data and fsverity metadata completely separate.
-> > 
-> > Can we find a way to do that in common code and make ext4 and f2fs do
-> > the same?
-> 
-> hmm I don't see what else we could do except providing common offset
-> and then use it to map blocks
-> 
-> loff_t fsverity_metadata_offset(struct inode *inode)
-> {
-> 	return roundup(i_size_read(), mapping_max_folio_size_supported());
-> }
+Hi all,
 
-Something like that, yes.
+this series has a hodge podge of fsverity enhances that I looked into as
+part of the review of the xfs fsverity support series.
+
+The first part calls fsverity code from VFS code instead of requiring
+boilerplate in the file systems.  The first patch fixes a bug in btrfs
+as part of that, as btrfs was missing a check.  An xfstests
+test case for this was submitted already.
+
+The middle part optimizes the fsverity read path by kicking off readahead
+for the fsverity hashes from the data read submission context, which in my
+simply testing showed huge benefits for sequential reads using dd.
+I haven't been able to get fio to run on a preallocated fio file, but
+I expect random read benefits would be significantly better than that
+still.
+
+The last part avoids the need for a pointer in every inode for fsverity
+and instead uses a rhashtable lookup, which is once per read_folio or
+->readahead invocation and for for btrfs another time for each bio
+completion.  Right now this does not increse the number of inodes in
+each slab, but for ext4 we are getting very close to that (within
+16 bytes by my count).
+
+Changes since v1:
+ - reorder to keep the most controversial part last
+ - drop moving the open handling to common code (for now)
+ - factor the page cache read code into common code
+ - reduce the number of hash lookups
+ - add a barrier in the fsverity_active that pairs with the cmpxchg
+   that sets the inode flag.
+
+Diffstat:
+ fs/attr.c                    |   12 ++
+ fs/btrfs/btrfs_inode.h       |    4 
+ fs/btrfs/extent_io.c         |   37 +++++---
+ fs/btrfs/inode.c             |   13 ---
+ fs/btrfs/verity.c            |   11 --
+ fs/buffer.c                  |   25 ++---
+ fs/ext4/ext4.h               |    4 
+ fs/ext4/inode.c              |    4 
+ fs/ext4/readpage.c           |   31 ++++---
+ fs/ext4/super.c              |    4 
+ fs/ext4/verity.c             |   34 ++------
+ fs/f2fs/compress.c           |    7 -
+ fs/f2fs/data.c               |   73 +++++++++++------
+ fs/f2fs/f2fs.h               |   12 --
+ fs/f2fs/file.c               |    4 
+ fs/f2fs/inode.c              |    1 
+ fs/f2fs/super.c              |    3 
+ fs/f2fs/verity.c             |   34 ++------
+ fs/inode.c                   |    9 ++
+ fs/verity/Makefile           |    3 
+ fs/verity/enable.c           |   39 +++++----
+ fs/verity/fsverity_private.h |   19 ++--
+ fs/verity/open.c             |   80 ++++++++++---------
+ fs/verity/pagecache.c        |   53 ++++++++++++
+ fs/verity/read_metadata.c    |   10 +-
+ fs/verity/verify.c           |   94 +++++++++++++++-------
+ include/linux/fsverity.h     |  180 +++++++++++++++----------------------------
+ 27 files changed, 422 insertions(+), 378 deletions(-)
