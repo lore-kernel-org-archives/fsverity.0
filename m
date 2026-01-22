@@ -1,79 +1,33 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CD134D92C
-	for <fsverity@lists.linux.dev>; Thu, 22 Jan 2026 15:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3589B3A731F;
+	Thu, 22 Jan 2026 21:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769096542; cv=none; b=nQCkQit59iq36fYY/8Z/uMduisIYnl9tjMRgBbg4Q4aZDXT8k7+Z7DEoEMACZrameaeWMxusmIYV9jcdhSexGiRp65tKsip4gpn1sqKgg0KsYpwBLJ0k0/UsJ5QT6lAjhT0TkxzoZMNACq1JBNyf1v5/tdqXT2xH4Ce6oUo7Bzg=
+	t=1769116883; cv=none; b=CUiXCOz/v2IecDDaHfAJH4Yo6oDwqUQYbs/YHxRkRvcVpvnhf6Sq+WRGA8gS69t8uwagYNMYL7U4AolHZcSpBZh6XK1J2hBP/FujwVvf4uQIb4q9n6HMULaU/LSlIqrAy3evyzIPgGnWtglJHGOLdHUth8olDyiTaM416UWTysg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769096542; c=relaxed/simple;
-	bh=lvRJnEpqGKml9ZZukNMsShpYKPXGJJ3h5jLBmdm7izg=;
+	s=arc-20240116; t=1769116883; c=relaxed/simple;
+	bh=HuuV2V7oQdXHpZv2p1xtrH9rIpKzASmyg1enkricVyM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EQPzw90+DFHTosoI7U8PRcnYBZrk1HVvgkovuezyQpdBy4Z97hsrv4sobwZ7i0zuL115asAw3EvXdOZlkwDGU32+0p5XoYFRPCAa95b5VVt4CypPIWvnIw1iT7TJIWi308EzdvVwFVzJU/9RRvzqs3IpM2vuOwgatSk+JZGvMRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j6JxqPze; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iqPGW1a; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j6JxqPze; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iqPGW1a; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=c5FgbtpapsjTpBSKsum4rc2L/SrQmuS+uyqWVdrZ4bXdcTTyvHbBaGhSOXOIrdfOVoVd8rFFVdbhwI45tQ/0TnXLIYO4bKVNccA3qgJi91/scTRuxyhEe71rLRRG5xNnDO5emW9rZWdJiNGZoDloGyKU6iqDBSF/ddqhYtC/GNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vH0CIJFD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j6JxqPze";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iqPGW1a";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j6JxqPze";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iqPGW1a"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6FE955BCD7;
-	Thu, 22 Jan 2026 15:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769096536;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
-	b=j6JxqPzePV1v3VMwls0tzTsZjgdG9emkov+yXkAfgU/rTXQf8T3zUIk9y6kwTpmIwFH+jg
-	+tGTZOAzNSt5DmyeGJlQYLKpb2hgbWczQo2u8RmaFCK8Kyk9Ad8W0Ksxyx6AoNHndiNUd3
-	pgQ09os0+EUkMbgwfaOlHtEStLw+2xM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769096536;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
-	b=0iqPGW1agNVaVnQmF+2mMFaHz5jf38AXI7KkERuGiInWYYKzTGrVODUWzChReQtemzPfna
-	a8MSgMwRXxKctUBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=j6JxqPze;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=0iqPGW1a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769096536;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
-	b=j6JxqPzePV1v3VMwls0tzTsZjgdG9emkov+yXkAfgU/rTXQf8T3zUIk9y6kwTpmIwFH+jg
-	+tGTZOAzNSt5DmyeGJlQYLKpb2hgbWczQo2u8RmaFCK8Kyk9Ad8W0Ksxyx6AoNHndiNUd3
-	pgQ09os0+EUkMbgwfaOlHtEStLw+2xM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769096536;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
-	b=0iqPGW1agNVaVnQmF+2mMFaHz5jf38AXI7KkERuGiInWYYKzTGrVODUWzChReQtemzPfna
-	a8MSgMwRXxKctUBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DF1F13533;
-	Thu, 22 Jan 2026 15:42:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0Tn4DlhFcmlzbQAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Thu, 22 Jan 2026 15:42:16 +0000
-Date: Thu, 22 Jan 2026 16:42:15 +0100
-From: David Sterba <dsterba@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vH0CIJFD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38BCFC116C6;
+	Thu, 22 Jan 2026 21:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769116882;
+	bh=HuuV2V7oQdXHpZv2p1xtrH9rIpKzASmyg1enkricVyM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vH0CIJFDafluSg7UmFnP+wjTXB3u+C5rT5g6Fzh5Bi3H+8e35YmszXezwTTlhPksL
+	 8WxIH7HbfjYE2Y/mAGaDpnlM+ypNi1FUDuIOso3Tirt6B66U+S/ZS6qetMBTOtw4UL
+	 9avQGMG35wKclM34S2LK+YX86Wqw07SE1YJp95eXHsOuq75HZatUlF+9lElX5oEPzM
+	 ll9Q/xIg+wx2+3Fk7N5zO03sT/D0ws0naqyXinxDVz6+IxEoM2QT+9BMd30BSdyCpD
+	 Us+c3wHkr/4tHMAzzKnwV0Kt9d6uoc19ORrVXfsl0nltbSvLUvvDjTRIfzmbDMkiyR
+	 PrHGcC77U9wQA==
+Date: Thu, 22 Jan 2026 13:21:21 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
@@ -84,10 +38,11 @@ Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
 	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
 	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	fsverity@lists.linux.dev
-Subject: Re: fsverity cleanups, speedup and memory usage optimization v2
-Message-ID: <20260122154215.GV26902@suse.cz>
-Reply-To: dsterba@suse.cz
+Subject: Re: [PATCH 01/11] fs,fsverity: reject size changes on fsverity files
+ in setattr_prepare
+Message-ID: <20260122212121.GA5910@frogsfrogsfrogs>
 References: <20260122082214.452153-1-hch@lst.de>
+ <20260122082214.452153-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -96,81 +51,151 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260122082214.452153-1-hch@lst.de>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Score: -4.21
-X-Spamd-Result: default: False [-4.21 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RCVD_TLS_ALL(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 6FE955BCD7
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+In-Reply-To: <20260122082214.452153-2-hch@lst.de>
 
-On Thu, Jan 22, 2026 at 09:21:56AM +0100, Christoph Hellwig wrote:
-> Hi all,
+On Thu, Jan 22, 2026 at 09:21:57AM +0100, Christoph Hellwig wrote:
+> Add the check to reject truncates of fsverity files directly to
+> setattr_prepare instead of requiring the file system to handle it.
+> Besides removing boilerplate code, this also fixes the complete lack of
+> such check in btrfs.
 > 
-> this series has a hodge podge of fsverity enhances that I looked into as
-> part of the review of the xfs fsverity support series.
-> 
-> The first part calls fsverity code from VFS code instead of requiring
-> boilerplate in the file systems.  The first patch fixes a bug in btrfs
-> as part of that, as btrfs was missing a check.  An xfstests
-> test case for this was submitted already.
-> 
-> The middle part optimizes the fsverity read path by kicking off readahead
-> for the fsverity hashes from the data read submission context, which in my
-> simply testing showed huge benefits for sequential reads using dd.
-> I haven't been able to get fio to run on a preallocated fio file, but
-> I expect random read benefits would be significantly better than that
-> still.
-> 
-> The last part avoids the need for a pointer in every inode for fsverity
-> and instead uses a rhashtable lookup, which is once per read_folio or
-> ->readahead invocation and for for btrfs another time for each bio
-> completion.  Right now this does not increse the number of inodes in
-> each slab, but for ext4 we are getting very close to that (within
-> 16 bytes by my count).
-> 
-> Changes since v1:
->  - reorder to keep the most controversial part last
->  - drop moving the open handling to common code (for now)
->  - factor the page cache read code into common code
->  - reduce the number of hash lookups
->  - add a barrier in the fsverity_active that pairs with the cmpxchg
->    that sets the inode flag.
-> 
-> Diffstat:
->  fs/attr.c                    |   12 ++
+> Fixes: 146054090b08 ("btrfs: initial fsverity support")
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-For the btrfs changes
+Seems reasonable to me.
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
->  fs/btrfs/btrfs_inode.h       |    4 
->  fs/btrfs/extent_io.c         |   37 +++++---
->  fs/btrfs/inode.c             |   13 ---
->  fs/btrfs/verity.c            |   11 --
+--D
 
-Acked-by: David Sterba <dsterba@suse.com>
+> ---
+>  fs/attr.c                | 12 +++++++++++-
+>  fs/ext4/inode.c          |  4 ----
+>  fs/f2fs/file.c           |  4 ----
+>  fs/verity/open.c         |  8 --------
+>  include/linux/fsverity.h | 25 -------------------------
+>  5 files changed, 11 insertions(+), 42 deletions(-)
+> 
+> diff --git a/fs/attr.c b/fs/attr.c
+> index b9ec6b47bab2..e7d7c6d19fe9 100644
+> --- a/fs/attr.c
+> +++ b/fs/attr.c
+> @@ -169,7 +169,17 @@ int setattr_prepare(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	 * ATTR_FORCE.
+>  	 */
+>  	if (ia_valid & ATTR_SIZE) {
+> -		int error = inode_newsize_ok(inode, attr->ia_size);
+> +		int error;
+> +
+> +		/*
+> +		 * Verity files are immutable, so deny truncates.  This isn't
+> +		 * covered by the open-time check because sys_truncate() takes a
+> +		 * path, not an open file.
+> +		 */
+> +		if (IS_ENABLED(CONFIG_FS_VERITY) && IS_VERITY(inode))
+> +			return -EPERM;
+> +
+> +		error = inode_newsize_ok(inode, attr->ia_size);
+>  		if (error)
+>  			return error;
+>  	}
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index 0c466ccbed69..8c2ef98fa530 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -5835,10 +5835,6 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	if (error)
+>  		return error;
+>  
+> -	error = fsverity_prepare_setattr(dentry, attr);
+> -	if (error)
+> -		return error;
+> -
+>  	if (is_quota_modification(idmap, inode, attr)) {
+>  		error = dquot_initialize(inode);
+>  		if (error)
+> diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
+> index d7047ca6b98d..da029fed4e5a 100644
+> --- a/fs/f2fs/file.c
+> +++ b/fs/f2fs/file.c
+> @@ -1074,10 +1074,6 @@ int f2fs_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	if (err)
+>  		return err;
+>  
+> -	err = fsverity_prepare_setattr(dentry, attr);
+> -	if (err)
+> -		return err;
+> -
+>  	if (unlikely(IS_IMMUTABLE(inode)))
+>  		return -EPERM;
+>  
+> diff --git a/fs/verity/open.c b/fs/verity/open.c
+> index 77b1c977af02..2aa5eae5a540 100644
+> --- a/fs/verity/open.c
+> +++ b/fs/verity/open.c
+> @@ -384,14 +384,6 @@ int __fsverity_file_open(struct inode *inode, struct file *filp)
+>  }
+>  EXPORT_SYMBOL_GPL(__fsverity_file_open);
+>  
+> -int __fsverity_prepare_setattr(struct dentry *dentry, struct iattr *attr)
+> -{
+> -	if (attr->ia_valid & ATTR_SIZE)
+> -		return -EPERM;
+> -	return 0;
+> -}
+> -EXPORT_SYMBOL_GPL(__fsverity_prepare_setattr);
+> -
+>  void __fsverity_cleanup_inode(struct inode *inode)
+>  {
+>  	struct fsverity_info **vi_addr = fsverity_info_addr(inode);
+> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
+> index 5bc7280425a7..86fb1708676b 100644
+> --- a/include/linux/fsverity.h
+> +++ b/include/linux/fsverity.h
+> @@ -179,7 +179,6 @@ int fsverity_get_digest(struct inode *inode,
+>  /* open.c */
+>  
+>  int __fsverity_file_open(struct inode *inode, struct file *filp);
+> -int __fsverity_prepare_setattr(struct dentry *dentry, struct iattr *attr);
+>  void __fsverity_cleanup_inode(struct inode *inode);
+>  
+>  /**
+> @@ -251,12 +250,6 @@ static inline int __fsverity_file_open(struct inode *inode, struct file *filp)
+>  	return -EOPNOTSUPP;
+>  }
+>  
+> -static inline int __fsverity_prepare_setattr(struct dentry *dentry,
+> -					     struct iattr *attr)
+> -{
+> -	return -EOPNOTSUPP;
+> -}
+> -
+>  static inline void fsverity_cleanup_inode(struct inode *inode)
+>  {
+>  }
+> @@ -338,22 +331,4 @@ static inline int fsverity_file_open(struct inode *inode, struct file *filp)
+>  	return 0;
+>  }
+>  
+> -/**
+> - * fsverity_prepare_setattr() - prepare to change a verity inode's attributes
+> - * @dentry: dentry through which the inode is being changed
+> - * @attr: attributes to change
+> - *
+> - * Verity files are immutable, so deny truncates.  This isn't covered by the
+> - * open-time check because sys_truncate() takes a path, not a file descriptor.
+> - *
+> - * Return: 0 on success, -errno on failure
+> - */
+> -static inline int fsverity_prepare_setattr(struct dentry *dentry,
+> -					   struct iattr *attr)
+> -{
+> -	if (IS_VERITY(d_inode(dentry)))
+> -		return __fsverity_prepare_setattr(dentry, attr);
+> -	return 0;
+> -}
+> -
+>  #endif	/* _LINUX_FSVERITY_H */
+> -- 
+> 2.47.3
+> 
+> 
