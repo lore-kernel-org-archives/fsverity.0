@@ -1,107 +1,176 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489E2340287
-	for <fsverity@lists.linux.dev>; Thu, 22 Jan 2026 10:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CD134D92C
+	for <fsverity@lists.linux.dev>; Thu, 22 Jan 2026 15:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769076799; cv=none; b=j8SMXbZnsVUk5TfnZan30y3q+0dtKfQed9abGyT8jr5Z7gQ6fq2T/JwJPA+ccELcxnP0GbaoGzWuFfsTWtx1c32ZOV5StRO7CQQVRSnP2ToviVFdCPg/sSQ3tWQngrzcJUN/inGN9loi//QrV5UweZ5I5WEgU7Wi5ScTno8qNxU=
+	t=1769096542; cv=none; b=nQCkQit59iq36fYY/8Z/uMduisIYnl9tjMRgBbg4Q4aZDXT8k7+Z7DEoEMACZrameaeWMxusmIYV9jcdhSexGiRp65tKsip4gpn1sqKgg0KsYpwBLJ0k0/UsJ5QT6lAjhT0TkxzoZMNACq1JBNyf1v5/tdqXT2xH4Ce6oUo7Bzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769076799; c=relaxed/simple;
-	bh=+DaVDwDFTaE2CJY7NQbgkoOai3RZT+Zn59KkM8yLeo4=;
+	s=arc-20240116; t=1769096542; c=relaxed/simple;
+	bh=lvRJnEpqGKml9ZZukNMsShpYKPXGJJ3h5jLBmdm7izg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=jqu+IEJYJojdKC+JQVGcEm28MAPAoXnq2N9NmXPVbCVlNIS/cUnE2LRy0wjMc+hOctE6QP8qb06A+kT2ox5CZvMqY8lQeWf6tnfd3Mu9xT+rX/apGPeuCTA6mlcnfIeHaCZ+uy0jZFYuKqhfSRywqG8gJ0z+pPkP+23xs6JJ9ZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Eig2vEnq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EQPzw90+DFHTosoI7U8PRcnYBZrk1HVvgkovuezyQpdBy4Z97hsrv4sobwZ7i0zuL115asAw3EvXdOZlkwDGU32+0p5XoYFRPCAa95b5VVt4CypPIWvnIw1iT7TJIWi308EzdvVwFVzJU/9RRvzqs3IpM2vuOwgatSk+JZGvMRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j6JxqPze; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iqPGW1a; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=j6JxqPze; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=0iqPGW1a; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Eig2vEnq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769076796;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j6JxqPze";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iqPGW1a";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="j6JxqPze";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="0iqPGW1a"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6FE955BCD7;
+	Thu, 22 Jan 2026 15:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769096536;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3PvjpRuZOnSj4n9pyzBuctSprFCgwIRN8fXSvvKed5k=;
-	b=Eig2vEnqKrTvedE0Dyj7tj94vNytJOO0IboF5NH+Y7okFNrD8tn6ztLm/iU88OVPwV9vKs
-	M7OyLeK0LJkEJEkqDCkkS2pDIjyzkObRGkkObJN+GvW2pp0EnsuCLDo/SiCUvrLbIyPF4C
-	1OUX6Jv9T2RsgH+//SiD+HdFzreAp4E=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-286-cr1r8zNBNr2o0YyygS2euQ-1; Thu, 22 Jan 2026 05:13:14 -0500
-X-MC-Unique: cr1r8zNBNr2o0YyygS2euQ-1
-X-Mimecast-MFC-AGG-ID: cr1r8zNBNr2o0YyygS2euQ_1769076793
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4803a72daaeso6536665e9.0
-        for <fsverity@lists.linux.dev>; Thu, 22 Jan 2026 02:13:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769076793; x=1769681593;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3PvjpRuZOnSj4n9pyzBuctSprFCgwIRN8fXSvvKed5k=;
-        b=LUtz9kP0m9hdO4G6wwB+E8ZuZZoNn7JIK/eygKv2uOt+t/6It8xc/ioNpBanIxFK2W
-         s7LPShM5w/5oyWO6a77EzCJrKBYhQ7HMO4mVDfgfx2dLcYxGGHqhCcM6zTzHg3X4mpQ7
-         /R4fXQxUvuIsSHdQGruj+K8FTxlldrPdgM84rQ5nvEqgbXsHVPqK/aC/DAOFq/Tk3M1S
-         N1ola+C+2NYnIIW/nGnjdbD8Y9F4UupSDsXnARIW2bVXMcod9mH8jHmrOeX9A7v71nxh
-         XX0FUTwNUsmXMMornLxjqYLUpPXGgIaZYmEbLJf3YD390fv+/KnRbLYyvr8sb1T4vs5o
-         B3zg==
-X-Forwarded-Encrypted: i=1; AJvYcCUKPznGiDo9/BsrV+tr7vTEzYz/zJC6KtHkwKDVjwosQIdOQ5kAtRlzEungBlPIGxc5kql0AqMLlg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzL8b3lvi9njCYplHnaKXcQb7VlsZ5mPmlRGCNE800On0QhDN4h
-	ZL5Qb4+4siMANsPPheh6g7z/8uGxtPjviod36mfkVrAloAo48qpkKigFSej3SGLakzsghaZpuBK
-	ZcK6s8+1laR76oLvC9hjjeKOggcxuL3C+sfV5McUQqFfgK0B8EqbSiWNtSoQ=
-X-Gm-Gg: AZuq6aKqEE+XXv62QZNw1vocwh7QA960/jzBpyu54kI7+2qHZp3EhvBKUElQhlwcTFC
-	YsjwSvBAWn9EEytxFCD95G+/6CaK2HbdQQw2tOrepwLZpjfWxVTct1N4bWMNaX1lwvGPRlTn6jg
-	JGpyEOjJq/nVCuqhqADTIear5SzEYWOPbnO/9jBng2dFh0WPzNgmz1HVuHJimi28j5P3rEcuSbm
-	llfmAjhY/C0KP2BQZvpZzZYV//UE22ar0NiuTYBAVcsDgd7B/C45lfpnzVE4pcOL+diZJP9iR5o
-	/dQqvhlSY9ty4D05d86QCiWVMk1KSQZeCSt2YEtCeVts/aR3YB45oBosX1xbdaTYBJpavEqmyOo
-	=
-X-Received: by 2002:a05:600c:58d3:b0:47e:e48f:43b5 with SMTP id 5b1f17b1804b1-480470d4b5emr28224295e9.18.1769076792935;
-        Thu, 22 Jan 2026 02:13:12 -0800 (PST)
-X-Received: by 2002:a05:600c:58d3:b0:47e:e48f:43b5 with SMTP id 5b1f17b1804b1-480470d4b5emr28223915e9.18.1769076792425;
-        Thu, 22 Jan 2026 02:13:12 -0800 (PST)
-Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804702fb04sm54550985e9.3.2026.01.22.02.13.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 02:13:12 -0800 (PST)
-Date: Thu, 22 Jan 2026 11:12:41 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
+	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
+	b=j6JxqPzePV1v3VMwls0tzTsZjgdG9emkov+yXkAfgU/rTXQf8T3zUIk9y6kwTpmIwFH+jg
+	+tGTZOAzNSt5DmyeGJlQYLKpb2hgbWczQo2u8RmaFCK8Kyk9Ad8W0Ksxyx6AoNHndiNUd3
+	pgQ09os0+EUkMbgwfaOlHtEStLw+2xM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769096536;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
+	b=0iqPGW1agNVaVnQmF+2mMFaHz5jf38AXI7KkERuGiInWYYKzTGrVODUWzChReQtemzPfna
+	a8MSgMwRXxKctUBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=j6JxqPze;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=0iqPGW1a
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769096536;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
+	b=j6JxqPzePV1v3VMwls0tzTsZjgdG9emkov+yXkAfgU/rTXQf8T3zUIk9y6kwTpmIwFH+jg
+	+tGTZOAzNSt5DmyeGJlQYLKpb2hgbWczQo2u8RmaFCK8Kyk9Ad8W0Ksxyx6AoNHndiNUd3
+	pgQ09os0+EUkMbgwfaOlHtEStLw+2xM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769096536;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eXgjnBxZ8BrNqn4Sk6A4xpE60v2fmF+nX+2I0eOLLCg=;
+	b=0iqPGW1agNVaVnQmF+2mMFaHz5jf38AXI7KkERuGiInWYYKzTGrVODUWzChReQtemzPfna
+	a8MSgMwRXxKctUBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DF1F13533;
+	Thu, 22 Jan 2026 15:42:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0Tn4DlhFcmlzbQAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Thu, 22 Jan 2026 15:42:16 +0000
+Date: Thu, 22 Jan 2026 16:42:15 +0100
+From: David Sterba <dsterba@suse.cz>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>, 
-	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
-Subject: Re: [PATCH 04/11] fsverity: start consolidating pagecache code
-Message-ID: <a3oh6pju5fuodkmhb42o5t7qkqo5oqtwk3nu4wls57p5ihz2rh@q7mt6lpuprvd>
+Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	fsverity@lists.linux.dev
+Subject: Re: fsverity cleanups, speedup and memory usage optimization v2
+Message-ID: <20260122154215.GV26902@suse.cz>
+Reply-To: dsterba@suse.cz
 References: <20260122082214.452153-1-hch@lst.de>
- <20260122082214.452153-5-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260122082214.452153-5-hch@lst.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FAe2Msjvey4ybv6_jlMu0mO1c03VGxe98T3B7ARIYGY_1769076793
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260122082214.452153-1-hch@lst.de>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Score: -4.21
+X-Spamd-Result: default: False [-4.21 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_TLS_ALL(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 6FE955BCD7
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On 2026-01-22 09:22:00, Christoph Hellwig wrote:
-> ext4 and f2fs are largely using the same code to read a page full
-> of Merkle tree blocks from the page cache, and the upcoming xfs
-> fsverity support would add another copy.
+On Thu, Jan 22, 2026 at 09:21:56AM +0100, Christoph Hellwig wrote:
+> Hi all,
 > 
-> Move the ext4 code to fs/verity/ and use it in f2fs as well.  For f2fs
-> this removes the previous f2fs-specific error injection, but otherwise
-> the behavior remains unchanged.
+> this series has a hodge podge of fsverity enhances that I looked into as
+> part of the review of the xfs fsverity support series.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> The first part calls fsverity code from VFS code instead of requiring
+> boilerplate in the file systems.  The first patch fixes a bug in btrfs
+> as part of that, as btrfs was missing a check.  An xfstests
+> test case for this was submitted already.
+> 
+> The middle part optimizes the fsverity read path by kicking off readahead
+> for the fsverity hashes from the data read submission context, which in my
+> simply testing showed huge benefits for sequential reads using dd.
+> I haven't been able to get fio to run on a preallocated fio file, but
+> I expect random read benefits would be significantly better than that
+> still.
+> 
+> The last part avoids the need for a pointer in every inode for fsverity
+> and instead uses a rhashtable lookup, which is once per read_folio or
+> ->readahead invocation and for for btrfs another time for each bio
+> completion.  Right now this does not increse the number of inodes in
+> each slab, but for ext4 we are getting very close to that (within
+> 16 bytes by my count).
+> 
+> Changes since v1:
+>  - reorder to keep the most controversial part last
+>  - drop moving the open handling to common code (for now)
+>  - factor the page cache read code into common code
+>  - reduce the number of hash lookups
+>  - add a barrier in the fsverity_active that pairs with the cmpxchg
+>    that sets the inode flag.
+> 
+> Diffstat:
+>  fs/attr.c                    |   12 ++
 
-looks good to me
-Reviewed-by: Andrey Albershteyn <aalbersh@redhat.com>
+For the btrfs changes
 
--- 
-- Andrey
+>  fs/btrfs/btrfs_inode.h       |    4 
+>  fs/btrfs/extent_io.c         |   37 +++++---
+>  fs/btrfs/inode.c             |   13 ---
+>  fs/btrfs/verity.c            |   11 --
 
+Acked-by: David Sterba <dsterba@suse.com>
