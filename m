@@ -1,38 +1,42 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16381ACED5
-	for <fsverity@lists.linux.dev>; Fri, 23 Jan 2026 07:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E4D226CF1;
+	Sat, 24 Jan 2026 18:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769153435; cv=none; b=I0aEc9s6fJvAV8n87nkTZF3nWYvoR2k+vplY0tnwyI79nh+3bFYl0Ne+97AYEsbgPldcIlAgkm8qw+YtzrkCUNUHXkSWIbEtPfjrs7NZcvzQpTEsY5MuUwKR9acg2qhI9lI5vubZRg3kcjzBjF7MdRMU3BGnjAy0cVx09NU83MA=
+	t=1769280596; cv=none; b=E48A+a/iNps8xfVtKUZSa5nDEHJ4tYv5GkeHCt+b8ZwRqGgwW2BqN0KBViKivJBLXKZt95s6AJoBCCvGNB3n/KHGoXdJBnZ8qpULXk9hoD5KVNH3PzoDfGVxywsEMuJEik97F0MWBw8Yczq8SB2BygcWj6awS+X6bWJ7Ue+oJcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769153435; c=relaxed/simple;
-	bh=7cs8KTtnIn7YUHI145cRhMX4l5zAigUfI//KElxOWLU=;
+	s=arc-20240116; t=1769280596; c=relaxed/simple;
+	bh=J5DDkc2IWR66fCA/uqHO7egavLiMWvA/McTLbInAty0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tRT3MYCQIwM2ZQ/0UcGI/QvwVDpCIzCx40cpeXEsRZfkfJq9caNlWI91BERnCcr5DNrHUfDQeXwMxvpa1b8e0PP9qUnl7GLyTZRNPv21X93cdoYbTImjBqYm5vWoQ4Ge77b4+z0QJe6bQ10NdbOB6td82b4Zs003KItxsca1uJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 93D62227AAE; Fri, 23 Jan 2026 08:30:25 +0100 (CET)
-Date: Fri, 23 Jan 2026 08:30:24 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Eric Biggers <ebiggers@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	 Content-Type:Content-Disposition:In-Reply-To; b=P8WP5nH8uJDCxaBD33xAIjOJVb3V4cdivDBII5Gf2q96BDUY8U5xpzS8pOoQMNyO4fzmxZiaSlNVqDuupG00M0GCZHP/4GICZtnStLa2l0gEJDVxiYM6QbesNdbTZi/V16WWkQIamJrXucLmh7K18gnxVrADb4Bz98uWXrDwWxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojGjuRIP; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojGjuRIP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C5F8C116D0;
+	Sat, 24 Jan 2026 18:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769280595;
+	bh=J5DDkc2IWR66fCA/uqHO7egavLiMWvA/McTLbInAty0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ojGjuRIP4F55MSShykh15GVw8pfXNHCoWjD+9Zg4nXeOP0QE6wygXsbUyzehRYDY6
+	 OZ9dNMTcHmVRIZWyYw0CSQbqhwXnMP2fW2Ge2DDbLVrN5dZkQ0jW0qaS8fcC+JYjYl
+	 aSyhDlFLuTHb++5HGdGQpzcfDIT/KhSGBsI8kElX3WGVh47xtMAvJnR8DYKMXUJhpn
+	 4xy+gdoAAS7fIRR0g/N671mC2wBGMhxLlKx9qp8scLYnbc1BmqfHhysdBPnds3pwrH
+	 Prg4zMZhSiwUAO+mAKT8TPDUydVF5bqJ8qN76ZEP1rqnI5fv/wptHcxz/bH8AwogeW
+	 8Yyh1aUuZdE4Q==
+Date: Sat, 24 Jan 2026 10:49:54 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>,
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fstests@vger.kernel.org, djwong@kernel.org,
 	fsverity@lists.linux.dev
-Subject: Re: [PATCH 11/11] fsverity: use a hashtable to find the
- fsverity_info
-Message-ID: <20260123073024.GA27731@lst.de>
-References: <20260122082214.452153-1-hch@lst.de> <20260122082214.452153-12-hch@lst.de> <20260122220420.GI5910@frogsfrogsfrogs> <20260123052723.GE24123@lst.de> <20260123072700.GN5910@frogsfrogsfrogs>
+Subject: Re: [PATCH v2 2/2] fsverity: add tracepoints
+Message-ID: <20260124184954.GC2762@quark>
+References: <20260119165644.2945008-1-aalbersh@kernel.org>
+ <20260119165644.2945008-3-aalbersh@kernel.org>
+ <20260121003917.GC12110@quark>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -41,19 +45,50 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260123072700.GN5910@frogsfrogsfrogs>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260121003917.GC12110@quark>
 
-On Thu, Jan 22, 2026 at 11:27:00PM -0800, Darrick J. Wong wrote:
-> > rhashtable_lookup_fast returns the struct containing the rhash_head.
-> > The paramters store the rhead_offset for that purpose.  See rht_obj
-> > as used by rhashtable_lookup.
+[+Cc fsverity@lists.linux.dev]
+
+On Tue, Jan 20, 2026 at 04:39:17PM -0800, Eric Biggers wrote:
+> On Mon, Jan 19, 2026 at 05:56:43PM +0100, Andrey Albershteyn wrote:
+> [...]
+> > +	TP_printk("ino %lu data size %llu tree size %llu block size %u levels %u",
+> [...]
+> > +	TP_printk("ino %lu levels %d block_size %d tree_size %lld root_hash %s digest %s",
 > 
-> Ahah.  That's right, but (imo) a weird quirk of the rhashtable
-> interface.  Though I only say that because *I* keep tripping over that;
-> maybe everyone else is ok.
+> Would be nice to make these consistent.  3 of the parameters are the
+> same, but the naming and order differs slightly.
+> 
+> [...]
+> > +	TP_printk("ino %lu pos %lld merkle_blocksize %u",
+> > +		(unsigned long) __entry->ino,
+> > +		__entry->data_pos,
+> > +		__entry->block_size)
+> 
+> Likewise here.  So now we have "block size", "block_size", and
+> "merkle_blocksize", all for the same thing.
+> 
+> > +	TP_printk("ino %lu data_pos %llu hblock_idx %lu level %u hidx %u",
+> > +		(unsigned long) __entry->ino,
+> 
+> And here's data_pos as a %llu, whereas in the previous tracepoint it's
+> just pos as an %lld.
+> 
+> > +TRACE_EVENT(fsverity_verify_merkle_block,
+> > +	TP_PROTO(const struct inode *inode, unsigned long index,
+> > +		 unsigned int level, unsigned int hidx),
+> 
+> And the 'index' here is what the previous one calls 'hblock_idx'.
+> 
+> I think consistent naming would be helpful for people trying to use
+> these tracepoints.
 
-I don't think it's a quirk.  It seems like an explicit design decision.
-Not one I would have taken as I think doing a container_of in the caller
-would be cleaner, but it is what it is.
+Andrey, let me know if you're planning to send a new version with the
+naming cleaned up, or if I should do it in a follow-up patch instead.
 
+Christian, can you let me know if it's okay if I take this series
+through the fsverity tree, or do you want it to go through the VFS tree?
+
+Thanks,
+
+- Eric
