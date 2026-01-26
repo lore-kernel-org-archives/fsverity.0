@@ -1,50 +1,36 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB34224240;
-	Sun, 25 Jan 2026 21:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F3445BE3
+	for <fsverity@lists.linux.dev>; Mon, 26 Jan 2026 04:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769377714; cv=none; b=LQ4yF7zz9w1PAaNI5wH0/Bo+9FOhzrYs+qWV7z4G877Qnqb0lS0aLiuLTAsBUuRofroAdDrAoOOgy/7mpcIX3KSAJWyDhPFIjw/FzXT8nlRu7ywY2XOaYRGIGoKZPSE/I6nfpdJq6SouU+DPwaLNedyXNmWecR5vGE3d6mfnTEI=
+	t=1769401659; cv=none; b=OMrVwpDpFmtAD+xZSamugpWkC0bcPwKByTQii4uYSGilVBbA/dV7CLOaqrEJekXcCp3VK2OjBEFgAOPBQgGpoPgQ2d2ot5+y9+1P5HATSoblqjtXS3far5bAmk70o2F113MinxIbM7gFISYLadKLHCvRKa9GlwKsqa+wifLtYmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769377714; c=relaxed/simple;
-	bh=dVblczFOT3KK64ywz5l+aXQv3RLrX2RoBjFt0kny0a8=;
+	s=arc-20240116; t=1769401659; c=relaxed/simple;
+	bh=AKjb1ReuQh11kWYO1exSMJ+pOg7SYRVbkRVhxcjnin4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZtYpqOlsJ+oIqczEAEfgipQ5P62mh66nTdor8cE+GpmjCb9gBH6cNBLZdwLrihTj5wnF5j9J6SL8Gml7163eMy2kGlYyaEKkaB/Py8xEdxWyvYj51mkvd0tvr2YuKPSJBlb8T0Bo7lOCO9vQt86J2zsgYWl76AX1H4Z8uSmIrYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=e5UblH7z; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="e5UblH7z"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=quPIaL6J4vgskyL8jbt0HEBw7S9sSjdcy/gh2a5f1k4=; b=e5UblH7z5/IjdAKi22YkrU/R70
-	RpKHo3fZ71OVhhLv/oYJcW70xMU/N3QMFRSrTRoQ9NeI+QbCHXH6TZFSTz7yN+zkprWYk2wCe/zb3
-	WX/cZTCUAglWH3fuxkJxwIsSo1ygzzq8aILKQhkTwvQIZa0Gs44VH3lUCouxwoEMoc1LE24FR4KWG
-	fJMxm+deBt8KWp6yJWvwdt80mv2jzq+ZxWiF2/cKu3t4q9ZP9O5fMu/JhZ+INTwx0ZWaHrytz8VhQ
-	dRyMWcchY40sPMrTdfnDW2tPwobxN98aqvOeIbVBJ6KjknVfCVzvDeD2O4zCb58CWO3yMSzyMePbg
-	j2CpBSzw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vk7y2-00000004zbi-1ua8;
-	Sun, 25 Jan 2026 21:48:22 +0000
-Date: Sun, 25 Jan 2026 21:48:22 +0000
-From: Matthew Wilcox <willy@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dNsYwcXSCqagfyKwe5lkALmA4TPuxNbG8ZvQW32ZgktOj9K6WhUcIkDXrec4tQqsmdrhNLjfPLqU/cv5V8ODEBXk07pB0Kl7sIqk5+XqkBDRT+ALR2zgVu8vp/pYbkr+ftCdp9Uw837HsOAmAzMG/i6GE8ySFuGXYqYEn0eiefA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 57D11227A88; Mon, 26 Jan 2026 05:27:27 +0100 (CET)
+Date: Mon, 26 Jan 2026 05:27:27 +0100
+From: Christoph Hellwig <hch@lst.de>
 To: Eric Biggers <ebiggers@kernel.org>
 Cc: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
 	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
 	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
 	Andrey Albershteyn <aalbersh@redhat.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
 	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	fsverity@lists.linux.dev
-Subject: Re: [PATCH 11/11] fsverity: use a hashtable to find the fsverity_info
-Message-ID: <aXaPph6Yi-hzf0J-@casper.infradead.org>
-References: <20260122082214.452153-1-hch@lst.de>
- <20260122082214.452153-12-hch@lst.de>
- <20260125013104.GA2255@sol>
+Subject: Re: [PATCH 04/11] fsverity: start consolidating pagecache code
+Message-ID: <20260126042726.GA30803@lst.de>
+References: <20260122082214.452153-1-hch@lst.de> <20260122082214.452153-5-hch@lst.de> <20260124192747.GD2762@quark>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -53,35 +39,20 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260125013104.GA2255@sol>
+In-Reply-To: <20260124192747.GD2762@quark>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Sat, Jan 24, 2026 at 05:31:04PM -0800, Eric Biggers wrote:
-> Maybe do:
+On Sat, Jan 24, 2026 at 11:27:47AM -0800, Eric Biggers wrote:
+> On Thu, Jan 22, 2026 at 09:22:00AM +0100, Christoph Hellwig wrote:
+> >  fs/ext4/verity.c         | 17 +----------------
+> >  fs/f2fs/verity.c         | 17 +----------------
+> >  fs/verity/pagecache.c    | 38 ++++++++++++++++++++++++++++++++++++++
+> >  include/linux/fsverity.h |  3 +++
+> >  4 files changed, 43 insertions(+), 32 deletions(-)
 > 
-> 	if (IS_ENABLED(CONFIG_FS_VERITY) && IS_VERITY(inode)) {
-> 		/*
->                  * This pairs with the try_cmpxchg in set_mask_bits()
->                  * used to set the S_VERITY bit in i_flags.
-> 		 */
-> 		smp_mb();
-> 		return true;
-> 	}
+> This creates a bisection hazard: the new file fs/verity/pagecache.c
+> isn't added to fs/verity/Makefile until the next commit.
 
-Is there a reason not to do as DAX did:
+Fixed, that was of course not intentional :)
 
-+++ b/include/linux/fs.h
-@@ -2119,7 +2119,11 @@ extern loff_t vfs_dedupe_file_range_one(struct file *src_file, loff_t src_pos,
- #endif
- #define S_ENCRYPTED    (1 << 14) /* Encrypted file (using fs/crypto/) */
- #define S_CASEFOLD     (1 << 15) /* Casefolded file */
-+#ifdef CONFIG_FS_VERITY
- #define S_VERITY       (1 << 16) /* Verity file (using fs/verity/) */
-+#else
-+#define S_VERITY       0         /* Make all the verity checks disappear */
-+#endif
- #define S_KERNEL_FILE  (1 << 17) /* File is in use by the kernel (eg. fs/cachefiles) */
- #define S_ANON_INODE   (1 << 19) /* Inode is an anonymous inode */
-
-
-and then we can drop the CONFIG_FS_VERITY check here and in (at leaast)
-three other places
+Still surprised the build bot didn't complain about it.
