@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C9F30DEC7
-	for <fsverity@lists.linux.dev>; Mon, 26 Jan 2026 11:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FF033374A
+	for <fsverity@lists.linux.dev>; Mon, 26 Jan 2026 11:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769428641; cv=none; b=NdJ/a+UIey3EcoJCK+CTmn92j1DBGWEL6qrJ1s5lafN6mZsCeBYEjo/MhvcAsx8IAvleiZhi019ow91V86LOxaWKlChk5k6Pa6aHMNqLDR5Aap12KxcbeEazCnmCEC4zlr6sjBuOlfaA4DRBB3L9W0RzpXtlvXSxAJ9VHPisI9s=
+	t=1769428642; cv=none; b=hglqOfTPwVUkf8LX1M1vp1S2HTsJmvAluCx4xoqhdRH8kS2Bu4tkIx9SB/meHTKcs+xgBW4TES+4fYwLElUAZg8ZivKG3CyN5aPMZ6UKNgcQM+Cwkp+liYcdv+ZHdyeQFhcmsRIquXsB9C115f1QY5HreWIV1TurbHTF3olnlFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769428641; c=relaxed/simple;
-	bh=tTnHjqVgFCziCpmvL5ct1YEC2NDheEKPNpZYe4CQ2Y8=;
+	s=arc-20240116; t=1769428642; c=relaxed/simple;
+	bh=3stvHHhiXRJMcG2EegXWipNU1UMl5DfoOmPjUTElVJA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AjFQUKd7s1Zot5Gi8LYWvdQBnabydQ+zW7Ms9pEPqXv+e6SnCC1/8QAzbBr9gOxxhAemwpYFOtEi1euOSRStDuHAmWZ81iErosFK7rOIPQwxjgJo+XcnBAjFfbecn+sm2cxeul9IV17Go2P8XFknTziHmiNwSjTCxa45XQGMyIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EryK8hXu; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=hpf42IFzWSdFjnTAghGfG/FgHVOB1Ukp/mrqdRnbfdncJ9VlwPRK41KsETLalfHPu1mrAnujChFeJArtUMd9PbK7S2vgJsfs5DDU/Gr88eimrmq1DYMUKqidLxvPQfJ2OMjJF3hzcuSRPYq3K8jWY2J/cWVv/4ptqjDl3xMZRi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VD2B0sGT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EryK8hXu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19605C19421;
-	Mon, 26 Jan 2026 11:57:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VD2B0sGT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69FEC19422;
+	Mon, 26 Jan 2026 11:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769428641;
-	bh=tTnHjqVgFCziCpmvL5ct1YEC2NDheEKPNpZYe4CQ2Y8=;
+	s=k20201202; t=1769428642;
+	bh=3stvHHhiXRJMcG2EegXWipNU1UMl5DfoOmPjUTElVJA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EryK8hXuTsSx2rChwo89mdblfHtilxoIaAWj4X6gfA9uUj0ix1HFV7N/BKqC+QLxY
-	 5HKV7/WHWkphfEhh1YcLhG3u0X+UM5aj5qWtE9S5QTYJM1YRH9UCX+KsHl6CICD3rM
-	 suRsOXEGGyDiI+2BN7UV6lqMj23IrVsgnwb5D2EDU0etPJ7TUEq06iN9tF6o2fXjve
-	 ff8z4i+yqYWUN8IeH2hJTljiaIexu02WAfd8ikaaEWSF7mbZ7nypKS3Je2uT6kbAQx
-	 rr3bRlm2O6Q4TFdZK98kLO5L20TRV/bFsr4A/u4jDa9V2q3kD/IMCNkMcG1A9A1LrS
-	 Sjg3L+6vijUIw==
+	b=VD2B0sGThCTyYHS3ZRX04eArtfYKaUB7xiVfMJPiePHosrkPJNOB0ZCx+OE4FnSwl
+	 eAw2KKwyVuJ1eHV4fEg4qU3J4EDslRYUtfLnhvlZq35WZqpw1gXot20D3bKiiKHsdm
+	 rBlxlp8MPhZqcPPcytAv3w3B8mICh5FQ5DmyK0zP4L9ENJGNI/j9VWPrRSWXTDG1RQ
+	 zL5ZFCAgI3betlBHtjnor8DUuQXeZBrpUb9Qham7Sziw7/fazi1511drjyCT/moNNa
+	 ql0F0AJO69VGifawEn1d7SmB0f2gh10sDid/iLT4AsFRrXr97NQImoWmKn3uqajCOF
+	 qv+N4pqHbCFow==
 From: Andrey Albershteyn <aalbersh@kernel.org>
 To: fsverity@lists.linux.dev,
 	ebiggers@kernel.org
 Cc: Andrey Albershteyn <aalbersh@kernel.org>,
 	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [PATCH v3 1/2] fs: add FS_XFLAG_VERITY for fs-verity files
-Date: Mon, 26 Jan 2026 12:56:57 +0100
-Message-ID: <20260126115658.27656-2-aalbersh@kernel.org>
+Subject: [PATCH v3 2/2] fsverity: add tracepoints
+Date: Mon, 26 Jan 2026 12:56:58 +0100
+Message-ID: <20260126115658.27656-3-aalbersh@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260126115658.27656-1-aalbersh@kernel.org>
 References: <20260126115658.27656-1-aalbersh@kernel.org>
@@ -45,112 +45,266 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fs-verity introduced inode flag for inodes with enabled fs-verity on
-them. This patch adds FS_XFLAG_VERITY file attribute which can be
-retrieved with FS_IOC_FSGETXATTR ioctl() and file_getattr() syscall.
-
-This flag is read-only and can not be set with corresponding set ioctl()
-and file_setattr(). The FS_IOC_SETFLAGS requires file to be opened for
-writing which is not allowed for verity files. The FS_IOC_FSSETXATTR and
-file_setattr() clears this flag from the user input.
-
-As this is now common flag for both flag interfaces (flags/xflags) add
-it to overlapping flags list to exclude it from overwrite.
+fs-verity previously had debug printk but it was removed. This patch
+adds trace points to similar places, as a better alternative.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+[djwong: fix formatting]
+Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- Documentation/filesystems/fsverity.rst | 16 ++++++++++++++++
- fs/file_attr.c                         |  4 ++++
- include/linux/fileattr.h               |  6 +++---
- include/uapi/linux/fs.h                |  1 +
- 4 files changed, 24 insertions(+), 3 deletions(-)
+ MAINTAINERS                     |   1 +
+ fs/verity/enable.c              |   4 +
+ fs/verity/fsverity_private.h    |   2 +
+ fs/verity/init.c                |   1 +
+ fs/verity/verify.c              |   9 ++
+ include/trace/events/fsverity.h | 146 ++++++++++++++++++++++++++++++++
+ 6 files changed, 163 insertions(+)
+ create mode 100644 include/trace/events/fsverity.h
 
-diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-index 412cf11e3298..22b49b295d1f 100644
---- a/Documentation/filesystems/fsverity.rst
-+++ b/Documentation/filesystems/fsverity.rst
-@@ -341,6 +341,22 @@ the file has fs-verity enabled.  This can perform better than
- FS_IOC_GETFLAGS and FS_IOC_MEASURE_VERITY because it doesn't require
- opening the file, and opening verity files can be expensive.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 12f49de7fe03..17607340dfab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10311,6 +10311,7 @@ T:	git https://git.kernel.org/pub/scm/fs/fsverity/linux.git
+ F:	Documentation/filesystems/fsverity.rst
+ F:	fs/verity/
+ F:	include/linux/fsverity.h
++F:	include/trace/events/fsverity.h
+ F:	include/uapi/linux/fsverity.h
  
-+FS_IOC_FSGETXATTR
-+-----------------
+ FT260 FTDI USB-HID TO I2C BRIDGE DRIVER
+diff --git a/fs/verity/enable.c b/fs/verity/enable.c
+index 95ec42b84797..8718d943b428 100644
+--- a/fs/verity/enable.c
++++ b/fs/verity/enable.c
+@@ -222,6 +222,8 @@ static int enable_verity(struct file *filp,
+ 	if (err)
+ 		goto out;
+ 
++	trace_fsverity_enable(inode, &params);
 +
-+Since Linux v7.0, the FS_IOC_FSGETXATTR ioctl sets FS_XFLAG_VERITY (0x00020000)
-+in the returned flags when the file has verity enabled. Note that this attribute
-+cannot be set with FS_IOC_FSSETXATTR as enabling verity requires input
-+parameters. See FS_IOC_ENABLE_VERITY.
+ 	/*
+ 	 * Start enabling verity on this file, serialized by the inode lock.
+ 	 * Fail if verity is already enabled or is already being enabled.
+@@ -264,6 +266,8 @@ static int enable_verity(struct file *filp,
+ 		goto rollback;
+ 	}
+ 
++	trace_fsverity_tree_done(inode, vi, &params);
 +
-+file_getattr
-+------------
+ 	/*
+ 	 * Tell the filesystem to finish enabling verity on the file.
+ 	 * Serialized with ->begin_enable_verity() by the inode lock.
+diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
+index dd20b138d452..4b7ae1748f4e 100644
+--- a/fs/verity/fsverity_private.h
++++ b/fs/verity/fsverity_private.h
+@@ -161,4 +161,6 @@ static inline void fsverity_init_signature(void)
+ 
+ void __init fsverity_init_workqueue(void);
+ 
++#include <trace/events/fsverity.h>
 +
-+Since Linux v7.0, the file_getattr() syscall sets FS_XFLAG_VERITY (0x00020000)
-+in the returned flags when the file has verity enabled. Note that this attribute
-+cannot be set with file_setattr() as enabling verity requires input parameters.
-+See FS_IOC_ENABLE_VERITY.
+ #endif /* _FSVERITY_PRIVATE_H */
+diff --git a/fs/verity/init.c b/fs/verity/init.c
+index 6e8d33b50240..d65206608583 100644
+--- a/fs/verity/init.c
++++ b/fs/verity/init.c
+@@ -5,6 +5,7 @@
+  * Copyright 2019 Google LLC
+  */
+ 
++#define CREATE_TRACE_POINTS
+ #include "fsverity_private.h"
+ 
+ #include <linux/ratelimit.h>
+diff --git a/fs/verity/verify.c b/fs/verity/verify.c
+index 86067c8b40cf..940b8b956d7e 100644
+--- a/fs/verity/verify.c
++++ b/fs/verity/verify.c
+@@ -135,6 +135,9 @@ static bool verify_data_block(struct inode *inode, struct fsverity_info *vi,
+ 		/* Byte offset of the wanted hash relative to @addr */
+ 		unsigned int hoffset;
+ 	} hblocks[FS_VERITY_MAX_LEVELS];
 +
- .. _accessing_verity_files:
++	trace_fsverity_verify_data_block(inode, params, data_pos);
++
+ 	/*
+ 	 * The index of the previous level's block within that level; also the
+ 	 * index of that block's hash within the current level.
+@@ -214,6 +217,9 @@ static bool verify_data_block(struct inode *inode, struct fsverity_info *vi,
+ 			want_hash = _want_hash;
+ 			kunmap_local(haddr);
+ 			put_page(hpage);
++			trace_fsverity_merkle_hit(inode, data_pos, hblock_idx,
++					level,
++					hoffset >> params->log_digestsize);
+ 			goto descend;
+ 		}
+ 		hblocks[level].page = hpage;
+@@ -232,6 +238,9 @@ static bool verify_data_block(struct inode *inode, struct fsverity_info *vi,
+ 		unsigned long hblock_idx = hblocks[level - 1].index;
+ 		unsigned int hoffset = hblocks[level - 1].hoffset;
  
- Accessing verity files
-diff --git a/fs/file_attr.c b/fs/file_attr.c
-index bed5442fa6fa..53b356dd8c33 100644
---- a/fs/file_attr.c
-+++ b/fs/file_attr.c
-@@ -37,6 +37,8 @@ void fileattr_fill_xflags(struct file_kattr *fa, u32 xflags)
- 		fa->flags |= FS_DAX_FL;
- 	if (fa->fsx_xflags & FS_XFLAG_PROJINHERIT)
- 		fa->flags |= FS_PROJINHERIT_FL;
-+	if (fa->fsx_xflags & FS_XFLAG_VERITY)
-+		fa->flags |= FS_VERITY_FL;
- }
- EXPORT_SYMBOL(fileattr_fill_xflags);
- 
-@@ -67,6 +69,8 @@ void fileattr_fill_flags(struct file_kattr *fa, u32 flags)
- 		fa->fsx_xflags |= FS_XFLAG_DAX;
- 	if (fa->flags & FS_PROJINHERIT_FL)
- 		fa->fsx_xflags |= FS_XFLAG_PROJINHERIT;
-+	if (fa->flags & FS_VERITY_FL)
-+		fa->fsx_xflags |= FS_XFLAG_VERITY;
- }
- EXPORT_SYMBOL(fileattr_fill_flags);
- 
-diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
-index f89dcfad3f8f..3780904a63a6 100644
---- a/include/linux/fileattr.h
-+++ b/include/linux/fileattr.h
-@@ -7,16 +7,16 @@
- #define FS_COMMON_FL \
- 	(FS_SYNC_FL | FS_IMMUTABLE_FL | FS_APPEND_FL | \
- 	 FS_NODUMP_FL |	FS_NOATIME_FL | FS_DAX_FL | \
--	 FS_PROJINHERIT_FL)
-+	 FS_PROJINHERIT_FL | FS_VERITY_FL)
- 
- #define FS_XFLAG_COMMON \
- 	(FS_XFLAG_SYNC | FS_XFLAG_IMMUTABLE | FS_XFLAG_APPEND | \
- 	 FS_XFLAG_NODUMP | FS_XFLAG_NOATIME | FS_XFLAG_DAX | \
--	 FS_XFLAG_PROJINHERIT)
-+	 FS_XFLAG_PROJINHERIT | FS_XFLAG_VERITY)
- 
- /* Read-only inode flags */
- #define FS_XFLAG_RDONLY_MASK \
--	(FS_XFLAG_PREALLOC | FS_XFLAG_HASATTR)
-+	(FS_XFLAG_PREALLOC | FS_XFLAG_HASATTR | FS_XFLAG_VERITY)
- 
- /* Flags to indicate valid value of fsx_ fields */
- #define FS_XFLAG_VALUES_MASK \
-diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
-index 66ca526cf786..70b2b661f42c 100644
---- a/include/uapi/linux/fs.h
-+++ b/include/uapi/linux/fs.h
-@@ -253,6 +253,7 @@ struct file_attr {
- #define FS_XFLAG_FILESTREAM	0x00004000	/* use filestream allocator */
- #define FS_XFLAG_DAX		0x00008000	/* use DAX for IO */
- #define FS_XFLAG_COWEXTSIZE	0x00010000	/* CoW extent size allocator hint */
-+#define FS_XFLAG_VERITY		0x00020000	/* fs-verity enabled */
- #define FS_XFLAG_HASATTR	0x80000000	/* no DIFLAG for this	*/
- 
- /* the read-only stuff doesn't really belong here, but any other place is
++		trace_fsverity_verify_merkle_block(inode, hblock_idx,
++				level, hoffset >> params->log_digestsize);
++
+ 		fsverity_hash_block(params, haddr, real_hash);
+ 		if (memcmp(want_hash, real_hash, hsize) != 0)
+ 			goto corrupted;
+diff --git a/include/trace/events/fsverity.h b/include/trace/events/fsverity.h
+new file mode 100644
+index 000000000000..a8c52f21cbd5
+--- /dev/null
++++ b/include/trace/events/fsverity.h
+@@ -0,0 +1,146 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM fsverity
++
++#if !defined(_TRACE_FSVERITY_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_FSVERITY_H
++
++#include <linux/tracepoint.h>
++
++struct fsverity_descriptor;
++struct merkle_tree_params;
++struct fsverity_info;
++
++TRACE_EVENT(fsverity_enable,
++	TP_PROTO(const struct inode *inode,
++		 const struct merkle_tree_params *params),
++	TP_ARGS(inode, params),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, data_size)
++		__field(u64, tree_size)
++		__field(unsigned int, merkle_block)
++		__field(unsigned int, num_levels)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->data_size = i_size_read(inode);
++		__entry->tree_size = params->tree_size;
++		__entry->merkle_block = params->block_size;
++		__entry->num_levels = params->num_levels;
++	),
++	TP_printk("ino %lu data_size %llu tree_size %llu merkle_block %u levels %u",
++		(unsigned long) __entry->ino,
++		__entry->data_size,
++		__entry->tree_size,
++		__entry->merkle_block,
++		__entry->num_levels)
++);
++
++TRACE_EVENT(fsverity_tree_done,
++	TP_PROTO(const struct inode *inode, const struct fsverity_info *vi,
++		 const struct merkle_tree_params *params),
++	TP_ARGS(inode, vi, params),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, data_size)
++		__field(u64, tree_size)
++		__field(unsigned int, merkle_block)
++		__field(unsigned int, levels)
++		__dynamic_array(u8, root_hash, params->digest_size)
++		__dynamic_array(u8, file_digest, params->digest_size)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->data_size = i_size_read(inode);
++		__entry->tree_size = params->tree_size;
++		__entry->merkle_block = params->block_size;
++		__entry->levels = params->num_levels;
++		memcpy(__get_dynamic_array(root_hash), vi->root_hash, __get_dynamic_array_len(root_hash));
++		memcpy(__get_dynamic_array(file_digest), vi->file_digest, __get_dynamic_array_len(file_digest));
++	),
++	TP_printk("ino %lu data_size %llu tree_size %lld merkle_block %u levels %u root_hash %s digest %s",
++		(unsigned long) __entry->ino,
++		__entry->data_size,
++		__entry->tree_size,
++		__entry->merkle_block,
++		__entry->levels,
++		__print_hex_str(__get_dynamic_array(root_hash), __get_dynamic_array_len(root_hash)),
++		__print_hex_str(__get_dynamic_array(file_digest), __get_dynamic_array_len(file_digest)))
++);
++
++TRACE_EVENT(fsverity_verify_data_block,
++	TP_PROTO(const struct inode *inode,
++		 const struct merkle_tree_params *params,
++		 u64 data_pos),
++	TP_ARGS(inode, params, data_pos),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, data_pos)
++		__field(unsigned int, merkle_block)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->data_pos = data_pos;
++		__entry->merkle_block = params->block_size;
++	),
++	TP_printk("ino %lu data_pos %llu merkle_block %u",
++		(unsigned long) __entry->ino,
++		__entry->data_pos,
++		__entry->merkle_block)
++);
++
++TRACE_EVENT(fsverity_merkle_hit,
++	TP_PROTO(const struct inode *inode, u64 data_pos,
++		 unsigned long hblock_idx, unsigned int level,
++		 unsigned int hidx),
++	TP_ARGS(inode, data_pos, hblock_idx, level, hidx),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(u64, data_pos)
++		__field(unsigned long, hblock_idx)
++		__field(unsigned int, level)
++		__field(unsigned int, hidx)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->data_pos = data_pos;
++		__entry->hblock_idx = hblock_idx;
++		__entry->level = level;
++		__entry->hidx = hidx;
++	),
++	TP_printk("ino %lu data_pos %llu hblock_idx %lu level %u hidx %u",
++		(unsigned long) __entry->ino,
++		__entry->data_pos,
++		__entry->hblock_idx,
++		__entry->level,
++		__entry->hidx)
++);
++
++TRACE_EVENT(fsverity_verify_merkle_block,
++	TP_PROTO(const struct inode *inode, unsigned long hblock_idx,
++		 unsigned int level, unsigned int hidx),
++	TP_ARGS(inode, hblock_idx, level, hidx),
++	TP_STRUCT__entry(
++		__field(ino_t, ino)
++		__field(unsigned long, hblock_idx)
++		__field(unsigned int, level)
++		__field(unsigned int, hidx)
++	),
++	TP_fast_assign(
++		__entry->ino = inode->i_ino;
++		__entry->hblock_idx = hblock_idx;
++		__entry->level = level;
++		__entry->hidx = hidx;
++	),
++	TP_printk("ino %lu hblock_idx %lu level %u hidx %u",
++		(unsigned long) __entry->ino,
++		__entry->hblock_idx,
++		__entry->level,
++		__entry->hidx)
++);
++
++#endif /* _TRACE_FSVERITY_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
 -- 
 2.52.0
 
