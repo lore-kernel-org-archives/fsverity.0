@@ -1,310 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FF033374A
-	for <fsverity@lists.linux.dev>; Mon, 26 Jan 2026 11:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE4C3358C6
+	for <fsverity@lists.linux.dev>; Mon, 26 Jan 2026 12:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769428642; cv=none; b=hglqOfTPwVUkf8LX1M1vp1S2HTsJmvAluCx4xoqhdRH8kS2Bu4tkIx9SB/meHTKcs+xgBW4TES+4fYwLElUAZg8ZivKG3CyN5aPMZ6UKNgcQM+Cwkp+liYcdv+ZHdyeQFhcmsRIquXsB9C115f1QY5HreWIV1TurbHTF3olnlFg=
+	t=1769430142; cv=none; b=us54tFANdt3KE2aAXEFYXss53C9vt6drjrpfkXsBqQukH83JikwbFCxgpaytGDUmCEZaSfjhnch9YPaAlEmn8OeTL1l9Ci+2c6RqUxK4XdBpXdtR1XkzzuOLO0RLI1gMOwqE8kakkJFwnGjSU8zRVywh3el5y9Bk1KkhbtmgM4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769428642; c=relaxed/simple;
-	bh=3stvHHhiXRJMcG2EegXWipNU1UMl5DfoOmPjUTElVJA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hpf42IFzWSdFjnTAghGfG/FgHVOB1Ukp/mrqdRnbfdncJ9VlwPRK41KsETLalfHPu1mrAnujChFeJArtUMd9PbK7S2vgJsfs5DDU/Gr88eimrmq1DYMUKqidLxvPQfJ2OMjJF3hzcuSRPYq3K8jWY2J/cWVv/4ptqjDl3xMZRi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VD2B0sGT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769430142; c=relaxed/simple;
+	bh=K6ujGXL4OGQe/iBZTLMHc0/mo66cug8bqp3SHVGf+3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pHw+o8aggfikNWdSGcXWj1oAAD0EcbT0ELHFp5t+tNjOoBIImrpU/gDyvBc5dbU0iMNKkU8GwVXrLATq/4rALMOvTeKgywarODFXpF9QqbQ1abwM6jVSDV2MEa9T6FJ7HtRKytb6L34+1C6RMm0ik/yds0NROaasiZOYm6FPaBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uzguEx/c; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Roe7cxTE; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0ayVdLJn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=17nEggQQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VD2B0sGT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69FEC19422;
-	Mon, 26 Jan 2026 11:57:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769428642;
-	bh=3stvHHhiXRJMcG2EegXWipNU1UMl5DfoOmPjUTElVJA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VD2B0sGThCTyYHS3ZRX04eArtfYKaUB7xiVfMJPiePHosrkPJNOB0ZCx+OE4FnSwl
-	 eAw2KKwyVuJ1eHV4fEg4qU3J4EDslRYUtfLnhvlZq35WZqpw1gXot20D3bKiiKHsdm
-	 rBlxlp8MPhZqcPPcytAv3w3B8mICh5FQ5DmyK0zP4L9ENJGNI/j9VWPrRSWXTDG1RQ
-	 zL5ZFCAgI3betlBHtjnor8DUuQXeZBrpUb9Qham7Sziw7/fazi1511drjyCT/moNNa
-	 ql0F0AJO69VGifawEn1d7SmB0f2gh10sDid/iLT4AsFRrXr97NQImoWmKn3uqajCOF
-	 qv+N4pqHbCFow==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: fsverity@lists.linux.dev,
-	ebiggers@kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [PATCH v3 2/2] fsverity: add tracepoints
-Date: Mon, 26 Jan 2026 12:56:58 +0100
-Message-ID: <20260126115658.27656-3-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260126115658.27656-1-aalbersh@kernel.org>
-References: <20260126115658.27656-1-aalbersh@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uzguEx/c";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Roe7cxTE";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0ayVdLJn";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="17nEggQQ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D973833707;
+	Mon, 26 Jan 2026 12:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769430138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XLK1XBcRKQJ5+EygseMZc3MfbkeMPZUxQu+WfGHZ1r8=;
+	b=uzguEx/c1NB9HIbf6dlkv9sq5b+MRYYlZMrc6AP0m5cAaQI6RvBrBsK7S/iDaqTXFYu5d0
+	vbaRjYTJrgdX82RdWCsGQrlj6a10D44TvCG1cUMTZpJfvKd5r2TOEsHNrnoeIev4ir1rPA
+	h7Xp0JNVwA4WymDmOF34lsYN4CK/Cj0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769430138;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XLK1XBcRKQJ5+EygseMZc3MfbkeMPZUxQu+WfGHZ1r8=;
+	b=Roe7cxTERHwk7aeETdABWWys3eYFhd4Ft5oBBxfbvx7moS9nNqi0LJYEEd/UmYGO2c8cse
+	0qd2bjtmt3X/pRBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=0ayVdLJn;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=17nEggQQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769430137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XLK1XBcRKQJ5+EygseMZc3MfbkeMPZUxQu+WfGHZ1r8=;
+	b=0ayVdLJncgowm9/fbhNwe1TbFR8oW3/TSoCb6pQWI0KwM8jG3XXJc93VTt3fLnx/20qZem
+	DPFpeiMHJhh6WrGon2VupMHD5P3pHNUachVe+4IQb1Uc1cuZ/V0GLhvAW3WZnAAkoMnSaw
+	7vrJJgjUt8iCR+KqJfpx1udih4HwMm0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769430137;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XLK1XBcRKQJ5+EygseMZc3MfbkeMPZUxQu+WfGHZ1r8=;
+	b=17nEggQQPUCQlB3yIcK+KJaN51xDVxWj4RFIrAnquVrU9XLSGGU9pLTQAJmLHp5KHnJomy
+	AdfcVMbHW2EdELBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C072B139F0;
+	Mon, 26 Jan 2026 12:22:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lwjzLnlcd2nSDAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 26 Jan 2026 12:22:17 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 75F78A0A4F; Mon, 26 Jan 2026 13:22:17 +0100 (CET)
+Date: Mon, 26 Jan 2026 13:22:17 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Eric Biggers <ebiggers@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>, 
+	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Andrey Albershteyn <aalbersh@redhat.com>, Matthew Wilcox <willy@infradead.org>, 
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
+Subject: Re: [PATCH 03/16] ext4: don't build the fsverity work handler for
+ !CONFIG_FS_VERITY
+Message-ID: <sxtvrsol43ygrpxdxxu6uecpfrtdzs2ryfvbxituivi5htg5ms@decdqt7bjgcx>
+References: <20260126045212.1381843-1-hch@lst.de>
+ <20260126045212.1381843-4-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260126045212.1381843-4-hch@lst.de>
+X-Spam-Score: -4.01
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SUBJECT_HAS_EXCLAIM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: D973833707
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-fs-verity previously had debug printk but it was removed. This patch
-adds trace points to similar places, as a better alternative.
+On Mon 26-01-26 05:50:49, Christoph Hellwig wrote:
+> Use IS_ENABLED to disable this code, leading to a slight size reduction:
+> 
+>    text	   data	    bss	    dec	    hex	filename
+>    4121	    376	     16	   4513	   11a1	fs/ext4/readpage.o.old
+>    4030	    328	     16	   4374	   1116	fs/ext4/readpage.o
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-[djwong: fix formatting]
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
----
- MAINTAINERS                     |   1 +
- fs/verity/enable.c              |   4 +
- fs/verity/fsverity_private.h    |   2 +
- fs/verity/init.c                |   1 +
- fs/verity/verify.c              |   9 ++
- include/trace/events/fsverity.h | 146 ++++++++++++++++++++++++++++++++
- 6 files changed, 163 insertions(+)
- create mode 100644 include/trace/events/fsverity.h
+Looks good. Feel free to add:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 12f49de7fe03..17607340dfab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10311,6 +10311,7 @@ T:	git https://git.kernel.org/pub/scm/fs/fsverity/linux.git
- F:	Documentation/filesystems/fsverity.rst
- F:	fs/verity/
- F:	include/linux/fsverity.h
-+F:	include/trace/events/fsverity.h
- F:	include/uapi/linux/fsverity.h
- 
- FT260 FTDI USB-HID TO I2C BRIDGE DRIVER
-diff --git a/fs/verity/enable.c b/fs/verity/enable.c
-index 95ec42b84797..8718d943b428 100644
---- a/fs/verity/enable.c
-+++ b/fs/verity/enable.c
-@@ -222,6 +222,8 @@ static int enable_verity(struct file *filp,
- 	if (err)
- 		goto out;
- 
-+	trace_fsverity_enable(inode, &params);
-+
- 	/*
- 	 * Start enabling verity on this file, serialized by the inode lock.
- 	 * Fail if verity is already enabled or is already being enabled.
-@@ -264,6 +266,8 @@ static int enable_verity(struct file *filp,
- 		goto rollback;
- 	}
- 
-+	trace_fsverity_tree_done(inode, vi, &params);
-+
- 	/*
- 	 * Tell the filesystem to finish enabling verity on the file.
- 	 * Serialized with ->begin_enable_verity() by the inode lock.
-diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-index dd20b138d452..4b7ae1748f4e 100644
---- a/fs/verity/fsverity_private.h
-+++ b/fs/verity/fsverity_private.h
-@@ -161,4 +161,6 @@ static inline void fsverity_init_signature(void)
- 
- void __init fsverity_init_workqueue(void);
- 
-+#include <trace/events/fsverity.h>
-+
- #endif /* _FSVERITY_PRIVATE_H */
-diff --git a/fs/verity/init.c b/fs/verity/init.c
-index 6e8d33b50240..d65206608583 100644
---- a/fs/verity/init.c
-+++ b/fs/verity/init.c
-@@ -5,6 +5,7 @@
-  * Copyright 2019 Google LLC
-  */
- 
-+#define CREATE_TRACE_POINTS
- #include "fsverity_private.h"
- 
- #include <linux/ratelimit.h>
-diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-index 86067c8b40cf..940b8b956d7e 100644
---- a/fs/verity/verify.c
-+++ b/fs/verity/verify.c
-@@ -135,6 +135,9 @@ static bool verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 		/* Byte offset of the wanted hash relative to @addr */
- 		unsigned int hoffset;
- 	} hblocks[FS_VERITY_MAX_LEVELS];
-+
-+	trace_fsverity_verify_data_block(inode, params, data_pos);
-+
- 	/*
- 	 * The index of the previous level's block within that level; also the
- 	 * index of that block's hash within the current level.
-@@ -214,6 +217,9 @@ static bool verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 			want_hash = _want_hash;
- 			kunmap_local(haddr);
- 			put_page(hpage);
-+			trace_fsverity_merkle_hit(inode, data_pos, hblock_idx,
-+					level,
-+					hoffset >> params->log_digestsize);
- 			goto descend;
- 		}
- 		hblocks[level].page = hpage;
-@@ -232,6 +238,9 @@ static bool verify_data_block(struct inode *inode, struct fsverity_info *vi,
- 		unsigned long hblock_idx = hblocks[level - 1].index;
- 		unsigned int hoffset = hblocks[level - 1].hoffset;
- 
-+		trace_fsverity_verify_merkle_block(inode, hblock_idx,
-+				level, hoffset >> params->log_digestsize);
-+
- 		fsverity_hash_block(params, haddr, real_hash);
- 		if (memcmp(want_hash, real_hash, hsize) != 0)
- 			goto corrupted;
-diff --git a/include/trace/events/fsverity.h b/include/trace/events/fsverity.h
-new file mode 100644
-index 000000000000..a8c52f21cbd5
---- /dev/null
-+++ b/include/trace/events/fsverity.h
-@@ -0,0 +1,146 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM fsverity
-+
-+#if !defined(_TRACE_FSVERITY_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_FSVERITY_H
-+
-+#include <linux/tracepoint.h>
-+
-+struct fsverity_descriptor;
-+struct merkle_tree_params;
-+struct fsverity_info;
-+
-+TRACE_EVENT(fsverity_enable,
-+	TP_PROTO(const struct inode *inode,
-+		 const struct merkle_tree_params *params),
-+	TP_ARGS(inode, params),
-+	TP_STRUCT__entry(
-+		__field(ino_t, ino)
-+		__field(u64, data_size)
-+		__field(u64, tree_size)
-+		__field(unsigned int, merkle_block)
-+		__field(unsigned int, num_levels)
-+	),
-+	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->data_size = i_size_read(inode);
-+		__entry->tree_size = params->tree_size;
-+		__entry->merkle_block = params->block_size;
-+		__entry->num_levels = params->num_levels;
-+	),
-+	TP_printk("ino %lu data_size %llu tree_size %llu merkle_block %u levels %u",
-+		(unsigned long) __entry->ino,
-+		__entry->data_size,
-+		__entry->tree_size,
-+		__entry->merkle_block,
-+		__entry->num_levels)
-+);
-+
-+TRACE_EVENT(fsverity_tree_done,
-+	TP_PROTO(const struct inode *inode, const struct fsverity_info *vi,
-+		 const struct merkle_tree_params *params),
-+	TP_ARGS(inode, vi, params),
-+	TP_STRUCT__entry(
-+		__field(ino_t, ino)
-+		__field(u64, data_size)
-+		__field(u64, tree_size)
-+		__field(unsigned int, merkle_block)
-+		__field(unsigned int, levels)
-+		__dynamic_array(u8, root_hash, params->digest_size)
-+		__dynamic_array(u8, file_digest, params->digest_size)
-+	),
-+	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->data_size = i_size_read(inode);
-+		__entry->tree_size = params->tree_size;
-+		__entry->merkle_block = params->block_size;
-+		__entry->levels = params->num_levels;
-+		memcpy(__get_dynamic_array(root_hash), vi->root_hash, __get_dynamic_array_len(root_hash));
-+		memcpy(__get_dynamic_array(file_digest), vi->file_digest, __get_dynamic_array_len(file_digest));
-+	),
-+	TP_printk("ino %lu data_size %llu tree_size %lld merkle_block %u levels %u root_hash %s digest %s",
-+		(unsigned long) __entry->ino,
-+		__entry->data_size,
-+		__entry->tree_size,
-+		__entry->merkle_block,
-+		__entry->levels,
-+		__print_hex_str(__get_dynamic_array(root_hash), __get_dynamic_array_len(root_hash)),
-+		__print_hex_str(__get_dynamic_array(file_digest), __get_dynamic_array_len(file_digest)))
-+);
-+
-+TRACE_EVENT(fsverity_verify_data_block,
-+	TP_PROTO(const struct inode *inode,
-+		 const struct merkle_tree_params *params,
-+		 u64 data_pos),
-+	TP_ARGS(inode, params, data_pos),
-+	TP_STRUCT__entry(
-+		__field(ino_t, ino)
-+		__field(u64, data_pos)
-+		__field(unsigned int, merkle_block)
-+	),
-+	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->data_pos = data_pos;
-+		__entry->merkle_block = params->block_size;
-+	),
-+	TP_printk("ino %lu data_pos %llu merkle_block %u",
-+		(unsigned long) __entry->ino,
-+		__entry->data_pos,
-+		__entry->merkle_block)
-+);
-+
-+TRACE_EVENT(fsverity_merkle_hit,
-+	TP_PROTO(const struct inode *inode, u64 data_pos,
-+		 unsigned long hblock_idx, unsigned int level,
-+		 unsigned int hidx),
-+	TP_ARGS(inode, data_pos, hblock_idx, level, hidx),
-+	TP_STRUCT__entry(
-+		__field(ino_t, ino)
-+		__field(u64, data_pos)
-+		__field(unsigned long, hblock_idx)
-+		__field(unsigned int, level)
-+		__field(unsigned int, hidx)
-+	),
-+	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->data_pos = data_pos;
-+		__entry->hblock_idx = hblock_idx;
-+		__entry->level = level;
-+		__entry->hidx = hidx;
-+	),
-+	TP_printk("ino %lu data_pos %llu hblock_idx %lu level %u hidx %u",
-+		(unsigned long) __entry->ino,
-+		__entry->data_pos,
-+		__entry->hblock_idx,
-+		__entry->level,
-+		__entry->hidx)
-+);
-+
-+TRACE_EVENT(fsverity_verify_merkle_block,
-+	TP_PROTO(const struct inode *inode, unsigned long hblock_idx,
-+		 unsigned int level, unsigned int hidx),
-+	TP_ARGS(inode, hblock_idx, level, hidx),
-+	TP_STRUCT__entry(
-+		__field(ino_t, ino)
-+		__field(unsigned long, hblock_idx)
-+		__field(unsigned int, level)
-+		__field(unsigned int, hidx)
-+	),
-+	TP_fast_assign(
-+		__entry->ino = inode->i_ino;
-+		__entry->hblock_idx = hblock_idx;
-+		__entry->level = level;
-+		__entry->hidx = hidx;
-+	),
-+	TP_printk("ino %lu hblock_idx %lu level %u hidx %u",
-+		(unsigned long) __entry->ino,
-+		__entry->hblock_idx,
-+		__entry->level,
-+		__entry->hidx)
-+);
-+
-+#endif /* _TRACE_FSVERITY_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/ext4/readpage.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/ext4/readpage.c b/fs/ext4/readpage.c
+> index e7f2350c725b..267594ef0b2c 100644
+> --- a/fs/ext4/readpage.c
+> +++ b/fs/ext4/readpage.c
+> @@ -130,7 +130,8 @@ static void bio_post_read_processing(struct bio_post_read_ctx *ctx)
+>  		ctx->cur_step++;
+>  		fallthrough;
+>  	case STEP_VERITY:
+> -		if (ctx->enabled_steps & (1 << STEP_VERITY)) {
+> +		if (IS_ENABLED(CONFIG_FS_VERITY) &&
+> +		    ctx->enabled_steps & (1 << STEP_VERITY)) {
+>  			INIT_WORK(&ctx->work, verity_work);
+>  			fsverity_enqueue_verify_work(&ctx->work);
+>  			return;
+> -- 
+> 2.47.3
+> 
 -- 
-2.52.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
