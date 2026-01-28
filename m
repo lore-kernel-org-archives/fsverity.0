@@ -1,25 +1,35 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D0A32ABCF
-	for <fsverity@lists.linux.dev>; Tue, 27 Jan 2026 06:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D821A2545;
+	Wed, 28 Jan 2026 00:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769495893; cv=none; b=K5cY2YHEGEHiUC7MB0GPE5EKNJtYov3L33eJBqEuzBMqYltlUH/+AY/IaPj5a519qhHLb2PqgAcdox+Z5AMmFKYT0SDh8QgRNW9VRHJs8ZfaQwVGjARjBDzkKH34Urg4qzl2iFOWFHL94Cg1vmbEmhg3aUZTRcmtlb8kZwHr8ZE=
+	t=1769561838; cv=none; b=tldbcezW5dN7VZbLu3k4XDYCeaPdGQKNRRCDSuu1LDXIOr/yDcLIohkvV9/RsFVBQ8q5hnfqLEdYbVqfCRpUjVeyuXj0Ed2ZyCojGBt+MHrDU4UNezC9hVhaqDzgnQ9V0Nl9Ku/ZpFJXZa9FtkEeKJWEkSaomxepa5UgPD+bsaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769495893; c=relaxed/simple;
-	bh=1K+WY31iV7ZEnZ/0mZlA3x87xJD0USzaynDP2iXbW+I=;
+	s=arc-20240116; t=1769561838; c=relaxed/simple;
+	bh=LsHCD/RWZwU2P+vYKyBFSjWLqYN/hWAmZsoM1SJuARs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DBsGuiO3mUY6KzLmMOkttG1/nWqz2utPlnavobD3AYXva4lk683BkZuS32PlAt6ymPXRwMSy+F7SSQOxFXs11aHZybqxFFU0uUwvprUs8k4JZiU/LVXExtVrz6cASg9NS0x+Qmj8cMSREPaKFKdDx0pxIgoDs517SWyeSoDlkow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5F0EC227AAE; Tue, 27 Jan 2026 07:38:09 +0100 (CET)
-Date: Tue, 27 Jan 2026 07:38:09 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Eric Biggers <ebiggers@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=AMKhA0XTBYuUlfrddzZyQu+86uYh/lCx8CNZKgEIZbC2+hVn3kz0ibJdzp0WCvC0yaao0wvhepHbDm3Kn0MwzsI5LNSFVrnP0RQK2yW+S+xamOa1X+S3KDQeeOhTVf9HBzWvnv/NFIyIVOCIAmr1trTz346ibrrSFBz1np4tXDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ijPQUzsn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ijPQUzsn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618B5C116C6;
+	Wed, 28 Jan 2026 00:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769561837;
+	bh=LsHCD/RWZwU2P+vYKyBFSjWLqYN/hWAmZsoM1SJuARs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ijPQUzsn57rThaZRqcmFhoVO73D+kTDrD8EsvPyEs9JHuvS7Loc9mswy1HITsW9+r
+	 laBs5lxnXVNbput2XlCspPMWdG04sLY78Wl2Rb3aYVFHKZ86mn5bG1PItmuqLbqVuI
+	 vrOPP0DYKt8czP9HxADzduOGgAKP/A8nUtOcyG+ovV0KrvizpBSYRl7M21A+fs+fgJ
+	 kQgwDXsySS8LuDGANV2a5ciWoiG7zGYZnlCIeuYNVPlYOG7mXa0Vrlo35p8NPddvFr
+	 LDHvtiFWYISEWtr+zpP3L+O/ccE78AYK4p7+KPnNU3lNmrwR6e3NihwPXNU1fZ5Ke5
+	 wgYY1xdq6MJtQ==
+Date: Tue, 27 Jan 2026 16:57:15 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>,
 	Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
 	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
@@ -30,8 +40,15 @@ Cc: Eric Biggers <ebiggers@kernel.org>, Christoph Hellwig <hch@lst.de>,
 	linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
 Subject: Re: [PATCH 07/16] fsverity: don't issue readahead for non-ENOENT
  errors from __filemap_get_folio
-Message-ID: <20260127063809.GB25894@lst.de>
-References: <20260126045212.1381843-1-hch@lst.de> <20260126045212.1381843-8-hch@lst.de> <20260126191102.GO5910@frogsfrogsfrogs> <20260126205301.GD30838@quark> <20260127060039.GA25321@lst.de> <20260127062055.GA90735@sol> <20260127062849.GX5966@frogsfrogsfrogs>
+Message-ID: <20260128005715.GB2127@quark>
+References: <20260126045212.1381843-1-hch@lst.de>
+ <20260126045212.1381843-8-hch@lst.de>
+ <20260126191102.GO5910@frogsfrogsfrogs>
+ <20260126205301.GD30838@quark>
+ <20260127060039.GA25321@lst.de>
+ <20260127062055.GA90735@sol>
+ <20260127062849.GX5966@frogsfrogsfrogs>
+ <20260127063809.GB25894@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -40,21 +57,15 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260127062849.GX5966@frogsfrogsfrogs>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260127063809.GB25894@lst.de>
 
-On Mon, Jan 26, 2026 at 10:28:49PM -0800, Darrick J. Wong wrote:
-> > Yes, it's really just a cast, and 'PTR_ERR(folio) == -ENOENT' actually
-> > still works when folio isn't necessarily an error pointer.  But normally
-> > it would be written as a pointer comparison as I suggested.
-> 
-> How does one know that a pointer is an error pointer?  Oughtn't there be
-> some kind of obvious marker, or is IS_ERR the only tool we've got?
+On Tue, Jan 27, 2026 at 07:38:09AM +0100, Christoph Hellwig wrote:
+> PTR_ERR(ptr) == -EFOO checks if ptr is an error pointer for the errno
+> value -EFOO.
 
-IS_ERR(ptr) is the interface to check is a pointer is an error pointer
-or not.
+To reiterate (again): when ptr may or may not be an error pointer, it
+should be written as ptr == ERR_PTR(-EFOO), as is normally done.
+Otherwise an error code is being extracted from something that doesn't
+have an error code, which is nonsense, even if it works by accident.
 
-PTR_ERR(ptr) == -EFOO checks if ptr is an error pointer for the errno
-value -EFOO.
-
-
+- Eric
