@@ -1,94 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBE77A13A;
-	Wed, 28 Jan 2026 03:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE5536BCCA;
+	Wed, 28 Jan 2026 15:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769572795; cv=none; b=u+prZtUow9XJkg8En0TV2xxI8CVRvdevvunDys9KtFlPOW6dxebjP5JBWQ/Cz7nOIwYweBU92aeAXFwWNnNSajvDL8A3xanwnd+NnzkPrwWBTJ3pSnhICuXSCVzLFRNF0ALFaMvVEX8TDaJkKmSVi5qR17z4XLw9Omfe9HTVsiA=
+	t=1769614007; cv=none; b=VSJ3MMCKVzpkVSkZCkGtUpJIogSI7+FMJupapWW7o6DL2rbTY4YyWNQrQyUb4oHU3Y2kVO5a9d7T4AymchI5j+p2YTNCjBLoo2Ay7OvNQjrJWV+9FzutfO+r4V5qDIHqKknYdGPj20MVl0ERBS0Q+C9iAOx4O1Y6311lLAYdfmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769572795; c=relaxed/simple;
-	bh=KN33KA8IhAJueLHNP+j8dBhI4ybmkf2zt2MgVF8LMVU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IxUfIF5uYnp7Q4wnAuSQmUTbIgQhr2y2eEP8SeShibqfF8FSL9KXwY7K0qsxp7+2l2mHfBDS8HZPo32OB5fsAqD3dGTW7rqRHIY2gdYAzsu1SVvGZAe9+6OM8W1LyGHKs7a4+NUwbaKzNo0aMu0pozQIjpLM2HutC8wb6vSWbWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7CsrT+r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769614007; c=relaxed/simple;
+	bh=Qv96bq1R4l+P0AlqlNQr3M3cd7C8DHbj97fp/5ZTzPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y/A7JQjOrMS2zeMan96SyKhoX3sPwQd8q5Y6XlzLCnb7SzrSsZfgtTD7pidnVqMLeX3rmlW8WIIxQSeEOnC5NRUsVm3Z0h6FUiucn8SvPxgSgEveR/ztyNFaxoViPvPRJPMEOFYA4qrv4KEePvstNko0yu59GvdJy6IXwVFuX90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pdSh+5NQ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7CsrT+r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BA30C4CEF1;
-	Wed, 28 Jan 2026 03:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769572794;
-	bh=KN33KA8IhAJueLHNP+j8dBhI4ybmkf2zt2MgVF8LMVU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u7CsrT+r2m6K7KYhX/d3UhuDJaMed3HVYTI7HZ7VPvZR1nrTY+f3mfoxbWZM6N7y2
-	 19ZURMQ3RY3J3YT4AOi6jnCP1zKx7oR9zX1RF94rFmwzBskxAh92OGcHNnMFVPxYje
-	 8QdLNncWQnVLxR300bucB4AkwyZi3ccNWj4ARaF60JNMbYqaKupTeqcE/zOlFLpnb+
-	 qFWRirO6WC75aVF1HmJChMyg44YqubHKFeW7Thq6CkDZxuHzWxM7ipbq6YYcUN7ls2
-	 5pKJJJllMiiJuIf3gG/y0JhxSYO0wYZX+PZR1LD+RhMVKJaU7RUTjbaP07AwODFJxu
-	 gLewy77vI9faA==
-Date: Tue, 27 Jan 2026 19:59:21 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pdSh+5NQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=V4gzpQ2cI1n1D9pDC+6TS0qJqy9O+aRgiUvOw1bVFC4=; b=pdSh+5NQiI2K3lcSaijooTJsfh
+	6qzoCa3ADP9YMFgR3h/B1s/BIcAC9VGll1ImR7tDl1tKZ2ceSJ03Tp+ms0wIZFioZLoP68kMsm1YW
+	p9qeWDjjsaIZgv4k5edvUcioQV3q9BGvlqub2/q/fKSQw/QSNRAPhizfs6rYTYrJ1qu8/kjlzsgdW
+	ZtJXRGD3iTYRAXt1yGYBAcpg0JhlaEGNZRdaWEoA1zFU/thPhKD1hDpTycRzOMQgKyRX+8n6c//Cw
+	JRMSmnSqB3JjtL89qPdrZw8R74BTCGGNdew1j0DtSrP1zgU72bMsSZto9/6zJcS0bUFGr+ISMGVN8
+	Whn5rFvA==;
+Received: from 2a02-8389-2341-5b80-d601-7564-c2e0-491c.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:d601:7564:c2e0:491c] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vl7RG-0000000GHDn-3mz7;
+	Wed, 28 Jan 2026 15:26:39 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Eric Biggers <ebiggers@kernel.org>
 Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	David Sterba <dsterba@suse.com>,
+	"Theodore Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>,
 	Andrey Albershteyn <aalbersh@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
-Subject: Re: [PATCH 16/16] fsverity: use a hashtable to find the fsverity_info
-Message-ID: <20260128035921.GE2718@sol>
-References: <20260126045212.1381843-1-hch@lst.de>
- <20260126045212.1381843-17-hch@lst.de>
- <20260128032817.GB2718@sol>
- <20260128033519.GB30830@lst.de>
- <20260128034405.GD2718@sol>
- <20260128034838.GB31178@lst.de>
+	Matthew Wilcox <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	fsverity@lists.linux.dev
+Subject: fsverity cleanups, speedup and memory usage optimization v4
+Date: Wed, 28 Jan 2026 16:26:12 +0100
+Message-ID: <20260128152630.627409-1-hch@lst.de>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128034838.GB31178@lst.de>
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Wed, Jan 28, 2026 at 04:48:38AM +0100, Christoph Hellwig wrote:
-> On Tue, Jan 27, 2026 at 07:44:05PM -0800, Eric Biggers wrote:
-> > On Wed, Jan 28, 2026 at 04:35:19AM +0100, Christoph Hellwig wrote:
-> > > > Is there a reason for this function in particular to be __always_inline?
-> > > > fsverity_get_info() is just inline.
-> > > 
-> > > Without the __always_inline some gcc versions on sparc fail to inline it,
-> > > and cause a link failure due to a reference to fsverity_readahead in
-> > > f2fs_mpage_readpages for non-verity builds.  (reported by the buildbot)
-> > 
-> > The relevant code is:
-> > 
-> >     vi = f2fs_need_verity(inode, folio->index);              
-> >     if (vi)                                                  
-> >             fsverity_readahead(vi, folio, nr_pages); 
-> > 
-> > Where:
-> > 
-> >     f2fs_need_verity()
-> >         => fsverity_get_info()
-> >             => fsverity_active()
-> > 
-> > If fsverity_active() needs __always_inline, why don't the other two
-> > functions in the call chain need it?
-> 
-> I wish I knew.  compiler inlining decisions are a big of black magic.
-> If you prefer I can use __always_inline for the entire chain.
+Hi all,
 
-Relying on the compiler to always correctly perform three levels of
-inlining and dead code elimination isn't going to be all that reliable,
-as it seems you've already seen.  Using __always_inline for all levels
-might be good enough, though it's possible the call chain will need to
-be simplified by (re)introducing CONFIG_FS_VERITY=n stubs as well.
-Notably, fsverity_get_info() currently has a CONFIG_FS_VERITY=n stub
-that just consists of 'return NULL;', but this patch removes it.
+this series has a hodge podge of fsverity enhances that I looked into as
+part of the review of the xfs fsverity support series.
 
-- Eric
+The first part calls fsverity code from VFS code instead of requiring
+boilerplate in the file systems.
+
+The first patch fixes a bug in btrfs as part of that, as btrfs was missing
+a check.  An xfstests test case for this was submitted already.
+Can we expedite this fix?
+
+The middle part optimizes the fsverity read path by kicking off readahead
+for the fsverity hashes from the data read submission context, which in my
+simply testing showed huge benefits for sequential reads using dd.
+I haven't been able to get fio to run on a preallocated fio file, but
+I expect random read benefits would be significantly better than that
+still.
+
+The last part avoids the need for a pointer in every inode for fsverity
+and instead uses a rhashtable lookup, which is done once per read_folio
+or ->readahead invocation plus for btrfs only for each bio completion.
+Right now this does not increse the number of inodes in
+each slab, but for ext4 we are getting very close to that (within
+16 bytes by my count).
+
+Changes since v4:
+ - drop the constification of ctx->vi again
+ - fix __filemap_get_folio error handling again
+ - don't use "pgoff_t long"
+ - improve documentation of the new pagecache helpers
+ - reduce the number of fsverity_info lookups in btrfs
+ - improve the documentation for fsverity_active
+
+Changes since v2:
+ - use sizeof_field for .key_len
+ - fix a rebase error that caused an extra fsverity_get_info in
+   fsverity_init_verification_context
+ - add verify.o to the build in the correct patch
+ - fix handling of non-ENOENT ERR_PTR folios in
+   generic_readahead_merkle_tree
+ - split fixing the __filemap_get_folio error handling into a
+   separate patch
+ - fix the readahead range in fsverity_read_merkle_tree
+ - remove __fsverity_readahead as a result of the above
+ - simplify the start/end_hidx calculation in fsverity_readahead
+ - drop the > i_size check in fsverity_readahead
+ - use pgoff_t where applicable
+ - constify fsverity_info pointers in the verification path
+ - use IS_ENABLED to disable code not used for non-fsverity builds in
+   ext4 and f2fs
+ - allow bisection for non-fsverity builds by provinding a stub
+   fsverity_info_addr prototype
+ - drop the now superflous inode argument to
+   fsverity_init_verification_context
+ - improve the kerneldoc for fsverity_readahead
+ - improve various commit messages
+ - fix the barrier placement in fsverity_active
+ - mark fsverity_active to work around stupid compilers
+
+Changes since v1:
+ - reorder to keep the most controversial part last
+ - drop moving the open handling to common code (for now)
+ - factor the page cache read code into common code
+ - reduce the number of hash lookups
+ - add a barrier in the fsverity_active that pairs with the cmpxchg
+   that sets the inode flag.
+
+Diffstat:
+ fs/attr.c                    |   12 ++
+ fs/btrfs/btrfs_inode.h       |    4 
+ fs/btrfs/extent_io.c         |   53 +++++++-----
+ fs/btrfs/inode.c             |   13 --
+ fs/btrfs/verity.c            |   11 --
+ fs/buffer.c                  |   25 ++---
+ fs/ext4/ext4.h               |    4 
+ fs/ext4/inode.c              |    4 
+ fs/ext4/readpage.c           |   34 ++++---
+ fs/ext4/super.c              |    4 
+ fs/ext4/verity.c             |   34 ++-----
+ fs/f2fs/compress.c           |    7 -
+ fs/f2fs/data.c               |   72 ++++++++++------
+ fs/f2fs/f2fs.h               |   12 --
+ fs/f2fs/file.c               |    4 
+ fs/f2fs/inode.c              |    1 
+ fs/f2fs/super.c              |    3 
+ fs/f2fs/verity.c             |   34 ++-----
+ fs/inode.c                   |    9 ++
+ fs/verity/Makefile           |    1 
+ fs/verity/enable.c           |   39 +++++---
+ fs/verity/fsverity_private.h |   21 ++--
+ fs/verity/open.c             |   82 ++++++++++--------
+ fs/verity/pagecache.c        |   56 ++++++++++++
+ fs/verity/read_metadata.c    |   17 ++-
+ fs/verity/verify.c           |   94 +++++++++++++--------
+ include/linux/fsverity.h     |  188 ++++++++++++++++---------------------------
+ 27 files changed, 451 insertions(+), 387 deletions(-)
