@@ -1,136 +1,160 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B05B2BD022;
-	Mon,  2 Feb 2026 21:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5851635E548;
+	Mon,  2 Feb 2026 22:34:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770068591; cv=none; b=EvCITRFaK/bRMvLOOx4LXYRJzyOf3TqMWnSsuyNKNBA57qY+jc5K8AXDzXxEg/FKETMRffo5KRRFeweDQPxooTOvwZiNwAPRMliDSuKpI1WgXa3Y44+05yEslMFWdmi/+F8BMpww8z2arrRIPWg6f5GdOv6XilNKswOAZxv+Dsw=
+	t=1770071648; cv=none; b=K2zb7T6v8hG2y+iiaHq98ZpmZehaQuGu/2RSw8vdkayzruqht8u/Mlplt11UuNWlA0ijnul0x90mon8BcfGPWNW6FIOh7I0IWCw72XSadyjmuE8LRULLQBmYw1KAT/cY0b0ZP/4pBz2c/mSIoh8ITHzEhtokdS8RocX+XPPJec8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770068591; c=relaxed/simple;
-	bh=7YJAivDabmVCaffYZ+xp/KQQPYrFGABB229oqayuGzs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kcrANN3xgQg97k7rrC4N/Q7oL72qdba6tB5fb91VSl02VRxqarcRaE8ZDw5f+wtTjEcM4b+oL2d4QZ1XXdaqgz51ghwjR1pUVyR175endAN5ZFQBfVkZzhO3TL+eJI3rRT6H6Cu36RYcub8j1nGaOBysAL//zRBzr/9QcnP2vTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tqCRjkv8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770071648; c=relaxed/simple;
+	bh=2BLw8V36q4ZcoZntEthTMAW+cHIrT5ib6z9TbOGuvgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMTelsopuhibCaM/2n+m1yyFSppWe7FrwmiU9SMxIX3zv9P44C3EUM612DlEtWNIYmA7beavNqECRl+b0GmYsXagFCDhg4/9xQwlnWosPa8es2TX5n1BUZsbY3UEQU9PFJLC8tpOhyErsZwd6Q6c6Lz46uecuAveOdW/A0kMAtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ss2zz3/z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tqCRjkv8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A99C116C6;
-	Mon,  2 Feb 2026 21:43:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ss2zz3/z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2840C116C6;
+	Mon,  2 Feb 2026 22:34:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770068590;
-	bh=7YJAivDabmVCaffYZ+xp/KQQPYrFGABB229oqayuGzs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tqCRjkv8yvKMlMj/zFrGc4tJrGt/LlZHd1KpVxl9qf0gm0jtb5V0yKAAd4EwiLELQ
-	 7hckBhslU2rxHyGsvtliGEvOLVj3CQrV8Pk0EWu6YGBiD3VFOLPodvuTmCQhJh7l2+
-	 EMy0TaFF/DQeY+ZVfOxUb18vQ2OoZKO3aGLw+BwmWBKqgoprnJ5SBMAuzx0wUQPoFm
-	 tFJLTFloR0gTAwE1xG0gA6c5AiBly/TVLkum9PDHnaoai9p8BH29dNc0BMFtEuJoig
-	 SukvtshFrTMo3YEgoMjUV6/Le2Y2wHpeQYyfDIniuaj3CoTspm3z9qx/ObnqSlOPts
-	 NxZqDIdaNPFkg==
+	s=k20201202; t=1770071647;
+	bh=2BLw8V36q4ZcoZntEthTMAW+cHIrT5ib6z9TbOGuvgM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ss2zz3/zaUboc6X/2TuV+KFtnflhkrpnIr6d8/rxpr8ixW69zHo15BSkfX7C+GrrG
+	 3dxxe8R18qUeUaWY6nisKn2wmrZy9dl4o1heG4kk/K8kzQwV31QMPww5ZQis+db3y1
+	 sUNB3MzBBKSAX/TifSu+FMYAccP/HfGZvUCLqmtopz3b9AU+rS3GnhInsnw4q7GRNU
+	 0qwPxcnVei484r2+HKkAN3+ed4bSRmzSErbAbjvNW8U/46uXtDcaJiilALdBmk+n+Z
+	 EqNcbKlhmyF7FQNNK+sDUH/6bc91lQLmusrhVPXRnKkh41P6MBg+RtcfyL5f5q7jeX
+	 20vZJrM+KKiLg==
+Date: Mon, 2 Feb 2026 14:34:04 -0800
 From: Eric Biggers <ebiggers@kernel.org>
-To: fsverity@lists.linux.dev
-Cc: linux-fsdevel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH] fsverity: add missing fsverity_free_info()
-Date: Mon,  2 Feb 2026 13:43:06 -0800
-Message-ID: <20260202214306.153492-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.52.0
+To: Christoph Hellwig <hch@lst.de>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
+Subject: Re: fsverity speedup and memory usage optimization v5
+Message-ID: <20260202223404.GA173552@quark>
+References: <20260202060754.270269-1-hch@lst.de>
+ <20260202211423.GB4838@quark>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202211423.GB4838@quark>
 
-If fsverity_set_info() fails, we need to call fsverity_free_info().
+On Mon, Feb 02, 2026 at 01:14:23PM -0800, Eric Biggers wrote:
+> On Mon, Feb 02, 2026 at 07:06:29AM +0100, Christoph Hellwig wrote:
+> > Hi all,
+> > 
+> > this series has a hodge podge of fsverity enhances that I looked into as
+> > part of the review of the xfs fsverity support series.
+> > 
+> > The first part optimizes the fsverity read path by kicking off readahead
+> > for the fsverity hashes from the data read submission context, which in my
+> > simply testing showed huge benefits for sequential reads using dd.
+> > I haven't been able to get fio to run on a preallocated fio file, but
+> > I expect random read benefits would be significantly better than that
+> > still.
+> > 
+> > The second part avoids the need for a pointer in every inode for fsverity
+> > and instead uses a rhashtable lookup, which is done once per read_folio
+> > or ->readahead invocation plus for btrfs only for each bio completion.
+> > Right now this does not increse the number of inodes in
+> > each slab, but for ext4 we are getting very close to that (within
+> > 16 bytes by my count).
+> > 
+> > Changes since v5:
+> >  - drop already merged patches
+> >  - fix a bisection hazard for non-ENOENT error returns from
+> >    generic_read_merkle_tree_page
+> >  - don't recurse on invalidate_lock
+> >  - refactor page_cache_ra_unbounded locking to support the above
+> >  - refactor ext4 and f2fs fsverity readahead to remove the need for the
+> >    first_folio branch in the main readpages loop
+> 
+> Applied to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
+> 
+> (Though it's getting late for v6.20 / v7.0.  So if there are any
+> additional issues reported, I may have to drop it.)
 
-Fixes: ada3a1a48d5a ("fsverity: use a hashtable to find the fsverity_info")
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- fs/verity/enable.c           |  4 +++-
- fs/verity/fsverity_private.h |  1 +
- fs/verity/open.c             | 14 +++++++-------
- 3 files changed, 11 insertions(+), 8 deletions(-)
+Unfortunately this silently conflicts with changes in the f2fs tree.
+Resolution doesn't look too bad, but we'll need to handle this.
+Christoph, Jaegeuk, and Chao, let me know if this looks okay:
 
-diff --git a/fs/verity/enable.c b/fs/verity/enable.c
-index 94c88c419054c..c9448074cce17 100644
---- a/fs/verity/enable.c
-+++ b/fs/verity/enable.c
-@@ -272,12 +272,14 @@ static int enable_verity(struct file *filp,
- 	 * the fsverity_info always first checks the S_VERITY flag on the inode,
- 	 * which will only be set at the very end of the ->end_enable_verity
- 	 * method.
- 	 */
- 	err = fsverity_set_info(vi);
--	if (err)
-+	if (err) {
-+		fsverity_free_info(vi);
- 		goto rollback;
-+	}
- 
- 	/*
- 	 * Tell the filesystem to finish enabling verity on the file.
- 	 * Serialized with ->begin_enable_verity() by the inode lock.  The file
- 	 * system needs to set the S_VERITY flag on the inode at the very end of
-diff --git a/fs/verity/fsverity_private.h b/fs/verity/fsverity_private.h
-index 4d4a0a560562b..2887cb849ceca 100644
---- a/fs/verity/fsverity_private.h
-+++ b/fs/verity/fsverity_private.h
-@@ -128,10 +128,11 @@ int fsverity_init_merkle_tree_params(struct merkle_tree_params *params,
- 
- struct fsverity_info *fsverity_create_info(struct inode *inode,
- 					   struct fsverity_descriptor *desc);
- 
- int fsverity_set_info(struct fsverity_info *vi);
-+void fsverity_free_info(struct fsverity_info *vi);
- void fsverity_remove_info(struct fsverity_info *vi);
- 
- int fsverity_get_descriptor(struct inode *inode,
- 			    struct fsverity_descriptor **desc_ret);
- 
-diff --git a/fs/verity/open.c b/fs/verity/open.c
-index 04b2e05a95d73..dfa0d1afe0feb 100644
---- a/fs/verity/open.c
-+++ b/fs/verity/open.c
-@@ -176,17 +176,10 @@ static void compute_file_digest(const struct fsverity_hash_alg *hash_alg,
- 	desc->sig_size = 0;
- 	fsverity_hash_buffer(hash_alg, desc, sizeof(*desc), file_digest);
- 	desc->sig_size = sig_size;
+diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+index d9085d1236d97..081c441c59e71 100644
+--- a/fs/f2fs/data.c
++++ b/fs/f2fs/data.c
+@@ -2449,11 +2449,13 @@ static void ffs_detach_free(struct folio *folio)
+ 	WARN_ON_ONCE(ffs->read_pages_pending != 0);
+ 	kmem_cache_free(ffs_entry_slab, ffs);
  }
  
--static void fsverity_free_info(struct fsverity_info *vi)
--{
--	kfree(vi->tree_params.hashstate);
--	kvfree(vi->hash_block_verified);
--	kmem_cache_free(fsverity_info_cachep, vi);
--}
--
- /*
-  * Create a new fsverity_info from the given fsverity_descriptor (with optional
-  * appended builtin signature), and check the signature if present.  The
-  * fsverity_descriptor must have already undergone basic validation.
-  */
-@@ -394,10 +387,17 @@ int __fsverity_file_open(struct inode *inode, struct file *filp)
- 		return -EPERM;
- 	return ensure_verity_info(inode);
- }
- EXPORT_SYMBOL_GPL(__fsverity_file_open);
- 
-+void fsverity_free_info(struct fsverity_info *vi)
-+{
-+	kfree(vi->tree_params.hashstate);
-+	kvfree(vi->hash_block_verified);
-+	kmem_cache_free(fsverity_info_cachep, vi);
-+}
-+
- void fsverity_remove_info(struct fsverity_info *vi)
+ static int f2fs_read_data_large_folio(struct inode *inode,
+-		struct readahead_control *rac, struct folio *folio)
++				      struct fsverity_info *vi,
++				      struct readahead_control *rac,
++				      struct folio *folio)
  {
- 	rhashtable_remove_fast(&fsverity_info_hash, &vi->rhash_head,
- 			       fsverity_info_hash_params);
- 	fsverity_free_info(vi);
-
-base-commit: 8866b64d3d59f5c9ac5c1c1e3acc6ebeb730f1c2
--- 
-2.52.0
-
+ 	struct bio *bio = NULL;
+ 	sector_t last_block_in_bio = 0;
+ 	struct f2fs_map_blocks map = {0, };
+ 	pgoff_t index, offset, next_pgofs = 0;
+@@ -2519,13 +2521,12 @@ static int f2fs_read_data_large_folio(struct inode *inode,
+ 				ret = -EFSCORRUPTED;
+ 				goto err_out;
+ 			}
+ 		} else {
+ 			folio_zero_range(folio, offset << PAGE_SHIFT, PAGE_SIZE);
+-			if (f2fs_need_verity(inode, index) &&
+-			    !fsverity_verify_page(folio_file_page(folio,
+-								index))) {
++			if (vi && !fsverity_verify_page(
++					  vi, folio_file_page(folio, index))) {
+ 				ret = -EIO;
+ 				goto err_out;
+ 			}
+ 			continue;
+ 		}
+@@ -2552,14 +2553,14 @@ static int f2fs_read_data_large_folio(struct inode *inode,
+ submit_and_realloc:
+ 			f2fs_submit_read_bio(F2FS_I_SB(inode), bio, DATA);
+ 			bio = NULL;
+ 		}
+ 		if (bio == NULL)
+-			bio = f2fs_grab_read_bio(inode, block_nr,
+-					max_nr_pages,
+-					f2fs_ra_op_flags(rac),
+-					index, false);
++			bio = f2fs_grab_read_bio(inode, vi, block_nr,
++						 max_nr_pages,
++						 f2fs_ra_op_flags(rac), index,
++						 false);
+ 
+ 		/*
+ 		 * If the page is under writeback, we need to wait for
+ 		 * its completion to see the correct decrypted data.
+ 		 */
+@@ -2627,11 +2628,11 @@ static int f2fs_mpage_readpages(struct inode *inode, struct fsverity_info *vi,
+ 	struct address_space *mapping = rac ? rac->mapping : folio->mapping;
+ 	unsigned max_nr_pages = nr_pages;
+ 	int ret = 0;
+ 
+ 	if (mapping_large_folio_support(mapping))
+-		return f2fs_read_data_large_folio(inode, rac, folio);
++		return f2fs_read_data_large_folio(inode, vi, rac, folio);
+ 
+ #ifdef CONFIG_F2FS_FS_COMPRESSION
+ 	if (f2fs_compressed_file(inode)) {
+ 		index = rac ? readahead_index(rac) : folio->index;
+ 		max_nr_pages = round_up(index + nr_pages, cc.cluster_size) -
