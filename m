@@ -1,85 +1,93 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55456271464
-	for <fsverity@lists.linux.dev>; Tue,  3 Feb 2026 05:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EF43A1E60;
+	Tue,  3 Feb 2026 14:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770096969; cv=none; b=eKaBiB7s/RnMvf43ALvyxxtdmKUMIrRmOPDFczWo2UaLuEm0cyrP4HCaVBpcp+9Xh7Kh8lDTv2WDxyTiSNgNMCt76iqitAP/6Kj1yoPqk0eFzJyMlWz3MAjbyc8KYRKmFtDo8PJTUxXfQMZMvulf2dfBlIxjuT2qojZ7IBNNXoo=
+	t=1770128204; cv=none; b=eOiLR6s4GExux259pVSA+siOBUCiG1op0tUKl1KwH2yXW3gHIFz49MtrvF7s3B8c2LkHJgBYoR+xyU9o6z7TewGwUy6r0bOx1wa+xrIUrPDD811b/DePDQChbFgLm8C4wV1ObrwsOEKKFY0DFJetZJ0iJnRf1x05EfiE5zVb9yI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770096969; c=relaxed/simple;
-	bh=cC/qk4dm1B5K6YpfaVGKmBECm1eO3/9Kot5iyWUeUr4=;
+	s=arc-20240116; t=1770128204; c=relaxed/simple;
+	bh=FwDWH4+EWaS0ssfiC4uUSaW04MIsJXeVJZBqZsvQhJI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T1ZfiNmxbLEjn1NbHbegeOq0KfSum/vXFlXDtyeLyflDsUZH/3S745kdKfMtxjSxnZl56PhvYBbIGyx6ujwNsvPAHX68GLA3g3e8UTlfmZSFZOtWYgXolpxOVQOgk+kQrnwlg4C1Qp/tLLgTZlRawEhnpLE1XfevqvJbhef67yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E866E68AFE; Tue,  3 Feb 2026 06:36:04 +0100 (CET)
-Date: Tue, 3 Feb 2026 06:36:04 +0100
-From: Christoph Hellwig <hch@lst.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LVkYTlzLTCD7EXMWKLeeoKSCCdkVRLe0IgQ/8vJ41YWmyqo9fa6Y2fqjuEqcnUy9bNkCyngfz2lh1i+Qg3zZ6rSr1udyG4p3ler7W32pqVBGv4cxkNxg2+KKpYvoG7lNIM/mW5pK8zxdf1lK2M4QiJC2dxd9xrEip7/kAC/mjIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k5XDxMzW; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k5XDxMzW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8FD7C116D0;
+	Tue,  3 Feb 2026 14:16:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770128204;
+	bh=FwDWH4+EWaS0ssfiC4uUSaW04MIsJXeVJZBqZsvQhJI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k5XDxMzW19gfBFjDD4mYolpdGibizAunKFiLgHazT4N5NMIHkLANNWRc+VCb4DcMX
+	 d538lkFa+RLOKN8NsOGTBSig1zGGzORgHmi054Y/IOW4mcgJq2pXnhxHYKi5PoZOMA
+	 LgINPinxv5DC3HpeiAJl1d96MY/lQB0PeL3Xc0G8ijA1tLacQczbe4qEhmq8wYjwlu
+	 d4x/mcWBpkesKeFs/+V9tkNedCRfj1lBBlN1OVxgbzMnIRDoevp+42BurpfzFBH/RN
+	 seUiW8zWD2ImlDTJxq6WK+oql30nzMllYbqI3PHq9A+x2IRNS9+jY6EaSZUcaqYVx1
+	 tyE08W8VSZy5A==
+Date: Tue, 3 Feb 2026 15:16:40 +0100
+From: Christian Brauner <brauner@kernel.org>
 To: Eric Biggers <ebiggers@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, fsverity@lists.linux.dev
-Subject: Re: fsverity speedup and memory usage optimization v5
-Message-ID: <20260203053604.GC15956@lst.de>
-References: <20260202060754.270269-1-hch@lst.de> <20260202211423.GB4838@quark> <20260202223404.GA173552@quark>
+Cc: fsverity@lists.linux.dev, Andrey Albershteyn <aalbersh@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, "Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v3 0/2] Add traces and file attributes for fs-verity
+Message-ID: <20260203-wasser-universal-5cc36f5a273e@brauner>
+References: <20260126115658.27656-1-aalbersh@kernel.org>
+ <20260129-beieinander-klein-bcbb23eb6c7b@brauner>
+ <20260129174015.GA2240@sol>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260202223404.GA173552@quark>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260129174015.GA2240@sol>
 
-On Mon, Feb 02, 2026 at 02:34:04PM -0800, Eric Biggers wrote:
-> On Mon, Feb 02, 2026 at 01:14:23PM -0800, Eric Biggers wrote:
-> > On Mon, Feb 02, 2026 at 07:06:29AM +0100, Christoph Hellwig wrote:
-> > > Hi all,
+On Thu, Jan 29, 2026 at 09:40:15AM -0800, Eric Biggers wrote:
+> On Thu, Jan 29, 2026 at 04:01:29PM +0100, Christian Brauner wrote:
+> > On Mon, 26 Jan 2026 12:56:56 +0100, Andrey Albershteyn wrote:
+> > > This two small patches grew from fs-verity XFS patchset. I think they're
+> > > self-contained improvements which could go without XFS implementation.
 > > > 
-> > > this series has a hodge podge of fsverity enhances that I looked into as
-> > > part of the review of the xfs fsverity support series.
+> > > Cc: linux-fsdevel@vger.kernel.org
+> > > Cc: "Darrick J. Wong" <djwong@kernel.org>
 > > > 
-> > > The first part optimizes the fsverity read path by kicking off readahead
-> > > for the fsverity hashes from the data read submission context, which in my
-> > > simply testing showed huge benefits for sequential reads using dd.
-> > > I haven't been able to get fio to run on a preallocated fio file, but
-> > > I expect random read benefits would be significantly better than that
-> > > still.
+> > > v3:
+> > > - Make tracepoints arguments more consistent
+> > > - Make tracepoint messages more consistent
+> > > v2:
+> > > - Update kernel version in the docs to v7.0
+> > > - Move trace point before merkle tree block hash check
+> > > - Update commit message in patch 2
+> > > - Add VERITY to FS_COMMON_FL and FS_XFLAG_COMMON constants
+> > > - Fix block index argument in the tree block hash trace point
 > > > 
-> > > The second part avoids the need for a pointer in every inode for fsverity
-> > > and instead uses a rhashtable lookup, which is done once per read_folio
-> > > or ->readahead invocation plus for btrfs only for each bio completion.
-> > > Right now this does not increse the number of inodes in
-> > > each slab, but for ext4 we are getting very close to that (within
-> > > 16 bytes by my count).
-> > > 
-> > > Changes since v5:
-> > >  - drop already merged patches
-> > >  - fix a bisection hazard for non-ENOENT error returns from
-> > >    generic_read_merkle_tree_page
-> > >  - don't recurse on invalidate_lock
-> > >  - refactor page_cache_ra_unbounded locking to support the above
-> > >  - refactor ext4 and f2fs fsverity readahead to remove the need for the
-> > >    first_folio branch in the main readpages loop
+> > > [...]
 > > 
-> > Applied to https://git.kernel.org/pub/scm/fs/fsverity/linux.git/log/?h=for-next
+> > Applied to the vfs-7.0.misc branch of the vfs/vfs.git tree.
+> > Patches in the vfs-7.0.misc branch should appear in linux-next soon.
 > > 
-> > (Though it's getting late for v6.20 / v7.0.  So if there are any
-> > additional issues reported, I may have to drop it.)
+> > Please report any outstanding bugs that were missed during review in a
+> > new review to the original patch series allowing us to drop it.
+> > 
+> > It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> > patch has now been applied. If possible patch trailers will be updated.
+> > 
+> > Note that commit hashes shown below are subject to change due to rebase,
+> > trailer updates or similar. If in doubt, please check the listed branch.
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> > branch: vfs-7.0.misc
+> > 
+> > [1/2] fs: add FS_XFLAG_VERITY for fs-verity files
+> >       https://git.kernel.org/vfs/vfs/c/0e6b7eae1fde
+> > [2/2] fsverity: add tracepoints
+> >       https://git.kernel.org/vfs/vfs/c/fa19d42cc791
 > 
-> Unfortunately this silently conflicts with changes in the f2fs tree.
-> Resolution doesn't look too bad, but we'll need to handle this.
-> Christoph, Jaegeuk, and Chao, let me know if this looks okay:
+> I guess this means you want me to drop them.  So, dropped now.
 
-I ended up with the same merge, and it looks good to me.
-
+Hm, sorry if I missed to reply to another mail on list. That wasn't
+intentional.
