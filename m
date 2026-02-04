@@ -1,37 +1,34 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6F23D413D;
-	Wed,  4 Feb 2026 14:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA002DF707;
+	Wed,  4 Feb 2026 19:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770216865; cv=none; b=h2JROxLbn1arHzLTEnxhlRoDbDxoryWG2D5r7qHet44/9pWvFMnSorHp6BxdhITx0jra9ljAkCOQv3lRCu7CjMC1/Z1EN+wypXFZWA0+NPAxRqMw/8rGnnD4wKxOljXyKdJWlvsF4kkzHYT6ej+JB7prJrOPcWx3hEFYqx+d218=
+	t=1770231775; cv=none; b=B3ubt/4F9GUsosQg20yEuhcYNymC7q0HU6nHqWos6QYMrgzZYpPGbUVI4uVKBExxx1Tz16TMRFiDeStIk58zuxKupTKWiGX+Hbdm7Q0d3wrv407PdgtDBlm/DugJK7yCIeSkOKYTneKUFPlanFBMtR+nTvgZb+U2MVRQmATb3Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770216865; c=relaxed/simple;
-	bh=bQJBM1CzMKaGOt+OTMHIALAKEUrXTLnZcnSE9Mi8+BE=;
+	s=arc-20240116; t=1770231775; c=relaxed/simple;
+	bh=fvuVHItsYXpPWArU/0i6pDSN5I363ZzcoNvZNPppv2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dl8vfzYQCDXdPhxfO7aIHCPrmU0CFJ9kKQk3Nal/VJsXWv9YRERO9WCe/bXFUTWzyu8PFygvmpMqo5JuLqnU/HSc2m5bgJgRBNpH7AB85OxZ5elq4sJldK7eusmOCKuFwWcrOctGFxBv7VZSfLWb9/Yv7nLrWc8m5EzFpypl9JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=oxZnN3K5; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=s05oJA4DObHl4Sn9fBGfw2usZ2RtuT4r5ZHVIODr6GpEDqmFLYhppPpNOcs0cI+oqfc5rsxgZMuLjpqM/aU86vuLkbRvp8bfDABTn2dSC0E5PYmsv/qGIEmNxh2wvmn2xRo8v7Cz59f+ZFSv6xUUAFC5a8mtD2taru2Hfw+8ilA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iofq7J9Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oxZnN3K5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=NSFwipYtJGppFo1niPpuRr+jtuErqeP9kDtjaWPeRb4=; b=oxZnN3K5faDjoL5v5OXKHO0/5B
-	ALVraMASeOdO1r04MRFOfO4rurUs6RmI865xOx4yso0ar7+P20MsCkTabs1ya5R7FJMXs0ce/Ez/q
-	rbw7GcQz34Rv1Uu4uCXSYS/vjKmtDX7MWB90vI8Y6XrnLPQCQXb9VQLbaHpe2XJ1FOsYrzz4EAtTD
-	0pejcPBsHfrRajM4IfKrqCUr02C6nMxD982pRJhIo8toILLn2rYjgRPmHchK/LCdN/5qjKs6HNCj7
-	f/o5jziZ7q20pft0KQB2Xb21eynAKosZ7IXbGzJcIEHSVLJzQUdCffAiCsqVd3oLW659nU25c/4ST
-	czQtWaFQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vneGo-00000002DxS-1MWR;
-	Wed, 04 Feb 2026 14:54:18 +0000
-Date: Wed, 4 Feb 2026 14:54:18 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Eric Biggers <ebiggers@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iofq7J9Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CF1DC4CEF7;
+	Wed,  4 Feb 2026 19:02:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770231775;
+	bh=fvuVHItsYXpPWArU/0i6pDSN5I363ZzcoNvZNPppv2A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iofq7J9ZB5Q1dLAB7Qy2uln0MXvVcL8qlvWkKB9VOYrtveQA4p5R4JTmTGe9Gx4mC
+	 Ly679d9E5LOL2n1FGUeWmohBZgFgVIkdBvw+55f1to50oLS5fY9G4zPv+d8uBnGhzo
+	 LmRcgveKUt7s6aE5+Pbkm904SsxtQlB04KUAu9gbIY+U0c0q7pTnP7rUIE6DY7CvT7
+	 AWNUxuB028+w9gFncQbilhM43+W4aUnf0kqw0ju5I8u+DZUqUGksc3l8vdRI8X2u9n
+	 YEUuj8GIaw8EwBwmU7aB8JU/OP0avF4KzqkYdpw5Kzh4D/gZTea5d4fWopgA3+BMmk
+	 oE3OICQWQ9TCg==
+Date: Wed, 4 Feb 2026 11:02:18 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
 Cc: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
 	David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
@@ -41,9 +38,10 @@ Cc: Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
 	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	fsverity@lists.linux.dev
 Subject: Re: fsverity speedup and memory usage optimization v5
-Message-ID: <aYNdmk1EE5etfUYE@casper.infradead.org>
+Message-ID: <20260204190218.GA2193@sol>
 References: <20260202060754.270269-1-hch@lst.de>
  <20260202211423.GB4838@quark>
+ <aYNdmk1EE5etfUYE@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -52,25 +50,40 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260202211423.GB4838@quark>
+In-Reply-To: <aYNdmk1EE5etfUYE@casper.infradead.org>
 
-On Mon, Feb 02, 2026 at 01:14:23PM -0800, Eric Biggers wrote:
-> - Used the code formatting from 'git clang-format' in the cases where it
->   looks better than the ad-hoc formatting
+On Wed, Feb 04, 2026 at 02:54:18PM +0000, Matthew Wilcox wrote:
+> On Mon, Feb 02, 2026 at 01:14:23PM -0800, Eric Biggers wrote:
+> > - Used the code formatting from 'git clang-format' in the cases where it
+> >   looks better than the ad-hoc formatting
+> 
+> clang-format makes some bad choices.
+> 
+> >  static int ext4_mpage_readpages(struct inode *inode, struct fsverity_info *vi,
+> > -		struct readahead_control *rac, struct folio *folio)
+> > +				struct readahead_control *rac,
+> > +				struct folio *folio)
+> 
+> Aligning to the opening bracket is one of them.  If anything changes
+> in a subsequent patch (eg function name, whether or not it's static,
+> adding a function attribute like __must_check, converting the return
+> type from int to bool), you have to eitheer break the formatting or
+> needlessly change the lines which have the subsequent arguments.
+> 
+> Also, you've consumed an extra line in this case.  Just leave the
+> two tab indent, it's actually easier to read.
 
-clang-format makes some bad choices.
+Aligning to the opening bracket is the usual style as agreed on by the
+kernel community.  This should also be clear if you look at the existing
+style in all the files this patchset touches.  It's not done exclusively
+but is the more common way.  clang-format just follows that.
 
->  static int ext4_mpage_readpages(struct inode *inode, struct fsverity_info *vi,
-> -		struct readahead_control *rac, struct folio *folio)
-> +				struct readahead_control *rac,
-> +				struct folio *folio)
+It's 2026.  We generally shouldn't be formatting code manually.  We have
+better things to do.
 
-Aligning to the opening bracket is one of them.  If anything changes
-in a subsequent patch (eg function name, whether or not it's static,
-adding a function attribute like __must_check, converting the return
-type from int to bool), you have to eitheer break the formatting or
-needlessly change the lines which have the subsequent arguments.
+If you're going to insist on ad-hoc formatting of argument lists, you'll
+need to be more specific about where and how you want it to be done.  It
+certainly doesn't make sense in files that are already using the normal
+style exclusively, for example.
 
-Also, you've consumed an extra line in this case.  Just leave the
-two tab indent, it's actually easier to read.
-
+- Eric
