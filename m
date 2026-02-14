@@ -1,102 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AEF1B4257;
-	Sat, 14 Feb 2026 21:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A6430F931;
+	Sat, 14 Feb 2026 21:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771103958; cv=none; b=fGlnzuPP114C5gvbxZfmuEnD70pSrfSVLz6JvjkLl/9k/xujh8yLwrKqqWRmHJMPASJvI6DSgrx9Bf5y2uGu0qyUvxWBx9FbnAIk781ToFNl7On2R4AL01tflEGktwYFKwBZwdXo9Mae2BTJ+uvExQcdA8c9ldLMQIxS0VVwTgM=
+	t=1771105811; cv=none; b=I0eG5Q8zCuEfY9nJbSW2yEBj3qWa025BE87KnX7IDr470DtW+SZVciEW50pr44Sgn4ai4bwmu4KdVViGydf3N2lXXVREjBIMRWmJ+pDCCj+76x+23HzGFePEGdRPJal3h8TY/5j/93LQuJAc0cOqBJXj21MqWOkWndcUL6P/8wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771103958; c=relaxed/simple;
-	bh=SqjZE7OWr1LYIbtS0mF/zGZQM1kfgP5bCqVDUaHH/3k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bPaeVLkoM0V1lc+QrUZL6RO1xUB0suP7DhP5lI+h235mBxyqNwF3O2Vx1OkAT8cv9DCzd5HfvdnM87AX/qxFjEwusc1wAmW8k2EsA5ICTcBD8QklKwGk8ZF2a/JGpisuMIYRate7rYwId4j5AegVPwJKB959/FUhPToiiGMUM8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y7dk/4hJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771105811; c=relaxed/simple;
+	bh=ByCxnIXhkyF8adSYpVRD9YFch315vVu5Im4dAbrrJq8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTeDkURMTE4c+rCEQnXmXn/K1T31kCqn+cppOFljZcK7eU+lTB7jSLR0K3YuUHDNOhlkVgc/TC9BupipMuTSyv6BW1af3SwDOcYpJ0HuiDfJMSols5n2wfDcDWdtQimZZSz+i+1UdlsabL1uPw1K52NcChpYc3gVf2ld4fcwQJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aIxIqnhK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y7dk/4hJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73762C2BC86;
-	Sat, 14 Feb 2026 21:19:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aIxIqnhK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE25C16AAE;
+	Sat, 14 Feb 2026 21:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771103958;
-	bh=SqjZE7OWr1LYIbtS0mF/zGZQM1kfgP5bCqVDUaHH/3k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y7dk/4hJDfz2a2DFP/ky+FC/zr1VGCMAcnzqPBKGoHK1uGXUuyHtT3QiP5nwNBSmT
-	 Cv0ctbmQfrbgi1In9FNHi+2S9HZWd3sDRnFYzMqrpzKqwOMQO3S+uU9rwc+7Q/O+n1
-	 ctMhmb0tD5Rsl0tJFukHYF62dyNfD2JjesmgbHITif6yioJUhDBxW4hfc78iXLcJvH
-	 TQpLow5iWffga9QwfqATTH8GwvltHHI7PR3HgWKHyAqVTOyUUC6qw2fOkOVG9CbZdf
-	 yl2MWWU7jeRpwB9fF+jBgG0O/unf0nyDEe8fntuceIjxGLXuAc1JdFDNiFk+FFANSs
-	 UFqpUipYswa0g==
+	s=k20201202; t=1771105810;
+	bh=ByCxnIXhkyF8adSYpVRD9YFch315vVu5Im4dAbrrJq8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aIxIqnhKAaO+g3BCIpmUeJYgBci67fffn8afyPqxaFJcFDVB+H/Igiut73MylpdPa
+	 OdF5P9lvsZEEqUV54RLP+4xaSRrm4Qqf2B/HDAAcIKnDgEdC6HT7zLy7xMQLnHwqiR
+	 Y4Yk0jU+oF8LV6BLWOjtZfIOd4b6nLvYvuJiLOViHYgxWP3NvUFYHl6N7Dt7Ilpcfc
+	 ORAFgQwAB85553FBC0r2SQ40d3nWnW83pxKt09dx8FMbYYWUhKALJqFLGne8lTEEC5
+	 O/stAdrOWq2DVDmq4gNbxNITFDStIlQcFbz89v601w0jjpxidKR2aexfiHooD7ifXu
+	 Pyeb7rj8Lk4UQ==
+Date: Sat, 14 Feb 2026 13:50:08 -0800
 From: Eric Biggers <ebiggers@kernel.org>
 To: fsverity@lists.linux.dev
-Cc: linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
+Cc: linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
 	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH v2 2/2] fsverity: remove fsverity_verify_page()
-Date: Sat, 14 Feb 2026 13:18:30 -0800
-Message-ID: <20260214211830.15437-3-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260214211830.15437-1-ebiggers@kernel.org>
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>
+Subject: Re: [PATCH v2 1/2] f2fs: use fsverity_verify_blocks() instead of
+ fsverity_verify_page()
+Message-ID: <20260214215008.GA15997@quark>
 References: <20260214211830.15437-1-ebiggers@kernel.org>
+ <20260214211830.15437-2-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260214211830.15437-2-ebiggers@kernel.org>
 
-Now that fsverity_verify_page() has no callers, remove it.
+On Sat, Feb 14, 2026 at 01:18:29PM -0800, Eric Biggers wrote:
+> Replace the only remaining caller of fsverity_verify_page() with a
+> direct call to fsverity_verify_blocks().  This will allow
+> fsverity_verify_page() to be removed.
+> 
+> Make it large-folio-aware by using the page's offset in the folio
+> instead of 0, though the rest of f2fs_verify_cluster() and f2fs
+> decompression as a whole still assumes small folios.
+> 
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> ---
+>  fs/f2fs/compress.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/f2fs/compress.c b/fs/f2fs/compress.c
+> index 006a80acd1de..11c4de515f98 100644
+> --- a/fs/f2fs/compress.c
+> +++ b/fs/f2fs/compress.c
+> @@ -1811,15 +1811,19 @@ static void f2fs_verify_cluster(struct work_struct *work)
+>  	int i;
+>  
+>  	/* Verify, update, and unlock the decompressed pages. */
+>  	for (i = 0; i < dic->cluster_size; i++) {
+>  		struct page *rpage = dic->rpages[i];
+> +		struct folio *rfolio;
+> +		size_t offset;
+>  
+>  		if (!rpage)
+>  			continue;
+> +		rfolio = page_folio(rpage);
+> +		offset = folio_page_idx(rfolio, rpage) * PAGE_SIZE;
+>  
+> -		if (fsverity_verify_page(dic->vi, rpage))
+> +		if (fsverity_verify_blocks(dic->vi, rfolio, PAGE_SIZE, offset))
+>  			SetPageUptodate(rpage);
+>  		else
+>  			ClearPageUptodate(rpage);
+>  		unlock_page(rpage);
 
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- fs/verity/verify.c       | 4 ++--
- include/linux/fsverity.h | 6 ------
- 2 files changed, 2 insertions(+), 8 deletions(-)
+Let me know if you'd prefer that we verified the whole folio here
+instead.  Either way, the behavior will be still incorrect if this
+function is passed a large folio (which it's not).  Either we'd mark the
+whole folio up-to-date after verifying only one page in it, or we'd
+access pages that were not in the array of pages passed to the function.
 
-diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-index 31797f9b24d0..3e38749fbc82 100644
---- a/fs/verity/verify.c
-+++ b/fs/verity/verify.c
-@@ -431,12 +431,12 @@ EXPORT_SYMBOL_GPL(fsverity_verify_blocks);
-  * verification, then bio->bi_status is set to an error status.
-  *
-  * This is a helper function for use by the ->readahead() method of filesystems
-  * that issue bios to read data directly into the page cache.  Filesystems that
-  * populate the page cache without issuing bios (e.g. non block-based
-- * filesystems) must instead call fsverity_verify_page() directly on each page.
-- * All filesystems must also call fsverity_verify_page() on holes.
-+ * filesystems) must instead call fsverity_verify_blocks() directly.  All
-+ * filesystems must also call fsverity_verify_blocks() on holes.
-  */
- void fsverity_verify_bio(struct fsverity_info *vi, struct bio *bio)
- {
- 	struct fsverity_verification_context ctx;
- 	struct folio_iter fi;
-diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
-index fed91023bea9..6de3ddf0b148 100644
---- a/include/linux/fsverity.h
-+++ b/include/linux/fsverity.h
-@@ -280,16 +280,10 @@ static inline bool fsverity_verify_folio(struct fsverity_info *vi,
- 					 struct folio *folio)
- {
- 	return fsverity_verify_blocks(vi, folio, folio_size(folio), 0);
- }
- 
--static inline bool fsverity_verify_page(struct fsverity_info *vi,
--					struct page *page)
--{
--	return fsverity_verify_blocks(vi, page_folio(page), PAGE_SIZE, 0);
--}
--
- /**
-  * fsverity_file_open() - prepare to open a verity file
-  * @inode: the inode being opened
-  * @filp: the struct file being set up
-  *
--- 
-2.53.0
-
+- Eric
