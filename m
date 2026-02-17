@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E9837A4BC;
-	Tue, 17 Feb 2026 21:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69D237BE81;
+	Tue, 17 Feb 2026 21:14:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771362876; cv=none; b=kfpkWzynNHlvYsSZYKoVjYSfbukXAxKyaDm6WZuEyCOMvCqYcRFdwCzhs989TYWz2TxV2j72+mgLLB9OytpiMqNIIweITqKXAGvxU2xCkRVGqtHb8cqF34QrThFJNxh0LjrCvwhV8R/St+Cmuu3MnXFtvjCMSuzKC1MRfAy49s8=
+	t=1771362880; cv=none; b=gN6Aax/TfZDbfMDdGh2w9TiYoHCLKDSrwtPVylpY7EGyb15L4yR0a73ku7kLCIifmjC1XKQBrmQwX5vSlgKhxQzb6Yo1y2zU/3Ga/TctSN5t4mwE0Y120y3iA6Ss9TMlY8SXPfd7YZUx1Bb/Gf8ukxqZfOycf++IMpEoeoHTg/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771362876; c=relaxed/simple;
-	bh=IUmsV+ZW94HXGIdU1vo18SjFXSfXhU6JnfKGHOOTBlE=;
+	s=arc-20240116; t=1771362880; c=relaxed/simple;
+	bh=5PKRA6JisViHy/Wt+cxaLmoaEMt0eP0saSrcTq0zDDI=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=VtD6OHNAOR/Sya+eoo9JUFSlVoUw77i3mfd0khFQG3PPh27clDyukXn2zkUtrkVObCfUl/Y2L9+PbHb7/b6zwJzKe04vqYEx9pwB7Aoh3snM3bfVlwLTfGo/20GnohzTzVWqaiPGurEWnji6PDClbiXr4h9V+so0OH501wJrtNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sb1sDYwJ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=s4c6R1RXfMrw6j8xL36caE97FZOcOWYBf1N49FLN7ZathaaJiWurbhxctj1Uw82tT6K1451+jP1L79T/SSYnvxTMzuO3aZ8A7sTdGTeFJZrZNyT+Tu12MlMT/6iBxL64SjrsqbB8eeFADrTgQKeBuIsPdkKUjGn4pENMuNDqIv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nYDLMu4E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sb1sDYwJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76BD9C4CEF7;
-	Tue, 17 Feb 2026 21:14:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nYDLMu4E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7486AC2BC86;
+	Tue, 17 Feb 2026 21:14:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771362876;
-	bh=IUmsV+ZW94HXGIdU1vo18SjFXSfXhU6JnfKGHOOTBlE=;
+	s=k20201202; t=1771362880;
+	bh=5PKRA6JisViHy/Wt+cxaLmoaEMt0eP0saSrcTq0zDDI=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Sb1sDYwJavRLaCVn88gyrDrXlCl0VDnAf62EpkDuPznZMYdbNVtd73gzpyyfSdJ/a
-	 WqACZhS/EGrPNEG45ARHMKVSGdP4aeQlnn6gf3sjgM1aEN6XQUPh1tFIPxa/SFcDZV
-	 zg+JLJ84QRyz9qMMJ6QRwLumUMlXlT/vueB7bcmbanb6s6FW/imJ3kiNi93Qoh9O4T
-	 yvIJ/cNS+jpX41ID+1Kh3XhScgnFe76gfOndPmsMTOoFu0qovNOVXnWM1GF4epkhvw
-	 mpLacztvHIMGsbHj6XNwKmeJ8uOk0LCt6hh+EbNCXNDb5hYrgzVZHIt+ZOM+kqd7aN
-	 rIRQXaYrAalKw==
+	b=nYDLMu4EsZ+ybxrnDEGJ0hhXnV3XzXDcAUNSHNW9WD1vmFRw7eK7sqfsOKZchNkdQ
+	 iWsJ/BLiHUb1zxwbZEL53A4ROd5F5RqRP9DFRpxoPZxC1FyR+kM5x1EwCQVgd0y0uo
+	 tspuUfkt+BOs6dctpP9v3K+aCf6rjdPBDyjEQQT9bBrqPfcwCo5B1KQWUmvdM4Lp0c
+	 zidBp52jkgRn1EPdGPglSWNzNvdbSO+PMCdsh2+ny+JiD15l1swPfNY04ev2WRqD5o
+	 BZwhk4buxzsV5HQ2f8JLto9W73xXwKDf1PPvdYpP9zuTIMFL0ZPl1XwUKdMii+xqQM
+	 82YR0p6MUHM2A==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 851203806667;
-	Tue, 17 Feb 2026 21:14:29 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 84FE23806667;
+	Tue, 17 Feb 2026 21:14:33 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
@@ -37,17 +37,17 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH 01/15] fs,
- fsverity: reject size changes on fsverity files in setattr_prepare
+Subject: Re: [f2fs-dev] [PATCH 01/11] fsverity: don't issue readahead for
+ non-ENOENT errors from __filemap_get_folio
 From: patchwork-bot+f2fs@kernel.org
 Message-Id: 
- <177136286807.643511.1738733092656907396.git-patchwork-notify@kernel.org>
-Date: Tue, 17 Feb 2026 21:14:28 +0000
-References: <20260128152630.627409-2-hch@lst.de>
-In-Reply-To: <20260128152630.627409-2-hch@lst.de>
+ <177136287232.643511.13012047389860653614.git-patchwork-notify@kernel.org>
+Date: Tue, 17 Feb 2026 21:14:32 +0000
+References: <20260202060754.270269-2-hch@lst.de>
+In-Reply-To: <20260202060754.270269-2-hch@lst.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: ebiggers@kernel.org, fsverity@lists.linux.dev, brauner@kernel.org,
- tytso@mit.edu, djwong@kernel.org, aalbersh@redhat.com, willy@infradead.org,
+ tytso@mit.edu, aalbersh@redhat.com, willy@infradead.org,
  linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
  viro@zeniv.linux.org.uk, jaegeuk@kernel.org, dsterba@suse.com, jack@suse.cz,
  linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org
@@ -57,49 +57,37 @@ Hello:
 This series was applied to jaegeuk/f2fs.git (dev)
 by Eric Biggers <ebiggers@kernel.org>:
 
-On Wed, 28 Jan 2026 16:26:13 +0100 you wrote:
-> Add the check to reject truncates of fsverity files directly to
-> setattr_prepare instead of requiring the file system to handle it.
-> Besides removing boilerplate code, this also fixes the complete lack of
-> such check in btrfs.
+On Mon,  2 Feb 2026 07:06:30 +0100 you wrote:
+> Issuing more reads on errors is not a good idea, especially when the
+> most common error here is -ENOMEM.
 > 
-> Fixes: 146054090b08 ("btrfs: initial fsverity support")
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-> 
-> [...]
+> ---
+>  fs/verity/pagecache.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
 Here is the summary with links:
-  - [f2fs-dev,01/15] fs, fsverity: reject size changes on fsverity files in setattr_prepare
-    https://git.kernel.org/jaegeuk/f2fs/c/e9734653c523
-  - [f2fs-dev,02/15] fs, fsverity: clear out fsverity_info from common code
-    https://git.kernel.org/jaegeuk/f2fs/c/70098d932714
-  - [f2fs-dev,03/15] ext4: don't build the fsverity work handler for !CONFIG_FS_VERITY
-    https://git.kernel.org/jaegeuk/f2fs/c/fb2661645909
-  - [f2fs-dev,04/15] f2fs: don't build the fsverity work handler for !CONFIG_FS_VERITY
-    https://git.kernel.org/jaegeuk/f2fs/c/6f9fae2f738c
-  - [f2fs-dev,05/15] fsverity: pass struct file to ->write_merkle_tree_block
+  - [f2fs-dev,01/11] fsverity: don't issue readahead for non-ENOENT errors from __filemap_get_folio
+    https://git.kernel.org/jaegeuk/f2fs/c/23eec9fd64b2
+  - [f2fs-dev,02/11] readahead: push invalidate_lock out of page_cache_ra_unbounded
     (no matching commit)
-  - [f2fs-dev,06/15] fsverity: start consolidating pagecache code
+  - [f2fs-dev,03/11] ext4: move ->read_folio and ->readahead to readahead.c
     (no matching commit)
-  - [f2fs-dev,07/15] fsverity: don't issue readahead for non-ENOENT errors from __filemap_get_folio
+  - [f2fs-dev,04/11] fsverity: kick off hash readahead at data I/O submission time
     (no matching commit)
-  - [f2fs-dev,08/15] fsverity: kick off hash readahead at data I/O submission time
-    (no matching commit)
-  - [f2fs-dev,09/15] fsverity: deconstify the inode pointer in struct fsverity_info
+  - [f2fs-dev,05/11] fsverity: deconstify the inode pointer in struct fsverity_info
     https://git.kernel.org/jaegeuk/f2fs/c/7e36e044958d
-  - [f2fs-dev,10/15] fsverity: push out fsverity_info lookup
+  - [f2fs-dev,06/11] fsverity: push out fsverity_info lookup
     (no matching commit)
-  - [f2fs-dev,11/15] fs: consolidate fsverity_info lookup in buffer.c
+  - [f2fs-dev,07/11] fs: consolidate fsverity_info lookup in buffer.c
     https://git.kernel.org/jaegeuk/f2fs/c/f6ae956dfb34
-  - [f2fs-dev,12/15] ext4: consolidate fsverity_info lookup
+  - [f2fs-dev,08/11] ext4: consolidate fsverity_info lookup
     (no matching commit)
-  - [f2fs-dev,13/15] f2fs: consolidate fsverity_info lookup
+  - [f2fs-dev,09/11] f2fs: consolidate fsverity_info lookup
     (no matching commit)
-  - [f2fs-dev,14/15] btrfs: consolidate fsverity_info lookup
+  - [f2fs-dev,10/11] btrfs: consolidate fsverity_info lookup
     https://git.kernel.org/jaegeuk/f2fs/c/b0160e4501bb
-  - [f2fs-dev,15/15] fsverity: use a hashtable to find the fsverity_info
+  - [f2fs-dev,11/11] fsverity: use a hashtable to find the fsverity_info
     (no matching commit)
 
 You are awesome, thank you!
