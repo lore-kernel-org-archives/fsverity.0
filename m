@@ -1,61 +1,110 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43583237163;
-	Tue, 17 Feb 2026 06:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E9837A4BC;
+	Tue, 17 Feb 2026 21:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771309744; cv=none; b=hsZOQFGstZxO3UdpN1aQpbHjrKI7ua8TaGG7nXCbQuR8UZ3nV07pYT/oLAPMR9T3qRcNCJSNmsl62/ozqpSpblhxuNUwgBKNqhc7WeApH8qzpprGdVJLeWDhTrKXXZ3PCHaZ0Cn9meWySlGo5M7hfvvqTsLW+aTJ5n6HqFasAyA=
+	t=1771362876; cv=none; b=kfpkWzynNHlvYsSZYKoVjYSfbukXAxKyaDm6WZuEyCOMvCqYcRFdwCzhs989TYWz2TxV2j72+mgLLB9OytpiMqNIIweITqKXAGvxU2xCkRVGqtHb8cqF34QrThFJNxh0LjrCvwhV8R/St+Cmuu3MnXFtvjCMSuzKC1MRfAy49s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771309744; c=relaxed/simple;
-	bh=WyAIcLIv591hmrCnNshjx/uIcz10rfxE5sQqt9EdVlc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AZR4HcNq12g4oDCVAGVOG/HHwxGYFn87YZMqZ83GsVz1eNWDVqdpE4ormQVWeHOYA+uvX8wHgWWFeQ+LIGcTfMEDbOKAZppiFEo/CCZwmWZHwCAufdhwARP1qlqJ62kjxYDYcXQsJgW6v660tCTb0jiiaT6fBBLFmA+m8bfLEtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=M00YFvKX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1771362876; c=relaxed/simple;
+	bh=IUmsV+ZW94HXGIdU1vo18SjFXSfXhU6JnfKGHOOTBlE=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=VtD6OHNAOR/Sya+eoo9JUFSlVoUw77i3mfd0khFQG3PPh27clDyukXn2zkUtrkVObCfUl/Y2L9+PbHb7/b6zwJzKe04vqYEx9pwB7Aoh3snM3bfVlwLTfGo/20GnohzTzVWqaiPGurEWnji6PDClbiXr4h9V+so0OH501wJrtNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sb1sDYwJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M00YFvKX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WyAIcLIv591hmrCnNshjx/uIcz10rfxE5sQqt9EdVlc=; b=M00YFvKXrh4rOKik0+lHpzZ8if
-	FA/zuidbNWaBqmRS7jg9mLSzMNqVM3O35q7nPgWKzkV9Z319PSbTGnDv0IsKu0IkC1McUPcYvzpo6
-	VtX+L4r9QwxnBhiLV7bqrqcbjDrhKcQl8+rqIcmlxVDi11Ixl4B8iZ6nYgYKsNuxkggU7BOHmYflY
-	MyQf9YMSGeQymKBKFj6V5Vq/TBqULhansGQ2tXxaY788QqdPCixiHEyBxsgT3zKzqghUiawsZv/8E
-	W6uSmV6R2TLv7jpHw4XjXhYinaqttsC/ZiWL/NOorIy8V2q3YpRML6ii8WhTl7PceG/ZElowlqNJV
-	5xycsmkw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vsEZy-00000007huO-3Wc9;
-	Tue, 17 Feb 2026 06:29:02 +0000
-Date: Mon, 16 Feb 2026 22:29:02 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v3 2/2] fsverity: remove fsverity_verify_page()
-Message-ID: <aZQKrpBZdRNkGGcF@infradead.org>
-References: <20260215042806.13348-1-ebiggers@kernel.org>
- <20260215042806.13348-3-ebiggers@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sb1sDYwJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76BD9C4CEF7;
+	Tue, 17 Feb 2026 21:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771362876;
+	bh=IUmsV+ZW94HXGIdU1vo18SjFXSfXhU6JnfKGHOOTBlE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Sb1sDYwJavRLaCVn88gyrDrXlCl0VDnAf62EpkDuPznZMYdbNVtd73gzpyyfSdJ/a
+	 WqACZhS/EGrPNEG45ARHMKVSGdP4aeQlnn6gf3sjgM1aEN6XQUPh1tFIPxa/SFcDZV
+	 zg+JLJ84QRyz9qMMJ6QRwLumUMlXlT/vueB7bcmbanb6s6FW/imJ3kiNi93Qoh9O4T
+	 yvIJ/cNS+jpX41ID+1Kh3XhScgnFe76gfOndPmsMTOoFu0qovNOVXnWM1GF4epkhvw
+	 mpLacztvHIMGsbHj6XNwKmeJ8uOk0LCt6hh+EbNCXNDb5hYrgzVZHIt+ZOM+kqd7aN
+	 rIRQXaYrAalKw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 851203806667;
+	Tue, 17 Feb 2026 21:14:29 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260215042806.13348-3-ebiggers@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [PATCH 01/15] fs,
+ fsverity: reject size changes on fsverity files in setattr_prepare
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <177136286807.643511.1738733092656907396.git-patchwork-notify@kernel.org>
+Date: Tue, 17 Feb 2026 21:14:28 +0000
+References: <20260128152630.627409-2-hch@lst.de>
+In-Reply-To: <20260128152630.627409-2-hch@lst.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: ebiggers@kernel.org, fsverity@lists.linux.dev, brauner@kernel.org,
+ tytso@mit.edu, djwong@kernel.org, aalbersh@redhat.com, willy@infradead.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+ viro@zeniv.linux.org.uk, jaegeuk@kernel.org, dsterba@suse.com, jack@suse.cz,
+ linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org
 
-On Sat, Feb 14, 2026 at 08:28:06PM -0800, Eric Biggers wrote:
-> Now that fsverity_verify_page() has no callers, remove it.
+Hello:
 
-Looks good:
+This series was applied to jaegeuk/f2fs.git (dev)
+by Eric Biggers <ebiggers@kernel.org>:
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+On Wed, 28 Jan 2026 16:26:13 +0100 you wrote:
+> Add the check to reject truncates of fsverity files directly to
+> setattr_prepare instead of requiring the file system to handle it.
+> Besides removing boilerplate code, this also fixes the complete lack of
+> such check in btrfs.
+> 
+> Fixes: 146054090b08 ("btrfs: initial fsverity support")
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+> 
+> [...]
+
+Here is the summary with links:
+  - [f2fs-dev,01/15] fs, fsverity: reject size changes on fsverity files in setattr_prepare
+    https://git.kernel.org/jaegeuk/f2fs/c/e9734653c523
+  - [f2fs-dev,02/15] fs, fsverity: clear out fsverity_info from common code
+    https://git.kernel.org/jaegeuk/f2fs/c/70098d932714
+  - [f2fs-dev,03/15] ext4: don't build the fsverity work handler for !CONFIG_FS_VERITY
+    https://git.kernel.org/jaegeuk/f2fs/c/fb2661645909
+  - [f2fs-dev,04/15] f2fs: don't build the fsverity work handler for !CONFIG_FS_VERITY
+    https://git.kernel.org/jaegeuk/f2fs/c/6f9fae2f738c
+  - [f2fs-dev,05/15] fsverity: pass struct file to ->write_merkle_tree_block
+    (no matching commit)
+  - [f2fs-dev,06/15] fsverity: start consolidating pagecache code
+    (no matching commit)
+  - [f2fs-dev,07/15] fsverity: don't issue readahead for non-ENOENT errors from __filemap_get_folio
+    (no matching commit)
+  - [f2fs-dev,08/15] fsverity: kick off hash readahead at data I/O submission time
+    (no matching commit)
+  - [f2fs-dev,09/15] fsverity: deconstify the inode pointer in struct fsverity_info
+    https://git.kernel.org/jaegeuk/f2fs/c/7e36e044958d
+  - [f2fs-dev,10/15] fsverity: push out fsverity_info lookup
+    (no matching commit)
+  - [f2fs-dev,11/15] fs: consolidate fsverity_info lookup in buffer.c
+    https://git.kernel.org/jaegeuk/f2fs/c/f6ae956dfb34
+  - [f2fs-dev,12/15] ext4: consolidate fsverity_info lookup
+    (no matching commit)
+  - [f2fs-dev,13/15] f2fs: consolidate fsverity_info lookup
+    (no matching commit)
+  - [f2fs-dev,14/15] btrfs: consolidate fsverity_info lookup
+    https://git.kernel.org/jaegeuk/f2fs/c/b0160e4501bb
+  - [f2fs-dev,15/15] fsverity: use a hashtable to find the fsverity_info
+    (no matching commit)
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
