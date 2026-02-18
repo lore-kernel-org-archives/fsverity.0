@@ -1,103 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA2433C1B3
-	for <fsverity@lists.linux.dev>; Wed, 18 Feb 2026 09:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49289318B99
+	for <fsverity@lists.linux.dev>; Wed, 18 Feb 2026 09:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771407796; cv=none; b=SLnDywo21On2Tw9LMqi9e1pd5SVnr2SmT38M6ep6sVeBAstAN1BZ/YRJiwBCkCnrGKZtONeoo2BemDJc5tE5WNoO9n4igg67U5etjoFggeQSEjxomkRN2WCpe3GNyEOmowAybQYXnXLBkYe9hz0IupY0EKTfbYCWz/enjcOuOrQ=
+	t=1771407969; cv=none; b=TiD/qWUnzRn8q1Nb9i1tmIDxt22QsR6oi75PCHCPGlVKSAGZZHhpt2Uc0BEwI/XmMqidgzrELckxClauJCnQPsidIyMiMw3+GcG7PwfGdSy6haKE64TPQy24pUS6Kawo4RyqJFiaEnuV6gtgFdEFZa6mn0KoFXSdTu+lFOk1i4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771407796; c=relaxed/simple;
-	bh=7MlMSQiD44nGkm9QdFDfkQrwjXCe6pqty82o5oGxOvs=;
+	s=arc-20240116; t=1771407969; c=relaxed/simple;
+	bh=+/zonLHVCNiYpF3F1mGEWfBegPViwa5HxidFiTwykE0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=K6hJaNjbzgXJF0ImXk9xlrykmH2g2Lx8lhSNq344OsbrA3afUVqatX7dSTxGwI5WSYKqNbIOJ9LgZ1yeOVnqJLVHLenUciSaIyor0cnmGABcJ9qD/mxrTwkRa2EW8aJIibLQobey7Et5vHx+uD4KfbhGLYmplGAYrLXefr6tRoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JHnyFxlc; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=nwiJHxzGjItnKEm/6qwarTr2bpYB/owbhtZXr9IekHa4gAX2RS74mUuROIhPWFq6+SrhnavCyaw7R0r1SqPZU+1CM0AcegiEaKl2iAIw6HUIUv71zm2G+HziJpg95+Te9rTlU9Us+JFqJqk/92V1D0o4JjZYLIBMCs7g63QuYrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=b8Rz7/99; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JHnyFxlc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b8Rz7/99"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771407794;
+	s=mimecast20190719; t=1771407967;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=acxJsX/Fq0LQyGsW9dYw2IB/+V+2/p4bzlJYGYuBU/A=;
-	b=JHnyFxlcbukAMrtuuohPJmaVQJLCKJHtWzgkgtVwjgnE8kbJRfKWbGhTpy9HF91QrQ1VwB
-	8vMymtz7PBoVjpgzKjkuOHXK8f2060PWGdmpDP4aYEo6hKe1/+XlHD2UMKjlWl1DPnIhsj
-	IS0f1bU0D/xVsUYFeK4ZCpf+fBu8cxI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=RyJBX+PISSbPZLtLewMjCIqsH1uiQW06yqBd1F+fu9Q=;
+	b=b8Rz7/99/k8NSLyn6gIhNMqdyo48jGtwFqkNaAAxcAR/cKIeCI8nmnZ5eDcgTlqV1LNFph
+	m48PmmGsgf+o1PK6ZKt5Gv8Ll69hJxQJHcB2Ns2tCAofH1cqqvVfLBAfhsnV2epfvTcnjX
+	KT+vo42ySDM9yqe+dphKMTLTS4NXnwY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-211-7660MGCUOYWbWNivmgKLhg-1; Wed, 18 Feb 2026 04:43:13 -0500
-X-MC-Unique: 7660MGCUOYWbWNivmgKLhg-1
-X-Mimecast-MFC-AGG-ID: 7660MGCUOYWbWNivmgKLhg_1771407792
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4837246211bso53715675e9.0
-        for <fsverity@lists.linux.dev>; Wed, 18 Feb 2026 01:43:12 -0800 (PST)
+ us-mta-86-3gp8GE51Nien_uBd1UtJBw-1; Wed, 18 Feb 2026 04:46:06 -0500
+X-MC-Unique: 3gp8GE51Nien_uBd1UtJBw-1
+X-Mimecast-MFC-AGG-ID: 3gp8GE51Nien_uBd1UtJBw_1771407965
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-435a11575ecso4923652f8f.2
+        for <fsverity@lists.linux.dev>; Wed, 18 Feb 2026 01:46:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771407792; x=1772012592;
+        d=1e100.net; s=20230601; t=1771407965; x=1772012765;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=acxJsX/Fq0LQyGsW9dYw2IB/+V+2/p4bzlJYGYuBU/A=;
-        b=vl0SY4IYWkqY6tP6iijBL4lpDlKKVPFC5F6VzaMQiAPLge+B5eGcQ7amoIwH1m5py0
-         PU3WemaatQwdxnZq+tZucXyHi5tqYh32Jl7Vh8EjuNxUwVVFKg6TeS2+GsP3nfi1jm2D
-         mr7t1cSBFT72REdBAhGNVDryzQ59mKRtaSDonLTe5ClkIexvBvmMKeVeGD3TY8sqg4b1
-         iPC9LKUA+LkPeBSsb9b5sommrruPPsSRzY8kjkO39C9Tmyo4c4tSyX8a0eXClcuJrvRi
-         gc72ydvmCYxr6W+rpYcGssBYW7x0XNzDayiGAtKv6Kqij2VKGkuxIflQ0MvIdfllIdgy
-         x1lQ==
-X-Forwarded-Encrypted: i=1; AJvYcCViKU/kAGFdE/gc/DlWotsdoS0Hzvt3cEbyK5UIBLOxnVJhz/VEf1k2wkcwmqzqYCVElqUHKRFHGA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXDIgxe1H9cyIYRuxv5Nzi9t+JFLpN0C30mq1aY3fbhwQw8MNs
-	jRPHrs7UY8uAGAoxqya5lAMH2Wk9cIAoNvqyofjg1XCzABo9hw3Zm8KX7FxbfdcckW/hgh4SYNY
-	AUfrcFBth4bZ83s9UdTO5XFIz5XWBqZwK8XAqgshbWysKDPCNKETSfVcbXhI=
-X-Gm-Gg: AZuq6aJiiuzAByvbP4U2v71WU6ImGuxdeGRCt6c9OQb9F3DNyxEGDujD5xkCRPWBXXu
-	2VH3fCv8v4okDqF7bsFhN+m2/bggH7g12rXiCDu9h7c6w0OZp/9kBBUsy4FaL0pRy9PEgJyEz9O
-	rT0rf23lr898RRkOxE2vxM2UU6YpFB9Ltu1Ih00t+UCN1NUyiLEFVQ5f+kll5T1D3IpspEQFyyc
-	W10lGlHzpCzZrmm8qCZVLXByLPPfVdGnqt+z8Q64iTc0zzEAAaDdShYIvvr3YvoVKqbu0AnTRrR
-	o9RSJjTmRj+NV9apvcFMRgbtLdylQjHscQ7wHN4NUG/VjVYSHhNdtdqfv4VdGuNjqQbq9f5i1zZ
-	Ec4Qyy/E2yrc=
-X-Received: by 2002:a05:600c:3e0c:b0:477:76c2:49c9 with SMTP id 5b1f17b1804b1-48398a65ecdmr21410055e9.2.1771407791616;
-        Wed, 18 Feb 2026 01:43:11 -0800 (PST)
-X-Received: by 2002:a05:600c:3e0c:b0:477:76c2:49c9 with SMTP id 5b1f17b1804b1-48398a65ecdmr21409665e9.2.1771407791053;
-        Wed, 18 Feb 2026 01:43:11 -0800 (PST)
+        bh=RyJBX+PISSbPZLtLewMjCIqsH1uiQW06yqBd1F+fu9Q=;
+        b=gFroyKpE7yiLyD2evp2KAv5NXBGdmO6y6Fw5zBSdZydHAIfyPmzHihlRhkaJ2q4Q7N
+         F15fndqaN/CtLj1cHw4aovDljl9I9rLEpx/5MLKQGiQdVW9dDiLLDMvun64OP9vlelb0
+         cta2prxwxXmAyJuLvnVK5KLVDdMkY4FNIat53N58X0Feiehohnh4TL+Pr4zAPPuP3IJY
+         0g0rGz1ene1G2td+EWeuKza+9u2iQM5toDXeHV3XwQX4Bi/E2FpM8feHPIzkriclDxEk
+         k3k4xxaqTiAZ/VBjYEQtJdEZ4cCWB0evKU/ZRIpkr9Rm0iACGII4sSIqeJDZgEnR19hF
+         cW2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU8lylCbYsKbLGhY3zRBOy/RWcNWt9FMq65VjLSNXpj68Q0DJtTPeJBVin4TeoozxsZqk7e7J1ULQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHl90PmD43R7LiomOp52khbCZ9IB4EvDtjk0IpRLiPiko5iEq3
+	6CKI9ps93qKNZZlSDYD9D84NkO+ck6nOvyMJ5adtkKjoqYLUPO5nPGKR6MpY4u83GwULV5sLwEo
+	URcy+JJ941f9daEcPuuExfmQSCQOd+q1V1YOrYwtmDSFF5y2ClOWjFGBc5KI=
+X-Gm-Gg: AZuq6aKlxfkl7lsVp8unFpb4akpgT1BlPtx437LNms07wbW75ilsjAD+LFlE1K/whPI
+	dSuJJOcFHzt834NbTLidaVnBn1guOlMd1WAz82z6WwQQj0e2gSIDFECXpN8AhHlMw0XL4rrmzsU
+	GyEdvOuPUHQPHhFgsYsmqs3LU4nasf7uOLXlz5L6ppt2qz0Zax5voCuYKLLhc5LyLzgTBZDozZy
+	VhXV6XhdniorVI3U7TMkV+l7IbX26WbMF35ccpDtN/fVy4jrEXdtEGv8Nyqq8yVZ77KYIUp8tS7
+	GtYLmPYyii0qTxuT2ubKb3+z6UKTa1NqbaJagdJNEaD+hYEg+pmdBjBEIOv7DcE59o+B1mrdQcK
+	/6RCMKMegHZA=
+X-Received: by 2002:a05:600c:4f92:b0:482:eec4:76d with SMTP id 5b1f17b1804b1-48398b5e0d0mr23667665e9.17.1771407964654;
+        Wed, 18 Feb 2026 01:46:04 -0800 (PST)
+X-Received: by 2002:a05:600c:4f92:b0:482:eec4:76d with SMTP id 5b1f17b1804b1-48398b5e0d0mr23667385e9.17.1771407964108;
+        Wed, 18 Feb 2026 01:46:04 -0800 (PST)
 Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796abc85csm40263806f8f.22.2026.02.18.01.43.10
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48387ab1974sm196913305e9.3.2026.02.18.01.46.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 01:43:10 -0800 (PST)
-Date: Wed, 18 Feb 2026 10:42:40 +0100
+        Wed, 18 Feb 2026 01:46:03 -0800 (PST)
+Date: Wed, 18 Feb 2026 10:46:02 +0100
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
 	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
 	djwong@kernel.org
-Subject: Re: [PATCH v3 13/35] xfs: use folio host instead of file struct
-Message-ID: <jvxkaf73yuudonjcu2uoazt6yq33ievjo3js43lh4amrwrb5gq@7sj7zzcv2jfl>
+Subject: Re: [PATCH v3 23/35] xfs: add helper to check that inode data need
+ fsverity verification
+Message-ID: <7c2kegonzbfrdv3thcrorgadyuejyknb3uipxlbxkpa4gfgu3t@zpowelexa6zu>
 References: <20260217231937.1183679-1-aalbersh@kernel.org>
- <20260217231937.1183679-14-aalbersh@kernel.org>
- <20260218063234.GA8600@lst.de>
+ <20260217231937.1183679-24-aalbersh@kernel.org>
+ <20260218063827.GA8768@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260218063234.GA8600@lst.de>
+In-Reply-To: <20260218063827.GA8768@lst.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: XzNhQglpBJSMyAYi6Gi-cYIJ1w-8N5R9i0uyTsiiN1o_1771407792
+X-Mimecast-MFC-PROC-ID: 5crUCm--tpJr10LtapjSnAfm_FffMtksJ59E9mbkLw4_1771407965
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 2026-02-18 07:32:34, Christoph Hellwig wrote:
-> On Wed, Feb 18, 2026 at 12:19:13AM +0100, Andrey Albershteyn wrote:
-> > fsverity will not have file struct in ioend context
-> > (fsverity_verify_bio() path). This will cause null pointer dereference
-> > here.
+On 2026-02-18 07:38:27, Christoph Hellwig wrote:
+> On Wed, Feb 18, 2026 at 12:19:23AM +0100, Andrey Albershteyn wrote:
+> > +	       (offset < fsverity_metadata_offset(inode));
 > 
-> FYI, I've included this and some cosmetic cleanups in the just posted
-> updated PI series.
+> No need for the braces.
+> 
+> > +}
+> > +
+> > diff --git a/fs/xfs/xfs_fsverity.h b/fs/xfs/xfs_fsverity.h
+> > new file mode 100644
+> > index 000000000000..5fc55f42b317
+> > --- /dev/null
+> > +++ b/fs/xfs/xfs_fsverity.h
+> > @@ -0,0 +1,22 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright (C) 2026 Red Hat, Inc.
+> > + */
+> > +#ifndef __XFS_FSVERITY_H__
+> > +#define __XFS_FSVERITY_H__
+> > +
+> > +#include "xfs.h"
+> > +
+> > +#ifdef CONFIG_FS_VERITY
+> > +bool xfs_fsverity_sealed_data(const struct xfs_inode *ip,
+> > +		loff_t offset);
+> > +#else
+> > +static inline loff_t xfs_fsverity_offset_to_disk(struct xfs_inode *ip,
+> > +						 loff_t pos)
+> > +{
+> > +	WARN_ON_ONCE(1);
+> > +	return ULLONG_MAX;
+> > +}
+> > +#endif	/* CONFIG_FS_VERITY */
+> 
+> It looks like this got messed up a bit when splitting the patches and
+> you want an xfs_fsverity_sealed_data stub here?
+
+oh, right, haven't noticed that, will fix this
+
+> 
+> Also I'm not sure introducing the "sealed" terminology just for this
+> function make much sense.  Just say xfs_is_fsverity_data maybe?
 > 
 
-aha, thanks, I will drop this one then
+sure, xfs_fsverity_is_data/_is_file_data maybe? to keep consistent
+xfs_fsverity_ prefix
 
 -- 
 - Andrey
