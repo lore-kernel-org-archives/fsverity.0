@@ -1,106 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BAA30FC32
-	for <fsverity@lists.linux.dev>; Wed, 18 Feb 2026 12:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6452ECEA3;
+	Wed, 18 Feb 2026 21:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771417079; cv=none; b=u2Pb3f5qyBCZBTZ9a9fvqqvBXe7UDP4DuU2h8+tvE5NKrI/xBW8p+XpdYR/Kv9matdGVoNnNqKUQn0bPn//RLGkQEwWwUaPsDus4XdAgkqDC92N7pRU4FLxcSpmCIF01L2+b9+wCSUshq/cJXNkCrQOBaym+YORDXSfHlRxv6j4=
+	t=1771450838; cv=none; b=cXpuC2PqNIYiGnIz6bCww9wKWFXJDuwpMbRlm9mVcbdTHfI1LlRwH43Gi2igBKPggAEgs2jg8cxEFzeb+KzQIpOokBTJdTYJsROUjjjn2t/oHjR37UskAWHtizd+OT/0DalsGf0sBafiPWxt0tuI5R+hSX76Ri5z6+eJbCY3WxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771417079; c=relaxed/simple;
-	bh=oHxq0RfYCSn+Ri7S2yKvntEHV9eX/s1jFiqv1G6pKoM=;
+	s=arc-20240116; t=1771450838; c=relaxed/simple;
+	bh=DTQ+wjpGAm0naij3zSO0oGQV1qi4m4Px+di5qfjPB1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=MatqwX/vF3wOhL99D5hmA418dBTD7zvsTNhwMjD1TN8gNdru8HtC/gEa96qDgZwangIHPAeI0OqUKK+hBKq9hHoWQq9h8gstixLZpzpJj+9YqLH1MNIk4x0BuNxYpQLa0O23D1N073CYwnZwih9WP4I5oBTg90HVGO9fBOmCvXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BmlF6Geh; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QRW1s4lVZGEufcaq2roUgT4mNge3MioXd5S3e+Qu5r7BVvSn6TQgPjcAM5FV3cLvnKAlY7cdZskd59PAmyUSdRmfRHSEhpvXPMOKizUCU3agZ9nhKfwa531bPyMgrRsjW0w8Vzv41Q4IQzC2IJ0JRm8U+sxVluhn3ZxtGj8Nt8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edtfrJ6z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BmlF6Geh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771417077;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A90VfYyBvXYfNQuJ+OjztcCqIsGKTH6zgy48JEKhUi4=;
-	b=BmlF6Gehs4S1vSXZqz78mOzy8/bklFiIMHyOGDQ/nh1GTTVCVzCo+f1SLzA2xrLp5y1c/Y
-	orPWkMq0kNx0j98ThwACW1zCM2bmQPu0vQ6IgDMCU89Hktk7Omb5KKL4B+iZjfg0OalkgG
-	7CLzxbuIQRTWclyapJblwl6ExaeN5j8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-131-JCh3ohR2Pk2iI1PxCppEeA-1; Wed, 18 Feb 2026 07:17:55 -0500
-X-MC-Unique: JCh3ohR2Pk2iI1PxCppEeA-1
-X-Mimecast-MFC-AGG-ID: JCh3ohR2Pk2iI1PxCppEeA_1771417075
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-4368060a5e5so5584738f8f.3
-        for <fsverity@lists.linux.dev>; Wed, 18 Feb 2026 04:17:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771417074; x=1772021874;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=A90VfYyBvXYfNQuJ+OjztcCqIsGKTH6zgy48JEKhUi4=;
-        b=KGVoHQVmIdmXuYLwAMaZERD69cgkrg4BXJa1/DvY/UYcvCTfj/DP4hDpKxJVtxo2wx
-         WcuyAURp/Mv/u0cnrg78vzFCqrvr/DHlYg6kcQWW8rIP0w3e6dqPUboVjnVlyPj0+8RG
-         GITkoQOcGzx6mASLG9iGONXoVEFnf2O4avpgdT67lypUgIWataI71SFpCmD10Jse7/+c
-         RB0o32zo8LOIGznUs09fkMqu6R6KoxNFLTKLsK3Ro/u4OE7tneVNHkwHGEN/7C8LNY0r
-         AlPdfddcITEVhbIAtvqCK6jSws1dEtRtcY+nLU08z++voAfeSh+6Bk+n22oeFd0sV888
-         5zaw==
-X-Forwarded-Encrypted: i=1; AJvYcCWwl0Geh0JGDqgtRNX5uWXWXzAerp4qX6Q4ixbDh01LethNtH362Mi+F/RBgXGE2oQ90ndPo9kKbA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwpBEa9H5j8e6rQcnZquhDLeQfhdKYwFdz9ZV4agqI8z44am81
-	PNjBZ+XUAEA/GdhoK6zffoJpqn4ehHMhF8QF8kStModHfSbopluI55qOw7UiueRJrOXoV5fbz7Y
-	YFofDe07ZVhB3NdJdk/VOITxoWut+4x8ut5RH3u3xdvd6Yz3wLC9SmhOkijk=
-X-Gm-Gg: AZuq6aKxSGuEMJVKfYeRl6EJ5uczhz5m2ZlgKTxsP/0RfRud/oe2UNlYV7sJrcj9CCc
-	swzFqIyq03GMWSl0KRopDMVvCMVCa7lHkVePlEsqBqB1coYLR8UPMKmjIIoo83INiZNvpk9RHUK
-	yU7LnMNiipX0gAlkPjDZHLWvU8w2nf3cax+oEOa7XZk/xedr4mlH4xWEMeEO+zB5p7jAhAq/fno
-	sjIg1l8Bgi2ABOOg6lQKu1QM6J6L8zJ6EUa6Z4KgFJyrL3AaC+jzPfg0nZV8FuxxYEYPVCGzQmW
-	OZnutIQr+q+hieAo7AwdPrJ+Cm90rdIMzw3glhLFzfgtWhCBEXbuOVLhNI3bv3Mjlsz9I1Bay3v
-	dy3IxhD3Px90=
-X-Received: by 2002:a05:6000:186f:b0:436:1b1:6cbb with SMTP id ffacd0b85a97d-4379db30f9bmr22128041f8f.7.1771417074456;
-        Wed, 18 Feb 2026 04:17:54 -0800 (PST)
-X-Received: by 2002:a05:6000:186f:b0:436:1b1:6cbb with SMTP id ffacd0b85a97d-4379db30f9bmr22127986f8f.7.1771417073862;
-        Wed, 18 Feb 2026 04:17:53 -0800 (PST)
-Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796ac82f7sm45619590f8f.28.2026.02.18.04.17.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 04:17:53 -0800 (PST)
-Date: Wed, 18 Feb 2026 13:17:52 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
-	djwong@kernel.org
-Subject: Re: [PATCH v3 06/35] fsverity: pass digest size and hash of the
- empty block to ->write
-Message-ID: <wl5dkpyqtmbdyc7w7v4kqiydpuemaccmivi37ebbzohn4bvcwo@iny5xh3qaqsq>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edtfrJ6z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E044DC116D0;
+	Wed, 18 Feb 2026 21:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771450837;
+	bh=DTQ+wjpGAm0naij3zSO0oGQV1qi4m4Px+di5qfjPB1U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=edtfrJ6znppj7TTZHdKkQmi2lQDALyZHhKByyDfPvRsphXwq5uqe01dCKUKFgaqLI
+	 6DEvjQ3yYDOn35eEYvuLRo7auvtABzVCWys5Djs8ACLJ3uEuTiPIdZb5pWJBg1cwAG
+	 Z0I5bh9/hOSbNhWFRBoDHt00qtqVhjQYGXkgQaSe5wd6D+VwqTQfNow5ywO3kpDBhX
+	 bdtPItLuk8IexmDZrh8ek6HqooQXKtQ599BYnaDlEok0f9pJaqDywAq88Lv7ovTLkx
+	 eXutym2M2Vw4i10rWuJyINpTwh9mc/0S5ExVEF48Fa5J5JzStjBmxU9hXZDG84PAUA
+	 7ABi0CsRvmFcw==
+Date: Wed, 18 Feb 2026 13:40:37 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de
+Subject: Re: [PATCH v3 01/35] fsverity: report validation errors back to the
+ filesystem
+Message-ID: <20260218214037.GA6467@frogsfrogsfrogs>
 References: <20260217231937.1183679-1-aalbersh@kernel.org>
- <20260217231937.1183679-7-aalbersh@kernel.org>
- <20260218061834.GB8416@lst.de>
+ <20260217231937.1183679-2-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260218061834.GB8416@lst.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: WNozRb4pwLBOrh3EVpVEbXS2X_ICYoMA587DlfKp_-A_1771417075
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260217231937.1183679-2-aalbersh@kernel.org>
 
-On 2026-02-18 07:18:34, Christoph Hellwig wrote:
-> On Wed, Feb 18, 2026 at 12:19:06AM +0100, Andrey Albershteyn wrote:
-> > Let filesystem iterate over hashes in the block and check if these are
-> > hashes of zeroed data blocks. XFS will use this to decide if it want to
-> > store tree block full of these hashes.
+On Wed, Feb 18, 2026 at 12:19:01AM +0100, Andrey Albershteyn wrote:
+> From: "Darrick J. Wong" <djwong@kernel.org>
 > 
-> Does it make sense to pass in the zero_digest vs just having a global
-> symbol or accessor?  This should be static information.
+> Provide a new function call so that validation errors can be reported
+> back to the filesystem.
+> 
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> ---
+>  fs/verity/verify.c              |  4 ++++
+>  include/linux/fsverity.h        | 14 ++++++++++++++
+>  include/trace/events/fsverity.h | 19 +++++++++++++++++++
+>  3 files changed, 37 insertions(+)
+> 
+> diff --git a/fs/verity/verify.c b/fs/verity/verify.c
+> index 404ab68aaf9b..8f930b2ed9c0 100644
+> --- a/fs/verity/verify.c
+> +++ b/fs/verity/verify.c
+> @@ -312,6 +312,10 @@ static bool verify_data_block(struct fsverity_info *vi,
+>  		data_pos, level - 1, params->hash_alg->name, hsize, want_hash,
+>  		params->hash_alg->name, hsize,
+>  		level == 0 ? dblock->real_hash : real_hash);
+> +	trace_fsverity_file_corrupt(inode, data_pos, params->block_size);
+> +	if (inode->i_sb->s_vop->file_corrupt)
+> +		inode->i_sb->s_vop->file_corrupt(inode, data_pos,
+> +						 params->block_size);
 
-I think this won't work if we have two filesystems with different
-block sizes and therefore different merkle block sizes => different
-hash.
+Once 7.0-rc1 lands you could turn this into:
 
--- 
-- Andrey
+	fserror_report_data_lost(inode, data_pos, params->block_size,
+			GFP_WHATEVER);
 
+--D
+
+>  error:
+>  	for (; level > 0; level--) {
+>  		kunmap_local(hblocks[level - 1].addr);
+> diff --git a/include/linux/fsverity.h b/include/linux/fsverity.h
+> index fed91023bea9..d8b581e3ce48 100644
+> --- a/include/linux/fsverity.h
+> +++ b/include/linux/fsverity.h
+> @@ -132,6 +132,20 @@ struct fsverity_operations {
+>  	 */
+>  	int (*write_merkle_tree_block)(struct file *file, const void *buf,
+>  				       u64 pos, unsigned int size);
+> +
+> +	/**
+> +	 * Notify the filesystem that file data is corrupt.
+> +	 *
+> +	 * @inode: the inode being validated
+> +	 * @pos: the file position of the invalid data
+> +	 * @len: the length of the invalid data
+> +	 *
+> +	 * This function is called when fs-verity detects that a portion of a
+> +	 * file's data is inconsistent with the Merkle tree, or a Merkle tree
+> +	 * block needed to validate the data is inconsistent with the level
+> +	 * above it.
+> +	 */
+> +	void (*file_corrupt)(struct inode *inode, loff_t pos, size_t len);
+>  };
+>  
+>  #ifdef CONFIG_FS_VERITY
+> diff --git a/include/trace/events/fsverity.h b/include/trace/events/fsverity.h
+> index a8c52f21cbd5..0c842aaa4158 100644
+> --- a/include/trace/events/fsverity.h
+> +++ b/include/trace/events/fsverity.h
+> @@ -140,6 +140,25 @@ TRACE_EVENT(fsverity_verify_merkle_block,
+>  		__entry->hidx)
+>  );
+>  
+> +TRACE_EVENT(fsverity_file_corrupt,
+> +	TP_PROTO(const struct inode *inode, loff_t pos, size_t len),
+> +	TP_ARGS(inode, pos, len),
+> +	TP_STRUCT__entry(
+> +		__field(ino_t, ino)
+> +		__field(loff_t, pos)
+> +		__field(size_t, len)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->ino = inode->i_ino;
+> +		__entry->pos = pos;
+> +		__entry->len = len;
+> +	),
+> +	TP_printk("ino %lu pos %llu len %zu",
+> +		(unsigned long) __entry->ino,
+> +		__entry->pos,
+> +		__entry->len)
+> +);
+> +
+>  #endif /* _TRACE_FSVERITY_H */
+>  
+>  /* This part must be outside protection */
+> -- 
+> 2.51.2
+> 
+> 
