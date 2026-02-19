@@ -1,128 +1,199 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C00A1E8320
-	for <fsverity@lists.linux.dev>; Thu, 19 Feb 2026 09:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8CE33D6FD
+	for <fsverity@lists.linux.dev>; Thu, 19 Feb 2026 11:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771494682; cv=none; b=j54oRise/rjveKWsR7IEKLiqw5Znv79gDtnzrDD8hmWqBQMj/WJnZiSMzOjf9PuSOc8hrah8zHXhNRblJKSU0ojHwCUFdmm6oWZyfoeclj9MRKx+4lZV1b74D3t8fifmctnTBwJXoKwQGvxgy47jnK+NutBr/GqYE0k4o3nSOuA=
+	t=1771499486; cv=none; b=bBaKOYv8U9hpMQlY4LxY5xvB+FrkKwtu24W8tuT4YVyXkYMGbhejsHoaPgT+ukmvxQrbDo56tI98hLVk7mOUZSUVJD55CMCohErwxgWe87Q/6rP4w6NlI0wNbkhR3lvIT4Yg+UbCXtDmnoI2ACOt0bjJDwshMOsw89xn2ulkT+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771494682; c=relaxed/simple;
-	bh=qzaET1Zy37x+a+KIo6FvgZb076ajIH6u8Jf7ivmPbBg=;
+	s=arc-20240116; t=1771499486; c=relaxed/simple;
+	bh=nB0bTsF21LZ1FMr3dpBbHwJVzpYmVbgqeukyG/vW3pQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=r8ZCiO2XXunOq9H572gN1/9NfTg7golq3OxtQzX4uiwFY29m3/qvlPHy9AMiaLaOVJIS3Cx+/xNxu3BNlIpkOWpkRa575hrSxR8agt9H2iuCEeDFYWvWx7S6a2Xoh5dxbAdu8qSTJIi1ktUxfnKQqrit0wq/tB6NEWh6G8UQnzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bhZJ/7cS; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=RtaaXziLoJaVoTDk6+2xjlYw5tdCnPjV8/0LiklWHl+asTSPSkbK10u1dgbj+RkeEDKCnSNteDzOIa+TCwM6u0GRK7XFfF+oF61Y9dSAf8bQtQfXlUciVv774hB0i+jxkWyANXLEbE/h4u1a77zLMBbJW4KKDy4ZdElSon7Sn+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OoJxr3nA; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bhZJ/7cS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OoJxr3nA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771494680;
+	s=mimecast20190719; t=1771499483;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K33V4rOOwYLW15X+o+vqv2I81VqZ2aMaDFF+pr+8/b4=;
-	b=bhZJ/7cSgPXWyGg9KwJVlOqhyXBp9Y+PPEFgeHWjNIdXXVW1RgCKDqoeBNxPluxJ7c/Q/R
-	Js38Yealt6Cw3CPWBmWeiTb7CA8v9jQJacDnoJauORmVDw3eanuvQHxbhsXhygXkOqVo9S
-	8FvXwFuodoriAVrGp/woSNg25dhaD2o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=A5XAF0Aaeg8lBO1DxOELBnxRYVsQIoZJWshuHqIQFsA=;
+	b=OoJxr3nAk8mt79VOnD/zFDxB/Uxw2wm7yOY+AonZeeEeueK6q5O2Vd3R/J04ScrJaewSIZ
+	tK6vagIHhgzkkZEPiYzfmcK2rbbbnxK1KAlrpt03TPN9rk1GfTthP7AftqFQdkNN0BwwxG
+	D0h+ni027/KWB/lYxaXNKTBCNl84TE8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-54-9rJ8V1CpOKWMvyx9sZmEXw-1; Thu, 19 Feb 2026 04:51:18 -0500
-X-MC-Unique: 9rJ8V1CpOKWMvyx9sZmEXw-1
-X-Mimecast-MFC-AGG-ID: 9rJ8V1CpOKWMvyx9sZmEXw_1771494678
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-435a11575ecso807481f8f.2
-        for <fsverity@lists.linux.dev>; Thu, 19 Feb 2026 01:51:18 -0800 (PST)
+ us-mta-504-zvaxPxkWNXesdLFWmEp7vQ-1; Thu, 19 Feb 2026 06:11:22 -0500
+X-MC-Unique: zvaxPxkWNXesdLFWmEp7vQ-1
+X-Mimecast-MFC-AGG-ID: zvaxPxkWNXesdLFWmEp7vQ_1771499481
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4839fc4cef6so4105355e9.0
+        for <fsverity@lists.linux.dev>; Thu, 19 Feb 2026 03:11:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771494677; x=1772099477;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K33V4rOOwYLW15X+o+vqv2I81VqZ2aMaDFF+pr+8/b4=;
-        b=beAOmsBl1N+b0wgINmzoJS4ZqnLISuHEOU8Ij3BXz1tv4Vc+tXKkokrIzq/1anah6B
-         rnml3nAKrGa0AVmceTPWqqykcRSZdFQUr9Z3ODeoUP/I2G6UsdHGGkkRwvbTfQoaA16X
-         p7EEsGgzTvxlkZ9UZ4oYPJc4AIa7VuG/Palvwq6e6Zk7LyeIsiKvt/2yMMBm8BInRN9i
-         iabrgybdqwnReN6auiiw9os4SUF6y30/JINrClCJTKcHqlH0ebAcYbbkJs0lPZI6XXAJ
-         X/sHPP7yZqOjw5QsvwuKvkzMKQOuvUOQBC3nhSaXzzO/p5jy9iWtfUUUOvCtzObg3gt9
-         RKlw==
-X-Forwarded-Encrypted: i=1; AJvYcCV19SjXms3cR9aHrvY+C2PNNGNUmsIV/+7CP4j5EZjvyweg0Bbp68QPrHBbINibVVTarjeiMJfgTQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxdinoNWiZeFzJ5nbnStS8lOx/IRIgjjSD4qWbLXrRPtbXtGaDu
-	4WInmQM2+r43RbEvZK3TsaQyPgl3JttIF2Xe1Ef9T+vpDmfSSgAErMiQaHtZsFC1DE+kVCacgxk
-	uuENeOHGiEYFxR9mmYvcn/3DOA1R4kCXadwDsp2FMPwydSp13g1L5DE2D9so=
-X-Gm-Gg: AZuq6aK1hESPiOoV/RMFNdfF2a7fx/cL4WybfOjPTLTx53O1cqzmZKflUFeNqsfc/k8
-	urZedeP3oFnSgD7rq5cRxIcGw87Vd/mTONjir3XfneGc3FxM3HqwgfRJANWATVeEk/RNlKIPpFq
-	jwPxULxmnmOIyrCYngg+7l1bDRbxgHyDq+MwMLaBnRxluHtblRnAeaeVXndZS31mfYB0O5H25RR
-	UXhV8fH5PB7rK41AP4uomjB7fJEOTJu6vNMgEzbSy6uOEIZ7XSIxlB+60vSpHHpYXVqVV8NQVVU
-	Qo8A7nj0IgCG+rXHdJsYWlycM5sT2O6K3UX3naYrLqZiOWDvNivlL2S2U/MYv5EgAprIPVh5HJa
-	nwYrIHgvqRZg=
-X-Received: by 2002:a05:6000:40dc:b0:437:7010:1d0b with SMTP id ffacd0b85a97d-43958df17a3mr7223989f8f.6.1771494677308;
-        Thu, 19 Feb 2026 01:51:17 -0800 (PST)
-X-Received: by 2002:a05:6000:40dc:b0:437:7010:1d0b with SMTP id ffacd0b85a97d-43958df17a3mr7223941f8f.6.1771494676703;
-        Thu, 19 Feb 2026 01:51:16 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771499481; x=1772104281;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A5XAF0Aaeg8lBO1DxOELBnxRYVsQIoZJWshuHqIQFsA=;
+        b=O9eGyAgmiYfdgNZBTPuEpXq9FqbWHpKfG8vnTf5GNbkdssvKThoA9xtpdNk9OFtLga
+         r9bnMOTReFKmr67Z1zHmM0pYh9ArzCEZFsUTMWHhURe3I8aZDEbP8Tn5oXjQ4NfKnk0n
+         F900LihWfFd5Gb78yoJG8vIts0hKAUDptjrlBPii6+QU0tYnIWiFVa5YKRdVm//JHS5w
+         hVbIjQXZk9qiHOTLtCTOYnQXtQGH8YP5HwG6WEHpc61vsMCoJUgtdxtQEEchbBIzBnbN
+         iiqflUdQs7Asj2zNpObT7pOzTzLlTwm+7sggRqOBJmMonGL4lIvjJAi3jaSrj/fxF5QG
+         OipQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVyh3wHRoNc1WVL1ccuu9LXCU1KKZbx1Cb3qgu0B8NBZzrGh4P9hnje9uFSYac9+apu50Cy1ge2Vg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVQSgehvrKW/ULgrcRCcw+CeWC3GbtT/7CaRMtz84qeL6T7Ten
+	C/x3YdQ6MOwtdFsA6PYuQHvGVrqSf9pL1y7gOR1In7VXKSzLKHdmdY2hEF4VBAioXezonCPMx1f
+	R8H3RiqqaCF1ovsaUpPdIf/oTaVJFeLo/btizix1KmiIlKDBpC0G3tSszVUwbUgCmZec=
+X-Gm-Gg: AZuq6aLYVNydDDP46EqmdlIwjyiwKBHIT25FrTv3LcfIgUTzHStGbr1eyCv9gqjB6KR
+	kwRkP1eEqwHoipeEtEn38t6dnxBt48XqKAn5R4n1IMa8cb+Pgs/CZsk951ebVSVNQiNJz9YBBmg
+	cQEs/FlD2DM1xo6auDD5uMUd5MnraRkuu9mZDFpfxwS7GeCLsg+s2vDpIc+RTy2wuvMZlyDnIT4
+	Eg4Hmxn9h2VK5lcmn4JCBQ5ZIv2udrKtpfsIR1HwMNF4xz9G+cBoPo53v2xi7DAUwEfbC/cIcyM
+	7mwTlzOJdPIZiAsImh06/8aszFb3RQk+Yc6TRUwSTOi83uGhgBGshr/n2EAin097mOurp3202rP
+	mnep5Gmdw8ng=
+X-Received: by 2002:a05:600c:3b22:b0:477:9a61:fd06 with SMTP id 5b1f17b1804b1-4839fe97501mr21343375e9.8.1771499480403;
+        Thu, 19 Feb 2026 03:11:20 -0800 (PST)
+X-Received: by 2002:a05:600c:3b22:b0:477:9a61:fd06 with SMTP id 5b1f17b1804b1-4839fe97501mr21342205e9.8.1771499479443;
+        Thu, 19 Feb 2026 03:11:19 -0800 (PST)
 Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5b07fsm48227142f8f.2.2026.02.19.01.51.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4839f90c27fsm32768655e9.2.2026.02.19.03.11.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 01:51:16 -0800 (PST)
-Date: Thu, 19 Feb 2026 10:51:14 +0100
+        Thu, 19 Feb 2026 03:11:19 -0800 (PST)
+Date: Thu, 19 Feb 2026 12:11:18 +0100
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
 	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
 	djwong@kernel.org
-Subject: Re: [PATCH v3 28/35] xfs: add fs-verity support
-Message-ID: <4cmnh4lgygm4fj3fixsgy3b7xp2ayo3jirvspoma6qxusdgluu@nyamffhaurej>
+Subject: Re: [PATCH v3 11/35] iomap: allow filesystem to read fsverity
+ metadata beyound EOF
+Message-ID: <qheg77kxcl4ecqdrsnmz4acfvszjlamlb7ilgxxyf3pmt4r7ah@5fzzmcpurdfp>
 References: <20260217231937.1183679-1-aalbersh@kernel.org>
- <20260217231937.1183679-29-aalbersh@kernel.org>
- <20260218064429.GC8768@lst.de>
- <mtnj4ahovgefkl4pexgwkxrreq6fm7hwpk5lgeaihxg7z5zdlz@tpzevymml5qx>
- <20260219061122.GA4091@lst.de>
+ <20260217231937.1183679-12-aalbersh@kernel.org>
+ <20260218063606.GD8600@lst.de>
+ <hfteu6bonpv7djecbf3d6ekh56ktgcl4c2lvtjtrjfetzaq5dw@scsrvxx5rgig>
+ <20260219060420.GC3739@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260219061122.GA4091@lst.de>
+In-Reply-To: <20260219060420.GC3739@lst.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Y-T42Yw6JCaAjNME6PmWAD2LRdaeDiX40A48yDJDp24_1771494678
+X-Mimecast-MFC-PROC-ID: RKhlCqp6djDFN1iKO6cIAixfgTQ7MoPxJP5bcef5TtI_1771499481
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 2026-02-19 07:11:22, Christoph Hellwig wrote:
-> On Wed, Feb 18, 2026 at 10:57:35AM +0100, Andrey Albershteyn wrote:
-> > > > +static int
-> > > > +xfs_fsverity_drop_descriptor_page(
-> > > > +	struct inode	*inode,
-> > > > +	u64		offset)
-> > > > +{
-> > > > +	pgoff_t index = offset >> PAGE_SHIFT;
-> > > > +
-> > > > +	return invalidate_inode_pages2_range(inode->i_mapping, index, index);
-> > > > +}
-> > > 
-> > > What is the rationale for this?  Why do ext4 and f2fs get away without
-> > > it?
+On 2026-02-19 07:04:20, Christoph Hellwig wrote:
+> On Wed, Feb 18, 2026 at 10:41:14AM +0100, Andrey Albershteyn wrote:
+> > > +		 * Handling of fsverity "holes". We hits this for two case:
+> > > +		 *   1. No need to go further, the hole after fsverity
+> > > +		 *	descriptor is the end of the fsverity metadata.
+> > > +		 *
+> > > +		 *	No ctx->vi means we are reading a folio with descriptor.
+> > > +		 *	XXX: what does descriptor mean here?  Also how do we
+> > > +		 *	even end up with this case?  I can't see how this can
+> > > +		 *	happe based on the caller?
 > > 
-> > They don't skip blocks full of zero hashes and then synthesize them.
-> > XFS has holes in the tree and this is handling for the case
-> > fs block size < PAGE_SIZE when these tree holes are in one folio
-> > with descriptor. Iomap can not fill them without getting descriptor
-> > first.
+> > fsverity descriptor. This is basically the case as for EOF folio.
+> > Descriptor is the end of the fsverity metadata region. If we have 1k
+> > fs blocks (= merkle blocks) we can have [descriptor | hole ] folio.
+> > As we are not limited by i_size here, iomap_block_needs_zeroing()
+> > won't fire to zero this hole. So, this case is to mark this tail as
+> > uptodate.
 > 
-> Should we just simply not create tree holes for that case?  Anything
-> involving page cache validation is a pain, so if we have an easy
-> enough way to avoid it I'd rather do that.
+> How do we end up in that without ctx->vi set?
 
-I don't think we can. Any hole at the tree tail which gets into the
-same folio with descriptor need to be skipped. If we write out
-hashes instead of the holes for the 4k page then other holes at
-lower offsets of the tree still can have holes on bigger page
-system.
+We're reading it
 
-Adding a bit of space between tree tail and descriptor would
-probably work but that's also dependent on the page size.
+> 
+> > I think this could be split into two cases by checking if (poff +
+> > plen) cover everything to the folio end. This means that we didn't
+> > get the case with tree holes and descriptor in one folio.
+> 
+> That might be more clear.
+> 
+> > > +		    	if (!ctx->vi) {
+> > > +				iomap_set_range_uptodate(folio, poff, plen);
+> > > +				/*
+> > > +				 * XXX: why return to the caller early here?
+> > > +				 */
+> > 
+> > To not hit hole in the tree (which means synthesize the block). The
+> > fsverity_folio_zero_hash() case.
+> 
+> Well, I mean return early from the function and not just move on
+> to the next loop iteration (which based on everything else you
+> wrote would then terminate anyway), і.e., why is this not:
+> 
+> 		if (!ctx->vi)
+> 			fsverity_folio_zero_hash(folio, poff, plen, ctx->vi)
+> 		iomap_set_range_uptodate(folio, poff, plen);
+> 	} else if ...
+
+yes this would work
+
+I've attached the current patch, with all the changes.
+
++               } else if (iomap_block_needs_zeroing(iter, pos) &&
++                          !(iomap->flags & IOMAP_F_FSVERITY)) {
+
+This check is still needed as we should not hit it when we're
+reading normal merkle tree block. iomap_block_needs_zeroing is
+checking if offset is beyond i_size and will fire here for merkle
+blocks.
+
+Let me know if you prefer to split the first case further, or the
+current patch is good enough.
 
 -- 
 - Andrey
+
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 47356c763744..af7b79073879 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -533,10 +533,31 @@ static int iomap_read_folio_iter(struct iomap_iter *iter,
+                if (plen == 0)
+                        return 0;
+ 
+-               /* zero post-eof blocks as the page may be mapped */
+-               if (iomap_block_needs_zeroing(iter, pos) &&
+-                   !(iomap->flags & IOMAP_F_FSVERITY)) {
++               /*
++                * Handling of fsverity "holes". We hits this for two case:
++                *   1. No need to go further, the hole after fsverity
++                *      descriptor is the end of the fsverity metadata.
++                *
++                *   2. This folio contains merkle tree blocks which need to be
++                *      synthesized and fsverity descriptor.
++                */
++               if ((iomap->flags & IOMAP_F_FSVERITY) &&
++                   iomap->type == IOMAP_HOLE) {
++                       /*
++                        * Synthesize the hash value for a zeroed folio if we
++                        * are reading merkle tree blocks.
++                        */
++                       if (ctx->vi)
++                               fsverity_folio_zero_hash(folio, poff, plen,
++                                                        ctx->vi);
++                       iomap_set_range_uptodate(folio, poff, plen);
++               } else if (iomap_block_needs_zeroing(iter, pos) &&
++                          !(iomap->flags & IOMAP_F_FSVERITY)) {
++                       /* zero post-eof blocks as the page may be mapped */
+                        folio_zero_range(folio, poff, plen);
++                       if (fsverity_active(iter->inode) &&
++                           !fsverity_verify_blocks(ctx->vi, folio, plen, poff))
++                               return -EIO;
+                        iomap_set_range_uptodate(folio, poff, plen);
+                } else {
+                        if (!*bytes_submitted)
 
