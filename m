@@ -1,41 +1,32 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9E12E0B71;
-	Thu, 19 Feb 2026 19:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E724F20D4FC
+	for <fsverity@lists.linux.dev>; Fri, 20 Feb 2026 15:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771529418; cv=none; b=P0g4rsjZd7VDTHZ7RMVY9oq2sBh+S72irQlkgMzCb3tW+oOl6z07by0GcXr0J29FIE7uh0gzU+Edap3PsiL3eeqHQRMpOzLLdtUMrj1bAYdhAu9FcVDez5nsGi/hed41CQx9esr7aWr8sl4ltRCjWJr0VA86yi2ZK19+9JArDq8=
+	t=1771601478; cv=none; b=bz4H+uVIYG7wjPUFNBwdrLb9S6eRxzTBi7nwMjYdhtvMoT5nUlsgPAckcpSJX7ACHjzBKaGgLySn1zTUmGmm4VRFGVmJ41xI/wWEKW5bQk2cPe0tY244saXFD2zIxO5B7+0mTIlDelQhzP0J9MpzJ2ZC/fewaA3i8oot8vNjFGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771529418; c=relaxed/simple;
-	bh=X/X5RRyXeMbrbz/ZenwcyeIPn7dwKsb549deEqtV4Uw=;
+	s=arc-20240116; t=1771601478; c=relaxed/simple;
+	bh=fUcOx96hUH2xxWt5q41bPTjE5PJ87yVEHYVDDLnSaIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MoJpOXm0IF093g28zz3g7P2It8PWkCk7k4xthawiNMgfgMJbkzd0ufScq/TCPbSrEBDLepI4xONFCeLaF0a3G2LXji4GKKBxYV/yfj4YWvMB3xvv/dlcdhNygiqPwBxOMU2uE6jlI+FjxGX2Ges4nPiPJRD2WvU4MiNMEtgjjFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z6mt63/d; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z6mt63/d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8832CC4CEF7;
-	Thu, 19 Feb 2026 19:30:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771529417;
-	bh=X/X5RRyXeMbrbz/ZenwcyeIPn7dwKsb549deEqtV4Uw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z6mt63/dEtr/b2f/BAwtqo2iR05YETFPx3v9WHh04gipNepb9nb1k9oDmx+YMK/C1
-	 gQHWQCBHJgWODIPcXPmCKOeT8espIeE2AbCkaJznPpkfEurvvh8CWKSVrsHHskxZ+x
-	 yTjEoAeQHhiyQrNJyWXw/tMfhDBobBkT5ETKal0FY6xjUmoDc3FWiqJa31e5N6/tkt
-	 Lxo+9G9+8vv2WR4jeo81Lj94kYOmtBy6aKc6Sn16HdncvyxmfEenjDSlV7KmpXvpks
-	 u0pAsF06U5CsZH7OGNiWlsw7pAbcF0B1FF1L3VYhRdigRx0HiaXrNmDBxQ91VH7Rhf
-	 zqougAFRmBgHQ==
-Date: Thu, 19 Feb 2026 11:30:16 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>, b@magnolia.djwong.org
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de
-Subject: Re: [PATCH v3 27/35] xfs: use different on-disk and pagecache offset
- for fsverity
-Message-ID: <20260219193016.GO6490@frogsfrogsfrogs>
-References: <20260217231937.1183679-1-aalbersh@kernel.org>
- <20260217231937.1183679-28-aalbersh@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KuFpPI6xCluokuHP9Dji3xE5caklVVW3l/gS76TLLm1T688u1LRArMnH1otD+6c1f3ZqYLMy3x3qpSJUTl7RtptnZ/dUfjjoHByls8M8ONqlxw+S9s6JEa1nJntQ4GeHSN62BUlT4wslCbX8FCfqxBqCxp1CQdKqweui04Yk0Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 50A3A68B05; Fri, 20 Feb 2026 16:31:14 +0100 (CET)
+Date: Fri, 20 Feb 2026 16:31:13 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	ebiggers@kernel.org, djwong@kernel.org
+Subject: Re: [PATCH v3 11/35] iomap: allow filesystem to read fsverity
+ metadata beyound EOF
+Message-ID: <20260220153113.GA14359@lst.de>
+References: <20260217231937.1183679-1-aalbersh@kernel.org> <20260217231937.1183679-12-aalbersh@kernel.org> <20260218063606.GD8600@lst.de> <hfteu6bonpv7djecbf3d6ekh56ktgcl4c2lvtjtrjfetzaq5dw@scsrvxx5rgig> <20260219060420.GC3739@lst.de> <qheg77kxcl4ecqdrsnmz4acfvszjlamlb7ilgxxyf3pmt4r7ah@5fzzmcpurdfp> <20260219133829.GA11935@lst.de> <bltgc6uliclhzkuqd4la2tzp6x7vsww73nvjedxh7s624tby3k@jw4ij5irh6ni>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -44,231 +35,72 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260217231937.1183679-28-aalbersh@kernel.org>
+In-Reply-To: <bltgc6uliclhzkuqd4la2tzp6x7vsww73nvjedxh7s624tby3k@jw4ij5irh6ni>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Feb 18, 2026 at 12:19:27AM +0100, Andrey Albershteyn wrote:
-> Convert between pagecache and on-disk offset while reading/writing
-> fsverity metadata through iomap.
+On Thu, Feb 19, 2026 at 03:23:11PM +0100, Andrey Albershteyn wrote:
+> On 2026-02-19 14:38:29, Christoph Hellwig wrote:
+> > On Thu, Feb 19, 2026 at 12:11:18PM +0100, Andrey Albershteyn wrote:
+> > > > > fsverity descriptor. This is basically the case as for EOF folio.
+> > > > > Descriptor is the end of the fsverity metadata region. If we have 1k
+> > > > > fs blocks (= merkle blocks) we can have [descriptor | hole ] folio.
+> > > > > As we are not limited by i_size here, iomap_block_needs_zeroing()
+> > > > > won't fire to zero this hole. So, this case is to mark this tail as
+> > > > > uptodate.
+> > > > 
+> > > > How do we end up in that without ctx->vi set?
+> > > 
+> > > We're reading it
+> > 
+> > Did a part of that sentence get lost?
 > 
-> We can not use on-disk (1ULL << 53) offset for pagecache as it doesn't
+> I mean that to have ctx->vi we need to read fsverity descriptor
+> first. When iomap is reading fsverity descriptor inode won't have
+> any fsverity_info yet.
 
-nit: 'cannot', not 'can not'.
+So for ext4/f2fs the pattern is that it is set by:
 
-(English is a weird language, the two don't quite mean the same thing)
+	if (folio->index < DIV_ROUND_UP(inode->i_size, PAGE_SIZE))
+		vi = fsverity_get_info(inode);
 
-> fit into 32-bit address space and the page radix tree is going to be
-> quite high on 64-bit. To prevent this we use lower offset, right after
-> EOF. The fsverity_metadata_offset() sets it to be next largest folio
-> after EOF.
+i.e., only for reading the data.  OTOH, for iomap we do:
 
-I'd say "fsverity_metadata_offset() sets the pagecache offset so that
-file data and fsverity metadata cannot be cached by the same folio."
+	if (fsverity_active(iter.inode)) {
+		ctx->vi = fsverity_get_info(iter.inode);
 
-> We can not use this pagecache offset for on-disk file offset though, as
-> this is folio size dependent. Therefore, for on-disk we use offset far
-> beyond EOF which allows to use largest file size supported by fsverity.
+which means it now is set for all I/O on fsverity files, which
+is subtly different.
+
+(You don't actually need the fsverity_active chck, fsverity_get_info
+already does that, btw).
+
+I'm still not sure what "When iomap is reading fsverity descriptor
+inode" means.
+
+> > Another overly long line here.  Also we should avoid the
+> > fsverity_active check here, as it causes a rhashtable lookup.  F2fs
+> > and ext4 just check ctx->vi, but based on the checks above, we seem
+> > to set this also for (some) reads of the fsverity metadata.  But as
+> > we exclude IOMAP_F_FSVERITY above, we might actually be fine with a
+> > ctx->vi anyway.
 > 
-> Also don't convert offset if IOMAP_REPORT is set as we need to see real
-> extents for fiemap.
-> 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> ---
->  fs/xfs/libxfs/xfs_bmap.c | 12 ++++++++++--
->  fs/xfs/xfs_aops.c        | 13 ++++++++++---
->  fs/xfs/xfs_iomap.c       | 33 ++++++++++++++++++++++++++-------
->  3 files changed, 46 insertions(+), 12 deletions(-)
-> 
-> diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
-> index 99a3ff2ee928..05fddd34c697 100644
-> --- a/fs/xfs/libxfs/xfs_bmap.c
-> +++ b/fs/xfs/libxfs/xfs_bmap.c
-> @@ -41,6 +41,8 @@
->  #include "xfs_inode_util.h"
->  #include "xfs_rtgroup.h"
->  #include "xfs_zone_alloc.h"
-> +#include "xfs_fsverity.h"
-> +#include <linux/fsverity.h>
->  
->  struct kmem_cache		*xfs_bmap_intent_cache;
->  
-> @@ -4451,7 +4453,9 @@ xfs_bmapi_convert_one_delalloc(
->  	XFS_STATS_ADD(mp, xs_xstrat_bytes, XFS_FSB_TO_B(mp, bma.length));
->  	XFS_STATS_INC(mp, xs_xstrat_quick);
->  
-> -	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
-> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION) &&
-> +	    XFS_FSB_TO_B(mp, bma.got.br_startoff) >=
-> +		    fsverity_metadata_offset(VFS_I(ip)))
->  		flags |= IOMAP_F_FSVERITY;
+> Don't you confused this with fsverity_get_info()? I don't see how it
+> could cause lookup.
 
-Hrmmm.  I wonder, why not create a set of fsverity-specific iomap ops
-that wrap xfs_read_iomap_begin and/or xfs_buffered_write_iomap_begin?
-The wrappers could then do the offset translation prior to calling the
-real _iomap_begin function, and then undo that translation on the output
-mapping and set IOMAP_F_FSVERITY?  Then we don't clutter up the regular
-paths with the translation stuff.
+Yeah.  Still, having ctx->vi implies fsverity_active, and follows
+what we're doing elsewhere.
 
-<shrug> Thoughts?  This way seems to work as well.
-
---D
-
->  
->  	ASSERT(!isnullstartblock(bma.got.br_startblock));
-> @@ -4495,6 +4499,10 @@ xfs_bmapi_convert_delalloc(
->  	unsigned int		*seq)
->  {
->  	int			error;
-> +	loff_t			iomap_offset = offset;
-> +
-> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
-> +		iomap_offset = xfs_fsverity_offset_from_disk(ip, offset);
->  
->  	/*
->  	 * Attempt to allocate whatever delalloc extent currently backs offset
-> @@ -4507,7 +4515,7 @@ xfs_bmapi_convert_delalloc(
->  					iomap, seq);
->  		if (error)
->  			return error;
-> -	} while (iomap->offset + iomap->length <= offset);
-> +	} while (iomap->offset + iomap->length <= iomap_offset);
->  
->  	return 0;
->  }
-> diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-> index 9d4fc3322ec7..53aeea5e9ebd 100644
-> --- a/fs/xfs/xfs_aops.c
-> +++ b/fs/xfs/xfs_aops.c
-> @@ -335,8 +335,8 @@ xfs_map_blocks(
->  	struct xfs_inode	*ip = XFS_I(wpc->inode);
->  	struct xfs_mount	*mp = ip->i_mount;
->  	ssize_t			count = i_blocksize(wpc->inode);
-> -	xfs_fileoff_t		offset_fsb = XFS_B_TO_FSBT(mp, offset);
-> -	xfs_fileoff_t		end_fsb = XFS_B_TO_FSB(mp, offset + count);
-> +	xfs_fileoff_t		offset_fsb;
-> +	xfs_fileoff_t		end_fsb;
->  	xfs_fileoff_t		cow_fsb;
->  	int			whichfork;
->  	struct xfs_bmbt_irec	imap;
-> @@ -351,8 +351,12 @@ xfs_map_blocks(
->  
->  	XFS_ERRORTAG_DELAY(mp, XFS_ERRTAG_WB_DELAY_MS);
->  
-> -	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
-> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION)) {
->  		iomap_flags |= IOMAP_F_FSVERITY;
-> +		offset = xfs_fsverity_offset_to_disk(ip, offset);
-> +	}
-> +	offset_fsb = XFS_B_TO_FSBT(mp, offset);
-> +	end_fsb = XFS_B_TO_FSB(mp, offset + count);
->  
->  	/*
->  	 * COW fork blocks can overlap data fork blocks even if the blocks
-> @@ -484,6 +488,9 @@ xfs_map_blocks(
->  			wpc->iomap.length = cow_offset - wpc->iomap.offset;
->  	}
->  
-> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
-> +		offset = xfs_fsverity_offset_from_disk(ip, offset);
-> +
->  	ASSERT(wpc->iomap.offset <= offset);
->  	ASSERT(wpc->iomap.offset + wpc->iomap.length > offset);
->  	trace_xfs_map_blocks_alloc(ip, offset, count, whichfork, &imap);
-> diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
-> index 6b14221ecee2..a04361cf0e99 100644
-> --- a/fs/xfs/xfs_iomap.c
-> +++ b/fs/xfs/xfs_iomap.c
-> @@ -32,6 +32,7 @@
->  #include "xfs_rtbitmap.h"
->  #include "xfs_icache.h"
->  #include "xfs_zone_alloc.h"
-> +#include "xfs_fsverity.h"
->  #include <linux/fsverity.h>
->  
->  #define XFS_ALLOC_ALIGN(mp, off) \
-> @@ -142,7 +143,11 @@ xfs_bmbt_to_iomap(
->  		    xfs_rtbno_is_group_start(mp, imap->br_startblock))
->  			iomap->flags |= IOMAP_F_BOUNDARY;
->  	}
-> -	iomap->offset = XFS_FSB_TO_B(mp, imap->br_startoff);
-> +	if (xfs_fsverity_need_convert_offset(ip, imap, mapping_flags))
-> +		iomap->offset = xfs_fsverity_offset_from_disk(
-> +			ip, XFS_FSB_TO_B(mp, imap->br_startoff));
-> +	else
-> +		iomap->offset = XFS_FSB_TO_B(mp, imap->br_startoff);
->  	iomap->length = XFS_FSB_TO_B(mp, imap->br_blockcount);
->  	iomap->flags = iomap_flags;
->  	if (mapping_flags & IOMAP_DAX) {
-> @@ -629,6 +634,8 @@ xfs_iomap_write_unwritten(
->  	uint		resblks;
->  	int		error;
->  
-> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
-> +		offset = xfs_fsverity_offset_to_disk(ip, offset);
->  	trace_xfs_unwritten_convert(ip, offset, count);
->  
->  	offset_fsb = XFS_B_TO_FSBT(mp, offset);
-> @@ -1766,8 +1773,8 @@ xfs_buffered_write_iomap_begin(
->  						     iomap);
->  	struct xfs_inode	*ip = XFS_I(inode);
->  	struct xfs_mount	*mp = ip->i_mount;
-> -	xfs_fileoff_t		offset_fsb = XFS_B_TO_FSBT(mp, offset);
-> -	xfs_fileoff_t		end_fsb = xfs_iomap_end_fsb(mp, offset, count);
-> +	xfs_fileoff_t		offset_fsb;
-> +	xfs_fileoff_t		end_fsb;
->  	struct xfs_bmbt_irec	imap, cmap;
->  	struct xfs_iext_cursor	icur, ccur;
->  	xfs_fsblock_t		prealloc_blocks = 0;
-> @@ -1790,8 +1797,12 @@ xfs_buffered_write_iomap_begin(
->  		return xfs_direct_write_iomap_begin(inode, offset, count,
->  				flags, iomap, srcmap);
->  
-> -	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
-> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION)) {
->  		iomap_flags |= IOMAP_F_FSVERITY;
-> +		offset = xfs_fsverity_offset_to_disk(ip, offset);
-> +	}
-> +	offset_fsb = XFS_B_TO_FSBT(mp, offset);
-> +	end_fsb = xfs_iomap_end_fsb(mp, offset, count);
->  
->  	error = xfs_qm_dqattach(ip);
->  	if (error)
-> @@ -2112,8 +2123,8 @@ xfs_read_iomap_begin(
->  	struct xfs_inode	*ip = XFS_I(inode);
->  	struct xfs_mount	*mp = ip->i_mount;
->  	struct xfs_bmbt_irec	imap;
-> -	xfs_fileoff_t		offset_fsb = XFS_B_TO_FSBT(mp, offset);
-> -	xfs_fileoff_t		end_fsb = xfs_iomap_end_fsb(mp, offset, length);
-> +	xfs_fileoff_t		offset_fsb;
-> +	xfs_fileoff_t		end_fsb;
->  	int			nimaps = 1, error = 0;
->  	bool			shared = false;
->  	unsigned int		lockmode = XFS_ILOCK_SHARED;
-> @@ -2125,8 +2136,15 @@ xfs_read_iomap_begin(
->  	if (xfs_is_shutdown(mp))
->  		return -EIO;
->  
-> -	if (fsverity_active(inode) && offset >= XFS_FSVERITY_REGION_START)
-> +	if (fsverity_active(inode) &&
-> +	    (offset >= fsverity_metadata_offset(inode)) &&
-> +	    !(flags & IOMAP_REPORT)) {
->  		iomap_flags |= IOMAP_F_FSVERITY;
-> +		offset = xfs_fsverity_offset_to_disk(ip, offset);
-> +	}
-> +
-> +	offset_fsb = XFS_B_TO_FSBT(mp, offset);
-> +	end_fsb = xfs_iomap_end_fsb(mp, offset, length);
->  
->  	error = xfs_ilock_for_iomap(ip, flags, &lockmode);
->  	if (error)
-> @@ -2142,6 +2160,7 @@ xfs_read_iomap_begin(
->  		return error;
->  	trace_xfs_iomap_found(ip, offset, length, XFS_DATA_FORK, &imap);
->  	iomap_flags |= shared ? IOMAP_F_SHARED : 0;
-> +
->  	return xfs_bmbt_to_iomap(ip, iomap, &imap, flags, iomap_flags, seq);
->  }
->  
-> -- 
-> 2.51.2
 > 
+> > 
+> > Please document the rules for ctx->vi while were it.
+> > 
 > 
+> Hmm, the vi is set in iomap_read_folio() [1] and then used down
+> through I/O up to ioend completion. What info you would like to see
+> there?
+
+See above, unlike ext4/f2fs we set it for all I/O on fsverity inodes.
+And afaik we don't actually need it, the only use in the fsverity
+metadata path is the fill zeroes hash values check (which I'm still
+totally confused about).
+
