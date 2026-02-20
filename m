@@ -1,32 +1,45 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E724F20D4FC
-	for <fsverity@lists.linux.dev>; Fri, 20 Feb 2026 15:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643E934DCE4;
+	Fri, 20 Feb 2026 16:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771601478; cv=none; b=bz4H+uVIYG7wjPUFNBwdrLb9S6eRxzTBi7nwMjYdhtvMoT5nUlsgPAckcpSJX7ACHjzBKaGgLySn1zTUmGmm4VRFGVmJ41xI/wWEKW5bQk2cPe0tY244saXFD2zIxO5B7+0mTIlDelQhzP0J9MpzJ2ZC/fewaA3i8oot8vNjFGY=
+	t=1771605779; cv=none; b=dttZnE0zQVE7AKp4OwAtC9G1ynoEgm4Pyd1Do5u4CP0J+MMUQncODIfN07vQqvde0+dhJ5NYFfLECkjkiPTkdRAX0SS+YgYr4FWP8DPhiqBIvVBc1aCcCQ4U/naTVgcCFKl0L9/OY++8o0UuejWPw+oGOXSbiXIhGFyevxnSJlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771601478; c=relaxed/simple;
-	bh=fUcOx96hUH2xxWt5q41bPTjE5PJ87yVEHYVDDLnSaIM=;
+	s=arc-20240116; t=1771605779; c=relaxed/simple;
+	bh=G/ShcUtWenoizu0ggf3gy/Kmn+L8arABOtvZeoHmP9U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KuFpPI6xCluokuHP9Dji3xE5caklVVW3l/gS76TLLm1T688u1LRArMnH1otD+6c1f3ZqYLMy3x3qpSJUTl7RtptnZ/dUfjjoHByls8M8ONqlxw+S9s6JEa1nJntQ4GeHSN62BUlT4wslCbX8FCfqxBqCxp1CQdKqweui04Yk0Zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 50A3A68B05; Fri, 20 Feb 2026 16:31:14 +0100 (CET)
-Date: Fri, 20 Feb 2026 16:31:13 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org, djwong@kernel.org
-Subject: Re: [PATCH v3 11/35] iomap: allow filesystem to read fsverity
- metadata beyound EOF
-Message-ID: <20260220153113.GA14359@lst.de>
-References: <20260217231937.1183679-1-aalbersh@kernel.org> <20260217231937.1183679-12-aalbersh@kernel.org> <20260218063606.GD8600@lst.de> <hfteu6bonpv7djecbf3d6ekh56ktgcl4c2lvtjtrjfetzaq5dw@scsrvxx5rgig> <20260219060420.GC3739@lst.de> <qheg77kxcl4ecqdrsnmz4acfvszjlamlb7ilgxxyf3pmt4r7ah@5fzzmcpurdfp> <20260219133829.GA11935@lst.de> <bltgc6uliclhzkuqd4la2tzp6x7vsww73nvjedxh7s624tby3k@jw4ij5irh6ni>
+	 Content-Type:Content-Disposition:In-Reply-To; b=UNtgBjZRwIXG7od7+6IzXeIitnwDsmNmxTHi63JYTmd1UPZMDvIfAN5Ro8LbDnUpMs1RE3krCdq886NXZk1aS7J0JAlDtJDbZ/xA8vyB8AZEH7s4VqvpXlCUDpNZzUTx2rHAaNAQzoijuYrWuRzjlXZy7eayD+C0Vx7a16zFaes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Fw6+HNWg; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Fw6+HNWg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=G/ShcUtWenoizu0ggf3gy/Kmn+L8arABOtvZeoHmP9U=; b=Fw6+HNWgtJ4WhDUTGt/0H3Wh6D
+	nL6DLKdA5A6+mJwlwtW8OzuCyl4WzUPdQSynchxOLWYKN1aCzqbktRTL+t7VqvvT1Zp3STRSU5JeU
+	fLgd4H7MMTzZcJuu/v9tEsT7er5AoQy/ZKDJtnaLD2A6edEDqtaybZG986ao+CJFAjid04Z49bakm
+	+rVE+kO6+cKdLGPMcgCRPnmBiySovPYj3Iay3I7Wv9l5UBQs9y9qwGkefL5Gh31LZjNjVePCxFnMG
+	rGO6UoYydYCiPxZGmiqV6lrjPXcA/CCvoaJ/kTVVdGDtQpqIWmB+PmV665O8KGKgWxtJuwjBAyV6t
+	iecqSJeQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vtTaf-00000009pGZ-3jnu;
+	Fri, 20 Feb 2026 16:42:53 +0000
+Date: Fri, 20 Feb 2026 16:42:53 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
+	djwong@kernel.org
+Subject: Re: [PATCH v3 08/35] iomap: don't limit fsverity metadata by EOF in
+ writeback
+Message-ID: <aZiPDWBn9-1AIQAi@casper.infradead.org>
+References: <20260217231937.1183679-1-aalbersh@kernel.org>
+ <20260217231937.1183679-9-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -35,72 +48,23 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bltgc6uliclhzkuqd4la2tzp6x7vsww73nvjedxh7s624tby3k@jw4ij5irh6ni>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20260217231937.1183679-9-aalbersh@kernel.org>
 
-On Thu, Feb 19, 2026 at 03:23:11PM +0100, Andrey Albershteyn wrote:
-> On 2026-02-19 14:38:29, Christoph Hellwig wrote:
-> > On Thu, Feb 19, 2026 at 12:11:18PM +0100, Andrey Albershteyn wrote:
-> > > > > fsverity descriptor. This is basically the case as for EOF folio.
-> > > > > Descriptor is the end of the fsverity metadata region. If we have 1k
-> > > > > fs blocks (= merkle blocks) we can have [descriptor | hole ] folio.
-> > > > > As we are not limited by i_size here, iomap_block_needs_zeroing()
-> > > > > won't fire to zero this hole. So, this case is to mark this tail as
-> > > > > uptodate.
-> > > > 
-> > > > How do we end up in that without ctx->vi set?
-> > > 
-> > > We're reading it
-> > 
-> > Did a part of that sentence get lost?
-> 
-> I mean that to have ctx->vi we need to read fsverity descriptor
-> first. When iomap is reading fsverity descriptor inode won't have
-> any fsverity_info yet.
+On Wed, Feb 18, 2026 at 12:19:08AM +0100, Andrey Albershteyn wrote:
+> fsverity metadata is stored at the next folio after largest folio
+> containing EOF.
 
-So for ext4/f2fs the pattern is that it is set by:
+I don't get it.
 
-	if (folio->index < DIV_ROUND_UP(inode->i_size, PAGE_SIZE))
-		vi = fsverity_get_info(inode);
+Here's how I understand how all this works:
 
-i.e., only for reading the data.  OTOH, for iomap we do:
+Userspace writes data to the file.
+Userspace calculates the fsverity metadata.
+The entire file is fsync'ed to storage
+The fsverity flag is set and i_size is reduced to before the metadata
+starts
 
-	if (fsverity_active(iter.inode)) {
-		ctx->vi = fsverity_get_info(iter.inode);
+At no point during this process do we need to do writeback past EOF.
 
-which means it now is set for all I/O on fsverity files, which
-is subtly different.
-
-(You don't actually need the fsverity_active chck, fsverity_get_info
-already does that, btw).
-
-I'm still not sure what "When iomap is reading fsverity descriptor
-inode" means.
-
-> > Another overly long line here.  Also we should avoid the
-> > fsverity_active check here, as it causes a rhashtable lookup.  F2fs
-> > and ext4 just check ctx->vi, but based on the checks above, we seem
-> > to set this also for (some) reads of the fsverity metadata.  But as
-> > we exclude IOMAP_F_FSVERITY above, we might actually be fine with a
-> > ctx->vi anyway.
-> 
-> Don't you confused this with fsverity_get_info()? I don't see how it
-> could cause lookup.
-
-Yeah.  Still, having ctx->vi implies fsverity_active, and follows
-what we're doing elsewhere.
-
-> 
-> > 
-> > Please document the rules for ctx->vi while were it.
-> > 
-> 
-> Hmm, the vi is set in iomap_read_folio() [1] and then used down
-> through I/O up to ioend completion. What info you would like to see
-> there?
-
-See above, unlike ext4/f2fs we set it for all I/O on fsverity inodes.
-And afaik we don't actually need it, the only use in the fsverity
-metadata path is the fill zeroes hash values check (which I'm still
-totally confused about).
+What am I missing?
 
