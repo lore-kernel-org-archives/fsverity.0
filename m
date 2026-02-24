@@ -1,135 +1,67 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30ED6399021
-	for <fsverity@lists.linux.dev>; Tue, 24 Feb 2026 14:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDBE23AB87
+	for <fsverity@lists.linux.dev>; Tue, 24 Feb 2026 14:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771942913; cv=none; b=LLilyaS+04F2TG21o3vV/L6tOug5ll+NTkDHdOXDXllDWJXNVfSL829a+hJqmEXemqdSpVnAoPgbACtwk5YfV4cJBPcowQPLvMpwBmnMqkd8jgHrkmEmSB/dWIOx+CtjKKgkMMMQ+tucObhGIC+BmMg8yb5VHrjuMnJUSanFpQM=
+	t=1771944173; cv=none; b=O6CyGQUE/etQoeYHRX/s/rKccxm7btezLX0z3njNAzM+5FhgvtuSGyL5vFlPcWNmLEuFhVFzVkMhPVAtA9LDf+e9va1CBbGHNsMjuS0r/nHJruZI72w0GeIn4cZscX7FTDAa/rbwOn9ERORE38hqdJcixnaR2LKAbIq6/b3FsWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771942913; c=relaxed/simple;
-	bh=ZY+nfMr6N8IaewZoqjPoliXxqmewibNuEHGDuir7EuE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Dq5S55UAy2yrgoycabTvFq6bJqyXE8ToJF3vMMyfiiWs1SR0j48xBWnmMGG4KWFyC6+VWdhTqFnPKqKf7DpeAru/EGYp4ZJ/R0zrI7O2IEUo7JlLb/mP4guSrKNDqTVDWh7AT7NnKAE7JeWd4HQ9YvzOSYy2PG+1Js4OOTx23Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Dw6i0uu/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=D4HqaUh8; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Dw6i0uu/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="D4HqaUh8"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 25C857A0226;
-	Tue, 24 Feb 2026 09:21:49 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Tue, 24 Feb 2026 09:21:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1771942908;
-	 x=1772029308; bh=e7mI4HpymDX2XCi9sMPC+TZYyqhUHKoWZGamGdWnans=; b=
-	Dw6i0uu/cjeEym7qYZbcV8bbha2FtlwyYgq98MmQZqr9KnjS7uBJ4hF+w6kyjMN+
-	bIN0I3pvhaTGXGpghd+AU6p1IzWQmMUNvi8eO+KMu0/fKJNMsxegOGEJCQ6JKneu
-	qe3bcHcIv7bKTWquIdIRbkdwoR+yTBzVW1EAPemTTlsZUZp3+w3Ano3SvDT01HwP
-	V2dHh8ZJfhfdjqS6vORYmFDEj8laqorkj3VTnI80bAOBnAOpG9TRNLKtvvfU5xGR
-	GzIGCzPzCn0bTWbqKTWoR8sGZUkYXgR6TPLK1Gjbf0DnJS4Fk+oqbUMo7LqzGMSO
-	Ih26J+iGO+eOzBON2feLDA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1771942908; x=
-	1772029308; bh=e7mI4HpymDX2XCi9sMPC+TZYyqhUHKoWZGamGdWnans=; b=D
-	4HqaUh8ITDXZbf8GK/kuAZjp9g2RXYdcMFppjI76TauqgBYNL3QajIOvip1Ta2T4
-	BUK1vx3YdzsOYxTzlvB+vJlwOTx3QiIhTLaB6TRaGQHZ7OisD/d8cOgy+d12mdNz
-	8b3xly9bkniq4Wm8un21kIRQw7y79aXUJKjkStnvFxTrfZsHRvzEzCJY4dyULPgS
-	r6Xn3Yn2TWglH8F7zZmfjdnEW8l2o5vcnIbzSfWyrIixTOrk7pNw+YHzLBkSetVs
-	es8nkshXWMIpsNJsH/dbRFovvp4lwVIAbWCkr0YNU7QWiMsNI2ZMl+Oq7S//hPga
-	xzw6B12IRUF89fO5d0h/g==
-X-ME-Sender: <xms:_LOdaSWdBJ6d23xA0gDoZ7AJ1ksEorJId6drmWVQ-JIWEnnJFb_a8w>
-    <xme:_LOdaZb60DzGpTE1wrdOAJ5HezkD5jJEgEqKl1_TSU_SCzvq8gFJLLzw1PkAwoams
-    dfd83hhAI8pGRUoeMlePlJOd6zYlddVMP68cy-JHA-X9sCWC88xwXc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgedtfeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhepfefhheetffduvdfgieeghfejtedvkeetkeejfeekkeelffejteevvdeghffhiefh
-    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgt
-    phhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegvsghighhgvghrsh
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhsvhgvrhhithihsehlihhsthhsrdhl
-    ihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhdvfhhsqdguvghvvghlsehlih
-    hsthhsrdhsohhurhgtvghfohhrghgvrdhnvghtpdhrtghpthhtohephhgthheslhhsthdr
-    uggvpdhrtghpthhtohepughsthgvrhgsrgesshhushgvrdgtiidprhgtphhtthhopehlih
-    hnuhigqdgsthhrfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhi
-    nhhugidqvgigthegsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
-    ihhnuhigqdigfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:_LOdaa7nX9WLv9NNYiBHorlVQMKcXox6-7zviO9ey-NUi0MDxSOmgg>
-    <xmx:_LOdacEJ1j4w7csTmSvFz7YWPT_a5R9BfV4xOvGcjR8A5jm0YCOCdQ>
-    <xmx:_LOdaVBPTPMXIHVJD2d5a-PEzLE7qts4oy3tQduIfiShOP8Wjo_0mw>
-    <xmx:_LOdaRwr-AYw4bHcPBNKh-ClEujeHtarlQpPAgkzGWJ24ya_brYw0g>
-    <xmx:_LOdaZG7S_rCFNDrmhQ92Qg41ztV-CaW2xJNisZLfsqAmdktFGh1mpsF>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 180EC70006A; Tue, 24 Feb 2026 09:21:48 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1771944173; c=relaxed/simple;
+	bh=wC9Y4jz9b+cciDywQ8+900OuS6yQXQOyS1NadcFn5gs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AAm9b8C0IVMIvM6hjAB8VPoKllaVGOpfGGL6FJNFRrwSYzQ2WgenxwCxPC7INIect4Qq7Tu4mWQZ2q7vAU1J5KyBCEkH7q9PRYKXNvm3q7TLNE7PWSFHpZLxgEQaXIiiN8/QW6+DuDGlUsBZZ2TabUfmhZ1aab2bgcANN4F2hVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5CA4368D09; Tue, 24 Feb 2026 15:42:49 +0100 (CET)
+Date: Tue, 24 Feb 2026 15:42:48 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	ebiggers@kernel.org, djwong@kernel.org
+Subject: Re: [PATCH v3 11/35] iomap: allow filesystem to read fsverity
+ metadata beyound EOF
+Message-ID: <20260224144248.GA12746@lst.de>
+References: <20260217231937.1183679-1-aalbersh@kernel.org> <20260217231937.1183679-12-aalbersh@kernel.org> <20260218063606.GD8600@lst.de> <hfteu6bonpv7djecbf3d6ekh56ktgcl4c2lvtjtrjfetzaq5dw@scsrvxx5rgig> <20260219060420.GC3739@lst.de> <qheg77kxcl4ecqdrsnmz4acfvszjlamlb7ilgxxyf3pmt4r7ah@5fzzmcpurdfp> <20260219133829.GA11935@lst.de> <bltgc6uliclhzkuqd4la2tzp6x7vsww73nvjedxh7s624tby3k@jw4ij5irh6ni> <20260220153113.GA14359@lst.de> <ujwgs5xb6rienyskr7qbekmsbyn5qea2ew4untas5drqdufirp@2qea2ndmnchs>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AcHQldxZr-js
-Date: Tue, 24 Feb 2026 15:19:35 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "David Sterba" <dsterba@suse.cz>, "Eric Biggers" <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- "Christoph Hellwig" <hch@lst.de>, linux-ext4@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org,
- linux-xfs@vger.kernel.org
-Message-Id: <d02f6b7c-76d5-4239-8a32-8163797a81b0@app.fastmail.com>
-In-Reply-To: <20260224135507.GT26902@twin.jikos.cz>
-References: <20260221204525.30426-1-ebiggers@kernel.org>
- <20260224135507.GT26902@twin.jikos.cz>
-Subject: Re: [PATCH] fsverity: add dependency on 64K or smaller pages
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ujwgs5xb6rienyskr7qbekmsbyn5qea2ew4untas5drqdufirp@2qea2ndmnchs>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Feb 24, 2026, at 14:55, David Sterba wrote:
-> On Sat, Feb 21, 2026 at 12:45:25PM -0800, Eric Biggers wrote:
->> Currently, all filesystems that support fsverity (ext4, f2fs, and btrfs)
->> cache the Merkle tree in the pagecache at a 64K aligned offset after the
->> end of the file data.  This offset needs to be a multiple of the page
->> size, which is guaranteed only when the page size is 64K or smaller.
->> 
->> 64K was chosen to be the "largest reasonable page size".  But it isn't
->> the largest *possible* page size: the hexagon and powerpc ports of Linux
->> support 256K pages, though that configuration is rarely used.
->> 
->> For now, just disable support for FS_VERITY in these odd configurations
->> to ensure it isn't used in cases where it would have incorrect behavior.
->> 
->> Fixes: 671e67b47e9f ("fs-verity: add Kconfig and the helper functions for hashing")
->> Reported-by: Christoph Hellwig <hch@lst.de>
->> Closes: https://lore.kernel.org/r/20260119063349.GA643@lst.de
->> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
->
-> Makes sense to me, we have "depends on PAGE_SIZE_LESS_THAN_256KB" since
-> somebody tried to use btrfs on the 256K system.
+On Mon, Feb 23, 2026 at 04:10:23PM +0100, Andrey Albershteyn wrote:
+> 
+> > 
+> > I'm still not sure what "When iomap is reading fsverity descriptor
+> > inode" means.
+> 
+> "When iomap is reading fsverity descriptor, inode won't have any
+> fsverity_info yet."
 
-I wonder if we should just drop the configuration entirely. There
-are very few users on either PowerPC44x (officially orphaned, but
-I know users) and Hexagon (officially supported, but no hardware
-available outside of Qualcomm). My impression is that this was
-implemented purely because the hardware can do it, not because
-anyone actually wants to use 256K pages.
+What code path is this?  __fsverity_file_open -> ensure_verity_info ->
+fsverity_get_descriptor?
 
-I see that commit "e12401222f74 powerpc/44x: Support for 256KB
-PAGE_SIZE" mentions how one has to patch the linker to support
-larger than 64K pages, and I see that both powerpc and hexagon
-linkers still hardcode the section alignment to 64K pages, for
-obvious reasons.
+> > See above, unlike ext4/f2fs we set it for all I/O on fsverity inodes.
+> > And afaik we don't actually need it, the only use in the fsverity
+> > metadata path is the fill zeroes hash values check (which I'm still
+> > totally confused about).
+> 
+> Yeah, for metadata the only use is to fill zero hash blocks. I will
+> try to split it so lookup happens for data and holes in fsverity
+> metadata. This way we would have less lookups for metadata.
 
-      Arnd
+I think doing one lookup per ->read_folio / ->readahead is fine.
+I just really need to understand the differences here.  I think I'm
+finally getting it, and it would be greast to capture all this in
+comments.  I'll carefully read over the next versions and will suggest
+updates to the comments based on the my understanding if needed.
+
