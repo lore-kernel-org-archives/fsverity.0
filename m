@@ -1,134 +1,164 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4B633EB19
-	for <fsverity@lists.linux.dev>; Mon, 23 Feb 2026 18:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F0E39E182
+	for <fsverity@lists.linux.dev>; Tue, 24 Feb 2026 13:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771871111; cv=none; b=k46l3/ebUFXu00aLwy+n9BqKNOHGYW2Y4hrA8ss7IWrhvNwUlzAw2uEbedy5dju8bpYo5mMgh8CD0ZbDpc8mgtg/mS/FIFkYHTx50srhFQLnVRk5oGJaoMsdGIpIY75dlI8N4QSd4kQamReI7BpeXDEqa6m8jmRaECw2I62ihn8=
+	t=1771941313; cv=none; b=KaVAkcmdZMF7OxpTLaWWREFZ30kF1iR3yZyeJSF36wkJ/U0pZ6hoRo+B56d489BXinoJAXALqivIuNf0UQVVlVHGhAV1zDkQeTs04eKrQZqoTVhwLMnC+eaExRokDtHUJ+jsCUmzoBFT3TzrI5dCcd/BazSYcQvlk2eUT+fzf/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771871111; c=relaxed/simple;
-	bh=/EWm0pKBviMXdkqzEFKnhQPgOVbIqiISyVyohCEv9cA=;
+	s=arc-20240116; t=1771941313; c=relaxed/simple;
+	bh=Y83YN3Z+oLSinJ7NVQEsEsHz/fpDH/jnmePEQ8Rq+M4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=P++AhoMtTFbUQ1bYNGjgWvuqM4z7h6bp/5NyWzEWZR2dMKwmhBycyv4++4geyc/M3vk7jbqGt32udtSEstwCDaVdtf0gdWkYjfEEIFVt0XS0+5dIVTwO8O5nE+cHg3bAHXWqCoaZS70zSUo05C1bUEdAyswvLvkSL6DLVSAIvHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N0XGnMsK; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=eodzK3fYuLHU4Dwu0bDz/3VALqvqcD3S81kz8xkfWO6zRx0BvSANytIjA6Gee8zZ8IEnnzZXPQ6ZO193DLzahXoTpLeGYVCGZUs2J0CDxw8UDndPtXutauEOY0bUfeeuQMnssYGnW5Po/YNfjE/7ABiJQaIgi/V7On00k7Zo0lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MT1kUN+g; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6EFemYbm; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MT1kUN+g; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6EFemYbm; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N0XGnMsK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771871109;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MT1kUN+g";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6EFemYbm";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MT1kUN+g";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6EFemYbm"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 013293F251;
+	Tue, 24 Feb 2026 13:55:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771941309;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cXT5f9mZlEhUbznTe2SCQroAE1pOqmhBrzIVjFLcgGY=;
-	b=N0XGnMsKjdABkuQZsp9KE9mDSm7YhBM+WXJFR6i3Gr5qxe6MNLW7Hka3AsjhmgPHRrsmqU
-	YtEbfA1Sudu8c4BJOeZ+MM1NVD2puYVL7hmOmb0OKeAlH4SWP2W4Mxc8k1R393ynHl8JO6
-	CKD58BBZhEZqWQwPZWN7QKlCAvCCbls=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-453-GJEEi0hCPxuyW0aljBy1pg-1; Mon, 23 Feb 2026 13:25:08 -0500
-X-MC-Unique: GJEEi0hCPxuyW0aljBy1pg-1
-X-Mimecast-MFC-AGG-ID: GJEEi0hCPxuyW0aljBy1pg_1771871107
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4830e7c6131so44088045e9.2
-        for <fsverity@lists.linux.dev>; Mon, 23 Feb 2026 10:25:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771871107; x=1772475907;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cXT5f9mZlEhUbznTe2SCQroAE1pOqmhBrzIVjFLcgGY=;
-        b=YlviqwyqV9RBy9gxr67TSpFp2KJerL0TkKHAh2omCocXwxHgPdWyVwH7Ty+nwaMd2z
-         2IRp2IgiEUHiiLGvm75WUOj2k/mDv2Bg+LOfJGcDYoPsXGqjQFsyQDqMJEwi5eWYcCdL
-         Deu01J0Tps9OplVbDMPHBueDKObWlWj+J58DJGW1A/GhHl5IY7PpaZ1kmowXdLgZFl82
-         uFdSwB62Hg9xqXXg/GdnxktaOH/BSLq5PKcynCeTmDO9zElfM52mLsbLTgRR2x3A3l44
-         kEJ583J/uw3ebDkUeZYTznB7SSHakl+nLCRVCQm3Gq0rZsmlCBq0vw2DABKYrAoH6oxz
-         ABYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUqJZ4LO+yV8Pkle970g1uShsUac9CPCXeBqnxXcDS+rdRz2tw2W/DPB9vE1fdpSMBaaEjr7ND93w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCVvjWGFURUr67fo7Is9IiIEfndE0KzMHW1NBp4i/c8KWSOn3q
-	oxTRkLUhdcoZjoIogydQziVv5An/CKJgTfQb8PeXgwRps+Y/npxXKeoon4W9iKFmd3624SR9AOt
-	ggU9WUq6Xz27sSc7s2767Xbs6xWo/ShbaK2rXoRd+1Zy2+iMknuYM3hflLrkVidGL9Qo=
-X-Gm-Gg: AZuq6aL+1iM6ZPM9aBH28JZSZO0JCp5DdOZCb5qk/yTPLXZkDI2+8e47f6C1b42chei
-	+liQ22/PwFcLL5WND7j8/XawXn61qRDoClRpHmGogLgEZnLzV980nb8jUWvwAK4YqtJ7kMjyIWQ
-	oGslZbNVHFpytFTm7QI+s3nL/vrUT2tI/ZjsmEO0FwvKZ+vrfJAoLDEC6D5pyLXYLkyu/VTWLHV
-	XEvezweLGj2z4Rol+e10TfZuz+eovEKaVoRMWZS+Uhyddblnux418ZGswRjwjjpqPzOEBFABbYp
-	7AlQknB84axIGBz2/VnQqv1livJHJtL73ZFl4sTzSM89Z4krv7Yc8ODqxJSevdEMb8wcKfbWLbQ
-	obmE8QaVXUIs=
-X-Received: by 2002:a05:600d:8446:20b0:480:1b65:b744 with SMTP id 5b1f17b1804b1-483a963785fmr110956795e9.28.1771871106723;
-        Mon, 23 Feb 2026 10:25:06 -0800 (PST)
-X-Received: by 2002:a05:600d:8446:20b0:480:1b65:b744 with SMTP id 5b1f17b1804b1-483a963785fmr110956415e9.28.1771871106204;
-        Mon, 23 Feb 2026 10:25:06 -0800 (PST)
-Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a9cbfc96sm192309275e9.15.2026.02.23.10.25.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 10:25:05 -0800 (PST)
-Date: Mon, 23 Feb 2026 19:25:05 +0100
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Zorro Lang <zlang@redhat.com>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, fstests@vger.kernel.org, 
-	fsverity@lists.linux.dev, ebiggers@kernel.org
-Subject: Re: [PATCH] generi/579: handle quoted cmp output
-Message-ID: <yoly62o7qoacichhdhjjym6mkanzr4fumhf74azbtffnc4sm6c@bkcye3xmyt5m>
-References: <20260219152524.1770469-1-aalbersh@kernel.org>
- <20260220170417.sbykhwr53sah2s7g@dell-per750-06-vm-08.rhts.eng.pek2.redhat.com>
+	bh=IwteX+3st/BoFz5qXCpVjpTwTwtYXckuDq7ibdYt4EA=;
+	b=MT1kUN+gGMsCoUB7Gjf+X+6FRCA4P14szw92f6JxsRV9UMCUBkcWJ/9jC42VOyxmQsQ3Ps
+	iQZMh7ZKItwreVqdT0dkT/MVXaUQUyAzinPYWwXqVuomUEFjzWu09pIxdXe6uVgKTQ9nuj
+	huY1D4lmsDtGpbQaHXgiCDySZqFGOhw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771941309;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IwteX+3st/BoFz5qXCpVjpTwTwtYXckuDq7ibdYt4EA=;
+	b=6EFemYbm6sEj3mrcQ6sGZxLXHy3au4fcdkZjOBJZG/c8rQEr1EOhkmXX1kXnTMf41r2YMZ
+	ZGAmaWkNO5ITBFBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MT1kUN+g;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=6EFemYbm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771941309;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IwteX+3st/BoFz5qXCpVjpTwTwtYXckuDq7ibdYt4EA=;
+	b=MT1kUN+gGMsCoUB7Gjf+X+6FRCA4P14szw92f6JxsRV9UMCUBkcWJ/9jC42VOyxmQsQ3Ps
+	iQZMh7ZKItwreVqdT0dkT/MVXaUQUyAzinPYWwXqVuomUEFjzWu09pIxdXe6uVgKTQ9nuj
+	huY1D4lmsDtGpbQaHXgiCDySZqFGOhw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771941309;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IwteX+3st/BoFz5qXCpVjpTwTwtYXckuDq7ibdYt4EA=;
+	b=6EFemYbm6sEj3mrcQ6sGZxLXHy3au4fcdkZjOBJZG/c8rQEr1EOhkmXX1kXnTMf41r2YMZ
+	ZGAmaWkNO5ITBFBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB6473EA68;
+	Tue, 24 Feb 2026 13:55:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6HV7MbytnWkuJwAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Tue, 24 Feb 2026 13:55:08 +0000
+Date: Tue, 24 Feb 2026 14:55:07 +0100
+From: David Sterba <dsterba@suse.cz>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>, Arnd Bergmann <arnd@arndb.de>,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: [PATCH] fsverity: add dependency on 64K or smaller pages
+Message-ID: <20260224135507.GT26902@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <20260221204525.30426-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260220170417.sbykhwr53sah2s7g@dell-per750-06-vm-08.rhts.eng.pek2.redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Nj_QY83Leol5IjgSeKrrVk4yunE161nz1dNb8puWpws_1771871107
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260221204525.30426-1-ebiggers@kernel.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.21 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Queue-Id: 013293F251
+X-Spam-Flag: NO
+X-Spam-Score: -4.21
+X-Spam-Level: 
 
-On 2026-02-21 01:04:17, Zorro Lang wrote:
-> On Thu, Feb 19, 2026 at 04:25:22PM +0100, Andrey Albershteyn wrote:
-> > diffutils updated cmp with more consistent quoting in commit:
-> > 
-> > 	69ae797392bd cmp,diff,diff3,sdiff: quote more consistently
+On Sat, Feb 21, 2026 at 12:45:25PM -0800, Eric Biggers wrote:
+> Currently, all filesystems that support fsverity (ext4, f2fs, and btrfs)
+> cache the Merkle tree in the pagecache at a 64K aligned offset after the
+> end of the file data.  This offset needs to be a multiple of the page
+> size, which is guaranteed only when the page size is 64K or smaller.
 > 
-> Sigh... changing the default output of core commands again.
+> 64K was chosen to be the "largest reasonable page size".  But it isn't
+> the largest *possible* page size: the hexagon and powerpc ports of Linux
+> support 256K pages, though that configuration is rarely used.
 > 
-> > 
-> > This causes generic/579 to fail from time to time due to grep not
-> > catching these errors. Remove quote to work with new and old version of
-> > cmp.
-> > 
-> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > ---
-> >  tests/generic/579 | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/tests/generic/579 b/tests/generic/579
-> > index d5fab4892e9a..19ffd4954db2 100755
-> > --- a/tests/generic/579
-> > +++ b/tests/generic/579
-> > @@ -71,6 +71,7 @@ for ((proc = 0; proc < nproc_reader; proc++)); do
-> >  			# match, regardless of whether verity has been enabled
-> >  			# or not yet (or is currently being enabled).
-> >  			cmp $orig_file $fsv_file |& _filter_scratch | \
-> > +				sed "s/'//g" | \
+> For now, just disable support for FS_VERITY in these odd configurations
+> to ensure it isn't used in cases where it would have incorrect behavior.
 > 
-> Thanks for finding this bug. So the output of cmp isn't consistent between the
-> old and new versions, which is going to break later cases (base on cmp) on old
-> or new diffutils version. We usually handle this by wrapping it in a _cmp function
-> to keep the behavior consistent, refer to how we handled common/attr:_getfattr().
+> Fixes: 671e67b47e9f ("fs-verity: add Kconfig and the helper functions for hashing")
+> Reported-by: Christoph Hellwig <hch@lst.de>
+> Closes: https://lore.kernel.org/r/20260119063349.GA643@lst.de
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> ---
+>  fs/verity/Kconfig | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> If no more review points, I can merge this patch to fix this issue at first.
-> 
-> Reviewed-by: Zorro Lang <zlang@redhat.com>
-Thanks!
- 
-> I'm not sure if we need further updates on diff command, we can revisit this
-> if any bugs are reported.
+> diff --git a/fs/verity/Kconfig b/fs/verity/Kconfig
+> index 76d1c5971b82..b20882963ffb 100644
+> --- a/fs/verity/Kconfig
+> +++ b/fs/verity/Kconfig
+> @@ -1,9 +1,12 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  
+>  config FS_VERITY
+>  	bool "FS Verity (read-only file-based authenticity protection)"
+> +	# Filesystems cache the Merkle tree at a 64K aligned offset in the
+> +	# pagecache.  That approach assumes the page size is at most 64K.
+> +	depends on PAGE_SHIFT <= 16
 
-I was running -g auto and -g quick with new diffutils, haven't seen
-any other failures.
-
--- 
-- Andrey
-
+Makes sense to me, we have "depends on PAGE_SIZE_LESS_THAN_256KB" since
+somebody tried to use btrfs on the 256K system.
