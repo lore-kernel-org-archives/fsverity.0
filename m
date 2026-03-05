@@ -1,68 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976CC27816C;
-	Thu,  5 Mar 2026 18:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F8B3EB7EC;
+	Thu,  5 Mar 2026 19:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772736356; cv=none; b=DlJM7jEbELibix8Fq+2eivhsQ5Ky0A+9XBCoStPPGrSbkX6ZgHrDUw/NpxhLA40ijvRNN6oku7uX4mZZ7+TTHMtie8RP4IFSUgvNAlg9OolSH+1Am5NHlibq4hMEoRfQWDUHP19ptaiFHABpwCjz71T9dJfdPIkJ5JqysaUZugQ=
+	t=1772740531; cv=none; b=AtAbEMAHPZvgt/Ty6R43iHf6znkuGkZOrXZJ45acEcpsSQP0rAcsj7ID9sVwQoTxGdL+9fdZaQRQfVwiTpWEndEIGrloWo7ZrT8X14FbpZeOObpWqlmM0xM6Ojyi5W6E8ZQsvuoDhJ8Q7v57DCoOl4LAe/RJEoUjfoDf8tbQXbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772736356; c=relaxed/simple;
-	bh=/JZtaGTNaubBIZLf2TxD2AYjHwTUAxj9GYdDzvsJ/2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YXfK9xNYSCWkTd0XZAaxhvpaC+uUGgmH45mG4W3BfTlb+mjhaNDwtgiuNasHynK/bltnW3gF/YFEJu4PceYjsPRb7wdwN/qoIrKyM/fXiIabBNEZOVGhiNTRSlW4Pxj/zByV7uJm0/FT2FuE4Pi0H1eSPL6j/zMydeeSdUg9oco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=blBtrORm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772740531; c=relaxed/simple;
+	bh=LcQ2kxwzgtWbhnhUMOXfV3qvvpnSV5lcvwwFoqdlAU0=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=ebOJPl1HMbhbU6pBVr0Or6FGgpqUCWKTKcKo0trfa28sgVLYr0uZCWVNyuBlbqUzJYvh6J1j8Mrgc3rXsum6ggEULdi0+LlqxSLiWv1Ow/ByRalu7Cs9nmga+Dj1B9MdPT3pfy0f+YL6/RLiBe/1UUQvziAt8U/NrGTxr2fYWRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=os9xwbgI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="blBtrORm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D0B0C116C6;
-	Thu,  5 Mar 2026 18:45:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="os9xwbgI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71079C116C6;
+	Thu,  5 Mar 2026 19:55:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772736356;
-	bh=/JZtaGTNaubBIZLf2TxD2AYjHwTUAxj9GYdDzvsJ/2U=;
-	h=Date:From:To:Cc:Subject:From;
-	b=blBtrORmnPJHME1UBrV396lAzBW2rhXDrM4PfytbGIIHjFWJMUw14xKlHvPvRIfCR
-	 bG3Xa8m6aNU8I06LtgkneHcgzvu7T9np1QU5NmtxbYv/vdxwknY+egTq8j8QXjd1DG
-	 9yOx1ORd3YPALcUpHqyKk48nXAFJ40wmtIP5bt4XJCEQJQzbIP0LOg9n6EYOBk2wR9
-	 TvD2pt6DJEv4SFajraMdfBRv4cS4HWdvTbgFVMUSmXCBBc1hoGG1t7Chh7xEV80dYU
-	 66zUbYJlYWjUAz6/76PemMEKCvm6sR83E7hJaSmt0b/fL5UztEBT6tTF95JgI3aou/
-	 hd/WDtBRDGGGQ==
-Date: Thu, 5 Mar 2026 10:45:54 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	Christoph Hellwig <hch@lst.de>
-Subject: [GIT PULL] fsverity fix for v7.0-rc3
-Message-ID: <20260305184554.GB2796@quark>
+	s=k20201202; t=1772740531;
+	bh=LcQ2kxwzgtWbhnhUMOXfV3qvvpnSV5lcvwwFoqdlAU0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=os9xwbgIMoQz5MQ6mWgHxFZ8W2U83BTBJyFSYjZOPsqHWpk8uHsN5OLg7sG9MGd3l
+	 y35rm/XYFyzWLmgW10TJ9d5bAxRR6NaML6/jPchOmBx5gO/xOjkjiLrUES/FTjslOL
+	 Q6S7C1PpeZzd52C0z1J+wnUbWZy/Aq5zt9hiFQ2jDRVV/5Kbse3paIJN0BQ8HXcej0
+	 trhl8Cs0jq1L9dP1XofXto+kvmz4YpCSGyAblxrAprZfzBwE+WtnltN2+zqV5BHihF
+	 1adBtRJrf1sECY+Q5BuuUJeAWOJvNBdPDGWvzNuAg/BBd5RwhTSR+2KfgkypVD/MK4
+	 QrPGZQp6DsVTg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 92FB63808200;
+	Thu,  5 Mar 2026 19:55:32 +0000 (UTC)
+Subject: Re: [GIT PULL] fsverity fix for v7.0-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20260305184554.GB2796@quark>
+References: <20260305184554.GB2796@quark>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20260305184554.GB2796@quark>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+X-PR-Tracked-Commit-Id: a300000233a9ff842e2fb450fb9a79f7827a586d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 5ee8dbf54602dc340d6235b1d6aa17c0f283f48c
+Message-Id: <177274053123.3268027.3718445977387287066.pr-tracker-bot@kernel.org>
+Date: Thu, 05 Mar 2026 19:55:31 +0000
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Christoph Hellwig <hch@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
+The pull request you sent on Thu, 5 Mar 2026 10:45:54 -0800:
 
-  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
+> https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/5ee8dbf54602dc340d6235b1d6aa17c0f283f48c
 
-  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+Thank you!
 
-for you to fetch changes up to a300000233a9ff842e2fb450fb9a79f7827a586d:
-
-  fsverity: add dependency on 64K or smaller pages (2026-03-02 21:05:34 -0800)
-
-----------------------------------------------------------------
-
-Prevent CONFIG_FS_VERITY from being enabled when the page size is 256K,
-since it doesn't work in that case.
-
-----------------------------------------------------------------
-Eric Biggers (1):
-      fsverity: add dependency on 64K or smaller pages
-
- fs/verity/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
