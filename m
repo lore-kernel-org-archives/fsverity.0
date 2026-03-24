@@ -1,98 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C85368962;
-	Thu, 19 Mar 2026 17:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2AF408221;
+	Tue, 24 Mar 2026 17:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773940527; cv=none; b=XS/fnVy2AsnjI4YFakLlI0MWMjgJU2vMTUCtJGhHSPP0S3XLiaFMbK185ks6DCOZ+1McCVe1s0IHxDCzVla4iEjPj9KZV0iay9+j6fyAh6SHqhgvAtNpfDFbHFygL5uSPNfiehp/gFlS13LCP613BYIHWaOQlKwDBVaDgQIop7k=
+	t=1774373548; cv=none; b=gYU+PmC366fg6dNM6bIXbFvJX7z1pyYeXxw69hZvVRy15X6HAmE4/5BYfdTZgjhPdI/obIylWWGHjfcqRdMQq4LAoyHkcylpcA4ulw5FDrw4NdtY+XRZjrix1czIILvg6hJDXh2Pn6Nvec8XFq9SYqKD348O5L2GP63cJ0m+iKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773940527; c=relaxed/simple;
-	bh=y3tfLHt4FkM8Rc8A9/9O0J5W/OSgTH4F1qTyhxe9Kvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OJZnvZdZAKt/LftZ2Kolaad7HpmmCkdUUV02X9KJ9rre8JiAz02w85TKU6wvp7U3sRdMz8p81d1kxp79m7qKmAGkcCa6D7ZShG2w+x+GQTJGvjKMP6+mSsqN+cC3mk8VEVRZabEPgPNDGJkQfA65pJjwIdUSj5MOv8rY2+CkRWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hoQi3FLC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774373548; c=relaxed/simple;
+	bh=6PvabfWqgV6Mk2o8Mrspk5xNPAhygV5RC4LIJoudYN8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=PMpKcYeQgwbfinuCLYS/X5BRTB5dpeKGQzQt24GZ0fSv8tQNBGy20DhMAJiQtnB5+Chf/6jw9YvN6VaRhoha/3ucNwpy17FOzRSrWTiqgyPGkpF2c+eFgAjrlu0pmnWBsgxXXUA2cgNXXGZ1KaJv6GH3dZsTgGx0vMqZlgSMEiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zo8h9UkR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hoQi3FLC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95627C19424;
-	Thu, 19 Mar 2026 17:15:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zo8h9UkR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1C9DC2BC87;
+	Tue, 24 Mar 2026 17:32:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773940526;
-	bh=y3tfLHt4FkM8Rc8A9/9O0J5W/OSgTH4F1qTyhxe9Kvw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hoQi3FLCyoVzcUPQ/3B9RE7UEMgK+uanJHlGkehCgs+vrPA+D/M6rnwyw8RbquWbh
-	 /ZwOrLkRz2GI21qRz99n4mJQMJdLx1ld8VgvHRpjECV7u4f+Yzm8JLQWHmnPApOn2r
-	 GiSF5C1KeBNYKLh+R+fe8ciJl0wcgbyhvHAKe38MTWxLqzIC2yGlromOrEJfes9xXM
-	 d9tG/YLERYZCLJ+HS7WhZPgUFvmion/2wwOCnYcPuU4Gg6BrDxFswVBDKvs/A7HsRc
-	 krMBW6/8hXO5HsIH7D8CJPs1EM9fo+vOwDx/I/ggz++5K4JKjJpuAHXsV7jg3og3K0
-	 exS45bQSrpDdg==
-Date: Thu, 19 Mar 2026 10:15:26 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v5 01/25] fsverity: report validation errors through
- fserror to fsnotify
-Message-ID: <20260319171526.GU1770774@frogsfrogsfrogs>
-References: <20260319170231.1455553-1-aalbersh@kernel.org>
- <20260319170231.1455553-2-aalbersh@kernel.org>
+	s=k20201202; t=1774373547;
+	bh=6PvabfWqgV6Mk2o8Mrspk5xNPAhygV5RC4LIJoudYN8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Zo8h9UkR3EFZ5X+t7pfglF358HIzZfkYCEPXbzgvSpn1932RytFLUmxbaM7vvtb+8
+	 jOc+954Byl6hn4EPrsHfGfcxTsXE+uJ/91AD9cpiFU6fQFUnqTIZOUCz3jiKp9Lt/y
+	 fP9agQ5q5IpglKVONQ2rdOMbIopiphjj96iDiDCdLhsIg4j6oOgV7iv4UPtrAChvwo
+	 Lf11yj5JD7NSZtLROFPsdSkSE5aVMD/liTgqh0NDhuTdaGleJaQf9azubnWFNzP4Uo
+	 AztXkDjv+clCATZJstRL/ReX0kcwsokdxAQqf0P4yOrlBxTSfcE3G2EgYulRsJROWY
+	 I9c7LivQUYhng==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7D0D83808203;
+	Tue, 24 Mar 2026 17:32:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319170231.1455553-2-aalbersh@kernel.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [GIT PULL] fsverity updates for 6.3
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <177437353528.1223048.9746825008977248948.git-patchwork-notify@kernel.org>
+Date: Tue, 24 Mar 2026 17:32:15 +0000
+References: <Y/KLHT3zaA0QFhVJ@sol.localdomain>
+In-Reply-To: <Y/KLHT3zaA0QFhVJ@sol.localdomain>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: torvalds@linux-foundation.org, fsverity@lists.linux.dev, tytso@mit.edu,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org
 
-On Thu, Mar 19, 2026 at 06:01:48PM +0100, Andrey Albershteyn wrote:
-> Reported verification errors to fsnotify through recently added fserror
-> interface.
-> 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+Hello:
 
-Looks good now,
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+This pull request was applied to jaegeuk/f2fs.git (dev)
+by Linus Torvalds <torvalds@linux-foundation.org>:
 
---D
+On Sun, 19 Feb 2023 12:48:29 -0800 you wrote:
+> The following changes since commit 88603b6dc419445847923fcb7fe5080067a30f98:
+> 
+>   Linux 6.2-rc2 (2023-01-01 13:53:16 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+> 
+> [...]
 
-> ---
->  fs/verity/verify.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/fs/verity/verify.c b/fs/verity/verify.c
-> index 4004a1d42875..4ea494da694f 100644
-> --- a/fs/verity/verify.c
-> +++ b/fs/verity/verify.c
-> @@ -9,6 +9,7 @@
->  
->  #include <linux/bio.h>
->  #include <linux/export.h>
-> +#include <linux/fserror.h>
->  
->  #define FS_VERITY_MAX_PENDING_BLOCKS 2
->  
-> @@ -203,6 +204,8 @@ static bool verify_data_block(struct fsverity_info *vi,
->  		 * to verify that any data blocks fully past EOF are all zeroes.
->  		 */
->  		if (memchr_inv(dblock->data, 0, params->block_size)) {
-> +			fserror_report_data_lost(inode, data_pos,
-> +						 params->block_size, GFP_NOFS);
->  			fsverity_err(inode,
->  				     "FILE CORRUPTED!  Data past EOF is not zeroed");
->  			return false;
-> @@ -312,6 +315,7 @@ static bool verify_data_block(struct fsverity_info *vi,
->  		data_pos, level - 1, params->hash_alg->name, hsize, want_hash,
->  		params->hash_alg->name, hsize,
->  		level == 0 ? dblock->real_hash : real_hash);
-> +	fserror_report_data_lost(inode, data_pos, params->block_size, GFP_NOFS);
->  error:
->  	for (; level > 0; level--) {
->  		kunmap_local(hblocks[level - 1].addr);
-> -- 
-> 2.51.2
-> 
-> 
+Here is the summary with links:
+  - [f2fs-dev,GIT,PULL] fsverity updates for 6.3
+    https://git.kernel.org/jaegeuk/f2fs/c/5ee8dbf54602
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
