@@ -1,98 +1,104 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D7B3CFF42
-	for <fsverity@lists.linux.dev>; Wed, 25 Mar 2026 12:03:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C033D16EA
+	for <fsverity@lists.linux.dev>; Wed, 25 Mar 2026 12:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774440229; cv=none; b=q41UOBngf5UEaaNNRe3H1inDunntrHulFWE02gmAm//5KZkpk+56ku6y5ncswtPg3XSIFB65Ucp8ADxKwzPtBwC5DF5IRBSb5QO8VQbFBcuihRQhFMTGEWivDjHjbF26hb7H/0DOQgfN+u6FeaYMvqTg0Na1A9QKmYWw04zNiNQ=
+	t=1774440529; cv=none; b=NwJ1xe62uS/N39HN4fwNEelJ/WVAQSjI4FbzWQl/471G0DTIbJaHP7kunhelWyYrJ9NdZWPvZqFZl4biei2G8/sw7kWRQKEfd1EqJu4uVixxY3pHrCLBAgdSKPFMurAemZRXfU72FA6XtqV555xL8N7NFMRg7irBve0g/URH+fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774440229; c=relaxed/simple;
-	bh=Es77No52KNJFPGo5T/ww8er3pjI2J58fF+DFC1d5WKg=;
+	s=arc-20240116; t=1774440529; c=relaxed/simple;
+	bh=LbeAqmlJTzsDU2WI+JQRb0J70AEGN7cPn533Ft2zw3E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=KLZebsupJ509+GkXYvJjR4QSTR1HKbyMwI+e7ddy9Af5i1niKrofFU01ZLDComdDyIMtpy9xd9/RYxo+sRxKpU5974IkBhmDK0UdIx47DD6k+Nd3c2/bByH0KkaigyTOagVXj9R8rQbPzalM1HljuPKUPbeNIfBhyRCNa3Lmlx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=icsZpUJg; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=Y9cdJFfWx+6sRWfkaJ3Q7vhysBvgsjt93Ctmq77anBcFFdLLoD2mSKzfAgRjKnpKFxgY99yMj9jGDH5MaWuK2cAeSU+0i6kJi+mmH228NI+E6J9V06OzWqdmA1BT62aQJT9avTdvO1X58AJKBKwmRN1ISQFNWuSNLgKZTzuvTqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z292Ie6O; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="icsZpUJg"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z292Ie6O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774440227;
+	s=mimecast20190719; t=1774440526;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hHtDuEkZI5nETEV2K61pi5NwMLau14IczzFE7YDeBkk=;
-	b=icsZpUJgksX5aS21xOoEsrXLJPEQ0IWt3+qFA33JkWHh3XSvL3vtrMGW/8Be3vMFl5m7Lq
-	Pa37XKpl8XMnNpOld39exKbAeI/2uQV4OO3YREMx4eTA2Jo0Elp7xRH9hpDBcxGugV8hed
-	q8sObHA0rBH20Hjam6wOZoiNcRfjJrs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=xgQzcNVTgAYMtY/AG+BgYI0+wd9pZeBrIlwhVeuWoe0=;
+	b=Z292Ie6OflJ7Jm0WFgDFMFY8a+GXBuatwSoTIuoWHelFNOau8n+IMWg9W0ToXSb98hwZEo
+	TwaYHqB16PQdfW6VDrNyzbtp4zvcTCEnST30Jn9Lppki2FTmuMakvlE1+02uGFHrXf/LLa
+	uaSRS0M8oh2EMEi1FJL2s8pZX+ZxZEM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-240-A-GGRg-lOGOpZ4arEFKnQw-1; Wed, 25 Mar 2026 08:03:45 -0400
-X-MC-Unique: A-GGRg-lOGOpZ4arEFKnQw-1
-X-Mimecast-MFC-AGG-ID: A-GGRg-lOGOpZ4arEFKnQw_1774440224
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-b9800aa2787so223206666b.1
-        for <fsverity@lists.linux.dev>; Wed, 25 Mar 2026 05:03:45 -0700 (PDT)
+ us-mta-346-qLKaunIsORan6OvjIiCJig-1; Wed, 25 Mar 2026 08:08:45 -0400
+X-MC-Unique: qLKaunIsORan6OvjIiCJig-1
+X-Mimecast-MFC-AGG-ID: qLKaunIsORan6OvjIiCJig_1774440524
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-43b4d3919e4so2439271f8f.0
+        for <fsverity@lists.linux.dev>; Wed, 25 Mar 2026 05:08:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774440224; x=1775045024;
+        d=1e100.net; s=20251104; t=1774440524; x=1775045324;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hHtDuEkZI5nETEV2K61pi5NwMLau14IczzFE7YDeBkk=;
-        b=d7D7rSEfG83HrqL8R3x063hkNU99eUma1kPLas8KewAJYbyHs19eMkNl7ln+08rz0o
-         JZUsg+Ej6pP/QE/jLXfKeC+4URrxVIvtmDhE5cVl6JHG5Qs17HHB2+xsJbAbIp1M6KGW
-         rA402UFT6gvYPo0nOVzHzmUEj4wJWn40doC53lZnJdrRuujujlu2ZWkw/RXaUbG0Mv3j
-         O5uNDTxYHzFL/Stjk00sXHFkJo/bGWqqTyyEzz3+fXTmeAae7M+5jPP/ZNqDB0rR0Sp+
-         Ha3EddPjZ1GC8YT/UCoX5oZL7wfUt8UIXfuo2WkVBbbj0tgzXyzkjkmJNBGd94usz+H/
-         KR7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUelCH6U67DDbThM670jGDl9MugeVevoz1rR6WLnrivzIwiMUw1Nn07khZrnhKIs37P7c7H0Pk56g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlpfkQ2kNHqQEvR03E9gqj2QsaKIpeskxBFdrbV65O4U3wzaVJ
-	021OmFfhbDV6e2e0ncKME1oKJ1RAdnE31EKJ4ZBScL9mx0sLUnveqIv2cgrp4pX5fZM8Z+3Lx1i
-	P9Y7WG2EXxLemYhev3cpxBV/HxyToqUVPLLzOHm3Fa41zjnq1O+LoZgQoldk=
-X-Gm-Gg: ATEYQzxNYm0KjcrirEhMFYBs02PCdEbKi5EcO+PRyM0ZeZodTGwauzwDOzjmZpJCfVH
-	0YIzKn8I4DdPe6xDQoWlHahnX1IGwKxv3PV7ZHqpKxAgTNkgPwozi27KcfYp7Fsd0FLwdwQZmfj
-	Ea81el4jBFA6dszXmy+L+wlpt4vCSTmPxPDcsrbBNjDHOterU6Zo+l1UbD05xeK9vRbM1XE7CbB
-	R5EYbi3Q4rlkotBRkCMi1YTeBWodvH0RmpvrGrfsGfyF+wdTG53SnlAebxFV0npXtsoqFTCAL6L
-	jsy73ErG+L1KCJEfMZ0VW1PLiDm1oqvE898oAIqkX6E+TtZxfydXV+XMUpiaxnfjZ+mkcfW2WDe
-	tUewVxA1m+vp+hQ==
-X-Received: by 2002:a17:907:3ea5:b0:b96:ff4f:11ea with SMTP id a640c23a62f3a-b9a542834b3mr225195866b.41.1774440224220;
-        Wed, 25 Mar 2026 05:03:44 -0700 (PDT)
-X-Received: by 2002:a17:907:3ea5:b0:b96:ff4f:11ea with SMTP id a640c23a62f3a-b9a542834b3mr225190866b.41.1774440223277;
-        Wed, 25 Mar 2026 05:03:43 -0700 (PDT)
+        bh=xgQzcNVTgAYMtY/AG+BgYI0+wd9pZeBrIlwhVeuWoe0=;
+        b=qhmzDtYIRU6hR68Xm6izakN4N7XVbb+1IgAAXFqdbARAfiPpvBmndoKQd2qVqO65Ln
+         LQ1Wg4Q1Ot/PZAOlvdcL18tu/U30xigwzMcsUTVMhuqGeyM6/DsjvQXDPTEyElBRJzTq
+         OwQvhT6yeHANpbN6eARvWHpW0VgNZvNAFbyPoxEhscJaBMzd+owwV/eho9l7r7ZFO4E/
+         tqJNxDy+SiWdD78HlyjqXWy3/L1JOpUb5+sC5J/U2pTIsBLBWhSohUOJtES8OT3cOMp7
+         uqUIhkF6GpRp/GJ/oh09cnfC6yhwSiE9GitbgFd+MZj/SpglmdtCkMHgXWXv2vZrz0IB
+         S1JQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWl6oM5L+7F7qXn7QaUQGkmkVeENYiNAkdun/IpkhrZJKCmzX62J5fwpitTl6U4GsIVC43labXtHw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQyKJexm5Xljec90xVB+YpQnUD3mIwwr/d3/ilEt/bno0paQ5T
+	h3+C+5TiwpRpBugIU1cvGxRHZ1q8ZZGS05l4L0KqcLu1gQsW/qMPll59zG9Z5dxkNwKJQNzZ2VR
+	OjKl5SziFu5VTvdEqzJRlDa7go6QEsXDMpsXko4880V0p+8k4XFaWhxUSGIw=
+X-Gm-Gg: ATEYQzy55a8TBT6cbXGgeLOYPGuqADU3yC3b6SwaJ7x8dDx4gmQCo2ngLgzFD8zWzQ3
+	2hNb+Qk3uW6TcgSIxTDvliYgmsWu8w7HBzDMnhngggGlgURv6B8Kk/r1USOTJFxxT8+NhtITulQ
+	Il69p7jIsYM05y+5kGbBeWqtQP3bdcZeN+yabgNNPcuPs9N6QfZoV9jptRqFWZm5UYOzbnUcBVB
+	7FvxRWAcZ5iek393Lpznq92HVTcaUnsryclXS8YqoBrQAo6NqlhVSoHvQ4l5rbhumxfiZu9BGRT
+	pHMnxZfO/zeMcUnK0D/M8YYzWxusmE5CYXTFc4+MIN+X9FekB6BdufF5pN45BmUHhGKw2ZSvqD6
+	6D5T5L50udtnooA==
+X-Received: by 2002:a05:6000:2c0c:b0:43b:436d:782a with SMTP id ffacd0b85a97d-43b88a2168cmr4549293f8f.5.1774440524002;
+        Wed, 25 Mar 2026 05:08:44 -0700 (PDT)
+X-Received: by 2002:a05:6000:2c0c:b0:43b:436d:782a with SMTP id ffacd0b85a97d-43b88a2168cmr4549233f8f.5.1774440523459;
+        Wed, 25 Mar 2026 05:08:43 -0700 (PDT)
 Received: from thinky ([91.245.205.131])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b983365a159sm760453666b.44.2026.03.25.05.03.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b90f17158sm216982f8f.8.2026.03.25.05.08.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 05:03:42 -0700 (PDT)
-Date: Wed, 25 Mar 2026 13:03:40 +0100
+        Wed, 25 Mar 2026 05:08:42 -0700 (PDT)
+Date: Wed, 25 Mar 2026 13:08:41 +0100
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
 	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
 	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
 	linux-btrfs@vger.kernel.org, djwong@kernel.org
-Subject: Re: [PATCH v5 03/25] fsverity: generate and store zero-block hash
-Message-ID: <vatqzcvepp7z6iotzayuyh7fajwdqs76pn4o3sdn3f5thiwsjc@dt46ylrbjnkp>
+Subject: Re: [PATCH v5 09/25] iomap: issue readahead for fsverity merkle tree
+Message-ID: <nune2zskdoz2buxwj73z652azx4pwwkpsjjluq55mk3odybhym@2lolknvk7ddf>
 References: <20260319170231.1455553-1-aalbersh@kernel.org>
- <20260319170231.1455553-4-aalbersh@kernel.org>
- <20260325075700.GC952@lst.de>
+ <20260319170231.1455553-10-aalbersh@kernel.org>
+ <20260325080407.GG952@lst.de>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260325075700.GC952@lst.de>
+In-Reply-To: <20260325080407.GG952@lst.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wkPfUioLQKwunDuAeYY8yadLTML-Xh6q0uPv9EEJ9eA_1774440224
+X-Mimecast-MFC-PROC-ID: YuRRYVPuKdh-aIVMtebvzJ9f94GA0whVhitTwQb-Z1I_1774440524
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 2026-03-25 08:57:00, Christoph Hellwig wrote:
-> Shouldn't we still try to get this out of the fsverity_info first?
+On 2026-03-25 09:04:07, Christoph Hellwig wrote:
+> On Thu, Mar 19, 2026 at 06:01:56PM +0100, Andrey Albershteyn wrote:
+> > Issue reading of fsverity merkle tree on the fsverity inodes. This way
+> > metadata will be available at I/O completion time.
+> 
+> Patches 8 to 10 really look like they should be merged to me.  They
+> all add the actual fsverity support to the iomap buffered read path,
+> and merging them and having a single explanation of the side seems
+> helpful both for review and future archeology
 
-I don't really understand why, this hash depends on salt (inode
-specific) and merkle tree block size (also inode specific).
+I see, thanks, I will merge them.
 
 -- 
 - Andrey
