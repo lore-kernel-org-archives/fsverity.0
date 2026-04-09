@@ -1,111 +1,229 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420D0273803
-	for <fsverity@lists.linux.dev>; Mon,  6 Apr 2026 16:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4622DFF04;
+	Thu,  9 Apr 2026 13:14:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775494025; cv=none; b=BvviNSHOtS8iUOPilRfJdZDf2bhwRIVc87qHw4TEctSdauK6O7i6VSZdi0rEUvtepFEogBvxptQe5CuOLYlJlVmtYy8788mK1jWud38K8tovzMMyhg9S0YH0YutbQYvOUyrndDskPUH1vMp4xzqmUdhu/DAw2uayiVofrcH19Fo=
+	t=1775740451; cv=none; b=DWsI2UDbvbeGk0JhKGhw/Hl06TwYGzvBg00SvgiLcquZ+BKofeUtzYAI5r8SPnx7tIjxcyPuHlbvyIDPuntPTqSkkF34JFtkgUNFf2S039Ql31Nd+d8MrrebnwQK15nbHY++zQswsEXOYTZ62sJ2NwJEIvh68LMRtuQD4KdbImU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775494025; c=relaxed/simple;
-	bh=TM530/6yKMcAW47oGWofQmxobx/hCLNWp+3sjj8ksR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N1KEi4gfjpnt+HC+HB6sEILlEQZNIlZsJXLPV3c0+25F1h7bphcP4cl5BxSAKhpAmWjk4HUwBqem9pVMzD0OJbDUvkJB/r6eoa2EdZ5i+iqRuq+xUJucsdL2wlfL4Lqjd9/1yS7MoIxdvc2XWJ38xXOKs0QXNMmVsMB/rBtgIwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvhWn62B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775740451; c=relaxed/simple;
+	bh=XHuivLwMMMuQ5IK2ZNNilkkW9N5cMAojA4NxR328x2Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HWBsWKMjgcKfEuQVOtzNEYESAT/BYhDTm/UtdjOnHsXbNNplAJtdMX/N8xhDfuFIdR91jCl+UIBtb+wTSNOy4MnCQRGp+rRPbVFqVX9ln10tn7fnFO3qUeyH91wF+y5fClnPeULNRkeLJXREjROiLplNr1YOoyzzmOzhah7DjLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juRCueRH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvhWn62B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0584C4CEF7;
-	Mon,  6 Apr 2026 16:47:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juRCueRH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A86BC4CEF7;
+	Thu,  9 Apr 2026 13:14:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775494024;
-	bh=TM530/6yKMcAW47oGWofQmxobx/hCLNWp+3sjj8ksR8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mvhWn62B4rUOCHuzqeKrahvs8rhF4q1LSJ4zl8WAD9JQNXZaKTTp/6b0onmNOrQxk
-	 l0HHen8wQplvpHu3OpTBwV1cidJfw2DF0ILPFFeIdFFQAekgMNc6D+WEIvABdawx7c
-	 ypBUKMfJmvCQCDKzRQ9drMxYs3In/tb7lBJYsVMUTv1KZl2BB4gxvyOqjUu/D8dfF/
-	 tHyNJ/cZY6gmA+66dsVtkQFYvz8DrvF/DfB7oulMOGRPfDzGWViDCr6fcAFCdTCW2v
-	 D6X0IJcBtWFuGq8mcFuC/6bkHD2HoL66SO9cRfkjNGFhlYPpiQKtflph71grQ/WHQP
-	 sfYMI0ZihGmLA==
-Date: Mon, 6 Apr 2026 09:45:48 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: fsverity@lists.linux.dev, "Theodore Y. Ts'o" <tytso@mit.edu>,
-	Christoph Hellwig <hch@lst.de>
-Subject: Re: fsverity and large folios
-Message-ID: <20260406164548.GC2971@sol>
-References: <adM9g5jgxzG_NvgI@casper.infradead.org>
+	s=k20201202; t=1775740451;
+	bh=XHuivLwMMMuQ5IK2ZNNilkkW9N5cMAojA4NxR328x2Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=juRCueRHbgvSzqEHjAC1sw4Yh/YxC61AcAD54vDKcZ56sGB8JSrwJNLz+4qAdKnbN
+	 b64yFpuR1JW5HTUPZftqjLj8cuDBest43M/P9K0ItuUsygZs+eA57tQXj5lPpDb8BO
+	 KMLPevvxSpzDJx0V7K3A/Trt32UJwHVVYesQjC61vfGt393BQ6I8yJSXhBCCzz/kHF
+	 FG3Gx0sT/TfJv3Vlzq+L1uoeLFY1W5OTwTg8I+I8uvqwYlU2iMTIFcnrdv2Ll2pvGp
+	 yzQzxNTMZQk5qqr/nwElpvD/WgnhKC8TD1IPjPogtlVIi0/GvTFovrFWzOGdzsAy2A
+	 XYNJ7M2ubLwHQ==
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	ebiggers@kernel.org
+Cc: Andrey Albershteyn <aalbersh@kernel.org>,
+	hch@lst.de,
+	linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org,
+	djwong@kernel.org,
+	david@fromorbit.com
+Subject: [PATCH v7 00/22] fs-verity support for XFS with post EOF merkle tree
+Date: Thu,  9 Apr 2026 15:13:32 +0200
+Message-ID: <20260409131404.1545834-1-aalbersh@kernel.org>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <adM9g5jgxzG_NvgI@casper.infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 06, 2026 at 05:58:43AM +0100, Matthew Wilcox wrote:
-> I suspect that fsverity simply doesn't support large folios today.
+Hi all,
 
-fs/verity/ already supports large folios in the mapping, including
-verifying data from them and having the Merkle tree pages be backed by
-them.  This is already being used on ext4.  It seems your concern is
-about a more specific topic related to the Merkle tree caching.
+This patch series adds fs-verity support for XFS. This version stores
+merkle tree beyond end of the file, the same way as ext4 does it. The
+difference is that verity descriptor is stored at the next aligned 64k
+block after the merkle tree last block. This is done due to sparse
+merkle tree which doesn't store hashes of zero data blocks.
 
-> To make a move in that direction, I started to convert
-> ->read_markle_tree_page() to ->read_merkle_tree_folio().  But there's
-> a problem.  The Merkle tree is stored at "some offset" from the EOF.  And
-> the knowledge of what offset is particular to the individual filesystem
-> (or potentially each individual file).  That means that we can't hoist
-> the "folio_file_page(folio, index)" call from the filesystem to the core
-> code because the core code doesn't know what offset the tree is stored at.
-> 
-> And it's kind of dangerous because calling offset_in_folio(folio,
-> byte_offset) doesn't work correctly eitheer (it's fine as long as the
-> Merkle tree starts at some multiple of folio_size() from the base of
-> the file ... which is a nasty gotcha to stumble across!)
-> 
-> This actually came up for me because fsverity is using PageChecked(),
-> and it's the last part of the kernel still using PageChecked().  I was
-> hoping to replace these uses with folio_test/set_checked(), but it all
-> feels a bit fragile at this point.
-> 
-> I don't have an idea beyond exposing ->verity_metadata_pos() to the
-> core code from individual filesystems, which feels like poor
-> architecture.  Ideas welcome.
+The patchset starts with a few fs-verity preparation patches. Then, a
+few patches to allow iomap to work in post EOF region. The XFS fs-verity
+implementation follows.
 
-->read_merkle_tree_page() returns a page, but filesystems can back that
-page with a large folio, as ext4 does.
+The tree is read by iomap into page cache at offset of next largest
+folio past end of file. The same offset is used for on-disk.
 
-While ext4 does it correctly as far as I can tell, btrfs does not, as
-Christoph pointed out.  btrfs_read_merkle_tree_page() unconditionally
-allocates an order-0 folio, even if the mapping uses folios of a
-different order.  Yes, that needs to be fixed.
+This patchsets also synthesizes merkle tree block full of hashes of
+zeroed data blocks. This merkle blocks are not stored on disk, they are
+holes in the tree.
 
-If I understand correctly, the other topic you're raising is whether the
-page-granular use of PG_checked in fs/verity/verify.c can be replaced
-with folio-granular use.
+Testing. The -g verity is passing for 1k, 8k and 4k with/without quota
+on 4k and 64k page size systems. Tested -g quick for enabled/disabled
+fsverity. Also, overlay/080 overlay/089 with XFS as base.
 
-The bitmap-based code path (i.e. when fsverity_info::hash_block_verified
-is allocated) partially addresses that.  But it still uses PG_checked to
-determine whether the page was newly instantiated.
+This series based on v7.0-rc6 with patchset fs generated integrity
+information [1] applied.
 
-That use can be replaced with the folio-granular bit, tracking whether
-the entire folio was newly instantiated.  But it will require a change
-to the fsverity_operations, as you noticed.  There are multiple ways it
-could be done, but I think one way would be:
+kernel:
+https://git.kernel.org/pub/scm/linux/kernel/git/aalbersh/xfs-linux.git/log/?h=b4/fsverity
 
-    struct folio *(*read_merkle_tree_folio)(struct inode *inode, u64 pos,
-                                            size_t *offset_in_folio_ret);
+xfsprogs:
+https://github.com/alberand/xfsprogs/tree/b4/fsverity
 
-So it would take a byte position, which might not be folio-aligned or
-even page-aligned.  It would return the folio containing it, along with
-the byte offset of the requested position in that folio.
+xfstests:
+https://github.com/alberand/xfstests/tree/b4/fsverity
 
-With that interface, fs/verity/ would have the information it needs to
-determine which bitmap bits the folio-level checked bit correspond to.
+Cc: fsverity@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
 
-Along with that, fsverity_init_merkle_tree_params() would need to enable
-the bitmap-based code path whenever the file is using large folios.
+Cc: david@fromorbit.com
+Cc: djwong@kernel.org
+Cc: ebiggers@kernel.org
+Cc: hch@lst.de
 
-- Eric
+[1]: https://lore.kernel.org/linux-xfs/20260223132021.292832-1-hch@lst.de/
+
+---
+Changes in v7:
+- Move kerneldoc to fsverity_ensure_verity_info() definition
+- Drop patch adding XFS traces
+- Fix overly long line in the comment
+- Make order of fserror and fsverity_error consistent
+- Add overlay patch converting to fsverity_ensure_verity_info()
+Changes in v6:
+- Removed stub for fsverity_ensure_verity_info() as it's optimized out
+- Rename fsverity_folio_zero_hash() to fsverify_fill_zerohash()
+- Merge patches 8 to 10 into one
+- Merge patch gerating zero_hash and fsverity_fill_zerohash() into one
+- Add kerneldoc to fsverity_ensure_verity_info()
+- Add comments to iomap_block_needs_zeroing()
+Changes in v5:
+- Add fserror_report_data_lost() for data blocks in page spanning EOF
+- Issue fsverity metadata readahead in data readahead
+- iomap_fsverity_write() return type fix
+- Use of S_ISREG(mode)
+- Make 65536 #define instead of open-coded
+- Use transaction per unwritten extent removal
+- Fetch fsverity_info for all fsverity metadata
+- Revert fsverity_folio_zero_hash() stub as used in iomap
+- Extend cancel_unwritten to whole file range to remove cow leftovers
+- Drop delayed allocation on the COW fork on fsverity completion
+Changes in v4:
+- Use fserror interface in fsverity instead of fs callback
+- Hoist pagecache_read from f2fs/ext4 to fsverity
+- Refactor iomap code
+- Fetch fsverity_info only for file data and merkle tree holes
+- Do not disable preallocation, remove unwritten extents instead
+- Offload fsverity hash I/O to fsverity workqueue in read path
+- Store merkle tree at round_up(i_size, 64k)
+- Add a spacing between merkle tree and fsverity descriptor as next 64k
+  aligned block
+- Squash helpers into first user commits
+- Squash on-disk format changes into single commit
+- Drop different offset for pagecache/on-disk
+- Don't zero out pages in higher order folios in write path
+- Link to v3: https://lore.kernel.org/fsverity/20260217231937.1183679-1-aalbersh@kernel.org/T/#t
+Changes in v3:
+- Different on-disk and pagecache offset
+- Use read path ioends
+- Switch to hashtable fsverity info
+- Synthesize merkle tree blocks full of zeroes
+- Other minor refactors
+- Link to v2: https://lore.kernel.org/fsverity/20260114164210.GO15583@frogsfrogsfrogs/T/#t
+Changes in v2:
+- Move to VFS interface for merkle tree block reading
+- Drop patchset for per filesystem workqueues
+- Change how offsets of the descriptor and tree metadata is calculated
+- Store fs-verity descriptor in data fork side by side with merkle tree
+- Simplify iomap changes, remove interface for post eof read/write
+- Get rid of extended attribute implementation
+- Link to v1: https://lore.kernel.org/r/20250728-fsverity-v1-0-9e5443af0e34@kernel.org
+
+Andrey Albershteyn (20):
+  fsverity: report validation errors through fserror to fsnotify
+  fsverity: expose ensure_fsverity_info()
+  ovl: use core fsverity ensure info interface
+  fsverity: generate and store zero-block hash
+  fsverity: pass digest size and hash of the all-zeroes block to ->write
+  fsverity: hoist pagecache_read from f2fs/ext4 to fsverity
+  iomap: introduce IOMAP_F_FSVERITY and teach writeback to handle
+    fsverity
+  iomap: teach iomap to read files with fsverity
+  iomap: introduce iomap_fsverity_write() for writing fsverity metadata
+  xfs: introduce fsverity on-disk changes
+  xfs: initialize fs-verity on file open
+  xfs: don't allow to enable DAX on fs-verity sealed inode
+  xfs: disable direct read path for fs-verity files
+  xfs: handle fsverity I/O in write/read path
+  xfs: use read ioend for fsverity data verification
+  xfs: add fs-verity support
+  xfs: remove unwritten extents after preallocations in fsverity
+    metadata
+  xfs: add fs-verity ioctls
+  xfs: introduce health state for corrupted fsverity metadata
+  xfs: enable ro-compat fs-verity flag
+
+Darrick J. Wong (2):
+  xfs: advertise fs-verity being available on filesystem
+  xfs: check and repair the verity inode flag state
+
+ fs/btrfs/verity.c              |   6 +-
+ fs/ext4/verity.c               |  36 +--
+ fs/f2fs/verity.c               |  34 +--
+ fs/iomap/buffered-io.c         | 109 +++++++-
+ fs/iomap/trace.h               |   3 +-
+ fs/overlayfs/util.c            |  14 +-
+ fs/verity/enable.c             |   4 +-
+ fs/verity/fsverity_private.h   |   3 +
+ fs/verity/measure.c            |   4 +-
+ fs/verity/open.c               |  25 +-
+ fs/verity/pagecache.c          |  55 ++++
+ fs/verity/verify.c             |   4 +
+ fs/xfs/Makefile                |   1 +
+ fs/xfs/libxfs/xfs_bmap.c       |   7 +
+ fs/xfs/libxfs/xfs_format.h     |  35 ++-
+ fs/xfs/libxfs/xfs_fs.h         |   2 +
+ fs/xfs/libxfs/xfs_health.h     |   4 +-
+ fs/xfs/libxfs/xfs_inode_buf.c  |   8 +
+ fs/xfs/libxfs/xfs_inode_util.c |   2 +
+ fs/xfs/libxfs/xfs_sb.c         |   4 +
+ fs/xfs/scrub/attr.c            |   7 +
+ fs/xfs/scrub/common.c          |  53 ++++
+ fs/xfs/scrub/common.h          |   2 +
+ fs/xfs/scrub/inode.c           |   7 +
+ fs/xfs/scrub/inode_repair.c    |  36 +++
+ fs/xfs/xfs_aops.c              |  62 ++++-
+ fs/xfs/xfs_bmap_util.c         |   8 +
+ fs/xfs/xfs_file.c              |  19 +-
+ fs/xfs/xfs_fsverity.c          | 455 +++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_fsverity.h          |  28 ++
+ fs/xfs/xfs_health.c            |   1 +
+ fs/xfs/xfs_inode.h             |   6 +
+ fs/xfs/xfs_ioctl.c             |  14 +
+ fs/xfs/xfs_iomap.c             |  15 +-
+ fs/xfs/xfs_iops.c              |   4 +
+ fs/xfs/xfs_message.c           |   4 +
+ fs/xfs/xfs_message.h           |   1 +
+ fs/xfs/xfs_mount.h             |   4 +
+ fs/xfs/xfs_super.c             |   7 +
+ include/linux/fsverity.h       |  18 +-
+ include/linux/iomap.h          |  13 +
+ 41 files changed, 1017 insertions(+), 107 deletions(-)
+ create mode 100644 fs/xfs/xfs_fsverity.c
+ create mode 100644 fs/xfs/xfs_fsverity.h
+
+-- 
+2.51.2
+
