@@ -1,48 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7AA1ADFE4;
-	Mon, 20 Apr 2026 11:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5119F382F04;
+	Tue, 21 Apr 2026 21:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776685721; cv=none; b=of35MV49ky9H2hGlRQjXRFQbUI1L/FlCcFglH161Y5SIgEdLlhv9ZUOY8SXv+A429XaKD7tZUKC5h80nybH0fMdiIbFlq1G/VsEr4SlQUwPpW7JU/2/X3fDr2e3QVmncteJof33uTMOYbGCbGfhveVB/FrtLzRVcrJrik9dSNRw=
+	t=1776807799; cv=none; b=nafus4bZkxSgYACsi3sn3slEl2ZRDBwuYeTx9DxI8kOdybyhvuZ5RRnLyip/pCJKCymrzKLDhYurbDNto5QS6P9gpYly3MoYpWn/hsE7rofOzylmaYfBTDoeGYoEcXfdSAW6Oh09jYvvsv6q/2t0rNoe5xrNLf5nT2Q8inPhpQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776685721; c=relaxed/simple;
-	bh=ED63hkK8etbxautcxx1u5AO9FSZT6ssFdgXiGIlo5Yc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oEWh3NJ8B9Ct6SYbkoEx0dQLAnQy+tD66y4DMp2LU75zOY1Tl1++lr8pcDkAjE011ckqRc+mqD5MMlJHE1NKFICsrzIpXUKpjpHg2YrW+3OhO3JvrxPzfFCV+jpd0/SPTX2Lo3Up3AksejajJfGS5/IHvMWNaqLF2xsTKsRxuC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ai4tBxXn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776807799; c=relaxed/simple;
+	bh=pTUFlPVgh1+kKopP2/8EcrgMqvKTDIazFWCbVyb/saA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pMSwqB7OvyyjTgMYq5J0I2vteWCMlYASq5AK4QjcghCzHLOtlyyUwZqeo8eE/I5vPGuVOcGp/E2axlnEgK3P2iJTu1Dlvm7HFkvi54Nr8Tf8o7KuoDWnxFI4jtQ6nnym4CsHPlFKmpCSf7IrO7J5QBMiRtd8Y4HT7cMWu4lfmr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZ1aTAqA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ai4tBxXn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74534C19425;
-	Mon, 20 Apr 2026 11:48:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZ1aTAqA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C101C2BCB0;
+	Tue, 21 Apr 2026 21:43:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776685720;
-	bh=ED63hkK8etbxautcxx1u5AO9FSZT6ssFdgXiGIlo5Yc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ai4tBxXnb6Q6Om3Wf03DLZiYeJtpsj3GdIe4hKff147JbjcXEwG/YKMilPtSU0UZT
-	 0/rYTN6KoGve8Cgs3AMzx3epjYZFxnkZCmoMI4NJ4luuSouWzwODtMq9YHbStv6DL4
-	 BQkYFPw2sGhUMjWUy/yCjscKDu6lPopcsleW02Mln5LDpfnAea2t6jb2qItutCU1uA
-	 c2lKEdjspn+mzm9cyklKx8G//fkxEKAdA3N29udK7f6l9lpBBH88beFmKxdAP7CCW8
-	 R+jDOuenLkl+ujGhelgXOQQB1IoHFqaCa6pksNeWmJ7ttHPlbUYHQgobYcUQS7IzBw
-	 STYeXI/Q896yA==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	hch@lst.de,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	djwong@kernel.org
-Subject: [PATCH v8 22/22] xfs: enable ro-compat fs-verity flag
-Date: Mon, 20 Apr 2026 13:47:09 +0200
-Message-ID: <20260420114714.1621982-23-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260420114714.1621982-1-aalbersh@kernel.org>
+	s=k20201202; t=1776807799;
+	bh=pTUFlPVgh1+kKopP2/8EcrgMqvKTDIazFWCbVyb/saA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CZ1aTAqAp1DEuzXkk0YqoVGbSe2TJWO8OccQjAcTgtpULImuh5vd77WIS8fsUBFLU
+	 pehzx/xLhYFe0qDouKUWtfNhbxtxepJP8/ohbkYcuPaS22ZBh3uOy6Lh9tH1yGN/Sa
+	 J477aufpJhJI/psggvY6BwSD4k1A98xHSTBmBd3PxoXhG7Jywoe+9dlHh54LR5JUIK
+	 3B1NE2LPeKjckp/cG6y2sBPmamM6lJCVxbA26kpl5Py3t8n8XpGdABBZds0KN3tEIt
+	 bA526D0GvlEaZ/wQWDQMW6ywPQLY8/g5M7BARF0Q6pvVKJw/SxAzisuOVY8cLvfjyK
+	 ljBDrZ5Dw0u9A==
+Date: Tue, 21 Apr 2026 14:43:16 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, hch@lst.de,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	djwong@kernel.org, david@fromorbit.com
+Subject: Re: [PATCH v8 00/22] fs-verity support for XFS with post EOF merkle
+ tree
+Message-ID: <20260421214316.GB37143@quark>
 References: <20260420114714.1621982-1-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
@@ -50,36 +44,19 @@ List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260420114714.1621982-1-aalbersh@kernel.org>
 
-Finalize fs-verity integration in XFS by making kernel fs-verity
-aware with ro-compat flag.
+On Mon, Apr 20, 2026 at 01:46:47PM +0200, Andrey Albershteyn wrote:
+> This series based on v7.0 with Christoph's read ioends patchset [1].
+> 
+> kernel:
+> https://git.kernel.org/pub/scm/linux/kernel/git/aalbersh/xfs-linux.git/log/?h=b4/fsverity
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-[djwong: add spaces]
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
----
- fs/xfs/libxfs/xfs_format.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+FYI: the git repository doesn't match what was actually sent out.  For
+example the patch "ovl: use core fsverity ensure info interface" is a
+bit different.  The version in git (incorrectly, I think) ignores the
+error code, while the patch returns it.
 
-diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
-index 4dff29659e40..0ce46c234b9c 100644
---- a/fs/xfs/libxfs/xfs_format.h
-+++ b/fs/xfs/libxfs/xfs_format.h
-@@ -378,8 +378,9 @@ xfs_sb_has_compat_feature(
- #define XFS_SB_FEAT_RO_COMPAT_ALL \
- 		(XFS_SB_FEAT_RO_COMPAT_FINOBT | \
- 		 XFS_SB_FEAT_RO_COMPAT_RMAPBT | \
--		 XFS_SB_FEAT_RO_COMPAT_REFLINK| \
--		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT)
-+		 XFS_SB_FEAT_RO_COMPAT_REFLINK | \
-+		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT | \
-+		 XFS_SB_FEAT_RO_COMPAT_VERITY)
- #define XFS_SB_FEAT_RO_COMPAT_UNKNOWN	~XFS_SB_FEAT_RO_COMPAT_ALL
- static inline bool
- xfs_sb_has_ro_compat_feature(
--- 
-2.51.2
-
+- Eric
