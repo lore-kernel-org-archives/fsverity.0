@@ -1,110 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B733BFE3C
-	for <fsverity@lists.linux.dev>; Wed, 22 Apr 2026 08:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE063CB2F8
+	for <fsverity@lists.linux.dev>; Wed, 22 Apr 2026 09:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776848289; cv=none; b=STvO02rTD0wV+aHJsLiK3BunuH2mQSqMlyMT/3T2G5Z2VqYfXsE6yFhEiY691wB6t35Rn4W0aoIURfsL2RV0T/Fw3UpvSKVptJBQTjOtELTLvVNUSF4d75HwQx0ZMdyAgQLW2/JPgUF58T6rGQfOS3c7TS5mi4s20zxw5cpSNWE=
+	t=1776851959; cv=none; b=YywC2FhTb9OOTqPz+TQ5F4xnjNkVXDapvl7HzH3Vn3nCEA4eoVta09yI8EXoFd+3yqAoImHNQ3yvtGgaXjTVIY3oJqrkyF+/D8pBj+sUN5mbimqSred+nPP1r09pMwwe9u0w1ga/bHBS5IdMq/s2tc7r06gcQ247nTboIr/NLUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776848289; c=relaxed/simple;
-	bh=uF63Ms8AACR/oFWxgd+uFy3hlr2NIcQ7At05T0KyQug=;
+	s=arc-20240116; t=1776851959; c=relaxed/simple;
+	bh=qdTdoKTlhVu86bDuyPkOaG5VtZiyVVLX9VSgFPv2CkI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=F25LiwDCL97a2hfttf8zIaYNovARDoXqc3oDIkuOk+3ZLW/6RBNNwaYP9cp2Az9hpaTtWSarHHjxL20/O5i/vpcvMHl1S8jh6sW/Ob8CRD7ab8rQTid/v0bAc3Tlv617dZb6zIgs2dxxAk7NmdOainxeQKFSRMOZ71Jb18S44oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cHQHEGn4; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=LG/1VDmKPxFK7axzLGgdWwKTx9gV02nhQ4Ezq2xgAol3R5WohmUYnT9hNMnOjGBIwGiFHk0M/m+0VftjSm0Koukn9UAmgJsjks/7X/yV/V6FBxJy8YEG14UiR3OY5tWaNko0nICV65/shfTGykp0AEuiGQ3NIo4yWJS8/SaGA9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ODIg87AN; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cHQHEGn4"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ODIg87AN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776848286;
+	s=mimecast20190719; t=1776851957;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FFaygBUBXXsgixj3eSOd6CMo0lj7K6zPcakxuhrDzd4=;
-	b=cHQHEGn4d65uGcHveSIfcaCYX+F8OuoMacUm1MAOmqirZSK4FaBJJv5JD4WXXd/psgrLV4
-	AyeNE1L6dGikldh6xPKHp9tapFPxBEeg5jZczq2A419pFkp0K5EdnG6cEGSDAAe63btKjy
-	0tAeHahRUjaQ4pK45Cde+QMyNuzt6lE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=QVpt6cL/XFUpoSbUgEFsp9E/b8gj4ghVTxVOycpPEPQ=;
+	b=ODIg87ANs76RlosAfe/FylwGT6IgdXDn7hvrmy9H25rpAqjDYJl1Ov1CE8CIBMyxe5QbFy
+	uob+J+fG2rx/n7m8WAaB1M/C7nWOFCQ1+cVTqAMCWhActy0mD0q9eza+NvWgix2KEvt3GP
+	lnYFVEMXQp7S562+aVcz43+njtNoSFo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-44-hAcIjljUMLG0Xg1wVMwKTA-1; Wed, 22 Apr 2026 04:58:05 -0400
-X-MC-Unique: hAcIjljUMLG0Xg1wVMwKTA-1
-X-Mimecast-MFC-AGG-ID: hAcIjljUMLG0Xg1wVMwKTA_1776848284
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43d7e5b98ebso4373496f8f.0
-        for <fsverity@lists.linux.dev>; Wed, 22 Apr 2026 01:58:05 -0700 (PDT)
+ us-mta-237-2gWb0lMSNoyUtN_gBSB5MA-1; Wed, 22 Apr 2026 05:59:14 -0400
+X-MC-Unique: 2gWb0lMSNoyUtN_gBSB5MA-1
+X-Mimecast-MFC-AGG-ID: 2gWb0lMSNoyUtN_gBSB5MA_1776851954
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4891f97aef0so15875245e9.2
+        for <fsverity@lists.linux.dev>; Wed, 22 Apr 2026 02:59:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776848284; x=1777453084;
+        d=1e100.net; s=20251104; t=1776851954; x=1777456754;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FFaygBUBXXsgixj3eSOd6CMo0lj7K6zPcakxuhrDzd4=;
-        b=T9rxvRdndoHweMDM27yqnc80V7dO2wwBE/E7ZkIPMR/jq7UG1brl7N69y4MDe12/dm
-         7m4w3JrXVkJS15HSzGoqlCdITKOyIsea0Rzl9WUmrievIFw4wYRwPj4B+FBPeHQwdrir
-         WmOWePsITCKA2JxRO9UgGeGWPi4gKNfb7MiE0m2CYM47ObkyJknF805o6XGlGqiuCERw
-         T1MjYn6lfKv+PYQKSgCtPJvzHpNDzn1IulUuzD6RBYVHCThLFqsnw0ZA6nUDChhQ/Kbu
-         WGOzMp08Pc+n5cntFAYZTNGLyErX3pUkbKFDid5fHwPp9lWY4jPqoBWtFGPteuhawCyM
-         awHg==
-X-Forwarded-Encrypted: i=1; AFNElJ9kH8c4HmzvCfqM3/o2oncGn5BgF694zJPphap9nl7QL00HhOn9I5ARQoDXAvEBXANrYZ6IdKB7aA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1sPWwk0DVf+iLLmnGz2w8F42KBXq/ps/bfT/Z3YYR5e6s2GI1
-	YCfQXSm8SNEFsy9OqbPIlMrkOT+gmR3sQFgiM/xcfx3t1MdZFHOiiARnqL55CP9DbgloIDHjA/O
-	QP1jQsH+D2mz+IyfS9QW6R4J7IfbW3XELKnHaYWgaNeRIA+n+UUuh1r7uAIw=
-X-Gm-Gg: AeBDietMhGSxVNUnsCqMaG89xj0kPWkYXX1W3h7M+dnK59zP96Sf26vX80rlEsDG3q0
-	txHMJB1G7KvcJLhqjRO2J5hkbZvNc3AHY4W7zunqJX/unzZlqScmj3y6ty7vMTu/rFJp327KeCy
-	Q9CDIFxzUnJwCA7bLqjAgQpYGYlH6pT+3Ri8PK7QakIryZ3XKYfKdLVBY9HNO39D5RG7Chnoyso
-	rfM1G0BpxaXHGJ6EErMqESzHN8m408loEPe607WHxZFNE1xCnCFvDT0FhAwaNRBsAcd+21+q2tv
-	mn82UiRKCfh5TwztuABvl7ooUPfRj6fMhU/5SwpEgjih3SXwC0Wy4kvI9k+vBdgZdrkCs0ajBiq
-	JNLMASzzgjNAly90GFx5AZg==
-X-Received: by 2002:a05:6000:4022:b0:441:2439:bef2 with SMTP id ffacd0b85a97d-4412439befdmr4594392f8f.24.1776848283823;
-        Wed, 22 Apr 2026 01:58:03 -0700 (PDT)
-X-Received: by 2002:a05:6000:4022:b0:441:2439:bef2 with SMTP id ffacd0b85a97d-4412439befdmr4594342f8f.24.1776848283286;
-        Wed, 22 Apr 2026 01:58:03 -0700 (PDT)
+        bh=QVpt6cL/XFUpoSbUgEFsp9E/b8gj4ghVTxVOycpPEPQ=;
+        b=T/bpuWICrM7zrrAZhe3xWOlR0kRBfquBaoaZMDy427cI/W7O3m2GLUUXCN5KLhaYVg
+         iKH8TMh1PPoy+yzwOPT1TYCOOL1LK2/Dam8XYjYJubdiucFZlODF6fa1a5JsqnUAyJ8g
+         wcIAC/IN6wtjnwdNNoL3FOVNPY5O7wPA1wWJ/C6UrKtag/SBs12sKtbx5PTo9mI+iBxG
+         vQme+OdZNsXqZxH1qKgioQL0O0PruxCYzqErRqrD+hGvv21n6zguawCXJK9ddv8TTHeo
+         bG0t5/yKzH2VtB6h8eKVIgDhOlCEYLf3xAEyHPtRWl4BUI9ew7NM4DxOWsK71f3QqXuc
+         /EMQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+8XgG/W3Ecm71SqWTSdAwsRCGfuq2USLAcTxQOAWPhiIuRbvxTxu3qEFUpM2NEL+0dy9gjxPLlFg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdnPjSUaRQbnG8fxdoJSNcX9w6HlQqyC2XTqW5cTuDGWd6PNM2
+	hZppE79QT3de3wWxSVAhHUUTBg+pqHbYCAP8JboO8dr2SP7bY4KrQtJs+tWOPhSXF0YDpIuMpPl
+	OZBg9hNFn6lIzM3zs6/PW5xmYUAIyePfzjIJ/TxKVDIn3+FkgKSX71rXOfiI=
+X-Gm-Gg: AeBDievPeU4op7l/EkSnoz77glaRqWbTec43SA8niYhvYjVTOcSNhRnP2sPoJsMeQMu
+	H+N/3BMTivOl3IxQMy8fNuioNKe2lFZlKLoAHcY7kRavqJ99q7V4s+4Vte0Oypi/PMzqKMSyP0S
+	toMq0GWRIY8iYDWTyFYmEaHtJWAGTdmyYHLVBFwmV8UXmchoOsT5CtKyGNKFLtFc3t4oPK8Mgwu
+	zTjh6tRkC9Kq82y6HvHymaXlpiOQUe/rTcU8k8g0OXvxSqSeDUpAoEFGKscj9tjMnNhQPzR3qez
+	/8eBySVyyJcA+xB+BKlM2ahoQrhSG7uFDaK6zCfd22zoq+ta4i6JWeYZ9hijNTkh9uZzPtpD04M
+	S5SXa98V9g8BISQy/A8Caiw==
+X-Received: by 2002:a05:600c:8b8a:b0:489:149a:f9e7 with SMTP id 5b1f17b1804b1-489149afa2bmr214250915e9.27.1776851953566;
+        Wed, 22 Apr 2026 02:59:13 -0700 (PDT)
+X-Received: by 2002:a05:600c:8b8a:b0:489:149a:f9e7 with SMTP id 5b1f17b1804b1-489149afa2bmr214250425e9.27.1776851953134;
+        Wed, 22 Apr 2026 02:59:13 -0700 (PDT)
 Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a341sm47712138f8f.24.2026.04.22.01.58.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488ffc5e3f4sm222129625e9.2.2026.04.22.02.59.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 01:58:02 -0700 (PDT)
-Date: Wed, 22 Apr 2026 10:58:02 +0200
+        Wed, 22 Apr 2026 02:59:12 -0700 (PDT)
+Date: Wed, 22 Apr 2026 11:59:11 +0200
 From: Andrey Albershteyn <aalbersh@redhat.com>
 To: Eric Biggers <ebiggers@kernel.org>
 Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
 	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, hch@lst.de, 
 	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
 	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, djwong@kernel.org, 
-	david@fromorbit.com
-Subject: Re: [PATCH v8 00/22] fs-verity support for XFS with post EOF merkle
- tree
-Message-ID: <iads77qkk2wjkqfezd4vtqsga6btlkqdyephqojyv76herp6by@l24e2hm2ebas>
+	Amir Goldstein <amir73il@gmail.com>
+Subject: Re: [PATCH v8 03/22] ovl: use core fsverity ensure info interface
+Message-ID: <gpmgtg2wkoo4vozzaaouhdp2df6zlifwi6gy4jvq7xc22zo7om@t3f2bl374nlr>
 References: <20260420114714.1621982-1-aalbersh@kernel.org>
- <20260421214316.GB37143@quark>
+ <20260420114714.1621982-4-aalbersh@kernel.org>
+ <20260421214457.GC37143@quark>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260421214316.GB37143@quark>
+In-Reply-To: <20260421214457.GC37143@quark>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2Uw4dbUHSmbZ7KAv54nYfWPl_gaOU0NM55642vFGZXI_1776848284
+X-Mimecast-MFC-PROC-ID: nx1Ww-cjMtV7ME73b5MpkX8bsB7eIBtqN4s1fqtwzSQ_1776851954
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 2026-04-21 14:43:16, Eric Biggers wrote:
-> On Mon, Apr 20, 2026 at 01:46:47PM +0200, Andrey Albershteyn wrote:
-> > This series based on v7.0 with Christoph's read ioends patchset [1].
-> > 
-> > kernel:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/aalbersh/xfs-linux.git/log/?h=b4/fsverity
+On 2026-04-21 14:44:57, Eric Biggers wrote:
+> On Mon, Apr 20, 2026 at 01:46:50PM +0200, Andrey Albershteyn wrote:
+> >  int ovl_ensure_verity_loaded(const struct path *datapath)
+> >  {
+> >  	struct inode *inode = d_inode(datapath->dentry);
+> > -	struct file *filp;
+> >  
+> > -	if (!fsverity_active(inode) && IS_VERITY(inode)) {
+> > -		/*
+> > -		 * If this inode was not yet opened, the verity info hasn't been
+> > -		 * loaded yet, so we need to do that here to force it into memory.
+> > -		 */
+> > -		filp = kernel_file_open(datapath, O_RDONLY, current_cred());
+> > -		if (IS_ERR(filp))
+> > -			return PTR_ERR(filp);
+> > -		fput(filp);
+> > -	}
+> > +	if (fsverity_active(inode))
+> > +		return fsverity_ensure_verity_info(inode);
 > 
-> FYI: the git repository doesn't match what was actually sent out.  For
-> example the patch "ovl: use core fsverity ensure info interface" is a
-> bit different.  The version in git (incorrectly, I think) ignores the
-> error code, while the patch returns it.
-> 
-> - Eric
-> 
+> Not sure whether I should review this version or the version in git, but
+> both seem wrong.  
 
-Thanks, you're right, I forgot to push
+Sorry, I forgot to push, this one is the latest, the one on git is
+v7. I will push v8 now.
+
+> The 'if (!fsverity_active(inode) && IS_VERITY(inode)) {' condition
+> should stay
+
+Why? With recent changes, the fsverity_active() now checks for
+IS_VERITY() instead of verity_descriptor.
+
+> , but fsverity_ensure_verity_info() will need to
+> gain a !CONFIG_FS_VERITY stub to fix the build error.
+
+With "if (fsverity_active(inode))" I think this is not necessary as
+this fsverity_active() will be always false, and this if-case is
+optimized.
 
 -- 
 - Andrey
