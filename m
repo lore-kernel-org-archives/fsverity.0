@@ -1,144 +1,69 @@
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051E8390C8B
-	for <fsverity@lists.linux.dev>; Tue,  5 May 2026 20:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED173EFD30;
+	Tue,  5 May 2026 21:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778012365; cv=none; b=lbPxlmUqFNpzBeILDpA1oIYYpKwM0hJcGV8dtmfei/iM8o3M02Nmfs5qlLAVLBEhsIEf64VfANf7QoNCbHMbuNwPQsRQiR4iLwB7MIrTrbp1H0cNZ4pKDtZwz4HgtMvi9Gq+p9uZkBI1nBhEnm69D4DtobtQXnJZk4P4eu7Ez+U=
+	t=1778014821; cv=none; b=c60747M+C/Z+ZV9gf09bysxaX0/OqI0XHFwtBVf8jeX4JC2Q1WjOVrxYEWrGE+4P3I4Bsb14PSPGoRoSnSVrX02eKetcq1cXxwAXoQg2GJTod19oWLcubtus+onLvDv2ghN9PVIHp6yzPovDZ5Iq3ymkBxBxFdMZNDBj13UdCjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778012365; c=relaxed/simple;
-	bh=0msNwt01nHds4VPeV/itHABtyNfweqJ/+WrXeQvZULI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=aLlSt171AuH3ODCuozlpCXpYyDhSMfeojGJxZHo37R2ah6bCol1eV4pMqdZK2ZYDB47NHDLA7VmIBIQs7Xe3FUeI27WU0Fn/NXSw+6cIJ7zUYMehcXzPz68FMkpSoz6bI0jyhZmDVYyPs7pITt//JFaBaA+v/eLSl/ifbqoLLA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=verbum.org; spf=pass smtp.mailfrom=verbum.org; dkim=pass (2048-bit key) header.d=verbum.org header.i=@verbum.org header.b=W/Vfpmy2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hZisomkw; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=verbum.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=verbum.org
+	s=arc-20240116; t=1778014821; c=relaxed/simple;
+	bh=M1EULEHUjdnkQykduF0+PVxhMQpk8F8v4jxC+DrYfJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iEBuPHg0HvFo6OkmR0jdiSGRA4dWVznAG11M1O+P94V8of0tmUr07MofvuU4PLIpyxtrq046w5fdrhyHX0+fzDZXsv2gl100LOShD7R1wQGSOZal115lUPI+fLmqAK9dE49jIvdF/QDcoJBO0NQ3mog705XAjeEs53ZxoXCRfy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vN4fl2WW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=verbum.org header.i=@verbum.org header.b="W/Vfpmy2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hZisomkw"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 34D837A00A9;
-	Tue,  5 May 2026 16:19:22 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-04.internal (MEProxy); Tue, 05 May 2026 16:19:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verbum.org; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1778012361;
-	 x=1778098761; bh=+yJjgHKzHMjJIiX5YgX8EBWvyf9VUs47sabKriH+qrY=; b=
-	W/Vfpmy268X2m5OUH0VVUWCh82SSiNfnwyPo/KRlbtNRnfayKKMrBNSqefL0TEjG
-	IbcsKzrQrSZlvf2MNOWDiauMzhp6NL/abr95MsKM/n077dQhwgDF18nqysfBZoe8
-	K3FrkkkVVZRljYH/4DFc1Tyhr2+ABTqFtMx6Er/6YtruIl/IUSV3i10sC1cw2k9o
-	gSktRYhfFBmqfIUrtIVXMphqanjt28V1B6gYlYE2Atwv5E0pLmVrwmN1RuEvY5cp
-	wDFiyp5DD/sdbS43eQWpFqFVFn8QqQpEX84V9RwJIhlC94cEphlg23nwKovhsDxb
-	VvjaUBefbR95RSkXHgQ5TA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778012361; x=
-	1778098761; bh=+yJjgHKzHMjJIiX5YgX8EBWvyf9VUs47sabKriH+qrY=; b=h
-	Zisomkw4v/kZHNc1j1kojzpPHypZGWQ8p3sbs+uNFGYKFKIOiDqJlvacv0qWsT/F
-	R0LraACn36+AjUybF2ILEi80H33imqavRuDmo37XLK1rlfBCT9RDnOGZQMIus7Gr
-	xCiR2ughPlP1m4ZOD22RjdF9ezuQByqs9+cXA97ehEJzjgqvrFTu6SdRiToA6E2+
-	4yL3jdhnskXYFp0NEIccAq6e9KTVy6MK/Fvw7uF+rW70eRDrlbqGKooSAazoZ7Ap
-	w18Hg/k5oSN1qgxnraYsMQi+D9gRQY1RWo9trFAqBswbx2DrPs2YEfx4DZrPzhum
-	vI5B6T24TTCoJmPDskd/w==
-X-ME-Sender: <xms:yVD6aRrtFsMT_oIbCrPI7wOYVD-1aLYPMhUeZGj4a5O1BJ8g10o0tw>
-    <xme:yVD6aecjT6WPam84fu0Dyb-ezLMDLK-ITYDStBskSAZrTqG5JGzX-BY43Jlnz74P0
-    2CBBmuJqsf4idjGiG38oVy9hcdhXhQdaeIQv1jdG0MX_bwpXOiU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutddvieehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfveholhhi
-    nhcuhggrlhhtvghrshdfuceofigrlhhtvghrshesvhgvrhgsuhhmrdhorhhgqeenucggtf
-    frrghtthgvrhhnpefggeetueegteelieeggfdtvdekvdejudejgeevudevueeuhfekjeeh
-    feeivdfhkeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomh
-    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeifrghl
-    thgvrhhssehvvghrsghumhdrohhrghdpnhgspghrtghpthhtohephedpmhhouggvpehsmh
-    htphhouhhtpdhrtghpthhtohephhgthhesihhnfhhrrgguvggrugdrohhrghdprhgtphht
-    thhopegrrghlsggvrhhshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvggsihhggh
-    gvrhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehfshhvvghrihhthieslhhishht
-    shdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvgh
-    gvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:yVD6aS2rtZSS41T_XGes5vrfsvq2OAWKmYa1Sm29QC8J0HtotAMLnw>
-    <xmx:yVD6aeCpnGDBX8w4utqDj9eO0tshZpy6Lj_WUjMXIr44ew23PIrggw>
-    <xmx:yVD6aWfcDBQ7pSCFzCjP159NoFx_MFxkud8SSch_f4oom1xqe30J8A>
-    <xmx:yVD6aT6j449AksKdvAx6a_WbVsOx4nrxcNtyU3G5tV4nsf3cqoxUuw>
-    <xmx:yVD6ad4d2oIkNwEMKuNaiv7shlvtXtf6aeylc-K4EgICsoG6dv4GAvEq>
-Feedback-ID: ibe7c40e9:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 94E11780070; Tue,  5 May 2026 16:19:21 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vN4fl2WW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406A3C2BCB4;
+	Tue,  5 May 2026 21:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778014820;
+	bh=M1EULEHUjdnkQykduF0+PVxhMQpk8F8v4jxC+DrYfJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vN4fl2WWIcUwnYi4h0+Hq2iysUfx9bd9YflB+YELzAAjswbiVv4dVWNuiD8I8qenJ
+	 9Xg6V5F0EsmU5s2mDZinbzwN/zdkBgiuHiA+R+NeXVpLYX2MlZbbzrWJT0cO8d9HMz
+	 MgZ8d0rSn0Gj+5FNgpWP+f9TbAHLJCz+X2LTI6jpvRTNrmey7uhIfTg4xMLMa+ygms
+	 MmWhNb+tgWjY54ld9148z0YGqeC17tL9IRbsBzJ7em7ZlIBPMM7L5Sgkp9Zo3R79yW
+	 lWE8eru0709pZbgQ4gphrkfN0RvqCj6uvuVHXdHkfXr9aRvfkk6KrvX4fd5Ma4DFSz
+	 qgaHC3tlbVQTg==
+Date: Tue, 5 May 2026 14:00:16 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Colin Walters <walters@verbum.org>
+Cc: fsverity@lists.linux.dev,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH] ovl: fix verity lazy-load guard broken by
+ fsverity_active() semantic change
+Message-ID: <20260505210016.GA3895@quark>
+References: <6630d44f-967d-41f0-81ce-6958b371465a@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AMDuz2u8DR1N
-Date: Tue, 05 May 2026 16:19:01 -0400
-From: "Colin Walters" <walters@verbum.org>
-To: "Andrey Albershteyn" <aalbersh@kernel.org>,
- "Eric Biggers" <ebiggers@kernel.org>
-Cc: "Christoph Hellwig" <hch@infradead.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- fsverity@lists.linux.dev
-Message-Id: <6c8e6d08-e12f-4a97-95ca-ef0dec2a201d@app.fastmail.com>
-In-Reply-To: 
- <lna7qosffjeymh553wfgew6txfhzb567xqfki7cvq5n6lfsrgg@tkb6wvmyvie6>
-References: <bf0ba588-002b-4860-848e-e806b193840a@app.fastmail.com>
- <20260501180725.GB2260@sol>
- <lna7qosffjeymh553wfgew6txfhzb567xqfki7cvq5n6lfsrgg@tkb6wvmyvie6>
-Subject: Re: overlayfs: verity validation broken since f77f281b6118
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6630d44f-967d-41f0-81ce-6958b371465a@app.fastmail.com>
 
+On Tue, May 05, 2026 at 02:15:58PM -0400, Colin Walters wrote:
+> Commit f77f281b6118 ("fsverity: use a hashtable to find the fsverity_info")
+> that broke `ovl_ensure_verity_loaded` in the case when the inode was not in core.
+> 
+> The APIs here are in my opinion now confusing, but this patch intentionally
+> aims for a minimized fix by using `fsverity_get_info()` which ensures
+> the hash table is loaded.
+> 
+> Fixes: f77f281b6118 ("fsverity: use a hashtable to find the fsverity_info")
+> Cc: stable@vger.kernel.org
+> Link: https://github.com/bootc-dev/bootc/issues/2174
+> Signed-off-by: Colin Walters <walters@verbum.org>
 
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
 
-On Tue, May 5, 2026, at 2:07 PM, Andrey Albershteyn wrote:
-> On 2026-05-01 11:07:25, Eric Biggers wrote:
->> [+Cc fsverity@lists.linux.dev]
->> 
->> On Fri, May 01, 2026 at 01:14:54PM -0400, Colin Walters wrote:
->> > Hi Christoph & Eric,
->> > 
->> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f77f281b6118 broke composefs's usage of overlayfs verity=require, this was reported originally in https://github.com/bootc-dev/bootc/issues/2174
->> > 
->> > There's some output from an agent run I had in the <details> there, but here's an xfstests patch that passes on without that commit and fails with it.
->> > 
->> > From 14231122bfd1e41337e4fb847acbbe038457c32a Mon Sep 17 00:00:00 2001
->> > From: Colin Walters <walters@verbum.org>
->> > Date: Fri, 1 May 2026 09:45:58 -0400
->> > Subject: [PATCH] overlay/118: test fsverity lazy load through metacopy overlay
->> > 
->> > Reproduces the regression reported at:
->> > https://github.com/bootc-dev/bootc/issues/2174
->> > 
->> > A recent change in how fsverity state was cached in memory
->> > I think caused inodes not in cache to appear to have
->> > missing verity=require for overlayfs.
->> > 
->> > This test catches that.
->> > 
->> > Generated-by: OpenCode (Claude Sonnet 4.5)
->> > Signed-off-by: Colin Walters <walters@verbum.org>
->> 
->> Sorry about that.  I guess it's because the semantics of
->> fsverity_active() changed to be basically the same as IS_VERITY(), and
->> that broke ovl_ensure_verity_loaded() which does
->> '!fsverity_active(inode) && IS_VERITY(inode)'.  I guess now it should
->> do: IS_VERITY(inode) && fsverity_get_info(inode) == NULL.
->> 
->> - Eric
->> 
->
-> I guess this could be also fixed by patch 2 and 3 from my XFS
-> fsverity support [1]
->
-> 1: 
-> https://lore.kernel.org/fsverity/20260428083332.768693-1-aalbersh@kernel.org/T/#t
+I can take this through the fsverity tree as a fix for 7.1.  Amir, let
+me know if you'd prefer to take it instead.
 
-Yes, definitely similar. My draft went even farther - personally I like not having ovl_ensure_verity_loaded at all. But in the end I don't have a really strong opinion on that, as long as we get the xfstest merged so there's less chance of future regressions I'm happy!
+- Eric
