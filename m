@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51838480947;
-	Tue,  5 May 2026 17:19:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D326027380A;
+	Tue,  5 May 2026 18:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778001587; cv=none; b=EUkx0V61FESigt9HULXa0fcBAC35FAYLYwTuftYxw1+awSRlWI4zO6ZfJWk5LYagNrdm64rW0dFAUb9eVGyQeH7/fYMNpjknpgo16OFbJkdi2VBUe51PQ4cKsfAZmxKMOg+qxB/iMu+8pWSvzQTAfJyjKkICfzQCzh7Ail4/uT8=
+	t=1778004475; cv=none; b=QuDNX6S0BmSCbHye9vrw4ujNqRa2orq+udvEbLuoP323OTUDMsqJFBcPw1wUtyy2lTuXQ0k3M6KJQGPlmiJz/ptbwpKWCOiE+lSEwVfnfUo18knT/6W2migu69d1BzSO5dQ1WIAOSfiidRvPaqoe6HD2B0p9UUTNpzHz3NlTKjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778001587; c=relaxed/simple;
-	bh=w366vW6gTE7PZjWFzruIX59ph/Eyj/Rm0AE1LoX/bA0=;
+	s=arc-20240116; t=1778004475; c=relaxed/simple;
+	bh=nTW1FFOU6HDlagnPSEMnDHIHx1gyT83bIkb9h2/EE3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E4K2Z+YC/mo3uQdhh5VyGURB5LOb2qDVYJzUg2Sz8pmmGOd5M4IRE5AVzM9vck4ZIRqTUO+AE/yAgpYQe1Jrf4mgWNRZiiEyF834nY4QecC7m+HGL6CISkvxa5r0gsbJ+3HIPEeeL9UeaKJM56UJonWkqy+AsH2WiR4CWKTlK+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYEEPYce; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DT2NlCIZv+haW2W6tnG0H2ui+syolfn+Shi2U5e01GphECa1Ljac1WUnr4Jj2OJVVa5n1fMoLKobmwiBmSlLr2Qf8+fYztqO/f73Yp1uO81ILldNZ0YLNmhlEv/8Kof0wi/LjIg4lQz1+fJZOjur91XgLDNYvXMZ7jY10D9W6jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qS4bWKYE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYEEPYce"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6322C2BCB4;
-	Tue,  5 May 2026 17:19:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qS4bWKYE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339F7C2BCB4;
+	Tue,  5 May 2026 18:07:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778001586;
-	bh=w366vW6gTE7PZjWFzruIX59ph/Eyj/Rm0AE1LoX/bA0=;
+	s=k20201202; t=1778004475;
+	bh=nTW1FFOU6HDlagnPSEMnDHIHx1gyT83bIkb9h2/EE3c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WYEEPYceM8fVn3kV6ErEhtso5FJDntRnhKqeL8R0VYHS5EfD/2BN3p69PadjSrlhG
-	 8vXYdoP3QVXBVHyw74rmZrYQIiYYbCU1G9toxt6shpr5X+uOjdaWAWUbPsnfBuNyZz
-	 AYBPKwsy0wbIz//ucgag4heDKXRuHBXRggnSP2cRDOhlj4+CE/SqQ4LYnrDh+1Gtg7
-	 FzEtuka8YfP38rerV0YJRo98RXPPwjGjoUa+X9BWK89JJVmjEvMPatml4MQ+jwZGGf
-	 lxhYn6JSFGHEE2RJVLmL6JFQ1YQPbf2Q9RSzXak5kfZAzAU2GbaL83CVQNDTAcJ5vv
-	 L2paQT3teyV+Q==
-Date: Tue, 5 May 2026 10:18:27 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Colin Walters <walters@verbum.org>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	b=qS4bWKYEFtWomcLI+M3EN4b8P1d8Rb2lWL1eUOs2U+b0Ic2tJ3GcgQ35/76J4WtLt
+	 /AbW5otCJiT2gLNx1APWjeDpFg4EL/iVVn9gFNS2zCSiskQrLSmGjAbs/fZfl9LNTf
+	 NMxdEFxveI/h8Z4I+/EtTcOiswZitpbXTAyU1oYAqC2rWNlMSiF2mYkpTowK0MjAyI
+	 52YYcKJK15zdg3TrdAu3BmITKYKvIwA9rfbHh8GIPSt7CCiPZqJZCaVNTOSnj9bUTK
+	 5tSje0HTEdyOI35vylIfvlpi5L3kIpn51IjJbSi314TdHQUTue2bIXATW61gIvdUFs
+	 /pKej4TCRkUWQ==
+Date: Tue, 5 May 2026 20:07:50 +0200
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Colin Walters <walters@verbum.org>, 
+	Christoph Hellwig <hch@infradead.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
 	fsverity@lists.linux.dev
 Subject: Re: overlayfs: verity validation broken since f77f281b6118
-Message-ID: <20260505171827.GB2291@sol>
+Message-ID: <lna7qosffjeymh553wfgew6txfhzb567xqfki7cvq5n6lfsrgg@tkb6wvmyvie6>
 References: <bf0ba588-002b-4860-848e-e806b193840a@app.fastmail.com>
- <afXCoGk2Bu9rBKvJ@amir-ThinkPad-T480>
- <7baedcfe-534b-49f1-b00c-a8280c2703c0@app.fastmail.com>
+ <20260501180725.GB2260@sol>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -47,59 +44,48 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7baedcfe-534b-49f1-b00c-a8280c2703c0@app.fastmail.com>
+In-Reply-To: <20260501180725.GB2260@sol>
 
-[+Cc Miklos Szeredi <miklos@szeredi.hu>]
-
-On Tue, May 05, 2026 at 12:51:47PM -0400, Colin Walters wrote:
-> On Sat, May 2, 2026, at 5:23 AM, Amir Goldstein wrote:
-> > On Fri, May 01, 2026 at 01:14:54PM -0400, Colin Walters wrote:
-> >> Hi Christoph & Eric,
-> >> 
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f77f281b6118 broke composefs's usage of overlayfs verity=require, this was reported originally in https://github.com/bootc-dev/bootc/issues/2174
-> >> 
-> >> There's some output from an agent run I had in the <details> there, but here's an xfstests patch that passes on without that commit and fails with it.
-> >> 
-> >> From 14231122bfd1e41337e4fb847acbbe038457c32a Mon Sep 17 00:00:00 2001
-> >> From: Colin Walters <walters@verbum.org>
-> >> Date: Fri, 1 May 2026 09:45:58 -0400
-> >> Subject: [PATCH] overlay/118: test fsverity lazy load through metacopy overlay
-> >> 
-> >> Reproduces the regression reported at:
-> >> https://github.com/bootc-dev/bootc/issues/2174
-> >> 
-> >> A recent change in how fsverity state was cached in memory
-> >> I think caused inodes not in cache to appear to have
-> >> missing verity=require for overlayfs.
-> >> 
-> >> This test catches that.
-> >> 
-> >> Generated-by: OpenCode (Claude Sonnet 4.5)
-> >> Signed-off-by: Colin Walters <walters@verbum.org>
-> >> ---
-> >>  tests/overlay/118     | 62 +++++++++++++++++++++++++++++++++++++++++++
-> >>  tests/overlay/118.out |  1 +
-> >
-> >
-> > Please use free test numbers below 100
+On 2026-05-01 11:07:25, Eric Biggers wrote:
+> [+Cc fsverity@lists.linux.dev]
 > 
-> OK, I can resend with that change if that's the only thing.
+> On Fri, May 01, 2026 at 01:14:54PM -0400, Colin Walters wrote:
+> > Hi Christoph & Eric,
+> > 
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f77f281b6118 broke composefs's usage of overlayfs verity=require, this was reported originally in https://github.com/bootc-dev/bootc/issues/2174
+> > 
+> > There's some output from an agent run I had in the <details> there, but here's an xfstests patch that passes on without that commit and fails with it.
+> > 
+> > From 14231122bfd1e41337e4fb847acbbe038457c32a Mon Sep 17 00:00:00 2001
+> > From: Colin Walters <walters@verbum.org>
+> > Date: Fri, 1 May 2026 09:45:58 -0400
+> > Subject: [PATCH] overlay/118: test fsverity lazy load through metacopy overlay
+> > 
+> > Reproduces the regression reported at:
+> > https://github.com/bootc-dev/bootc/issues/2174
+> > 
+> > A recent change in how fsverity state was cached in memory
+> > I think caused inodes not in cache to appear to have
+> > missing verity=require for overlayfs.
+> > 
+> > This test catches that.
+> > 
+> > Generated-by: OpenCode (Claude Sonnet 4.5)
+> > Signed-off-by: Colin Walters <walters@verbum.org>
 > 
+> Sorry about that.  I guess it's because the semantics of
+> fsverity_active() changed to be basically the same as IS_VERITY(), and
+> that broke ovl_ensure_verity_loaded() which does
+> '!fsverity_active(inode) && IS_VERITY(inode)'.  I guess now it should
+> do: IS_VERITY(inode) && fsverity_get_info(inode) == NULL.
 > 
-> >
-> > Is there a kernel fix for this? please mention it.
+> - Eric
 > 
-> Not that I know of. I did have my agent framework (opencode + combo of Gemini+Claude models) generate one initially, but I intentionally didn't post it because the generating is ~easy, verifying it's "good" is another thing and my C has bitrotted a bit (in favor of Rust mostly but I have to deal with a lot of Go too).
-> 
-> Anyways, this trivial change works:
 
-Please do a fix patch first, and then any cleanup second as separate
-patch(es).
+I guess this could be also fixed by patch 2 and 3 from my XFS
+fsverity support [1]
 
-You'll also need to submit your patches correctly, otherwise they cannot
-be accepted into the kernel:
-https://docs.kernel.org/process/submitting-patches.html
+1: https://lore.kernel.org/fsverity/20260428083332.768693-1-aalbersh@kernel.org/T/#t
 
-Thanks,
-
-- Eric
+-- 
+- Andrey
