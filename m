@@ -1,113 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAB942EEDD;
-	Thu,  4 Jun 2026 12:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780574906; cv=none; b=eTWJxCU2Uyt7COpIhFqnrzS0lymxEGjg19AJ1WJym/GpbhYgviViIM0kHwFr66e+TWNXw29rCVurI36Zp65Act5WGRLfEFA8MkJwLM2ioXdTTGYoqRmS9JKqVLZP16aXZ5xP6+P1kwZc+gtvWvAPjFkqtvEfQygi/nYuZBeH3dw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780574906; c=relaxed/simple;
-	bh=LfaFUmMQyjZHO3KS4+iNpnsCVjTMyIBIVLpR3PnSU+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bDRahZc9m72/LxZDOB6ozrYtkpIaOlvAGmDf6Erc7Ku4XA7D6/SPH3Rykm5dObRZbPKlHUyxn2BOFTFeHWB5vMDsehJc/X9YAnfca9/kIOlgXG1h9TEI1zKzD35OqSzMfDmKiBxL4hKQadlHI4ZE6u7vfoVDf0+VT3XMvYC9OOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hviMYelb; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC11330650
+	for <fsverity@lists.linux.dev>; Fri, 19 Jun 2026 07:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781854127; cv=pass; b=Z0ZcHBPzXkcATY0HPkY5GQLLnoaYcPaDGdsgtziSDUp6ZLHm5hUAuhVXmRVsxcX5PTLUVxuVFY1mgRYbbzg7yW8pOoJtcs6TAjNl8Xaqt2LKXQ9N8xzhjWKyTJnmJqUTCSDl+/C3cy2LRVDyVbhnOvUWpgR/J1c+m/yHUOKga44=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781854127; c=relaxed/simple;
+	bh=PLjuf5U1Ldp+lKMspivltGTyqfvutQwDbWwFfF6CvPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SQSEMr2QZw3D9xiTJO0BgARTeL9oYOaReRFJeNz8mG9dERfHfBL2eE+PJ3OEnek4lNpMVjh9wdgKbMh4+epi1X7pgzdN5KXQwGgMwzKXbrNQiQCl2nDUSPMp83Mbg8POsT90Q+s8lUQgmfMectezZEl4aV1dS6/S1KddTT+k2Yg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q47iPGKb; arc=pass smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hviMYelb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB0591F00893;
-	Thu,  4 Jun 2026 12:08:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780574904;
-	bh=dqjWETgw2fdknLUk3DwFQ4twFF3wQf7ZwlKX+xqjr7w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hviMYelbCq1FD1zUQhO+fHm5JXTR/dphxJCOG961fCE36/10DX6upgx+CDnxsr5FX
-	 E7MQVJW6QmbLnI4404ldzJhbz07IxXLVrtKFK1UfQs37p2h5nMYbL9uvFe+0lXC9zM
-	 /vSYlIo+hzLFJHw5bjRN9Qeb+00uVswiUz9YmLM5wDKhovt9TToPv3JYsZ4fuW0Amc
-	 ToaJ3qV8OdYyBWByuFT+ELyEYx8lgP+Ra0oTsmTgYQCW0/pEi3v8y6HbDUpJUfzbOq
-	 MI1Rxx2X/JgEK8gcgHC3OQ50l4LmIzfEAumH4sEFYuy8J1CBGjjQQucDd6JVnnfWZv
-	 9Vtsb4RtWox3w==
-Date: Thu, 4 Jun 2026 14:08:19 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: Andrey Albershteyn <aalbersh@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	djwong@kernel.org, david@fromorbit.com
-Subject: Re: [PATCH v10 00/22] fs-verity support for XFS with post EOF merkle
- tree
-Message-ID: <aiFqn8uEq_iR2ae7@nidhogg.toxiclabs.cc>
-References: <gcw7zcg6p4s2egpufwizfig72g6ren7jfmuz5mqskkpb7xepww@e3v35j7bk7dc>
- <ag7uW7KQ5mVyCGEv@nidhogg.toxiclabs.cc>
- <20260522-unbehagen-baumethode-erlesen-811a4065eeac@brauner>
- <20260522120757.GA21041@lst.de>
- <ahVzkf8JoKP-kSC2@nidhogg.toxiclabs.cc>
- <20260528-offiziell-luftleer-misswirtschaft-3503bda2ad70@brauner>
- <fjdfwhwi4aogyiaoijwvw6w4npuu5mbt6ua6fkhwcp5ajlm543@ume2fkxg36cb>
- <aiE_YQc6SGSdWlcE@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <20260604-holen-rundum-ausfechten-2193b39da363@brauner>
- <yezqqgowgmbn2z42zvha7cfcprym5vnurb33brdmooab6csdks@a76a7v6rtywn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q47iPGKb"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-695737cf38bso2550354a12.0
+        for <fsverity@lists.linux.dev>; Fri, 19 Jun 2026 00:28:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781854123; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KA2PvanmMg8/5jtEi9NcyDsDe5QRvTE6nFSjayyCt5RRdRPXM0Tqj94RI43mYIgN2N
+         W6UPIkxybEadxCeWVOXziG9P5CE/5SvGO/WGX1KPzIJ/nxV8llXVK6mDje7QYReBs091
+         8pCRFkMrCrGSQ5erIdttor20z0BsDvlnqKoNPO+1OfI377Ai/hZjH/6pFu7q+pvassk6
+         oO6pLhmk4UMhNvzW68COadZSKkr6Pik2TNLA551U1ts2lyTitoXFAV0YaEwrtw+bU1C9
+         y7oj6DrOc/k6uP5SmLS2C5E8eVbcK/u9KRrKjomq78wc9wBEscuYpjtgBNpVTePXUZUG
+         ZIiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cXsAttpCRAfo1jUwXpOflkS7AbE4OJcRHMhxuP67MIc=;
+        fh=PIeWqx9UofOmIVIz4AObsAy7KZf+EaRDeQo1fExowYU=;
+        b=LQlzlIcDFjXjwzjL4jw9FCsyJpRK4wH0aSzII1SkuR2Tf59kXD+dXCDS3wW8r2o1kf
+         CVAmTIljfselmG2Xo7jGWDcxojbD8MrTxWXfwWizLQ56ra+3CNcPtuKIM9uHlHghH9I2
+         In/32cDexGHwDjOQ3O14t95U7wjrLF2wCnbo8lZv3MYK6AbUINPkxP77RaDWka+Nf7Dl
+         ukYFp5gLb/EKHJV5nHgp0ndCXgamIs5VusSjxLeaYFr8XnVZyY3m8M9T/OfKxb7rHl49
+         q51NkmXgeQKJVMDiAjrIRE72rDsVN8s4NjzlmvIO+FXcZzAlbth8BpKldWAgv0ypBC2w
+         czHg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781854123; x=1782458923; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cXsAttpCRAfo1jUwXpOflkS7AbE4OJcRHMhxuP67MIc=;
+        b=q47iPGKbZLX4fS2LyHpjd/xBAGwmFXmCAkysOrysAg95cxL/Dhftz5Ly+IsU1yU5DY
+         /tCQRwDg27Hi61+/U3f9oL/Jk3Qi9DY3R6rYpghErTUcHrurtub9ePrgO/k0ldEHr264
+         8DHDiIpSQqMFViOXAx5BggXre4X4AlZTh6cv3qXlyrXum/GlONuywvlZQXvcBYjc2Ahy
+         LL/8iRzOB5KgGtaP7dh0+U12wZ4zwiM6HNqAZ7CTBEcgcc1o/qVrOHFuAaKpaqrBaD16
+         vc/O70ffX1iD7kfwFmtXmg7V+b4mVFEAZ1b+vCG3B1dGPLHyDuMJJyISd8xdakAzqCDB
+         Ulqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781854123; x=1782458923;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cXsAttpCRAfo1jUwXpOflkS7AbE4OJcRHMhxuP67MIc=;
+        b=ZBId0ck84P55yHcKKl4tFE1PEEllAzBlaKxz0UumTjvJg5e4RUC23f0EEjAMowXz20
+         NHH0U/2pa1aTg+C15jdq7eAJrlQpQvKnB1e5/HDcQa85dTnbLq31LC/CSpT7szNijY4y
+         e+lHcTVzMVjYaaZ3fCiFSrtaIiKRqTzde+cv9wnieD68HqCRs1AwHMeOpkVxbwr+VFxN
+         ryXSHsL9vPASG35z1Lg1Ybst3LZ/ngu0xpJmpx2mZozPd1MLOvWieM6K35MbEbiZL0wT
+         2nivDfup1zHZgO1EYsunrjrzuv7hISxxCnxIyEnjxJoT8SgVX1LKUo2wuyjQiFUHJuZ6
+         hdjw==
+X-Forwarded-Encrypted: i=1; AFNElJ/TDh2pO2OIb7+Uh9GtITSDcASllFCzsL9JhnccCUfCB/8Nu1ccQiQATCXZr3PqRRIrafY6p/QdOQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw+WYw4KUm2MheIaGa52Lo5/2LvWGndxjpz6ngHyKeowHpZ/5b+
+	YAEOohArTIwToCPsQQ+3QvRyx46Zq+t08ItF/o820nJAfqEErpeBxhwEELx9/hbaNc/Ahil49Q1
+	VBVN3Yz7aJH47y7WmDeefGN994kR60Ao=
+X-Gm-Gg: AfdE7clU1T12Fhgo+khEPlV7dTsy0tEJ1Za/iWGuMNcpX29e4/IqY8NAgmL95PV3MHu
+	TGZqc3HaTu+ZUyUDkfqmDTYXlT9C9ooPpDy9mCm9iW72eKF+aBjkjAJ5F11dKTyVEFewMTj/Er6
+	oHyVdocn3Z3g6LVQrnvskftx7y1V9Aq8c8BbOfUmdMV56mu12ifTIoMN0PodjvKMfhS3s6jZnxt
+	1HGmDy6pyW3TxqF0t8842AM4ro6P56bGViUvNWevdadCig4PQXjfO2LnAuDoH0YnnmoumWWd4bN
+	hoNO2bQaGqJfe739GnEYpvWV2xppegsI2hAnHRUs4A==
+X-Received: by 2002:a05:6402:5107:b0:695:572a:7ab5 with SMTP id
+ 4fb4d7f45d1cf-69711e00675mr1216968a12.19.1781854123208; Fri, 19 Jun 2026
+ 00:28:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yezqqgowgmbn2z42zvha7cfcprym5vnurb33brdmooab6csdks@a76a7v6rtywn>
+References: <20260520123722.405752-1-aalbersh@kernel.org> <20260520123722.405752-4-aalbersh@kernel.org>
+ <20260520190719.GB3424023@google.com>
+In-Reply-To: <20260520190719.GB3424023@google.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 19 Jun 2026 09:28:31 +0200
+X-Gm-Features: AVVi8CcyPPKNjODd0CeG8qbXXsZeOsRanxA9PmKFMYeTLACw7w0uBX2gqOCDc0w
+Message-ID: <CAOQ4uxh_hfiSwMw8ABhhrz7GguZWjHEiBmvb3eq16Wfqw0+ZrQ@mail.gmail.com>
+Subject: Re: [PATCH v10 03/22] ovl: use core fsverity ensure info interface
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, hch@lst.de, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, djwong@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 04, 2026 at 02:07:05PM +0200, Andrey Albershteyn wrote:
-> On 2026-06-04 14:00:07, Christian Brauner wrote:
-> > On Thu, Jun 04, 2026 at 11:04:32AM +0200, Andrey Albershteyn wrote:
-> > > On 2026-05-28 16:50:45, Andrey Albershteyn wrote:
-> > > > On 2026-05-28 14:20:08, Christian Brauner wrote:
-> > > > > On Tue, May 26, 2026 at 12:19:43PM +0200, Carlos Maiolino wrote:
-> > > > > > On Fri, May 22, 2026 at 02:07:57PM +0200, Christoph Hellwig wrote:
-> > > > > > > On Fri, May 22, 2026 at 12:03:20PM +0200, Christian Brauner wrote:
-> > > > > > > > > I was expecting this to come through xfs tree too if Eric and Christian
-> > > > > > > > > agree.
-> > > > > > > > 
-> > > > > > > > You may take it through the xfs tree if there are no conflicts with
-> > > > > > > > vfs-7.2.iomap. If there are I want to add the iomap changes into
-> > > > > > > > vfs-7.2.iomap that you can pull in.
-> > > > > > > 
-> > > > > > > Merging the iomap bits through the iomap branch might make sense, given
-> > > > > > > that iomap usually tends to see quite a bit of activity.
-> > > > > > > 
-> > > > > > 
-> > > > > > That sounds good to me. If you want to go ahead and pull in the iomap
-> > > > > > bits, do so, and give me a heads up when you do it so I'll pull your
-> > > > > > branch locally.
-> > > > > 
-> > > > > Great, can the series please be resent based on current vfs-7.2.iomap
-> > > > > then please? Because the iomap changes in this series don't apply
-> > > > > cleanly on vfs-7.2.iomap so we already have merge conflicts...
-> > > > > 
-> > > > 
-> > > > hmm do you mean this branch?
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs-7.2.iomap
-> > > > 
-> > > > patches 07..09 seems to apply cleanly. The only conflict I see is in
-> > > > the overlayfs patch 03. This is because [1] (is in -rc5) is missing
-> > > > in vfs-7.2.iomap.
-> > > > 
-> > > > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/fs/overlayfs/util.c?h=v7.1-rc5&id=0c8c88b8eb82a2a41bec5f17c076d6312dc40316
-> > > 
-> > > Christian, ping
-> > > 
-> > > Would be nice to have iomap in vfs, so Carlos can pull and test the
-> > > rest
-> > 
-> > Applied but note IOMAP_F_FSVERITY
-> > changed from (1U << 10) to (1U << 11) since we have another flag
-> > addition this cycle.
-> 
-> Oh I haven't noticed that, thanks!
+On Wed, May 20, 2026 at 9:07=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
+wrote:
+>
+> On Wed, May 20, 2026 at 02:37:01PM +0200, Andrey Albershteyn wrote:
+> > fsverity now exposes fsverity_ensure_verity_info() which could be used
+> > instead of opening file to ensure that fsverity info is loaded and
+> > attached to inode.
+> >
+> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> > Acked-by: Amir Goldstein <amir73il@gmail.com>
+> > ---
+> >  fs/overlayfs/util.c | 14 +++-----------
+> >  1 file changed, 3 insertions(+), 11 deletions(-)
+>
+> Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+>
+> I'm still confused by the new implementation of fsverity_active() that
+> got introduced by "fsverity: use a hashtable to find the fsverity_info",
+> though.  I should have caught this during review of that commit.  For
+> one its comment is outdated, but also the memory barrier seems to be
+> specific to the fsverity_get_info() caller and probably should be moved
+> to there.  Anyway, that's not directly related to this patch.
 
-Thanks Christian. I'll deal with the rest of the series next week!
+Eric, Andrey,
 
-> 
-> -- 
-> - Andrey
-> 
+Did you see the Sashiko review for this patch and others in this series?
+
+https://sashiko.dev/#/patchset/20260520123722.405752-1-aalbersh%40kernel.or=
+g
+
+It annotated some review comments as high and critical.
+For this patch it is about interaction with fscrypt.
+
+Please take a look and say if this is concerning or false positive.
+
+Thanks,
+Amir.
