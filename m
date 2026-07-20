@@ -1,84 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948143D3305;
-	Mon, 20 Jul 2026 09:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E013EFFAC
+	for <fsverity@lists.linux.dev>; Mon, 20 Jul 2026 11:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784538358; cv=none; b=Akj9MgrnkCcP9MOboxv1pE2shCROCXdlpTY81Z+y3m1w7VfbGCSKxkedlnxLY+QLOMx8cIEkBeMsDevb1BA80S+2BMUa7ZFMlCzFn7WN4+WmnqdwRYQS/uTmtC2lq4IRtYySRh7dZ5k7fFlswhWrHkX+PvjQ2z652nXCkaHAyzo=
+	t=1784545360; cv=none; b=IlBdyDRC5DdL7+IVkeENQEXuLGKpxzYMK2ubRFtHRA7+b8sFVGGSkK6o8iadADliGnz20E4GxYzCqk4ctvdi/73UL5o/gItPAfxsWfoYG902HMHgrrZ+8bnmRYf1rIad0PCOjuE9+eonimSfMILq/t1NK1mTxC0IredskF0QI78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784538358; c=relaxed/simple;
-	bh=oLsUxhIgOGII8FockpMXTs1qqBWzV+X+1MIELSdjFQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qENz6ylQrlQhohIhRR7Pr/0dPyfEObej5f8nHDS4DqtesIAJ3RJbAEtrqfWaNCzCVwNObsU4HB7Z/7mOiYd5jkQuR/vARYtD4tY4iIZbFRCCvgztSLh6Ff9Gs7J2s5wZ19Rhmj4JNmuJltkBiyzR2tizB4LBCHWi8EYhwwCPVjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djz3AyRl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784545360; c=relaxed/simple;
+	bh=KZtKkBdxdhhxVAYZ/+jsniC0UjdRvcSsYyORgs33LnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tpQE/t/fNbIFjZEbTeoZN6r9vBX6SrY1srXP/otWbgQY1VBrwp34Nl4gFgs04qEit2MDNnJj1/F/Xf3ZQQBWeYnfaFVGLLtF0oX3jkq9OA8sZtlAVBc3TqFUhfMkbcY6CZhg9872Lw8BOyqepNQ7/VwUMnxEJZUqUt+3xnPhT8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=a7qlSHkB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mdiCEdAB; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=SYPCh4W/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Vd6mEVVO; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djz3AyRl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D701F000E9;
-	Mon, 20 Jul 2026 09:05:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784538357;
-	bh=+47nVRLEZQw/YviSfUoLbkFDroVKuX0Z4+TWL8l7VFE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=djz3AyRlLkB4EkzF9XWbuuDmZe4Vyk4m9uHeptIXgIMMQDolgQXMzFDrwrVOvNuCD
-	 0ePpAYkqAfTuh4rjVA7tgpC1Aq2nPtxte0FPnLjE3yRxyxW4uBDwA/+PrDFi0jQo2J
-	 QlUNV/fstm94CtFNZHncpUfU0mFEPumgaj0xQ6upXL1qrNj4u0iDEujohhGxo0SPO2
-	 27pDk680D1ldc5hbBPLeE4PM45qQpEgVxNtGH++yAXVOa8BJwNUNmleu2VAu1A7MVZ
-	 /iUNh2cCa5AmVBILtt+zIYtrCrMTRUJLYI1198U/WpO3T1ZITzNgi7/Vi8NU7GjZLA
-	 TNYl1NDqbW5NQ==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	hch@lst.de,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org,
-	djwong@kernel.org
-Subject: [PATCH v12 21/21] xfs: enable ro-compat fs-verity flag
-Date: Mon, 20 Jul 2026 11:03:49 +0200
-Message-ID: <20260720090410.3487990-22-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260720090410.3487990-1-aalbersh@kernel.org>
-References: <20260720090410.3487990-1-aalbersh@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="a7qlSHkB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mdiCEdAB";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="SYPCh4W/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Vd6mEVVO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ED28E79EF6;
+	Mon, 20 Jul 2026 11:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784545356;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2QNvKujcEHJaP+CioAP0IMjfRWn5fi/vRa+eOghQmfk=;
+	b=a7qlSHkBZSGAhww/XKsyTjzhnNPL0dmZCt8geb7JXcTWaL5DH/AqIjPqYqU5jBQ7DeaqHK
+	G1eQWwkRJGSiGvC7KixQvhkSddx5aMjJNylVBQ+4nKep0HsCVhnI1Y63RIFNBSKBg25vH0
+	GI8tq6Jc9UDoKqPSHfKh0x6vuErS77I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784545356;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2QNvKujcEHJaP+CioAP0IMjfRWn5fi/vRa+eOghQmfk=;
+	b=mdiCEdABkidr3CU4n+sx7C9aiItHMfZE5xcZL3RtuffiZ18qVqO6peBEh9OvC8m9L9hqkK
+	swnHQ0VVjVv0pbDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784545354;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2QNvKujcEHJaP+CioAP0IMjfRWn5fi/vRa+eOghQmfk=;
+	b=SYPCh4W/VpU+ZdjNU8cHR9FCfFVxGssnHP6eZ6Nm2GhncK6aa2rElmHy4jvkF9FVL23nPG
+	VjWFQhy9NBNCFUdxqqA3zwkdcEiqmsDxmW6uSuh5pzMZ5NQFk69GZ1aaRDuYAKOZltndJn
+	cEs6Ysr53PB8XwQPeC2EBUSS5NIO9Tc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784545354;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2QNvKujcEHJaP+CioAP0IMjfRWn5fi/vRa+eOghQmfk=;
+	b=Vd6mEVVOi+NEoFqqHHCJJVlts/tYAiD1noX9A0RGcec9sCUr8nFy12rKuBNkRLiZcGG0Ey
+	QWh5zWS1hl+3wNAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAC10779AA;
+	Mon, 20 Jul 2026 11:02:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HrzGMEoAXmqhAQAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Mon, 20 Jul 2026 11:02:34 +0000
+Date: Mon, 20 Jul 2026 13:02:33 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, djwong@kernel.org
+Subject: Re: [PATCH v11 03/20] fsverity: pass digest size and hash of the
+ all-zeroes block to ->write
+Message-ID: <20260720110233.GD10684@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <20260710085256.3464201-1-aalbersh@kernel.org>
+ <20260710085256.3464201-4-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710085256.3464201-4-aalbersh@kernel.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-0.977];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:replyto,suse.com:email,twin.jikos.cz:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Level: 
 
-Finalize fs-verity integration in XFS by making kernel fs-verity
-aware with ro-compat flag.
+On Fri, Jul 10, 2026 at 10:52:31AM +0200, Andrey Albershteyn wrote:
+> Let filesystem iterate over hashes in the block and check if these are
+> hashes of zeroed data blocks. XFS will use this to decide if it want to
+> store tree block full of these hashes.
+> 
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+> Acked-by: Eric Biggers <ebiggers@kernel.org>
+> ---
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-[djwong: add spaces]
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
----
- fs/xfs/libxfs/xfs_format.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+For the API update in
 
-diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
-index 7b0511eb03d0..2878bc9cb656 100644
---- a/fs/xfs/libxfs/xfs_format.h
-+++ b/fs/xfs/libxfs/xfs_format.h
-@@ -378,8 +378,9 @@ xfs_sb_has_compat_feature(
- #define XFS_SB_FEAT_RO_COMPAT_ALL \
- 		(XFS_SB_FEAT_RO_COMPAT_FINOBT | \
- 		 XFS_SB_FEAT_RO_COMPAT_RMAPBT | \
--		 XFS_SB_FEAT_RO_COMPAT_REFLINK| \
--		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT)
-+		 XFS_SB_FEAT_RO_COMPAT_REFLINK | \
-+		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT | \
-+		 XFS_SB_FEAT_RO_COMPAT_VERITY)
- #define XFS_SB_FEAT_RO_COMPAT_UNKNOWN	~XFS_SB_FEAT_RO_COMPAT_ALL
- static inline bool
- xfs_sb_has_ro_compat_feature(
--- 
-2.54.0
+>  fs/btrfs/verity.c        | 6 +++++-
 
+Acked-by: David Sterba <dsterba@suse.com>
