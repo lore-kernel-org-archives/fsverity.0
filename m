@@ -1,63 +1,63 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BDF3F9A12
-	for <fsverity@lists.linux.dev>; Mon, 27 Jul 2026 10:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1220C3F8ED6
+	for <fsverity@lists.linux.dev>; Mon, 27 Jul 2026 10:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785149331; cv=none; b=A1/Hf9ZmhTo7aap4+9mNyTN1+dOdILgF6quOAPxh+5JoI4RLJaZxC6ohMlit79WqLwn08OgrJfwnDJ3NXDZtDY2HR+9dugjI0J3K34EW3P9h52ollr5RuQYQmCXMmd2ZTxN0TLWIveiifKNghNdTqLfEdV3OjcFu9p67xan35Yg=
+	t=1785149337; cv=none; b=X/RT+UDd7kN26FkCov0aurKbd8Bg3VLk/TjkPXbyt2NDL8MfJ+FDVw4dmXxbKCykMiuvobo2+p77/jgJnuX15SZ8qdDqLDrqUpp4bPhcEEh1RDDJYKPQxyTZauzSAPuhupsKJyre7EJ6afHN8VRCYP9MX2ZzAdxbrq+c+HR9S/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785149331; c=relaxed/simple;
-	bh=ICH7e4hpKWGxpVtAyKFg0R9ccxTtE7zcbDRA57oYQHE=;
+	s=arc-20240116; t=1785149337; c=relaxed/simple;
+	bh=655bTJ1sc9/kDIB9ONrFluoEdQiiCweFjmu556zwULE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sOytZWVC1ZXz2AgV8s5ZAEZ7mD+5VWLp7Ccabm6Dx0Jc9vU2NQoVrAaInPYzUu4N0mtKlyizJ9v1RK4NrkiiHC4SWOO0P+JmFNeP+thLULAA0kMpb1EFwbCogduVn/0HiBhGn1vclH4+9Umc36748WDX0qEu9Qr+n63tNHeztZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dgEBvWOR; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=HvTaGhn7+B1siG+f5oFlyyEesIQK4ZdG50vwgFrTlUrbjfs0Bzu/b8lDAqeh8iY9s0nL6gSf8xaXKIkfW6TCM34O0Mh9pgUKR7lPHsdZlojvXa8ZZDB9wtJacSdxxhYKpfRu0RKBHdGLJh6n9vFv/yqTZZ+IwhN1jf8OKDXwaHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rWduJd6n; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dgEBvWOR"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954a32cf1eso12838055e9.3
-        for <fsverity@lists.linux.dev>; Mon, 27 Jul 2026 03:48:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rWduJd6n"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47de0093c42so1975752f8f.3
+        for <fsverity@lists.linux.dev>; Mon, 27 Jul 2026 03:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785149327; x=1785754127; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785149329; x=1785754129; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wl6olrm9zBlfcqm4vDgZbW7ZBUMwFpjsg4jq9Xu7B8Q=;
-        b=dgEBvWORDUR195/5a55/lXHe0htSj4Vvwy3zED6q6e7nSXyISS5e2Rjh/RHW7bFTV0
-         UXOJcv3dHzQa4Ft9LE7L/CYZq/Aitx+LcAD90Cs/pDJaZw6oxRniwqeM+6dF1qDHVn3Y
-         0W/WccTmziZOKD0dAK0MYSpWU/b2hIzS5f3QuRn7W15ODGaQODlEsYVsSSVcebNYoyae
-         9hxh0WuHXU/vTj9s2KLxXYA5BnFCYCGyv47CMM14yAsGInZHmqSZDMnqWPGnEqRtDjR2
-         xqlphgUm5a+xsAVuk0Mv63x8MijOkGpibWdIFPzYW5+Qz6BBvdQPqW7RSXCK20ayH+Ic
-         tV/g==
+        bh=b0xlGLz0lZUV4g4ovfTp8rb9hxeTp6x+hKCx+BsbNZA=;
+        b=rWduJd6nblldUO96Ozn1oJticVas4eHEo4Y5qDWe1ROQzQIiOWQ1qx7fhib5i8+wqC
+         P+uybdFwnF7LyiR6cZkFOvUIvUf/fbiNjw++45+Bim3sI9aluKbReuXNWfSN4//Pi3Mw
+         T+47N/rCO/LfoCZ6+woK4czNGaCYb62/KQvY/BJ3Y48Nz2uWshXkkK/OZJvVluYgYNpO
+         fR+ZRq3odcrc8kh4v64bwbYaJc7I6b3/47gIt2cMjFj3AUUga7NdzmKK7DI3OO4qaTc8
+         Cqaj+SQgYhbZu9VsLT1opgpQkFbaXZbIJBgk5DIbojclyOerlOXlDaEq3phd1y6FHs5M
+         nnyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785149327; x=1785754127;
+        d=1e100.net; s=20251104; t=1785149329; x=1785754129;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wl6olrm9zBlfcqm4vDgZbW7ZBUMwFpjsg4jq9Xu7B8Q=;
-        b=ffkt92v5lr/yrymt9Avhi0rou7/f2F5DAxuZcl9ua81L61c1iPUdhaUH2KEoX9PPwr
-         V8oNYrVoF54avX65EASq0fs4WpySD2ZwSM7gyCYkuOTaaN6lq1O7Wchk7saJUDT7aPUF
-         FtO/brX68F4IJJ1ff0AeCYKSLj7t42+BqumW1dQJDSVVI2Xh0mu8rDVn7N8cirARExxi
-         YJjOplA0TV7dBkHbv25c3IUqqxofjfE4FHojlNLsF8EcEJ/9MxZ2r1F4UeHLfFVB/GCU
-         O2jESTe/L5l4AUa4LsTE/ISN7iUCglSrmv0wVQQH29n8ZMj1kVqRZgQoEkeT7XGFEf6L
-         WUgQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrZG+/R+THmQW4feRuogmDlNVBTdseH5QAeghu4sVEUFkvGISOjg6raC/+muW7x3gaa0SERxYAm3Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxjaVv57/Om2OMXvpe5rE2c2+WtYa/ZmYcYGBj9Ta2e9SF6Ql36
-	8x6cfqSxVeXslgKovAq7XftT7RQyV8VLpcy+2UekjVD9eroF/9hhZgQ6
-X-Gm-Gg: AR+sD13YYrxs3DZHaMU1OzRjP8zdjrX/IMWitaq0G+i78UlDwYZPEBhw9n+90P0wmup
-	6sZ8HGYyTuDGssIGnj57/Oq13BGsdFCNJwxaQ0qTEe8xrSuainG5pr2is1bbo+XZVr+52MaSEob
-	RXQJnQy8XTN2fr/pnS6H3H+qJA3COtah3PJZAw/D9kSzOwzMUeVkRW53rH2s311HSJq2qXCOP4E
-	SpCJpC6vb8VkpgGG4Od0Uf1kfHPnOnHjjTlFQfxFz5hN+CkziEcoUmqdElpL0f68de2qM3XDuIh
-	EgAWd1zeKfbgCup5WapN/u6NIaWyrxfJ3BOY2BbfREAWYByPAMn3X11aVc/8iHAZND4VG9BJkWl
-	yeb2RmftVnCdGty5D7EDgJ0TAvETlbMPxt6htzRKcxRs1DZ/HhGBiRQiVfbYj0sq/i81UqwTipJ
-	et0863aw==
-X-Received: by 2002:a05:600c:19c8:b0:495:5205:86c with SMTP id 5b1f17b1804b1-496b5747d8dmr108835785e9.22.1785149327271;
-        Mon, 27 Jul 2026 03:48:47 -0700 (PDT)
+        bh=b0xlGLz0lZUV4g4ovfTp8rb9hxeTp6x+hKCx+BsbNZA=;
+        b=hD5havJtIkO83B8XKw8El20MeEpiBOZfYtCj7k7ZBgWfu2OTUMWYMqf1ppFpHJN5/P
+         WSQDECQwGlF0/d1nfGbaHLCnm2+G776kb/r9tmYq8G2YgJdi018alZ+J+TnaKwSQbh2q
+         H2AqEcbKGGRiSRZSxwQaSWCTCl2sDgNxNIpEnW2oDuf7h/oHS3QCdEe2u3rajbw4XJZ+
+         +tPPuCEtfkbqEMipP+4N8CDt2QLDwlfTfUajMyvkMZmL9RBs2+8Ery/4fm5Lvm45XNlZ
+         BjwEuEQurhkA5I1E0CemnAHirzXwnBEii+Jged/t5YwNNLbA7D//pEvM5LCM5ljUJalS
+         SHgA==
+X-Forwarded-Encrypted: i=1; AHgh+RrnjRSBe0tlh7DgbOfFOuGgtCGlkRvXg4SUdgSH74/ETb40VrAtD00h9fNDL0cdLjrgokWbSgITPQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmAsOXzR5jS/k02mYXcB2BqJpyRHNdrPCQwjFCeomRHe4p2tep
+	7SfgpZuXjHxaKn3StQnIXdOUhV7UjlxdWynISAMv1GeZEo/RGQYliw2/
+X-Gm-Gg: AR+sD11C1SLd50sOCiH1voQccoseVZPc3CKIx0Wt6K1zEom7Q0o4/PemItAdtTm/WBE
+	Mpi7DJZYuGjgVRrijO/+ulKYlkjceT4VQVhFn/uxvN5gDh2eZco3MnvhgJrBWbOa/bVKXPzuF0h
+	Y8GOn0coGXIHkaupvoRoME1QFYyDfzr7FVOV7mpwdaxxq3PTLZx0EHN39z7JZCW1Xm+TmN4oi6m
+	wXCj33xHiXh/fNLkYIDNKKDNwsXGmH+I4er9cO4RML0smq24MQWSrKyo40uvNOcM5bm2Ry6kRYT
+	8dO2/q3azBxtTJYRJW3XAu5bipk2aJxYWhHnwcjgOGjXVWpH3kH9qGqgNoHVyYeIKxNeULGsNXI
+	0oiznakSaxvu0cbXLNRyXQTKQwXyl0n5gDY1+umDhbkjRj7k92gRUwBQvK/7B5H54ujiRKDPvkH
+	H7XWQA+Q==
+X-Received: by 2002:a05:6000:4029:b0:47f:84b2:2671 with SMTP id ffacd0b85a97d-47f9fc8d144mr10155626f8f.7.1785149329056;
+        Mon, 27 Jul 2026 03:48:49 -0700 (PDT)
 Received: from spark.Home ([2001:8a0:7280:4000:53fe:effd:424:fa7e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a659sm49056188f8f.6.2026.07.27.03.48.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a659sm49056188f8f.6.2026.07.27.03.48.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 03:48:46 -0700 (PDT)
+        Mon, 27 Jul 2026 03:48:48 -0700 (PDT)
 From: Eric Curtin <ericcurtin17@gmail.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -74,9 +74,9 @@ Cc: Jan Kara <jack@suse.cz>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Eric Curtin <ericcurtin17@gmail.com>
-Subject: [RFC PATCH v2 0/4] init: boot image-based systems without an initramfs (rootimage=)
-Date: Mon, 27 Jul 2026 11:48:41 +0100
-Message-ID: <20260727104845.2607444-1-ericcurtin17@gmail.com>
+Subject: [RFC PATCH v2 1/4] fs: allow in-kernel mounters to hand filesystems an already-open source file
+Date: Mon, 27 Jul 2026 11:48:42 +0100
+Message-ID: <20260727104845.2607444-2-ericcurtin17@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
 References: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
@@ -88,91 +88,362 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Changes since v1 (https://lore.kernel.org/all/20260718191551.1703670-1-ericcurtin17@gmail.com/),
-following Christian Brauner's review
-(https://lore.kernel.org/all/20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner/):
+do_new_mount() and its path_mount() wrapper only ever let a filesystem's
+->get_tree() resolve its own source, either from a path string that the
+kernel translates to fc->source via vfs_parse_fs_param_source(), or from
+whatever the filesystem's own ->parse_param() does with it. There is no
+way for a caller that already has an open, already-validated struct file
+in hand to mount from *that exact file*: the best it can do is hand the
+filesystem a path and hope nothing about the target changed by the time
+the filesystem re-resolves it, which is not a guarantee the VFS can make.
 
-The goal is unchanged: A/B image updates from a single partition,
-without paying for a second userspace spin-up at boot. What changed is
-how rootimage=/rootimageverity= get from "here is a path" to "here is
-the verified, mounted root", which is what most of the v1 review was
-about.
+Add struct fs_context::source_file alongside the existing ::source, set
+via a new vfs_parse_fs_param_file() instead of the string parameter
+path, and a new path_mount_file() / init_mount_file() pair mirroring
+path_mount() / init_mount() that use it. This is deliberately not wired
+up to the fsconfig(FSCONFIG_SET_FD) uAPI: it is for in-kernel callers
+only, so no existing filesystem's ->parse_param() needs to change to
+avoid misinterpreting it, and none is affected by this patch.
 
- - Patches 1-2 are new: they add generic, reusable VFS infrastructure
-   (struct fs_context::source_file, path_mount_file()/
-   init_mount_file(), vfs_parse_fs_param_file()) that lets an in-kernel
-   caller hand a filesystem an already-open struct file as its mount
-   source instead of a path, and convert erofs's existing file-backed
-   mount support to use it when given. This is the "new infrastructure
-   available to any fs" asked for, so that init/do_mounts.c never has
-   to independently re-resolve a path that something else already
-   opened and validated.
+Filesystems that support being mounted from a plain file and want to
+accept exactly the file a caller hands them, instead of independently
+re-resolving fc->source (unset in this case), check fc->source_file
+from their ->get_tree(). erofs is converted to do so in the next patch;
+the immediate motivation is letting init/do_mounts.c mount an fsverity-
+checked root image from the same struct file it just checked, instead
+of a path that erofs would then look up again on its own.
 
- - Patch 3 (rootimage=) now opens the image file exactly once and
-   mounts that same struct file via the above, instead of opening it,
-   doing nothing with the open, and separately handing erofs a path
-   that it re-resolved on its own with no guaranteed relationship to
-   what was checked - which is what v1 did, and which is where most of
-   the "second lookup" / "weak assumptions" findings came from. There
-   is no fd-vs-path race left because there is no second lookup left.
+Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
+---
+ Documentation/filesystems/mount_api.rst | 18 +++++
+ fs/fs_context.c                         | 39 +++++++++-
+ fs/init.c                               | 18 +++++
+ fs/internal.h                           |  2 +
+ fs/namespace.c                          | 96 ++++++++++++++++++++++++-
+ include/linux/fs_context.h              |  4 ++
+ include/linux/init_syscalls.h           |  2 +
+ 7 files changed, 175 insertions(+), 4 deletions(-)
 
-   rootimagesrcdir= is now mandatory (rootimagesrcdir=none opts out
-   explicitly) instead of silently detaching the carrier by default,
-   so there's no more zombie superblock/dangling mountpoint by
-   default; you have to ask for that outcome by name.
-
- - Patch 4 (rootimageverity=) is mostly unchanged in what it checks,
-   but now runs on the exact file patch 3 mounts, so the digest check
-   and the mount are guaranteed to agree on what "the image" is. It
-   also now refuses rootimageverity= together with rootimageflags=
-   containing device= (multi-device erofs images), since the digest
-   only ever covers the primary image file and silently ignoring the
-   rest would be a false sense of integrity.
-
-Not changed / not attempting to fix in this version, per the v1
-discussion:
-
- - The carrier filesystem itself is still fully parsed (superblock,
-   directory entries, extents) before rootimageverity= gets to check
-   anything, since reaching the image file at all requires that. This
-   is structural to a file-backed image sitting on a general-purpose
-   writable filesystem, the same way a dm-verity root still needs a
-   trusted block layer under it; rootimage=/rootimageverity= are meant
-   to sit on top of an already-appropriately-trusted carrier (e.g.
-   itself dm-verity/LUKS-backed, or a well-audited always-read-only
-   fs), not conjure trust in an arbitrary writable one out of thin air.
-
- - A/B slot selection and fallback/rollback bookkeeping are still the
-   bootloader's job, exactly as with dm-mod.create= today; this series
-   only does the "resolve the one path the bootloader already chose,
-   verify it, make it root" mechanical step for the file-backed case,
-   not image-based deployment policy in general.
-
- - There is still no sysfs equivalent of
-   /sys/block/loopX/loop/backing_file to discover which file backs the
-   root after boot (the mandatory rootimagesrcdir= at least means the
-   carrier itself stays reachable). This would need its own generic
-   piece of infrastructure and is left for a follow-up.
-
-Eric Curtin (4):
-  fs: allow in-kernel mounters to hand filesystems an already-open
-    source file
-  erofs: use fs_context source_file for file-backed mounts when given
-  init: support mounting the root filesystem from an image file
-  init: support pinning the root image's fsverity digest
-
- .../admin-guide/kernel-parameters.txt         |  56 ++++
- Documentation/filesystems/mount_api.rst       |  18 ++
- fs/erofs/super.c                              |  19 ++
- fs/fs_context.c                               |  39 ++-
- fs/init.c                                     |  18 ++
- fs/internal.h                                 |   2 +
- fs/namespace.c                                |  96 ++++++-
- include/linux/fs_context.h                    |   4 +
- include/linux/init_syscalls.h                 |   2 +
- init/do_mounts.c                              | 269 +++++++++++++++++-
- 10 files changed, 514 insertions(+), 9 deletions(-)
-
+diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
+index e8b94357b4df..7b799f61c39d 100644
+--- a/Documentation/filesystems/mount_api.rst
++++ b/Documentation/filesystems/mount_api.rst
+@@ -138,6 +138,24 @@ The fs_context fields are as follows:
+      This specifies the source.  It may be a block device (e.g. /dev/sda1) or
+      something more exotic, such as the "host:/path" that NFS desires.
+ 
++   * ::
++
++       struct file *source_file
++
++     An alternative to ``source`` for in-kernel mounters only (there is no
++     userspace-visible way to set this): an already-open file to use as the
++     source, set by vfs_parse_fs_param_file() instead of parsing a path
++     string.  At most one of ``source`` and ``source_file`` is ever set.
++
++     Filesystems that support being mounted from a plain file (as opposed to
++     a block device) and want to let such an in-kernel caller hand them an
++     exact, already-validated file - rather than a path they would then have
++     to re-resolve themselves, with no way to guarantee the two refer to the
++     same thing - should check this field in their ``get_tree`` and use it
++     directly instead of falling back to opening ``source``.  See
++     fs/erofs/super.c:erofs_fc_get_tree() for reference, and
++     init/do_mounts.c:mount_root_image() for the in-kernel caller.
++
+    * ::
+ 
+        char *subtype
+diff --git a/fs/fs_context.c b/fs/fs_context.c
+index 23ad66cd94e1..ab853147b87b 100644
+--- a/fs/fs_context.c
++++ b/fs/fs_context.c
+@@ -85,7 +85,7 @@ int vfs_parse_fs_param_source(struct fs_context *fc, struct fs_parameter *param)
+ 	if (param->type != fs_value_is_string)
+ 		return invalf(fc, "Non-string source");
+ 
+-	if (fc->source)
++	if (fc->source || fc->source_file)
+ 		return invalf(fc, "Multiple sources");
+ 
+ 	fc->source = param->string;
+@@ -94,6 +94,36 @@ int vfs_parse_fs_param_source(struct fs_context *fc, struct fs_parameter *param)
+ }
+ EXPORT_SYMBOL(vfs_parse_fs_param_source);
+ 
++/**
++ * vfs_parse_fs_param_file - Set an already-open file as the mount source
++ * @fc: The filesystem context to modify
++ * @key: Parameter name; only "source" is currently supported
++ * @file: The file to use as the mount source
++ *
++ * In-kernel callers (see path_mount_file()) can use this to hand a
++ * filesystem an already-opened struct file as its source, instead of a
++ * path string for the filesystem to resolve on its own.  A reference is
++ * taken; it is released when @fc is freed.
++ *
++ * This deliberately has no fsconfig(FSCONFIG_SET_FD) counterpart: it is
++ * not reachable from userspace, so no filesystem needs to opt in to
++ * receive it and existing ->parse_param() implementations are unaffected.
++ * Filesystems that want to use the file directly (rather than silently
++ * ignoring it and falling back to re-resolving fc->source, which is not
++ * set in this case) check fc->source_file from their ->get_tree().
++ */
++int vfs_parse_fs_param_file(struct fs_context *fc, const char *key,
++			    struct file *file)
++{
++	if (strcmp(key, "source"))
++		return -EINVAL;
++	if (fc->source || fc->source_file)
++		return invalf(fc, "Multiple sources");
++	fc->source_file = get_file(file);
++	return 0;
++}
++EXPORT_SYMBOL(vfs_parse_fs_param_file);
++
+ /**
+  * vfs_parse_fs_param - Add a single parameter to a superblock config
+  * @fc: The filesystem context to modify
+@@ -376,6 +406,7 @@ struct fs_context *vfs_dup_fs_context(struct fs_context *src_fc)
+ 	fc->fs_private	= NULL;
+ 	fc->s_fs_info	= NULL;
+ 	fc->source	= NULL;
++	fc->source_file	= NULL;
+ 	fc->security	= NULL;
+ 	get_filesystem(fc->fs_type);
+ 	get_net(fc->net_ns);
+@@ -504,6 +535,8 @@ void put_fs_context(struct fs_context *fc)
+ 	put_fc_log(fc);
+ 	put_filesystem(fc->fs_type);
+ 	kfree(fc->source);
++	if (fc->source_file)
++		fput(fc->source_file);
+ 	kfree(fc);
+ }
+ EXPORT_SYMBOL(put_fs_context);
+@@ -543,6 +576,10 @@ void vfs_clean_context(struct fs_context *fc)
+ 	security_free_mnt_opts(&fc->security);
+ 	kfree(fc->source);
+ 	fc->source = NULL;
++	if (fc->source_file) {
++		fput(fc->source_file);
++		fc->source_file = NULL;
++	}
+ 	fc->exclusive = false;
+ 
+ 	fc->purpose = FS_CONTEXT_FOR_RECONFIGURE;
+diff --git a/fs/init.c b/fs/init.c
+index 33e312d74f58..d896d937e3e2 100644
+--- a/fs/init.c
++++ b/fs/init.c
+@@ -44,6 +44,24 @@ int __init init_mount(const char *dev_name, const char *dir_name,
+ 	return ret;
+ }
+ 
++/*
++ * Like init_mount(), but the source is an already-open file rather than a
++ * path for the filesystem to resolve on its own; see path_mount_file().
++ */
++int __init init_mount_file(struct file *file, const char *dir_name,
++		const char *type_page, unsigned long flags, void *data_page)
++{
++	struct path path;
++	int ret;
++
++	ret = kern_path(dir_name, LOOKUP_FOLLOW, &path);
++	if (ret)
++		return ret;
++	ret = path_mount_file(file, &path, type_page, flags, data_page);
++	path_put(&path);
++	return ret;
++}
++
+ int __init init_umount(const char *name, int flags)
+ {
+ 	int lookup_flags = LOOKUP_MOUNTPOINT;
+diff --git a/fs/internal.h b/fs/internal.h
+index d77578d66d42..04fb75383024 100644
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -91,6 +91,8 @@ extern bool may_mount(void);
+ 
+ int path_mount(const char *dev_name, const struct path *path,
+ 		const char *type_page, unsigned long flags, void *data_page);
++int path_mount_file(struct file *file, const struct path *path,
++		const char *type_page, unsigned long flags, void *data_page);
+ int path_umount(const struct path *path, int flags);
+ int path_pivot_root(struct path *new, struct path *old);
+ 
+diff --git a/fs/namespace.c b/fs/namespace.c
+index fe919abd2f01..31bf263d1efc 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -3783,10 +3783,14 @@ static int do_new_mount_fc(struct fs_context *fc, const struct path *mountpoint,
+ /*
+  * create a new mount for userspace and request it to be added into the
+  * namespace's tree
++ *
++ * @name is the source given as a path string, as usual; @file is an
++ * alternative, already-open source (see path_mount_file()).  At most one
++ * of the two is ever set by callers.
+  */
+-static int do_new_mount(const struct path *path, const char *fstype,
+-			int sb_flags, int mnt_flags,
+-			const char *name, void *data)
++static int do_new_mount_2(const struct path *path, const char *fstype,
++			  int sb_flags, int mnt_flags,
++			  const char *name, struct file *file, void *data)
+ {
+ 	struct file_system_type *type;
+ 	struct fs_context *fc;
+@@ -3826,6 +3830,8 @@ static int do_new_mount(const struct path *path, const char *fstype,
+ 		err = vfs_parse_fs_string(fc, "subtype", subtype);
+ 	if (!err && name)
+ 		err = vfs_parse_fs_string(fc, "source", name);
++	if (!err && file)
++		err = vfs_parse_fs_param_file(fc, "source", file);
+ 	if (!err)
+ 		err = parse_monolithic_mount_data(fc, data);
+ 	if (!err && !mount_capable(fc))
+@@ -3837,6 +3843,14 @@ static int do_new_mount(const struct path *path, const char *fstype,
+ 	return err;
+ }
+ 
++static int do_new_mount(const struct path *path, const char *fstype,
++			int sb_flags, int mnt_flags,
++			const char *name, void *data)
++{
++	return do_new_mount_2(path, fstype, sb_flags, mnt_flags, name, NULL,
++			      data);
++}
++
+ static void lock_mount_exact(const struct path *path,
+ 			     struct pinned_mountpoint *mp, bool copy_mount,
+ 			     unsigned int copy_flags)
+@@ -4155,6 +4169,82 @@ int path_mount(const char *dev_name, const struct path *path,
+ 			    data_page);
+ }
+ 
++/**
++ * path_mount_file - Mount a new filesystem sourced from an already-open file
++ * @file: The already-open source file
++ * @path: The mountpoint
++ * @type_page: Filesystem type
++ * @flags: MS_* flags
++ * @data_page: Filesystem-specific mount data
++ *
++ * Like path_mount(), except the source is an already-open struct file
++ * rather than a path for the filesystem to look up on its own.  This is
++ * only usable for a plain new mount: bind/move/remount/propagation-change
++ * requests, which path_mount() distinguishes by inspecting @dev_name, make
++ * no sense for an anonymous open file and are rejected.
++ *
++ * @file is not consumed; the fs_context takes its own reference (see
++ * vfs_parse_fs_param_file()).
++ *
++ * This has no io_uring/syscall-visible counterpart: it exists so that
++ * in-kernel mounters (see init_mount_file()) can hand a filesystem the
++ * exact file they resolved and validated, instead of a path that the
++ * filesystem then re-resolves independently, which is the only way to
++ * guarantee the two refer to the same thing.
++ */
++int path_mount_file(struct file *file, const struct path *path,
++		    const char *type_page, unsigned long flags,
++		    void *data_page)
++{
++	unsigned int mnt_flags = 0, sb_flags;
++
++	if ((flags & MS_MGC_MSK) == MS_MGC_VAL)
++		flags &= ~MS_MGC_MSK;
++
++	if (data_page)
++		((char *)data_page)[PAGE_SIZE - 1] = 0;
++
++	if (flags & (MS_NOUSER | MS_REMOUNT | MS_BIND | MS_MOVE |
++		     MS_SHARED | MS_PRIVATE | MS_SLAVE | MS_UNBINDABLE))
++		return -EINVAL;
++
++	if (!may_mount())
++		return -EPERM;
++	if (flags & SB_MANDLOCK)
++		warn_mandlock();
++
++	if (!(flags & MS_NOATIME))
++		mnt_flags |= MNT_RELATIME;
++	if (flags & MS_NOSUID)
++		mnt_flags |= MNT_NOSUID;
++	if (flags & MS_NODEV)
++		mnt_flags |= MNT_NODEV;
++	if (flags & MS_NOEXEC)
++		mnt_flags |= MNT_NOEXEC;
++	if (flags & MS_NOATIME)
++		mnt_flags |= MNT_NOATIME;
++	if (flags & MS_NODIRATIME)
++		mnt_flags |= MNT_NODIRATIME;
++	if (flags & MS_STRICTATIME)
++		mnt_flags &= ~(MNT_RELATIME | MNT_NOATIME);
++	if (flags & MS_RDONLY)
++		mnt_flags |= MNT_READONLY;
++	if (flags & MS_NOSYMFOLLOW)
++		mnt_flags |= MNT_NOSYMFOLLOW;
++
++	sb_flags = flags & (SB_RDONLY |
++			    SB_SYNCHRONOUS |
++			    SB_MANDLOCK |
++			    SB_DIRSYNC |
++			    SB_SILENT |
++			    SB_POSIXACL |
++			    SB_LAZYTIME |
++			    SB_I_VERSION);
++
++	return do_new_mount_2(path, type_page, sb_flags, mnt_flags, NULL,
++			     file, data_page);
++}
++
+ int do_mount(const char *dev_name, const char __user *dir_name,
+ 		const char *type_page, unsigned long flags, void *data_page)
+ {
+diff --git a/include/linux/fs_context.h b/include/linux/fs_context.h
+index 0d6c8a6d7be2..b35d7583f0bd 100644
+--- a/include/linux/fs_context.h
++++ b/include/linux/fs_context.h
+@@ -16,6 +16,7 @@
+ 
+ struct cred;
+ struct dentry;
++struct file;
+ struct file_operations;
+ struct file_system_type;
+ struct mnt_namespace;
+@@ -99,6 +100,7 @@ struct fs_context {
+ 	const struct cred	*cred;		/* The mounter's credentials */
+ 	struct p_log		log;		/* Logging buffer */
+ 	const char		*source;	/* The source name (eg. dev path) */
++	struct file		*source_file;	/* Already-open source file, in-kernel only */
+ 	void			*security;	/* LSM options */
+ 	void			*s_fs_info;	/* Proposed s_fs_info */
+ 	unsigned int		sb_flags;	/* Proposed superblock flags (SB_*) */
+@@ -148,6 +150,8 @@ extern int vfs_get_tree(struct fs_context *fc);
+ extern void put_fs_context(struct fs_context *fc);
+ extern int vfs_parse_fs_param_source(struct fs_context *fc,
+ 				     struct fs_parameter *param);
++int vfs_parse_fs_param_file(struct fs_context *fc, const char *key,
++			    struct file *file);
+ extern void fc_drop_locked(struct fs_context *fc);
+ 
+ extern int get_tree_nodev(struct fs_context *fc,
+diff --git a/include/linux/init_syscalls.h b/include/linux/init_syscalls.h
+index 28776ee28d8e..ac937cdb9d46 100644
+--- a/include/linux/init_syscalls.h
++++ b/include/linux/init_syscalls.h
+@@ -2,6 +2,8 @@
+ 
+ int __init init_mount(const char *dev_name, const char *dir_name,
+ 		const char *type_page, unsigned long flags, void *data_page);
++int __init init_mount_file(struct file *file, const char *dir_name,
++		const char *type_page, unsigned long flags, void *data_page);
+ int __init init_umount(const char *name, int flags);
+ int __init init_chdir(const char *filename);
+ int __init init_chroot(const char *filename);
 -- 
 2.43.0
 
