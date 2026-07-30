@@ -1,134 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC62C331A76;
-	Thu, 30 Jul 2026 10:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B84D385D9D
+	for <fsverity@lists.linux.dev>; Thu, 30 Jul 2026 12:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785409096; cv=none; b=FsZPt9gtpavGerEE1XYNwFdVO5b74RUwOv5VlgEY85KCxSCyBjuousFSSIxD/YhrH4cmhj6IQEIljha9WQGnA/OjWZZzennQfTe2kYR632rX1/br/afpq+QJIj/KbkpenCoC1UQY5SacY5LMSWNDDxdbv+M+YLQDQDAVG5VRmrM=
+	t=1785415778; cv=none; b=dx9zksqKZICDRVRLs7fn7DYJ4GnC8wKsn5HyE/hhs3p93Tt0M0DNppmiY7YU7YeNxYv65LjGuaqyTfq/3imuLw16ZLGN1qjC8iucepJt/G0X7LigWAct94HJ507BBev/AZ030VzqZyVL3u/raagF7VDN8oEPSrf/sZZA0WJMjMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785409096; c=relaxed/simple;
-	bh=o74o4MYrqkyTE9AOgcCDdL0OG8TudXVCYp0aA/sK8EE=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=BWJrfEZCQYAD4sJiFCqKRMVdm7OmNYbzN12G5VXDkJmLGPqL4PBYcpyRQ1NdYjipWovhY+F/qCu+QMEsDbkdjdSP1sSB949X6h424AyfrPjzJEEtVltVN2MLegFT++lx3EeXdzEf3FeveTFLvsD7UOL3sgZX86ecS0TAmDXGdck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UAX9ljGG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785415778; c=relaxed/simple;
+	bh=rG/qyviCUEdnLjwI66XsDuY8TJws+QD7RRTwC1YqVXQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=jtqHoIrjhlz/jIQnBwyLPsb70HvW+f/n41dia52F9F9Al0WdHrU+++0lUUaYbr4OQL24ojWutcXmiiNsuF3us1xhghjFXpUiBDkxgVektYh+vcH/zH5TWBebLf62EbAsQeqRyvnjjUNrI6Eh3var5NmtIkK0n3yRRFHkvJxxMrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=verbum.org; spf=pass smtp.mailfrom=verbum.org; dkim=pass (2048-bit key) header.d=verbum.org header.i=@verbum.org header.b=f1qc/ghu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RxLpXTkS; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=verbum.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=verbum.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UAX9ljGG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 621801F000E9;
-	Thu, 30 Jul 2026 10:58:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785409095;
-	bh=ho4YgyjQWyBPUtevx1zJhBR2CkmhZreF0QpyeyphzFE=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=UAX9ljGGbRUS4xetzqrE0PMjPXbJNbJenYDiXH5cGCN/VkCypcrXMCijxjd794cE9
-	 fslK+ToUhFiTYo+XgYYKyBh2jytb9MxmQYlrLivJW3iHab5A0j3l81greEEv6bAYFq
-	 42xNk8lDButxsz0GTDUTshOJ5lgc7fy+kb/3uhbosCULe6SDNNNIXsBKU9Zx97m+RQ
-	 El7k4S7cqLSw4Oh/MP5+kcBo3bZysZee8fXz7LxMYiv1KdYqTQiTMiZdrej+TK7M9J
-	 3U6mg/VUT3EPyf2a3nCSvih3L/OIPuqk/wGS5RFiOzn8tqz4jX6L/f5l04BgmQPrFw
-	 7ZvQq+Pj1+t5w==
+	dkim=pass (2048-bit key) header.d=verbum.org header.i=@verbum.org header.b="f1qc/ghu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RxLpXTkS"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 722FC1D000B5;
+	Thu, 30 Jul 2026 08:49:34 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-04.internal (MEProxy); Thu, 30 Jul 2026 08:49:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verbum.org; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1785415774;
+	 x=1785502174; bh=pFIRzIr1hG3HLAm8/4OYgDP05sTVurN0+cr0OYZTuRk=; b=
+	f1qc/ghuRdPH+USdxFyPKaVvV/V3o7Yue36hz7nlACO23SoRIfgsZ5yncFuS3giV
+	tyozvxXH1xrzHkQtvx/FGnnoCuyV2+pMtEC6g81jIJPX6kJPTibAWYx8DeSaxWXu
+	eRAiocWqzFP9L5ViM1hXWmjWqv0Nkuh//dH4WvLxvzJxyTI9Ta508gXDvzgugMQ8
+	5asqVd4ThxfTi8dM2vGtiu+RBqDgFb1rELuGqmiWHvweUOyjVQwyfz0vRnhgoouw
+	x7rlleKM7fnyeA/WCSFyx3/FkmExl4skXxUmUvoOSTjouuxWw9e/4NoV3oPpeh2j
+	WeXtK7IHm2TDY8lPiL9qtQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1785415774; x=
+	1785502174; bh=pFIRzIr1hG3HLAm8/4OYgDP05sTVurN0+cr0OYZTuRk=; b=R
+	xLpXTkSRiSPMoOpkZVf9Zry1bOLgvqG/LTS42h7Em9pWEmuafXXvVuXlDq7+qxn7
+	JDqd2CYr/j8n/x0zwMDLYx7LjFWFOscL3A8Iz/yAjIamvmGtgVSXG1d8k6crtduS
+	tAil7biqZctLLLFAbDmqxu02DLjFe7dlB37GiEvIGQE4HKr/9WEh4aWRtk3Izsal
+	Na8b1rj69wuHrlSAw3E2+p9+iVWWerscMUZ8RdRiD2DbnpZDMBCqCIWy2LAvFnwD
+	1bizkwb3yL6Erf22a1VFCZVc29HU9wJEKoiXTeOTtgNGqOJwr00rElboA1AjCTfo
+	2IR4pT1XLq+USaqRJ4g9w==
+X-ME-Sender: <xms:XUhran0-ZGhWVaio0x897qStnnP5dPDx5JZ1nflB3qv-YX17hsLmsA>
+    <xme:XUhrag69nV_BHFhux3ATqQBiL3pkwG_gsoP_ScTJhHq9PJuOA65H3eKovYM0J6jJp
+    FUbH9j3BkzUiIKC_cuMNmTp6GAZ4aN0xBYB92A0bUrnppdWHX-1>
+X-ME-Proxy-Cause: dmFkZTFCvpUxLszjvf5XC5TdTE86RAXjQ5Z6oiIFTnP9DSmvwr7JbiHyHgb7E+weDEZLPC
+    gRpfbgUK3ejglRv9Q/hSmWw5CWEu7hKmAVlPwYW9mum7CvX/MJKLlCtlaDfvH9rQkIkFQ4
+    8gcqAq99O+DOFuOPywhv836mTYObp34fa1uBGqEyVR1cqZxGX+m4LIKPsVJKHoiiBRtmKu
+    /sNXmah26bwIdOxeDuWWO7rkvineweho6bEQ44/ETnCUu0E7+rYOY4XiCSxcXZvfQuutdt
+    QGM2304rAk4bw1O91maX9fYIR15RSKRHvxM6CyqfkYN6cbAZkJi7qc6s+yJSmOMLP6UGUR
+    aHidFeLLPFZVd/Vn0gothlBvdxAqZCPGKzioPhpNrYgGdVHOHqcrox+KgPWBCwYhGLKIAh
+    MmsOjgIJLGuTbujuK/g7zQhm8apA8z6Ce4W9+jMksmpW/03se61HgbvthOAke8mNwwlu98
+    CfVUfeOpWq4+E9UHnGVU5jnKdCj0ppdrumnl9W+ZzQW7neAAqPCH7F3x4e1pa9nruJ5Omi
+    ttk7lomm3hbb5ada/zw7QJXvfuRFc89ebJHmUEBC1VR0c0P/0mIobKsfG0i4t/VRMOPRFP
+    mPqhFHM7FZ1KtsoluYkX5cMDwuWrQkOi14g0b1P/vpFOCXptc5ZSMtUg9xeQ
+X-ME-Proxy: <xmx:XUhrat7JbF6XDh5eaG59HvegrKbT0VEXRkfgxSGIGuWAfjMeRNK2Yg>
+    <xmx:XUhrakSzvV9MLTQgQZapQgf15-PENOddNiIPPJYyQLL_l6oEmcvBjA>
+    <xmx:XUhras-pgz0Yt94sw3__YvRgBx9mTsbLWVTwJHi5KNjhjWWrgqDtYg>
+    <xmx:XUhralrFq8SC2dZJrDhVYsaoLlyWB2rHz2nvh5PWjaYwh6E7dk0eUw>
+    <xmx:XkhrauEcmAhLy8n4ON4_b0Rrwyxs5qn_2cDI761JM8aggpxNSPdM2-vo>
+Feedback-ID: ibe7c40e9:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 94D1C780070; Thu, 30 Jul 2026 08:49:33 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-ThreadId: A_xwXSqtliF3
+Date: Thu, 30 Jul 2026 08:49:13 -0400
+From: "Colin Walters" <walters@verbum.org>
+To: "Eric Curtin" <ericcurtin17@gmail.com>,
+ "Al Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>
+Cc: "Jan Kara" <jack@suse.cz>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Eric Biggers" <ebiggers@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
+ "Gao Xiang" <xiang@kernel.org>, "Chao Yu" <chao@kernel.org>,
+ fsverity@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ linux-doc@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-Id: <39c6eade-510e-4210-b914-d5730b98653b@app.fastmail.com>
+In-Reply-To: <20260718191551.1703670-1-ericcurtin17@gmail.com>
+References: <20260718191551.1703670-1-ericcurtin17@gmail.com>
+Subject: Re: [RFC PATCH 0/2] init: boot image-based systems without an initramfs
+ (rootimage=)
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH v2 0/4] init: boot image-based systems without an
- initramfs (rootimage=)
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Curtin <ericcurtin17@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y . Ts'o" <tytso@mit.edu>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- fsverity@lists.linux.dev, linux-erofs@lists.ozlabs.org, 
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260727104845.2607444-1-ericcurtin17@gmail.com>
-References: <20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner>
- <20260727104845.2607444-1-ericcurtin17@gmail.com>
-Date: Thu, 30 Jul 2026 12:58:09 +0200
-Message-Id: <20260730-bachbett-erwarben-harmonie-e6b8ebf05969@brauner>
-X-Mailer: b4 0.16-dev-3e0c3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3650; i=brauner@kernel.org;
- h=from:subject:message-id; bh=o74o4MYrqkyTE9AOgcCDdL0OG8TudXVCYp0aA/sK8EE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRl67nst8uYLryqneFWZGz/Wb9dT6pv7Wj9Jpk2b3MJ0
- 8a5m/XOdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk3Jzhfw3rr4RAec7519WD
- jRoYTSTetzge/LKyZslBNVbmKwHGsQx/hRx1Vri7hUb7t7VdP+34ccKpvGmx2zKcVp5W+m7eWx/
- PAAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-27 11:48 +0100, Eric Curtin wrote:
-> Changes since v1 (https://lore.kernel.org/all/20260718191551.1703670-1-ericcurtin17@gmail.com/),
-> following Christian Brauner's review
-> (https://lore.kernel.org/all/20260727-gepaukt-eislauf-waran-7c03f0e47609@brauner/):
-> 
-> The goal is unchanged: A/B image updates from a single partition,
-> without paying for a second userspace spin-up at boot. What changed is
-> how rootimage=/rootimageverity= get from "here is a path" to "here is
-> the verified, mounted root", which is what most of the v1 review was
-> about.
-> 
->  - Patches 1-2 are new: they add generic, reusable VFS infrastructure
->    (struct fs_context::source_file, path_mount_file()/
->    init_mount_file(), vfs_parse_fs_param_file()) that lets an in-kernel
->    caller hand a filesystem an already-open struct file as its mount
->    source instead of a path, and convert erofs's existing file-backed
->    mount support to use it when given. This is the "new infrastructure
->    available to any fs" asked for, so that init/do_mounts.c never has
->    to independently re-resolve a path that something else already
->    opened and validated.
-> 
->  - Patch 3 (rootimage=) now opens the image file exactly once and
->    mounts that same struct file via the above, instead of opening it,
->    doing nothing with the open, and separately handing erofs a path
->    that it re-resolved on its own with no guaranteed relationship to
->    what was checked - which is what v1 did, and which is where most of
->    the "second lookup" / "weak assumptions" findings came from. There
->    is no fd-vs-path race left because there is no second lookup left.
-> 
->    rootimagesrcdir= is now mandatory (rootimagesrcdir=none opts out
->    explicitly) instead of silently detaching the carrier by default,
->    so there's no more zombie superblock/dangling mountpoint by
->    default; you have to ask for that outcome by name.
-> 
->  - Patch 4 (rootimageverity=) is mostly unchanged in what it checks,
->    but now runs on the exact file patch 3 mounts, so the digest check
->    and the mount are guaranteed to agree on what "the image" is. It
->    also now refuses rootimageverity= together with rootimageflags=
->    containing device= (multi-device erofs images), since the digest
->    only ever covers the primary image file and silently ignoring the
->    rest would be a false sense of integrity.
-> 
-> Not changed / not attempting to fix in this version, per the v1
-> discussion:
-> 
->  - The carrier filesystem itself is still fully parsed (superblock,
->    directory entries, extents) before rootimageverity= gets to check
->    anything, since reaching the image file at all requires that. This
->    is structural to a file-backed image sitting on a general-purpose
->    writable filesystem, the same way a dm-verity root still needs a
->    trusted block layer under it; rootimage=/rootimageverity= are meant
 
-dm-verity reads opaque sectors whereas this runs
-superblock/extent/directory parsers running on attacker-writable data.
 
-The mitigation mentioned below kinda defeats the feature... The
-filesystem that contains the image files is writable and the whole
-rootimagesrcdir= exists to keep it reachable. If you could dm-verity is
-as stated below, you would just dm-verity the root and used
-dm-mod.create=
+On Sat, Jul 18, 2026, at 3:15 PM, Eric Curtin wrote:
+> Image-based Linux systems (bootc-style OS updaters, ChromeOS/Android-like
+> A/B schemes, embedded appliances) keep one or more immutable root
+> filesystem images as sealed files on a writable filesystem and pick one
+> at boot.  Booting such a system today always requires an initramfs, even
+> when that initramfs has nothing else to do; its only jobs are to parse
+> the kernel command line, mount the state filesystem, verify the image,
+> loop-mount it and switch_root into it.
 
-All of the other issues:
+What's the higher level goal? Is it boot speed? That's my guess, but this needs to be stated explicitly and I'd really like to see some numbers on this. If you're using LLMs to do this kind of stuff, there's ~no excuse not to spend the tokens to generate benchmarks and things.
 
-* init suddenly becomes deployment policy
-* things shipped as modules
-* composefs can't use this
-* the alternative to achieve the same thing via CONFIG_INITRAMFS_SOURCE
-  / UKI signed initrd completely ignored
+Also, we need to weigh this approach vs "static initramfs binary"; AFAIK it has historically been pretty common in some embedded/appliance style setups to have the initramfs basically be a single statically linked binary (and if I was doing this, it'd be in Rust nowadays). That's a wildly different thing than the typical dracut or equivalent thing, *especially* if you're comparing this approach vs a non-appliance general purpose initramfs.
 
-/me walks away from this LLM hell.
+At least for the composefs case, I bet it'd be quite easy to get to that single static Rust binary, and at a high level putting that into e.g. a UKI seems to me a lot more preferable than trying to push all of this into the Linux kernel core.
 
