@@ -1,98 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F420741D20B;
-	Mon,  3 Aug 2026 18:13:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F100131B131;
+	Mon,  3 Aug 2026 18:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785780806; cv=none; b=KC3J4Rh1vuKJVXy0lz4qVB1Yrgwu55hr3Lo5K1n+vD1fTN9FoJLLcLOpynVGiDaHXBj/hD64BkDMbUN0iTsGhKGRpgee2znk75AyUL4rOz2XgbZvfRVYEsVubu/W81EOIoNbMy3Kzz3ndzHRescDVnSPFDvcyUCtd2eppddBtMM=
+	t=1785781987; cv=none; b=QblT8uvH9EJQGkpBUYObOTUR4o/EavNSsNn3kGI/z6IV6op3cWCAG/lrsp8u6lAoDT1ePoLP8Qta4EgUkdnNYYmkL8sK6+AT0EU5UOWFi1Jnk37QbqEnibhOc+dGHvomvjtV371zkurPuRIfL1KLnhgS9TiBgnFIt5CBUhUEfNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785780806; c=relaxed/simple;
-	bh=t204v6IkJFOLWcsbZpo6q1sU+xH6NxOUQi54boeo3ao=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WZbutAskyGVZGhtDHU+fI7S/jl/JYfkzaikXhimjLvcFz/Nm77n+Su3ncs0K7/hDv8XN4/Y9IirBpFKg7CfDSZjH559RVNah6+NyN6qgU50UJfS6gSp7ZS0o4lBAn3ecqs//++daa7mGFkCWmQFqswlQei068oiKSV5wxP1XC+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hgxB9j6t; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785781987; c=relaxed/simple;
+	bh=g/4U5+yWKOXTchWUOK/o8+Qskb+qtoUb94h9uMG6d/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MdZmoHz76ZLw5H9R9TZcvqtC2g8OZI5lXybrL2s30wKIGMvxrhf+pDjFU85FPWq1xYCNn07iZUmgUUH9+J907rqbNeviVyvd/MFp8W6o8Y6XF5UZdMcgeZWysRLUNtqS+XW2LbIUNRYg3PbC7iGAIGpUyqQ8iZraqmZBx8RSECY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hJvBGuyX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hgxB9j6t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1C31F00A3A;
-	Mon,  3 Aug 2026 18:13:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hJvBGuyX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 502801F000E9;
+	Mon,  3 Aug 2026 18:33:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785780804;
-	bh=M++mqAzNlFzgVh8y1H7yy6racbyWVV1Hx6y+OsOYWKI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hgxB9j6tfiLskWRkxk16CwZ60Y0rcV6+42+wCGdAHOowSlGGKkccF/t6f7twRqU8s
-	 dhXny1DbG3+pjHKXdPoLFl/OLmsj5+vhhnakOu9+CQDl65yfdKBT8KUD0I6yF7wU5/
-	 g0Xmap5dPBF5naD51JQjoWAOfnXJostrklCryCvSSE4E0KsonuEfNNt8/mCPdXMh/C
-	 JjmOZhSM2793U2UzzlZ4F1qgA2DlSqHwVgYh1rrsd6VebpA550Zb1l2WYsv/VqvUT2
-	 bKo0LAv+A6u8w3y3sI/ynDJaCBzn6LEl88MlVX9WJ870eevhq0qpMUBExuM2dcAk+/
-	 2/lFh8sGpq6qg==
+	s=k20260515; t=1785781985;
+	bh=cikCkmDxa6cXYcyZ62/+LzkFni9DDwJmQwC1Z7pkwR4=;
+	h=Date:From:To:Cc:Subject;
+	b=hJvBGuyXuW2AM+8P8A9jDULsqfaIy7TeqkHlB1KfKkSTp4TIcg6UgHmcD07Jx+Wgt
+	 tHqzYU+RSJWUe0TG6wIBMCZK33yQ2rr87j2ElU8ezV9B1iMKNVx0A+S0FKVgRObp60
+	 5eWHWjwGKQ8grJ8Nlg8y9zshAckowzrCGO/JljiBi+BJCtONElmGo5TXReAhiKhrC1
+	 +lqZMW4fzKQ6YiHBzh3gS8s8vZqiZeZpSz9u546BSDVZq6kgvkhjugJTH/zMSoP4lU
+	 EBHAonTRy3obWhlUJvRts6NmL7gv/5Jj5VwHqSmBCQZaEJG0E7fh0yYlHh+kQJrjgP
+	 WFcbL0fBUVhGA==
+Date: Mon, 3 Aug 2026 11:33:04 -0700
 From: Eric Biggers <ebiggers@kernel.org>
-To: bpf@vger.kernel.org
-Cc: fsverity@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH bpf v2 2/2] fsverity: Fix silent truncation in bpf_get_fsverity_digest()
-Date: Mon,  3 Aug 2026 11:12:32 -0700
-Message-ID: <20260803181232.14743-3-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260803181232.14743-1-ebiggers@kernel.org>
-References: <20260803181232.14743-1-ebiggers@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	Andrey Albershteyn <aalbersh@kernel.org>,
+	Christoph Hellwig <hch@lst.de>
+Subject: [GIT PULL] fsverity fix for v7.2-rc7
+Message-ID: <20260803183304.GB2062@quark>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-bpf_get_fsverity_digest() silently truncates the digest if the provided
-buffer is too small.  This is a footgun, and it doesn't match the
-semantics of the equivalent UAPI (FS_IOC_MEASURE_VERITY).
+The following changes since commit f5098b6bae761e346ebcd9da7f95622c04733cff:
 
-Change it to return -EOVERFLOW instead, matching FS_IOC_MEASURE_VERITY.
+  Linux 7.2-rc5 (2026-07-26 14:45:48 -0700)
 
-Fixes: 67814c00de31 ("bpf, fsverity: Add kfunc bpf_get_fsverity_digest")
-Cc: stable@vger.kernel.org
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- fs/verity/measure.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+are available in the Git repository at:
 
-diff --git a/fs/verity/measure.c b/fs/verity/measure.c
-index f8b3526af004..68dfccb69772 100644
---- a/fs/verity/measure.c
-+++ b/fs/verity/measure.c
-@@ -144,14 +144,15 @@ __bpf_kfunc int bpf_get_fsverity_digest(struct file *file, const struct bpf_dynp
- 
- 	hash_alg = vi->tree_params.hash_alg;
- 
-+	out_digest_sz = dynptr_sz - sizeof(struct fsverity_digest);
-+	if (out_digest_sz < hash_alg->digest_size)
-+		return -EOVERFLOW;
-+
- 	arg->digest_algorithm = hash_alg - fsverity_hash_algs;
- 	arg->digest_size = hash_alg->digest_size;
- 
--	out_digest_sz = dynptr_sz - sizeof(struct fsverity_digest);
--
- 	/* copy digest */
--	memcpy(arg->digest, vi->file_digest,
--	       min(hash_alg->digest_size, out_digest_sz));
-+	memcpy(arg->digest, vi->file_digest, hash_alg->digest_size);
- 
- 	/* fill the extra buffer with zeros */
- 	if (out_digest_sz > hash_alg->digest_size)
--- 
-2.55.0
+  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
 
+for you to fetch changes up to d2f96bcb89d36d488a10e3bcf819b98536968286:
+
+  fs,fsverity: remove check for fsverity being enabled in setattr_prepare() (2026-07-28 21:25:03 -0700)
+
+----------------------------------------------------------------
+
+Fix a regression where truncating a file with fsverity enabled started
+being allowed on kernels without fsverity support.
+
+----------------------------------------------------------------
+Andrey Albershteyn (1):
+      fs,fsverity: remove check for fsverity being enabled in setattr_prepare()
+
+ fs/attr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
