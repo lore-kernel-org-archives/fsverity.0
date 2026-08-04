@@ -1,75 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4A33AFD19
-	for <fsverity@lists.linux.dev>; Tue,  4 Aug 2026 05:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B12341E6D8;
+	Tue,  4 Aug 2026 07:30:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785822097; cv=none; b=UFLhvsqer1o3QWLNh7Wb/ViTe21A7ZTKl9TpWT90jDdCiBP5R+Rwzv5+DDCxVClCIz+j4oshRXIq2wH95kCWtqkZe6WJQq77Q5Br8OpG4nv2wxoxBcxnSWPX12ukA42ZCQyPDj+LkFU/dU88o4TpwcphTatE1/JWS4ZxDUEEypY=
+	t=1785828650; cv=none; b=sEzybW+OUmy1wYsxG5Tg6v1RgsdAPVLHZVTHEzkQlZxhZHb25NXFlScvKc6tp5odNk+KsX2M2TdSsvxfH2dbpfA6clRN4vI2iay4mdcCJtivCazqgwCChckcfdXf7Ctkc20IalpF3ri8Lmz9Rm2Bx8zlfrd1HtyFu4lnO1z/+1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785822097; c=relaxed/simple;
-	bh=o9TpznHEP+mULVgqgdAUENNtI8edpUMa8ub34DChYkc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SmdTUFd9ZA4rsHfFIQ7QHk8qhcMbuWyNFA6aa3DWMx9s9sDp/cwXgGUDMfgIMI0nqTLYSG86FbbPzu9gNOzcUI3aXAPuZxxDsbXca19Pbuzuhow5kkWJbfnwWkA77X4LqLFzHdl3lUoIpwdom6JJZAIQRuI3p0f0ANJqFgsjUqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KBrmLpzY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785828650; c=relaxed/simple;
+	bh=uQo5xmHWgWZM+XNe9mvOTnt7Nc54mzCP0VFu1Jw45J8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=eNrEJMJ20FZ8r/peEYDFrxWmI5o1NqAKWDUrd1NchwMUg9l9BcG8e3JmgGfGLAbB9gVl2erCDxI2dM7E+wqOg4IZUCgsU56+g++x5qQDQ2YMGWhGfkU2QSw+fhIe03R2kcyTICFeSd1TRwjF9GMXC7b/xEbO4e/PGV9jl7xb4sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A6Q2mknU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KBrmLpzY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D5A1F00AC4
-	for <fsverity@lists.linux.dev>; Tue,  4 Aug 2026 05:41:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A6Q2mknU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B7E51F000E9;
+	Tue,  4 Aug 2026 07:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785822095;
-	bh=2YkazKmUrLOhbL023icX4qsz/H9PHNK5zkIGmoZj/fI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=KBrmLpzYVbFU87p3b4iqieu7G5+NSZj56qIK4eu0IlGxgqtIuAF3YLh/l0x5T0cRk
-	 a867TosMVaLEhcd4fP8xB+U9U4qoLhVXRPk55y4DP37LaLnRO/xtcaUsKx+UryIVQp
-	 4OSfVjnlqXIkFW+LVT7Qagt0FfZL6Nx4LFbiP8vTgEHToZzeM5dlnWWxk8rcc8xJsd
-	 GVrsvJ9yrqrZE2tiVTS8T2uk6rukUd65mAAevd+Ns53qQaVDLkoh/ydFghizie27nd
-	 lLmvwjUOCn60y7E4kbE5wb1mA1j6X/c1bcUpWKhJjRCjMwnlW/56+LAcYSLGLD0m7z
-	 +HdHsWrHRq1lg==
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92e53581361so217601985a.1
-        for <fsverity@lists.linux.dev>; Mon, 03 Aug 2026 22:41:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqhGa3n0i+5Ep3Ad4696lZsAd96OfSepY6kgvU/cgU/a+reYuSejk7zuZ49PztGUfQbutqF7h8fBQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/81ZkU0eSBmqLlRDtXqmNCDPioLiE98HGa2KN8lebnQYCQAw5
-	EzGyos2MKfhIAg0rKb8n01MS2A9XciZ9BxS6OrsAkdkwwKD/rvm7fu9Wpcp3S43CoQBmWtGFvsa
-	CfVrA9ndFLg/4XjBidrqgHnhfDahgxsc=
-X-Received: by 2002:a05:620a:2602:b0:934:ab73:ac53 with SMTP id
- af79cd13be357-934ab73aceemr1838213985a.0.1785822094146; Mon, 03 Aug 2026
- 22:41:34 -0700 (PDT)
+	s=k20260515; t=1785828648;
+	bh=Mgv41DrsNNY5KSr/+kJxMfoMTv6unJRL/btwkappeSo=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=A6Q2mknU8T3IvjsgFjyXL0egXOcFAG26Uz/FjLstMJZEgxpnRnPaG68g9mYrqKCDe
+	 vp9nGDvKH8UHypZmK2NTl6ylGqqIEfahcif/wLkqOlT5lLcZEDiM2297uoGfLSDKlG
+	 1deN9y5DYKPi/FQNP2xh9LnmbFhiXpG4lDk4iQA/Dv7Du0iFxQncSfjTcoVsiLBTM7
+	 rSdtvapvon+ATdJBa69+Pt6Nc0z1XfCTlKVJGgmuJwcXDqFm4pYRrRHcjPQSXsXLGd
+	 HMj9bIFgTsBQVK/6o4FibqsHnet8Y69p57pICfXGVdtk4+ryMTkKQzLIlw/JrXiB46
+	 NM0F2qPTaqMsw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93B123924A65;
+	Tue,  4 Aug 2026 07:30:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260803181232.14743-1-ebiggers@kernel.org> <20260803181232.14743-3-ebiggers@kernel.org>
-In-Reply-To: <20260803181232.14743-3-ebiggers@kernel.org>
-From: Song Liu <song@kernel.org>
-Date: Mon, 3 Aug 2026 22:41:22 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW5HJbh0LP3FW6-LjYJHvKXYAYuQsvxAX8VuemXS+CAi6A@mail.gmail.com>
-X-Gm-Features: AUfX_mw1dd5UVIBtzqf2jWpfr06Ke2mXq4cnaMkv6N58qAVrkhjOup45SME4mRQ
-Message-ID: <CAPhsuW5HJbh0LP3FW6-LjYJHvKXYAYuQsvxAX8VuemXS+CAi6A@mail.gmail.com>
-Subject: Re: [PATCH bpf v2 2/2] fsverity: Fix silent truncation in bpf_get_fsverity_digest()
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] fsverity: Fix bpf_get_fsverity_digest() dynptr
+ assumptions
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178582860939.3014158.15212060647956229102.git-patchwork-notify@kernel.org>
+Date: Tue, 04 Aug 2026 07:30:09 +0000
+References: <20260731003925.2728977-1-ebiggers@kernel.org>
+In-Reply-To: <20260731003925.2728977-1-ebiggers@kernel.org>
 To: Eric Biggers <ebiggers@kernel.org>
-Cc: bpf@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Yonghong Song <yonghong.song@linux.dev>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Jiri Olsa <jolsa@kernel.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: fsverity@lists.linux.dev, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev,
+ song@kernel.org, yonghong.song@linux.dev, emil@etsalapatis.com,
+ jolsa@kernel.org, stable@vger.kernel.org
 
-On Mon, Aug 3, 2026 at 11:13=E2=80=AFAM Eric Biggers <ebiggers@kernel.org> =
-wrote:
->
-> bpf_get_fsverity_digest() silently truncates the digest if the provided
-> buffer is too small.  This is a footgun, and it doesn't match the
-> semantics of the equivalent UAPI (FS_IOC_MEASURE_VERITY).
->
-> Change it to return -EOVERFLOW instead, matching FS_IOC_MEASURE_VERITY.
->
-> Fixes: 67814c00de31 ("bpf, fsverity: Add kfunc bpf_get_fsverity_digest")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+Hello:
 
-Acked-by: Song Liu <song@kernel.org>
+This patch was applied to bpf/bpf.git (master)
+by Kumar Kartikeya Dwivedi <memxor@gmail.com>:
+
+On Fri, 31 Jul 2026 00:39:25 +0000 you wrote:
+> The BPF verifier and the dynptr abstraction ensure that the memory space
+> referenced by a dynptr remains valid.  They do not, however, provide any
+> guarantee that the contents of the memory are stable.  kfuncs are
+> expected to remain memory-safe even if concurrent modifications occur.
+> 
+> bpf_get_fsverity_digest() didn't follow that: it could crash if
+> arg->digest_size was concurrently modified.
+> 
+> [...]
+
+Here is the summary with links:
+  - fsverity: Fix bpf_get_fsverity_digest() dynptr assumptions
+    https://git.kernel.org/bpf/bpf/c/3e8ec7c03872
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
