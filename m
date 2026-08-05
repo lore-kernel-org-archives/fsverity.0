@@ -1,109 +1,66 @@
-Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D536C3E1680
-	for <fsverity@lists.linux.dev>; Wed,  5 Aug 2026 07:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96AC30E0F2;
+	Wed,  5 Aug 2026 19:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785916667; cv=none; b=i+pfm04ip6vlpxHvkzqO62vu1Wb+5Y+3MWT1Wopbe2a8BZXSYTJMf0/inDIUyub5PHRjYvN4+x/XZvY5YErXdFbCyPC60ndB9uPK80BvxFWY9QPqaKNwLCQS2QTX5Jybpzr7IKZX7znxFNBkrH+j9eTRFxSO/69XcNT5MVJ4VA8=
+	t=1785959416; cv=none; b=KThl+dy7aSdP/tCvcWJPc9ct4NafVuMfBF1wXFcBvB8iCMLG29rNa6wDVM76HJM7X/nOW1mmb5mTe3J30EvFCLSy2VcM6fUU6SmdohoEggyh+GQwz0jK2+ReSWsgtJM+2TtPn+5HTATg4HBxrPLCaqvCeeSGg8oOTlVWZJVt1Fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785916667; c=relaxed/simple;
-	bh=IlIpVVDCu2/pBkVBAV+9IjOtvtLRfuxo5io91gQRtsQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=paKf61MSQetA8WYiHEqr706i4uouiCHBtE9OvzbGXhBTg4KMBNn+i8xZa8JyzZ/Bi0Paq32GC4ePOpiembhWfyb8hw3+uKGdFA5yY0RRBr32rHOaQNDPK5+Aum7Rr81JUeIPLU1msjrOYYjSMyoLBI8mLknOY9PX5Z9d/m3LhDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=XOcvAYqF; arc=none smtp.client-ip=18.194.254.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1785959416; c=relaxed/simple;
+	bh=SUzdIfltaZnp81hE5BTYS5eq407PAxTnHKactKOL08Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbky2lmutsVaCqD8V20nUClGmWUldNddexreGPiksyuFRnNzD0cuCM0rrr73t0g8HgiANnJ1r2H9kQ8RoyIcQV8IhezuScl8jma9BEc79c019tNkGmp7TTARq8xwKEFEMrAMyKUWdmJJFwpIARjtu2H6ebM/2LmvuqCWuDlQvgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdECOoTj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="XOcvAYqF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1785916637;
-	bh=uXnfGp795oGSOt+y84mHcpLytElAWA60JD/wU/dd3cs=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=XOcvAYqFIQ2oRxQlWlCSsJEvHWMsP2FHSoizeFmQeEa2WC6yUjpGyuXzAT7//HK94
-	 UhsNqmHWfUVfRp5cZcnMYfA8X6tUzjat46kR1PM0s1LnwmFK6l9fzZ9hJIdCR/PzLu
-	 Y7BzS0OUxkyzjdLC1bvJvQxGZXGGyPEt8a8Gxzs0=
-X-QQ-mid: esmtpsz18t1785916619t352635b2
-X-QQ-Originating-IP: yiRvrg58MR+0yse8xrb2gtoz9/DcdT37SkPfgcFx0X0=
-Received: from uniontech.com ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 05 Aug 2026 15:56:57 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10778487376398331387
-EX-QQ-RecipientCnt: 8
-From: Yichong Chen <chenyichong@uniontech.com>
-To: ebiggers@kernel.org,
-	tytso@mit.edu
-Cc: ast@kernel.org,
-	song@kernel.org,
-	fsverity@lists.linux.dev,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yichong Chen <chenyichong@uniontech.com>
-Subject: [PATCH] fsverity: reject short BPF digest buffers
-Date: Wed,  5 Aug 2026 15:56:55 +0800
-Message-Id: <20260805075655.950308-1-chenyichong@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdECOoTj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF7F1F000E9;
+	Wed,  5 Aug 2026 19:50:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785959415;
+	bh=LOB7CGvwPO6II+JzZWWzxZpjszqxqHOFx6HH3gibj8M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fdECOoTjIvwqJVE79xr+McfzwmNQI0g4i+mqop6WoFZZACwlXxtNhXu7cQFQKr2BY
+	 V6wjXyPblCyrUQVIFf+BwhPcH0MfDwSKaNyuurJ7mx6NaTAbC7/JSv/Vv+5NetDryY
+	 dPUXt3fyzJuGQAr1w+ql8SCgkMTRMAgmxqS5Rwx/CTFOtiCh3TTJuZzhm78gASXApL
+	 N3Vdhlbx+uqGZn5yt/xbXnUHUMtCbc9JN06oYDM7B/EiUQDbmYqnKBSBCMpI5c3Hxu
+	 gJl9a2RZJKLgEGRIog4GRpiaAye5hivazXSX5dq+n9xD+FuCKYtnpngKhhHOvJkCAF
+	 Dhfgn0c/4Sg0w==
+Date: Wed, 5 Aug 2026 12:50:13 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: tytso@mit.edu, ast@kernel.org, song@kernel.org,
+	fsverity@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fsverity: reject short BPF digest buffers
+Message-ID: <20260805195013.GD3438@quark>
+References: <20260805075655.950308-1-chenyichong@uniontech.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: OXWhkXa0b/rwAtuWqU4FmVlXXEbmGCbDS2w1xII/8C0Pp5S/6stsOJsO
-	Wk9dHrcu+n/JUYkJwpZxmZnBTD4xg2sKNZKGxi6h3MCagqjs+sshNAO6oInh/xM9OsjUHT/
-	IvL1E62hvHooj9l4khLD6KFmI6cYlFq7PXpfSdcP+N7Z/8yyDsDWVriUoUKI+lELxPy8gIM
-	5x51XV5/KDmKh+xS8ZYBktRBJi7JB1ynjwEGeMW7y4gSIX5PGvF5cfv8LtF4ojaqvp3V2Jq
-	QD7EBavj9Cr9wb1jPnntOb4nHHvcf+6sVEIx7CQYcvu/GFmGaawNwSAY5oXUeJxyN/XqHWX
-	DMwlBMxHBPK+O/7XZjTW6Had87k7Dnu/QVq0dJ2yk58Zul+aspmDnBnVB2xmNezszqutA72
-	O7cr+ceeUD64f8C2cisGrq/4/OHCbSgliHgHtg/zki+G93KVV6YpWwE7tGIxopIB+V9xwLP
-	r/6z6TbJymKYWHmL5SDh0uqtAJP77n4+KjgVOoRn+53m82v9e5lSnuLivGXtlRPhi1ky0d6
-	LCBMJms2qz0rTsiQHZJuGHO7hkvVb8u5lDlCHdlfONfwIpPsWdYdTiT/fK6cr6WwDkPepsV
-	ZeJYvqkmD40IkNDOK1bB/gaCy1P9c8o9OXrcQlF9yYqjm2JoATBSCV/TnKY+e1z15RTLrFT
-	9k+zI+0Y+A/NUWDPrGLTq92dRNFV6O+lNQVZO10uKPzCQQAyA5Ngf9ddu/MW5YjYosJy6xF
-	Yuq0FSGDQfAtr39iMgcTe6pdcrVilDa64I8qXIcCDhRaDEMNhdd4NZ8jH2U3zpFrVYjkPbj
-	nBs8NL7FgdFVUxX+iob16DlNv4Bhr0gnJYjdJ/FmK45K/gGebJpRshB+avgvuOhTROgLRav
-	q/Fk+qpyw4ivYo3M4+DPiejS/IipsLHIkM3g18WpdnBos5d/Gf/RNo51Bqjig8XTCRTwsDH
-	iL3Xw+YFSrhVF0snIEqIbgfV1oaq+PwgN8+Nb8WLq/pEbchEWn/X4X9EYRYGY0iUBtBkpOQ
-	3cSyNNEdekNSPcAiMXDczdNSPt8xx1Vo7DB3Q7/FiZSberQjdS
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260805075655.950308-1-chenyichong@uniontech.com>
 
-bpf_get_fsverity_digest() reports the digest size as the full hash digest
-size.  However, when the provided dynptr only has room for part of the
-digest, the helper currently copies the truncated digest and still returns
-success.
+On Wed, Aug 05, 2026 at 03:56:55PM +0800, Yichong Chen wrote:
+> bpf_get_fsverity_digest() reports the digest size as the full hash digest
+> size.  However, when the provided dynptr only has room for part of the
+> digest, the helper currently copies the truncated digest and still returns
+> success.
+> 
+> Returning success with a digest_size that is larger than the actual copied
+> digest is misleading for integrity policy code.  Match the ioctl
+> measurement path and reject too-small output buffers with -EOVERFLOW.
+> 
+> Fixes: 67814c00de31 ("bpf, fsverity: Add kfunc bpf_get_fsverity_digest")
+> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+> ---
+>  fs/verity/measure.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-Returning success with a digest_size that is larger than the actual copied
-digest is misleading for integrity policy code.  Match the ioctl
-measurement path and reject too-small output buffers with -EOVERFLOW.
+Already handled by https://lore.kernel.org/bpf/20260803181232.14743-1-ebiggers@kernel.org/
 
-Fixes: 67814c00de31 ("bpf, fsverity: Add kfunc bpf_get_fsverity_digest")
-Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
----
- fs/verity/measure.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/fs/verity/measure.c b/fs/verity/measure.c
-index cfe2d5e535f9..4cfadba95488 100644
---- a/fs/verity/measure.c
-+++ b/fs/verity/measure.c
-@@ -148,9 +148,11 @@ __bpf_kfunc int bpf_get_fsverity_digest(struct file *file, const struct bpf_dynp
- 	arg->digest_size = hash_alg->digest_size;
- 
- 	out_digest_sz = dynptr_sz - sizeof(struct fsverity_digest);
-+	if (out_digest_sz < hash_alg->digest_size)
-+		return -EOVERFLOW;
- 
- 	/* copy digest */
--	memcpy(arg->digest, vi->file_digest,  min_t(int, hash_alg->digest_size, out_digest_sz));
-+	memcpy(arg->digest, vi->file_digest, hash_alg->digest_size);
- 
- 	/* fill the extra buffer with zeros */
- 	if (out_digest_sz > hash_alg->digest_size)
--- 
-2.51.0
-
+- Eric
