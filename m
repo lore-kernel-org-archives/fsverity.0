@@ -1,79 +1,109 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79B4474257;
-	Tue,  4 Aug 2026 19:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D536C3E1680
+	for <fsverity@lists.linux.dev>; Wed,  5 Aug 2026 07:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785871739; cv=none; b=n//z7Xd79nTB7ZurstOClEIPAyDccwLYMVvc2Pyw0CxMsgjI1wRG2tds4wp5o7SKq+7GhBSuaeS3PCkAByhoB5dpQXu1yO6VLBN/j1HvbMnKwWfME0gg4x5trI9IxqVIaA4VLPfj6P/Meg6+Y2c2PJhbpFJQTHKPCe88H9H9D3E=
+	t=1785916667; cv=none; b=i+pfm04ip6vlpxHvkzqO62vu1Wb+5Y+3MWT1Wopbe2a8BZXSYTJMf0/inDIUyub5PHRjYvN4+x/XZvY5YErXdFbCyPC60ndB9uPK80BvxFWY9QPqaKNwLCQS2QTX5Jybpzr7IKZX7znxFNBkrH+j9eTRFxSO/69XcNT5MVJ4VA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785871739; c=relaxed/simple;
-	bh=OAzPQ7Pbeqr0hWjwOERI8ok5uZRMyttP38UnkhXkAyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pxyNzhfylVBnaI2+EwVwN8Lbg+65NyJI62Ong4Uaa888ixhznCleOTI37Oj+4JmtVNIErqsuUObWVX7xb7nMgo2hZPXOSBX5rTvk1yN8dN5ARepxMaEde7eUPx36iKRLB41NqxNIhujzMQyfAsz5r47JCBFLSRA9tc88tK8OM0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IPOxK2kI; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1785916667; c=relaxed/simple;
+	bh=IlIpVVDCu2/pBkVBAV+9IjOtvtLRfuxo5io91gQRtsQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=paKf61MSQetA8WYiHEqr706i4uouiCHBtE9OvzbGXhBTg4KMBNn+i8xZa8JyzZ/Bi0Paq32GC4ePOpiembhWfyb8hw3+uKGdFA5yY0RRBr32rHOaQNDPK5+Aum7Rr81JUeIPLU1msjrOYYjSMyoLBI8mLknOY9PX5Z9d/m3LhDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=XOcvAYqF; arc=none smtp.client-ip=18.194.254.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IPOxK2kI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WP6wjE7qBnj/GunjrqvRBraBLVBkydynCewnbZ45t5E=; b=IPOxK2kIjgPlxLgyvM+ibdufZV
-	qhsZVGcuyTtaA3Pir2gF5JgsdoJrPXPRwOoFEIs4vLeWpzMOp2IlvrfnQCn6TauSmBSLIN5+SYmO4
-	TyEWBwu6aV+rF2IyBtnbK3VjfRVkrMuFT9GfKrqwWgsSAZgroNijF/7kF0nFQM8g+aFSn1R44SMUu
-	zT0iPzhgk/5R7cFv+K+DW3KSU4e6n+QqQ83UtnFyNsJuX1N8NAXlkZBMG3du1L8Uly/1tclAZtiB6
-	GWcrf1cPozqPOjPAxleYmJW4CemcXafgGTzCoyywXua2bXD4ev8sEkIKxsshSTmXZynSWbbYAyDFO
-	6NbjtFDA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wrKol-00000004bOs-1Zgg;
-	Tue, 04 Aug 2026 19:28:51 +0000
-Date: Tue, 4 Aug 2026 20:28:51 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	ebiggers@kernel.org, hch@lst.de, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH v14 05/21] fsverity: improve flushing performance of
- fsverity_fill_zerohash
-Message-ID: <anI9cztkOa1yg7yv@casper.infradead.org>
-References: <20260803200820.393203-1-aalbersh@kernel.org>
- <20260803200820.393203-6-aalbersh@kernel.org>
- <anIzawflI11C0FT2@casper.infradead.org>
- <20260804185603.GP3556460@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="XOcvAYqF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1785916637;
+	bh=uXnfGp795oGSOt+y84mHcpLytElAWA60JD/wU/dd3cs=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=XOcvAYqFIQ2oRxQlWlCSsJEvHWMsP2FHSoizeFmQeEa2WC6yUjpGyuXzAT7//HK94
+	 UhsNqmHWfUVfRp5cZcnMYfA8X6tUzjat46kR1PM0s1LnwmFK6l9fzZ9hJIdCR/PzLu
+	 Y7BzS0OUxkyzjdLC1bvJvQxGZXGGyPEt8a8Gxzs0=
+X-QQ-mid: esmtpsz18t1785916619t352635b2
+X-QQ-Originating-IP: yiRvrg58MR+0yse8xrb2gtoz9/DcdT37SkPfgcFx0X0=
+Received: from uniontech.com ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 05 Aug 2026 15:56:57 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 10778487376398331387
+EX-QQ-RecipientCnt: 8
+From: Yichong Chen <chenyichong@uniontech.com>
+To: ebiggers@kernel.org,
+	tytso@mit.edu
+Cc: ast@kernel.org,
+	song@kernel.org,
+	fsverity@lists.linux.dev,
+	bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yichong Chen <chenyichong@uniontech.com>
+Subject: [PATCH] fsverity: reject short BPF digest buffers
+Date: Wed,  5 Aug 2026 15:56:55 +0800
+Message-Id: <20260805075655.950308-1-chenyichong@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260804185603.GP3556460@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: OXWhkXa0b/rwAtuWqU4FmVlXXEbmGCbDS2w1xII/8C0Pp5S/6stsOJsO
+	Wk9dHrcu+n/JUYkJwpZxmZnBTD4xg2sKNZKGxi6h3MCagqjs+sshNAO6oInh/xM9OsjUHT/
+	IvL1E62hvHooj9l4khLD6KFmI6cYlFq7PXpfSdcP+N7Z/8yyDsDWVriUoUKI+lELxPy8gIM
+	5x51XV5/KDmKh+xS8ZYBktRBJi7JB1ynjwEGeMW7y4gSIX5PGvF5cfv8LtF4ojaqvp3V2Jq
+	QD7EBavj9Cr9wb1jPnntOb4nHHvcf+6sVEIx7CQYcvu/GFmGaawNwSAY5oXUeJxyN/XqHWX
+	DMwlBMxHBPK+O/7XZjTW6Had87k7Dnu/QVq0dJ2yk58Zul+aspmDnBnVB2xmNezszqutA72
+	O7cr+ceeUD64f8C2cisGrq/4/OHCbSgliHgHtg/zki+G93KVV6YpWwE7tGIxopIB+V9xwLP
+	r/6z6TbJymKYWHmL5SDh0uqtAJP77n4+KjgVOoRn+53m82v9e5lSnuLivGXtlRPhi1ky0d6
+	LCBMJms2qz0rTsiQHZJuGHO7hkvVb8u5lDlCHdlfONfwIpPsWdYdTiT/fK6cr6WwDkPepsV
+	ZeJYvqkmD40IkNDOK1bB/gaCy1P9c8o9OXrcQlF9yYqjm2JoATBSCV/TnKY+e1z15RTLrFT
+	9k+zI+0Y+A/NUWDPrGLTq92dRNFV6O+lNQVZO10uKPzCQQAyA5Ngf9ddu/MW5YjYosJy6xF
+	Yuq0FSGDQfAtr39iMgcTe6pdcrVilDa64I8qXIcCDhRaDEMNhdd4NZ8jH2U3zpFrVYjkPbj
+	nBs8NL7FgdFVUxX+iob16DlNv4Bhr0gnJYjdJ/FmK45K/gGebJpRshB+avgvuOhTROgLRav
+	q/Fk+qpyw4ivYo3M4+DPiejS/IipsLHIkM3g18WpdnBos5d/Gf/RNo51Bqjig8XTCRTwsDH
+	iL3Xw+YFSrhVF0snIEqIbgfV1oaq+PwgN8+Nb8WLq/pEbchEWn/X4X9EYRYGY0iUBtBkpOQ
+	3cSyNNEdekNSPcAiMXDczdNSPt8xx1Vo7DB3Q7/FiZSberQjdS
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+X-QQ-RECHKSPAM: 0
 
-On Tue, Aug 04, 2026 at 11:56:03AM -0700, Darrick J. Wong wrote:
-> On Tue, Aug 04, 2026 at 07:46:03PM +0100, Matthew Wilcox wrote:
-> > On Mon, Aug 03, 2026 at 10:07:55PM +0200, Andrey Albershteyn wrote:
-> > > The current version calls flush_dcache_folio(), in memcpy_to_folio(), to
-> > > flush whole folio on every digest (which is 128 for 4k) on the HIGHMEM
-> > > systems. Open code folio mapping and flushing to copy all digests at
-> > > once.
-> > 
-> > Have you looked at the implementations of flush_dcache_folio()?  On
-> > any architecture we actually care about, all it does is set one bit
-> > in folio->flags noting that the folio will need to be flushed if
-> > it's going to be accessed by userspace.
-> > 
-> > But, um, do we support mapping folios containing fsverity data into
-> > userspace?  Can't we just delete the calls to flush_dcache_folio()?
-> 
-> I don't think programs are allowed to mmap the fsverity data, right?
-> I know there's an ioctl that effectively allows read()ing it.
+bpf_get_fsverity_digest() reports the digest size as the full hash digest
+size.  However, when the provided dynptr only has room for part of the
+digest, the helper currently copies the truncated digest and still returns
+success.
 
-read() is fine, there's no user/kernel d-cache aliasing problem with
-read().  It's just mmaps that are problematic.
+Returning success with a digest_size that is larger than the actual copied
+digest is misleading for integrity policy code.  Match the ioctl
+measurement path and reject too-small output buffers with -EOVERFLOW.
 
-See Documentation/core-api/cachetlb.rst where it talks about
-flush_dcache_folio().
+Fixes: 67814c00de31 ("bpf, fsverity: Add kfunc bpf_get_fsverity_digest")
+Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+---
+ fs/verity/measure.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/fs/verity/measure.c b/fs/verity/measure.c
+index cfe2d5e535f9..4cfadba95488 100644
+--- a/fs/verity/measure.c
++++ b/fs/verity/measure.c
+@@ -148,9 +148,11 @@ __bpf_kfunc int bpf_get_fsverity_digest(struct file *file, const struct bpf_dynp
+ 	arg->digest_size = hash_alg->digest_size;
+ 
+ 	out_digest_sz = dynptr_sz - sizeof(struct fsverity_digest);
++	if (out_digest_sz < hash_alg->digest_size)
++		return -EOVERFLOW;
+ 
+ 	/* copy digest */
+-	memcpy(arg->digest, vi->file_digest,  min_t(int, hash_alg->digest_size, out_digest_sz));
++	memcpy(arg->digest, vi->file_digest, hash_alg->digest_size);
+ 
+ 	/* fill the extra buffer with zeros */
+ 	if (out_digest_sz > hash_alg->digest_size)
+-- 
+2.51.0
+
