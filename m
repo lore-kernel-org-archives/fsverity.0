@@ -1,310 +1,580 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DF53B71B0;
-	Thu, 20 Aug 2026 12:51:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3087237A858;
+	Thu, 20 Aug 2026 16:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787230280; cv=none; b=jjadXVcvAAbjWeMIGIRu2vj6csW84+itzZPeWNLe428dXXppBYmX42ID9IJsNhiZ42TCNgLFOD5ZcveKwtIinzq3lsWO+aNeU9nUsAMd8WaxLfJpUHy4juaaACbUJZO5LCh+XVY3O//jvMLR+MiRjnaC+HKo3V/2ebOPMKITWjE=
+	t=1787244253; cv=none; b=cj7NMGt+6xboly4+Dd3cwuDOxB+fmW6tL2N6+U7o1i1hQ0yVuJ4BpqwFKd9v1U42SX96ZzVDWwtqMwG/nPvJyvJ27Qp+AvNCYW1bIuaSVHu+qAlV5+E3jGlpokFgwqpvCjHuiJywRWr87kZuU3MLkylcwG+DlJXdLQV51GZqB8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787230280; c=relaxed/simple;
-	bh=+NwI7DnwDdTsowchvimqS/YkH1pK80UzasLtbzB4IKk=;
+	s=arc-20240116; t=1787244253; c=relaxed/simple;
+	bh=nVX1RF+wfaaFVt6KBci9Vm9ArFJdgoUPcDAApYDvV4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uam5zmFTh4VWnLfbwX5RNpH495OBTEYuK+61WaYOpomcs5R/CKBu7retcygUYsq5XaMYdNZbd+XhKna7CFp4N3hGo3vH0eii7ORK6tYGIUvxxH1Gc978qWmScfUahk9ji6+snPMTHyN8UwEF+1uTG6xEunWMDw7N6Iw9wbTlLuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mgPgh60B; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ig2v5K6A2P3efflspH4JwzzxwtlfKzOxkULrX1g+BPw7v4XpXyuqLTUOplOUq7RP4hp/I9yUkKCfBF33XPp9gDGDzrOTlhpPKWHmd462g2EeX9uoo1hYIuCx7F3Y7WUKgJf3oyimFNF/hNXl6BYHoV1OZIRl76Fnnv8W9UUKwqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VR+uM9WA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgPgh60B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A92C1F00A3A;
-	Thu, 20 Aug 2026 12:51:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VR+uM9WA"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id BA5AA1F00A3D;
+	Thu, 20 Aug 2026 16:44:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787230278;
-	bh=dAVoYnB5WFPNY5isnPlH4ce36KYRKmD4kl/YEQC1mAY=;
+	s=k20260515; t=1787244251;
+	bh=MomSmGBn7JOFVKMpcz1xdXXtQjRUbWVZibRV0VyY9vQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mgPgh60BEcNbFO4U1gRCt9kcXAEhf35i+NR7lVlBIJfL1JrKFx8tZSR2qz91zSrlz
-	 z9lWyjXulNRc788+A/flCzJSMEvOTbqaErTUClDB/Pwf2BHH9kGuE/jQt4VJXeD9W0
-	 aPZYoxKP547bHPpxHi6RvVMcfQFLgiymPSuPUWifcNjpsHodGXHMfRcn71+lqY1iZs
-	 W3NkS6xQCc7i2QT3WxbtlnkVYMhF0msyNhGdfVmSkuKJAImGyyzO/PdZpoHd80Sx6a
-	 kOEvHUrTKfcuaq12LUBuDii7XCYfFDDAel9Royb7P0CD21Kj/xsRXikwNpZ7EhK9tK
-	 UY4XPo9KHgERw==
-Date: Thu, 20 Aug 2026 14:51:13 +0200
-From: Joel Granados <joel.granados@kernel.org>
-To: Mauricio Faria de Oliveira <mfo@igalia.com>
-Cc: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, kernel-dev@igalia.com, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, fsverity@lists.linux.dev, 
-	keyrings@vger.kernel.org, bpf@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, netdev@vger.kernel.org, linux-wpan@vger.kernel.org, 
-	lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
-	linux-sctp@vger.kernel.org, linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org, 
-	bridge@lists.linux.dev, mptcp@lists.linux.dev, rds-devel@oss.oracle.com, 
-	virtualization@lists.linux.dev
-Subject: Re: [PATCH RFC v3 00/13] sysctl: add module aliases
-Message-ID: <bpnqwggtidgiec5akns3fa5edbsvl7xf55dxabtwng2xspy4pn@ue554aii2ngk>
-References: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
+	b=VR+uM9WArl5t/faP/ZsbqJbnAOHBfp8Da/cQzhv9W4Lvns9WcB5osEZ+dpZTJF4jo
+	 z1LswWxPzlrQaIvYS3D5OVR0ziup/iJaYVSeoJUFI03n9CxWRLmN8qyRYz5f+feVc9
+	 GPmutHkUozn53tCKDSCD4yF3MH6AkTuei/kn6PDXBbqAP/okxdElpBuzXXL8Waq0lQ
+	 7t/i2aGlS29HmN40JIs5MKq49+Ze98YU1LAWPecVSfDRVPvAynoWo3wb7YGvHeBIfX
+	 h6cpzJseOOcmgpzFFPKbgMQJo5pEU2KJIpcnT/aOjN8XGL0FXYinPW3k+1t3X6uWvt
+	 l2AHvYxr9dcOA==
+Date: Thu, 20 Aug 2026 09:44:11 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: ebiggers@kernel.org, hch@lst.de, Jens Axboe <axboe@kernel.dk>,
+	Carlos Maiolino <cem@kernel.org>, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-unionfs@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, david@fromorbit.com,
+	Tal Zussman <tz2294@columbia.edu>
+Subject: Re: [PATCH v15 19/25] xfs: add fs-verity support
+Message-ID: <20260820164411.GI6072@frogsfrogsfrogs>
+References: <20260814092448.1818082-1-aalbersh@kernel.org>
+ <20260814092448.1818082-20-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="llmpbpsieq7v5rwe"
-Content-Disposition: inline
-In-Reply-To: <20260819-sysctl-module-aliases-v3-0-aab90569365d@igalia.com>
-
-
---llmpbpsieq7v5rwe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260814092448.1818082-20-aalbersh@kernel.org>
 
-On Wed, Aug 19, 2026 at 03:16:13PM -0300, Mauricio Faria de Oliveira wrote:
-> This series adds 'sysctl:' aliases to modules that register sysctl tables=
-; e.g.:
->=20
->         $ modinfo ./mpls_router.ko  | grep sysctl:
->         alias:          sysctl:*/net/mpls/conf/*/input
->         alias:          sysctl:*/net/mpls/default_ttl
->         alias:          sysctl:*/net/mpls/ip_ttl_propagate
->         alias:          sysctl:*/net/mpls/platform_labels
->=20
-> It provides a trivial way to map /proc/sys files to modules (not trivial =
-today),
-> and for userspace to handle nonexistent /proc/sys files (e.g., procps's s=
-ysctl
-> and systemd-sysctl applying tunables) with "modprobe sysctl:<...>" and a =
-retry.
->=20
-> This is done almost automatically with register_sysctl(), register_net_sy=
-sctl()
-> and friends as wrappers of MODULE_SYSCTL_TABLE (similar to MODULE_DEVICE_=
-TABLE),
-> which emits symbols for file2alias/modpost to find and parse the sysctl t=
-ables.
->=20
-> The big exception to 'almost' are sysctl tables and paths allocated or de=
-fined
-> at runtime (e.g., per-namespace or per-device), as all information is req=
-uired
-> at build-time. Fortunately, such tables and paths are often based on 'tem=
-plates'
-> which are static and can be used.
->=20
-> This is done by plumbing the template table/path as optional arguments (m=
-acros
-> with default values as default_gfp()), so not to create functions for all=
- cases:
->=20
->         register_sysctl(path, table [, table_tmpl [, path_tmpl]]);
->         register_net_sysctl(net, path, table [, table_tmpl[, path_tmpl]]);
->         register_net_sysctl_sz(net, path, table, size [, table_tmpl[, pat=
-h_tmpl]]);
+On Fri, Aug 14, 2026 at 11:24:36AM +0200, Andrey Albershteyn wrote:
+> Add integration with fs-verity. XFS stores fs-verity descriptor and
+> Merkle tree in the inode data fork at first block aligned to 64k past
+> EOF.
+> 
+> The Merkle tree reading/writing is done through iomap interface. The
+> data itself is read to the inode's page cache. When XFS reads from this
+> region iomap doesn't call into fsverity to verify it against Merkle
+> tree. For data, verification is done at ioend completion in a workqueue.
+> 
+> When fs-verity is enabled on an inode, the XFS_IVERITY_CONSTRUCTION
+> flag is set meaning that the Merkle tree is being build. The
+> initialization ends with storing of verity descriptor and setting
+> inode on-disk flag (XFS_DIFLAG2_VERITY). Lastly, the
+> XFS_IVERITY_CONSTRUCTION is dropped and I_VERITY is set on inode.
+> 
+> The descriptor is stored in a new block aligned to 64k after the last
+> Merkle tree block. The size of the descriptor is stored at the end of
+> the last descriptor block (descriptor can be multiple blocks).
+> 
+> Pro-actively remove any unwritten extents as we use last extent to
+> locate descriptor.
+> 
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-The "what" is described but I'm missing more clarity on the "why". Why
-does this need to be trivial? Where is it that you will know the sysctl
-file path of a module and not the module name or alias?
+LOL, I haven't looked at this at all since v6?!
 
-Additionally, sysctls are not module specific; they are a way to
-read/write kernel variables. Putting a module specific aspect in the
-function arguments (that needs to be ignored in non-module cases) seems
-wrong. Why not use the module subsys to add sysctl alias instead of the
-sysctl subsys?
+Sorry about that delay.
 
->=20
-> In this series:
-> - Patch 1 prevents a build error later.
-> - Patch 2 adds CONFIG_SYSCTL_MODULE_ALIASES.
-> - Patch 3 adds MODULE_SYSCTL_TABLE().
-> - Patches 4-5 add register_sysctl() wrapper and update some callers.
-> - Patches 6-10 add register_net_sysctl[_sz]() wrappers and update some ca=
-llers.
-> - Patches 11-13 add file2alias support.
->=20
-> Not all maintainers/reviewers (specially for the many changes in net/) are
-> in To/Cc in respect of their time, as this RFC probably needs more general
-> and earlier feedback before settling on specific changes for their review.
-> All lists are included for visibility, though.
->=20
-> Example
-> =3D=3D=3D=3D=3D=3D=3D
->=20
-> To put it all together, 'mpls_router.ko' (used above) from 'net/mpls/af_m=
-pls.c':
->        =20
-> - Tables:
->=20
->         static const struct ctl_table mpls_table[] =3D {
->                 {
->                         .procname       =3D "platform_labels",
->                 ...
->                         .procname       =3D "ip_ttl_propagate",
->                 ...
->                         .procname       =3D "default_ttl",
->                 },
->         };
-<... snip ...>
->=20
-> - Per-file:
->=20
->   Use '#define SYSCTL_MODULE_ALIASES_DISABLE'.
->=20
-> - System-wide:
->=20
->   Maybe something along these lines:
->=20
->         # cat /etc/modprobe.d/no-sysctl.conf
->         alias sysctl:* no-sysctl
->         install no-sysctl /bin/false
->=20
->         # modinfo -F name sysctl:/proc/net/mpls/default_ttl
->         mpls_router
->=20
->         # modprobe sysctl:/proc/net/mpls/default_ttl
->         modprobe: ERROR: Error running install command '/bin/false' for m=
-odule no_sysctl: retcode 1
->         modprobe: ERROR: could not insert 'no_sysctl': Invalid argument
->=20
-> P.S.
-> =3D=3D=3D=3D
->=20
-> I wrote proof-of-concept patches for procps sysctl and systemd-sysctl som=
-e time
-> ago, which worked as expected, i.e., successfully set sysctl tunables whi=
-ch did
-> not exist in /proc/sys, by running 'modprobe sysctl:/proc/sys/...' and re=
-trying.
-
-Do you have links to this? To the old one, not necessarily a new
-version.
-
-Best
->=20
-> Should this series eventually be merged, the patches will be submitted up=
-stream
-> as well, for userspace to start consuming it.
->=20
-> Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
->=20
-> Changes in v3:
-> - All issues were reported by sashiko-bot@kernel.org.
-> - Tested allmodconfig with option enabled on x86_64.
-> - Patch 2:
->   - Fix typo ('s/options/option/').
-> - Patch 3:
->   - Fix usage of __UNIQUE_ID().
->   - Add __must_be_array() in MODULE_SYSCTL_TABLE().
-> - Patch 4:
->   - Remove trailing backslash in register_sysctl().
-> - Patch 6:
->   - Fix missing __register_net_sysctl_sz() in !CONFIG_SYSCTL.
-> - Patch 13:
->   - Fix potential out-of-bounds read in do_sysctl_entry().
->   - Add check for entry size of zero.
-> - Link to v2: https://lore.kernel.org/r/20260818-sysctl-module-aliases-v2=
--0-d5a69dae5798@igalia.com
->=20
-> Changes in v2:
-> - This is based on the series submitted 4 years ago,
->   with Originally-by: tags added in related patches.
-> - Link to v1: https://lore.kernel.org/linux-fsdevel/20220722022416.137548=
--1-mfo@canonical.com/
->=20
 > ---
-> Mauricio Faria de Oliveira (13):
->       keys, pidns, fs/verity, riscv/vector: reorder '#include <linux/sysc=
-tl.h>'
->       proc: add config option SYSCTL_MODULE_ALIASES
->       sysctl, mod_devicetable: add macro MODULE_SYSCTL_TABLE
->       sysctl: add register_sysctl() wrapper for MODULE_SYSCTL_TABLE
->       sysctl, parport: update register_sysctl() callers with template arg=
-uments
->       sysctl, net: add register_net_sysctl{_sz}() wrappers for MODULE_SYS=
-CTL_TABLE
->       sysctl, net: update register_net_sysctl{_sz}() callers with templat=
-e arguments
->       sysctl, net: update register_net_sysctl_sz(ARRAY_SIZE(table_tmpl)) =
-with template arguments
->       sysctl, ipv6: update register_net_sysctl{_sz}() callers with templa=
-te arguments
->       sysctl, net: update register_net_sysctl_sz() edge case
->       sysctl: unrandomize struct ctl_table.procname
->       modpost: move addend_*_rel() calls into addend_rel()
->       modpost: handle MODULE_SYSCTL_TABLE symbols
->=20
->  arch/riscv/kernel/vector.c              |   1 +
->  drivers/net/vrf.c                       |   3 +-
->  drivers/parport/procfs.c                |  26 +++-
->  fs/proc/Kconfig                         |  13 ++
->  fs/verity/init.c                        |   1 +
->  include/linux/key.h                     |   1 -
->  include/linux/mod_devicetable.h         |   7 +
->  include/linux/pid_namespace.h           |   1 +
->  include/linux/sysctl.h                  | 110 ++++++++++++++-
->  include/net/ipv6.h                      |   6 +-
->  include/net/net_namespace.h             |  47 ++++++-
->  net/bridge/br_netfilter_hooks.c         |   3 +-
->  net/core/neighbour.c                    |  11 +-
->  net/core/sysctl_net_core.c              |   3 +-
->  net/ieee802154/6lowpan/reassembly.c     |   2 +-
->  net/ipv4/devinet.c                      |  12 +-
->  net/ipv4/ip_fragment.c                  |   3 +-
->  net/ipv4/route.c                        |   3 +-
->  net/ipv4/sysctl_net_ipv4.c              |   2 +-
->  net/ipv4/xfrm4_policy.c                 |   3 +-
->  net/ipv6/addrconf.c                     |   7 +-
->  net/ipv6/icmp.c                         |   6 +-
->  net/ipv6/netfilter/nf_conntrack_reasm.c |   4 +-
->  net/ipv6/reassembly.c                   |   3 +-
->  net/ipv6/route.c                        |  10 +-
->  net/ipv6/sysctl_net_ipv6.c              |  13 +-
->  net/ipv6/xfrm6_policy.c                 |   3 +-
->  net/mpls/af_mpls.c                      |   9 +-
->  net/mptcp/ctrl.c                        |   3 +-
->  net/netfilter/ipvs/ip_vs_ctl.c          |   4 +-
->  net/netfilter/ipvs/ip_vs_lblc.c         |   3 +-
->  net/netfilter/ipvs/ip_vs_lblcr.c        |   3 +-
->  net/netfilter/nf_conntrack_standalone.c |   5 +-
->  net/netfilter/nf_log.c                  |   9 +-
->  net/rds/tcp.c                           |   4 +-
->  net/sctp/sysctl.c                       |   3 +-
->  net/smc/smc_sysctl.c                    |   2 +-
->  net/sysctl_net.c                        |  10 +-
->  net/unix/sysctl_net_unix.c              |   3 +-
->  net/vmw_vsock/af_vsock.c                |   4 +-
->  net/xfrm/xfrm_sysctl.c                  |   2 +-
->  scripts/mod/devicetable-offsets.c       |   6 +
->  scripts/mod/file2alias.c                | 237 ++++++++++++++++++++++++++=
-++++++
->  scripts/mod/modpost.c                   |  46 ++++---
->  scripts/mod/modpost.h                   |  25 ++++
->  45 files changed, 575 insertions(+), 107 deletions(-)
-> ---
-> base-commit: 2697ef8943c9985c14708a6429e21812693857b2
-> change-id: 20260818-sysctl-module-aliases-2f5801b1eb71
->=20
-> Best regards,
-> --=20
-> Mauricio Faria de Oliveira <mfo@igalia.com>
->=20
+>  fs/xfs/xfs_fsverity.c | 363 +++++++++++++++++++++++++++++++++++++++++-
+>  fs/xfs/xfs_fsverity.h |   2 +
+>  fs/xfs/xfs_message.c  |   4 +
+>  fs/xfs/xfs_message.h  |   1 +
+>  fs/xfs/xfs_mount.h    |   2 +
+>  fs/xfs/xfs_super.c    |   7 +
+>  6 files changed, 378 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
+> index d1b3ccc65322..9d7c5611d9cd 100644
+> --- a/fs/xfs/xfs_fsverity.c
+> +++ b/fs/xfs/xfs_fsverity.c
+> @@ -6,13 +6,22 @@
+>  #include "xfs_fs.h"
+>  #include "xfs_shared.h"
+>  #include "xfs_format.h"
+> -#include "xfs_log_format.h"
+>  #include "xfs_trans_resv.h"
+>  #include "xfs_mount.h"
+>  #include "xfs_inode.h"
+> +#include "xfs_log_format.h"
+> +#include "xfs_trans.h"
+> +#include "xfs_trace.h"
+> +#include "xfs_quota.h"
+>  #include "xfs_fsverity.h"
+> +#include "xfs_iomap.h"
+> +#include "xfs_error.h"
+> +#include "xfs_health.h"
+> +#include "xfs_bmap_util.h"
+> +#include "xfs_icache.h"
+>  #include <linux/fsverity.h>
+>  #include <linux/iomap.h>
+> +#include <linux/pagemap.h>
+>  
+>  loff_t
+>  xfs_fsverity_metadata_offset(
+> @@ -29,3 +38,355 @@ xfs_fsverity_is_file_data(
+>  	return fsverity_active(VFS_IC(ip)) &&
+>  			offset < xfs_fsverity_metadata_offset(ip);
+>  }
+> +
+> +/*
+> + * Retrieve the verity descriptor.
+> + */
+> +static int
+> +xfs_fsverity_get_descriptor(
+> +	struct inode		*inode,
+> +	void			*buf,
+> +	size_t			buf_size)
+> +{
+> +	struct xfs_inode	*ip = XFS_I(inode);
+> +	struct xfs_mount	*mp = ip->i_mount;
+> +	__be32			d_desc_size;
+> +	u32			desc_size;
+> +	u64			desc_size_pos;
+> +	int			error;
+> +	u64			desc_pos;
+> +	struct xfs_bmbt_irec	rec;
+> +	int			is_empty;
+> +	uint32_t		blocksize = i_blocksize(VFS_I(ip));
+> +	xfs_fileoff_t		last_block_offset;
+> +
+> +	ASSERT(inode->i_flags & S_VERITY);
+> +	xfs_ilock(ip, XFS_ILOCK_SHARED);
+> +	error = xfs_bmap_last_extent(NULL, ip, XFS_DATA_FORK, &rec, &is_empty);
+> +	xfs_iunlock(ip, XFS_ILOCK_SHARED);
+> +	if (error)
+> +		return error;
+> +
+> +	if (is_empty)
+> +		return -ENODATA;
+> +
+> +	last_block_offset =
+> +		XFS_FSB_TO_B(mp, rec.br_startoff + rec.br_blockcount);
+> +	if (last_block_offset <= xfs_fsverity_metadata_offset(ip))
+> +		return -ENODATA;
+> +
+> +	desc_size_pos = last_block_offset - sizeof(__be32);
+> +	error = fsverity_pagecache_read(inode, (char *)&d_desc_size,
+> +			sizeof(d_desc_size), desc_size_pos);
+> +	if (error)
+> +		return error;
+> +
+> +	desc_size = be32_to_cpu(d_desc_size);
+> +	if (XFS_IS_CORRUPT(mp, desc_size > FS_VERITY_MAX_DESCRIPTOR_SIZE))
+> +		return -ERANGE;
+> +	if (XFS_IS_CORRUPT(mp, desc_size > desc_size_pos))
+> +		return -ERANGE;
+> +
+> +	if (!buf_size)
+> +		return desc_size;
+> +
+> +	if (XFS_IS_CORRUPT(mp, desc_size > buf_size))
+> +		return -ERANGE;
+> +
+> +	desc_pos = round_down(desc_size_pos - desc_size, blocksize);
+> +	if (desc_pos < xfs_fsverity_metadata_offset(ip))
+> +		return -ERANGE;
+> +
+> +	error = fsverity_pagecache_read(inode, buf, desc_size, desc_pos);
+> +	if (error)
+> +		return error;
+> +
+> +	return desc_size;
+> +}
+> +
+> +static int
+> +xfs_fsverity_write_descriptor(
+> +	struct file		*file,
+> +	const void		*desc,
+> +	u32			desc_size,
+> +	u64			merkle_tree_size)
+> +{
+> +	int			error;
+> +	struct inode		*inode = file_inode(file);
+> +	struct xfs_inode	*ip = XFS_I(inode);
+> +	unsigned int		blksize = ip->i_mount->m_sb.sb_blocksize;
+> +	u64			tree_last_block =
+> +			xfs_fsverity_metadata_offset(ip) + merkle_tree_size;
+> +	u64			desc_pos =
+> +			round_up(tree_last_block, XFS_FSVERITY_START_ALIGN);
+> +	u64			desc_end = desc_pos + desc_size;
+> +	__be32			desc_size_disk = cpu_to_be32(desc_size);
+> +	u64			desc_size_pos =
+> +			round_up(desc_end + sizeof(desc_size_disk), blksize) -
+> +			sizeof(desc_size_disk);
+> +
+> +	error = iomap_fsverity_write(file, desc_size_pos, sizeof(__be32),
+> +			(const void *)&desc_size_disk,
+> +			&xfs_buffered_write_iomap_ops,
+> +			&xfs_iomap_write_ops);
+> +	if (error)
+> +		return error;
+> +
+> +	return iomap_fsverity_write(file, desc_pos, desc_size, desc,
+> +			&xfs_buffered_write_iomap_ops,
+> +			&xfs_iomap_write_ops);
+> +}
+> +
+> +/*
+> + * Try to remove all the fsverity metadata after a failed enablement.
+> + */
+> +static int
+> +xfs_fsverity_delete_metadata(
+> +	struct xfs_inode	*ip)
+> +{
+> +	struct xfs_trans	*tp;
+> +	struct xfs_mount	*mp = ip->i_mount;
+> +	int			error;
+> +
+> +	xfs_ilock(ip, XFS_MMAPLOCK_EXCL);
+> +	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_itruncate, 0, 0, 0, &tp);
+> +	if (error) {
+> +		xfs_iunlock(ip, XFS_MMAPLOCK_EXCL);
+> +		return error;
+> +	}
+> +
+> +	xfs_ilock(ip, XFS_ILOCK_EXCL);
+> +	xfs_trans_ijoin(tp, ip, 0);
+> +
+> +	truncate_inode_pages(VFS_I(ip)->i_mapping, XFS_ISIZE(ip));
+> +
+> +	/*
+> +	 * We remove post EOF data, no need to update i_size as fsverity
+> +	 * didn't move i_size in the first place
+> +	 */
+> +	error = xfs_itruncate_extents(&tp, ip, XFS_DATA_FORK, XFS_ISIZE(ip));
+> +	if (error)
+> +		goto err_cancel;
+> +
+> +	error = xfs_trans_commit(tp);
+> +	xfs_iunlock(ip, XFS_MMAPLOCK_EXCL | XFS_ILOCK_EXCL);
+> +	return error;
+> +err_cancel:
+> +	xfs_trans_cancel(tp);
+> +	xfs_iunlock(ip, XFS_MMAPLOCK_EXCL | XFS_ILOCK_EXCL);
+> +	return error;
+> +}
+> +
+> +
+> +/*
+> + * Prepare to enable fsverity by clearing old metadata.
+> + */
+> +static int
+> +xfs_fsverity_begin_enable(
+> +	struct file		*filp)
+> +{
+> +	struct inode		*inode = file_inode(filp);
+> +	struct xfs_inode	*ip = XFS_I(inode);
+> +	int			error;
+> +
+> +	xfs_assert_ilocked(ip, XFS_IOLOCK_EXCL);
+> +
+> +	if (IS_DAX(inode) || ip->i_diflags2 & XFS_DIFLAG2_DAX)
+> +		return -EINVAL;
+> +
+> +	if (inode->i_size > XFS_FSVERITY_LARGEST_FILE)
+> +		return -EFBIG;
+> +
+> +	/*
+> +	 * Flush pagecache before building Merkle tree. Inode is locked and no
+> +	 * further writes will happen to the file except fsverity metadata
+> +	 */
+> +	error = filemap_write_and_wait(inode->i_mapping);
+> +	if (error)
+> +		return error;
+> +
+> +	if (xfs_iflags_test_and_set(ip, XFS_VERITY_CONSTRUCTION))
+> +		return -EBUSY;
+> +
+> +	error = xfs_qm_dqattach(ip);
+> +	if (error)
+> +		goto out_clear;
+> +
+> +	error = xfs_fsverity_delete_metadata(ip);
+> +	if (error)
+> +		goto out_clear;
+> +	return error;
+> +out_clear:
+> +	xfs_iflags_clear(ip, XFS_VERITY_CONSTRUCTION);
+> +	return error;
+> +}
+> +
+> +/*
+> + * Complete (or fail) the process of enabling fsverity.
+> + */
+> +static int
+> +xfs_fsverity_end_enable(
+> +	struct file		*file,
+> +	const void		*desc,
+> +	size_t			desc_size,
+> +	u64			merkle_tree_size)
+> +{
+> +	struct inode		*inode = file_inode(file);
+> +	struct xfs_inode	*ip = XFS_I(inode);
+> +	struct xfs_mount	*mp = ip->i_mount;
+> +	struct xfs_trans	*tp;
+> +	int			error = 0;
+> +	loff_t			range_start = xfs_fsverity_metadata_offset(ip);
+> +
+> +	xfs_assert_ilocked(ip, XFS_IOLOCK_EXCL);
+> +
+> +	/* fs-verity failed, just cleanup */
+> +	if (desc == NULL) {
+> +		error = xfs_fsverity_delete_metadata(ip);
+> +		goto out;
+> +	}
+> +
+> +	error = xfs_fsverity_write_descriptor(file, desc, desc_size,
+> +			merkle_tree_size);
+> +	if (error)
+> +		goto out;
+> +
+> +	/*
+> +	 * Wait for Merkle tree get written to disk before setting on-disk inode
+> +	 * flag and clearing XFS_VERITY_CONSTRUCTION
+> +	 */
+> +	error = filemap_write_and_wait_range(inode->i_mapping, range_start,
+> +			LLONG_MAX);
+> +	if (error)
+> +		goto out;
+> +
+> +	/*
+> +	 * Set fsverity inode flag
+> +	 */
+> +	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_ichange,
+> +			0, 0, false, &tp);
+> +	if (error)
+> +		goto out;
+> +
+> +	/*
+> +	 * Ensure that we've persisted the verity information before we enable
+> +	 * it on the inode and tell the caller we have sealed the inode.
+> +	 */
+> +	ip->i_diflags2 |= XFS_DIFLAG2_VERITY;
+> +
+> +	xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
+> +	xfs_trans_set_sync(tp);
+> +
+> +	error = xfs_trans_commit(tp);
+> +	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+> +	if (error)
+> +		goto out;
+> +
+> +	inode_set_flags(inode, S_VERITY, S_VERITY);
+> +
+> +	/*
+> +	 * Proactively remove unwritten extents left by COW preallocations and
+> +	 * write preallocation in the merkle tree holes and past descriptor,
+> +	 * and any delayed preallocations
+> +	 */
+> +	error = xfs_free_eofblocks(ip);
+> +out:
+> +	if (error) {
+> +		int	error2;
+> +
 
---llmpbpsieq7v5rwe
-Content-Type: application/pgp-signature; name="signature.asc"
+We just set S_VERITY on the VFS inoe, but then xfs_free_eofblocks fails.
+Should we clear S_VERITY?
 
------BEGIN PGP SIGNATURE-----
+> +		error2 = xfs_fsverity_delete_metadata(ip);
 
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmqG+DkACgkQupfNUreW
-QU9KzQwAhnJv61O/aMHJoyHWwD3V+aqe2io3c+exriyswf+YGkguC5yyn032XIx6
-Ibx+W62lH2/mPJSnsg/YyCksI/isYesqXra6cysOt8n8IVaZbkJp5izyWqjxpPKI
-AMrrhalbZPm1CuhneeQl9RPWYZi3byxOz9XrAaJW3ub+9aT7qMsqdRr2nKeBDKNb
-arfqwZhcigESQ05YkHEDbccIUTNOjk639/fLlILoYDVhpXhUl2p2Th8kZwXf3nAJ
-paRh9FhTA52dNDIA8rakiMk5GFctCcKw4dxujLjdRCjaCcyU1bkhZOhvPGhySCHL
-C6v5ixdwhitvddzp6plBXGEVHohgh9n0WjRJ+eRzZiqK7GA63wM7145k1FSk2Ejr
-ofvPKQQcY1f5O44JM7EhJjzrNUU3rMdxQUXz0iZP6YnYmCym4mZxIXzRxd4uneQT
-jvy6cExOstetUU0qCj9qwQSvTJR8ibnMFDG/d845/FSBYC/vZyotBtkzOh/Eenj9
-K+vFLC58
-=87kF
------END PGP SIGNATURE-----
+Does xfs_fsverity_delete_metadata need to clear XFS_DIFLAG2_VERITY?
 
---llmpbpsieq7v5rwe--
+> +		if (error2)
+> +			xfs_alert(ip->i_mount,
+> +"ino 0x%llx failed to clean up new fsverity metadata, err %d",
+> +					I_INO(ip), error2);
+> +	}
+> +
+> +	xfs_iflags_clear(ip, XFS_VERITY_CONSTRUCTION);
+> +	return error;
+> +}
+> +
+> +/*
+> + * Retrieve a merkle tree block.
+> + */
+> +static struct page *
+> +xfs_fsverity_read_merkle(
+> +	struct inode		*inode,
+> +	pgoff_t			index)
+> +{
+> +	index += xfs_fsverity_metadata_offset(XFS_I(inode)) >> PAGE_SHIFT;
+> +
+> +	return generic_read_merkle_tree_page(inode, index);
+> +}
+> +
+> +/*
+> + * Retrieve a merkle tree block.
+> + */
+> +static void
+> +xfs_fsverity_readahead_merkle_tree(
+> +	struct inode		*inode,
+> +	pgoff_t			index,
+> +	unsigned long		nr_pages)
+> +{
+> +	index += xfs_fsverity_metadata_offset(XFS_I(inode)) >> PAGE_SHIFT;
+> +
+> +	generic_readahead_merkle_tree(inode, index, nr_pages);
+> +}
+> +
+> +/*
+> + * Write a merkle tree block.
+> + */
+> +static int
+> +xfs_fsverity_write_merkle(
+> +	struct file		*file,
+> +	const void		*buf,
+> +	u64			pos,
+> +	unsigned int		size,
+> +	const u8		*zero_digest,
+> +	unsigned int		digest_size)
+> +{
+> +	struct inode		*inode = file_inode(file);
+> +	struct xfs_inode	*ip = XFS_I(inode);
+> +	loff_t			position = pos +
+> +		xfs_fsverity_metadata_offset(ip);
+> +
+> +	if (position + size > inode->i_sb->s_maxbytes)
+> +		return -EFBIG;
+> +
+> +	/*
+> +	 * If this is a block full of hashes of zeroed blocks, don't bother
+> +	 * storing the block. We can synthesize them later.
+> +	 *
+> +	 * However, do this only in case Merkle tree block == fs block size.
+> +	 * Iomap synthesizes these blocks based on holes in the merkle tree. We
+> +	 * won't be able to tell if something need to be synthesizes for the
+
+s/synthesizes/synthesized/
+
+Aside from those three things, the rest of the code looks good to me.
+
+--D
+
+> +	 * range in the fs block. For example, for 4k filesystem block
+> +	 *
+> +	 *	[ 1k | zero hashes | zero hashes | 1k ]
+> +	 *
+> +	 * Iomap won't know about these empty blocks.
+> +	 */
+> +	if (size == ip->i_mount->m_sb.sb_blocksize &&
+> +			/*
+> +			 * First digest is zero_digest
+> +			 */
+> +			memcmp(buf, zero_digest, digest_size) == 0 &&
+> +			/*
+> +			 * Every digest is same as previous, thus all are
+> +			 * zero_digest
+> +			 */
+> +			memcmp(buf + digest_size, buf, size - digest_size) == 0)
+> +		return 0;
+> +
+> +	return iomap_fsverity_write(file, position, size, buf,
+> +			&xfs_buffered_write_iomap_ops,
+> +			&xfs_iomap_write_ops);
+> +}
+> +
+> +const struct fsverity_operations xfs_fsverity_ops = {
+> +	.begin_enable_verity		= xfs_fsverity_begin_enable,
+> +	.end_enable_verity		= xfs_fsverity_end_enable,
+> +	.get_verity_descriptor		= xfs_fsverity_get_descriptor,
+> +	.read_merkle_tree_page		= xfs_fsverity_read_merkle,
+> +	.readahead_merkle_tree		= xfs_fsverity_readahead_merkle_tree,
+> +	.write_merkle_tree_block	= xfs_fsverity_write_merkle,
+> +};
+> diff --git a/fs/xfs/xfs_fsverity.h b/fs/xfs/xfs_fsverity.h
+> index ec77ba571106..6a981e20a75b 100644
+> --- a/fs/xfs/xfs_fsverity.h
+> +++ b/fs/xfs/xfs_fsverity.h
+> @@ -6,8 +6,10 @@
+>  #define __XFS_FSVERITY_H__
+>  
+>  #include "xfs_platform.h"
+> +#include <linux/fsverity.h>
+>  
+>  #ifdef CONFIG_FS_VERITY
+> +extern const struct fsverity_operations xfs_fsverity_ops;
+>  loff_t xfs_fsverity_metadata_offset(const struct xfs_inode *ip);
+>  bool xfs_fsverity_is_file_data(const struct xfs_inode *ip, loff_t offset);
+>  #else
+> diff --git a/fs/xfs/xfs_message.c b/fs/xfs/xfs_message.c
+> index 0243e509a468..44b13d46049c 100644
+> --- a/fs/xfs/xfs_message.c
+> +++ b/fs/xfs/xfs_message.c
+> @@ -149,6 +149,10 @@ xfs_warn_experimental(
+>  			.opstate	= XFS_OPSTATE_WARNED_LARP,
+>  			.name		= "logged extended attributes",
+>  		},
+> +		[XFS_EXPERIMENTAL_FSVERITY] = {
+> +			.opstate	= XFS_OPSTATE_WARNED_FSVERITY,
+> +			.name		= "fsverity",
+> +		},
+>  	};
+>  	ASSERT(feat >= 0 && feat < XFS_EXPERIMENTAL_MAX);
+>  	BUILD_BUG_ON(ARRAY_SIZE(features) != XFS_EXPERIMENTAL_MAX);
+> diff --git a/fs/xfs/xfs_message.h b/fs/xfs/xfs_message.h
+> index 811b885f41c3..364fcc7e42b0 100644
+> --- a/fs/xfs/xfs_message.h
+> +++ b/fs/xfs/xfs_message.h
+> @@ -93,6 +93,7 @@ void xfs_buf_alert_ratelimited(struct xfs_buf *bp, const char *rlmsg,
+>  enum xfs_experimental_feat {
+>  	XFS_EXPERIMENTAL_SHRINK,
+>  	XFS_EXPERIMENTAL_LARP,
+> +	XFS_EXPERIMENTAL_FSVERITY,
+>  
+>  	XFS_EXPERIMENTAL_MAX,
+>  };
+> diff --git a/fs/xfs/xfs_mount.h b/fs/xfs/xfs_mount.h
+> index 14fe768326a3..2ef9956ed185 100644
+> --- a/fs/xfs/xfs_mount.h
+> +++ b/fs/xfs/xfs_mount.h
+> @@ -591,6 +591,8 @@ __XFS_HAS_FEAT(nouuid, NOUUID)
+>  #define XFS_OPSTATE_RESUMING_QUOTAON	18
+>  /* (Zoned) GC is in progress */
+>  #define XFS_OPSTATE_ZONEGC_RUNNING	20
+> +/* Kernel has logged a warning about fsverity support */
+> +#define XFS_OPSTATE_WARNED_FSVERITY	21
+>  
+>  #define __XFS_IS_OPSTATE(name, NAME) \
+>  static inline bool xfs_is_ ## name (struct xfs_mount *mp) \
+> diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+> index 63c4bcbe6c2b..faebd84c5c59 100644
+> --- a/fs/xfs/xfs_super.c
+> +++ b/fs/xfs/xfs_super.c
+> @@ -30,6 +30,7 @@
+>  #include "xfs_filestream.h"
+>  #include "xfs_quota.h"
+>  #include "xfs_sysfs.h"
+> +#include "xfs_fsverity.h"
+>  #include "xfs_ondisk.h"
+>  #include "xfs_rmap_item.h"
+>  #include "xfs_refcount_item.h"
+> @@ -1736,6 +1737,9 @@ xfs_fs_fill_super(
+>  	sb->s_quota_types = QTYPE_MASK_USR | QTYPE_MASK_GRP | QTYPE_MASK_PRJ;
+>  #endif
+>  	sb->s_op = &xfs_super_operations;
+> +#ifdef CONFIG_FS_VERITY
+> +	sb->s_vop = &xfs_fsverity_ops;
+> +#endif
+>  
+>  	/*
+>  	 * Delay mount work if the debug hook is set. This is debug
+> @@ -1988,6 +1992,9 @@ xfs_fs_fill_super(
+>  	if (error)
+>  		goto out_filestream_unmount;
+>  
+> +	if (xfs_has_verity(mp))
+> +		xfs_warn_experimental(mp, XFS_EXPERIMENTAL_FSVERITY);
+> +
+>  	root = igrab(VFS_I(mp->m_rootip));
+>  	if (!root) {
+>  		error = -ENOENT;
+> -- 
+> 2.54.0
+> 
+> 
