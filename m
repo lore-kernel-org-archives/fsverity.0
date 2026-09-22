@@ -1,553 +1,168 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856D64570E4
-	for <fsverity@lists.linux.dev>; Tue, 22 Sep 2026 09:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15BD53B5F3;
+	Tue, 22 Sep 2026 11:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790069252; cv=none; b=EkXEKpIrqU/KCis7oypT4T8X4bDmuhH/YSeIIGdUHa30Bwk9N5nJ82p++3uLXRveKH+tTZd75CWOrs8uQ7oIJbo8rlA4LJR7ZnIc0etZx0Bwf9DW6cRPp0CSd9qnPiHwo/Ps1TKOPn/v5BcPYXP/Imfq1w2QMz5nbHIBFe77HOs=
+	t=1790076605; cv=none; b=jy5pCMWbceOeqdJ78gm5yzYzzJfXseJEYphFhiAiS9vdgf6atJj6JXCWgD9rr9laBtvvA5pnZhpR30yapT8+vb+DBNkGTW7EKItqCGAgTnwbQjogGh86QMbQ4vHhBXClA5hoYoOOJbjN+1r8sVnJfs8XlAtoGPWaw7fKoK5SoxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790069252; c=relaxed/simple;
-	bh=xRlpFE9yCrbEDclD4XOX7dIOGv9RBbAZvT/j0am3oH8=;
+	s=arc-20240116; t=1790076605; c=relaxed/simple;
+	bh=Fcfcg/SnohK01pfQgT7UZiMMCzRAK7qzFCiSmSN4/Io=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=iF5aA6oDsSBiMmpDQsp2oyWCOfaHqKjFT5j9TiGZboWgzLFlkAFqMCguKIG221BqAe20zudfC/SST0uouX/DsCjkkKnkJh6N40JU6dq804zLubzRlWEVkPBk+B6n6IGi1RO9rObFVYP7K6pU8HEurwzE9zz+Iyt7fUCc6gN8SpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bebm+RMa; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=tUM5/SyPryWxAjMexQwuxglG01UN9Bw7ZTkZxBX0RTwHKb5wrH3PRHdfDb87XhKsBw2cmPpV7vIynxluQB3b7XBF7AbzyvIE4UeqrqYDRigEH07ngDwFT8bFV10GvUALDrtgkpPmdKgdaHuUANpi15iaialYJDUqrtBqHBkagck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W0dEvj5z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bebm+RMa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790069247;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AhIe1Z57w2l/HJoSK8VK6KQJtUlMI8/EsSSaoJvVLck=;
-	b=bebm+RMaBvpcQizaT1/l2uhfzZRoOZ2p2SmT0hzPSPwdh6D4b8MMzl385DGZbDO2J4djUg
-	PM79jv+2mjF5Up8n5ZCqCtQJ5K6BFhCFsUHgBFsnoQI7n4OZxZRqNab+IKFaFqruwtEJg+
-	w0SxrKzbdAU1VABysNNo8QHO3azWx58=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-402-3WHXerXsP9CsGMyBWETHbg-1; Tue, 22 Sep 2026 05:27:26 -0400
-X-MC-Unique: 3WHXerXsP9CsGMyBWETHbg-1
-X-Mimecast-MFC-AGG-ID: 3WHXerXsP9CsGMyBWETHbg_1790069245
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-48589603501so2063938f8f.3
-        for <fsverity@lists.linux.dev>; Tue, 22 Sep 2026 02:27:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790069245; x=1790674045;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AhIe1Z57w2l/HJoSK8VK6KQJtUlMI8/EsSSaoJvVLck=;
-        b=Q/ZelmfiDtc11SG8ilL9YvXwkuu1K3gfuaq/HxS5rdojLXZWvtP6n8eTxD0Zx67Jah
-         BxH38b7tEbnClNdK0hYawuqeowxKO/lmqG0zSrci7FdlTyMz/m47TcxrbmXUcOr/5+8K
-         XNru17Gxi400LuegwYUfFOsr33lmkVBQO4rPPDv4euiEG04mbYYJMCKbfGjF4nV7V+WC
-         e5K4AUaeNE2sGBjHDp+6Og/NVzWHjz1Tm8AGOMNCokhy7YLbK15jZJCVjen+dKTcoiZu
-         XGcxKMW6Ral1LdEtULfE37cZ8RkHmSR239gUr30tr97XMWYTJbIKLGyHPHS7MtSOMVlG
-         2LLA==
-X-Forwarded-Encrypted: i=1; AKwUvByAGPnDwTMZ6jrhWkrvBNAT9u2iZmJHqWk4lyZuqxIWT2Tak7Qr79OStS7j15j9bKqhEQ5GU5lZCg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kF0iRojUlPu1RgmHo4n2ls+R56hdRUhS8PdA5kILamu2rd25gX
-	rXtS74SqyCBaDmjHJ6v88Lu+dw6/U9bb22E3s2Boc1zkINsHFM+ICpuqA7soB3MCI5w6OEziy35
-	f3vAErqkqy+Uoku2iabcZLiEKajjK1ENCZe+rYQT9WAjT77XWKCMzrrhq11+CREihAnc=
-X-Gm-Gg: AYBFou3R2Yk3NN/PBZ6CtIw91bospoZRSsrPelE8ZxqkP/9S2MnSTke2pBPYtgfutl1
-	H8cwEW19s3w3NQKytVoHnWRkQbgY/ZDL/n6jP6I4UClrNX7bfUMOMk08CrqJXgkzfxcVWcMLbmR
-	lf+M/FKoHZtanyInmojdVqS6yGedAg5LZ9G0779MkShwRY1AOvreD4qWRsxLmoFcjg/jvue4Jyf
-	xMPATrvd5Ry37brLsDGtJvNmyHDKa4lKYlg91cg8SY//Ds15N67sQhze3hRQ4ZCP61/F7+jJ9D5
-	a3v6Lqp7n0o5jYnBSYTuz57jdqRu1x1wnkFAIpkXe3WARRdNP1H/UxN8gEbTPCW18VDvh7k8JZR
-	sTEgKgsUak/fPnFCEAIp/NLDPqYZJejMoYA==
-X-Received: by 2002:a05:600c:3b8a:b0:49d:1d6a:4cfb with SMTP id 5b1f17b1804b1-49fc56db759mr251806795e9.1.1790069245111;
-        Tue, 22 Sep 2026 02:27:25 -0700 (PDT)
-X-Received: by 2002:a05:600c:3b8a:b0:49d:1d6a:4cfb with SMTP id 5b1f17b1804b1-49fc56db759mr251806285e9.1.1790069244518;
-        Tue, 22 Sep 2026 02:27:24 -0700 (PDT)
-Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fda8f04f7sm59590685e9.0.2026.09.22.02.27.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 02:27:24 -0700 (PDT)
-Date: Tue, 22 Sep 2026 11:27:23 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, ebiggers@kernel.org, 
-	hch@lst.de, Carlos Maiolino <cem@kernel.org>, fsverity@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-btrfs@vger.kernel.org, david@fromorbit.com
-Subject: Re: [PATCH v16 15/21] xfs: add fs-verity support
-Message-ID: <arJHLT1tuHCxZqkR@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W0dEvj5z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F43B1F000FF;
+	Tue, 22 Sep 2026 11:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790076597;
+	bh=nV8p6Om8qinv6yCBXUuo5B2uIDMSV459k6GB4PG3ZlI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=W0dEvj5zWbynOI1xN6zKaAWjWZtxGOprab+zcQIcvZTXmYxhx+2RqMPc1aU4QZttH
+	 2Lp/6eIl2zv0Rkkad56JU0uFNc+uHztMw/x5ZfZxowYZWEw4kRJSvw8P/qPQoyxL5C
+	 UTA5+iAh3uJMkWBtQtoGBf8I8SGI3pdjY4ByxIkJLukL9e6r5RWIkKiyEB2CiVe1LW
+	 XrR+xVhQVeezmzuRaN9DcXdomNZZUVVzWLOP+fWiZamXflNSka1h1QzcCOqxZnGtQU
+	 +oJijmz3DdwhmB4njIISMv+3QdNdnGRdwwZHpH6aDbkzTZl4JcBfIu8Bc7Hx0RgtkP
+	 F/uhJyHeh1mfQ==
+Date: Tue, 22 Sep 2026 13:29:52 +0200
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: Andrey Albershteyn <aalbersh@redhat.com>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, ebiggers@kernel.org, hch@lst.de, 
+	Carlos Maiolino <cem@kernel.org>, fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org, david@fromorbit.com
+Subject: Re: [PATCH v16 14/21] xfs: don't remove written extents past EOF on
+ fsverity inodes
+Message-ID: <arJl4xbG3vUrX9DK@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 References: <20260918111539.1003439-1-aalbersh@kernel.org>
- <20260918111539.1003439-16-aalbersh@kernel.org>
- <20260922044559.GO2705364@frogsfrogsfrogs>
+ <20260918111539.1003439-15-aalbersh@kernel.org>
+ <20260922043750.GN2705364@frogsfrogsfrogs>
+ <arI9MpRVBZ0UEofK@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260922044559.GO2705364@frogsfrogsfrogs>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: H9avaxtwRx6QHv2xgolFYMBoYAbeBHHMouFjB8t2AcE_1790069245
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <arI9MpRVBZ0UEofK@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
 
-On 2026-09-21 21:45:59, Darrick J. Wong wrote:
-> On Fri, Sep 18, 2026 at 01:15:27PM +0200, Andrey Albershteyn wrote:
-> > Add integration with fs-verity. XFS stores fs-verity descriptor and
-> > Merkle tree in the inode data fork at first block aligned to 64k past
-> > EOF.
+On 2026-09-22 10:33:22, Andrey Albershteyn wrote:
+> On 2026-09-21 21:37:50, Darrick J. Wong wrote:
+> > On Fri, Sep 18, 2026 at 01:15:26PM +0200, Andrey Albershteyn wrote:
+> > > xfs_free_eofblocks() removes all extents past EOF unless the
+> > > XFS_DIFLAG_PREALLOC or XFS_DIFLAG_APPEND flags are set. This is
+> > > undesired for fsverity as it stores metadata beyond EOF. However, while
+> > > merkle tree is being built, delayed preallocation and unwritten extents
+> > > are used. After metadata construction is done, fsverity inodes becomes
+> > > read-only and won't be changed anymore, none of these unwritten extents
+> > > or preallocations in post EOF region will be used.
+> > > 
+> > > Let xfs_free_eofblocks() be called on fsverity inode as usual to remove
+> > > anything which is not written extent. However, inodes which are
+> > > undergoing merkle tree construction need to be skipped in case reclaim
+> > > takes place.
+> > > 
+> > > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> > > ---
+> > >  fs/xfs/xfs_bmap_util.c | 25 ++++++++++++++++++++++---
+> > >  1 file changed, 22 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
+> > > index 268d159339d0..7fd951992557 100644
+> > > --- a/fs/xfs/xfs_bmap_util.c
+> > > +++ b/fs/xfs/xfs_bmap_util.c
+> > > @@ -31,6 +31,7 @@
+> > >  #include "xfs_rtbitmap.h"
+> > >  #include "xfs_rtgroup.h"
+> > >  #include "xfs_zone_alloc.h"
+> > > +#include <linux/fsverity.h>
+> > >  
+> > >  /* Kernel only BMAP related definitions and functions */
+> > >  
+> > > @@ -553,6 +554,13 @@ xfs_can_free_eofblocks(
+> > >  	if (last_fsb <= end_fsb)
+> > >  		return false;
+> > >  
+> > > +	/*
+> > > +	 * Don't clean fsverity inodes which have merkle tree being built, the
+> > > +	 * merkle tree is written beyond EOF
+> > > +	 */
+> > > +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
+> > > +		return false;
+> > > +
+> > >  	/*
+> > >  	 * Check if there is an post-EOF extent to free.  If there are any
+> > >  	 * delalloc blocks attached to the inode (data fork delalloc
+> > > @@ -579,6 +587,9 @@ xfs_free_eofblocks(
+> > >  	struct xfs_trans	*tp;
+> > >  	struct xfs_mount	*mp = ip->i_mount;
+> > >  	int			error;
+> > > +	int			bmapi_flags = XFS_BMAPI_NODISCARD;
+> > > +	bool			has_verity =
+> > > +			ip->i_diflags2 & XFS_DIFLAG2_VERITY;
+> > >  
+> > >  	/* Attach the dquots to the inode up front. */
+> > >  	error = xfs_qm_dqattach(ip);
+> > > @@ -593,15 +604,20 @@ xfs_free_eofblocks(
+> > >  	 *
+> > >  	 * Note that this means we also leave speculative preallocations in
+> > >  	 * place for preallocated files.
+> > > +	 *
+> > > +	 * Clean up delalloc reservations for fsverity too as those won't be
+> > > +	 * used
+> > >  	 */
+> > > -	if (ip->i_diflags & (XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND)) {
+> > > +	if (ip->i_diflags & (XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND) ||
+> > > +			has_verity) {
+> > >  		if (ip->i_delayed_blks) {
+> > >  			xfs_bmap_punch_delalloc_range(ip, XFS_DATA_FORK,
+> > >  				round_up(XFS_ISIZE(ip), mp->m_sb.sb_blocksize),
+> > >  				LLONG_MAX, NULL);
+> > >  		}
+> > >  		xfs_inode_clear_eofblocks_tag(ip);
+> > > -		return 0;
+> > > +		if (!has_verity)
+> > > +			return 0;
+> > >  	}
+> > >  
+> > >  	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_itruncate, 0, 0, 0, &tp);
+> > > @@ -613,6 +629,9 @@ xfs_free_eofblocks(
+> > >  	xfs_ilock(ip, XFS_ILOCK_EXCL);
+> > >  	xfs_trans_ijoin(tp, ip, 0);
+> > >  
+> > > +	if (has_verity)
+> > > +		bmapi_flags |= XFS_BMAPI_UNWRITTEN;
 > > 
-> > The Merkle tree reading/writing is done through iomap interface. The
-> > data itself is read to the inode's page cache. When XFS reads from this
-> > region iomap doesn't call into fsverity to verify it against Merkle
-> > tree. For data, verification is done at ioend completion in a workqueue.
+> > This ought to have a comment explaining where post-eof unwritten extents
+> > might come from:
 > > 
-> > When fs-verity is enabled on an inode, the XFS_IVERITY_CONSTRUCTION
-> > flag is set meaning that the Merkle tree is being build. The
-> > initialization ends with storing of verity descriptor and setting
-> > inode on-disk flag (XFS_DIFLAG2_VERITY). Lastly, the
-> > XFS_IVERITY_CONSTRUCTION is dropped and I_VERITY is set on inode.
+> > 	/*
+> > 	 * If fs-verity fails to write the full metadata, it can leave
+> > 	 * unwritten preallocations after EOF.  Clear all that out.
+> > 	 */
+> > 	if (has_verity)
+> > 		bmapi_flags |= XFS_BMAPI_UNWRITTEN;
 > > 
-> > The descriptor is stored in a new block aligned to 64k after the last
-> > Merkle tree block. The size of the descriptor is stored at the end of
-> > the last descriptor block (descriptor can be multiple blocks).
 > > 
-> > Pro-actively remove any unwritten extents as we use last extent to
-> > locate descriptor.
-> > 
-> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
-> > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > ---
-> >  fs/xfs/xfs_fsverity.c | 363 +++++++++++++++++++++++++++++++++++++++++-
-> >  fs/xfs/xfs_fsverity.h |   2 +
-> >  fs/xfs/xfs_message.c  |   4 +
-> >  fs/xfs/xfs_message.h  |   1 +
-> >  fs/xfs/xfs_mount.h    |   2 +
-> >  fs/xfs/xfs_super.c    |   7 +
-> >  6 files changed, 378 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
-> > index 525855fdd30d..e62c9a5d0e1d 100644
-> > --- a/fs/xfs/xfs_fsverity.c
-> > +++ b/fs/xfs/xfs_fsverity.c
-> > @@ -6,13 +6,22 @@
-> >  #include "xfs_fs.h"
-> >  #include "xfs_shared.h"
-> >  #include "xfs_format.h"
-> > -#include "xfs_log_format.h"
-> >  #include "xfs_trans_resv.h"
-> >  #include "xfs_mount.h"
-> >  #include "xfs_inode.h"
-> > +#include "xfs_log_format.h"
-> > +#include "xfs_trans.h"
-> > +#include "xfs_trace.h"
-> > +#include "xfs_quota.h"
-> >  #include "xfs_fsverity.h"
-> > +#include "xfs_iomap.h"
-> > +#include "xfs_error.h"
-> > +#include "xfs_health.h"
-> > +#include "xfs_bmap_util.h"
-> > +#include "xfs_icache.h"
-> >  #include <linux/fsverity.h>
-> >  #include <linux/iomap.h>
-> > +#include <linux/pagemap.h>
-> >  
-> >  struct kmem_cache *xfs_fsverity_ioend_cache;
-> >  
-> > @@ -31,3 +40,355 @@ xfs_fsverity_is_file_data(
-> >  	return fsverity_active(VFS_IC(ip)) &&
-> >  			offset < xfs_fsverity_metadata_offset(ip);
-> >  }
-> > +
-> > +/*
-> > + * Retrieve the verity descriptor.
-> > + */
-> > +static int
-> > +xfs_fsverity_get_descriptor(
-> > +	struct inode		*inode,
-> > +	void			*buf,
-> > +	size_t			buf_size)
-> > +{
-> > +	struct xfs_inode	*ip = XFS_I(inode);
-> > +	struct xfs_mount	*mp = ip->i_mount;
-> > +	__be32			d_desc_size;
-> > +	u32			desc_size;
-> > +	u64			desc_size_pos;
-> > +	int			error;
-> > +	u64			desc_pos;
-> > +	struct xfs_bmbt_irec	rec;
-> > +	int			is_empty;
-> > +	uint32_t		blocksize = i_blocksize(VFS_I(ip));
-> > +	xfs_fileoff_t		last_block_offset;
-> > +
-> > +	ASSERT(inode->i_flags & S_VERITY);
-> > +	xfs_ilock(ip, XFS_ILOCK_SHARED);
-> > +	error = xfs_bmap_last_extent(NULL, ip, XFS_DATA_FORK, &rec, &is_empty);
-> > +	xfs_iunlock(ip, XFS_ILOCK_SHARED);
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	if (is_empty)
-> > +		return -ENODATA;
-> > +
-> > +	last_block_offset =
-> > +		XFS_FSB_TO_B(mp, rec.br_startoff + rec.br_blockcount);
-> > +	if (last_block_offset <= xfs_fsverity_metadata_offset(ip))
-> > +		return -ENODATA;
-> > +
-> > +	desc_size_pos = last_block_offset - sizeof(__be32);
-> > +	error = fsverity_pagecache_read(inode, (char *)&d_desc_size,
-> > +			sizeof(d_desc_size), desc_size_pos);
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	desc_size = be32_to_cpu(d_desc_size);
-> > +	if (XFS_IS_CORRUPT(mp, desc_size > FS_VERITY_MAX_DESCRIPTOR_SIZE))
-> > +		return -ERANGE;
-> > +	if (XFS_IS_CORRUPT(mp, desc_size > desc_size_pos))
-> > +		return -ERANGE;
-> > +
-> > +	if (!buf_size)
-> > +		return desc_size;
-> > +
-> > +	if (XFS_IS_CORRUPT(mp, desc_size > buf_size))
-> > +		return -ERANGE;
-> > +
-> > +	desc_pos = round_down(desc_size_pos - desc_size, blocksize);
-> > +	if (desc_pos < xfs_fsverity_metadata_offset(ip))
-> > +		return -ERANGE;
-> > +
-> > +	error = fsverity_pagecache_read(inode, buf, desc_size, desc_pos);
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	return desc_size;
-> > +}
-> > +
-> > +static int
-> > +xfs_fsverity_write_descriptor(
-> > +	struct file		*file,
-> > +	const void		*desc,
-> > +	u32			desc_size,
-> > +	u64			merkle_tree_size)
-> > +{
-> > +	int			error;
-> > +	struct inode		*inode = file_inode(file);
-> > +	struct xfs_inode	*ip = XFS_I(inode);
-> > +	unsigned int		blksize = ip->i_mount->m_sb.sb_blocksize;
-> > +	u64			tree_last_block =
-> > +			xfs_fsverity_metadata_offset(ip) + merkle_tree_size;
-> > +	u64			desc_pos =
-> > +			round_up(tree_last_block, XFS_FSVERITY_START_ALIGN);
-> > +	u64			desc_end = desc_pos + desc_size;
-> > +	__be32			desc_size_disk = cpu_to_be32(desc_size);
-> > +	u64			desc_size_pos =
-> > +			round_up(desc_end + sizeof(desc_size_disk), blksize) -
-> > +			sizeof(desc_size_disk);
-> > +
-> > +	error = iomap_fsverity_write(file, desc_size_pos, sizeof(__be32),
-> > +			(const void *)&desc_size_disk,
-> > +			&xfs_buffered_write_iomap_ops,
-> > +			&xfs_iomap_write_ops);
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	return iomap_fsverity_write(file, desc_pos, desc_size, desc,
-> > +			&xfs_buffered_write_iomap_ops,
-> > +			&xfs_iomap_write_ops);
-> > +}
-> > +
-> > +/*
-> > + * Try to remove all the fsverity metadata after a failed enablement.
-> > + */
-> > +static int
-> > +xfs_fsverity_delete_metadata(
-> > +	struct xfs_inode	*ip)
-> > +{
-> > +	struct xfs_trans	*tp;
-> > +	struct xfs_mount	*mp = ip->i_mount;
-> > +	int			error;
-> > +
-> > +	xfs_ilock(ip, XFS_MMAPLOCK_EXCL);
-> > +	error = xfs_trans_alloc(mp, &M_RES(mp)->tr_itruncate, 0, 0, 0, &tp);
-> > +	if (error) {
-> > +		xfs_iunlock(ip, XFS_MMAPLOCK_EXCL);
-> > +		return error;
-> > +	}
-> > +
-> > +	xfs_ilock(ip, XFS_ILOCK_EXCL);
-> > +	xfs_trans_ijoin(tp, ip, 0);
-> > +
-> > +	truncate_inode_pages(VFS_I(ip)->i_mapping, XFS_ISIZE(ip));
-> > +
-> > +	/*
-> > +	 * We remove post EOF data, no need to update i_size as fsverity
-> > +	 * didn't move i_size in the first place
-> > +	 */
-> > +	error = xfs_itruncate_extents(&tp, ip, XFS_DATA_FORK, XFS_ISIZE(ip));
-> > +	if (error)
-> > +		goto err_cancel;
-> > +
-> > +	error = xfs_trans_commit(tp);
-> > +	xfs_iunlock(ip, XFS_MMAPLOCK_EXCL | XFS_ILOCK_EXCL);
-> > +	return error;
-> > +err_cancel:
-> > +	xfs_trans_cancel(tp);
-> > +	xfs_iunlock(ip, XFS_MMAPLOCK_EXCL | XFS_ILOCK_EXCL);
-> > +	return error;
-> > +}
-> > +
-> > +
-> > +/*
-> > + * Prepare to enable fsverity by clearing old metadata.
-> > + */
-> > +static int
-> > +xfs_fsverity_begin_enable(
-> > +	struct file		*filp)
-> > +{
-> > +	struct inode		*inode = file_inode(filp);
-> > +	struct xfs_inode	*ip = XFS_I(inode);
-> > +	int			error;
-> > +
-> > +	xfs_assert_ilocked(ip, XFS_IOLOCK_EXCL);
-> > +
-> > +	if (IS_DAX(inode) || ip->i_diflags2 & XFS_DIFLAG2_DAX)
-> > +		return -EINVAL;
-> > +
-> > +	if (inode->i_size > XFS_FSVERITY_LARGEST_FILE)
-> > +		return -EFBIG;
-> > +
-> > +	/*
-> > +	 * Flush pagecache before building Merkle tree. Inode is locked and no
-> > +	 * further writes will happen to the file except fsverity metadata
-> > +	 */
-> > +	error = filemap_write_and_wait(inode->i_mapping);
-> > +	if (error)
-> > +		return error;
-> > +
-> > +	if (xfs_iflags_test_and_set(ip, XFS_VERITY_CONSTRUCTION))
-> > +		return -EBUSY;
-> > +
-> > +	error = xfs_qm_dqattach(ip);
-> > +	if (error)
-> > +		goto out_clear;
-> > +
-> > +	error = xfs_fsverity_delete_metadata(ip);
-> > +	if (error)
-> > +		goto out_clear;
-> > +	return error;
-> > +out_clear:
-> > +	xfs_iflags_clear(ip, XFS_VERITY_CONSTRUCTION);
-> > +	return error;
-> > +}
-> > +
-> > +/*
-> > + * Complete (or fail) the process of enabling fsverity.
-> > + */
-> > +static int
-> > +xfs_fsverity_end_enable(
-> > +	struct file		*file,
-> > +	const void		*desc,
-> > +	size_t			desc_size,
-> > +	u64			merkle_tree_size)
-> > +{
-> > +	struct inode		*inode = file_inode(file);
-> > +	struct xfs_inode	*ip = XFS_I(inode);
-> > +	struct xfs_mount	*mp = ip->i_mount;
-> > +	struct xfs_trans	*tp;
-> > +	int			error = 0;
-> > +	loff_t			range_start = xfs_fsverity_metadata_offset(ip);
-> > +
-> > +	xfs_assert_ilocked(ip, XFS_IOLOCK_EXCL);
-> > +
-> > +	/* fs-verity failed, just cleanup */
-> > +	if (desc == NULL) {
-> > +		error = xfs_fsverity_delete_metadata(ip);
-> > +		goto out;
-> > +	}
-> > +
-> > +	error = xfs_fsverity_write_descriptor(file, desc, desc_size,
-> > +			merkle_tree_size);
-> > +	if (error)
-> > +		goto out;
-> > +
-> > +	/*
-> > +	 * Wait for Merkle tree get written to disk before setting on-disk inode
-> > +	 * flag and clearing XFS_VERITY_CONSTRUCTION
-> > +	 */
-> > +	error = filemap_write_and_wait_range(inode->i_mapping, range_start,
-> > +			LLONG_MAX);
-> > +	if (error)
-> > +		goto out;
-> > +
-> > +	/*
-> > +	 * Set fsverity inode flag
-> > +	 */
-> > +	error = xfs_trans_alloc_inode(ip, &M_RES(mp)->tr_ichange,
-> > +			0, 0, false, &tp);
-> > +	if (error)
-> > +		goto out;
-> > +
-> > +	/*
-> > +	 * Ensure that we've persisted the verity information before we enable
-> > +	 * it on the inode and tell the caller we have sealed the inode.
-> > +	 */
-> > +	ip->i_diflags2 |= XFS_DIFLAG2_VERITY;
-> > +
-> > +	xfs_trans_log_inode(tp, ip, XFS_ILOG_CORE);
-> > +	xfs_trans_set_sync(tp);
-> > +
-> > +	error = xfs_trans_commit(tp);
-> > +	xfs_iunlock(ip, XFS_ILOCK_EXCL);
-> > +	if (error)
-> > +		goto out;
-> > +
-> > +	inode_set_flags(inode, S_VERITY, S_VERITY);
-> > +
-> > +	/*
-> > +	 * Proactively remove unwritten extents left by COW preallocations and
-> > +	 * write preallocation in the merkle tree holes and past descriptor,
-> > +	 * and any delayed preallocations
-> > +	 */
-> > +	error = xfs_free_eofblocks(ip);
-> > +out:
-> > +	if (error) {
-> > +		int	error2;
-> > +
-> > +		error2 = xfs_fsverity_delete_metadata(ip);
-> > +		if (error2)
-> > +			xfs_alert(ip->i_mount,
-> > +"ino 0x%llx failed to clean up new fsverity metadata, err %d",
-> > +					I_INO(ip), error2);
+> > With that documented,
+> > Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 > 
-> We just set S_VERITY on the VFS inoe, but then xfs_free_eofblocks fails.
-> Should we clear S_VERITY?
-> 
-> Does xfs_fsverity_delete_metadata need to clear XFS_DIFLAG2_VERITY?
+> Sure, I will add the comment
+> Thanks!
 
-Yes, that's right. I will look if it's fine to move all the clean up
-logic to xfs_fsverity_delete_metadata().
+I will re-pharese the comment to:
 
-> 
-> > +	}
-> > +
-> > +	xfs_iflags_clear(ip, XFS_VERITY_CONSTRUCTION);
-> > +	return error;
-> > +}
-> > +
-> > +/*
-> > + * Retrieve a merkle tree block.
-> > + */
-> > +static struct page *
-> > +xfs_fsverity_read_merkle(
-> > +	struct inode		*inode,
-> > +	pgoff_t			index)
-> > +{
-> > +	index += xfs_fsverity_metadata_offset(XFS_I(inode)) >> PAGE_SHIFT;
-> > +
-> > +	return generic_read_merkle_tree_page(inode, index);
-> > +}
-> > +
-> > +/*
-> > + * Retrieve a merkle tree block.
-> > + */
-> > +static void
-> > +xfs_fsverity_readahead_merkle_tree(
-> > +	struct inode		*inode,
-> > +	pgoff_t			index,
-> > +	unsigned long		nr_pages)
-> > +{
-> > +	index += xfs_fsverity_metadata_offset(XFS_I(inode)) >> PAGE_SHIFT;
-> > +
-> > +	generic_readahead_merkle_tree(inode, index, nr_pages);
-> > +}
-> > +
-> > +/*
-> > + * Write a merkle tree block.
-> > + */
-> > +static int
-> > +xfs_fsverity_write_merkle(
-> > +	struct file		*file,
-> > +	const void		*buf,
-> > +	u64			pos,
-> > +	unsigned int		size,
-> > +	const u8		*zero_digest,
-> > +	unsigned int		digest_size)
-> > +{
-> > +	struct inode		*inode = file_inode(file);
-> > +	struct xfs_inode	*ip = XFS_I(inode);
-> > +	loff_t			position = pos +
-> > +		xfs_fsverity_metadata_offset(ip);
-> > +
-> > +	if (position + size > inode->i_sb->s_maxbytes)
-> > +		return -EFBIG;
-> > +
-> > +	/*
-> > +	 * If this is a block full of hashes of zeroed blocks, don't bother
-> > +	 * storing the block. We can synthesize them later.
-> > +	 *
-> > +	 * However, do this only in case Merkle tree block == fs block size.
-> > +	 * Iomap synthesizes these blocks based on holes in the merkle tree. We
-> > +	 * won't be able to tell if something need to be synthesizes for the
-> > +	 * range in the fs block. For example, for 4k filesystem block
-> > +	 *
-> > +	 *	[ 1k | zero hashes | zero hashes | 1k ]
-> > +	 *
-> > +	 * Iomap won't know about these empty blocks.
-> > +	 */
-> > +	if (size == ip->i_mount->m_sb.sb_blocksize &&
-> > +			/*
-> > +			 * First digest is zero_digest
-> > +			 */
-> > +			memcmp(buf, zero_digest, digest_size) == 0 &&
-> > +			/*
-> > +			 * Every digest is same as previous, thus all are
-> > +			 * zero_digest
-> > +			 */
-> > +			memcmp(buf + digest_size, buf, size - digest_size) == 0)
-> 
-> Weird indentation in this very long if test.  Please just put that in a
-> separate helper:
-> 
-> static inline bool
-> xfs_fsverity_is_hashes_of_zeroed_blocks(...)
-> {
-> 	/*
-> 	 * If this is a block full of hashes of zeroed blocks, don't bother
-> 	 * storing the block. We can synthesize them later.
-> 	 *
-> 	 * However, do this only in case Merkle tree block == fs block size.
-> 	 * Iomap synthesizes these blocks based on holes in the merkle tree. We
-> 	 * won't be able to tell if something need to be synthesizes for the
-> 	 * range in the fs block. For example, for 4k filesystem block
-> 	 *
-> 	 *	[ 1k | zero hashes | zero hashes | 1k ]
-> 	 *
-> 	 * Iomap won't know about these empty blocks.
-> 	 */
-> 	if (size != ip->i_mount->m_sb.sb_blocksize)
-> 		return false;
-> 	/*
-> 	 * First digest is zero_digest
-> 	 */
-> 	if (memcmp(buf, zero_digest, digest_size))
-> 		return false;
-> 	/*
-> 	 * Every digest is same as previous, thus all are
-> 	 * zero_digest
-> 	 */
-> 	return memcmp(buf + digest_size, buf, size - digest_size) == 0;
-> }
+	/*
+	 * While fs-verity writes metadata after EOF, it can leave unwritten
+	 * preallocations.  Clear all that out.
+	 */
 
-sure
-
-> 
-> (Don't you need to compare all the hash slots in the buffer??)
-
-Oh that's neat optimization suggested by Eric, you can check that
-first hash is correct (first memcmp) and then compare second to the
-first, third to the second etc. to check that they're all the same
-(second memcmp).
+The preallocation are left even in good case, in the merkle tree
+holes and after fsverity descriptor.
 
 -- 
 - Andrey
-
