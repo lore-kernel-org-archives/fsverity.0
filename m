@@ -1,135 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3EB391845;
-	Fri, 25 Sep 2026 08:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DAF46D2CF
+	for <fsverity@lists.linux.dev>; Fri, 25 Sep 2026 11:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790325579; cv=none; b=DBVHOse5cgvr6cZplt4+FqkK0ZEZvb/KWUS4u6TOQzJE1HODl/lfqX01dtLr4souLjiP2+iQYUFYwmhGpjTv6EbfmcNDK3rhBBIKCd5cJtNlDmWWJYZTZU6r+TJb6eNxgtA62Ic9DuyuLm0oEVvzwDmrYy+N5mlcro4s37TGVY0=
+	t=1790337522; cv=none; b=DyMsokcS8Jb7+eElJxkcVQ7f5C5J8tCbDnDEOmsNgyaoIGC+lLzRYHUNrVXAj8KGmOA6ySgGaV8hPWcKut4RPHLtu5pRBNJR4A7E5GsCDXMEHlsHnFVlWxJBMZY60rhco5ysQY8XZhPDhjYAsA4UQlOYsVRqWV5T09bDJoezfn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790325579; c=relaxed/simple;
-	bh=2bV/6e/zD+/zSR/D0Yr5ooqOrIdjNNV3DzaBWajLvUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NGuRFOoxRBQ2D/S22wfmI6mSSRohNS6YuVVcTjVlb2m+T+oSOhRrIcRQyihgY0Nf9jIPsNx2Yp/IgnAl8IOAw4HAlkOk1lLeZbd4CDfzCL/sPHEGxE9n0PKa/g4slc6WHIn98GjkTbdTOd+NjJZqrkCDb/aEZctXp7lpKT5Uy7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nQCyeCGv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790337522; c=relaxed/simple;
+	bh=FxKBpOBjA/JkIs/Fl2MnIY0gyzz7K9xSHeNXcVVjUAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LjvMWQG4W05tpqvhxy+Ce/IOWwKrUmRnu/vB7NqECWN/bZttga+Td8eczMaXmWS0SBZSjVHX3WsDjZNNUeNpr4NU+1BU0jK71iATOi66nWYlnT51Hse5ewCSFbfGri6S8DCZp75BRAAwbrbmGctKoJp4iR0cRuKhY1vucC5SIRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GHogh/N9; arc=none smtp.client-ip=74.125.229.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nQCyeCGv"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id AAC261F000FF;
-	Fri, 25 Sep 2026 08:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790325578;
-	bh=I21Y0zUxOqibpDhaQPCMpK8pLAjRT5+UlLhgvlp695U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nQCyeCGvMCdv+YYwH0LCsQ5KneRjMND2h9b5QnylcqFyvRS2neveSn9WQRDyDQQCM
-	 Xldvqml5GKwOFcMg3I8smcHRBSmwaLJfO38RSFTmxxKco8mKA8EbEzhEzsVHUjxOJ0
-	 Z9R3gsqAhlPO+KH2ODgcwXibY98xP2zZX4kgoNuicqW4xRDk/VSIm6d6XTr/81Ecy9
-	 0/nRCMsEd4aDpINKgR8VutD+Hp04JK6bpJgTUOkq2xWRbMWTet573H/F/8htfwGvtz
-	 HjBIUByVIXg7h23nQktDinStpwnTL2dJ22uUEwmYP15q1H8KHoQcvT0+yzQTif36XN
-	 4A1cnE6eQjiSA==
-Date: Fri, 25 Sep 2026 11:39:28 +0300
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andrew Halaney <andrew@amutable.com>
-Cc: David Howells <dhowells@redhat.com>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-doc@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
-Message-ID: <arYzQN1ViuiCBemo@kernel.org>
-References: <aqyiCavj3xeNqyAo@kernel.org>
- <20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com>
- <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
- <715249.1789718726@warthog.procyon.org.uk>
- <aq2VxlttdlTNlHo6@toolbx>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GHogh/N9"
+Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-34215285aa1so105956eec.1
+        for <fsverity@lists.linux.dev>; Fri, 25 Sep 2026 04:58:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790337518; x=1790942318; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lHC73SowwbefD+dnD0Tzun2jA32dwQM9QRKwhvKfql4=;
+        b=GHogh/N9rHbJZb3ZDAPgypgeaZtT67F33m3NOZPGXU/kGEo7szNMv/lVASMPKVVWmL
+         pwYQIcKzDF/ul/0aEcd8NkaYT6zFFYYdQIYY08+F8W6BycTX3Sg5vqQYigJzx2g6Twhn
+         QBpCA/qfCE0coxjcYdz2gnFtyE/iuhgvTWzNuczyHDGOy/6LtMFgPVG9ltytiYgvwFto
+         Q/lHHzoi5a0m1JUf6eoCuvP8rh1Pu/5DptBYK7p7KpPR4lK+qjAZAg33xkGoTCreUCLs
+         hbGEzYX/Y4C30555pk50ksXK6nICQ8fVjuxUtcuJMB0O3fKKoXRtMRO9ySlIu09tThbY
+         CHuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790337518; x=1790942318;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lHC73SowwbefD+dnD0Tzun2jA32dwQM9QRKwhvKfql4=;
+        b=coQBJDskEezISDsI/GTVfa0tLf7mUktD+25brY2rxVNx9EOxYVpOhQv3ppRZrk+qvJ
+         xdz9ePqoIqy/07CBdqcoNniMVNRsyI4IFW3Rg1dZkzqQeyqG2htPJQL4cS962ywJ2J+P
+         c6Q2d0cShifWXUFuYeqeqv40Rlq7CYU3VIX+tQX7phDo4OZuuQt0VoHfxYyIsHw7JX5E
+         hUr4kTOz8ErDrmjxijV49AS+GWZvLdqIbcjRkbcDZcA6xmJMv3dH6p7s+J+Ggz+3iVHd
+         xEDIn40HlaZo8gK5jU9AtPfQZz7oCOpx+QMQXEcdUj6KMQJ/k2kLiRjfN53zWkqJA4xO
+         gmKQ==
+X-Forwarded-Encrypted: i=1; AKwUvBww04UcIIo/F6TzpiA4CFR2AsmAYzMF5Q1+qBLZU7aLPEJ1IbnVv6/Mg/UZb132zOSCuvczDkArrg==@lists.linux.dev
+X-Gm-Message-State: AFuF++nL7yA0Uwzyap95AG9j7wvM/e6jRKeODZtwru2BHLhLjuTkNRdp
+	X13yPTJfuM/p0TfEB2tnDviwvyvSmJSwZCL+T1f/hr39uyxPJLLLLbVv
+X-Gm-Gg: AYBFou3wZCLcLPra4iddoAtlFd3ONiDL2DUJKac2PRnbsyYVkW/e2qeBx0GZh2+5j/t
+	jJnEecBHVokoo2FXULTfU85g3qf40arqJcnLWFGS8nlvSf9rTnWE1muWShci8Qdm9hWjR/Nm1ft
+	vIoYQ1nZJLTw+kawQOUg2xxrehDEnMgp/zsm6AnHvkiobB77dQ3Wo52J/H8k+Ja7ME6/QUEwIa3
+	EDO0zCy5eFz+vCiB+dxUyJ0MN5t7UQy51KIrOHWVaFn2wcEZUYLNIdX8iJsFp4We37jNH3gXwPI
+	FeCyjj3bLsBJBR3UrinE/bdXudTG4Xb43LTjGvzxIL0dz02BFYYLDrztjpEeq01xZ4BQhjZv0+w
+	4/hh8Pvj4uKWoJckrN8wX4Hnfv2iHvEOwU9nYsLXuwbULZ6V10CKDDDBzb0gT5uI+Zn1vsjG85E
+	/TKUibUqRmPwJO9AJjaehHsmUap53VsqM2TFEJJIx35D+ncTeEMBqFSSDXT0xu35Zrij3HBxfNi
+	ygBl3B/8c+YTuqR8wyPjLo7NNA4HY2pRPNKnucCitXeDWIhrRg/f2ew6j57I7RxpxZVOVl1phXR
+	qEjQtPx1jeulnGVqjAscICwMTOHKwuWsq0g8DfjJ1rnC1/CUmgDy0bUhr88=
+X-Received: by 2002:a05:7301:1f15:b0:332:94e9:a732 with SMTP id 5a478bee46e88-34273b41bbemr4098eec.13.1790337518181;
+        Fri, 25 Sep 2026 04:58:38 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34144757f31sm10299851eec.14.2026.09.25.04.58.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 04:58:37 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: ebiggers@kernel.org
+Cc: linux-fscrypt@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	tytso@mit.edu,
+	jaegeuk@kernel.org
+Subject: Re: [PATCH] MAINTAINERS: List the fsverity branches
+Date: Fri, 25 Sep 2026 19:58:34 +0800
+Message-ID: <20260925115834.1067656-1-matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260925042356.GA112369@sol>
+References: <20260925041654.112935-1-ebiggers@kernel.org> <20260925042356.GA112369@sol>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aq2VxlttdlTNlHo6@toolbx>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 18, 2026 at 02:59:49PM -0500, Andrew Halaney wrote:
-> On Fri, Sep 18, 2026 at 09:05:26AM +0100, David Howells wrote:
-> > Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > 
-> > > This is great for discussion but what we want for the commit message
-> > > is just motivation and resolution.
-> > 
-> > Actually, I think it's useful that Andrew wrote up the issues in the commit
-> > message - and I think it shows part of the motivation.  The 'writing a fake
-> > /proc/keys line in the description' is something I hadn't considered.
-> 
-> I'll defer to what you all want in the message here, I found it valuable
-> but I trend on the side of overly verbose admittedly!
-> 
-> > 
-> > > I don't think we need all this just to say that /proc/keys in a racy
-> > > query mechanism for production, which is an issue for dm-verity, given
-> > > that nothing else is available.
-> > 
-> > I think at some point, we will need a system call to search all for all
-> > accessible keys matching certain criteria by actually walking the key
-> > database.  The problem there is that there may be multiple hits, so we may
-> > need something like:
-> > 
-> > 	int count = find_key(key_serial_t start_id,
-> > 			     const char *type, const char *desc_prefix,
-> > 			     key_serial_t *results, size_t results_size,
-> > 			     unsigned int flags);
-> > 
-> > Allowing you to do:
-> > 
-> > 	key_serial_t dm_key;
-> > 	int n = find_key(0, "keyring", ".dm_verity", &dm_key, 1,
-> > 			 FIND_KEY_EXACT_DESC);
-> > 
-> > This wouldn't be as fast as a direct lookup since it would have to walk the
-> > key tree, doing name comparisons and perm checks on each key of the type.
-> > 
-> > > And secondly special keys are meant for implicit keyrings so isn't
-> > > that all there's to it?
-> > 
-> > I have no particular objection to setting aside a block of negative key IDs
-> > for special keyrings that need to be accessed a lot - though I would make
-> > common reg/unreg functions that take the ID to be registered and, say, set the
-> > block at -257..-512.  Moving the BFP keyring to -257 and DM to -258.
-> 
-> To be clear are you suggesting I do that for v2 here? Happy to make the
-> change and add some reuse to the registration functions, etc. I'm
-> guessing its fine to change the bpf id since its still only in -next?
-> 
-> The only awkward bit with making that more generic is that dm-verity
-> isn't __ro_after_init since its coming from a module possibly, and
-> because of the module usage I also protected it with a spinlock in case
-> someone's accessing it while you unload the module. Could just use one
-> spinlock for the whole generic array, and drop the __ro_after_init I
-> suppose.
-> 
-> Let me know if I'm not following properly!
+On Thu, Sep 24, 2026 at 09:16:54PM -0700, Eric Biggers wrote:
+> The fsverity entry in MAINTAINERS has a T: entry but it doesn't mention
+> which branches are used.  Update it to have a T: entry for each branch.
 
-I just read David's response and I think he made fair arguments,
-and patches look fine to me.
+Both branches exist and match what linux-next merges from this
+repository (fsverity and fsverity-current in Next/Trees).
 
-David, did you have anything? I could pick these.
-
-Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
-
-> 
-> Thanks,
-> Andrew
-
-
-Br, Jarkko
+Reviewed-by: Matthias Goergens <matthias.goergens@gmail.com>
