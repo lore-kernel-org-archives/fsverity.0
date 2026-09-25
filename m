@@ -1,52 +1,40 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04CD3546C0;
-	Wed, 23 Sep 2026 04:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9BE2D47FF;
+	Fri, 25 Sep 2026 04:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790138646; cv=none; b=iiLaDP0XHjF4nmMqJT77zRUfdcOxVbXSZo3rrHsjzljljBZ8rCUfyByz5r5R3DRdECPvCdUYcfeZPkorsoDACaIOJ5cOcmqLbpfhZRyWn2Db6FmBbb9y4p+PvEzPyaw2uPf8H/0RyLZZ/v20V2GYKLNFjOhJ7TmLIE9CPLoWuQw=
+	t=1790310239; cv=none; b=LZZw/u1hzHmaKYL57/oxjdPejzB+9tV/Al+TNU+FoBo8Q3nQX+o57iAJxlU699hvrElFn4vFH/RTqbYWIc6MvKVtCKNnJ0AP93FMDYsUyceFOYIa/SjoeGtXFd7cBfIqmUUn/QTodwByJ72OQfZHGQM9A8jKeIcVfdZhAihp6Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790138646; c=relaxed/simple;
-	bh=3K1In4nT3i2HdiuMdKKzMjhK07IZEuKn6Ukoh+Vhlys=;
+	s=arc-20240116; t=1790310239; c=relaxed/simple;
+	bh=Oe5IWEpcWyIiOJRQBvJRSnEfAKaHoPKwpXW7SBEmO5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mRqzfC6h2lCUVHF1tmHdac/LLMvqHPInqAYsNCk88pz3Irf7hKDUUfe61gW4g4LjxEyyg3ZK+Av2MwFzdbPCR4SNtQTV5GBWAHnSjl7XSwdEv0jyiYG+G4sapk/R+iPAG4vmhUY4XVrhaWMGhSvLeCDGi2bMIPHObfaswb3vf50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JOydNZmk; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=O07u1ZH8ekVZE0fgTk37gUXFMn+1CifN1AyS/SYv9ycMct/KGt1arK9+Mep5HwY5j1peP/APXQRgQDIo/Zl6Jz52pT+foDADbIuvAp3blDfvormHqsTCz6yPOCwyvGzOlZPOlVe4/x+ymqX9SWBw+8VMbGcyThFms0+D2wixmt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANM/x0iJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JOydNZmk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3rrTkfCLkv5vG8mm0BkucV5d5ipKmcNjzN+oEKrrF4Y=; b=JOydNZmkvLmfHed3Px4rMYO9fW
-	ovH3G1XC9S1RqxA9m4xOFtseOap20xWrt11xXV9ro3mhmrMkwLiQYjNx9DJ5OU/jVvreTwXo7wkz7
-	E1RmjRTmmDGMGPxsBWYQg7xSUEeom5MHDX9CHR1Q4ZreWi/JrfahFI/iCKtQ8HNGSMoQ2dhqsLcdd
-	2SfRB5K4vBZ5g/6EgsFwSXMO/pALL7eqXnGTTnUKUmY+YTY/dtuus6GWDlk6fsqjUDYTUemDMYNPE
-	1Tcaegw/NCnx2HYskpeIz3PqJkEAbcypYR6nU9GSgrKqBcV4Y/NKFmDUOpnxl/f+lLsiPYVaScByF
-	3j9NSTaw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9Epv-0000000780Q-3ycD;
-	Wed, 23 Sep 2026 04:44:03 +0000
-Date: Tue, 22 Sep 2026 21:44:03 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>, djwong@kernel.org,
-	ebiggers@kernel.org, hch@lst.de, Carlos Maiolino <cem@kernel.org>,
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-btrfs@vger.kernel.org, david@fromorbit.com
-Subject: Re: [PATCH v16 15/21] xfs: add fs-verity support
-Message-ID: <arNZE37P5khvkJYK@infradead.org>
-References: <20260918111539.1003439-1-aalbersh@kernel.org>
- <20260918111539.1003439-16-aalbersh@kernel.org>
- <arIszDCcy0VbRVFp@infradead.org>
- <arI-5Ejg0Xw7OVmH@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <arJ1dfejt4DyCsvG@infradead.org>
- <arKAqsuSoxvM1yKt@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANM/x0iJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 958C51F000FF;
+	Fri, 25 Sep 2026 04:23:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790310237;
+	bh=jRteOEp8lDW2rT+YhiwRa3HOTSFuotI7r/asuVkN6+8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ANM/x0iJTfUcmgAepUy3sqgLtpPeTlcHbPTj55vyHodE+qT+qqpSloRhQpBCKOoqH
+	 UYGmnv5VI/rdsjSKbwV7Q6eu+8w4zy/+4XHSCud2MziRuLgpYz7u/i4aD6v+XWnzDR
+	 1JgJ9y1BLf91U70r+gX0FvcgcX3Rz2qYbT1R8PC9GKmLoMYO5QbdLC4PKbEnE/THkm
+	 BvKImxaf7UZycW+a7iT6vSSdpfWvUBqY0s/d1mu5YySKrg45/ddrbRQ+UL7wUeYuih
+	 5/87+3k7JtOItILpQ9465iOZ6HUYhhTDding54YsW1xUrl1fPyw5tG1/MtQdiAICEB
+	 BBnnMCV6Y1Png==
+Date: Thu, 24 Sep 2026 21:23:56 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-fscrypt@vger.kernel.org
+Cc: Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Matthias Goergens <matthias.goergens@gmail.com>,
+	fsverity@lists.linux.dev
+Subject: Re: [PATCH] MAINTAINERS: List the fsverity branches
+Message-ID: <20260925042356.GA112369@sol>
+References: <20260925041654.112935-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
@@ -55,28 +43,35 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <arKAqsuSoxvM1yKt@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260925041654.112935-1-ebiggers@kernel.org>
 
-On Tue, Sep 22, 2026 at 03:27:54PM +0200, Andrey Albershteyn wrote:
-> > 
-> > Yeah, but what is the ilock trying to protect against?  ilock is
-> > the innermost sleeping lock and protects modifications to the
-> > inode fields and the extent mapping.   Higher level synchronization
-> > is done using the iolock and the mmaplock (which is already taken
-> > here).
-> > 
-> 
-> hmm maybe I don't understand what you addressing here but don't I
-> need ilock for xfs_itruncate_extents() used with this transaction.
-> So, doing extent removal.
-> 
-> With this function I want to remove post EOF pages from pagecache
-> and then remove post EOF extents on that inode.
-> 
-> iolock is already hold, mmaplock is for pagecache truncation and
-> ilock for extents removal.
++Cc fsverity@lists.linux.dev
 
-So there should be no reason to hold it over the call to
-truncate_inode_pages.  I.e., you should be able to move the locking
-and ijoin below that.
+On Thu, Sep 24, 2026 at 09:16:54PM -0700, Eric Biggers wrote:
+> The fsverity entry in MAINTAINERS has a T: entry but it doesn't mention
+> which branches are used.  Update it to have a T: entry for each branch.
+> 
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> ---
+>  MAINTAINERS | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c52ec2d7d3c1..2a4b4ef679cd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10706,7 +10706,8 @@ M:	Theodore Y. Ts'o <tytso@mit.edu>
+>  L:	fsverity@lists.linux.dev
+>  S:	Supported
+>  Q:	https://patchwork.kernel.org/project/fsverity/list/
+> -T:	git https://git.kernel.org/pub/scm/fs/fsverity/linux.git
+> +T:	git https://git.kernel.org/pub/scm/fs/fsverity/linux.git for-next
+> +T:	git https://git.kernel.org/pub/scm/fs/fsverity/linux.git for-current
+>  F:	Documentation/filesystems/fsverity.rst
+>  F:	fs/verity/
+>  F:	include/linux/fsverity.h
+> 
+> base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
+> -- 
+> 2.55.0
+> 
