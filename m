@@ -1,100 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB26B40680F;
-	Wed,  7 Oct 2026 06:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0F94B95DD
+	for <fsverity@lists.linux.dev>; Wed,  7 Oct 2026 15:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791355271; cv=none; b=WjHQjyh6Wl4P6cn+K4vVxEMJCEvdgLSVG6jmeFY8H+bfHAqh6MiH4YEKLxJXoRmbMDVu+nRRVHkO+InoncdT99qd3G9WEDmca2FXSl9Es4OHoamSLOaMNeQ7M2g8O8RzJxdxR8BntQA8JQE0rMSudqKbl0iC5/peWYNASntpapQ=
+	t=1791387027; cv=none; b=eO0YxAQBgWhYNeNY24qKyGDRQQVlee0ycgPjf/TxOvQ/jpFjrYyHZcS+3Ue87sIIze49tYTcrM5x3BZ9MK2hzxR4LNfhrVnS816USNkq8OYsq0/BwnW7j3R/o2TQaHpmE2BDS8U/FUQJPfq6D3dvFsUSuwObPf2YUvGEmrpb4pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791355271; c=relaxed/simple;
-	bh=/MrSSOjH6lZHbxBsn0oVLGTqgyTjcmG1aGU3QOhhnqM=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=nlek+03eWvY8HkyDjakDzbK9fBipDFgsYtt1bpaJSnH0GGjgY4JNF+y3Gd4s0+fe5FM/FH3IyAKYqa9TFEdD2yb9CpmkV5pelWXHx76msmXZSWIWJeyGcuzrZmB3V7dZHnvLl6z3WZKHWjRoXEpZzpsyAXmoR2/EIiNgDaRzqyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nprsY2b5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791387027; c=relaxed/simple;
+	bh=5kpnZ69rpIeJK7I/vVJI1/Sd58TTWJsQUlkCNqKOhyI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JdIR9rEEKyuC4k5lJ8LBZZl3+9+sIWv/TjdqD6gO5JXYY5nBxnw6JEFnTjNxrryw4h5jTKC7o8t9k5MAaw/e69vwvchAKZzQdQ5IHF9HxvPlu2/nfE6A3qOrhiZmxo5M3HnuhuL2RKiB34ZPf93t//vR9Wne/4IZXZ/wmPaBVIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b=nbIVZW8x; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nprsY2b5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A8BE1F0089B;
-	Wed,  7 Oct 2026 06:41:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791355270;
-	bh=Rud9F8uCtycX/IqZP5NIE5anwNdKj7HLofR2MoL97dU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nprsY2b5N4P72oaD5MPBEG8x0mp7EO77shD5QymZi6JhSzh7IONNM0lD82DPyuh4E
-	 ZYiSaOwtjsD71z652/qWalV1+OL9uVBMNfSvnJj+sRvvaOZEvm5r58d6wPK7TK9oDI
-	 PGvPIbgD5BagR4HCg8Ba2nl0FihfJfscXVXWC9t9EwJQQDzMP0lgoONUjJoGhi4AS+
-	 VGrhVuRVk1oszwIw2dQ3mxxHo/q/7k6kBzkQf+RABCW5BmY7Luo16GS0BCyXQoikq5
-	 3mFwuiBSuFA4gu+mJraMGs1/9SMqUIirWB0vywQwjTHoLwaTsNVa+NpelCo9Hgjprg
-	 QX4OUn+z3ajqg==
-Message-ID: <sashiko-outbox-162680@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: Patch "fs,fsverity: reject size changes on fsverity files in
- setattr_prepare" has been added to the 6.18-stable tree
-Reply-To: sashiko-reviews@lists.linux.dev
-To: ebiggers@kernel.org, gregkh@linuxfoundation.org, djwong@kernel.org, fsverity@lists.linux.dev, hch@lst.de, jack@suse.cz
-Cc: stable-commits@vger.kernel.org
-In-Reply-To: <2026100754-drizzle-shape-0a72@gregkh>
-References: <2026100754-drizzle-shape-0a72@gregkh>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Oct 2026 06:41:09 +0000
+	dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b="nbIVZW8x"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b056d58f2aso14935127b3.2
+        for <fsverity@lists.linux.dev>; Wed, 07 Oct 2026 08:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1791387019; x=1791991819; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fxMsGMJoi15xhCerKdZHKbDFnpM/+Dr7cx060hZaVDo=;
+        b=nbIVZW8x6yRUaum0/NaXz+CYWEfQTRGJ4zJtngSWMsYQtkOGi8elr0WKM4KlycXf7M
+         ZYtezpLIy/UKQKNAvTxmCB1sHTJ3MeYRATEv/eFP1y0aY56YZuc5gFvl04CP0A0g9x7y
+         zm81vcg6RFEYXpp8LLx9OV4HMPrFFzVtkLw4rhKpCurEdhUwhRqRDdmjZTOT9Fy9QIU2
+         huq0K3kQY5dMfN6mx2ywyrQQFt/cQMGhwmkGUWotJe7YflHDH/RNMDiqDV6mGAZOOD/X
+         S74K5D9VNxhsZ3Yl0a/GXhf4YEPj5ShJCSkczcGOkEscqS3sjBt/F8wAb67jtIzemEpW
+         dPjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791387019; x=1791991819;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fxMsGMJoi15xhCerKdZHKbDFnpM/+Dr7cx060hZaVDo=;
+        b=ExbUOCFmSvhGvQYqkKLIKvdGyJ1T2I2wN0vEojUGOAd1HXAtvlal4R4nY7leyR3Jn5
+         o8LFXmS+vc5B1rJZjCc8PRtgpOgTSSAc+BHSVL229mgvxDylEOc97kgfm4b6dKHakrQq
+         afK/1hkMib2HgZD02cf0cuBuc8kf7ynQK5Q2PLkCehbNJEzpDb1wjNfNrrRnKhslm7ML
+         JIoFqR2XuEQ2tZjkYnXiWmH0ZNVqBsbRFdhZ16tzGp/FrTCKT+UNg/Fy4fiBwO4lGHPc
+         bejKFnFUG12aSps4o4Qxw9C0hj8irIckXdlnmBVJF0Ee8z7JtN6I38/ty/PTBB84MqE8
+         Kf4A==
+X-Forwarded-Encrypted: i=1; AKwUvByKIgqYrA6BG+DV3AKjhWLomRrpTygGlZ+3qtgkuZlxCAGbq4fKDbnmjGEtd7Au8Phv5cXujxOUag==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLazq1E2778gugq/PCnOSEqZ71qTTKzcAvMpHSUeQBfl5iVwp0D
+	M0bl6p4uAg6N/0qowXbmkZCHJHUnnlW7g44kOdW8fUhoLBtVEd2TTCKQH7Jj+QlZQRta
+X-Gm-Gg: AYBFou23q/9vKWaag2Ft74xF3I0i8jH9LDulWdl+CM6GzOt4ZMMpKVY4hUejrXL65gL
+	V6vRSUP5uZSxNOM6JfHkisz3CAQaG6iaPvJnH3dNzcxmlszB1ytnC7BEehfeFK2A4BTsmn4xYqU
+	JQircueZm3NQKfDn1mx3lJbR4q5quOfRhpKavXx6M+yvCkNIZdSGA93Ah+gJzw8fke+IdQfIqnx
+	lNenBS9H6jNv8A/7RtTgHmSickcajGyFyO/ewmtcma4o5YVA7RFUwyTEQ92XE8Y4e6JM+7eYf8V
+	zGJKQhQCqj8xmlomo69MHLspjeEFNZkR6T4Jx4nlTYpCVRnYy3KEnzVDNOzdijo6nOF8oAJ5v2M
+	pEA+JAMqxunGpDG8lDZZnS8ngC/eqeGvicfmBtElSEVMrRft60TIe8diwL4dHK4pgbUIGqulGq/
+	R6BKcZrYM3MMEKN2b9o4P20HRDuHnSwbPuLJuhlrSlwnmkAU5BmwTueJ1t80X4n9TA3or9A9ZqO
+	+gSr5B/vfKvOZXVRFWUz1X9HGKdGfCtVG/4861k3S4=
+X-Received: by 2002:a05:690c:6b01:b0:873:5bb2:6c3d with SMTP id 00721157ae682-8b05b14e894mr18727417b3.68.1791387018749;
+        Wed, 07 Oct 2026 08:30:18 -0700 (PDT)
+Received: from toolbx (104-53-165-62.lightspeed.stlsmo.sbcglobal.net. [104.53.165.62])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b05a9b8806sm9897427b3.1.2026.10.07.08.30.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 08:30:18 -0700 (PDT)
+Date: Wed, 7 Oct 2026 10:30:14 -0500
+From: Andrew Halaney <andrew@amutable.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: David Howells <dhowells@redhat.com>, Alasdair Kergon <agk@redhat.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
+	Benjamin Marzinski <bmarzins@redhat.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-doc@vger.kernel.org, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
+Message-ID: <asZlNEFdvidvMdJ5@toolbx>
+References: <aqyiCavj3xeNqyAo@kernel.org>
+ <20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com>
+ <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
+ <715249.1789718726@warthog.procyon.org.uk>
+ <aq2VxlttdlTNlHo6@toolbx>
+ <arYzQN1ViuiCBemo@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arYzQN1ViuiCBemo@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] vfs: verity file truncation bypass when CONFIG_FS_VERITY is disabl=
-ed
---
+On Fri, Sep 25, 2026 at 11:39:28AM +0300, Jarkko Sakkinen wrote:
+> On Fri, Sep 18, 2026 at 02:59:49PM -0500, Andrew Halaney wrote:
+> > On Fri, Sep 18, 2026 at 09:05:26AM +0100, David Howells wrote:
+> > > Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > > 
+> > > > This is great for discussion but what we want for the commit message
+> > > > is just motivation and resolution.
+> > > 
+> > > Actually, I think it's useful that Andrew wrote up the issues in the commit
+> > > message - and I think it shows part of the motivation.  The 'writing a fake
+> > > /proc/keys line in the description' is something I hadn't considered.
+> > 
+> > I'll defer to what you all want in the message here, I found it valuable
+> > but I trend on the side of overly verbose admittedly!
+> > 
+> > > 
+> > > > I don't think we need all this just to say that /proc/keys in a racy
+> > > > query mechanism for production, which is an issue for dm-verity, given
+> > > > that nothing else is available.
+> > > 
+> > > I think at some point, we will need a system call to search all for all
+> > > accessible keys matching certain criteria by actually walking the key
+> > > database.  The problem there is that there may be multiple hits, so we may
+> > > need something like:
+> > > 
+> > > 	int count = find_key(key_serial_t start_id,
+> > > 			     const char *type, const char *desc_prefix,
+> > > 			     key_serial_t *results, size_t results_size,
+> > > 			     unsigned int flags);
+> > > 
+> > > Allowing you to do:
+> > > 
+> > > 	key_serial_t dm_key;
+> > > 	int n = find_key(0, "keyring", ".dm_verity", &dm_key, 1,
+> > > 			 FIND_KEY_EXACT_DESC);
+> > > 
+> > > This wouldn't be as fast as a direct lookup since it would have to walk the
+> > > key tree, doing name comparisons and perm checks on each key of the type.
+> > > 
+> > > > And secondly special keys are meant for implicit keyrings so isn't
+> > > > that all there's to it?
+> > > 
+> > > I have no particular objection to setting aside a block of negative key IDs
+> > > for special keyrings that need to be accessed a lot - though I would make
+> > > common reg/unreg functions that take the ID to be registered and, say, set the
+> > > block at -257..-512.  Moving the BFP keyring to -257 and DM to -258.
+> > 
+> > To be clear are you suggesting I do that for v2 here? Happy to make the
+> > change and add some reuse to the registration functions, etc. I'm
+> > guessing its fine to change the bpf id since its still only in -next?
+> > 
+> > The only awkward bit with making that more generic is that dm-verity
+> > isn't __ro_after_init since its coming from a module possibly, and
+> > because of the module usage I also protected it with a spinlock in case
+> > someone's accessing it while you unload the module. Could just use one
+> > spinlock for the whole generic array, and drop the __ro_after_init I
+> > suppose.
+> > 
+> > Let me know if I'm not following properly!
+> 
+> I just read David's response and I think he made fair arguments,
+> and patches look fine to me.
+> 
+> David, did you have anything? I could pick these.
+> 
+> Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+> 
 
-commit 750dd8cb058f7ea5d2ca5305006f1c5e63c6eb32
-Author: gregkh@linuxfoundation.org <gregkh@linuxfoundation.org>
+Gentle ping :)
 
-fs,fsverity: reject size changes on fsverity files in setattr_prepare
+Are we happy with these to get picked up?
 
-This commit centralizes the check to reject truncates of fsverity files
-into setattr_prepare() in fs/attr.c. This removes boilerplate code from
-individual filesystems and fixes a missing truncation check in btrfs.
-
-Link: https://lore.kernel.org/r/20260128152630.627409-2-hch@lst.de
-
-> diff --git a/fs/attr.c b/fs/attr.c
-> index 795f231d00e8e..2c94af08be183 100644
-> --- a/fs/attr.c
-> +++ b/fs/attr.c
-> @@ -169,7 +169,17 @@ int setattr_prepare(struct mnt_idmap *idmap, struct =
-dentry *dentry,
->  	 * ATTR_FORCE.
->  	 */
->  	if (ia_valid & ATTR_SIZE) {
-> -		int error =3D inode_newsize_ok(inode, attr->ia_size);
-> +		int error;
-> +
-> +		/*
-> +		 * Verity files are immutable, so deny truncates.  This isn't
-> +		 * covered by the open-time check because sys_truncate() takes a
-> +		 * path, not an open file.
-> +		 */
-> +		if (IS_ENABLED(CONFIG_FS_VERITY) && IS_VERITY(inode))
-> +			return -EPERM;
-
-[Severity: High]
-Does this logic inadvertently permit truncating verity files when
-CONFIG_FS_VERITY is disabled?
-
-Before this patch, filesystems explicitly called fsverity_prepare_setattr().
-When CONFIG_FS_VERITY was disabled, the fallback implementation safely retu=
-rned
--EOPNOTSUPP for any inode with the verity flag set.
-
-By short-circuiting the check here with IS_ENABLED(CONFIG_FS_VERITY), it
-appears an unprivileged user with DAC write access could use sys_truncate()
-to bypass the check and modify a verity file if the kernel was built without
-fsverity support.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/2026100754-drizzle-=
-shape-0a72@gregkh?part=3D1
+Thanks,
+Andrew
