@@ -1,88 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086DA1DFFB;
-	Tue,  6 Oct 2026 21:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740FC3E7BA4;
+	Wed,  7 Oct 2026 06:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791323969; cv=none; b=lyfSRZSWYBO2WNkN4j9x+94ldcN7SBCV2S1IjrbUpXD+oRf1Mv+io2I1rq3ppluIJ+iezpbJniYZYapT3gHYxrHGR54RtwNmhV4Ke+4kHHW23JSz580I/f7Oa07Yco5lSA49PD0RiVyJ8nrCZur4DFBlZjEO5Td9oPy/xMVhRNA=
+	t=1791354787; cv=none; b=Qlwm5UT38fXXoTVeAG7+9VhoonR08/A9INRgQ90nUL+20jq7esFf+UpBMnAsP3c6ED331Yr2JqXVers/Pss1Yt9bqrrhBBaqzSU9oz9QfkM/irkvwNh5xfjtRds+IV63r/xERZZ/8M2xgrh3Th2Cav1T0d+pPXfxq2R2UlZ1+FQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791323969; c=relaxed/simple;
-	bh=AnMPpF+BexaTJOMlJ43O8Q5ckMVU90MjdwijVyhvCFo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RtVtKsU8gwac4/+c54ILnIZqg2TBePs+oYfme5weKggWaaWa34ctAv4X1CnECnDsH/w8PIoCut+YSc5UL5fPYdh4b40u04rSk1dqHpFa7VaXnpFOpmMgmbxv3oqddrI0xI4alUae+T4q2fXLWvRVOFbWXJ87wt9eGdpdt0LD0Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SVmOT+6J; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791354787; c=relaxed/simple;
+	bh=eZvzKlYP9UAafNSMsnKbiyIL16NKs3hhOvpReJcaeJk=;
+	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type; b=SS7YMgISrW+vghrkGuxmN3ShdkDxOPUgxIzgtB3aSlxlZVJCPfPYt3O1lWcbhWd23hyBXevgUL33lYzSJFUjikA4MidLphElWFQ6p6ulfRwa4wusx27Bqd7czJQbtFH6Z7cLKJ3cnFlsLEtJNAy5TQVlwkTLqYHmcpCaTEeTbJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TcfKHv4/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SVmOT+6J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D59DD1F0089B;
-	Tue,  6 Oct 2026 21:59:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791323967;
-	bh=ib+wpLvfj53sDjhtinQLJ/CACApnmdWdC+TTYk5qMkY=;
-	h=From:To:Cc:Subject:Date;
-	b=SVmOT+6J/Gg2PtoMPxOkd229rZfzuRIMSG5TUS67bW+jM6mDgu596dMjTnTNVuHw3
-	 YZ0kF4sJwurm90qT4A5Bho5IZj9L9lZpqHmy297Ri8Pa1iIgpPYXAguww5Gqr/bpgs
-	 aPqj3S7KDIjiX5E0DqDGWbk5zo04Vj+3idQaK4aLptNzeQNKAICKwm/zUvabsBYlK3
-	 2Y0awydN38PiHo5iDzRTEHVeiytMNg+Gemq66/r85yj4DM6WQMT35OInNA0WpxkfHZ
-	 n3EgvdAHCG7DDRKzIflg9dV8fDYIULsLpowTluYhDC+6lrSXRiV4Piy4qWqeuxaCKa
-	 VBdwspQGqPOkg==
-From: Eric Biggers <ebiggers@kernel.org>
-To: stable@vger.kernel.org
-Cc: fsverity@lists.linux.dev,
-	Eric Biggers <ebiggers@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Theodore Ts'o <tytso@mit.edu>
-Subject: [PATCH 5.10] fsverity: add dependency on 64K or smaller pages
-Date: Tue,  6 Oct 2026 23:58:53 +0200
-Message-ID: <20261006215853.59771-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TcfKHv4/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6300E1F0089B;
+	Wed,  7 Oct 2026 06:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791354785;
+	bh=UdpYArlYRrhEN/amN89haMfFoDQ4DYd3Tecy9f0Jhmg=;
+	h=Subject:To:Cc:From:Date:In-Reply-To;
+	b=TcfKHv4/N+9QrKA3GCTUnri0Ke8Mbo0gZR5fNT55EWIcuChC8W5RpkOG8V9Or60xC
+	 c/v4i7v/0S0iHGasGsN2RULr59OvsoG3OicPqDG0f7YKR4pQHJ7PhQj4uJbtdFjqXG
+	 YX0irKrpQVGmEmqHjOdCEABv8BsbOAk1E5mFjwYg=
+Subject: Patch "fs,fsverity: remove check for fsverity being enabled in setattr_prepare()" has been added to the 6.18-stable tree
+To: aalbersh@kernel.org,ebiggers@kernel.org,fsverity@lists.linux.dev,gregkh@linuxfoundation.org,hch@lst.de
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Wed, 07 Oct 2026 08:32:54 +0200
+In-Reply-To: <20261006213605.46946-3-ebiggers@kernel.org>
+Message-ID: <2026100754-easter-stimulate-46ee@gregkh>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore
 
-commit a300000233a9ff842e2fb450fb9a79f7827a586d upstream.
 
-Currently, all filesystems that support fsverity (ext4, f2fs, and btrfs)
-cache the Merkle tree in the pagecache at a 64K aligned offset after the
-end of the file data.  This offset needs to be a multiple of the page
-size, which is guaranteed only when the page size is 64K or smaller.
+This is a note to let you know that I've just added the patch titled
 
-64K was chosen to be the "largest reasonable page size".  But it isn't
-the largest *possible* page size: the hexagon and powerpc ports of Linux
-support 256K pages, though that configuration is rarely used.
+    fs,fsverity: remove check for fsverity being enabled in setattr_prepare()
 
-For now, just disable support for FS_VERITY in these odd configurations
-to ensure it isn't used in cases where it would have incorrect behavior.
+to the 6.18-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-Fixes: 671e67b47e9f ("fs-verity: add Kconfig and the helper functions for hashing")
-Reported-by: Christoph Hellwig <hch@lst.de>
-Closes: https://lore.kernel.org/r/20260119063349.GA643@lst.de
-Reviewed-by: Theodore Ts'o <tytso@mit.edu>
-Link: https://lore.kernel.org/r/20260221204525.30426-1-ebiggers@kernel.org
+The filename of the patch is:
+     fs-fsverity-remove-check-for-fsverity-being-enabled-in-setattr_prepare.patch
+and it can be found in the queue-6.18 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From stable+bounces-352118-greg=kroah.com@vger.kernel.org Tue Oct  6 23:39:37 2026
+From: Eric Biggers <ebiggers@kernel.org>
+Date: Tue,  6 Oct 2026 23:36:05 +0200
+Subject: fs,fsverity: remove check for fsverity being enabled in setattr_prepare()
+To: stable@vger.kernel.org
+Cc: fsverity@lists.linux.dev, Andrey Albershteyn <aalbersh@kernel.org>, Christoph Hellwig <hch@lst.de>, Eric Biggers <ebiggers@kernel.org>
+Message-ID: <20261006213605.46946-3-ebiggers@kernel.org>
+
+From: Andrey Albershteyn <aalbersh@kernel.org>
+
+commit d2f96bcb89d36d488a10e3bcf819b98536968286 upstream.
+
+The check that fs-verity is available in the kernel is not necessary
+here. Filesystems could have fsverity files even without fs-verity
+enabled. In that case, truncate on fsverity file will succeed, what this
+check is trying to prevent.
+
+Fixes: e9734653c523 ("fs,fsverity: reject size changes on fsverity files in setattr_prepare")
+Cc: stable@vger.kernel.org
+Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Link: https://patch.msgid.link/20260727094352.1734826-1-aalbersh@kernel.org
 Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- fs/verity/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+ fs/attr.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/verity/Kconfig b/fs/verity/Kconfig
-index 88fb25119899..e74030597aa9 100644
---- a/fs/verity/Kconfig
-+++ b/fs/verity/Kconfig
-@@ -2,6 +2,9 @@
+--- a/fs/attr.c
++++ b/fs/attr.c
+@@ -176,7 +176,7 @@ int setattr_prepare(struct mnt_idmap *id
+ 		 * covered by the open-time check because sys_truncate() takes a
+ 		 * path, not an open file.
+ 		 */
+-		if (IS_ENABLED(CONFIG_FS_VERITY) && IS_VERITY(inode))
++		if (IS_VERITY(inode))
+ 			return -EPERM;
  
- config FS_VERITY
- 	bool "FS Verity (read-only file-based authenticity protection)"
-+	# Filesystems cache the Merkle tree at a 64K aligned offset in the
-+	# pagecache.  That approach assumes the page size is at most 64K.
-+	depends on !PAGE_SIZE_256KB && !PPC_256K_PAGES
- 	select CRYPTO
- 	# SHA-256 is selected as it's intended to be the default hash algorithm.
- 	# To avoid bloat, other wanted algorithms must be selected explicitly.
+ 		error = inode_newsize_ok(inode, attr->ia_size);
 
-base-commit: 587461ddf5d522bfcb50ebd55078c0dac37be496
--- 
-2.56.0
 
+Patches currently in stable-queue which might be from ebiggers@kernel.org are
+
+queue-6.18/fs-fsverity-reject-size-changes-on-fsverity-files-in-setattr_prepare.patch
+queue-6.18/fs-fsverity-remove-check-for-fsverity-being-enabled-in-setattr_prepare.patch
+queue-6.18/fsverity-add-dependency-on-64k-or-smaller-pages.patch
+queue-6.18/crypto-x86-aes-gcm-fix-always-true-check-for-last-aad-segment.patch
