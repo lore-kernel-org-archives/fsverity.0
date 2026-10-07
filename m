@@ -1,167 +1,55 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0F94B95DD
-	for <fsverity@lists.linux.dev>; Wed,  7 Oct 2026 15:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA8837DEA8;
+	Wed,  7 Oct 2026 21:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791387027; cv=none; b=eO0YxAQBgWhYNeNY24qKyGDRQQVlee0ycgPjf/TxOvQ/jpFjrYyHZcS+3Ue87sIIze49tYTcrM5x3BZ9MK2hzxR4LNfhrVnS816USNkq8OYsq0/BwnW7j3R/o2TQaHpmE2BDS8U/FUQJPfq6D3dvFsUSuwObPf2YUvGEmrpb4pA=
+	t=1791407036; cv=none; b=RwsEp3TsjnP+1CHH+dEeqbrsvsYQyLQqDH2l0Y15LCIuGZmg1RkjxXwXeSib0RcKj6EhKfoBnIAEOwfPP8dJ/27RHSDAsHCRumAClhe/FGkdn6jH8jdnDUKn/lBpTS8DefGZPMXjkSdlxbb8WDAsFSu3YRtfHmmL2RZHGLzzdC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791387027; c=relaxed/simple;
-	bh=5kpnZ69rpIeJK7I/vVJI1/Sd58TTWJsQUlkCNqKOhyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JdIR9rEEKyuC4k5lJ8LBZZl3+9+sIWv/TjdqD6gO5JXYY5nBxnw6JEFnTjNxrryw4h5jTKC7o8t9k5MAaw/e69vwvchAKZzQdQ5IHF9HxvPlu2/nfE6A3qOrhiZmxo5M3HnuhuL2RKiB34ZPf93t//vR9Wne/4IZXZ/wmPaBVIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b=nbIVZW8x; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	s=arc-20240116; t=1791407036; c=relaxed/simple;
+	bh=hiG7JMcfsmrDQAufEZqWdVvBWMwi4D3oC5bAwWo2wqY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BmXh7sukQ9KwQJBvDUrHhmUwjdqVgQ1FHroFLSEJgpmQC1e0x7v5uLafMESKkvseZkEsn0wxmVkt6nBZwbBHhwWFIFF/Oh8txAfrQclXyya7smUmJf7VpnhLwiq+BQK8mWQXvX1Y8rGtMlQyrQ7c0NcivalO4g9KbHR7KPggpDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n9TNtKQs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b="nbIVZW8x"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b056d58f2aso14935127b3.2
-        for <fsverity@lists.linux.dev>; Wed, 07 Oct 2026 08:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1791387019; x=1791991819; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fxMsGMJoi15xhCerKdZHKbDFnpM/+Dr7cx060hZaVDo=;
-        b=nbIVZW8x6yRUaum0/NaXz+CYWEfQTRGJ4zJtngSWMsYQtkOGi8elr0WKM4KlycXf7M
-         ZYtezpLIy/UKQKNAvTxmCB1sHTJ3MeYRATEv/eFP1y0aY56YZuc5gFvl04CP0A0g9x7y
-         zm81vcg6RFEYXpp8LLx9OV4HMPrFFzVtkLw4rhKpCurEdhUwhRqRDdmjZTOT9Fy9QIU2
-         huq0K3kQY5dMfN6mx2ywyrQQFt/cQMGhwmkGUWotJe7YflHDH/RNMDiqDV6mGAZOOD/X
-         S74K5D9VNxhsZ3Yl0a/GXhf4YEPj5ShJCSkczcGOkEscqS3sjBt/F8wAb67jtIzemEpW
-         dPjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791387019; x=1791991819;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fxMsGMJoi15xhCerKdZHKbDFnpM/+Dr7cx060hZaVDo=;
-        b=ExbUOCFmSvhGvQYqkKLIKvdGyJ1T2I2wN0vEojUGOAd1HXAtvlal4R4nY7leyR3Jn5
-         o8LFXmS+vc5B1rJZjCc8PRtgpOgTSSAc+BHSVL229mgvxDylEOc97kgfm4b6dKHakrQq
-         afK/1hkMib2HgZD02cf0cuBuc8kf7ynQK5Q2PLkCehbNJEzpDb1wjNfNrrRnKhslm7ML
-         JIoFqR2XuEQ2tZjkYnXiWmH0ZNVqBsbRFdhZ16tzGp/FrTCKT+UNg/Fy4fiBwO4lGHPc
-         bejKFnFUG12aSps4o4Qxw9C0hj8irIckXdlnmBVJF0Ee8z7JtN6I38/ty/PTBB84MqE8
-         Kf4A==
-X-Forwarded-Encrypted: i=1; AKwUvByKIgqYrA6BG+DV3AKjhWLomRrpTygGlZ+3qtgkuZlxCAGbq4fKDbnmjGEtd7Au8Phv5cXujxOUag==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLazq1E2778gugq/PCnOSEqZ71qTTKzcAvMpHSUeQBfl5iVwp0D
-	M0bl6p4uAg6N/0qowXbmkZCHJHUnnlW7g44kOdW8fUhoLBtVEd2TTCKQH7Jj+QlZQRta
-X-Gm-Gg: AYBFou23q/9vKWaag2Ft74xF3I0i8jH9LDulWdl+CM6GzOt4ZMMpKVY4hUejrXL65gL
-	V6vRSUP5uZSxNOM6JfHkisz3CAQaG6iaPvJnH3dNzcxmlszB1ytnC7BEehfeFK2A4BTsmn4xYqU
-	JQircueZm3NQKfDn1mx3lJbR4q5quOfRhpKavXx6M+yvCkNIZdSGA93Ah+gJzw8fke+IdQfIqnx
-	lNenBS9H6jNv8A/7RtTgHmSickcajGyFyO/ewmtcma4o5YVA7RFUwyTEQ92XE8Y4e6JM+7eYf8V
-	zGJKQhQCqj8xmlomo69MHLspjeEFNZkR6T4Jx4nlTYpCVRnYy3KEnzVDNOzdijo6nOF8oAJ5v2M
-	pEA+JAMqxunGpDG8lDZZnS8ngC/eqeGvicfmBtElSEVMrRft60TIe8diwL4dHK4pgbUIGqulGq/
-	R6BKcZrYM3MMEKN2b9o4P20HRDuHnSwbPuLJuhlrSlwnmkAU5BmwTueJ1t80X4n9TA3or9A9ZqO
-	+gSr5B/vfKvOZXVRFWUz1X9HGKdGfCtVG/4861k3S4=
-X-Received: by 2002:a05:690c:6b01:b0:873:5bb2:6c3d with SMTP id 00721157ae682-8b05b14e894mr18727417b3.68.1791387018749;
-        Wed, 07 Oct 2026 08:30:18 -0700 (PDT)
-Received: from toolbx (104-53-165-62.lightspeed.stlsmo.sbcglobal.net. [104.53.165.62])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b05a9b8806sm9897427b3.1.2026.10.07.08.30.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 08:30:18 -0700 (PDT)
-Date: Wed, 7 Oct 2026 10:30:14 -0500
-From: Andrew Halaney <andrew@amutable.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, Alasdair Kergon <agk@redhat.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
-	Benjamin Marzinski <bmarzins@redhat.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-doc@vger.kernel.org, 
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
-Message-ID: <asZlNEFdvidvMdJ5@toolbx>
-References: <aqyiCavj3xeNqyAo@kernel.org>
- <20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com>
- <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
- <715249.1789718726@warthog.procyon.org.uk>
- <aq2VxlttdlTNlHo6@toolbx>
- <arYzQN1ViuiCBemo@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n9TNtKQs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A0AB1F000FF;
+	Wed,  7 Oct 2026 21:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791407035;
+	bh=/NBzTZle5cvDoG9QXTF7NtZzT36vzTXVxjfu3Tkt6JI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=n9TNtKQsmSMR4sPqxarJGtC/DHbQkPqLARd99pnuSETp4P7gzayQORY0A1fRvF2xF
+	 1VomUXvUqo3SJwo30ttK7BIq1uEaP+1DgAlR7tuS4eBWKCoc76WLyHsj/gzL7diqId
+	 vXZMmRh2gPwXf0KC9aUZMpIxQv74zOdNSfe1EhIXzV8j8yeZbOBYVzYZ/rYBrE+iGl
+	 muojoJsT4JCgrNvH7R4ngPXOmbdtlKKIM6dti0P4JFxItcoBZ5yJmNJOBaOJSiJYXl
+	 rxnLAvEF49fiH8DjNUpq7FgnK3g/y7y+Y/o3s0wVH7ZRv6JF2186u/fGVDAgV+ShwH
+	 KTfLGzN/4/7VQ==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+	fsverity@lists.linux.dev,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: Re: [PATCH 6.12 0/2] Forbid truncate of fsverity files on btrfs
+Date: Wed,  7 Oct 2026 17:03:23 -0400
+Message-ID: <2026-10-07-1-daily-reply-0006-fsverity-truncate-btrfs-6-12@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261006213725.47114-1-ebiggers@kernel.org>
+References: <20261006213725.47114-1-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arYzQN1ViuiCBemo@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 25, 2026 at 11:39:28AM +0300, Jarkko Sakkinen wrote:
-> On Fri, Sep 18, 2026 at 02:59:49PM -0500, Andrew Halaney wrote:
-> > On Fri, Sep 18, 2026 at 09:05:26AM +0100, David Howells wrote:
-> > > Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > 
-> > > > This is great for discussion but what we want for the commit message
-> > > > is just motivation and resolution.
-> > > 
-> > > Actually, I think it's useful that Andrew wrote up the issues in the commit
-> > > message - and I think it shows part of the motivation.  The 'writing a fake
-> > > /proc/keys line in the description' is something I hadn't considered.
-> > 
-> > I'll defer to what you all want in the message here, I found it valuable
-> > but I trend on the side of overly verbose admittedly!
-> > 
-> > > 
-> > > > I don't think we need all this just to say that /proc/keys in a racy
-> > > > query mechanism for production, which is an issue for dm-verity, given
-> > > > that nothing else is available.
-> > > 
-> > > I think at some point, we will need a system call to search all for all
-> > > accessible keys matching certain criteria by actually walking the key
-> > > database.  The problem there is that there may be multiple hits, so we may
-> > > need something like:
-> > > 
-> > > 	int count = find_key(key_serial_t start_id,
-> > > 			     const char *type, const char *desc_prefix,
-> > > 			     key_serial_t *results, size_t results_size,
-> > > 			     unsigned int flags);
-> > > 
-> > > Allowing you to do:
-> > > 
-> > > 	key_serial_t dm_key;
-> > > 	int n = find_key(0, "keyring", ".dm_verity", &dm_key, 1,
-> > > 			 FIND_KEY_EXACT_DESC);
-> > > 
-> > > This wouldn't be as fast as a direct lookup since it would have to walk the
-> > > key tree, doing name comparisons and perm checks on each key of the type.
-> > > 
-> > > > And secondly special keys are meant for implicit keyrings so isn't
-> > > > that all there's to it?
-> > > 
-> > > I have no particular objection to setting aside a block of negative key IDs
-> > > for special keyrings that need to be accessed a lot - though I would make
-> > > common reg/unreg functions that take the ID to be registered and, say, set the
-> > > block at -257..-512.  Moving the BFP keyring to -257 and DM to -258.
-> > 
-> > To be clear are you suggesting I do that for v2 here? Happy to make the
-> > change and add some reuse to the registration functions, etc. I'm
-> > guessing its fine to change the bpf id since its still only in -next?
-> > 
-> > The only awkward bit with making that more generic is that dm-verity
-> > isn't __ro_after_init since its coming from a module possibly, and
-> > because of the module usage I also protected it with a spinlock in case
-> > someone's accessing it while you unload the module. Could just use one
-> > spinlock for the whole generic array, and drop the __ro_after_init I
-> > suppose.
-> > 
-> > Let me know if I'm not following properly!
-> 
-> I just read David's response and I think he made fair arguments,
-> and patches look fine to me.
-> 
-> David, did you have anything? I could pick these.
-> 
-> Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
-> 
+> Backport the fix to forbid truncate(2) of fsverity files on btrfs (and
+> also the fix for that fix).
 
-Gentle ping :)
+Queued the series for 6.12, thanks.
 
-Are we happy with these to get picked up?
-
+-- 
 Thanks,
-Andrew
+Sasha
