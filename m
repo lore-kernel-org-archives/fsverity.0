@@ -1,57 +1,189 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E991C411F99;
-	Wed,  7 Oct 2026 21:04:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0295F3624B3;
+	Thu,  8 Oct 2026 17:33:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791407065; cv=none; b=lpd+Bnsv2v+VaBhCTdbve98EqhUNRNbBiibvfK2I3AHCaEG1t3aXTuQi6n3RLTQ0Dsms4Frfqio0p0IYR808sWlDfjhZyJVtr01hoyel72hf8OEciXJrJFyL1Rt8ZGpc2OGpLPk70h4uufI1Ja1gjn9Hv8lpRKQWNhF7FisWrJM=
+	t=1791480830; cv=none; b=cWUY77rdyLd+h8uUP4rw65/MII9GE2zm+dFV51ngOfCV4o3YYgSYQ+wzGIZfvOK6UDgUCqfy9qvLYxW8wzvQYjvJG9+6XzBfVKPYZh/xQ38J7U/D6n8G6zPvKlzoEPhwybTZaZUn8XHl41Lq+zSHeIpFF+cpt5gAklckQpfKZqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791407065; c=relaxed/simple;
-	bh=8qZZBZmujXsnUmal2mVffrne8mTRG55SwXa36qqOr7o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HyXNlzB7HsJCx3udGBa+ueER/41t1yE/aIGj2Yhacx49kMNFOPBZdufxtcJlvqlkdABSPPVpWPMJs286JDDC5ke/hG2e/nXunznOgI4MN4rxyw/3X/FwcOsNHEPaiGHCW9mYT/OS2dnqyxiVv0p7KDErUzVH7irAJGXHHz5+jqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L7OUWzSs; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791480830; c=relaxed/simple;
+	bh=qjUkLXreYg8MXdiceVPsiNnpljXYWMTyIQ0/Bl5CPWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VxwIyO/w5ZEleo4k9PWNQPogf9PoNm1WxEqpwS5bW7nQZtWUaZoiInTsvRCDxNt4Jmdf7d7ypA0KQKxJnWJ7kbbd3V1gvoCWnzdJW+Ho6AoC6HiXGsVGWMsDpbz5S/J11AmdEZ7x2mNSKGt9QLuAVpz+QrVuruqxPt/9b8gFLmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hL8aekWD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L7OUWzSs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16BD91F00893;
-	Wed,  7 Oct 2026 21:04:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hL8aekWD"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 3E0771F000FF;
+	Thu,  8 Oct 2026 17:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791407064;
-	bh=2gQSZ0tzQCagzbbVWFsIfuUniGVyzMOGnpkWABPqHd8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=L7OUWzSsUTe5YQyfLzsLbp1XFC94E9sO8As96pjuw0FmLGYTpdXYTms42EM9In76s
-	 P1sVQikhPYoBSg2wmRfMFRvV4pFN6r1TXN+VJiejKKdQrGv/lTCCFB/wpoZh209buk
-	 kDgPRhTZwiz5cL5HG4weOgPlFOjep2k2jR3TUTf3sh287mbbpKr/lTGN01GjHGBCYn
-	 i+2RK6hRzxkJXqZAtDKkM+UO8d9C+MLLETnbAQLOZsxHOtZHUM25TOF1af4kh/koBG
-	 5u+AWI5qloxDL7EFkpHVcTYS+1DKxajB4w7JV5TfI8UBFRDXOMTJGVxjB0OdIzOkg0
-	 QMFvyG24uCs7A==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	fsverity@lists.linux.dev,
+	s=k20260515; t=1791480828;
+	bh=G4v32k8/a/EW1WFqBk/X57CZyQESBg0MOmvtF2yjKvU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hL8aekWDig0eQ/IB3W4TdhsV9BzgYHbYp6k6GUoeKwLB0Sw94BQw6k5bNTEfG6we+
+	 CmS19CDTrA+i3vY3gxsUou4g5KeSTL6RktPkWzFyFnIACLQ9/1iJJAWRJ1SKctNQPR
+	 h5zQPYUUhBouwf/IV/JMUXzktSx3NhyHLzdEns+nlYQuUA2jrIjlD+8+orpETlNI07
+	 EUw+hF6ngIpgDdXYrw7pHI4CJBQCMnKtmD/hvFwzXYtJCtdCa2xdJ4ASq9w8KT0Y1c
+	 fvBg49iGVWPDPPI3vPl0qanx5AYZhTIYwPbz3FcES98yY3s52n6tuJdMCh5IjHo08p
+	 Q9K74wOx4Ycbg==
+Date: Thu, 8 Oct 2026 20:33:45 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Andrew Halaney <andrew@amutable.com>
+Cc: David Howells <dhowells@redhat.com>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
 	Eric Biggers <ebiggers@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Theodore Ts'o <tytso@mit.edu>
-Subject: Re: [PATCH 5.10] fsverity: add dependency on 64K or smaller pages
-Date: Wed,  7 Oct 2026 17:03:39 -0400
-Message-ID: <2026-10-07-1-daily-reply-0022-fsverity-64k-pages-5-10@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261006215853.59771-1-ebiggers@kernel.org>
-References: <20261006215853.59771-1-ebiggers@kernel.org>
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-doc@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
+Message-ID: <asfT-SLkty5DC_Rx@kernel.org>
+References: <aqyiCavj3xeNqyAo@kernel.org>
+ <20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com>
+ <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
+ <715249.1789718726@warthog.procyon.org.uk>
+ <aq2VxlttdlTNlHo6@toolbx>
+ <arYzQN1ViuiCBemo@kernel.org>
+ <asZlNEFdvidvMdJ5@toolbx>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <asZlNEFdvidvMdJ5@toolbx>
 
-> For now, just disable support for FS_VERITY in these odd configurations
-> to ensure it isn't used in cases where it would have incorrect behavior.
+On Wed, Oct 07, 2026 at 10:30:14AM -0500, Andrew Halaney wrote:
+> On Fri, Sep 25, 2026 at 11:39:28AM +0300, Jarkko Sakkinen wrote:
+> > On Fri, Sep 18, 2026 at 02:59:49PM -0500, Andrew Halaney wrote:
+> > > On Fri, Sep 18, 2026 at 09:05:26AM +0100, David Howells wrote:
+> > > > Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > > > 
+> > > > > This is great for discussion but what we want for the commit message
+> > > > > is just motivation and resolution.
+> > > > 
+> > > > Actually, I think it's useful that Andrew wrote up the issues in the commit
+> > > > message - and I think it shows part of the motivation.  The 'writing a fake
+> > > > /proc/keys line in the description' is something I hadn't considered.
+> > > 
+> > > I'll defer to what you all want in the message here, I found it valuable
+> > > but I trend on the side of overly verbose admittedly!
+> > > 
+> > > > 
+> > > > > I don't think we need all this just to say that /proc/keys in a racy
+> > > > > query mechanism for production, which is an issue for dm-verity, given
+> > > > > that nothing else is available.
+> > > > 
+> > > > I think at some point, we will need a system call to search all for all
+> > > > accessible keys matching certain criteria by actually walking the key
+> > > > database.  The problem there is that there may be multiple hits, so we may
+> > > > need something like:
+> > > > 
+> > > > 	int count = find_key(key_serial_t start_id,
+> > > > 			     const char *type, const char *desc_prefix,
+> > > > 			     key_serial_t *results, size_t results_size,
+> > > > 			     unsigned int flags);
+> > > > 
+> > > > Allowing you to do:
+> > > > 
+> > > > 	key_serial_t dm_key;
+> > > > 	int n = find_key(0, "keyring", ".dm_verity", &dm_key, 1,
+> > > > 			 FIND_KEY_EXACT_DESC);
+> > > > 
+> > > > This wouldn't be as fast as a direct lookup since it would have to walk the
+> > > > key tree, doing name comparisons and perm checks on each key of the type.
+> > > > 
+> > > > > And secondly special keys are meant for implicit keyrings so isn't
+> > > > > that all there's to it?
+> > > > 
+> > > > I have no particular objection to setting aside a block of negative key IDs
+> > > > for special keyrings that need to be accessed a lot - though I would make
+> > > > common reg/unreg functions that take the ID to be registered and, say, set the
+> > > > block at -257..-512.  Moving the BFP keyring to -257 and DM to -258.
+> > > 
+> > > To be clear are you suggesting I do that for v2 here? Happy to make the
+> > > change and add some reuse to the registration functions, etc. I'm
+> > > guessing its fine to change the bpf id since its still only in -next?
+> > > 
+> > > The only awkward bit with making that more generic is that dm-verity
+> > > isn't __ro_after_init since its coming from a module possibly, and
+> > > because of the module usage I also protected it with a spinlock in case
+> > > someone's accessing it while you unload the module. Could just use one
+> > > spinlock for the whole generic array, and drop the __ro_after_init I
+> > > suppose.
+> > > 
+> > > Let me know if I'm not following properly!
+> > 
+> > I just read David's response and I think he made fair arguments,
+> > and patches look fine to me.
+> > 
+> > David, did you have anything? I could pick these.
+> > 
+> > Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+> > 
+> 
+> Gentle ping :)
 
-Queued for 5.10, thanks.
+Understandable :-)
 
--- 
-Thanks,
-Sasha
+> 
+> Are we happy with these to get picked up?
+
+Can you just do a resend that applies on top of latest mainline
+or my tree? I.e. b4 shazam was not happy about this.
+
+Full log:
+
+$ b4 shazam https://lore.kernel.org/keyrings/20260914-ajhalaney-dmverity-key-identifier-v1-2-01922dc1366a@amutable.com/
+Grabbing thread from lore.kernel.org/all/20260914-ajhalaney-dmverity-key-identifier-v1-2-01922dc1366a@amutable.com/t.mbox.gz
+
+Breaking thread to remove parents of 20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com
+Checking for newer revisions
+Grabbing search results from lore.kernel.org
+Analyzing 10 messages in the thread
+Analyzing 0 code-review messages
+Checking attestation on all messages, may take a moment...
+---
+  ✗ [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
+    + Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org> (✓ DKIM/kernel.org)
+    + Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org> (✓ DKIM/kernel.org)
+  ✗ [PATCH 2/3] keys: add KEY_SPEC_FS_VERITY_KEYRING
+    + Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org> (✓ DKIM/kernel.org)
+  ✗ [PATCH 3/3] Documentation: keys: document IDs added since KEY_SPEC_REQKEY_AUTH_KEY
+    + Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org> (✓ DKIM/kernel.org)
+  ---
+  ✗ BADSIG: DKIM/amutable-com.20251104.gappssmtp.com
+---
+Total patches: 3
+---
+ Base: base-commit 1a1de54f7369cd2b5bac0f265910e60ad3a6b4c3 not known, ignoring
+Applying: keys: add KEY_SPEC_DM_VERITY_KEYRING
+Patch failed at 0001 keys: add KEY_SPEC_DM_VERITY_KEYRING
+error: patch failed: include/linux/key.h:441
+error: include/linux/key.h: patch does not apply
+error: patch failed: include/uapi/linux/keyctl.h:25
+error: include/uapi/linux/keyctl.h: patch does not apply
+error: patch failed: security/keys/process_keys.c:25
+error: security/keys/process_keys.c: patch does not apply
+hint: Use 'git am --show-current-patch=diff' to see the failed patch
+hint: When you have resolved this problem, run "git am --continue".
+hint: If you prefer to skip this patch, run "git am --skip" instead.
+hint: To restore the original branch and stop patching, run "git am --abort".
+hint: Disable this message with "git config advice.mergeConflict false"
+
+> 
+> Thanks,
+> Andrew
+
+Br, Jarkko
