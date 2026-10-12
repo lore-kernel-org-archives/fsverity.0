@@ -1,85 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496D12FE042;
-	Mon, 12 Oct 2026 10:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DBB30D406;
+	Mon, 12 Oct 2026 13:13:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791801539; cv=none; b=Dg8bMhEqIMunnHY9+cC6S+PNlV+h2bSq16qfhpKKFEzm5Z0UBs7a+N0CdO9XALDaf1Sc/DCef7bRTagJ8KFted7z7yj8p/4MJ0BlejslRQxX7JS+KhHJ6wKBn0av3Yy8vKbxwrZ8/Ss9ZY3nSzCxMOwnSHJmRe+5edr5D++eXi0=
+	t=1791810784; cv=none; b=YycgwS7yLFFdqp+x++6FziUVfH8BY4hi9p/jG2ilDR6vox0DV9g2sVperbhvzpKN02RrpgkRjA8usiO6OVwjlcsrLNmSowTZIhV4ADFnDMnHUOlLoK6egYfWX5dmqMit2XbjsyRTA5K79WpMQ1LWcN9zKBGCPVc5JWusuODwp2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791801539; c=relaxed/simple;
-	bh=EQd+3dczeUe3H+Ot+Ypu0mX1arO0FEiWvLmZLukZDdQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=O7m6w+cvkxBlx5RuJbSxZuHDVETGT3yujQ7Ld6nbGAmyBZQOmENrWHZO/601btseoK3cstwY1fiTRS3+nwV6wDElKSB/1sDJAk9G7IE4FiD4oTLgho0GHedMZfGP7ml7JBemiZVEDoQnlm0VVGawpMddaKfOcEEFD9/O5m8W9gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HfrXc6gR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791810784; c=relaxed/simple;
+	bh=P454wXS9DdByiiPHUTNVgjn5IjNWcOJRLu+jD4eg/Pc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SaZB67FFtnOccWeiE8SGdaYjGF927nWfvHEiEXHSUdjtQKIYJpINvWYlW1cQ7yXzS2qUCqSF9pX8MmUu/McZt92qpq07Ql+L7u1QhNM+mFLct0cQBC15CYek6XZeV7CpdfuU8JQW75PKHDXtkRUGW/h3jFnOnJH5/MXiA1YR1ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KDpfWVnL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HfrXc6gR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A314A1F0089B;
-	Mon, 12 Oct 2026 10:38:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KDpfWVnL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B66A21F0089C;
+	Mon, 12 Oct 2026 13:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791801538;
-	bh=w4CH1veM7IQFs/FktA7SpJrlFII10QujZ+yrLExaIqI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=HfrXc6gRUF+pkWejsUoWAgc/NWJk5AZvEQJ3R5fb/piRDvekD7j4fXnaEBKrUFWiu
-	 yo2nKHd3T0KJm2jOpUXdv/mEFxQKq7QZHYDDPRj4khSGJH+0hVtdWPut1fw1TAFVgz
-	 wVIKZqXZzVPxnCWEETgvxSo/EP4BCrKUrOFJTic0ULf8/23H+Uv9f/UEDADD+X9oID
-	 b/4lvtH8jYhY6OHPcwf8VPsjitNOU/o2S0JUTNJBs2shuS23Q9Z22REZE26gmo5FEg
-	 tOGXrhH1g00dRg2oPXsxNL9+3YSlMhrqQM2y5PtAR4TjTHkn11tf70BaORRQEzBzTn
-	 w8W5+ezo31/ow==
+	s=k20260515; t=1791810782;
+	bh=4I5B7wBeXWUXzc9QUIb5L0wjsowp8PcPTfJjf0v/5MY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KDpfWVnLq9UsVjiuPGdSN9B+cXar5q+l6DBPzhmkDs+Ueb+r/Z8+7AbiaQcbXCLc9
+	 VNOnSmW8xS6bS/TAcyQ0f/pSevPXUEVgqfdbxP3WlBTOMB/gY12NSlqp3+whay9o8u
+	 SfYjiqBSX2o4k3933OLtpyYsadTur2naFzobQrigUJwNpGTMCuSa4cotQ63NgKCJiU
+	 Si3VBhD4g2S5Nx4OULNzEaPPu0qIdUIZ8JnRW+28Kb7x0GLpy8BBhN8su+PDY+YWum
+	 JGXgi0p0A69k2YrSGKqWSjLUZW1fpovIgDPH9GwXKDR+IKcL1JCaw4IqS7rJkndVkz
+	 3pDHjpNGHf+kA==
+Date: Mon, 12 Oct 2026 15:12:53 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Alexei Starovoitov <ast@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
- Mikulas Patocka <mpatocka@redhat.com>, 
- Benjamin Marzinski <bmarzins@redhat.com>, 
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Eric Biggers <ebiggers@kernel.org>, 
- "Theodore Y. Ts'o" <tytso@mit.edu>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Andrew Halaney <andrew@amutable.com>
-Cc: dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
- keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, 
- bpf@vger.kernel.org, fsverity@lists.linux.dev, linux-doc@vger.kernel.org
-In-Reply-To: <20261008-ajhalaney-dmverity-key-identifier-v2-0-008456d189cb@amutable.com>
-References: <20261008-ajhalaney-dmverity-key-identifier-v2-0-008456d189cb@amutable.com>
-Subject: Re: [PATCH bpf-next v2 0/3] keys: Add well known IDs for
- fs-verity/dm-verity keys
-Message-Id: <20261012-broschen-inanspruchnahme-gebilde-d72cf2b99cda@brauner>
-Date: Mon, 12 Oct 2026 12:38:50 +0200
+To: Manuel Huber <manuelh@nvidia.com>
+Cc: Andrew Halaney <andrew@amutable.com>, 
+	"bot+bpf-ci@kernel.org" <bot+bpf-ci@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
+	"agk@redhat.com" <agk@redhat.com>, "snitzer@kernel.org" <snitzer@kernel.org>, 
+	"mpatocka@redhat.com" <mpatocka@redhat.com>, "bmarzins@redhat.com" <bmarzins@redhat.com>, 
+	"dhowells@redhat.com" <dhowells@redhat.com>, "jarkko@kernel.org" <jarkko@kernel.org>, 
+	"paul@paul-moore.com" <paul@paul-moore.com>, "jmorris@namei.org" <jmorris@namei.org>, 
+	"serge@hallyn.com" <serge@hallyn.com>, "ebiggers@kernel.org" <ebiggers@kernel.org>, 
+	"tytso@mit.edu" <tytso@mit.edu>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "rdunlap@infradead.org" <rdunlap@infradead.org>, 
+	"dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"keyrings@vger.kernel.org" <keyrings@vger.kernel.org>, 
+	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+	"fsverity@lists.linux.dev" <fsverity@lists.linux.dev>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"martin.lau@kernel.org" <martin.lau@kernel.org>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, "mason@kernel.org" <mason@kernel.org>, 
+	"ihor.solodrai@linux.dev" <ihor.solodrai@linux.dev>, Fan Wu <wufan@kernel.org>
+Subject: Re: [PATCH bpf-next v2 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
+Message-ID: <20261012-wusste-werfen-loben-94aac9fd9cbe@brauner>
+References: <20261008-ajhalaney-dmverity-key-identifier-v2-1-008456d189cb@amutable.com>
+ <910460850fd4163dadb804fbdf6c17f6a9dfec060f4d865a17df87336ea3e165@mail.kernel.org>
+ <asgQxTE-6YtEgvYZ@toolbx>
+ <DM4PR12MB61364B4F81AE7A8D1FB71E1BDE902@DM4PR12MB6136.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-3d1b8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DM4PR12MB61364B4F81AE7A8D1FB71E1BDE902@DM4PR12MB6136.namprd12.prod.outlook.com>
 
-On Thu, 08 Oct 2026 15:57:34 -0500, Andrew Halaney wrote:
-> This more or less follows the bpf keyring approach, allowing userspace
-> to easily find the keys instead of having to parse /proc/keys.
+On Sun, Oct 11, 2026 at 09:35:43AM +0000, Manuel Huber wrote:
+> On Thu, Oct 08, 2026 at 02:57:00PM -0700, Andrew Halaney wrote:
+> > With the BPF keyring ID already being merged here in bpf-next, plus
+> > Jarkko's feedback/RB, I continued following the current pattern instead
+> > of walking back the BPF keyring ID, and dealing with the
+> > builtin/module/rodata differences I alluded to that would make that
+> > approach a little more annoying (at least with how I thought it thru).
+> 
+> Another data point for this design choice: after initial discussions
+> with Fan Wu, I am about to propose a dedicated .ipe keyring for IPE
+> policy-signature verification. The keyring would be exposed to
+> userspace so that a trusted entity can provision keys, modeled after
+> the .dm-verity keyring.
+> 
+> I do not want to introduce churn to this discussion. I am happy to
+> establish the reserved ID range and generic registration interface
+> upon proposing my changeset, to establish this separately, or to
+> follow any other suggestions. Getting guidance for this subject ahead
+> of time for the case where 'yet another keyring' is introduced would be
+> highly appreciated.
 
-Applied to the vfs-7.4.keyring branch of the vfs/vfs.git tree.
-Patches in the vfs-7.4.keyring branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.4.keyring
-
-[1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
-      https://git.kernel.org/vfs/vfs/c/d3b8a0988385
-[2/3] keys: add KEY_SPEC_FS_VERITY_KEYRING
-      https://git.kernel.org/vfs/vfs/c/8439e5c46c33
-[3/3] Documentation: keys: document IDs added since KEY_SPEC_REQKEY_AUTH_KEY
-      https://git.kernel.org/vfs/vfs/c/b553f7d131ed
-
+I think another keyring for just .ipe is fine if they want that. I
+wonder what you use ipe for. I've implemented ipe via a simple bpf lsm
+in userspace (well, for dm-verity. We don't use IMA or fsverity.). It's
+available in systemd itself. 
