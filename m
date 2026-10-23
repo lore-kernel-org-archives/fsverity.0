@@ -1,55 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792703753;
-	b=nTDJ7p3TVKCRz1tOVh4hU6FTCSV47TTNGUPsZbR1czokdWFaaZ6rnmzzxW84VivsRLuY
-	 z/wjMabXDZ+uwj3ScT3TWjA4U0t1PoEBLcH/GQ0I53cFS6PLnV86FVehMEf8Al8qxniuT
-	 fWZYAQwIEa9mLyxCEHrvtDfLRYYendS6UsQaUZtB9Wh+aMN1WZqTfSDd7BEuG5/wCjX49
-	 mu6Kmkom7qTteNtVWTuGa3ml3LciwbGdQ7sOCO4ffovoiMb2WecmN89q99NoDzvrO93ee
-	 03yElyafd3HAiIEuCiBt5ItzaMYW4fu8m1PpnsdkQlb9+BT8Yj68DKjXIgwXOyPp1GQ==
+	t=1792758520;
+	b=ISWEHRIRX6MmAc1Logu+7myU/1awBowabKOvEfFNI5KrEP1eTktP9P3vRhB9B0uDavi2
+	 zWl10Ep9UInCYqXy2R/+pCEbN+9sbyItERIyJw26gDt8+vD3D7C+Ii4DcZvsHZHCgFEl+
+	 VukiBsSOonbfSeWpnv7jiKORSAtkTVg8+7aRYEfCS544MUJ9XDqEzrXNNhaN6JNhN9gyl
+	 450QZDTVohcgPfAw0cvOgfgtemKbCZ1Zyxi2D6+Kip2OWYuLoVjLKqfablXpkCyBKUlcT
+	 bJgvseoTagYdN5ldt4VhBjZQdxWRRuYPd3LKAQ2vGA8KfdPzpl1kXkgTDX4mCcmBSsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792703753;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792758520;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ViygJGyeeKvJcEAVcpZEFMreWDoAi2NThaUnWrUztsE=;
-	b=5HzW9eGmfD45exqcl2AIByZaXRNzeRHcoa/OatIgCVEaA1DN7+R02e9hLdh8mD/CnG1k
-	 UBb6+Hxm8SVv0BnuDgn3fOUd8vxiRJ5pjnzP4OOz1CL/yvcrkO5sp4SewY+Egq06q0EYn
-	 mQldIuIx406iLHlICl59uFPWswATpPRyOGFDGCrT26XbkxyJFEgR+7OIVPYJl9DNueZAP
-	 uIGw6whAna1kGg1+LkC6dioWVuHINqjOpm+WmP2BwGjGlfmgulTCIiqAlCWSD45bjzZvV
-	 dhkKFLnrnpX3Sxv5Zs0fDQ1tXwHJ88vk6UOCaBHTlNpHq/IlbsG1IFEgNYpE7ARtLmQ==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=d0/08Y7FCHEGVevGTNjTfPTBox7sBeP1ImWEFHXBc7U=;
+	b=arTF8pZ1aiDHTSNJWnJvzS2yRpbkOARpIF+Ad7i9hmaqOiPbQAL4LNapkFYacs3skELF
+	 3Oy3/w2lmoLvgs2VgLVFlDnIoEL7f9b953SYZlu7BBQVRXx+PjDJpX4n4+T8WjQD0hqEU
+	 24Onb/cfgWoVpR+LWO5EwFrILm1bCj7swzkok9g/mUmuUb7UqYwzXq9LWTtJynWq+hSN4
+	 sby4Nfez0mTsHMoD6vItWFdNxW1aWIvcyReNmjvDYErHhgwlK9wKZM0xgdBGy81ZDl/+S
+	 J6rd+5x27SF5TfzL00u5oADhr8KWR1V5k7A1TC5QpaWr3LFCAnav1YZ+vrVmSk/WmnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SCxihNjW;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D9h5ueCh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D6D606A319;
-	Thu, 22 Oct 2026 21:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id A234F606A31B;
+	Fri, 23 Oct 2026 12:28:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SCxihNjW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C7851F01825;
-	Thu, 22 Oct 2026 21:15:52 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D9h5ueCh
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A11871F01825;
+	Fri, 23 Oct 2026 12:28:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792703752;
-	bh=ViygJGyeeKvJcEAVcpZEFMreWDoAi2NThaUnWrUztsE=;
-	h=From:To:Cc:Subject:Date;
-	b=SCxihNjWYTJswMFE/aoaWYWaNtZCzWx2fkm9erpYMu+dRRYAe3HrLDW5k0Hs6PFF1
-	 VGACzBA0gGUva6RmPUXAIWoAx3OAqQiVnTy4NSwiySXdxC85SrpOdir24N4cLCuofK
-	 peAS+eyD24b/1gcnIRHrYSMTXcBy21lAAFm6H/+ueZ4e6dVBp+F3iadh6yxnb5Tpp9
-	 6AkmR1nig2lrI7aS0t0NHyUVvmDGFLEK52AlscxlnbSHd5KFaiHi7q4E+ILWpgt0cn
-	 O1BFkL+g30Mga4W6DpSbG5LDokarVsF+Y92ZyokYYSYFVrVAAYSzygP2nmXkAlDpuq
-	 OYb+oOKGBxVeQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: fsverity@lists.linux.dev
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Andrey Albershteyn <aalbersh@kernel.org>,
+	s=k20260515; t=1792758519;
+	bh=d0/08Y7FCHEGVevGTNjTfPTBox7sBeP1ImWEFHXBc7U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=D9h5ueCh/HmoVl/YWOMqX73NXQvEpRAPoVC1sghyt5i02VbbQSXIwe7GdWztENeam
+	 lz5tRuAbBNIco6cIBhYN7G12385d4luQqEok6GjvhOuPU0Dz2sz2paszfrBra4M7LQ
+	 Ec9n/o0SODRbxLsTSpy3Ppd5LyT5HNHFORySsTg+HvDnb8ENZ0mhVyZkD9rz66Uug0
+	 ykLTxnv8ldhqGa19X6R7XIzcXjbMuGrx7EWFG4D93qEHIJ1mGLUP7cF9UVaW5ml8HF
+	 9OWg7QeZ7MsR3BW2YNd1JuQ/zxpBGl22lWXo8cbuRjEBXzxWfCWAsfoQXR4S4E9S2h
+	 RHVCwgvVyOvNg==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: keyrings@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
 	Eric Biggers <ebiggers@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] fsverity: Explicitly require FMODE_READ to retrieve hashes
-Date: Thu, 22 Oct 2026 21:15:22 +0000
-Message-ID: <20261022211522.1489943-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.56.0.307.g5fe7bd680c-goog
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	dm-devel@lists.linux.dev (open list:DEVICE-MAPPER  (LVM)),
+	linux-kernel@vger.kernel.org (open list),
+	fsverity@lists.linux.dev (open list:FSVERITY: READ-ONLY FILE-BASED AUTHENTICITY PRO...),
+	linux-security-module@vger.kernel.org (open list:SECURITY SUBSYSTEM),
+	linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
+Subject: [PATCH v2 4/6] KEYS: Introduce keyring_is_empty()
+Date: Fri, 23 Oct 2026 15:09:24 +0300
+Message-ID: <20261023120953.1206778-5-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261023120953.1206778-1-jarkko@kernel.org>
+References: <20261023120953.1206778-1-jarkko@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -61,122 +78,90 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The comment in fsverity_ioctl_read_metadata(), which justifies not
-checking for FMODE_READ, doesn't consider that the nonstandard access
-mode 3 (ioctl-only) exists.
+Introduce keyring_is_empty() in order to decouple for dm-verity and
+fs-verity how keyring internally manages the keys.
 
-Opening an ioctl-only fd generally requires read (and write) permission.
-However, there are gaps with certain LSMs: an ioctl-only fd requests
-read (and write) permission via security_inode_permission, but not
-security_file_open.  With certain LSMs relying on the latter, such as
-Landlock and AppArmor, an ioctl-only fd can be opened without the LSM
-granting read (and write) permission.
-
-Since FS_IOC_READ_VERITY_METADATA returns hashes of file contents
-blocks, it should require read permission.  This also applies to
-FS_IOC_MEASURE_VERITY, which returns a hash for the whole file.
-
-Meanwhile, ioctl-only fds are a rarely-used feature, not known to be
-used with either ioctl.
-
-Therefore, just disallow these ioctls on ioctl-only file descriptors,
-similar to what was already done with FS_IOC_ENABLE_VERITY.
-
-More specifically, explicitly check for FMODE_READ.  This also covers
-write-only fds to non-verity files which otherwise would have failed
-with ENODATA.  This change in error code for write-only fds should be
-fine too, as these ioctls cannot be usefully used with write-only fds
-anyway, but it's worth noting as another technicality.
-
-Fixes: 4dd893d832cf ("fs-verity: implement FS_IOC_MEASURE_VERITY ioctl")
-Fixes: e17fe6579de0 ("fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl")
-Cc: stable@vger.kernel.org
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- Documentation/filesystems/fsverity.rst |  3 +++
- fs/verity/measure.c                    | 10 ++++++++++
- fs/verity/read_metadata.c              | 14 ++++++++++----
- 3 files changed, 23 insertions(+), 4 deletions(-)
+ drivers/md/dm-verity-verify-sig.c                      |  2 +-
+ fs/verity/signature.c                                  |  2 +-
+ include/linux/key.h                                    |  1 +
+ security/keys/keyring.c                                | 10 ++++++++++
+ .../selftests/dm-verity/test-dm-verity-keyring.sh      |  2 +-
+ 5 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-index 22b49b295d1f9..e5d38439bf585 100644
---- a/Documentation/filesystems/fsverity.rst
-+++ b/Documentation/filesystems/fsverity.rst
-@@ -170,6 +170,7 @@ fatal signal), no changes are made to the file.
- FS_IOC_ENABLE_VERITY can fail with the following errors:
+diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+index b2b55c41e2cb..2ccb71bfb3ca 100644
+--- a/drivers/md/dm-verity-verify-sig.c
++++ b/drivers/md/dm-verity-verify-sig.c
+@@ -153,7 +153,7 @@ int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+ 	if (ret != -ENOKEY && ret != -EKEYREJECTED)
+ 		return ret;
  
- - ``EACCES``: the process does not have write access to the file
-+- ``EBADF``: the file descriptor is not open for reading
- - ``EBADMSG``: the builtin signature is malformed
- - ``EBUSY``: this ioctl is already running on the file
- - ``EEXIST``: the file already has verity enabled
-@@ -232,6 +233,7 @@ regardless of the size of the file.
+-	if (dm_verity_keyring->keys.nr_leaves_on_tree &&
++	if (!keyring_is_empty(dm_verity_keyring) &&
+ 	    dm_verity_keyring->restrict_link)
+ 		ret = verify_pkcs7_signature(root_hash, root_hash_len,
+ 					     sig_data, sig_len,
+diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+index 0302a4e506ec..890d33b9d812 100644
+--- a/fs/verity/signature.c
++++ b/fs/verity/signature.c
+@@ -67,7 +67,7 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
+ 		return 0;
+ 	}
  
- FS_IOC_MEASURE_VERITY can fail with the following errors:
+-	if (fsverity_keyring->keys.nr_leaves_on_tree == 0) {
++	if (keyring_is_empty(fsverity_keyring)) {
+ 		/*
+ 		 * The ".fs-verity" keyring is empty, due to builtin signatures
+ 		 * being supported by the kernel but not actually being used.
+diff --git a/include/linux/key.h b/include/linux/key.h
+index 3b8af14fb323..df2034fc5436 100644
+--- a/include/linux/key.h
++++ b/include/linux/key.h
+@@ -439,6 +439,7 @@ extern int restrict_link_reject(struct key *keyring,
+ 				struct key *restriction_key);
  
-+- ``EBADF``: the file descriptor is not open for reading
- - ``EFAULT``: the caller provided inaccessible memory
- - ``ENODATA``: the file is not a verity file
- - ``ENOTTY``: this type of filesystem does not implement fs-verity
-@@ -310,6 +312,7 @@ blocks from disk without actually verifying the path to the root node.
+ extern int keyring_clear(struct key *keyring);
++bool keyring_is_empty(const struct key *keyring);
  
- FS_IOC_READ_VERITY_METADATA can fail with the following errors:
+ extern key_ref_t keyring_search(key_ref_t keyring,
+ 				struct key_type *type,
+diff --git a/security/keys/keyring.c b/security/keys/keyring.c
+index 5281da9d5bf7..4642754db6bf 100644
+--- a/security/keys/keyring.c
++++ b/security/keys/keyring.c
+@@ -443,6 +443,16 @@ static void keyring_destroy(struct key *keyring)
+ 	assoc_array_destroy(&keyring->keys, &keyring_assoc_array_ops);
+ }
  
-+- ``EBADF``: the file descriptor is not open for reading
- - ``EFAULT``: the caller provided inaccessible memory
- - ``EINTR``: the ioctl was interrupted before any data was read
- - ``EINVAL``: reserved fields were set, or ``offset + length``
-diff --git a/fs/verity/measure.c b/fs/verity/measure.c
-index 68dfccb697720..0c75616dca011 100644
---- a/fs/verity/measure.c
-+++ b/fs/verity/measure.c
-@@ -31,6 +31,16 @@ int fsverity_ioctl_measure(struct file *filp, void __user *_uarg)
- 	const struct fsverity_hash_alg *hash_alg;
- 	struct fsverity_digest arg;
- 
-+	/*
-+	 * This ioctl returns a hash of the file contents, so it should require
-+	 * read permission.  Disallow it on ioctl-only (i.e., nonstandard access
-+	 * mode 3) fds, which can in some cases be acquired without passing all
-+	 * LSM read-permission checks.  Also disallow write-only fds, which can
-+	 * refer only to non-verity files which would fail with ENODATA anyway.
-+	 */
-+	if (!(filp->f_mode & FMODE_READ))
-+		return -EBADF;
++/**
++ * keyring_is_empty - Check whether a keyring contains any links
++ * @keyring: The keyring to check.
++ */
++bool keyring_is_empty(const struct key *keyring)
++{
++	return READ_ONCE(keyring->keys.nr_leaves_on_tree) == 0;
++}
++EXPORT_SYMBOL(keyring_is_empty);
 +
- 	vi = fsverity_get_info(inode);
- 	if (!vi)
- 		return -ENODATA; /* not a verity file */
-diff --git a/fs/verity/read_metadata.c b/fs/verity/read_metadata.c
-index b4c0892430cde..6694149f7b467 100644
---- a/fs/verity/read_metadata.c
-+++ b/fs/verity/read_metadata.c
-@@ -166,13 +166,19 @@ int fsverity_ioctl_read_metadata(struct file *filp, const void __user *uarg)
- 	int length;
- 	void __user *buf;
+ /*
+  * Describe a keyring for /proc.
+  */
+diff --git a/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh b/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
+index 1f9601ef22f8..792449d356cf 100755
+--- a/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
++++ b/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
+@@ -746,7 +746,7 @@ test_keyring_inactive_when_empty() {
+     log_info "TEST: Verify dm-verity keyring is inactive when sealed empty"
  
-+	/*
-+	 * This ioctl returns file contents block hashes, so it should require
-+	 * read permission.  Disallow it on ioctl-only (i.e., nonstandard access
-+	 * mode 3) fds, which can in some cases be acquired without passing all
-+	 * LSM read-permission checks.  Also disallow write-only fds, which can
-+	 * refer only to non-verity files which would fail with ENODATA anyway.
-+	 */
-+	if (!(filp->f_mode & FMODE_READ))
-+		return -EBADF;
-+
- 	vi = fsverity_get_info(inode);
- 	if (!vi)
- 		return -ENODATA; /* not a verity file */
--	/*
--	 * Note that we don't have to explicitly check that the file is open for
--	 * reading, since verity files can only be opened for reading.
--	 */
+     # When keyring_unsealed=0, the keyring is sealed immediately while empty
+-    # This means it should NOT be used for verification (nr_leaves_on_tree=0)
++    # An empty keyring should NOT be used for verification.
  
- 	if (copy_from_user(&arg, uarg, sizeof(arg)))
- 		return -EFAULT;
-
-base-commit: 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
+     log_info "Keyring state (should be empty and sealed):"
+     list_keyring_keys
 -- 
-2.56.0.307.g5fe7bd680c-goog
+2.47.3
 
