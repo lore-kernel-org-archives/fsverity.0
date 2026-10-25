@@ -1,55 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792758520;
-	b=ISWEHRIRX6MmAc1Logu+7myU/1awBowabKOvEfFNI5KrEP1eTktP9P3vRhB9B0uDavi2
-	 zWl10Ep9UInCYqXy2R/+pCEbN+9sbyItERIyJw26gDt8+vD3D7C+Ii4DcZvsHZHCgFEl+
-	 VukiBsSOonbfSeWpnv7jiKORSAtkTVg8+7aRYEfCS544MUJ9XDqEzrXNNhaN6JNhN9gyl
-	 450QZDTVohcgPfAw0cvOgfgtemKbCZ1Zyxi2D6+Kip2OWYuLoVjLKqfablXpkCyBKUlcT
-	 bJgvseoTagYdN5ldt4VhBjZQdxWRRuYPd3LKAQ2vGA8KfdPzpl1kXkgTDX4mCcmBSsw==
+	t=1792887144;
+	b=Y1jFZHEZ8IWIamkfrh3Tt0lyiePUcw/gbQk4KAxBS4r6KcNGrOMxg5BNvkoBuAzobdaL
+	 pDwhcLsHUXjQnoIqL/EfLIsn3MNnMbR2Pe6bLhndjB37OwnhX1jWLUZ73pJmAY16ci1N6
+	 cQr4bOpPGPD289Gbcqc9JFHI5Kjk2cE6XTuh2c5IdXanpvlURsZoda0C16DEoEQFRP+MX
+	 GE5Zs1ypn0uctVTizlgEJyAouu7FL9AoZlb9vB08bQsMSAPl1vG0SiRDXr36JXR3NbOZr
+	 28B1B0c43G42PlcnG0g5AATdU9XtUcPZR/iCmP9Gw4/vw8sGk3nslcgskvXnLrltkVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792758520;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792887144;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
 	bh=d0/08Y7FCHEGVevGTNjTfPTBox7sBeP1ImWEFHXBc7U=;
-	b=arTF8pZ1aiDHTSNJWnJvzS2yRpbkOARpIF+Ad7i9hmaqOiPbQAL4LNapkFYacs3skELF
-	 3Oy3/w2lmoLvgs2VgLVFlDnIoEL7f9b953SYZlu7BBQVRXx+PjDJpX4n4+T8WjQD0hqEU
-	 24Onb/cfgWoVpR+LWO5EwFrILm1bCj7swzkok9g/mUmuUb7UqYwzXq9LWTtJynWq+hSN4
-	 sby4Nfez0mTsHMoD6vItWFdNxW1aWIvcyReNmjvDYErHhgwlK9wKZM0xgdBGy81ZDl/+S
-	 J6rd+5x27SF5TfzL00u5oADhr8KWR1V5k7A1TC5QpaWr3LFCAnav1YZ+vrVmSk/WmnA==
+	b=N+dx5JCyQpKpdb+ASC0u0DSSae51+AvxjSWgg0DwKeCerOTY2JGJrPkc3rxf+32DhmCr
+	 LfZL2w4G+rghi/DLKzAmDJ6SJhJWWVkEzEBfhB4J5zGpVG/excojA7KPRAGO6sGSPZPZR
+	 sQY3CJecCRpKSTF/AI3mQ0OKEZWUWBa07lLqdp1t9Xes81fVdNu5IAXvgRAyds+/ofnY7
+	 GnUXlgalt+CFhETdHbB98owjUdrMeewyB7lCSEP5yGTxsYcOiQY+xBFSEjbTWX+VbJUSS
+	 8JUGuP3cxQhuBS+yXp/81eADl7RnvEZWuTZEOYyazwBJej2AzFWQYnlCpIPSAFAprHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D9h5ueCh;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WN4Hv2Iq;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id A234F606A31B;
-	Fri, 23 Oct 2026 12:28:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 0ABC4606A31A;
+	Sun, 25 Oct 2026 00:12:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D9h5ueCh
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A11871F01825;
-	Fri, 23 Oct 2026 12:28:38 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WN4Hv2Iq
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 33C6F1F01825;
+	Sun, 25 Oct 2026 00:12:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792758519;
+	s=k20260515; t=1792887143;
 	bh=d0/08Y7FCHEGVevGTNjTfPTBox7sBeP1ImWEFHXBc7U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=D9h5ueCh/HmoVl/YWOMqX73NXQvEpRAPoVC1sghyt5i02VbbQSXIwe7GdWztENeam
-	 lz5tRuAbBNIco6cIBhYN7G12385d4luQqEok6GjvhOuPU0Dz2sz2paszfrBra4M7LQ
-	 Ec9n/o0SODRbxLsTSpy3Ppd5LyT5HNHFORySsTg+HvDnb8ENZ0mhVyZkD9rz66Uug0
-	 ykLTxnv8ldhqGa19X6R7XIzcXjbMuGrx7EWFG4D93qEHIJ1mGLUP7cF9UVaW5ml8HF
-	 9OWg7QeZ7MsR3BW2YNd1JuQ/zxpBGl22lWXo8cbuRjEBXzxWfCWAsfoQXR4S4E9S2h
-	 RHVCwgvVyOvNg==
+	b=WN4Hv2IqQWLVRP/M4vAiyAP5X3mm8J5IoQ2L1ebzSJC7Dl93iyjjKp8RDsjnL4SfI
+	 uTa3vB52skHgrJf+3C21jON6CVuJSSF65O9+D8Awt3RhVlfB44q1YPdXk5+l9YxSZ8
+	 xcAKoY46pCgH6u5EM1/bRZOxT6swuFe++psPWLIgBafboJtLWQVNB8yn8ycHljFVwR
+	 VA9jow8jDmAHT69hWz2+4G80yO1m/Vm/XCutHlD5JNVPmw7y/qKSrB1S+WRVtrxwuq
+	 ZfEsu4cyM4LbH0mwOWXKDdSoMEOPC68q+Gesd8EcIF8oQqwGCQyODUAeOQJ0IIzgsJ
+	 t70zM+F6cZ4VA==
 From: Jarkko Sakkinen <jarkko@kernel.org>
 To: David Howells <dhowells@redhat.com>
 Cc: keyrings@vger.kernel.org,
 	Linus Torvalds <torvalds@linux-foundation.org>,
+	Eric Biggers <ebiggers@kernel.org>,
 	Jarkko Sakkinen <jarkko@kernel.org>,
 	Alasdair Kergon <agk@redhat.com>,
 	Mike Snitzer <snitzer@kernel.org>,
 	Mikulas Patocka <mpatocka@redhat.com>,
 	Benjamin Marzinski <bmarzins@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
 	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Thomas Graf <tgraf@suug.ch>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Paul Moore <paul@paul-moore.com>,
 	James Morris <jmorris@namei.org>,
@@ -59,14 +61,15 @@ Cc: keyrings@vger.kernel.org,
 	dm-devel@lists.linux.dev (open list:DEVICE-MAPPER  (LVM)),
 	linux-kernel@vger.kernel.org (open list),
 	fsverity@lists.linux.dev (open list:FSVERITY: READ-ONLY FILE-BASED AUTHENTICITY PRO...),
+	linux-crypto@vger.kernel.org (open list:RHASHTABLE),
 	linux-security-module@vger.kernel.org (open list:SECURITY SUBSYSTEM),
 	linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
-Subject: [PATCH v2 4/6] KEYS: Introduce keyring_is_empty()
-Date: Fri, 23 Oct 2026 15:09:24 +0300
-Message-ID: <20261023120953.1206778-5-jarkko@kernel.org>
+Subject: [PATCH v3 4/6] KEYS: Introduce keyring_is_empty()
+Date: Sun, 25 Oct 2026 03:10:12 +0300
+Message-ID: <20261025001105.1824178-5-jarkko@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261023120953.1206778-1-jarkko@kernel.org>
-References: <20261023120953.1206778-1-jarkko@kernel.org>
+In-Reply-To: <20261025001105.1824178-1-jarkko@kernel.org>
+References: <20261025001105.1824178-1-jarkko@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
