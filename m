@@ -1,53 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793021793;
-	b=lClPhfH1a1pvP9moc/OmUnqFddu6maw6YhUYj8OEEfOvajNpWJQK5P2UstspHMLYVLd9
-	 fKV6U4igeRJ2Ihvgfaum5wbDyspNMMA6Ybf74Wa8OTOqevKlzgTi9/ZzAuNo0riHlUCnw
-	 c9NatIJE5aAg+Xy4tijXrgVqWkkGyaNt0QurVlH2mvD5iiY4VEVYbQS1vQ6qEWCMNvQX3
-	 6j6Yg0gA0lK4Q74qvIBtOo2NCd+OsMqkZLrj2SZRQJb/7mB8nNGbQbYRDBN5G+ZyRKOyA
-	 O4XwXJk286O6noEvQ60xOuWgY3AAB6zjLqgzn9Gisrjxqf1I2THeE3H3seQCMmFlK/w==
+	t=1793058932;
+	b=YQViq9JxtW0mJRfHg9AXPnSQ8scZKMAldrq6I/yjNqkCfq++tlC70zgJs+G09ZpQRZIE
+	 uNxHhfxZPoqf1vqWMpfl9iP85Zz3Tw5FsgvzH7eOULnZ6T/TSjhdO+wkayB9Mm+yrnqIZ
+	 HzGAzg/uA+i7QyH4gS1tphWaGJ5UJMlyrgDV8E9vN7RwXysicGT4gWI9wtmSEnMZgqosM
+	 VHpbm+sM/fmxc2mevC3yg/jGJYiSx6WHkNuIAYAeHDt1vXm2ZRokWVixyzkBcjXM9X1K+
+	 z8/CGQLLLs+qK4Y0a+TI9obAkgZ03xhI0EXuGaCx34u3fEHNVSpk2G4a4ndg74sHY2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793021793;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793058932;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TLbxcjc9HC/bzrb00HtQdr6XFdlMjDXglTQf+OuewPw=;
-	b=nO807PRkicIEn5eFOnZELhzbOVSjLg6s1rqaDq+l8/pO56oDvQ57hMPhRp+wWErTxYR7
-	 m53bBXE7GaOQbKAb/HSQztBJ1EZArgPQOC9fii+VF9mSiodU167dR5Je1MvIPj2yQuph9
-	 5Jx4A5v3UKlmSIXF+PvJhNm2XgQTCpsCr195i/QzOYFKSu7KUyroown8By0TA/3i4ckrn
-	 7ulw2wlL4k36WyIybSaVeulxHd7uMhwYN8/nPPumNBlvgIbE3ZgepOXOZwznT4tVVBKGN
-	 ryPK+KxfTLhA93V+xzYkoeNqSRKjMWWmaUjV/XQ+RMGhrZUkt+FockUMGZm/Z2KGXWw==
+	bh=VynIgSurKHQaOCUBkhJuuPI91r+51atCbpgVjkqWOnM=;
+	b=RXVz5+Ur6yKBAlXpUg8OjjqL3XJFS8Ke3TFwruzDSWvarhpX15Wb6DXGg6RkfzZr/ZT/
+	 h4bdS1k96mgvPKZZ0U6BcxTjyQQdVw0/xjeplY70cwgCnh05xO0Ffs9MpdHLhn0TkXsbX
+	 zD7aa9HotBkOtTSOsnF6T1QK+xMajQN6BI8rKdLArCnU0f7lmkhQa4Jn8d5xqA7cFM/Px
+	 RETfugZh7Bxn03xgIhhn8qa8wIbav1G3M37foPR1edBvR7I9+ln+LPrtyRzlYIeD+pUBD
+	 66cd7cdFV1YESi/tZyUDuGPSIhaU2TWWfiXlZvKnBFsh12Aisw+PixnALE53oQuLC7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XZTPUJtW;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eoGYorJ7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C05E606A31A;
-	Mon, 26 Oct 2026 13:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD925606A31B;
+	Mon, 26 Oct 2026 23:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XZTPUJtW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07E731F01829;
-	Mon, 26 Oct 2026 13:36:31 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eoGYorJ7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B0371F01825;
+	Mon, 26 Oct 2026 23:55:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793021793;
-	bh=TLbxcjc9HC/bzrb00HtQdr6XFdlMjDXglTQf+OuewPw=;
+	s=k20260515; t=1793058931;
+	bh=VynIgSurKHQaOCUBkhJuuPI91r+51atCbpgVjkqWOnM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XZTPUJtWABGcedlMro6yimEbn8xlo60A7Qc8l4MW5KsLnAVkqewN+JtiFH+BZNwHa
-	 UF8FcEhomFiGAdDhmZ5KthOuCUwLNV7Gt4Tspz2lRzEdjnin1HAk1sN174Cg9GQoii
-	 sqLcXtUONkz34uYcdGsBIaDM85pd7zUPdu/+fUHh1iRWA9OKXaoewsV28FWBd/lUV0
-	 VHaFgYlLzQHlGRJq7i4PwjV+c9lFxajsapWunv9GPOqVRrbLUYg64wg/lVlx6rco8j
-	 uAufYyaGQeWolhc48Sa6TqTzwIr/pioMvBItowZ0vXtudAu5+DQDwz9DTCqxNRalti
-	 /Rev7H41aedTg==
-Date: Mon, 26 Oct 2026 14:36:29 +0100
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fsverity: Explicitly require FMODE_READ to retrieve
- hashes
-Message-ID: <at9WRK2L4GtBjo2v@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20261022211522.1489943-1-ebiggers@kernel.org>
+	b=eoGYorJ7zvT8PcPJ1fs23u46Fhju/bkcw33/56WLZauBwe0CiVgIPS8uq+13xNP5C
+	 iq287Rm5RDqUJFitdyuCVhomIE/WZxYUqYATsKVhYXZcNQUS4KP0YEmQJj7qG6WKps
+	 PDCpiAmlYi9tzUvXrefuWbc8nNUNnuEBdIMZZ+dgPJbxn0TVSjD3SuSkEBInURKZhE
+	 u3XnjUZWPAZJP1V1uueG5Ov36zPXbNG2rhU+/tz6f/e2mxAlgaYMlLOtUpU0XEAvXM
+	 tz19eiItvTGMLR1d5YYW/reWzyBkD8WETi5UE0n/nD9TEqp4DucpujBbl4v3l4VQ11
+	 1HpjkOIbBDhog==
+Date: Mon, 26 Oct 2026 16:55:28 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>, Thomas Graf <tgraf@suug.ch>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"open list:DEVICE-MAPPER (LVM)" <dm-devel@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:FSVERITY: READ-ONLY FILE-BASED AUTHENTICITY PRO..." <fsverity@lists.linux.dev>,
+	"open list:RHASHTABLE" <linux-crypto@vger.kernel.org>,
+	"open list:SECURITY SUBSYSTEM" <linux-security-module@vger.kernel.org>,
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v3 4/6] KEYS: Introduce keyring_is_empty()
+Message-ID: <20261026235528.GA2395@quark>
+References: <20261025001105.1824178-1-jarkko@kernel.org>
+ <20261025001105.1824178-5-jarkko@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -59,43 +74,21 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261022211522.1489943-1-ebiggers@kernel.org>
+In-Reply-To: <20261025001105.1824178-5-jarkko@kernel.org>
 
-On 2026-10-22 21:15:22, Eric Biggers wrote:
-> The comment in fsverity_ioctl_read_metadata(), which justifies not
-> checking for FMODE_READ, doesn't consider that the nonstandard access
-> mode 3 (ioctl-only) exists.
-> 
-> Opening an ioctl-only fd generally requires read (and write) permission.
-> However, there are gaps with certain LSMs: an ioctl-only fd requests
-> read (and write) permission via security_inode_permission, but not
-> security_file_open.  With certain LSMs relying on the latter, such as
-> Landlock and AppArmor, an ioctl-only fd can be opened without the LSM
-> granting read (and write) permission.
-> 
-> Since FS_IOC_READ_VERITY_METADATA returns hashes of file contents
-> blocks, it should require read permission.  This also applies to
-> FS_IOC_MEASURE_VERITY, which returns a hash for the whole file.
-> 
-> Meanwhile, ioctl-only fds are a rarely-used feature, not known to be
-> used with either ioctl.
-> 
-> Therefore, just disallow these ioctls on ioctl-only file descriptors,
-> similar to what was already done with FS_IOC_ENABLE_VERITY.
-> 
-> More specifically, explicitly check for FMODE_READ.  This also covers
-> write-only fds to non-verity files which otherwise would have failed
-> with ENODATA.  This change in error code for write-only fds should be
-> fine too, as these ioctls cannot be usefully used with write-only fds
-> anyway, but it's worth noting as another technicality.
-> 
-> Fixes: 4dd893d832cf ("fs-verity: implement FS_IOC_MEASURE_VERITY ioctl")
-> Fixes: e17fe6579de0 ("fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+On Sun, Oct 25, 2026 at 03:10:12AM +0300, Jarkko Sakkinen wrote:
+> +/**
+> + * keyring_is_empty - Check whether a keyring contains any links
+> + * @keyring: The keyring to check.
+> + */
 
-Looks good too
-Reviewed-by: Andrey Albershteyn <aalbersh@kernel.org>
+"contains any links" => "contains no links"?  Or even just "is empty".
+Otherwise it sounds backwards.
 
--- 
-- Andrey
+Note that another "is the keyring empty" check just showed up in
+mainline in kernel/bpf/keys.c.  So a new version of this patch will be
+needed to update that one too.
+
+Otherwise this patch looks good.
+
+- Eric
