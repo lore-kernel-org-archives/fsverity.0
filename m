@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793630555;
-	b=x6tKmNZuduNSAMVKMlyI4nxfvtaHHlqc7PNgoH/i3teyUSi5VeFQ1wtw6FQuYCuyKONd
-	 qB8/IOv597YwquREswo/1CukyhQe42Rt0HuKpX/1dSPRpdh3BPDysiz+fafz1tgfBenqD
-	 ik+FDj14fyb8GcPuOxOHO1tI+tGnEAXAW0FKpFsH0YQBgwLDfczpZo1//ZH/eBeMxNDK6
-	 CNHreVIlOXGOSZlUdyUZq3FdTOsM1SCmDFPhtHtH+Xop7InGcOAWvTSP6WS+lphdO5Vk0
-	 HB1JuemqFOROwqhnQ98NgShUHq87U9s4cD5g82W3y8tEZ0s8d0KviDQ+o+xNgYsBd5g==
+	t=1793630558;
+	b=Mlj0o/r2ACYFKd0M77IKh1a4iMQnpwZUq+FP8f+od8ePMAced2Lm0/+JVuP6n5yCrlgZ
+	 I4so0U9DwQMZoPj5h/cTwzEWe+0zLuqg40diW2xiSdPfHW7GlL3069HGcbLaIMDJAStTM
+	 nnxmlKcVHZqRBs8FetwCsa/ReABXSaGh0OYnScS6nVwt7y/tyc037RfkGynnLloFZrjYe
+	 4W+momTzdml6mLwNQMuemQ6lg+YlNYYKDutsMmLhZMtmX/XyastJPdpPyjt9VZQ24xsJ2
+	 bzQJCmcEGNkO43SJXb6bXXD3r38omCSY6ChU9xA+HmZ40E1IVsJ9jIZzIEHPV+Jzl6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793630555;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793630558;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=TLtUxR+/Tr6ujbyljIYu0n1EPkoz4aYMHP0/3Q8WpVw=;
-	b=uL1/zz0aYbLH+h6Pgco8dNm+wjRG2GlgkVcvNh7NpiRYHICYFbLL5R1JcYwL8vcGhLkq
-	 GP0l8zWZQiweCvApcolIpf+dMx93lwIK7+wxGl/J8/7ZOrEvQn37J+JQuKW+CgFqA9Dfr
-	 3LEKgAi8fyFLruRNdrH/YmuiI448HxGgHhqsemTz2m41HWksNq92CVI4eKxFXMr96t4xf
-	 F1FzREDrfICVduC6DTQC4LsD2xZACUj8Cce8sPZqObEVklhhBQ1LRaII81YYEPNTfPNOM
-	 LtGExjvZI9IFxSfXo6gfgvfxiDNimHyZIBWZtHlOShMVtVJRQecovgtXzHY0GHF9jnw==
+	bh=mhi8hKhT1wsP3ktcPguqIrg7y3lPp+S8z3kD7+SeFPI=;
+	b=v3CnaiChXpK7LvLq5cpy5QOrYZe7+o6ReJ9oDkduXcc5jmnsc/2KCJB270x+WHQH/Ujc
+	 zjsTBYT3iAzQ7+eIjn/jlF3ESRFLYpgRIyz2yinhG6yQk5lMn7qyGadD97KX+8n9mkqBZ
+	 0DHBL+eFBYLs8kaRxrg2G4wLOD/tXUF+KJM1T+e/uLgvuscwUoasZZILE2rBp9zm8HzNx
+	 91z2LSo3LD0rE5z1Xe+37XoC0bvB9qJhi26+RSRBEdiShpg8n6IKRzr0V95ECSGFV3Eig
+	 MTxSD+Oaj+c3djrxz5vrlowuyYTP6PBL074nxkTMfOLSDyIAdaToOXUz5USRjHKA/OQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EvQmmpqC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RrJIOEL3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12334606FB7B;
-	Mon,  2 Nov 2026 14:42:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2D4607E0E9;
+	Mon,  2 Nov 2026 14:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EvQmmpqC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D40BB1F00A1A;
-	Mon,  2 Nov 2026 14:42:32 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RrJIOEL3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65FFF1F00A16;
+	Mon,  2 Nov 2026 14:42:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793630554;
-	bh=TLtUxR+/Tr6ujbyljIYu0n1EPkoz4aYMHP0/3Q8WpVw=;
+	s=k20260515; t=1793630557;
+	bh=mhi8hKhT1wsP3ktcPguqIrg7y3lPp+S8z3kD7+SeFPI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=EvQmmpqCgandJEhyQdJpGv8aQjo7kyEoOShrr8GNZzFGwmTYFDZcj/lye6GLRLNKp
-	 hSrxPja8lrVBqTPmTsxeXWOcbg5dMNVG0vb+qvnIOEkdTZWce8IItWUUk/6nw0znB9
-	 Bt5cNJ2b91qFCdhs/rKnzS0+lqsMkXjwC2qUyl+OdWO3gfl8CP1DNdfoM1VQ/8QCwS
-	 5mDv8mJiinYHjdJ5CFz+HQa1jpvQMgmrD3G3DMNprIpOzF5u7YJPVQktGN070aRFbU
-	 r4mcUpd8p2q2dACrUT3DjF8984vHKmzLjG7tWKej+srAM1Nk1nPBftvtzl6AAjQkWZ
-	 J4r6NHDBR6CTQ==
+	b=RrJIOEL3pMDF7YTeoNxecujV7/1g7ng86AnbKA7vaJXzz5xmxD5hDUACsr96MoLZY
+	 byIEGsuZxbEknUMEhfVnRSkJ6Md8HOkN3QgCoUvNJ2XqMUJGSMoItIIn3HRTVsCPNW
+	 gGoJiYGwpBlf0pEpojYXxuiEKRJBKna/4Rp9cI5uQswBz6rieCdBZq8NIx837YZQkz
+	 a4ndu3fmQcAfPwjbzdiIyaGlQfivX7XEfbqwM9zEdqlv3JSIzowxL0P6dNef2tQHES
+	 yhgo3BNtVYCOlnYor2cHQXXwKb8VQp0+djpzUV1R/f69Eo9htObMu02Uk8YlahUg08
+	 GXNe09/04awxw==
 From: Andrey Albershteyn <aalbersh@kernel.org>
 To: ebiggers@kernel.org,
 	hch@lst.de,
@@ -49,9 +49,9 @@ Cc: Andrey Albershteyn <aalbersh@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	david@fromorbit.com,
 	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [PATCH v18 10/15] xfs: initialize fs-verity on file open
-Date: Mon,  2 Nov 2026 15:41:40 +0100
-Message-ID: <20261102144147.2393369-11-aalbersh@kernel.org>
+Subject: [PATCH v18 11/15] xfs: add fs-verity ioctls
+Date: Mon,  2 Nov 2026 15:41:41 +0100
+Message-ID: <20261102144147.2393369-12-aalbersh@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261102144147.2393369-1-aalbersh@kernel.org>
 References: <20261102144147.2393369-1-aalbersh@kernel.org>
@@ -66,39 +66,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fs-verity will read and attach metadata (not the tree itself) from
-a disk for those inodes which already have fs-verity enabled.
+Add fs-verity ioctls to enable, dump metadata (descriptor and Merkle
+tree pages) and obtain file's digest.
+
+[djwong: remove unnecessary casting]
 
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 ---
- fs/xfs/xfs_file.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ fs/xfs/xfs_ioctl.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index dbb5f8f59678..a610adc90c02 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -1793,11 +1793,18 @@ xfs_file_open(
- 	struct inode	*inode,
- 	struct file	*file)
- {
-+	int		error;
-+
- 	if (xfs_is_shutdown(XFS_M(inode->i_sb)))
- 		return -EIO;
- 	file->f_mode |= FMODE_NOWAIT | FMODE_CAN_ODIRECT;
- 	if (xfs_get_atomic_write_min(XFS_I(inode)) > 0)
- 		file->f_mode |= FMODE_CAN_ATOMIC_WRITE;
-+
-+	error = fsverity_file_open(inode, file);
-+	if (error)
-+		return error;
-+
- 	return generic_file_open(inode, file);
- }
+diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+index f81b6e52ac40..37c6a2fae58c 100644
+--- a/fs/xfs/xfs_ioctl.c
++++ b/fs/xfs/xfs_ioctl.c
+@@ -49,6 +49,7 @@
  
+ #include <linux/mount.h>
+ #include <linux/fileattr.h>
++#include <linux/fsverity.h>
+ 
+ /* Return 0 on success or positive error */
+ int
+@@ -1575,6 +1576,19 @@ xfs_file_ioctl(
+ 	case XFS_IOC_VERIFY_MEDIA:
+ 		return xfs_ioc_verify_media(filp, arg);
+ 
++	case FS_IOC_ENABLE_VERITY:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_enable(filp, arg);
++	case FS_IOC_MEASURE_VERITY:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_measure(filp, arg);
++	case FS_IOC_READ_VERITY_METADATA:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_read_metadata(filp, arg);
++
+ 	default:
+ 		return -ENOTTY;
+ 	}
 -- 
 2.54.0
 
