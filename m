@@ -1,57 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793719623;
-	b=oyDdt3L7fUu9ohl0Sqh7KpZSOTk+pTelvHOTXn1AogWIMDlB26eI4W/IC8TeAEzqamGw
-	 3+SPwYhNTJDPIrGan49zOJatHbyVI51xdNQKeiMzzDILbG2c3NhF0sTnUy1h26d2/lqGA
-	 WUpL3+peXygAxxW+Xmdnv7hQnfX5aPrJ0Gw0u33VfrBhlEQnT3hzQ2M8Z2pCk9DTOnwUC
-	 0QN30wtWzms/jobMW7STsDKxyj2El1Hb11gP7OJ0braXZf/xdfYeqQ0sGys+NgozV1lk1
-	 PdCU4gkuLIxwphGOyg/RCFvBAwDFJP/Zh8umeTyQjPB+qkyJoO3QjLZSmCVvbhzbOTw==
+	t=1793730206;
+	b=iZd3JNysi21Qyvl+GzvvfHeSJO/kdKZeBfnFfu0s36pFQrPQmrWVsPq4nBgCiubaiuzO
+	 c4gyYwYqvBzMWRykIpOY+dRvG3RKPN+lF+ylio6ZYi5VILZ1wHKzJvDFwKORz3+WJ2PQs
+	 sHaK3ohLIMLeosvkPZhMHBK8Zc2qn/NkW524Ee4ppSZ2gY7ePCRkRDghPYoPHMR+rOWbk
+	 V7gzh3jiMenzaKD74krbmYVhSPPARe0dXchee8LN7j1vQn9fX6wUAPePgqU6N1am8k3FP
+	 yKHjfOJpbACRFsyvK6nvRWg/e1eB9kgN0Mbcu9oP9UVErsbs2b00hZyVFnj7YCkksFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793719623;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793730206;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=AVZUW7JEVGyeoQnEv0aslvSoDcn0jwFFot05lDDKtnc=;
-	b=Vnzd23phh3ziru9j8kXNH3zhzrI/ZjyXfgMzEo2qESskvpSMQVF8gGAFGJp59dGUG3T+
-	 usRveCuZcb5DWQwJA5UFqdTRifl4hlQVuZwJUjTSNEBd6v8yU+cGmyIg2M7dpCuLj65uy
-	 scjsmAnzvx/kRn1dw2tGnjV9kGDxBdn86LEOMMSH4Kl7KIzC6nxchy773UyNKDNdk8z6O
-	 4Dc0kQBm+MT+ePjl8AIi4egjdV9RQ5DLqm1F2HZuQv8VgGJSNt0782EjcAXUAWfGImRh7
-	 104WlTqqvYcrqNCpoYh+RjA/k7kTe/nyv4becGsdie8bsyVYgqJAIwfxlDXQjQ5EYgg==
+	bh=aq6FI6FqlCElDs1CftZJQ41RxvMtJeYFhWtulM96cq0=;
+	b=mKoq0/PmE1EK9RmuaQm+HY4+xEzS8kiGeLUyluUBA7oeFEIDhHyYgg5V7zbu3NIF4EGg
+	 adJFEWmWBAiccA1ZLHQrG+KqJW0UtGKZyXpLVVyVDmStYQaixehJbgyMlKmXAWcB6wz8O
+	 MJusvBGcU2bPCZQ9VWHfBNI/SJR7EnoPyb4uUxzAW/rlQ/wFn3sVZdeMtOattIZm0RNeU
+	 peh+/flyCuMP9zR8dnmNtyQ4Q/s/h4/C6laEc//ZsU4nEMC080eZJ8NQbSb/eunmsKrvx
+	 2u0fQyBTQ4epEbpYAi6Q0hVdXyEDsR7eY7GSDJ2BEAJEokbW8jjeSLylZ5feO8XXHSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RZdU131h;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nyNeWxqX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C82C606A327;
-	Tue,  3 Nov 2026 15:27:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2935606A31B;
+	Tue,  3 Nov 2026 18:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RZdU131h
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C2D1F000C1;
-	Tue,  3 Nov 2026 15:27:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nyNeWxqX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80C291F000C1;
+	Tue,  3 Nov 2026 18:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793719622;
-	bh=AVZUW7JEVGyeoQnEv0aslvSoDcn0jwFFot05lDDKtnc=;
+	s=k20260515; t=1793730205;
+	bh=aq6FI6FqlCElDs1CftZJQ41RxvMtJeYFhWtulM96cq0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RZdU131hHHiXO815LwHHIQfeuVTRF+gd7FcxH4k1B5Py73GQ8BHW2XtljNxk9Yozq
-	 /6NUVmAvu7H5yF7ulh0kBbVYsTKFZ6bvWuPrQufn0VS3N/O9xv/hzSN0QIgb3wuRgf
-	 DyANwWe83Ttk5AHodaZ7cD4ZsocRYiQkehg2dkLP1JEzFP54iz8DLGPf/yCfy7TTUR
-	 VNstnWmiZL9CY6BhaH2IeMZQovL/gZ7DWx+XUjNaYw48j7hTEquPBqpfJHJFIY81hm
-	 uk48B0oWaVMg+NYBa5TZ+0Dq05fSp8lqqiTPCKlNrwJV+eVAaxfu0XhcCEqIIgWT6y
-	 zRMEUXCQVV37g==
-Date: Tue, 3 Nov 2026 16:26:58 +0100
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: ebiggers@kernel.org, hch@lst.de, Carlos Maiolino <cem@kernel.org>, 
-	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	david@fromorbit.com, "Darrick J. Wong" <djwong@kernel.org>
-Subject: Re: [PATCH v18 05/15] xfs: handle fsverity I/O in write/read path
-Message-ID: <aun7nfkSqaV2RT1c@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	b=nyNeWxqXyaKvKmz0MB3M25qGYX+8NiTly5JQP0eDyX/7lPEbfl2BCe1F2QgLE0mSx
+	 wvFTa32Wn2+bGZZdeWMIArtBDG8ywXO+2R3HjfFoOe5DGD8fh2Ar+zhXswIKbyKF8t
+	 DYnZs4O2Z6ockzBQNivweM/+YkG3e9Cg9sBMBc+Jggw6NsrViAbPoVzMGkrJG2Oh9T
+	 wqTtKcNmNXAQd95LP00FrJiDmnxPvBjqTEpFc36XXYPBxVV6iYzo2L5nDCMQ4vngto
+	 4p51S0aSmFAP0wLX4Dd5orhoYB2IfHJ+rAxsubszqn9azivrZI5Hb0a67WuPogm5kt
+	 C/2nvZ+E8MuoQ==
+Date: Tue, 3 Nov 2026 18:23:24 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, hch@lst.de,
+	Carlos Maiolino <cem@kernel.org>, fsverity@lists.linux.dev,
+	david@fromorbit.com
+Subject: Re: [PATCH v18 09/15] xfs: add fs-verity support
+Message-ID: <20261103182324.GB2224825@google.com>
 References: <20261102144147.2393369-1-aalbersh@kernel.org>
- <20261102144147.2393369-6-aalbersh@kernel.org>
- <aumrai1iWxj97svo@infradead.org>
- <aunQUzz7AV-qvys-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
- <aun1e6gedSrVDuRQ@infradead.org>
+ <20261102144147.2393369-10-aalbersh@kernel.org>
+ <sashiko-outbox-193675@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -63,39 +61,15 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aun1e6gedSrVDuRQ@infradead.org>
+In-Reply-To: <sashiko-outbox-193675@kernel.org>
 
-On 2026-11-03 06:53:47, Christoph Hellwig wrote:
-> [Note: a question for Eric about lifting a flag to the VFS below]
-> 
-> On Tue, Nov 03, 2026 at 02:55:48PM +0100, Andrey Albershteyn wrote:
-> > > Is there a reason to not just move the IOMAP_F_FSVERITY handling
-> > > into xfs_bmbt_to_iomap?  It would break if single extent is shared
-> > > between data and verity data, but we already leave a large enough hole
-> > > that this could never happen, right?
-> > 
-> > I think it can be moved to xfs_bmbt_to_iomap(), but we will need an
-> > offset there. The one extent case could happen if file size is
-> > exactly 64k and we got continuous phys space allocation with merkle
-> > tree (then the extents will be merged).
-> 
-> Or a multiple of 64k, yeah.  I though we went for an "air gap",
-> but I have to admit I forgot all the details of this already.
-> 
-> I guess passing an offset it is then.  And maybe also add a comment
-> about that while you're at it?
+On Mon, Nov 02, 2026 at 03:34:43PM +0000, sashiko-bot@kernel.org wrote:
+> Could xfs_free_eofblocks(ip) (or the post-EOF unwritten/delalloc cleanup)
+> be performed before setting XFS_DIFLAG2_VERITY and S_VERITY so that
+> enabling verity does not have to roll back committed on-disk state and
+> published VFS flags?
 
-air gap is zero on multiples of 64k, this is more of an alignment
-with largest page size fsverity supports than the gap between
-data/metadata (not to have mix of data/metadata in one page). The
-xfs_fsverity_metadata_offset() is
+Yes, S_VERITY needs to be set at the very end of ->end_enable_verity(),
+and only on success.  I recently had to fix this for ext4 and btrfs.
 
-	loff_t
-	xfs_fsverity_metadata_offset(
-		const struct xfs_inode	*ip)
-	{
-		return round_up(i_size_read(VFS_IC(ip)), XFS_FSVERITY_START_ALIGN);
-	}
-
--- 
-- Andrey
+- Eric
