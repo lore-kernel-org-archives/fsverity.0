@@ -1,59 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793821608;
-	b=g1geCcUG9UmSoCct7NZR64Q9ZO3vhq1TPaMqKiUtgphLHmnZDdI0BPb7gVFr8F6dfGUb
-	 MuLs5PZYKmTzrs6rVBWlhaaMqfqHxBztX+RTFmSsH3Y5CYux4TeILcgg8CsBWUYkoYkKZ
-	 VBoqMKF7WANdmBYO0MpfyUypoGPr/+N4AAQeJ2MG0p3U1uratSUz4Rz5pocs6vb/QM9sm
-	 ZE4bfTYMnauLJ+WxStwq8q7LoOj2xGBigx/KwTLJMBvT3HtqZTsOtbCmT01zJ+pRyO9sw
-	 +1pfflF1ZuXwjTLT/Q20JZFszd0wVwKinpt059SBci7HgzH5wVqTAJU3vvxIvep4ZEQ==
+	t=1793822453;
+	b=UTOzrAQD8dEMT/QUJthhFMbWVhM5odAgwCaGmquqcxrxGnIgq2pPEXaFsqVQ95J42dTn
+	 LdhxB8f/7HXIIS5d3LMyMc8RdXC7d8QaRFfbPDsdl3M7m8cz8ptw7qfTpXYuYbrtXItrY
+	 GX88xJG898aQ2twPMek/YBuVfv+fvEhJEFlt9KOtu/ASkjOV2FoocpKxX1YUMP8/iWMBu
+	 2+lCG23xK7FFFO4TFdCFCCd9EFTVeCbMoBvpyVDUFAOhJuoJCy3sNOhoxrvy8XSEDU736
+	 joauGe+2Np3MaIDN16HwNmwcI7Q67YjOSnCumsCjw86nfRoTWeAdD9itW6mitsgAL8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793821608;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=BimR1D9/wvZGY0reDOYel4C+9wjSglW0Ag8MNWquP3M=;
-	b=kEBrpXpv7IuPkrT4ACnN4DYS48EKijZt9qTOSq5A3rrFCIXy6DSga/QNSeO/uDP3+I90
-	 dLLSa7+DmyaV6UqKd1n1LhXtZF6W1k7gXnPm1Ga8FcZJz9yWHCifehA+Q9JR0YyBkxFve
-	 jyeoc+kC0OEX8HOuF8GnxwoZZHFvWlnkPxVN8GdngurVG+IFrL2yK73qdUbgXEwGjIkNC
-	 g9yuejNSwVYxPB0hbiEw/w1YwudR5kIiGC54Qr/AInnZ0st9urikLvc1F/DCWuCwIyler
-	 WGyoTy97rB2XjyObdaktDN48lLGSzNQ7tO1njNiBegIxT9XUOwoItgh/sgGjlXHW37g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793822453;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=InkgJANeqcPX1MvWjiRLEvl4hlBukOQTKTUy8KEtyEs=;
+	b=qcLBdABUSbUL9mPxY2u03/mDscujMR0VgpgZyO3QU54m5zf0Yj4fVQstF2eJIJwWxRRB
+	 orqc3MB65jQciHslAAzBkm6rffDYN48Bq7UrFukzwAvYv9AG1RDbELI0vYHtK2n7nTpGP
+	 QdrQMQSzcUWTPdKxdqXDFQiQ81EYQSQsBoaJu3e2zACkSyo1rxyyrYMMkyvq3Gt/3zcta
+	 gCYQ2sGe2qOBgy7V3t3gsZwIY20utwX3fO+qevb93YqfnkdhjF/m54l5x/Q1TJlERrQp4
+	 l9bc58AialiGl3pkYU4bTDllHMBqNdQF84Vm6mIR7kUqSDrJWxYtgXlmSzvpt5fCrPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SYMjwR9C;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ks7stMOM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB35E608C9A1;
-	Wed,  4 Nov 2026 19:46:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57606606D4C6;
+	Wed,  4 Nov 2026 20:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SYMjwR9C
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5C321F00A1C;
-	Wed,  4 Nov 2026 19:46:45 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ks7stMOM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEDE81F000C1;
+	Wed,  4 Nov 2026 20:00:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793821607;
-	bh=BimR1D9/wvZGY0reDOYel4C+9wjSglW0Ag8MNWquP3M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SYMjwR9CisNRR4trA29J7KYyt9QQltUoV6GaOZQupCdWwqP7nEenQBuyfJvbd/Y6G
-	 c+d8wNrGK/ym2gUcRUDIR39Q7A+spBR7QqRMpG1m5xpI7GS4v5txkTX1Y7D88y5HuI
-	 ImYXCqFJosDpkrORlHNlK3Vxl/xkCOHMjSg65oGEfSFzOwzh6fWQYonctIPAbQKmDl
-	 lz1o0JzenKjtMcZLg4GGdUEa6Bww5ILNLq3OPjsRnSTiz30hEJQknKv065WnqaGmx0
-	 Ks7S3MzxpObGiRSZDhv+2WnBKRf2AEuIAKyzXOfzT7JldhUl0nPlkfmO7w6syp2tgi
-	 qgbNGRI7x/qng==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: ebiggers@kernel.org,
-	hch@lst.de,
-	fsverity@lists.linux.dev
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	linux-xfs@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org
-Subject: [PATCH 5/5] f2fs: use I_VERITY_BUILDING instead of private flags
-Date: Wed,  4 Nov 2026 20:46:14 +0100
-Message-ID: <20261104194618.103332-6-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261104194618.103332-1-aalbersh@kernel.org>
+	s=k20260515; t=1793822453;
+	bh=InkgJANeqcPX1MvWjiRLEvl4hlBukOQTKTUy8KEtyEs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Ks7stMOMPvS8skog53DxEP0NoXulOmi/wXJ+GDFiv9ocxytLze0fUBpCihRlPeJbt
+	 /aHUnr93ckMZYZN6zj6P5k4AjcEzvbd9bsWkwm/164vYkxKrEn1ytJ/6PtTx/lpinZ
+	 Y5wLZ89Xp+cr3dwcJO7AX3fmfl+zUeXXN2nNKyCOoBH3RhWcyty8SjB3reaspIz/ku
+	 YTGmaB56KRmpQ5GSoVkWtbMIQ6JNZll+3rWObM+jIECRebtT2wNHirE2eawnf6Ahnm
+	 QOZQ9jxAwJ3tWUq0/3Z1ZGmTN9Ji3plw22FKQi2IGCRWYyHcD+9SE8Jh3easWP95wJ
+	 xvezDp9jANI6w==
+Message-ID: <sashiko-outbox-197985@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/5] btrfs: use I_VERITY_BUILDING instead of private
+ flags
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Andrey Albershteyn" <aalbersh@kernel.org>, ebiggers@kernel.org, hch@lst.de, fsverity@lists.linux.dev
+Cc: linux-ext4@vger.kernel.org, dsterba@suse.cz, tytso@mit.edu
+In-Reply-To: <20261104194618.103332-4-aalbersh@kernel.org>
 References: <20261104194618.103332-1-aalbersh@kernel.org>
+ <20261104194618.103332-4-aalbersh@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 20:00:52 +0000
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -62,160 +60,66 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fsverity+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Now that the VFS tracks an inode whose Merkle tree is under construction
-via I_VERITY_BUILDING and handles the concurrent-enable guard in the
-generic fs-verity enable path, drop the inode runtime flags that
-duplicated this state.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] btrfs: unpropagated btrfs_orphan_add() error in btrfs_begin_enab=
+le_verity()
+--
 
-Replace f2fs own helper f2fs_verity_in_progress() with
-fsverity_is_building(), and remove the and FI_VERITY_IN_PROGRESS flags.
-It's fine to remove IS_ENABLED() guard as fsverity_is_building() has
-stub.
+commit d32a0bd97250023398879e80e49ecc247da4ccdf
+Author: Andrey Albershteyn via Linux-f2fs-devel <linux-f2fs-devel@lists.sou=
+rceforge.net>
 
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
----
- fs/f2fs/data.c   | 10 +++++-----
- fs/f2fs/f2fs.h   |  7 -------
- fs/f2fs/verity.c | 15 ++++-----------
- 3 files changed, 9 insertions(+), 23 deletions(-)
+btrfs: use I_VERITY_BUILDING instead of private flags
 
-diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-index 28fd8afff5d4..ab6f6f182f97 100644
---- a/fs/f2fs/data.c
-+++ b/fs/f2fs/data.c
-@@ -3356,7 +3356,7 @@ int f2fs_write_single_data_page(struct folio *folio, int *submitted,
- 		goto redirty_out;
- 
- 	if (folio->index < end_index ||
--			f2fs_verity_in_progress(inode) ||
-+			fsverity_is_building(inode) ||
- 			compr_blocks)
- 		goto write;
- 
-@@ -3889,7 +3889,7 @@ void f2fs_write_failed(struct inode *inode, loff_t to)
- 		return;
- 
- 	/* In the fs-verity case, f2fs_end_enable_verity() does the truncate */
--	if (to > i_size && !f2fs_verity_in_progress(inode)) {
-+	if (to > i_size && !fsverity_is_building(inode)) {
- 		f2fs_down_write(&F2FS_I(inode)->i_gc_rwsem[WRITE]);
- 		filemap_invalidate_lock(inode->i_mapping);
- 
-@@ -4205,7 +4205,7 @@ static int f2fs_write_begin(const struct kiocb *iocb,
- 		return 0;
- 
- 	if (!(pos & (PAGE_SIZE - 1)) && (pos + len) >= i_size_read(inode) &&
--	    !f2fs_verity_in_progress(inode)) {
-+	    !fsverity_is_building(inode)) {
- 		folio_zero_segment(folio, len, folio_size(folio));
- 		return 0;
- 	}
-@@ -4279,7 +4279,7 @@ static int f2fs_write_end(const struct kiocb *iocb,
- 		f2fs_update_time(F2FS_I_SB(inode), REQ_TIME);
- 
- 		if (pos + copied > i_size_read(inode) &&
--				!f2fs_verity_in_progress(inode))
-+				!fsverity_is_building(inode))
- 			f2fs_i_size_write(inode, pos + copied);
- 		return copied;
- 	}
-@@ -4294,7 +4294,7 @@ static int f2fs_write_end(const struct kiocb *iocb,
- 		folio_set_f2fs_atomic(folio);
- 
- 	if (pos + copied > i_size_read(inode) &&
--	    !f2fs_verity_in_progress(inode)) {
-+	    !fsverity_is_building(inode)) {
- 		f2fs_i_size_write(inode, pos + copied);
- 		if (f2fs_is_atomic_file(inode))
- 			f2fs_i_size_write(F2FS_I(inode)->cow_inode,
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index f7423b3f6e4a..374c861f13b9 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -925,7 +925,6 @@ enum {
- 	FI_EXTRA_ATTR,		/* indicate file has extra attribute */
- 	FI_PROJ_INHERIT,	/* indicate file inherits projectid */
- 	FI_PIN_FILE,		/* indicate file should not be gced */
--	FI_VERITY_IN_PROGRESS,	/* building fs-verity Merkle tree */
- 	FI_COMPRESSED_FILE,	/* indicate file's data can be compressed */
- 	FI_COMPRESS_CORRUPT,	/* indicate compressed cluster is corrupted */
- 	FI_MMAP_FILE,		/* indicate file was mmapped */
-@@ -3535,12 +3534,6 @@ static inline void clear_inode_flag(struct inode *inode, int flag)
- 	__mark_inode_dirty_flag(inode, flag, false);
- }
- 
--static inline bool f2fs_verity_in_progress(struct inode *inode)
--{
--	return IS_ENABLED(CONFIG_FS_VERITY) &&
--	       is_inode_flag_set(inode, FI_VERITY_IN_PROGRESS);
--}
--
- static inline void set_acl_inode(struct inode *inode, umode_t mode)
- {
- 	F2FS_I(inode)->i_acl_mode = mode;
-diff --git a/fs/f2fs/verity.c b/fs/f2fs/verity.c
-index 4a2cea4288f9..af3d33c6f26d 100644
---- a/fs/f2fs/verity.c
-+++ b/fs/f2fs/verity.c
-@@ -94,9 +94,6 @@ static int f2fs_begin_enable_verity(struct file *filp)
- 	struct inode *inode = file_inode(filp);
- 	int err;
- 
--	if (f2fs_verity_in_progress(inode))
--		return -EBUSY;
--
- 	if (f2fs_is_atomic_file(inode))
- 		return -EOPNOTSUPP;
- 
-@@ -113,7 +110,6 @@ static int f2fs_begin_enable_verity(struct file *filp)
- 	if (err)
- 		return err;
- 
--	set_inode_flag(inode, FI_VERITY_IN_PROGRESS);
- 	return 0;
- }
- 
-@@ -143,10 +139,9 @@ static int f2fs_end_enable_verity(struct file *filp, const void *desc,
- 		goto cleanup;
- 
- 	/*
--	 * Write all pages (both data and verity metadata).  Note that this must
--	 * happen before clearing FI_VERITY_IN_PROGRESS; otherwise pages beyond
--	 * i_size won't be written properly.  For crash consistency, this also
--	 * must happen before the verity inode flag gets persisted.
-+	 * Write all pages (both data and verity metadata). For crash
-+	 * consistency, this also must happen before the verity inode flag gets
-+	 * persisted.
- 	 */
- 	err = filemap_write_and_wait(inode->i_mapping);
- 	if (err)
-@@ -164,14 +159,13 @@ static int f2fs_end_enable_verity(struct file *filp, const void *desc,
- 	f2fs_set_inode_flags(inode);
- 	f2fs_mark_inode_dirty_sync(inode, true);
- 
--	clear_inode_flag(inode, FI_VERITY_IN_PROGRESS);
- 	return 0;
- 
- cleanup:
- 	/*
- 	 * Verity failed to be enabled, so clean up by truncating any verity
- 	 * metadata that was written beyond i_size (both from cache and from
--	 * disk) and clearing FI_VERITY_IN_PROGRESS.
-+	 * disk).
- 	 *
- 	 * Taking i_gc_rwsem[WRITE] is needed to stop f2fs garbage collection
- 	 * from re-instantiating cached pages we are truncating (since unlike
-@@ -186,7 +180,6 @@ static int f2fs_end_enable_verity(struct file *filp, const void *desc,
- 		set_sbi_flag(sbi, SBI_NEED_FSCK);
- 	}
- 	f2fs_up_write(&F2FS_I(inode)->i_gc_rwsem[WRITE]);
--	clear_inode_flag(inode, FI_VERITY_IN_PROGRESS);
- 	return err ?: err2;
- }
- 
--- 
-2.54.0
+This commit removes the BTRFS_INODE_VERITY_IN_PROGRESS inode runtime flag n=
+ow
+that the generic VFS fs-verity path tracks in-progress Merkle tree
+construction via I_VERITY_BUILDING.
 
+> diff --git a/fs/btrfs/verity.c b/fs/btrfs/verity.c
+> index b34d2247cf84e..82e2ebad0d3e6 100644
+> --- a/fs/btrfs/verity.c
+> +++ b/fs/btrfs/verity.c
+
+[ ... ]
+
+> @@ -606,8 +600,6 @@ static int btrfs_begin_enable_verity(struct file *fil=
+p)
+>  		return PTR_ERR(trans);
+> =20
+>  	ret =3D btrfs_orphan_add(trans, inode);
+> -	if (!ret)
+> -		set_bit(BTRFS_INODE_VERITY_IN_PROGRESS, &inode->runtime_flags);
+>  	btrfs_end_transaction(trans);
+> =20
+>  	return 0;
+
+[Severity: Medium]
+In btrfs_begin_enable_verity(), removing the if (!ret) check leaves the ret=
+urn
+value of btrfs_orphan_add() in ret unread (which triggers an unused-but-set
+variable compiler warning) while the function still ends with return 0.
+
+Previously, if btrfs_orphan_add() failed during the
+fsverity_ioctl_enable() -> enable_verity() -> btrfs_begin_enable_verity()
+path, BTRFS_INODE_VERITY_IN_PROGRESS was not set. Now, enable_verity() in
+fs/verity/enable.c checks the return value of begin_enable_verity():
+
+    err =3D vops->begin_enable_verity(filp);
+    if (!err) {
+        spin_lock(&inode->i_lock);
+        inode_state_set(inode, I_VERITY_BUILDING);
+        spin_unlock(&inode->i_lock);
+    }
+
+Because btrfs_begin_enable_verity() returns 0 even when btrfs_orphan_add()
+fails and aborts the transaction, enable_verity() will still set
+I_VERITY_BUILDING and proceed to build_merkle_tree() without an orphan item.
+
+Should btrfs_begin_enable_verity() return ret instead of 0?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104194618.1033=
+32-1-aalbersh@kernel.org?part=3D3
