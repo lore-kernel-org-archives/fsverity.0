@@ -1,82 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793955920;
-	b=QslAtVg8k012F9h7lILIyb4/GdIl+TCOH6UGJgHdY2Qgup1/O8Jf2/oMF2hyXAzy4t/W
-	 ITTcG1gWdcnQX3AkQ5S0qWN1mpp6zn+d5iMcGpgLfSZIxshXMyACG+GCjghrOnVzUNhaP
-	 ugEkjIHlDZjTgA9NB0tFKvY0V248re+87G+eHgJA21Gw1ju64P/Wr56uoZcqaqL0Skc+1
-	 5tRqt/fAQoiw9HCBfivZMwqEL7PFC3xmY1NS7JnMJS5pto3Q442u0E1rWKWFGktASK2YP
-	 GuRXC12+5uL08nro4EBFtN0fdIqiUiQd0jNcTuwlDaPptLmglppFPjumL+8SYPhGyhg==
+	t=1793960784;
+	b=gDReKbxhMtKopvnp4kxz2hISvS/ziC/62PVHIrxmzwyRMavPRKo+VvRDneNfkrJDfniH
+	 vKTZ/wf7OrjRu7M/Yx70A/LNwmLnreSqRHljIAB35ofR+c6cRRqNhckYCSmsvVTpEMPhL
+	 kzeCIz/XYkmWzFEhSSm+RxLeMaJ3XkVl0nPj2bJMwQ66bzmdG5IANuXf/vZXPMcKrDKUZ
+	 7AcP1XvaUuXaYORYZS2nomcq12GaL9affOzfCwwlhckudfwirFbV9fbttleu7+zP3DT5y
+	 xfvgNajE+9VsNjbt+8K5DPJryOM56NleMzUniskUPeB3cmIVVtFq2HAu6e/kJ6vmJGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793955920;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=sTFwFHk0E64AYEEUcX8t7DWdOvQ6PLUQ/fthkL753Io=;
-	b=co3HGuB1ydbjedHMG5rirmR+goTF/au2ACxaLnTdW8qaXLngHNdgmEIanEbwwUx5nZQD
-	 IC/36H7XT/Qap51CtoS4lwUzEKk9pjAt5qxwpgIHPC2lqZaL7TZToLBnOPX2FmYFiq1Vq
-	 IlEAhNh8HDuIN2diHPLer3lBqvV0TQ4+ibT2ffQ/Q+6Ff595bh3l1tvqHO1S83zQOEX+i
-	 TBws8thjLpnrIemWglyC9dZKwiege9q2Pbt8H6hRzMLpIycCcAZmGyErkMLbVFibYJhG1
-	 LI0QDT6Ajyi1/+EdD4g0MWVVkm4QddlNrdKZ48pb0GQJ5jUEzb5clKoYduK0vxdC76g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793960784;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=RqQSYGOZZG/aIHhMQ8HE+3EsiHhz5Y9+6eyhSvGw+c0=;
+	b=OfzlzE6ij4rZRcpYFXpozAjw2c2p3p2lgtqkE2jW+/ml8kAkPvPLMvR2lCZARpBunkHL
+	 VlSAtbV0jEyeFRsdHfUTauriu1f58/IiDrYdV6xLqL316ROfCr0RR5UZ64BCiKCVQIOXD
+	 fyhQb1C7TlP1P7vY2GaVTp/MnAdDljmYAz5Y1HSD1f8k0mhSRCeAxofzGyXlfXKxef/p0
+	 X0G5Vo8xIighMmSu8j3ePqTyhdUY3A9MynRxCrK9oiQMOpSAVi1+fZZnZXFQyQIZ2A40+
+	 Qz/uaLX8q3y1gu4cPANuWXRvK5k/Bokejlw30SeLE73UfUZlkAxI8FmVIt/5qe7Ryrg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NxG4Yq28;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A18606A326;
-	Fri,  6 Nov 2026 09:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NxG4Yq28
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C19F1F0089F;
-	Fri,  6 Nov 2026 09:05:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793955920;
-	bh=sTFwFHk0E64AYEEUcX8t7DWdOvQ6PLUQ/fthkL753Io=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NxG4Yq28SBZ5pvwkOA2iAYG11qXpnj0/U/4mz8TRCJco0CmfcWsGatdxSJUI7EvJS
-	 APt/LCv5vmGrIstmtMDjefq9lAL6ZUkRdKAesed25zP6/6QYUzdu5k/UIsj8cOqjKW
-	 wxJgUyASJmfcUYRwu5Yxh+FSnuQu58iHYvNrMYjFgkGWoEygoLgJZz4v5OwDareFN7
-	 P1KpTDQ5mDTNlKcKNH37py/9Td+Amts88a/QdlKwM1JOBVjQm39I3NT1MlE26jZJHR
-	 WNphDN7M+CtPeL4Zq1+PqjL231Yj7MhdwF3uERuy/5ORsvDjS8hh73L5dk+n2nQwZV
-	 4H79poaACgWhg==
-Date: Fri, 6 Nov 2026 01:05:16 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>,
-	David Howells <dhowells@redhat.com>, bpf@vger.kernel.org,
-	dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
-	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Alasdair Kergon <agk@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v5 2/3] KEYS: Replace assoc_array with rhashtable
-Message-ID: <20261106090516.GA1973@sol>
-References: <20261105031401.956609-1-jarkko@kernel.org>
- <20261105031401.956609-3-jarkko@kernel.org>
- <27015846-0161-4700-b810-4643e1f7b63a@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF34606A326
+	for <fsverity@lists.linux.dev>; Fri,  6 Nov 2026 10:26:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EF34606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 48CA668BEB; Fri,  6 Nov 2026 11:26:19 +0100 (CET)
+Date: Fri, 6 Nov 2026 11:26:18 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: ebiggers@kernel.org, hch@lst.de, fsverity@lists.linux.dev,
+	dsterba@suse.com, linux-xfs@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	brauner@kernel.org, viro@zeniv.linux.org.uk, jaegeuk@kernel.org,
+	chao@kernel.org, tytso@mit.edu, Boris Burkov <boris@bur.io>
+Subject: Re: [PATCH v2 1/5] fsverity: strip FS_VERITY_FL from
+ FS_IOC_SETFLAGS
+Message-ID: <20261106102618.GA5319@lst.de>
+References: <20261105115532.613467-1-aalbersh@kernel.org> <20261105115532.613467-2-aalbersh@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -88,28 +54,47 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <27015846-0161-4700-b810-4643e1f7b63a@suse.de>
+In-Reply-To: <20261105115532.613467-2-aalbersh@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, Nov 06, 2026 at 09:21:32AM +0100, Hannes Reinecke wrote:
-> While I am pretty much in favour with this approach, is there a specific
-> reason why siphash has been chosen?
+On Thu, Nov 05, 2026 at 12:55:26PM +0100, Andrey Albershteyn wrote:
+> The common use of FS_IOC_GETFLAGS/SETFLAGS is get-modify-set loop.
+> Filesystems could return verity status with GETFLAGS, attempting to then
+> pass FS_VERITY_FL to SETFLAGS is not allowed.
+> 
+> The ext4 and f2fs already treat FS_VERITY_FL in the set path as no-op,
+> however, BTRFS returns -EOPNOTSUPP. So, the modification of other flags
+> doesn't work on BTRFS for fsverity inodes.
+> 
+> Fix it for BTRFS and anyone else, the ext4 and f2fs masking becomes
+> no-op. The file_get/setattr() path is fine here as this flag is cleared
+> right before fileattr_set_prepare(). The future fsverity support in XFS
+> would also need it.
+> 
+> Cc: Boris Burkov <boris@bur.io>
+> Cc: David Sterba <dsterba@suse.com>
+> Fixes: 146054090b08 ("btrfs: initial fsverity support")
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> ---
+>  fs/file_attr.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/fs/file_attr.c b/fs/file_attr.c
+> index 833e03810b24..b43977d5f8e0 100644
+> --- a/fs/file_attr.c
+> +++ b/fs/file_attr.c
+> @@ -199,6 +199,16 @@ static int fileattr_set_prepare(struct inode *inode,
+>  	if (err)
+>  		return err;
+>  
+> +	/*
+> +	 * verity is settable only via FS_IOC_ENABLE_VERITY; never through
+> +	 * fileattr
 
-SipHash is the preferred choice for secure hash tables.  It is secure,
-performs well on short inputs, and doesn't require special instructions.
-See Documentation/security/siphash.rst
+Maybe spell out FS_VERITY_FL above?  Starting the sentence with a lower
+case letter looks odd, and spelling out the flag name doens't hurt.
 
-> Would there be a chance to make this configurable?
-> I do see slight complications when running in secure environments
-> (ie FIPS-certified environments) where most of the hash functions
-> might not be available ...
+Otherwise looks good:
 
-SipHash support is available even when the kernel is booted with fips=1,
-so there's no issue there.  It's already widely used in the kernel for
-hash tables, and that hasn't blocked FIPS certifications either.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-Side note: fips=1 actually has little do with security, and in some
-cases it actually decreases security.  See for example
-https://lore.kernel.org/linux-crypto/20261026183332.11402-1-ebiggers@kernel.org/
-where I'm fixing a vulnerability caused by fips=1.
-
-- Eric
