@@ -1,52 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793994085;
-	b=efUWnmdNn1LJDQj7qUzrQVXcfp+a3IDnnRDpAX8u1tTAnbPIRDvSaU9B+nMGEo1bVoiZ
-	 a6+QDHs8ShOHFOaA14yTmcmAr7PEHxobUPV2YLIIpIXUBMayETCoF2VpAy17SWeORsOpk
-	 CbWrUdT+b0Y9ix2hXQriW6Y3O5VlY0YQ2BgX2wjAdtONRRu7HWwWp5MeF3krO1UDMOUPP
-	 yQ0J92fkiEsHFAh2OEdhwdlI7AeyUkCNcMjbgrQdbwKa2K2TWymdJmwDLjzZCQMdcEuR2
-	 31yeNCADJCrRdSKXBUOIDbk6wswHBGpsUCmzUc+Ob40ptqem1JCGrMprZj3ESm4LyPw==
+	t=1794021954;
+	b=Szaw+CvR0NhGLftBcaJqa0DSrLZywNPOrvvws5TS84WLoHKnBDU+JaUMk51T02k+1sdU
+	 JGUYpOgRg0mHOaWeN3WWSU8VDHe+TZlouNW2astW/7S2GtfsWEqIZeopnLslFXNUv3awY
+	 rUYesTQaorfBbrGua5SG/1ybjnU6qDny46rSafla52mE/brCAtu2s975LH+ibqG1Zhg7T
+	 2xhed/VJi4os1xjR2ZfKwoSlbvA7QtX9TAqsnzgGvtHX3z9jDRHP5/ieyJ7RwDdbhvdT6
+	 jzOO0qYX0n1GQ68kdrC2ZcuZXkQnR3rlh0VervsfnND6QI3prLITTIiMOd1xmHVv7Hw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793994085;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794021954;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=YlgLvuvi6MzXcCGFPDS7jIHqHR1YP7BKidunKoP0lJU=;
-	b=b7enz1Sp529C7t43vZKHGOQv73mJionMknI3t3Xl1znyu6MMhAB+RCrRZb3ZI5W88osu
-	 VAPA80ACy+excfWT26Uv09M3cwo1muCZ3SJ2rd8ePhmYea37foke8rKhlfUfJYufqUeL8
-	 RQonHssEmI4QEVOwld/3br+D7Ks7HHwPCOFRP3UDYBJM03JtP91VML9AKDGAjRAgPX4Tw
-	 NCssGVpeXdzsCDOM70dASedOi2d2p9Aepwny7Y59HnUEFUgYiAK6LAklgdXH8xNa25Rwf
-	 /9AQRvQpEPSSMxp1ZAx/ADQjCPWK5+8IMpLk0aeEN9tPuLjPHXsIp3cY69ExLdr6XPA==
+	bh=mxiid2hy6pGN9sHLzXHLOnDequd95SafDDGiZTsr7dg=;
+	b=C0JEKT4X6BLJQ6Doi84hmzpbXcH3OzfOu6dp+ZhIe6LMh+LF9mvpVIVAkpa3iA3/a1uS
+	 xOAhRZLL2ptouO2TliVTqK4Ei6zCTnzRLuwFunMUIvh8UL1eSVYV3W2NuNj8wYmhs9CJh
+	 QnZtsEDrgwM04tQbu58lld90B8B9ZIECCqSc6n+NkSHyOieCh8R5Cl+v3/49XQwWyRIl7
+	 v9F/vjAEFcfMdqho/k95AnfkGFS37JGbpRj4flxUUVjGMy+4/370CHbjs7VqkoA8Nlveg
+	 KGnUIP7WF8hBuyxtXTZt6llAagde5y8ZOEbvSFLvMkfYwIaTXmwxLwgBY+Lmh+9ggKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gbFnx05l;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WTV0w40J;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 6948B606A326;
-	Fri,  6 Nov 2026 19:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C39606A326;
+	Sat,  7 Nov 2026 03:25:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gbFnx05l
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8F7141F0089F;
-	Fri,  6 Nov 2026 19:41:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WTV0w40J
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 026E51F008A1;
+	Sat,  7 Nov 2026 03:25:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793994085;
-	bh=YlgLvuvi6MzXcCGFPDS7jIHqHR1YP7BKidunKoP0lJU=;
+	s=k20260515; t=1794021954;
+	bh=mxiid2hy6pGN9sHLzXHLOnDequd95SafDDGiZTsr7dg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gbFnx05ldh2Nzu3gMRUeaATbqhszyMS3oVk2c2PpERZp+mAWal0/IuPNDDekgB1RA
-	 dvvgHjv35kv3yrgd8wePjns+ri3xOyvUmRArByEeMRk/z4p44avenpMSH169hTAWNn
-	 DOrtMGDmo3/TmkuDuVJGZQ6y748uRufKosPvzTB65Omc7Un3dfZX5UsC1MvZZhHsQs
-	 j6yAwxEZiwq0Okn51UQ9qUYIMFWlgnpNMKuy0LRA7E2XJAFPsJLw6XzKv5DzdXn7X5
-	 zlO/3kUChmzTr/sxexYJuQH7aRvcawMo+chIWZzolfUUUPD46ACSxAmDl9pJLxVINo
-	 ui6pEL+Nu07Aw==
-Date: Fri, 6 Nov 2026 21:41:21 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Hannes Reinecke <hare@suse.de>, David Howells <dhowells@redhat.com>,
-	bpf@vger.kernel.org, dm-devel@lists.linux.dev,
-	fsverity@lists.linux.dev, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+	b=WTV0w40JxOBYdPzpa4f7DZkdspPxJBrVgTAa2OuCLgZcV/4Is1JOIsvWQHgSMTG3N
+	 yAx7GXtZEyPCSzTK3upClUnUturM7qpNFJ0wGrZc/lRaHpvWCEu89O8ezuyM8AOQyz
+	 tQkDJJ/XXrUhR304CiG20Oa/KQYRie9eRYY1+BNJqxpfsCqEkMR46yB/iGnIyjZSo0
+	 oiZxSpMuEdK5nA3WicHMzdCsjuULm9JDM2uH/D5M0B01EP2oqVB0jFWwpPGCBBcVBn
+	 f0+UWuYKYGVnHACBvulPRgJuLqPquUHyDT925XPpJRdwbxPFGS9VKMqtf0yKfKUZum
+	 cMIhensA1gW7Q==
+Date: Fri, 6 Nov 2026 19:25:51 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: David Howells <dhowells@redhat.com>, bpf@vger.kernel.org,
+	dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
+	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-security-module@vger.kernel.org,
 	Alasdair Kergon <agk@redhat.com>,
 	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
@@ -73,15 +72,9 @@ Cc: Hannes Reinecke <hare@suse.de>, David Howells <dhowells@redhat.com>,
 	Yonghong Song <yonghong.song@linux.dev>,
 	Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: [PATCH v5 2/3] KEYS: Replace assoc_array with rhashtable
-Message-ID: <au4tYR8ZgTLVDWHv@kernel.org>
+Message-ID: <20261107032551.GA1990@sol>
 References: <20261105031401.956609-1-jarkko@kernel.org>
  <20261105031401.956609-3-jarkko@kernel.org>
- <27015846-0161-4700-b810-4643e1f7b63a@suse.de>
- <20261106090516.GA1973@sol>
- <93e6b4e6-43c3-462d-b57c-26676aec85ec@suse.de>
- <au4k69xNBUjsNErr@kernel.org>
- <20261106191920.GA3383096@google.com>
- <au4q4Wh7PK1-Ge9P@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -93,27 +86,81 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <au4q4Wh7PK1-Ge9P@kernel.org>
+In-Reply-To: <20261105031401.956609-3-jarkko@kernel.org>
 
-On Fri, Nov 06, 2026 at 09:30:45PM +0200, Jarkko Sakkinen wrote:
-> > SipHash is also useful for resistance against denial-of-service attacks,
-> > where a user puts all their keys in one hash bucket.
-> > 
-> > As I mentioned, it's already used for secure hash tables elsewhere in
-> > the kernel.  That is what it's for; see
-> > Documentation/security/siphash.rst.  It's very fast as well, so if you
-> > are thinking of cryptography as being something very slow and hard to
-> > use, that is not what this is (or ever needed to be).
-> > 
-> > Let's just use it and not over-complicate things.
+On Thu, Nov 05, 2026 at 05:14:00AM +0200, Jarkko Sakkinen wrote:
+> The keyrings subsystem is the sole user of assoc_array. It has over 1700
+> lines of code, no test suite, and a long history of bugs, with LLMs now
+> finding more.
 > 
-> I'm pretty much non-opionated when it comes to this detail. I just
-> merely represent all the possible if anything comes up to mind. DoS
-> protection that you explained was not something I did even consider so
-> that seals it for me.
+> This unfortunate outcome has evolved over time by large from the shortage
+> of in-kernel callers, time bandwidth and 3rd party contributors.
+> 
+> What the keyrings needs is just a generic key-value store, which performs
+> well with sparse key sets.
+> 
+> Replace struct assoc_array in struct key with struct keyring_index:
+> 
+> - keyring_index: holds an rhashtable for direct lookups, an RCU-protected
+>   list of keyring_link entries for stable walks, the active link count, and
+>   an rcu_work item for deferred teardown.
+> - keyring_link: links a key into a keyring's hash table and list, caching
+>   its 32-bit SipHash digest rehashed with jhash by rhashtable.
+> 
+> Correspondingly, struct assoc_array_edit is replaced by struct keyring_edit
+> for delivering transient state across link operations.
+> 
+> Other behavioral changes:
+> 
+> - KEYCTL_READ and sibling-keyring searches follow list order instead of
+>   hash order: keyrings are prepended, other keys are appended, and
+>   replacing a matching key retains its position.
+> - key_unlink(), keyring_clear(), keyring_revoke(), and keyring_gc() no
+>   longer allocate memory.
+> - keyring_index_free() uses queue_rcu_work() instead of call_rcu() because
+>   rhashtable_destroy() may sleep.
+> 
+> Suggested-by: Eric Biggers <ebiggers@kernel.org>
+> Co-developed-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 
-I'm cutting hairs now but indices + siphash adds to defence in depth as
-it only takes DoS protection from SipHash while not protecting a secret.
-Not sure if this has that much pratical meaning tho  :-)
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
 
-Br, Jarkko
+But one comment below.
+
+> +		do {
+> +			ret = rhashtable_insert_fast(&links->ht, &link->node,
+> +						     keyring_link_params);
+> +			if (ret == -EBUSY)
+> +				fsleep(100);
+> +		} while (ret == -EBUSY);
+> +		if (ret < 0) {
+> +			key_payload_reserve(keyring,
+> +					    keyring->datalen - KEYQUOTA_LINK_BYTES);
+> +			goto error;
+> +		}
+
+I don't think the retry loop is actually sufficient or desirable here
+(though it would be very rare for it to be reached).  It gets reached
+when there are too many elements in one rhashtable chain.  However,
+we're already pre-hashing with SipHash, and the rhashtable level hash is
+passed only the 32-bit SipHash.  Suppose we reach this case because the
+SipHash values collided: then rhashtable's rehashing would never reduce
+the chain length, and the -EBUSY would last forever.
+
+I think the right solution is to just set '.insecure_elasticity = true'
+in the rhashtable_params, to disable the chain length checks.  Those
+checks make no sense when we're using SipHash anyway.
+
+Then the retry loop would not be needed.
+
+(And even for rhashtable users who aren't using SipHash, like
+fs/verity/, hard-failing insertions if the hash chains gets too long
+seems wrong.  I mean, imagine if the kernel started refusing to do file
+operations if one of the hash chains in the VFS hash tables happened to
+get too long...  But I guess rhashtable was designed for towards
+networking users who are able to just drop the data without much issue.
+Plus it predates SipHash existing.)
+
+- Eric
