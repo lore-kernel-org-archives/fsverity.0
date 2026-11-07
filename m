@@ -1,81 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794055457;
-	b=AbnIDA58KFwxpR2O7rbp+q6JGQfh86T58qC+iCWj0D7FwX5UPYBU1YJEUhHLRHNETSnx
-	 RejsgBStFOfLFq8v6eMynwCs+eQ6wM6cRC9T6S9hF0C6u6Qzc+oHgP3w3VF5Ze4mq/xtx
-	 0gMotb79vJVo9BXy5GjjJsJgQ9AV5HuzuGlQIrS7SsGKeILpP5fFWg3HYH83Y03BfIU+H
-	 s9w6XwxrOCa3fCI3hwXnJ/ui/WC1y5FVV+JAK6VzPYSq0kGmew6aafLgckif6+ssjg5uL
-	 TeVjH9UidYcH4F67yVM1ARu8t5Zhf7BJLQ0gT6gU7VrdckSIpPw1JWEsaFC0GtSRdug==
+	t=1794078530;
+	b=dD/Cjq+kjLiecii87gjBn0/QxsDmNjY76nZ7jrE8ba3kkrChWSYmLvZ7DrOSdz3fDE4G
+	 jFIOiGlaClaHFor0n6Lz0hlWX7Q0TFOUigKQPfestfuYppBGzgXvXp5R6Inhc4Vpz3QJx
+	 MUj/YgsGLzPhAKsGvUhBb3tZuaBtcJ4RZFkEvSDVTUMZ6H4BcgdhnbjDKDu1yYJnuIyFs
+	 nFkBKeJzt2sYAoKaSR3F3vFCVT7AITj6EF4dZgqQ6iCqr1dYfbkVw9dvQyGFKdCysyfml
+	 SCKfSQJ7m9Zn64FOmNIrgz0tDmw2J1C17mtQrBkGLyz0YZ6lZ39CbF1Ww18pqxH8Fnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794055457;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=dzBwFs2TljpOP5elYmUhvLnbOuXM3QGLPguMHu8Knu4=;
-	b=G0YdbdlyaxA2aKdszaI1WsBtao1QelFu9QxsAUm+ai9es+iXtjzkD1Vtd2f4lz+z8HKt
-	 N75f7OU6EYiIUSoAjiSa0M7QbmrQObkVniLDKvNP4ohMH6gY8jyCAToXDtMnrvVqJrznS
-	 ReUR58xvrXOnYFPmu5hAk2BmsmkepgDUaf9kaO9xOANBL7au8gkB7uL/zbQJ10Z/sAoSb
-	 VLfEd3GZkivRxURstoZcNoq+KDwQBPhaKVNlJgNbDqLd+97uWNFZpm76zGoo2GflbyAG2
-	 VaMEAsSpzJyQ0D9MMfdBRNq2/MM78A8Ju3Xp5+t5/bhRw9XLaQlWd65trugMxmz4uRw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794078530;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=TlsLpgV65hZDu26hp1J6gM32Tmm8p3tXbCFmAll6Gs8=;
+	b=1Fg1dSxmPEbEB3J2YV8AXiTeIlbjOEee6RB3f6I5ru2T67KGQrOFESjzT86lUHdc0bd+
+	 vmSoJuDWMIk6gtRqKIlKV2aoUOWJYw4/WuN6ceOxSVSGlleDW2h8mSJlL9LFHK9PpGYNg
+	 cEpTTKf8HNBk8rk1h08y9szmFsb7gnD8rkNewwL+925eenkWURU+SBVaTSE4j6MLLo29L
+	 8CeMTaDoMVm38Rh8sq8V+jRA0ODUQh+/iPKwVjlkVf5TRuYrKDotxaEF+dXqdkFWCwWEq
+	 1wS4kGXzqV+87ZWebiqDIVPNr4pHRDnrhIPeYfnWnPc8ZSYTjn2H1WF4vALuJN2NpBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=egCKZgvR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I7xeYex1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 2E64D606A32C;
-	Sat,  7 Nov 2026 12:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE04D606A326;
+	Sat,  7 Nov 2026 19:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=egCKZgvR
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 076321F0089F;
-	Sat,  7 Nov 2026 12:44:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I7xeYex1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FCF81F0089F;
+	Sat,  7 Nov 2026 19:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794055456;
-	bh=dzBwFs2TljpOP5elYmUhvLnbOuXM3QGLPguMHu8Knu4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=egCKZgvR+uM5AdIYnxZkn5qTtOFRr/D3N+7/N7RqicbOfSHrHL2dAv65ZHdA46cvx
-	 H8Aju+BdzWVMfOnqof3bfkSW/intUk7fd7I5A+IhhLXuhZM296Pxee0SYLQ13Ljivm
-	 K4B2f7/mN5ZO7OdxLMTCLSdZHpB9AiwG02mU5KZUvzE21CFWbQ5GYBn2SQCTfKJA/z
-	 Ykpgc4X8/HTtlJ8M3qUB4wDiITeiFk2tMFC2NSwRpGI5uzZOb9Ws0T0UgPYBdAoJWh
-	 0zfw15CJ8okfY7ZIxpgcJ4vg46Zh0SNJrTZdSWnmXTnp9TXAFLf08v4ziCE1Ykqwmi
-	 R7jztThEgO3YA==
-Date: Sat, 7 Nov 2026 14:44:12 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, bpf@vger.kernel.org,
-	dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
-	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Alasdair Kergon <agk@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v5 2/3] KEYS: Replace assoc_array with rhashtable
-Message-ID: <au8dHKGIv2tr_Xom@kernel.org>
-References: <20261105031401.956609-1-jarkko@kernel.org>
- <20261105031401.956609-3-jarkko@kernel.org>
- <20261107032551.GA1990@sol>
+	s=k20260515; t=1794078529;
+	bh=TlsLpgV65hZDu26hp1J6gM32Tmm8p3tXbCFmAll6Gs8=;
+	h=From:To:Cc:Subject:Date;
+	b=I7xeYex1AEEzAiA7+ecGuRIx8r19AEZw4ykQKQ9hlRlQ5bGb9UYvsqpimt5YeGFIe
+	 qix+RzCCA69yYE0bWqZhzaUdS55rRut5KqFpa//1vQZAfci/TJifvOseKDit8VQpRL
+	 /3A0r1GhZjQedwPDb2VBsig5s+W2Av9tnSxBcd7V4kA66aD53vYerXFD9cz4Iw7otQ
+	 SdZpO+a2eFpvPQfUCXD29U/jkHfMxCFSgHvwoO0uzN5EHO5CtWK4/w3ZuYnWTYeY36
+	 S/EsDYGtyV0dhuV7nIcuaRFB4NEiDr/OJ68YvvpIW7ZaDq7XMW8+Gy5EsMFf75YgoP
+	 YJPA8p+884XgA==
+From: Eric Biggers <ebiggers@kernel.org>
+To: stable@vger.kernel.org
+Cc: fsverity@lists.linux.dev,
+	Eric Biggers <ebiggers@kernel.org>,
+	Andrey Albershteyn <aalbersh@kernel.org>
+Subject: [PATCH 6.18] fsverity: Explicitly require FMODE_READ to retrieve hashes
+Date: Sat,  7 Nov 2026 11:08:35 -0800
+Message-ID: <20261107190835.13419-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -85,38 +57,128 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fsverity+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261107032551.GA1990@sol>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 06, 2026 at 07:25:51PM -0800, Eric Biggers wrote:
-> I don't think the retry loop is actually sufficient or desirable here
-> (though it would be very rare for it to be reached).  It gets reached
-> when there are too many elements in one rhashtable chain.  However,
-> we're already pre-hashing with SipHash, and the rhashtable level hash is
-> passed only the 32-bit SipHash.  Suppose we reach this case because the
-> SipHash values collided: then rhashtable's rehashing would never reduce
-> the chain length, and the -EBUSY would last forever.
-> 
-> I think the right solution is to just set '.insecure_elasticity = true'
-> in the rhashtable_params, to disable the chain length checks.  Those
-> checks make no sense when we're using SipHash anyway.
+commit 1acb4fd2d011c4bd6cc961095ae17361c71ff61a upstream.
 
-Thanks, this is a valid suggestion. I  was thinking about having maximum
-retries but this is much better idea. I'll address this as you proposed.
+The comment in fsverity_ioctl_read_metadata(), which justifies not
+checking for FMODE_READ, doesn't consider that the nonstandard access
+mode 3 (ioctl-only) exists.
 
+Opening an ioctl-only fd generally requires read (and write) permission.
+However, there are gaps with certain LSMs: an ioctl-only fd requests
+read (and write) permission via security_inode_permission, but not
+security_file_open.  With certain LSMs relying on the latter, such as
+Landlock and AppArmor, an ioctl-only fd can be opened without the LSM
+granting read (and write) permission.
 
-> 
-> Then the retry loop would not be needed.
-> 
-> (And even for rhashtable users who aren't using SipHash, like
-> fs/verity/, hard-failing insertions if the hash chains gets too long
-> seems wrong.  I mean, imagine if the kernel started refusing to do file
-> operations if one of the hash chains in the VFS hash tables happened to
-> get too long...  But I guess rhashtable was designed for towards
-> networking users who are able to just drop the data without much issue.
-> Plus it predates SipHash existing.)
-> 
-> - Eric
+Since FS_IOC_READ_VERITY_METADATA returns hashes of file contents
+blocks, it should require read permission.  This also applies to
+FS_IOC_MEASURE_VERITY, which returns a hash for the whole file.
 
-Br, Jarkko
+Meanwhile, ioctl-only fds are a rarely-used feature, not known to be
+used with either ioctl.
+
+Therefore, just disallow these ioctls on ioctl-only file descriptors,
+similar to what was already done with FS_IOC_ENABLE_VERITY.
+
+More specifically, explicitly check for FMODE_READ.  This also covers
+write-only fds to non-verity files which otherwise would have failed
+with ENODATA.  This change in error code for write-only fds should be
+fine too, as these ioctls cannot be usefully used with write-only fds
+anyway, but it's worth noting as another technicality.
+
+Fixes: 4dd893d832cf ("fs-verity: implement FS_IOC_MEASURE_VERITY ioctl")
+Fixes: e17fe6579de0 ("fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl")
+Cc: stable@vger.kernel.org
+Reviewed-by: Andrey Albershteyn <aalbersh@kernel.org>
+Link: https://patch.msgid.link/20261022211522.1489943-1-ebiggers@kernel.org
+Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+---
+ Documentation/filesystems/fsverity.rst |  3 +++
+ fs/verity/measure.c                    | 10 ++++++++++
+ fs/verity/read_metadata.c              | 14 ++++++++++----
+ 3 files changed, 23 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
+index 412cf11e32985..fd17bbf5795c9 100644
+--- a/Documentation/filesystems/fsverity.rst
++++ b/Documentation/filesystems/fsverity.rst
+@@ -170,6 +170,7 @@ fatal signal), no changes are made to the file.
+ FS_IOC_ENABLE_VERITY can fail with the following errors:
+ 
+ - ``EACCES``: the process does not have write access to the file
++- ``EBADF``: the file descriptor is not open for reading
+ - ``EBADMSG``: the builtin signature is malformed
+ - ``EBUSY``: this ioctl is already running on the file
+ - ``EEXIST``: the file already has verity enabled
+@@ -232,6 +233,7 @@ regardless of the size of the file.
+ 
+ FS_IOC_MEASURE_VERITY can fail with the following errors:
+ 
++- ``EBADF``: the file descriptor is not open for reading
+ - ``EFAULT``: the caller provided inaccessible memory
+ - ``ENODATA``: the file is not a verity file
+ - ``ENOTTY``: this type of filesystem does not implement fs-verity
+@@ -310,6 +312,7 @@ blocks from disk without actually verifying the path to the root node.
+ 
+ FS_IOC_READ_VERITY_METADATA can fail with the following errors:
+ 
++- ``EBADF``: the file descriptor is not open for reading
+ - ``EFAULT``: the caller provided inaccessible memory
+ - ``EINTR``: the ioctl was interrupted before any data was read
+ - ``EINVAL``: reserved fields were set, or ``offset + length``
+diff --git a/fs/verity/measure.c b/fs/verity/measure.c
+index 433d963edf3bb..5ec36d845008b 100644
+--- a/fs/verity/measure.c
++++ b/fs/verity/measure.c
+@@ -31,6 +31,16 @@ int fsverity_ioctl_measure(struct file *filp, void __user *_uarg)
+ 	const struct fsverity_hash_alg *hash_alg;
+ 	struct fsverity_digest arg;
+ 
++	/*
++	 * This ioctl returns a hash of the file contents, so it should require
++	 * read permission.  Disallow it on ioctl-only (i.e., nonstandard access
++	 * mode 3) fds, which can in some cases be acquired without passing all
++	 * LSM read-permission checks.  Also disallow write-only fds, which can
++	 * refer only to non-verity files which would fail with ENODATA anyway.
++	 */
++	if (!(filp->f_mode & FMODE_READ))
++		return -EBADF;
++
+ 	vi = fsverity_get_info(inode);
+ 	if (!vi)
+ 		return -ENODATA; /* not a verity file */
+diff --git a/fs/verity/read_metadata.c b/fs/verity/read_metadata.c
+index cba5d6af4e04f..cfe9227a41c45 100644
+--- a/fs/verity/read_metadata.c
++++ b/fs/verity/read_metadata.c
+@@ -157,13 +157,19 @@ int fsverity_ioctl_read_metadata(struct file *filp, const void __user *uarg)
+ 	int length;
+ 	void __user *buf;
+ 
++	/*
++	 * This ioctl returns file contents block hashes, so it should require
++	 * read permission.  Disallow it on ioctl-only (i.e., nonstandard access
++	 * mode 3) fds, which can in some cases be acquired without passing all
++	 * LSM read-permission checks.  Also disallow write-only fds, which can
++	 * refer only to non-verity files which would fail with ENODATA anyway.
++	 */
++	if (!(filp->f_mode & FMODE_READ))
++		return -EBADF;
++
+ 	vi = fsverity_get_info(inode);
+ 	if (!vi)
+ 		return -ENODATA; /* not a verity file */
+-	/*
+-	 * Note that we don't have to explicitly check that the file is open for
+-	 * reading, since verity files can only be opened for reading.
+-	 */
+ 
+ 	if (copy_from_user(&arg, uarg, sizeof(arg)))
+ 		return -EFAULT;
+
+base-commit: c3f63d70f236bb7685e6d11d1d9b5b351552e600
+-- 
+2.56.0
+
