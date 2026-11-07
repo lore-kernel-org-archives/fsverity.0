@@ -1,53 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794078892;
-	b=ESdKnBAHubm3jKA+MDEguEF1Jse1Mhi0Z8v52Co0yUBu/5oieVOM8Nwx2kuhvqimbA9X
-	 QYeVCjBAaQCrrRZlYQl1ULPUSQVTXPg7l7hiNEALOuEAaDlDHnAjzDfm0qM5Iwo9PTChG
-	 s5Xk9Hj+wO4+VkNylCgw39w3Uko0qf7ZlMxQXMFrtA2K6Eqcw68cE+NH0QBdlKM+ufF9r
-	 ybrqWeFZYcbo/0vQoRj6XWAfrkScYaFoE0pH95lgsnmWBxmZTyW2UebCzZAarT3W+kXSr
-	 1aTh99KvuBvmhC4AskedqFElBcK2jHXsI2P/nEFVotXUDzKSWvj/BCDFSao6syrhEVg==
+	t=1794079196;
+	b=CVQkAUI5HSX0QSef/sso6P9I/LxR5PrJq/FZoUP59QavtWAp6W0iMhlktF4gJiH+wKQi
+	 MxBSHuws/Vd3Y65F9wymbc5EKSoioY3Sz6LNwD/ExvXFJap0FOzcLvLQfLBTKMqPIX6vr
+	 D1vM5VZ/g5xjmziTJy1/lA31rymvqO87wyCKAi8ubuqswxfqkoqkzkv8Xztq+4el/DFxZ
+	 gmoPJqKXdQLgy+HwT50XN23Ir0xcYJf7suDoZWosQhEPHTsgRsOLBLgFqiJXR98BrHPk1
+	 G5ZBRiWc2KzIlPcuBp7x68Ll0a30ZJxtT6LsQbGcrs7qBcT6dCO7Pzz0svljwGGQIIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794078892;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Q40vr2Cuq0ydvo5nF+Yg5CTa2y/FTbCDRX+QJ+acIOM=;
-	b=FSL47+h6GkaGynfJlA5J140u3pq7jl38hsaZot2GNswAcOBvSVrrUGsECE1lQIt26R7l
-	 ZOu2UOKNF8cKGQQvZ4Jwc9RO24VFjU7dNpjnTOmXpIgjQpLvJ8C3VsP0QL9PBrlltkdHi
-	 PAU2JqkAaNse3s5nibGMbqXeTXGx/maJOstDeptXccjft1zMk+ESSmoeg/zryTpymR2Nr
-	 z6SdLoin02ySQin942SV4z2rCapgq973cH69O2mz1IgfNJtAxXUFUhrT1B22t9bogfO4S
-	 lXFbp2RRBLiQTVDaFeP1JoRfRhKTYAWyUQjfdOnyBX8w5HKqwoZD0qa41o799nNR0aQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794079196;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=JSXAEFuT4NER3iHuNYhNloVFUGdnvX3jG7WZpgf4Pfk=;
+	b=seS/XW7XjCs1KzyP+ASlBZjS5HEQwL+T8T+/7sqGy3nrDL6H6+a/gJcBGVNCACyC4eUi
+	 Hv7+0Rm0o50NsZU9FpXwjKYCX0jryaxHrq8ESy1V/37sSceMa/SRTZYuAKFvSD4IWx9DI
+	 1ZtMKscp/jUdb8cqSArQJwVl01BugJNApJTE04dkP6ejAo7hkR92gdRbsDkItTQzAc+LC
+	 2bAI1dEQr6ZDCSZrOGEzY2E+NwEnsiBliPURYOsijeInAc8W5ANvY5gdV9LvGn5SfLvEA
+	 rVs01vEJZM9oLj1LFaOM7mEDQgj8tUlfb8IodfgU9L/+sMEIY9KgznBK4ZNJXB3b2lQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MiqNa0XZ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yqd+nZbW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C719606A326;
-	Sat,  7 Nov 2026 19:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00487606D83A
+	for <fsverity@lists.linux.dev>; Sat,  7 Nov 2026 19:19:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MiqNa0XZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A40981F0089F;
-	Sat,  7 Nov 2026 19:14:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yqd+nZbW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BCE31F008A3;
+	Sat,  7 Nov 2026 19:19:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794078891;
-	bh=Q40vr2Cuq0ydvo5nF+Yg5CTa2y/FTbCDRX+QJ+acIOM=;
-	h=From:To:Cc:Subject:Date;
-	b=MiqNa0XZF+0HvP2LorQgTctBCau471oOj8/sxvn+iSs7O9QPStXI6P2y3uhyTXCec
-	 RGBMRT54L4RgNOcOVkdKAdwzOmP3Esskl9lUvMYiPuJ0jenAInaoJnn2xXYAN51TiN
-	 ROkjvFw9Gb475rGJcgUk5PQ27tMo0d8V6pU8+n9ADn8fzpqpnwr1FD7DYz4Qk6vGye
-	 V2E/J/fZWL1Rtdupr5jVqOd5hKumLK/hqt7lxCMeMPH7lQdCBBCRF8gKCxm9JU1xg7
-	 vEhRhwFRSeLaBy0B3oOB1fE6UqGE2V9NomEBkzj5JZwvmMZmL5JdLQMo/9x9eVnCho
-	 fkGNH2vxg2acQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: stable@vger.kernel.org
-Cc: fsverity@lists.linux.dev,
-	Eric Biggers <ebiggers@kernel.org>,
-	Andrey Albershteyn <aalbersh@kernel.org>
-Subject: [PATCH 5.10] fsverity: Explicitly require FMODE_READ to retrieve hashes
-Date: Sat,  7 Nov 2026 11:14:08 -0800
-Message-ID: <20261107191408.43437-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	s=k20260515; t=1794079195;
+	bh=JSXAEFuT4NER3iHuNYhNloVFUGdnvX3jG7WZpgf4Pfk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Yqd+nZbW3jt3Jfcr60vTanCoOVWb6rvkL01RBdHCRCl2HqPzoU2Rsg2SJERC6yel9
+	 IX+DPrUDUHK+ohd9ITdNvD6P2k82vGwPFgt38NSY+VRky9TL6NI0BcSKJXjkYqn5xG
+	 XtniiVNAGdPsSM4y/6sMwEnFiccZoWd4zISwDyGKlkF6zTsQkQwJgtdT+U1/X1kAw0
+	 XWcoeKZTPzBsZklk+BfwfkGVmH8PAAzmC0dwmwuVPwuH4PxtZMZ9RZdnYti3U8jbgs
+	 NWoqSVzhKjxLplWL5aXQJjLrWeJv9b0nNEAkWxx9cURFU9c8SaOYWECL9s4LO9qiK7
+	 GAcZ21X3dLcBA==
+Message-ID: <sashiko-outbox-203202@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 5.15] fsverity: Explicitly require FMODE_READ to
+ retrieve hashes
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Eric Biggers" <ebiggers@kernel.org>
+Cc: fsverity@lists.linux.dev, "Andrey Albershteyn" <aalbersh@kernel.org>
+In-Reply-To: <20261107191131.30975-1-ebiggers@kernel.org>
+References: <20261107191131.30975-1-ebiggers@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 07 Nov 2026 19:19:54 +0000
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -56,94 +59,68 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fsverity+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-commit 1acb4fd2d011c4bd6cc961095ae17361c71ff61a upstream.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] fsverity: missing FMODE_READ check in fsverity_ioctl_enable()
+--
 
-The comment in fsverity_ioctl_read_metadata(), which justifies not
-checking for FMODE_READ, doesn't consider that the nonstandard access
-mode 3 (ioctl-only) exists.
+commit 6f42601569a4e27dbe2802c031c26b860ad70602
+Author: Eric Biggers <ebiggers@kernel.org>
 
-Opening an ioctl-only fd generally requires read (and write) permission.
-However, there are gaps with certain LSMs: an ioctl-only fd requests
-read (and write) permission via security_inode_permission, but not
-security_file_open.  With certain LSMs relying on the latter, such as
-Landlock and AppArmor, an ioctl-only fd can be opened without the LSM
-granting read (and write) permission.
+fsverity: Explicitly require FMODE_READ to retrieve hashes
 
-Since FS_IOC_READ_VERITY_METADATA returns hashes of file contents
-blocks, it should require read permission.  This also applies to
-FS_IOC_MEASURE_VERITY, which returns a hash for the whole file.
+This commit requires FMODE_READ in fsverity_ioctl_measure() and
+fsverity_ioctl_read_metadata() so that ioctl-only file descriptors cannot
+be used to retrieve file hashes without passing LSM read-permission
+checks, and documents EBADF for the fs-verity ioctls.
 
-Meanwhile, ioctl-only fds are a rarely-used feature, not known to be
-used with either ioctl.
-
-Therefore, just disallow these ioctls on ioctl-only file descriptors,
-similar to what was already done with FS_IOC_ENABLE_VERITY.
-
-More specifically, explicitly check for FMODE_READ.  This also covers
-write-only fds to non-verity files which otherwise would have failed
-with ENODATA.  This change in error code for write-only fds should be
-fine too, as these ioctls cannot be usefully used with write-only fds
-anyway, but it's worth noting as another technicality.
-
-Fixes: 4dd893d832cf ("fs-verity: implement FS_IOC_MEASURE_VERITY ioctl")
-Fixes: e17fe6579de0 ("fs-verity: add FS_IOC_READ_VERITY_METADATA ioctl")
-Cc: stable@vger.kernel.org
-Reviewed-by: Andrey Albershteyn <aalbersh@kernel.org>
 Link: https://patch.msgid.link/20261022211522.1489943-1-ebiggers@kernel.org
-(5.10: dropped the FS_IOC_READ_VERITY_METADATA changes, since that ioctl
- does not exist in this version)
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- Documentation/filesystems/fsverity.rst |  2 ++
- fs/verity/measure.c                    | 10 ++++++++++
- 2 files changed, 12 insertions(+)
 
-diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-index 895e9711ed881..4bd6f25e1a4b3 100644
---- a/Documentation/filesystems/fsverity.rst
-+++ b/Documentation/filesystems/fsverity.rst
-@@ -146,6 +146,7 @@ fatal signal), no changes are made to the file.
- FS_IOC_ENABLE_VERITY can fail with the following errors:
- 
- - ``EACCES``: the process does not have write access to the file
-+- ``EBADF``: the file descriptor is not open for reading
- - ``EBADMSG``: the signature is malformed
- - ``EBUSY``: this ioctl is already running on the file
- - ``EEXIST``: the file already has verity enabled
-@@ -207,6 +208,7 @@ regardless of the size of the file.
- 
- FS_IOC_MEASURE_VERITY can fail with the following errors:
- 
-+- ``EBADF``: the file descriptor is not open for reading
- - ``EFAULT``: the caller provided inaccessible memory
- - ``ENODATA``: the file is not a verity file
- - ``ENOTTY``: this type of filesystem does not implement fs-verity
-diff --git a/fs/verity/measure.c b/fs/verity/measure.c
-index df409a5682edf..be3628f9e557f 100644
---- a/fs/verity/measure.c
-+++ b/fs/verity/measure.c
-@@ -28,6 +28,16 @@ int fsverity_ioctl_measure(struct file *filp, void __user *_uarg)
- 	const struct fsverity_hash_alg *hash_alg;
- 	struct fsverity_digest arg;
- 
-+	/*
-+	 * This ioctl returns a hash of the file contents, so it should require
-+	 * read permission.  Disallow it on ioctl-only (i.e., nonstandard access
-+	 * mode 3) fds, which can in some cases be acquired without passing all
-+	 * LSM read-permission checks.  Also disallow write-only fds, which can
-+	 * refer only to non-verity files which would fail with ENODATA anyway.
-+	 */
-+	if (!(filp->f_mode & FMODE_READ))
-+		return -EBADF;
-+
- 	vi = fsverity_get_info(inode);
- 	if (!vi)
- 		return -ENODATA; /* not a verity file */
+> diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/files=
+ystems/fsverity.rst
+> index 1d831e3cbcb33..073bb57334c45 100644
+> --- a/Documentation/filesystems/fsverity.rst
+> +++ b/Documentation/filesystems/fsverity.rst
+> @@ -146,6 +146,7 @@ fatal signal), no changes are made to the file.
+>  FS_IOC_ENABLE_VERITY can fail with the following errors:
+> =20
+>  - ``EACCES``: the process does not have write access to the file
+> +- ``EBADF``: the file descriptor is not open for reading
+>  - ``EBADMSG``: the signature is malformed
+>  - ``EBUSY``: this ioctl is already running on the file
+>  - ``EEXIST``: the file already has verity enabled
 
-base-commit: 3a323bc22b881a5bdc1646080f93f5ecb22850bf
--- 
-2.56.0
+[Severity: Medium]
+Should fsverity_ioctl_enable() also check FMODE_READ in this branch?
 
+This hunk documents EBADF for FS_IOC_ENABLE_VERITY, and the commit message
+notes that ioctl-only file descriptors were already disallowed for
+FS_IOC_ENABLE_VERITY, but in this branch fsverity_ioctl_enable() only
+checks file_permission(filp, MAY_WRITE) and deny_write_access(filp), and
+read_file_data_page() reads directly from filp->f_mapping rather than
+through __kernel_read():
+
+fs/verity/enable.c:fsverity_ioctl_enable() {
+    ...
+	err =3D file_permission(filp, MAY_WRITE);
+	if (err)
+		return err;
+    ...
+	err =3D deny_write_access(filp);
+	if (err) /* -ETXTBSY */
+		goto out_drop_write;
+
+	err =3D enable_verity(filp, &arg);
+    ...
+}
+
+Because an ioctl-only (access mode 3) file descriptor has neither
+FMODE_READ nor FMODE_WRITE set and does not increment inode->i_writecount,
+FS_IOC_ENABLE_VERITY still succeeds on an ioctl-only fd without passing
+security_file_open() read/write checks in LSMs such as Landlock or
+AppArmor (and fails with -ETXTBSY rather than -EBADF on a write-only fd).
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107191131.3097=
+5-1-ebiggers@kernel.org?part=3D1
