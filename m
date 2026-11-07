@@ -1,56 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794079390;
-	b=uadzUktPsZfWxh8J2WRMgedczvCokg5Uf1yjW3fqoU1BXIdYvwfdpny9vn/T+28+uCH6
-	 zun735F0Tkct5MSyfALhv7VlgADSz7c7tkHOKMm3GMqVjpsg5HOITFn1zIwo8NQNbeTPV
-	 hxfP7Up1o2tBBfbFvBuMP36SDyPv7TxU1f9wWDO9uhurjJ/YCBBHex8k9TkavdXKr6Z5c
-	 i14+QCjaRIgFtfEH8Lod9OiM/+xamZ1CzRPYUIlV9CIqCN7RluT6qx8n7VSN9Wxxf4FFj
-	 M8OfGgFzNL7JjzJWkPuHmjw6xL/y/au2OrU7cy0iyyAVaWGDGXfN9rfcLHXLU5xixxA==
+	t=1794079558;
+	b=ZsziNcYlhenHFNEWhs4PdSHqPKbgF2lXqNha6iHDtTAZUBq1Q2J0ZgpZqpOrt16MnirO
+	 cDSAurxgeopJfB5hgpvYAA6+A0g/YKUp/g51MAJWWq2jpM0YjozTjaXyi0cfEfWWLxBkK
+	 bTl/bvgUMSUM720evtnxC+c0b9XIarm+pK3e0NziRQPxAsB5vUWif/n5u3HANj4wuE4wy
+	 IJjGxYRdOuQKhrH1Xhi3rMmo392yK/gOG6jA8pvXQlfxDFcpx74DJoly1hIqyQ0iN+2hy
+	 5zD2G4i1omesZ4xuBPPSGYtw/mfpzqyWKigsTVKP9WSSxVDNFuu23X6cP7omeDH3duA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794079390;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=x4OzxHPNP8A4inFSVHQERmO+FWfKiSeYenMVl1a7jzY=;
-	b=U+H7YjHemplgT63JIIH1fkUNRRlTs7Vr76edZIPpNeygr+FDGaxXaT0q23S/9Vo0HXq5
-	 YSrdU0k7PqYOJtRC6EbH8mP39INp224Q9lyyfYaUByGeG51ldxLKOEmmMegTeirEjuO16
-	 wYXbB5etVQGqYcbTIfoQvEfhvzCAYFYUWVnJiucfbc5pC4xV5cukcHf6L0Xc97rg8MzMb
-	 v/lz1bZnj7Ji5086yVIhFT9Emg/xeumlgRj8zIu+CL+MmTFoqMa69kv/ovT00F9EG0NIH
-	 0ge94HqUunCHjYJCYi/KdCLEMolQGo23Q796l6HtNdBSHPNBxuFfRTNZnPIPehos7qA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794079558;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BCmeYqz8ISq3xLhbD9eBRJCwVcGkoCgusO2QRT6Vnfw=;
+	b=J69rmOtO6rCJXKjhC8QUVqb1EsXYHmQvU1Rtp6t9t2fRzrgWpK4OrFVSy2If0bu3DcFB
+	 7XXL4kCEzi0dGVNDns8dDbeRWN9s58BCHzJ5jSyLTtxx3aj6Q7mXvjvL0Y/r1LocIKmP0
+	 +TgEDqs6FO3qr7z7bohULU/gaCeR1N+xgxtOnnz9fjzQY+8h0ZgBcxoWNu8YJpwoCZoj4
+	 ZZv5XYh2yNvrAPC5GIdn98OJyiTn5I8lbWnFb4XmS0P7zVB2sWTcTkITRMUMEgYPQtcv6
+	 G/UKQIM4W5EZR/lkBCu/Oen3oHu42Jx3G0XnwnBs0jkB9n4EAlUrXFA+mADhZcuEfTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hARONUQi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W3wKpdEH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134D5606A32E
-	for <fsverity@lists.linux.dev>; Sat,  7 Nov 2026 19:23:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163E0606A326;
+	Sat,  7 Nov 2026 19:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hARONUQi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE581F0089F;
-	Sat,  7 Nov 2026 19:23:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W3wKpdEH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F5311F0089F;
+	Sat,  7 Nov 2026 19:25:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794079389;
-	bh=x4OzxHPNP8A4inFSVHQERmO+FWfKiSeYenMVl1a7jzY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hARONUQiMEzAzD8Nq0nGCiPfKazbUL32nPcFRaJOsB71YrnKtsSKtEpjiIUvTrZZZ
-	 Y95d1UL+/PfEX1fJNKxlSl0oomsCgE+Cfgee06zoAfyhdqLxkpoN1hx9uJqa/+Llzl
-	 2Vv4Zx6bJgTHsU99qkgOA1C8az1LApSPkvKCeJrHjt4C2CHdvjr6IGWejnNUxfCsfZ
-	 QS5nulV1QYtU4UrqCMxUJK3gykGw+5bLNDAe3ccy30SzrcgLFjnPADk4evUe+wCImY
-	 +ukrlJUjCEbidlSFJubpw3trMOksQw+0gmhjgsa+cpEKKJCbkvRdumxF9ql1iPdO4h
-	 Gw1P1FPyAWdlA==
-Message-ID: <sashiko-outbox-203204@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 5.10] fsverity: Explicitly require FMODE_READ to
- retrieve hashes
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Eric Biggers" <ebiggers@kernel.org>
-Cc: fsverity@lists.linux.dev, "Andrey Albershteyn" <aalbersh@kernel.org>
-In-Reply-To: <20261107191408.43437-1-ebiggers@kernel.org>
-References: <20261107191408.43437-1-ebiggers@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 19:23:09 +0000
+	s=k20260515; t=1794079557;
+	bh=BCmeYqz8ISq3xLhbD9eBRJCwVcGkoCgusO2QRT6Vnfw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=W3wKpdEHsaJiZzmrXxCz6TPjkj5Npg7mGHogFhxionubMUwLImUDz7g/YGRBKEqbp
+	 8NgfFmnsYDVuhQyu63LpZQy80i5nSwhGWi3jAoWGLBh/Rw8zJQVPy6mOGzyVTbdvuU
+	 nZKUdjSi3wuQolpOEEaoBuwapCtG4L/Aa189mfHR3CdB5eh9Sm0TlE/tiNwNNn5tpx
+	 r5UV1uSwGhzD8/kebcw72/p976EuHxTxGKTh8Zx9pmcG9o6e1/hnbvXH38uVnVhJmp
+	 qd62zzeaux9akdk3bbDuEdfp1fVEOJI7ZaOSzPOmfGaFLqNz3wzT5bITss4jZ2SHQB
+	 HUZ8f9zcJvY6w==
+Date: Sat, 7 Nov 2026 11:25:56 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: fsverity@lists.linux.dev, Andrey Albershteyn <aalbersh@kernel.org>
+Subject: Re: [PATCH 6.1] fsverity: Explicitly require FMODE_READ to retrieve
+ hashes
+Message-ID: <20261107192556.GC6049@quark>
+References: <20261107191050.25921-1-ebiggers@kernel.org>
+ <sashiko-outbox-203203@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -59,63 +56,25 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fsverity+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <sashiko-outbox-203203@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] fsverity: missing FMODE_READ check in fsverity_ioctl_enable()
-  on 5.10
---
+On Sat, Nov 07, 2026 at 07:21:27PM +0000, sashiko-bot@kernel.org wrote:
+> [Severity: Medium]
+> Does fsverity_ioctl_enable() also need an explicit FMODE_READ check in this
+> branch?
+> 
+> In mainline, fsverity_ioctl_enable() gained a check for FMODE_READ when
+> Merkle tree construction was converted to use __kernel_read().  That
+> change is not in this tree, where fsverity_ioctl_enable() only checks
+> file_permission(filp, MAY_WRITE) and deny_write_access(filp), and
+> build_merkle_tree_level() reads directly from the page cache via
+> read_file_data_page().
 
-commit 4872a24e7ea173685e43d575a8bbd21a70702f93
-Author: Eric Biggers <ebiggers@kernel.org>
+I'll consider backporting 04839139213c ("fsverity: reject
+FS_IOC_ENABLE_VERITY on mode 3 fds") separately.  It is independent of
+this patch.
 
-fsverity: Explicitly require FMODE_READ to retrieve hashes
-
-This commit backports the FMODE_READ requirement for FS_IOC_MEASURE_VERITY
-and updates the fs-verity documentation for EBADF error returns.
-
-Link: https://patch.msgid.link/20261022211522.1489943-1-ebiggers@kernel.org
-
-> diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/files=
-ystems/fsverity.rst
-> index 895e9711ed881..4bd6f25e1a4b3 100644
-> --- a/Documentation/filesystems/fsverity.rst
-> +++ b/Documentation/filesystems/fsverity.rst
-> @@ -146,6 +146,7 @@ fatal signal), no changes are made to the file.
->  FS_IOC_ENABLE_VERITY can fail with the following errors:
-> =20
->  - ``EACCES``: the process does not have write access to the file
-> +- ``EBADF``: the file descriptor is not open for reading
-
-[Severity: Medium]
-Does fsverity_ioctl_enable() actually check FMODE_READ or return -EBADF in
-5.10?
-
-Upstream commit 04839139213c ("fsverity: reject FS_IOC_ENABLE_VERITY on
-mode 3 fds"), which added the FMODE_READ check to fsverity_ioctl_enable(),
-has not been backported to 5.10:
-
-fs/verity/enable.c:fsverity_ioctl_enable() {
-	...
-	err =3D file_permission(filp, MAY_WRITE);
-	if (err)
-		return err;
-	...
-	err =3D deny_write_access(filp);
-	if (err) /* -ETXTBSY */
-		goto out_drop_write;
-
-	err =3D enable_verity(filp, &arg);
-	...
-}
-
-Without that commit, FS_IOC_ENABLE_VERITY fails with -ETXTBSY rather than
--EBADF on writable file descriptors, and still allows ioctl-only (access
-mode 3) file descriptors to proceed without FMODE_READ.  Consequently, an
-ioctl-only fd opened without LSM read/write checks in security_file_open()
-can still read the file contents to build the Merkle tree and enable
-verity on the file.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107191408.4343=
-7-1-ebiggers@kernel.org?part=3D1
+- Eric
