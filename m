@@ -1,58 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794351835;
-	b=PAel/PIlIoffLTWvXgutBcxiBOpEW5WgbRKtldr+7JyHz3DocLKp/v+xIv7+K8kQy73u
-	 w8XdOJvf96rMdDyhFFiayvjLkJUfF5mITg33WnfGQs6NCaJZp8nIFGRMoLt5eJh0m/2kH
-	 nmtc3ie9624m0YbSsDhE+HfS4ySwOJYOTKIFGbOxBKHiC3F0OctrPYGIZMz2xNNpWE+Zr
-	 i42Q5M0KZ4vRqXfnCGQlOd/UbS6AlIyp3a2EszdNCYR5sQj6qBqbEX6fjxUWfxgwdG5AB
-	 rSyhclHx/mCwggK9HGtNTbsLtJW28/kuwgmt8tcvWzcSQnfUZ4eRBBNn5VFpNVKIFjg==
+	t=1794493173;
+	b=u8hilQYCIPnIgVM+HF0USvW1R4Sz6qgdZAS3dMN1FqAm43Tomkufpz7rKnvLZpuzPSYk
+	 W5RbSDFoJ5w3ORtRGUVBJyReG46qCAfYc30HCbzdldvnYxLD2cfUGEErA/t8o5D8J9a9I
+	 PnHPrF89HZJWB5C3/GQchD8+muDdGmNN4l46+9ndow0/sdxt6hRl7AM1Wxk77TxxmgLzh
+	 Sf4YbcX45CHHvvmMxzL0fdkFWEyJISQOxENG48BndbJxxEITDJI/q75RDIBte3DlXTyFX
+	 AWWWMEMCCmbkWdePmIghrjJ4+mhVSBR//exRlt+2KMcnpixApkLLUbBBQDmuG0eWAuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794351835;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794493173;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=2pIaRdIwsMurNh146HSaQSteAZp0sNsCvcBlMEMyjn0=;
-	b=DGqZ+Hm4bFVRk/RMt39s8X1LEYjZMByZlc0eBXu8aT8wFGmfZfDnbgiA55j7Oh4HatSx
-	 sfr9ys0pvRkHe+tvRppusTNvQueyBOaXWSmS/Awpjr6n5lgpachyG77/e/zJteBWbEgyV
-	 /H3jUsD0m3ommG7GUIBjJYmoPbnS3uD4GIIKWHrYEECObVdm0057p+77UtG3rTZmoGHuU
-	 EAN130lV8yabJBaQoVYj/G9OfzHpNrnQ+O95dE2jb+UjkUnAXCZKfUt4N+eHDFFWupLEB
-	 AmHcBE6t+DyEdo8WlvwewUBoZPI8TpEeANFvwOp8j9FAv0Mm9MQAAQ1PBImr2OYmcRg==
+	bh=PtL6fQIP5x0WU3dTc2bEBHEkK0f64LH1mQ5PFkYFhLE=;
+	b=kmRT+bTpOmqqTFGPSbLW7KoCtYbf7RXKPFwjDdpzlxUM04BqUoM+JO16Xgb1gdsGI+To
+	 KuaB4/avsQF0iAORXukcXgtymH4emMKcbDoAC/TgkjDOH9+/mMXLk6P16DzIG7ohtctC5
+	 Thuusv0R5FV07S0eq1UvVoZyH7iu0tfaJEMJhQxNLgxOA4rFDgrWgX++O/uZLl4qyu7Wp
+	 GYp3/UBEm8VHhKkWQMe+3SgmoVY9+Hmt0VHTaHxEg/YCrMGzw+d775KkUH7rMSCvBRzE4
+	 UoyOLxmIHaoQsJpxXDUsUI3yw0lYiW4zekEpiUzBjyJwGBdJiJSw3gllA3Dw5gIRFKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kBTW1rxq;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8Roc0cn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CD2606A32A;
-	Tue, 10 Nov 2026 23:03:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7BA71606A8B8;
+	Thu, 12 Nov 2026 14:19:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kBTW1rxq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AB91F00A04;
-	Tue, 10 Nov 2026 23:03:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8Roc0cn
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8A5A81F00A05;
+	Thu, 12 Nov 2026 14:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794351834;
-	bh=2pIaRdIwsMurNh146HSaQSteAZp0sNsCvcBlMEMyjn0=;
+	s=k20260515; t=1794493173;
+	bh=PtL6fQIP5x0WU3dTc2bEBHEkK0f64LH1mQ5PFkYFhLE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kBTW1rxq9WZhdtKSM6ZrjLcJDA8KX7zpquW0WCtTZj93ht9JZWcFZTmPvobJNFp5p
-	 W7fw8ONKkd7a9uW9Mg/qf4xDHmOd8hlnRbFF4foksH2xX7qk3QGzGbJYkAa75ekFwJ
-	 OzRNYXI4MvxDD+4HZGPSx2NnRi9PmevHAGdVkVYZRdLMTwDjyRsnAHYGk68OvDDay8
-	 rDnhbCiAaL/Brr0qiCC6247tRAhK2n7XP0yf/xOtZuuMjJqM4qWjPWN7jzk4Svxfvw
-	 pqYkF6OUqIPT5t0qg/xeybx0vaHstfPqOrvFTHTSgBMM/vz9TsD1LPwReRhbFj1B84
-	 7XfdQtupW+l0w==
-Date: Tue, 10 Nov 2026 15:03:53 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: hch@lst.de, fsverity@lists.linux.dev, dsterba@suse.com,
-	linux-xfs@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jaegeuk@kernel.org, chao@kernel.org,
-	tytso@mit.edu
-Subject: Re: [PATCH v2 5/5] f2fs: use I_VERITY_BUILDING instead of private
- flags
-Message-ID: <20261110230353.GI1907@quark>
-References: <20261105115532.613467-1-aalbersh@kernel.org>
- <20261105115532.613467-6-aalbersh@kernel.org>
+	b=f8Roc0cn+u0O6ciGdXv0N/5hcJSLC8kHdFhAQejJqfdgDhIHN7lbJIFyWjliyn9wv
+	 AHbYxO6tYFds4zpiwiNjwDENXGeowTYs1VpY2vh9W0r1YiuRyl2LWdNnx3JO/5GS+R
+	 m9kHpUSrAVM4oc8cB59tP2gyh5shglS+H/fY5e/h8k74l3RK7OdzKafIA+M/4z5OaU
+	 jo8Lx61IXK9lgsoKiKfzQnpssl+cW/pfFg8khmPNbM7Y6w/DoFd+8U5BjWvCXleo9Z
+	 LL+umGjeOKnYEvxWh1rCvVVBaJR+QBYwrwMNc8KtpQHX+cuHVFFLcWjQysR7+uIe/o
+	 3R3xCo03mT+NQ==
+Date: Thu, 12 Nov 2026 16:19:29 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: bpf@vger.kernel.org, dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
+	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ignat Korchagin <ignat@linux.win>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yonghong Song <yonghong.song@linux.dev>
+Subject: Re: [PATCH v9 0/3] KEYS: Replace assoc_array with rhashtable
+Message-ID: <avXK8UKNmsr8NwSM@kernel.org>
+References: <20261110053323.2936729-1-jarkko@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -64,22 +85,31 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105115532.613467-6-aalbersh@kernel.org>
+In-Reply-To: <20261110053323.2936729-1-jarkko@kernel.org>
 
-On Thu, Nov 05, 2026 at 12:55:30PM +0100, Andrey Albershteyn wrote:
->  	/*
-> -	 * Write all pages (both data and verity metadata).  Note that this must
-> -	 * happen before clearing FI_VERITY_IN_PROGRESS; otherwise pages beyond
-> -	 * i_size won't be written properly.  For crash consistency, this also
-> -	 * must happen before the verity inode flag gets persisted.
-> +	 * Write all pages (both data and verity metadata). For crash
-> +	 * consistency, this also must happen before the verity inode flag gets
-> +	 * persisted.
->  	 */
+On Tue, Nov 10, 2026 at 07:33:20AM +0200, Jarkko Sakkinen wrote:
+> The keyrings subsystem is the sole user of assoc_array. It has over 1700
+> lines of code, no test suite, and a long history of bugs, with LLMs now
+> finding more.
+> 
+> This unfortunate outcome has evolved over time by large from the shortage
+> of in-kernel callers, time bandwidth and 3rd party contributors.  What the
+> keyrings subsystem needs is just a generic key-value store, which performs
+> well with sparse key sets. Replace assoc_array with an rhashtable-backed
+> keyring index and remove assoc_array from the kernel.
 
-Same as ext4 patch: the deleted sentence (which wasn't deleted properly,
-as it left the "this also must happen" clause dangling) actually still
-applies.  Just it should be updated to use the new flag name, or else
-refer to ->end_enable_verity() returning instead.
+Hmm...
 
-- Eric
+- 1/3: 2x R-by
+- 2/3: 1x R-by
+- 3/3: 1x R-by
+
+Does anyone want to bring something up, and should I just apply these?
+
+I'm lost of ideas what to do with this further.
+
+The only thing that comes up to my mind is whether it would be smart to
+stick to ids instead of moving back to addresses. This is not actually
+important (and can be always revisited).
+
+Br, Jarkko
