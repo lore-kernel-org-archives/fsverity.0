@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795192683;
-	b=IMOMGVDVJ8GBfY8U2ZrWRcpEx4xyftMnVvusF91PbOCd5+30iPj5vIPRWGCZx9cQZuZQ
-	 B1j7z21tslbZjJGp2NhGbZcELqSx8I2A8EN/EzrJPvk8Z3+auhsVF4pQBo3acmzJW6aiJ
-	 djVstu64m/2Rmu06fO/ZtDU27NG+pPpYBeehjtfsL2fWu5OiUIoRfX48DFudG2tCB4fS4
-	 bRBOmy3mIY4jBmi8GyNZ8bDvMDlwsNH4M9lRZwIv7e1REOZJ8rXW6MMCFgIaZFpDK9Fpd
-	 OtsYZVjvXQIkfCXG9iJVqSjV7oMwbT1X4BGJXYF2Tlplm6yzRQBS0mIRfYpfflibF/w==
+	t=1795192978;
+	b=yock/gjf6gOvP7fa2AiSjWN9Cd1qforx+lJWwHj6rQP5GzpAOSYYtcdWpD784kZSQqRO
+	 fD+DcZ0Wcdq1WPgMHRG2fNo1PkTOeSKIw6u18y7CodumYuWVvmP6uM1MFJOdAfvyiolFw
+	 f6513Y3A8Rk2oP/NPtFNJ17GNCZcKBP4tpQIF0yzXtQUfgCkUg8WjCySQUvqVnvXwG30+
+	 9slYrhn33xHznzb2JFr5Yk6sMEND2mIvGgi/f3n6sdXAzEwQX6bnbkiqEu8EdwwW5M/Uv
+	 BaO/vuaWVYiysO4FwpS9xlpmsch4ILw3h8GH06fxb61RAOeGaaA4e3jI6XgYOnJS5Kw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795192683;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=PxOpoHkcKR1FppPUwuU3iFhxxiXijz+CtevshdMi0/0=;
-	b=A9jPFIW1odK9P+4VYbJ6XerepLdHgWYLM8MEMS0XaZUoQpGeeFI9vyObyag065+OyyFN
-	 wGowcQr2mw/HvpKs8kbPS/0aZ/AeIZMmMwFQPPwzeFIOdQaikCY2VRkzD6aV+d9UKWGf9
-	 znGVSQiDRDaX0Y/rQiZV0qVfJQPKPBucVwo/876NjDfX+cKw4FI2koNVUzwHJf8z16AGK
-	 5s4p4pV7Btp2mrp4OOjyiN/dihAFATLFFrWKKHLobQ+JEdDld3OoTpa6sVGb4iAgl4wID
-	 k1hVCh1cSzE3k6msxDjFtv1pKacjdzV2g9XHK8WszZUJlsG1F+LWYqZS3VklHrcWNaw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795192978;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZOol1tUip28IJ9V/fmUhkTzp6PkYAKu/YPqu/uCkA7k=;
+	b=npUll5zKqjr98L2GMOd43XJi4ID9E7MAN1t5ath8WyoEc9hwJg+CHd6aYlg5yWmCNGK4
+	 w8j2EHBbidxmiLFtnj2Vuc9NampCgHLhckD7ZKnfgQWEp57/H4zd42aXzAoIoiBQ9xKjc
+	 pMuy73CnWcTBFBQM9JW8j20pzsuOa9lK1/n/Qt09tjZJbxqzRNtpp/J4oDqrU7BMcB2rf
+	 CnLUFpC3HVxyHjQ2JnVOuslJeRtzPFBat3f4JUd5uCc5hinI5cDtrWoWyWQ+ESIEwQiEf
+	 4FAUnCcPavfEoW5H0oAznI7Gv5C0OiaFwgBd2NAESxy3yTdO+Lnf+pqpGWlx7JSmqgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZiiM9D+8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=StnGnXdw;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3821E606A32C
-	for <fsverity@lists.linux.dev>; Fri, 20 Nov 2026 16:38:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC72A606A613;
+	Fri, 20 Nov 2026 16:42:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZiiM9D+8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AAF01F000D3;
-	Fri, 20 Nov 2026 16:38:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=StnGnXdw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A6FA1F000C4;
+	Fri, 20 Nov 2026 16:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795192682;
-	bh=PxOpoHkcKR1FppPUwuU3iFhxxiXijz+CtevshdMi0/0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZiiM9D+8klwICp4x4Tztsb07WcGqDzrfDgCcjfWrFoOCd4mu50gr23zxyq+O0u16l
-	 UhSoKXqm3Cjfu9EUYertbux7jo19ec1xIJE1ijdfPLD4Ner4gEtK0wniMaRjkcMuWh
-	 ISkGzkKMV+PUEdNcnoqsPGJOcz0U3HslLPYdBX42UeuDSmsRMH4nUlLrsEX+l+UPWS
-	 Chm2hOBOxAS1bZT/05TRnD3G4m9wXw2UvbdOmy5Fr6aZWkoW3CWn/jqEKACF3QkJWx
-	 8RTGl8Bds6N4FD5axENyFzlTpdTXapTjZKHgpT33MGS4Sbtc2d7+ESl0LFdUag00Ny
-	 8Id74fnT/FOYg==
-Message-ID: <sashiko-outbox-225580@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v19 15/15] xfs: enable ro-compat fs-verity flag
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Andrey Albershteyn" <aalbersh@kernel.org>, "Eric Biggers" <ebiggers@kernel.org>, "Christoph
- Hellwig" <hch@lst.de>, "Carlos Maiolino" <cem@kernel.org>, fsverity <fsverity@lists.linux.dev>
-Cc: david@fromorbit.com, "Darrick J. Wong" <djwong@kernel.org>
-In-Reply-To: <20261120155752.192025-16-aalbersh@kernel.org>
-References: <20261120155752.192025-1-aalbersh@kernel.org>
- <20261120155752.192025-16-aalbersh@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 16:38:01 +0000
+	s=k20260515; t=1795192978;
+	bh=ZOol1tUip28IJ9V/fmUhkTzp6PkYAKu/YPqu/uCkA7k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=StnGnXdwkQvwHADr6xINhbVMaAmHG9EHSHSAAuZgJvslgz3dsqmoA7a9u+M8RgeYO
+	 6l/1LPYhhIGaT0aNwsWn6aK4EEdctlSzVKcq+kDqx/A6yeEUfkbuOaneyxXcQKISgU
+	 fHwMIBYqYuT35LU7O58X7uN0Tv8kkv8Qrkvldw3JewiN7NwttgtYDRb1mBKNpzmqZf
+	 uBmldC3CXYcVXIECrLPvAqVk85vdNLFdb/AHaEr6oAD9mkFoz2b6A1U45PijUruS2f
+	 F0MgBhOlVcd1aAnZYx/2UhpHIrXdRgWLM0zT/HCgH4fZ7sZB2WMPkHwgouF5HRhZqc
+	 e6t4Leq6dsUlA==
+Date: Fri, 20 Nov 2026 17:42:52 +0100
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: fsverity <fsverity@lists.linux.dev>, 
+	linux-ext4 <linux-ext4@vger.kernel.org>, dsterba@suse.com, Eric Biggers <ebiggers@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, tytso@mit.edu, chao@kernel.org, jaegeuk@kernel.org, 
+	viro@zeniv.linux.org.uk, dsterba@suse.cz
+Subject: Re: [PATCH v3 4/7] iomap: use fsverity_is_building() to check for
+ fsverity IO
+Message-ID: <awB0oPTthwNrm8eT@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20261120155032.187246-1-aalbersh@kernel.org>
+ <20261120155032.187246-5-aalbersh@kernel.org>
+ <sashiko-outbox-225558@kernel.org>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -60,93 +60,80 @@ List-Subscribe: <mailto:fsverity+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fsverity+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <sashiko-outbox-225558@kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] xfs: unhandled verity errors and uncleared sickness in
-  xchk_inode()
---
+On 2026-11-20 16:21:51, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] iomap: inode-wide fsverity_is_building() check in
+>   iomap_writeback_handle_eof()
+> - [Low] iomap: missing Fixes trailer for broken fsverity check in
+>   writeback
+> --
+> 
+> commit f52ac6dc651e2b12c5452600fd41f0db8111577f
+> Author: Andrey Albershteyn <aalbersh@kernel.org>
+> 
+> > iomap: use fsverity_is_building() to check for fsverity IO
+> >
+> > Recently, inode gained new I_VERITY_BUILDING flag. This flag indicates
+> > that inode is undergoing fsverity metadata construction. Previously, it
+> > was indicated by stale iomap flag on the IO, now we can check the inode
+> > instead. As fsverity inodes are read-only, the only write IO happening
+> > during I_VERITY_BUILDING is fsverity metadata.
+> >
+> > Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> 
+> [Severity: Low]
+> This fixes the check that read an uninitialized or stale wpc->iomap
+> before wpc->ops->writeback_range() mapped the folio.  Should it carry:
+> 
+>   Fixes: 63e242afa466 ("iomap: introduce IOMAP_F_FSVERITY and teach writeback to handle fsverity")
 
-commit 895a6d1e83651f06565310457271bfd62d56550f
-Author: Andrey Albershteyn <aalbersh@kernel.org>
+This is not really a fix for that commit, I don't think Fixes: is
+necessary here.
 
-xfs: enable ro-compat fs-verity flag
+> 
+> > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> > index d6e2f1ded5ca6..4fb4136908ec5 100644
+> > --- a/fs/iomap/buffered-io.c
+> > +++ b/fs/iomap/buffered-io.c
+> > @@ -1930,7 +1930,7 @@ static bool iomap_writeback_handle_eof(struct folio *folio,
+> >  	struct inode *inode = wpc->inode;
+> >  	u64 isize = i_size_read(inode);
+> >  
+> > -	if (wpc->iomap.flags & IOMAP_F_FSVERITY) {
+> > +	if (fsverity_is_building(inode)) {
+> >  		WARN_ON_ONCE(folio_pos(folio) < isize);
+> >  		return true;
+> >  	}
+> 
+> [Severity: Medium]
+> Can writeback of a dirty data folio while I_VERITY_BUILDING is set hit
+> this WARN_ON_ONCE() and skip post-EOF tail zeroing?
+> 
+> enable_verity() sets I_VERITY_BUILDING without flushing pre-existing
+> dirty data folios in inode->i_mapping, and filesystems write back both
+> dirty data and verity metadata folios while I_VERITY_BUILDING is still
+> set (either during background writeback or in ->end_enable_verity()).
+> Because fsverity_is_building(inode) is an inode-wide flag checked before
+> comparing the folio offset against isize, any dirty regular data folio
+> written back during verity construction triggers WARN_ON_ONCE(folio_pos(folio) < isize),
+> and a dirty data folio straddling isize returns early without running
+> folio_zero_segment() or clamping *end_pos to isize.
+> 
+> Should the fsverity_is_building(inode) exemption apply only when the
+> folio lies entirely at or beyond isize?
 
-This commit enables the XFS_SB_FEAT_RO_COMPAT_VERITY superblock feature fla=
-g in
-XFS_SB_FEAT_RO_COMPAT_ALL so that XFS filesystems with fs-verity can be
-mounted.
+I think this warning is better to be fired for data folios in
+writeback while fsverity is being enabled. The only user of this, so
+far, would be XFS. XFS will flush data folios before starting to
+write fsverity metadata. Ext4 doesn't flush data folios before
+starting the build, but I think it make sense to have data on disk
+before starting merkle tree build.
 
-> diff --git a/fs/xfs/libxfs/xfs_format.h b/fs/xfs/libxfs/xfs_format.h
-> index 2cb375bdbd76b..16d6e8931df06 100644
-> --- a/fs/xfs/libxfs/xfs_format.h
-> +++ b/fs/xfs/libxfs/xfs_format.h
-> @@ -378,8 +378,9 @@ xfs_sb_has_compat_feature(
->  #define XFS_SB_FEAT_RO_COMPAT_ALL \
->  		(XFS_SB_FEAT_RO_COMPAT_FINOBT | \
->  		 XFS_SB_FEAT_RO_COMPAT_RMAPBT | \
-> -		 XFS_SB_FEAT_RO_COMPAT_REFLINK| \
-> -		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT)
-> +		 XFS_SB_FEAT_RO_COMPAT_REFLINK | \
-> +		 XFS_SB_FEAT_RO_COMPAT_INOBTCNT | \
-> +		 XFS_SB_FEAT_RO_COMPAT_VERITY)
->  #define XFS_SB_FEAT_RO_COMPAT_UNKNOWN	~XFS_SB_FEAT_RO_COMPAT_ALL
->  static inline bool
->  xfs_sb_has_ro_compat_feature(
-
-[Severity: Medium]
-Can online scrub and repair handle inodes whose fs-verity metadata fails
-validation with -EINVAL or -EFBIG, and clear XFS_SICK_INO_FSVERITY after
-repair?
-
-In commit "xfs: check and repair the verity inode flag state",
-xchk_inode_setup_verity() ignores several validation errnos from
-fsverity_ensure_verity_info() so that scrub and repair can proceed:
-
-fs/xfs/scrub/common.c:xchk_inode_setup_verity() {
-	...
-	error =3D fsverity_ensure_verity_info(VFS_I(sc->ip));
-	switch (error) {
-	case 0:
-		/* fsverity is active */
-		break;
-	case -ENODATA:
-	case -EMSGSIZE:
-	case -EFSCORRUPTED:
-	case -ERANGE:
-	case -EBADMSG:
-		/*
-		 * The nonzero errno codes above are the error codes that can
-		 * be returned from fsverity on metadata validation errors.
-		 */
-		return 0;
-	default:
-		/* runtime errors */
-		return error;
-	}
-	...
-}
-
-However, validate_fsverity_descriptor() returns -EINVAL for invalid descrip=
-tor
-fields (such as bad version, non-zero reserved bytes, or data_size mismatch=
-),
-and fsverity_init_merkle_tree_params() returns -EINVAL or -EFBIG for invalid
-hash algorithms, block sizes, or oversized Merkle trees.  Because those hit=
- the
-default case, xchk_prepare_iscrub() and xrep_dinode_core() abort the scrub =
-or
-repair ioctl instead of flagging corruption or running xrep_inode_verity().
-
-In addition, commit "xfs: introduce health state for corrupted fsverity
-metadata" sets XFS_SICK_INO_FSVERITY on ip->i_sick when descriptor loading
-fails, and includes it in XFS_SICK_INO_PRIMARY.  Because
-type_to_health_flag[XFS_SCRUB_TYPE_INODE] only maps to XFS_SICK_INO_CORE and
-neither xchk_inode() nor xrep_inode_verity() adds XFS_SICK_INO_FSVERITY to
-sc->healthy_mask, XFS_SICK_INO_FSVERITY remains set after repair and causes
-xfs_inactive_health() to mark the AG sick with XFS_SICK_AG_INODES when the
-inode is evicted.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120155752.1920=
-25-1-aalbersh@kernel.org?part=3D15
+-- 
+- Andrey
