@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795191713;
-	b=nAz4qmKM0xy4dvRpKxTeVON1nUhMrQKZIZC3PPvOTbd+0/Krmk6FyutV596EqaaguKBE
-	 rjM8lTkp71kRWIF3IgEuhCzVCXzTk4HPnBnZoOTZUvGitw9xmlbcyKJ0Md8aiYAI9ZB5I
-	 QfnNDCOF5mOBnQXXH6EeC6TnsWHpAa57mYlrwfOb2TiOTUkDdPNvrqd0UubT0GICuoMHG
-	 uhBHeAI6aeqjKMK9aPHKThufZBYVpw0e5WEjPL6aP/fWDUOWNrJUDjNwYtISGA1LltUcK
-	 1+JYbjZ8o489T0Xq2ubFRGper2jXcVLNazHybISXkSBTY4Whr7hkmOdtz3RGfb/1XDA==
+	t=1795191718;
+	b=Eo40b7Q8z1pwQkAIXjaBxaFEKLjIgjgdfi8BMrEhCuXmKSxFk16VCFVS/8qVu2Osfsda
+	 Kl3CwF80keOgRpRIrzQil9PT30HJKyiV1vM3hI/zsdCB++cEHJzeedeCUo8ZY2agvBUyM
+	 r1dDxqps/dILQV73bYYrqkYJM+bUQ1gwyrMilJW9EZopWcSqKu1aZkkbBTd7M0G86AMTB
+	 hgzZj++VdZKK+IuNn9j/S+myjK8a0O4jgH4s7ow4dFCtb0XYyPE093g7L+03bO3hNLqER
+	 TVuSE2ueUV8RGexzriOQsBZWwdRs482TzrPaqwN2usjt5vJV9ACA6jlDLKNW/IsHlEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191713;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191718;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=mKWScqfl/Y1cspf9A328ka9FjhD2e337gExwukxjT8Y=;
-	b=oxn+sPBs/C4Ga9RoNQU/J6EYnhUhTJTlBxZ6I6akqjCN2X5Fhn26pSvWXg5o1Bbi+wa6
-	 UtWIwQn8AluO4rJWEEhd8A60LTSub3p36IdHhY867zU6xcRZv5AjYctWWnuW1UIs5bVPo
-	 UP6hmcW/9NJXYamMS71cP8SGwflbrJ3NfaAl/Xrjv1UKKiuB8jcuoo+ER7+ssb82TPzFB
-	 GlGwuw5F3JhGuzTHG/ba5Q3rYLt9nRvwhVgkZevvB4NI6e9ASUJM92k4aRmN437IPj1Sq
-	 sPZEvwOJT67AiXxjodK++PhJxXaOXwm7UAzbV3KcFVejer4sGx81nmBT5Fm07bkVOtg==
+	bh=Y7vAJt//gZoqyDH0FIxxlhUVevq06zFxg/z6IzpVEXw=;
+	b=YJ1sK6EnhDb6gWYhrr2cGlzkZ1XNCjFDwE5wuTVkppIzsjlr1L1P947SFRebGA5KV88O
+	 Z1z75bOeOj4evMT2kbdXprqyDxkrThzEFRn4/1+sYfght3QxBeFmPkUxGDLeT9hHMrnDW
+	 PJjZvq6RM4sgqiGPY/SRGwUSeOpeFFWPhYRJKxhyooaUiKdPtyjG/EpvTPzmK4lZDA30o
+	 RQtULp6Tdd86E4m6ikS8hVs4Rl0eOqMd16r9O/JDaKJMjLWyFpdP1Rldy6yOMJTV8kAz3
+	 UCmMPv9+ghs9p9gBDHi5CLHmQbbCpXhSiybUTgdpLQYF+HK6b/vGTu2k5B2sJ1kweNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EMk+QCHL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FhVaFd9i;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88D3606A332;
-	Fri, 20 Nov 2026 16:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6C9606A320
+	for <fsverity@lists.linux.dev>; Fri, 20 Nov 2026 16:21:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EMk+QCHL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5791F000D1;
-	Fri, 20 Nov 2026 16:21:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FhVaFd9i
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4281F000CA;
+	Fri, 20 Nov 2026 16:21:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795191712;
-	bh=mKWScqfl/Y1cspf9A328ka9FjhD2e337gExwukxjT8Y=;
+	s=k20260515; t=1795191718;
+	bh=Y7vAJt//gZoqyDH0FIxxlhUVevq06zFxg/z6IzpVEXw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EMk+QCHLTF+XAQJ8OLAZeIZFLMyEIMWEe78FwzBXY+3efuBcHCyMnASvTiA5p8/kw
-	 Q5RnfMJiw/OvOriXLLau6+Ge/bUpO+o0UzZC0nPfG2AZC3anIb7wRMPyPgdDjEd+q5
-	 Qgugzem3HCst66yE92XpnpOLfSTm2iHjSbzg07rc9yAab/eKJufeGtobJjcCPknFra
-	 5pS6O0NV1RHwgb+oxWdEKG1mpCfKllZmp5cWccnk8QNq8kGdNITkaTk1pXtW0/XxcI
-	 F1IOiYW8wcbE5cVsHvula/NKPtMnGXL8XCpDPInW5458LEerG0Z/wxal5S+hX3vE7y
-	 LypHwvHqqAqOQ==
-Message-ID: <sashiko-outbox-225558@kernel.org>
+	b=FhVaFd9ijRZG77NDnLJd23ZGDMXAzbYuTEL8gxGb4qnMkosTOlU3fWpTaDLOZ61o3
+	 UAtoY4i4OpK0uLmtWaMhvi3D3kGxA3gqbOh3/1ywSdlj1edGeXqnvNwBas6s1KTCk9
+	 Mo0V7mLUBzgUWkB7AhebRx6Qypi8U0eLXyprzQpVRknO6MiMNx/yVTcqcmMd+kAvN2
+	 UNmxmOdIhD6jCpyHBN5dpk0Mz6K7YfqBjNU45E2SsQQ+nC5KDfa1LzdNzHJBlwbbSz
+	 d5uzVaFOKn2BiUxNmHKaSNfqNgDhyoVltvjnyfy9DO0SBMFr4OnSPf2jAljaB65K1m
+	 As35kYPrL4m2g==
+Message-ID: <sashiko-outbox-225559@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 4/7] iomap: use fsverity_is_building() to check for
- fsverity IO
+Subject: Re: [PATCH v19 08/15] xfs: don't remove written extents past EOF on
+ fsverity inodes
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Andrey Albershteyn" <aalbersh@kernel.org>, fsverity <fsverity@lists.linux.dev>, linux-ext4 <linux-ext4@vger.kernel.org>, dsterba@suse.com, "Eric
- Biggers" <ebiggers@kernel.org>, "Christian Brauner" <brauner@kernel.org>
-Cc: tytso@mit.edu, chao@kernel.org, jaegeuk@kernel.org, viro@zeniv.linux.org.uk, dsterba@suse.cz
-In-Reply-To: <20261120155032.187246-5-aalbersh@kernel.org>
-References: <20261120155032.187246-1-aalbersh@kernel.org>
- <20261120155032.187246-5-aalbersh@kernel.org>
+To: "Andrey Albershteyn" <aalbersh@kernel.org>, "Eric Biggers" <ebiggers@kernel.org>, "Christoph
+ Hellwig" <hch@lst.de>, "Carlos Maiolino" <cem@kernel.org>, fsverity <fsverity@lists.linux.dev>
+Cc: david@fromorbit.com, "Darrick J. Wong" <djwong@kernel.org>
+In-Reply-To: <20261120155752.192025-9-aalbersh@kernel.org>
+References: <20261120155752.192025-1-aalbersh@kernel.org>
+ <20261120155752.192025-9-aalbersh@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 16:21:51 +0000
+Date: Fri, 20 Nov 2026 16:21:57 +0000
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -64,65 +64,77 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [Medium] iomap: inode-wide fsverity_is_building() check in
-  iomap_writeback_handle_eof()
-- [Low] iomap: missing Fixes trailer for broken fsverity check in
-  writeback
+- [High] xfs: implicit declaration of fsverity_is_building() breaks
+  build
+- [Low] xfs: xfs_free_eofblocks() clears eofblocks tag before truncating
+  extents
 --
 
-commit f52ac6dc651e2b12c5452600fd41f0db8111577f
+commit 9dfe7c39ae9adbec3053517f6ebaa07ffa9e51dc
 Author: Andrey Albershteyn <aalbersh@kernel.org>
 
-> iomap: use fsverity_is_building() to check for fsverity IO
->
-> Recently, inode gained new I_VERITY_BUILDING flag. This flag indicates
-> that inode is undergoing fsverity metadata construction. Previously, it
-> was indicated by stale iomap flag on the IO, now we can check the inode
-> instead. As fsverity inodes are read-only, the only write IO happening
-> during I_VERITY_BUILDING is fsverity metadata.
->
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+xfs: don't remove written extents past EOF on fsverity inodes
 
-[Severity: Low]
-This fixes the check that read an uninitialized or stale wpc->iomap
-before wpc->ops->writeback_range() mapped the folio.  Should it carry:
+This commit updates xfs_can_free_eofblocks(), xfs_free_eofblocks(), and
+xfs_inode_free_eofblocks() to preserve written post-EOF extents on
+fsverity inodes while punching out delayed allocations and unwritten
+extents after Merkle tree construction.
 
-  Fixes: 63e242afa466 ("iomap: introduce IOMAP_F_FSVERITY and teach writeba=
-ck to handle fsverity")
-
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index d6e2f1ded5ca6..4fb4136908ec5 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -1930,7 +1930,7 @@ static bool iomap_writeback_handle_eof(struct folio=
- *folio,
->  	struct inode *inode =3D wpc->inode;
->  	u64 isize =3D i_size_read(inode);
+> diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
+> index 865aec3ae5ab3..d6130cfc8246d 100644
+> --- a/fs/xfs/xfs_bmap_util.c
+> +++ b/fs/xfs/xfs_bmap_util.c
+[ ... ]
+> @@ -553,6 +554,17 @@ xfs_can_free_eofblocks(
+>  	if (last_fsb <=3D end_fsb)
+>  		return false;
 > =20
-> -	if (wpc->iomap.flags & IOMAP_F_FSVERITY) {
-> +	if (fsverity_is_building(inode)) {
->  		WARN_ON_ONCE(folio_pos(folio) < isize);
->  		return true;
+> +	/*
+> +	 * Don't clean fsverity inodes as they already have been cleaned up and
+> +	 * are read-only. Skip inodes which have merkle tree being built, the
+> +	 * merkle tree is written beyond EOF. Skip inodes which have
+> +	 * XFS_DIFLAG2_VERITY in case this kernel has fsverity disabled.
+> +	 */
+> +	if (fsverity_active(VFS_IC(ip)) ||
+> +	    fsverity_is_building(VFS_I(ip)) ||
+> +	    ip->i_diflags2 & XFS_DIFLAG2_VERITY)
+> +		return false;
+
+[Severity: High]
+Where is fsverity_is_building() declared?  Neither include/linux/fsverity.h
+nor any other header defines it, so the calls here, in
+xfs_free_eofblocks(), and in xfs_inode_free_eofblocks() fail to compile
+with an implicit function declaration error.
+
+> @@ -593,15 +607,20 @@ xfs_free_eofblocks(
+>  	 *
+>  	 * Note that this means we also leave speculative preallocations in
+>  	 * place for preallocated files.
+> +	 *
+> +	 * Clean up delalloc reservations for fsverity too as those won't be
+> +	 * used
+>  	 */
+> -	if (ip->i_diflags & (XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND)) {
+> +	if (ip->i_diflags & (XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND) ||
+> +			verity) {
+>  		if (ip->i_delayed_blks) {
+>  			xfs_bmap_punch_delalloc_range(ip, XFS_DATA_FORK,
+>  				round_up(XFS_ISIZE(ip), mp->m_sb.sb_blocksize),
+>  				LLONG_MAX, NULL);
+>  		}
+>  		xfs_inode_clear_eofblocks_tag(ip);
+> -		return 0;
+> +		if (!verity)
+> +			return 0;
 >  	}
 
-[Severity: Medium]
-Can writeback of a dirty data folio while I_VERITY_BUILDING is set hit
-this WARN_ON_ONCE() and skip post-EOF tail zeroing?
-
-enable_verity() sets I_VERITY_BUILDING without flushing pre-existing
-dirty data folios in inode->i_mapping, and filesystems write back both
-dirty data and verity metadata folios while I_VERITY_BUILDING is still
-set (either during background writeback or in ->end_enable_verity()).
-Because fsverity_is_building(inode) is an inode-wide flag checked before
-comparing the folio offset against isize, any dirty regular data folio
-written back during verity construction triggers WARN_ON_ONCE(folio_pos(fol=
-io) < isize),
-and a dirty data folio straddling isize returns early without running
-folio_zero_segment() or clamping *end_pos to isize.
-
-Should the fsverity_is_building(inode) exemption apply only when the
-folio lies entirely at or beyond isize?
+[Severity: Low]
+Should xfs_inode_clear_eofblocks_tag(ip) only be called inside the
+!verity branch here?  When verity is true, the tag is cleared before the
+extent truncation transaction runs (and cleared a second time after
+xfs_trans_commit()), leaving XFS_IEOFBLOCKS cleared if xfs_trans_alloc(),
+xfs_itruncate_extents_flags(), or xfs_trans_commit() fails.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120155032.1872=
-46-1-aalbersh@kernel.org?part=3D4
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120155752.1920=
+25-1-aalbersh@kernel.org?part=3D8
