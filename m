@@ -1,57 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795191585;
-	b=5GNI5CpYzkBQZFSoL1/FZKpa0El8W+cxMt01Cu+TKIYgsq9sMk2bniv0nSmoxu3PPIRK
-	 wGWA4M4w+aX/glkfaxs3lqobGLGm1l4TuO+DFbVC/rY3+q5h2rsxAj/VGCwJgQkUAdeoe
-	 gohZOc/nW/ytf5kKv/OxomOVEHQljYHlTrtQBjxU/q7yUQPeUaWq2I8eiASJxC+6AEcr9
-	 Rwgt4jBz5tMnEmca9zTdOZltbwWh6OPrLe1kryrwr7MGMR5rLdR8yNtde5FFopq0w6NMx
-	 OCfkFUhwjxj2nQgf+UL3nQJ7+HHkKg7PaWfak5Vv9c5wCvM7XZKie6yIMM0ctv6BpsA==
+	t=1795191713;
+	b=nAz4qmKM0xy4dvRpKxTeVON1nUhMrQKZIZC3PPvOTbd+0/Krmk6FyutV596EqaaguKBE
+	 rjM8lTkp71kRWIF3IgEuhCzVCXzTk4HPnBnZoOTZUvGitw9xmlbcyKJ0Md8aiYAI9ZB5I
+	 QfnNDCOF5mOBnQXXH6EeC6TnsWHpAa57mYlrwfOb2TiOTUkDdPNvrqd0UubT0GICuoMHG
+	 uhBHeAI6aeqjKMK9aPHKThufZBYVpw0e5WEjPL6aP/fWDUOWNrJUDjNwYtISGA1LltUcK
+	 1+JYbjZ8o489T0Xq2ubFRGper2jXcVLNazHybISXkSBTY4Whr7hkmOdtz3RGfb/1XDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191585;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191713;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=uEKBz/sIFg/X3KTKu8P0GzHy5Zn4tlzhNTDHHcMnXRY=;
-	b=KqbnQNCeqlMAtmFJvooBGSC0oGwAIbdBgKSzwTopOBnmyjmDJjw2jLpIF7oVpEU8zrfc
-	 mdgvPHbAxPsx3NwPNAkp70tk6qp7MFQvuabDHM8EZwErGuYPG4fA6lBb85/gqtXlaBlhu
-	 MOpd8B7Uw/rp9tg++poB/BY1xUwGMYh+Yc7XTW6PmC0cv7Dy5BrJuXirY+vggCpFbxMn8
-	 sU6Aat6MKlOukyX5KPxlio9cah8Sht24A6y+lzMp4y3yvQJDFx70dxE5Myk16wkSHtNlC
-	 4kYIxprwG8zIDpUrQ19vWprbQdO8W/32itShmb7Xdpp/lXttoisaKjCE04vUogYyFbw==
+	bh=mKWScqfl/Y1cspf9A328ka9FjhD2e337gExwukxjT8Y=;
+	b=oxn+sPBs/C4Ga9RoNQU/J6EYnhUhTJTlBxZ6I6akqjCN2X5Fhn26pSvWXg5o1Bbi+wa6
+	 UtWIwQn8AluO4rJWEEhd8A60LTSub3p36IdHhY867zU6xcRZv5AjYctWWnuW1UIs5bVPo
+	 UP6hmcW/9NJXYamMS71cP8SGwflbrJ3NfaAl/Xrjv1UKKiuB8jcuoo+ER7+ssb82TPzFB
+	 GlGwuw5F3JhGuzTHG/ba5Q3rYLt9nRvwhVgkZevvB4NI6e9ASUJM92k4aRmN437IPj1Sq
+	 sPZEvwOJT67AiXxjodK++PhJxXaOXwm7UAzbV3KcFVejer4sGx81nmBT5Fm07bkVOtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QGwU8Th4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EMk+QCHL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A805606A332
-	for <fsverity@lists.linux.dev>; Fri, 20 Nov 2026 16:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88D3606A332;
+	Fri, 20 Nov 2026 16:21:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QGwU8Th4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C07A1F000CF;
-	Fri, 20 Nov 2026 16:19:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EMk+QCHL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5791F000D1;
+	Fri, 20 Nov 2026 16:21:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795191584;
-	bh=uEKBz/sIFg/X3KTKu8P0GzHy5Zn4tlzhNTDHHcMnXRY=;
+	s=k20260515; t=1795191712;
+	bh=mKWScqfl/Y1cspf9A328ka9FjhD2e337gExwukxjT8Y=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QGwU8Th4DadwzWI7WgDt5O3rzjBrnMZbpg9+17epUy7J2QaEeqs54x9tlOu7S7pQ8
-	 asNG2IMJ59yDaOa933DiWpN+bxtiNWcB9+tprD8Ey4L8BaqOWzvpxIm13lbo8enOuQ
-	 s0/0JoZ+kY1oQ7F4mkr/5lY5lyoiSweTKLsWIdyg84/ZBsW4+78piNyGZlVR2okNNX
-	 O3bwIlxZSkcWNM7oa6CCyz5tLYPDuadI0r3GkIhNa6sl61QvlvFzdtwepExLfbCrOP
-	 rMPWNzxWhUffTrw7WFP43uWk2RZ59wMf0c6aBYVXsYvVM0JfNHM9VkEOnV++qQBVtl
-	 C2H9gRybKj3Dw==
-Message-ID: <sashiko-outbox-225555@kernel.org>
+	b=EMk+QCHLTF+XAQJ8OLAZeIZFLMyEIMWEe78FwzBXY+3efuBcHCyMnASvTiA5p8/kw
+	 Q5RnfMJiw/OvOriXLLau6+Ge/bUpO+o0UzZC0nPfG2AZC3anIb7wRMPyPgdDjEd+q5
+	 Qgugzem3HCst66yE92XpnpOLfSTm2iHjSbzg07rc9yAab/eKJufeGtobJjcCPknFra
+	 5pS6O0NV1RHwgb+oxWdEKG1mpCfKllZmp5cWccnk8QNq8kGdNITkaTk1pXtW0/XxcI
+	 F1IOiYW8wcbE5cVsHvula/NKPtMnGXL8XCpDPInW5458LEerG0Z/wxal5S+hX3vE7y
+	 LypHwvHqqAqOQ==
+Message-ID: <sashiko-outbox-225558@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v19 11/15] xfs: add fs-verity ioctls
+Subject: Re: [PATCH v3 4/7] iomap: use fsverity_is_building() to check for
+ fsverity IO
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Andrey Albershteyn" <aalbersh@kernel.org>, "Eric Biggers" <ebiggers@kernel.org>, "Christoph
- Hellwig" <hch@lst.de>, "Carlos Maiolino" <cem@kernel.org>, fsverity <fsverity@lists.linux.dev>
-Cc: david@fromorbit.com, "Darrick J. Wong" <djwong@kernel.org>
-In-Reply-To: <20261120155752.192025-12-aalbersh@kernel.org>
-References: <20261120155752.192025-1-aalbersh@kernel.org>
- <20261120155752.192025-12-aalbersh@kernel.org>
+To: "Andrey Albershteyn" <aalbersh@kernel.org>, fsverity <fsverity@lists.linux.dev>, linux-ext4 <linux-ext4@vger.kernel.org>, dsterba@suse.com, "Eric
+ Biggers" <ebiggers@kernel.org>, "Christian Brauner" <brauner@kernel.org>
+Cc: tytso@mit.edu, chao@kernel.org, jaegeuk@kernel.org, viro@zeniv.linux.org.uk, dsterba@suse.cz
+In-Reply-To: <20261120155032.187246-5-aalbersh@kernel.org>
+References: <20261120155032.187246-1-aalbersh@kernel.org>
+ <20261120155032.187246-5-aalbersh@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 16:19:44 +0000
+Date: Fri, 20 Nov 2026 16:21:51 +0000
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -61,68 +62,67 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fsverity+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] xfs: xfs_fileattr_set() rejects FS_VERITY_FL during
-  FS_IOC_SETFLAGS
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] iomap: inode-wide fsverity_is_building() check in
+  iomap_writeback_handle_eof()
+- [Low] iomap: missing Fixes trailer for broken fsverity check in
+  writeback
 --
 
-commit 3fae29a529f78f9a34f0fcaea0d85bd2f887a199
+commit f52ac6dc651e2b12c5452600fd41f0db8111577f
 Author: Andrey Albershteyn <aalbersh@kernel.org>
 
-xfs: add fs-verity ioctls
+> iomap: use fsverity_is_building() to check for fsverity IO
+>
+> Recently, inode gained new I_VERITY_BUILDING flag. This flag indicates
+> that inode is undergoing fsverity metadata construction. Previously, it
+> was indicated by stale iomap flag on the IO, now we can check the inode
+> instead. As fsverity inodes are read-only, the only write IO happening
+> during I_VERITY_BUILDING is fsverity metadata.
+>
+> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 
-This commit wires up FS_IOC_ENABLE_VERITY, FS_IOC_MEASURE_VERITY, and
-FS_IOC_READ_VERITY_METADATA in xfs_file_ioctl().
+[Severity: Low]
+This fixes the check that read an uninitialized or stale wpc->iomap
+before wpc->ops->writeback_range() mapped the folio.  Should it carry:
 
-> diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
-> index 7c7435543051a..2d0a2d37e71cf 100644
-> --- a/fs/xfs/xfs_ioctl.c
-> +++ b/fs/xfs/xfs_ioctl.c
-[ ... ]
-> @@ -1594,6 +1595,19 @@ xfs_file_ioctl(
->  	case XFS_IOC_VERIFY_MEDIA:
->  		return xfs_ioc_verify_media(filp, arg);
+  Fixes: 63e242afa466 ("iomap: introduce IOMAP_F_FSVERITY and teach writeba=
+ck to handle fsverity")
+
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index d6e2f1ded5ca6..4fb4136908ec5 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -1930,7 +1930,7 @@ static bool iomap_writeback_handle_eof(struct folio=
+ *folio,
+>  	struct inode *inode =3D wpc->inode;
+>  	u64 isize =3D i_size_read(inode);
 > =20
-> +	case FS_IOC_ENABLE_VERITY:
-> +		if (!xfs_has_verity(mp))
-> +			return -EOPNOTSUPP;
-> +		return fsverity_ioctl_enable(filp, arg);
+> -	if (wpc->iomap.flags & IOMAP_F_FSVERITY) {
+> +	if (fsverity_is_building(inode)) {
+>  		WARN_ON_ONCE(folio_pos(folio) < isize);
+>  		return true;
+>  	}
 
 [Severity: Medium]
-Once FS_IOC_ENABLE_VERITY sets XFS_DIFLAG2_VERITY on an inode, will
-xfs_fileattr_set() reject FS_IOC_SETFLAGS updates on that file with
--EOPNOTSUPP?
+Can writeback of a dirty data folio while I_VERITY_BUILDING is set hit
+this WARN_ON_ONCE() and skip post-EOF tail zeroing?
 
-xfs_ip2xflags() reports FS_XFLAG_VERITY, which fileattr_fill_xflags()
-maps to FS_VERITY_FL in fa->flags during FS_IOC_GETFLAGS.  When
-userspace (such as chattr) modifies another flag and writes the flags
-word back via FS_IOC_SETFLAGS, fa->fsx_valid is false and FS_VERITY_FL
-remains set in fa->flags, but xfs_fileattr_set() does not include
-FS_VERITY_FL in allowed:
+enable_verity() sets I_VERITY_BUILDING without flushing pre-existing
+dirty data folios in inode->i_mapping, and filesystems write back both
+dirty data and verity metadata folios while I_VERITY_BUILDING is still
+set (either during background writeback or in ->end_enable_verity()).
+Because fsverity_is_building(inode) is an inode-wide flag checked before
+comparing the folio offset against isize, any dirty regular data folio
+written back during verity construction triggers WARN_ON_ONCE(folio_pos(fol=
+io) < isize),
+and a dirty data folio straddling isize returns early without running
+folio_zero_segment() or clamping *end_pos to isize.
 
-fs/xfs/xfs_ioctl.c:xfs_fileattr_set() {
-    ...
-	if (!fa->fsx_valid) {
-		unsigned int allowed =3D FS_IMMUTABLE_FL | FS_APPEND_FL |
-				       FS_NOATIME_FL | FS_NODUMP_FL |
-				       FS_SYNC_FL | FS_DAX_FL |
-				       FS_PROJINHERIT_FL;
-
-		if (xfs_has_asciici(mp))
-			allowed |=3D FS_CASEFOLD_FL;
-
-		if (fa->flags & ~allowed)
-			return -EOPNOTSUPP;
-	}
-    ...
-}
-
-Allowing FS_VERITY_FL in xfs_fileattr_set() when XFS_DIFLAG2_VERITY is
-already set on the inode (or when xfs_has_verity(mp) is enabled, since
-vfs_fileattr_set() -> fileattr_set_prepare() already rejects toggling
-FS_VERITY_FL) would keep FS_IOC_SETFLAGS working on verity files.
+Should the fsverity_is_building(inode) exemption apply only when the
+folio lies entirely at or beyond isize?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120155752.1920=
-25-1-aalbersh@kernel.org?part=3D11
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120155032.1872=
+46-1-aalbersh@kernel.org?part=3D4
