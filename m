@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795191718;
-	b=Eo40b7Q8z1pwQkAIXjaBxaFEKLjIgjgdfi8BMrEhCuXmKSxFk16VCFVS/8qVu2Osfsda
-	 Kl3CwF80keOgRpRIrzQil9PT30HJKyiV1vM3hI/zsdCB++cEHJzeedeCUo8ZY2agvBUyM
-	 r1dDxqps/dILQV73bYYrqkYJM+bUQ1gwyrMilJW9EZopWcSqKu1aZkkbBTd7M0G86AMTB
-	 hgzZj++VdZKK+IuNn9j/S+myjK8a0O4jgH4s7ow4dFCtb0XYyPE093g7L+03bO3hNLqER
-	 TVuSE2ueUV8RGexzriOQsBZWwdRs482TzrPaqwN2usjt5vJV9ACA6jlDLKNW/IsHlEg==
+	t=1795191992;
+	b=ZTBqHP4FgmFSDPaLC8ZOuDHIX7iym6yF7+J8bTZOW76/A+An65dbxMrMnvjE7tydE0cP
+	 F5DXilDSqvR90pbzGcuXRXUoOV3X4LX//jdkWjsbw8ocAPHnY/K7wPM8mkIt3RN4OQnXB
+	 YqY5H+ztb68ZDjreyknjN9Wktrf3NClRNj0p/nfGO2TEV9/r6BAElsBbiVmT4h6eifAvb
+	 hkqpn2vyWFNORwnWSbx0v6oh1hLYEq13Pz/vokkkN3u2CvFgYtBD6NeW4nHOTofYu4wo0
+	 igADJLzputwgB7PPQCEyUQpr54mUe/fXcWahd1VoPEHkHJc/GbWX0M3xVaHyIIV7+ww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191718;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191992;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Y7vAJt//gZoqyDH0FIxxlhUVevq06zFxg/z6IzpVEXw=;
-	b=YJ1sK6EnhDb6gWYhrr2cGlzkZ1XNCjFDwE5wuTVkppIzsjlr1L1P947SFRebGA5KV88O
-	 Z1z75bOeOj4evMT2kbdXprqyDxkrThzEFRn4/1+sYfght3QxBeFmPkUxGDLeT9hHMrnDW
-	 PJjZvq6RM4sgqiGPY/SRGwUSeOpeFFWPhYRJKxhyooaUiKdPtyjG/EpvTPzmK4lZDA30o
-	 RQtULp6Tdd86E4m6ikS8hVs4Rl0eOqMd16r9O/JDaKJMjLWyFpdP1Rldy6yOMJTV8kAz3
-	 UCmMPv9+ghs9p9gBDHi5CLHmQbbCpXhSiybUTgdpLQYF+HK6b/vGTu2k5B2sJ1kweNA==
+	bh=7vJOm6Y/qpv3G3DN+wZbNKoW/Ky02g6AHoRGzZMLLZM=;
+	b=WqCbTZvNds71/JpgdyiOnBwLeXXsL/5oLICSgYR1ORzx2259WFotErA6NJ9TvcNgrNDh
+	 1DFYLC+Lyaf8kZwbw2lR9OO0iCZ9wzdQUCcQWDS4LkMqcyGWNIxAaWXw+DdHh42psEtNM
+	 ayVPR7wHpOVC8F6NoaiPbk0rwEGQ49lecigZEdhMqiQiYhDkXAhloTHUUT6ga0Oe/1TDC
+	 NXO0ot9xiMxpFNE7pevns5EEVmvXqUY2dwxU7tQTMXmt8vUTPCVgtPHgdLa4d0IWaGL0N
+	 2k+E5eK7JvDlcQQSmb3aSlrNYr5Svo04AIBBIiSlx/e+nwUl+kXd4DroTeoTCNlm9Hg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FhVaFd9i;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NT++sXPv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6C9606A320
-	for <fsverity@lists.linux.dev>; Fri, 20 Nov 2026 16:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2944606A325
+	for <fsverity@lists.linux.dev>; Fri, 20 Nov 2026 16:26:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FhVaFd9i
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4281F000CA;
-	Fri, 20 Nov 2026 16:21:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NT++sXPv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AFAD1F000D3;
+	Fri, 20 Nov 2026 16:26:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795191718;
-	bh=Y7vAJt//gZoqyDH0FIxxlhUVevq06zFxg/z6IzpVEXw=;
+	s=k20260515; t=1795191992;
+	bh=7vJOm6Y/qpv3G3DN+wZbNKoW/Ky02g6AHoRGzZMLLZM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FhVaFd9ijRZG77NDnLJd23ZGDMXAzbYuTEL8gxGb4qnMkosTOlU3fWpTaDLOZ61o3
-	 UAtoY4i4OpK0uLmtWaMhvi3D3kGxA3gqbOh3/1ywSdlj1edGeXqnvNwBas6s1KTCk9
-	 Mo0V7mLUBzgUWkB7AhebRx6Qypi8U0eLXyprzQpVRknO6MiMNx/yVTcqcmMd+kAvN2
-	 UNmxmOdIhD6jCpyHBN5dpk0Mz6K7YfqBjNU45E2SsQQ+nC5KDfa1LzdNzHJBlwbbSz
-	 d5uzVaFOKn2BiUxNmHKaSNfqNgDhyoVltvjnyfy9DO0SBMFr4OnSPf2jAljaB65K1m
-	 As35kYPrL4m2g==
-Message-ID: <sashiko-outbox-225559@kernel.org>
+	b=NT++sXPvB6pqDo7x7QOufPuOwNxyUQ78zhlS7kpQyZ1bIiwcRp2Z1dD8wvlnnNr9L
+	 H2w/AfGxMlH3yd35vlDlrwzqhkxH2+YwFvJDA4jL3Br1W5kfWA0s0yFPI1kewYlWvQ
+	 BJcXfwEkmG7vsqySmHwEg2EUE70K55wm6EOlH7AOuM5vSOberoVbQ5eZzmOtUGhPat
+	 PZNGmuA6D0wIsxInhjFypxetpuF7U81ll1HnQ77HiGXQRac43OSdb7ghcJos+aUuZG
+	 2uYy95YvgHhj5KHvkkbBIov6HnKB+J91Ru2fPabkNABpPTqlh1MFnritSXFffRL8YD
+	 EN1L1lYdo9rGw==
+Message-ID: <sashiko-outbox-225564@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v19 08/15] xfs: don't remove written extents past EOF on
- fsverity inodes
+Subject: Re: [PATCH v19 01/15] xfs: introduce fsverity on-disk changes
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Andrey Albershteyn" <aalbersh@kernel.org>, "Eric Biggers" <ebiggers@kernel.org>, "Christoph
  Hellwig" <hch@lst.de>, "Carlos Maiolino" <cem@kernel.org>, fsverity <fsverity@lists.linux.dev>
 Cc: david@fromorbit.com, "Darrick J. Wong" <djwong@kernel.org>
-In-Reply-To: <20261120155752.192025-9-aalbersh@kernel.org>
+In-Reply-To: <20261120155752.192025-2-aalbersh@kernel.org>
 References: <20261120155752.192025-1-aalbersh@kernel.org>
- <20261120155752.192025-9-aalbersh@kernel.org>
+ <20261120155752.192025-2-aalbersh@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 16:21:57 +0000
+Date: Fri, 20 Nov 2026 16:26:31 +0000
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -62,79 +61,75 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fsverity+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] xfs: implicit declaration of fsverity_is_building() breaks
-  build
-- [Low] xfs: xfs_free_eofblocks() clears eofblocks tag before truncating
-  extents
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] xfs: missing FS_VERITY_FL in xfs_fileattr_set() breaks
+  FS_IOC_SETFLAGS
 --
 
-commit 9dfe7c39ae9adbec3053517f6ebaa07ffa9e51dc
+commit 6ecc983ef533264f23250c3f4f069d8b6005a644
 Author: Andrey Albershteyn <aalbersh@kernel.org>
 
-xfs: don't remove written extents past EOF on fsverity inodes
+xfs: introduce fsverity on-disk changes
 
-This commit updates xfs_can_free_eofblocks(), xfs_free_eofblocks(), and
-xfs_inode_free_eofblocks() to preserve written post-EOF extents on
-fsverity inodes while punching out delayed allocations and unwritten
-extents after Merkle tree construction.
+This commit introduces on-disk format definitions for fs-verity in XFS,
+including XFS_SB_FEAT_RO_COMPAT_VERITY and XFS_DIFLAG2_VERITY, along with
+inode verifier checks and flag conversions.
 
-> diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
-> index 865aec3ae5ab3..d6130cfc8246d 100644
-> --- a/fs/xfs/xfs_bmap_util.c
-> +++ b/fs/xfs/xfs_bmap_util.c
-[ ... ]
-> @@ -553,6 +554,17 @@ xfs_can_free_eofblocks(
->  	if (last_fsb <=3D end_fsb)
->  		return false;
+> diff --git a/fs/xfs/libxfs/xfs_inode_util.c b/fs/xfs/libxfs/xfs_inode_uti=
+l.c
+> index f486b23a9b523..a717b19558afa 100644
+> --- a/fs/xfs/libxfs/xfs_inode_util.c
+> +++ b/fs/xfs/libxfs/xfs_inode_util.c
+> @@ -73,7 +73,8 @@ xfs_flags2diflags2(
+>  	uint64_t		di_flags2 =3D
+>  		(ip->i_diflags2 & (XFS_DIFLAG2_REFLINK |
+>  				   XFS_DIFLAG2_BIGTIME |
+> -				   XFS_DIFLAG2_NREXT64));
+> +				   XFS_DIFLAG2_NREXT64 |
+> +				   XFS_DIFLAG2_VERITY));
 > =20
-> +	/*
-> +	 * Don't clean fsverity inodes as they already have been cleaned up and
-> +	 * are read-only. Skip inodes which have merkle tree being built, the
-> +	 * merkle tree is written beyond EOF. Skip inodes which have
-> +	 * XFS_DIFLAG2_VERITY in case this kernel has fsverity disabled.
-> +	 */
-> +	if (fsverity_active(VFS_IC(ip)) ||
-> +	    fsverity_is_building(VFS_I(ip)) ||
-> +	    ip->i_diflags2 & XFS_DIFLAG2_VERITY)
-> +		return false;
-
-[Severity: High]
-Where is fsverity_is_building() declared?  Neither include/linux/fsverity.h
-nor any other header defines it, so the calls here, in
-xfs_free_eofblocks(), and in xfs_inode_free_eofblocks() fail to compile
-with an implicit function declaration error.
-
-> @@ -593,15 +607,20 @@ xfs_free_eofblocks(
->  	 *
->  	 * Note that this means we also leave speculative preallocations in
->  	 * place for preallocated files.
-> +	 *
-> +	 * Clean up delalloc reservations for fsverity too as those won't be
-> +	 * used
->  	 */
-> -	if (ip->i_diflags & (XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND)) {
-> +	if (ip->i_diflags & (XFS_DIFLAG_PREALLOC | XFS_DIFLAG_APPEND) ||
-> +			verity) {
->  		if (ip->i_delayed_blks) {
->  			xfs_bmap_punch_delalloc_range(ip, XFS_DATA_FORK,
->  				round_up(XFS_ISIZE(ip), mp->m_sb.sb_blocksize),
->  				LLONG_MAX, NULL);
->  		}
->  		xfs_inode_clear_eofblocks_tag(ip);
-> -		return 0;
-> +		if (!verity)
-> +			return 0;
+>  	if (xflags & FS_XFLAG_DAX)
+>  		di_flags2 |=3D XFS_DIFLAG2_DAX;
+> @@ -125,6 +126,8 @@ xfs_ip2xflags(
+>  			flags |=3D FS_XFLAG_DAX;
+>  		if (ip->i_diflags2 & XFS_DIFLAG2_COWEXTSIZE)
+>  			flags |=3D FS_XFLAG_COWEXTSIZE;
+> +		if (ip->i_diflags2 & XFS_DIFLAG2_VERITY)
+> +			flags |=3D FS_XFLAG_VERITY;
 >  	}
 
-[Severity: Low]
-Should xfs_inode_clear_eofblocks_tag(ip) only be called inside the
-!verity branch here?  When verity is true, the tag is cleared before the
-extent truncation transaction runs (and cleared a second time after
-xfs_trans_commit()), leaving XFS_IEOFBLOCKS cleared if xfs_trans_alloc(),
-xfs_itruncate_extents_flags(), or xfs_trans_commit() fails.
+[Severity: Medium]
+Does exposing FS_XFLAG_VERITY in xfs_ip2xflags() without allowing
+FS_VERITY_FL in xfs_fileattr_set() break FS_IOC_SETFLAGS on verity inodes?
+
+When FS_IOC_GETFLAGS runs on a verity inode, xfs_fileattr_get() ->
+xfs_fill_fsxattr() -> fileattr_fill_xflags() translates FS_XFLAG_VERITY
+into FS_VERITY_FL in fa->flags.  When userspace such as chattr(1) modifies
+an unrelated flag (like FS_NOATIME_FL or FS_IMMUTABLE_FL) and writes the
+flags back via FS_IOC_SETFLAGS, xfs_fileattr_set() checks fa->flags against
+an allowlist that does not include FS_VERITY_FL:
+
+fs/xfs/xfs_ioctl.c:xfs_fileattr_set() {
+    ...
+	if (!fa->fsx_valid) {
+		unsigned int allowed =3D FS_IMMUTABLE_FL | FS_APPEND_FL |
+				       FS_NOATIME_FL | FS_NODUMP_FL |
+				       FS_SYNC_FL | FS_DAX_FL |
+				       FS_PROJINHERIT_FL;
+
+		if (xfs_has_asciici(mp))
+			allowed |=3D FS_CASEFOLD_FL;
+
+		if (fa->flags & ~allowed)
+			return -EOPNOTSUPP;
+	}
+    ...
+}
+
+Because FS_VERITY_FL is still present in fa->flags from the GETFLAGS read,
+FS_IOC_SETFLAGS fails with -EOPNOTSUPP.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120155752.1920=
-25-1-aalbersh@kernel.org?part=3D8
+25-1-aalbersh@kernel.org?part=3D1
