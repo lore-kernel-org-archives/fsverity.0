@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795190310;
-	b=eEeajdaX58GksMBVxVcY8JA4ILe6BrqXMdTs3YCcovluAn3/a38C49oGn4BH2wv6+2t5
-	 chf2SEHaEEy7uj39BIoKjqsDkic4K4bt3/wq/HNJ+gUsMqHoyjwkoVexITsibTA7lEuEm
-	 yZ7pSpyxBcVprJLpjgfNxDb6mWNQsMO2HHFsFzfrlaJ5UhOQRf2Tr6i2B3Dh2ccQ4zTyU
-	 fpK4vPExb0iWNXTD5KQ1cmhYV8caI2Z3kwnqgyxhlmaCsmIS5u6tOW/5igtj1sNL9lyqc
-	 9h/jWH1PosYdalSar+97U4rThBKpb73aiNsyAsjXHuTeWBj6p4lHv/N4HP+8uKSvJXw==
+	t=1795190313;
+	b=zwdhdtBvJCqBSY/AdcXHBFeRwIApkEquj/Il/Lz7eufunae+3IHmofhwpy55Ihzoi17t
+	 NGMqVb3s/pFQP115Eav4KjvqqMXchTpwmyQQjMENb5CyZxx81kXuGIP8pXal8XAiYHQP7
+	 FI4XcauYIVb83DZOdkAe/WSBDNlgJRRtvoIR9PZ/lGbEVWDBvUcsL/ukZtZI2T7b21c76
+	 vEXyihq31O4w9u+D2qDg9SSmbz7dp9oN0v9XKpdiC+YcjHoKejPhLlG2A8otws/pA18ci
+	 oFnslDFYJtF77zDy94aEbxVU1pzydVa7I+huD6iCM77EvD9iQeX6rhNRNHQy+P3Tnyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795190310;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190313;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=cRNvHuL/5PrBLE24h6cbDnjO9r11f0E2kcoBC+EwYWE=;
-	b=pSFUl1g8kz+QbHW+a3n0qilNKQV8mwQ3dJUCZ3ig5Z8SE240GTLJSTzw7blaB00HPQpr
-	 XLochppyxuWKc5Cdr8tRTrCTbef0/KRlVecI6y7R670dSd7NGVmbMvrWESr03sKsCJZiS
-	 +zjChIZRhiv133VP2N49nKwOveXzC5xyvIifgDy/NosPyYlg5nRTsOkwMCUHHfRVZmNEt
-	 fiHgJ57/QGU1NuYwX/j3v2D1PVCw+tX2WsL+DpQ9L8NyC0PkazqYZVXjZan5XMEz6nkbH
-	 pc3ZH4TQkXereItAj1Wt9qYa3vvxnkFgK8OkNTkLnA3CscmEVWgiN8nn+83XqH9J/sg==
+	bh=JE9ujSNsAqeJi6Hc+4eJZGififmNBU70VxWRP6D9upE=;
+	b=CpHwku4UwZV6v7KMr7RVoc20vYR5LNG1ipGK+//LwpkjcN03/DSXO8l0oys+SbGhTXc6
+	 R4qquKcjT5NC0C78rQ8De2RL2gM6MXhlo/BLJ2BWJeVW/gm+Tg7gLLHxhl+XU1Q/QyOE+
+	 83IqngKT2LH8RwgB6ojEsvkGO5eqLl9Y+OCtadqX3LZi/fJMYLz/+Bxc+8OYXDNmGTqx0
+	 j97EkT/axNiEEJyPd1rdOBJUyWyoc38LYsgMOsJIRFeRshYtl29gpOu3KqECoqbVY2/cK
+	 MGWJbI2wGYQxapaRrI7LI0wiwzAwOzRxRJsAx7uR5hFFC6Wfdlj3slJFGsdQMwCOsBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UnZ0dx6v;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=crICGwDc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CD3606A325;
-	Fri, 20 Nov 2026 15:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875ED606A335;
+	Fri, 20 Nov 2026 15:58:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UnZ0dx6v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E292C1F00AE3;
-	Fri, 20 Nov 2026 15:58:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=crICGwDc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBB561F0156B;
+	Fri, 20 Nov 2026 15:58:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795190309;
-	bh=cRNvHuL/5PrBLE24h6cbDnjO9r11f0E2kcoBC+EwYWE=;
+	s=k20260515; t=1795190312;
+	bh=JE9ujSNsAqeJi6Hc+4eJZGififmNBU70VxWRP6D9upE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=UnZ0dx6vgo1hyXAua3Nrk71pfKv3uz4gLoZ3Ua6eoWdwTpp3dUK+GJ7zmUfABdykx
-	 1mhW8f+j3374SRG6NesNLsSqeEGinyEadW8sMXqA8f+yhYx4eyNTAubGRRNvVz04DD
-	 xWH9Jw8l+Bxrdq/OF5mLnkX21+SrCc59N5euFfELsn68OlZKhik+WbxU1wTmNBXPmK
-	 cwjlGdQA40w+X4RJylLoCPbwA8Jagozu8ywQ9oyDZsci7xNJwJ3C22A4qRbVqjytGy
-	 qSeFexv4rCEFgVn1qIMGCZ0bj61ki79OSXMoEskl8CzwsXymRb1ZRGG/mqJNg7UVQg
-	 TIoISDUrzBXqA==
+	b=crICGwDc6dRtrbszG8F/lBUI/Q8iYAmAe/1ITcDLFb7sg2zmH24jEs4fpbXLFJamZ
+	 ZZvQVDJM7S5ef49gPfrQUK9eUguXlXqwP+8yvfQsLXXGPLUAHyCMuq1UcyXQ0+d1sw
+	 rXUBhb3fvUQtyuTV02ZocOea3XVVIRvLOCttyNtf31ThDBroPw1dZM2h1KF419Mb6l
+	 EdOaQ2+9aMY+DsP5EXH3OY1aosxAOvEFvocMVVpTNUiho8Q87m83DrS7O0NBpWX0AG
+	 030mWCTXHl0Tt1AvCoxcvB2Cx8UgdFQnsrR/jUqL3HUmyHBVU7fmESBGWHp7Cv5vIz
+	 qEojKmFKIRqXw==
 From: Andrey Albershteyn <aalbersh@kernel.org>
 To: "Eric Biggers" <ebiggers@kernel.org>,
 	"Christoph Hellwig" <hch@lst.de>,
@@ -48,9 +48,9 @@ To: "Eric Biggers" <ebiggers@kernel.org>,
 Cc: Andrey Albershteyn <aalbersh@kernel.org>,
 	"fsdevel" <linux-fsdevel@vger.kernel.org>,
 	david@fromorbit.com
-Subject: [PATCH v19 05/15] xfs: handle fsverity I/O in write/read path
-Date: Fri, 20 Nov 2026 16:57:39 +0100
-Message-ID: <20261120155752.192025-6-aalbersh@kernel.org>
+Subject: [PATCH v19 06/15] xfs: use read ioend for fsverity data verification
+Date: Fri, 20 Nov 2026 16:57:40 +0100
+Message-ID: <20261120155752.192025-7-aalbersh@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261120155752.192025-1-aalbersh@kernel.org>
 References: <20261120155752.192025-1-aalbersh@kernel.org>
@@ -65,70 +65,118 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For write/writeback set IOMAP_F_FSVERITY flag telling iomap to not
-update inode size and to not skip folios beyond EOF.
+Use read ioends for fsverity verification. Do not issue fsverity
+metadata I/O through the same workqueue due to risk of a deadlock by a
+filled workqueue.
 
-Initiate fsverity writeback with IOMAP_F_FSVERITY set to tell iomap
-should not skip folio that is dirty beyond EOF.
+Pass fsverity_info from iomap context down to the ioend as hashtable
+lookups are expensive.
 
-In read path let iomap know that we are reading fsverity metadata. So,
-treat holes in the tree as request to synthesize tree blocks and hole
-after descriptor as end of the fsverity region.
+Add a simple helper to check that this is not fsverity metadata but file
+data that needs verification.
 
 Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/xfs/Makefile            |  1 +
- fs/xfs/libxfs/xfs_bmap.c   |  4 +--
- fs/xfs/libxfs/xfs_verity.c | 20 +++++++++++++
- fs/xfs/libxfs/xfs_verity.h | 13 ++++++++
- fs/xfs/xfs_aops.c          |  6 ++--
- fs/xfs/xfs_iomap.c         | 61 ++++++++++++++++++++++++++++----------
- fs/xfs/xfs_iomap.h         |  5 ++--
- fs/xfs/xfs_pnfs.c          |  2 +-
- 8 files changed, 89 insertions(+), 23 deletions(-)
- create mode 100644 fs/xfs/libxfs/xfs_verity.c
- create mode 100644 fs/xfs/libxfs/xfs_verity.h
+ fs/xfs/Makefile       |  1 +
+ fs/xfs/xfs_aops.c     | 13 +++++++----
+ fs/xfs/xfs_file.c     |  3 ++-
+ fs/xfs/xfs_fsverity.c | 46 +++++++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_fsverity.h | 40 ++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_ioend.c    | 53 ++++++++++++++++++++++++++++++++++++++-----
+ fs/xfs/xfs_ioend.h    |  4 +++-
+ fs/xfs/xfs_super.c    | 25 +++++++++++++++++++-
+ 8 files changed, 171 insertions(+), 14 deletions(-)
+ create mode 100644 fs/xfs/xfs_fsverity.c
+ create mode 100644 fs/xfs/xfs_fsverity.h
 
 diff --git a/fs/xfs/Makefile b/fs/xfs/Makefile
-index 399a207f2d0e..cb7f71457ee9 100644
+index cb7f71457ee9..9edb2850f094 100644
 --- a/fs/xfs/Makefile
 +++ b/fs/xfs/Makefile
-@@ -59,6 +59,7 @@ xfs-y				+= $(addprefix libxfs/, \
- 				   xfs_trans_resv.o \
- 				   xfs_trans_space.o \
- 				   xfs_types.o \
-+				   xfs_verity.o \
- 				   )
- # xfs_rtbitmap is shared with libxfs
- xfs-$(CONFIG_XFS_RT)		+= $(addprefix libxfs/, \
-diff --git a/fs/xfs/libxfs/xfs_bmap.c b/fs/xfs/libxfs/xfs_bmap.c
-index 050522c58b16..f74411312901 100644
---- a/fs/xfs/libxfs/xfs_bmap.c
-+++ b/fs/xfs/libxfs/xfs_bmap.c
-@@ -4414,7 +4414,7 @@ xfs_bmapi_convert_one_delalloc(
- 	 * the extent.  Just return the real extent at this offset.
- 	 */
- 	if (!isnullstartblock(bma.got.br_startblock)) {
--		xfs_bmbt_to_iomap(ip, iomap, &bma.got, 0, flags,
-+		xfs_bmbt_to_iomap(ip, iomap, &bma.got, offset, 0, flags,
- 				xfs_iomap_inode_sequence(ip, flags));
- 		if (seq)
- 			*seq = READ_ONCE(ifp->if_seq);
-@@ -4462,7 +4462,7 @@ xfs_bmapi_convert_one_delalloc(
- 	XFS_STATS_INC(mp, xs_xstrat_quick);
+@@ -151,6 +151,7 @@ xfs-$(CONFIG_XFS_POSIX_ACL)	+= xfs_acl.o
+ xfs-$(CONFIG_SYSCTL)		+= xfs_sysctl.o
+ xfs-$(CONFIG_COMPAT)		+= xfs_ioctl32.o
+ xfs-$(CONFIG_EXPORTFS_BLOCK_OPS)	+= xfs_pnfs.o
++xfs-$(CONFIG_FS_VERITY)		+= xfs_fsverity.o
  
- 	ASSERT(!isnullstartblock(bma.got.br_startblock));
--	xfs_bmbt_to_iomap(ip, iomap, &bma.got, 0, flags,
-+	xfs_bmbt_to_iomap(ip, iomap, &bma.got, offset, 0, flags,
- 				xfs_iomap_inode_sequence(ip, flags));
- 	if (seq)
- 		*seq = READ_ONCE(ifp->if_seq);
-diff --git a/fs/xfs/libxfs/xfs_verity.c b/fs/xfs/libxfs/xfs_verity.c
+ # notify failure
+ ifeq ($(CONFIG_MEMORY_FAILURE),y)
+diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+index b9728997f944..971be3c09731 100644
+--- a/fs/xfs/xfs_aops.c
++++ b/fs/xfs/xfs_aops.c
+@@ -24,6 +24,7 @@
+ #include "xfs_zone_alloc.h"
+ #include "xfs_rtgroup.h"
+ #include "xfs_verity.h"
++#include "xfs_fsverity.h"
+ 
+ struct xfs_writepage_ctx {
+ 	struct iomap_writepage_ctx ctx;
+@@ -587,7 +588,7 @@ xfs_bio_submit_read(
+ {
+ 	xfs_ioend_submit_read(iter->inode, ctx->read_ctx,
+ 			ctx->read_ctx_file_offset,
+-			iomap_ioend_flags(&iter->iomap));
++			iomap_ioend_flags(&iter->iomap), ctx->vi);
+ 	ctx->read_ctx = NULL;
+ }
+ 
+@@ -599,11 +600,13 @@ static const struct iomap_read_ops xfs_iomap_read_ops = {
+ 
+ static inline const struct iomap_read_ops *
+ xfs_get_iomap_read_ops(
+-	const struct address_space	*mapping)
++	const struct address_space	*mapping,
++	loff_t				pos)
+ {
+ 	struct xfs_inode		*ip = XFS_I(mapping->host);
+ 
+-	if (bdev_has_integrity_csum(xfs_inode_buftarg(ip)->bt_bdev))
++	if (bdev_has_integrity_csum(xfs_inode_buftarg(ip)->bt_bdev) ||
++	    xfs_fsverity_is_file_data(ip, pos))
+ 		return &xfs_iomap_read_ops;
+ 	return &iomap_bio_read_ops;
+ }
+@@ -615,7 +618,7 @@ xfs_vm_read_folio(
+ {
+ 	struct iomap_read_folio_ctx	ctx = { .cur_folio = folio };
+ 
+-	ctx.ops = xfs_get_iomap_read_ops(folio->mapping);
++	ctx.ops = xfs_get_iomap_read_ops(folio->mapping, folio_pos(folio));
+ 	iomap_read_folio(xfs_read_iomap_next, &ctx, NULL);
+ 	return 0;
+ }
+@@ -626,7 +629,7 @@ xfs_vm_readahead(
+ {
+ 	struct iomap_read_folio_ctx	ctx = { .rac = rac };
+ 
+-	ctx.ops = xfs_get_iomap_read_ops(rac->mapping),
++	ctx.ops = xfs_get_iomap_read_ops(rac->mapping, readahead_pos(rac));
+ 	iomap_readahead(xfs_read_iomap_next, &ctx, NULL);
+ }
+ 
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index 1171712d3e5b..94cdc3166805 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -182,7 +182,8 @@ xfs_dio_read_bounce_submit_io(
+ 	loff_t			file_offset)
+ {
+ 	xfs_ioend_submit_read(iter->inode, bio, file_offset,
+-			iomap_ioend_flags(&iter->iomap) | IOMAP_IOEND_DIRECT);
++			iomap_ioend_flags(&iter->iomap) | IOMAP_IOEND_DIRECT,
++			NULL);
+ }
+ 
+ static const struct iomap_dio_ops xfs_dio_read_bounce_ops = {
+diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
 new file mode 100644
-index 000000000000..c1731b89a5a1
+index 000000000000..8fc3e763c017
 --- /dev/null
-+++ b/fs/xfs/libxfs/xfs_verity.c
-@@ -0,0 +1,20 @@
++++ b/fs/xfs/xfs_fsverity.c
+@@ -0,0 +1,46 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2026 Red Hat, Inc.
@@ -141,282 +189,276 @@ index 000000000000..c1731b89a5a1
 +#include "xfs_trans_resv.h"
 +#include "xfs_mount.h"
 +#include "xfs_inode.h"
-+#include "xfs_verity.h"
++#include "xfs_fsverity.h"
++#include <linux/fsverity.h>
++#include <linux/iomap.h>
 +
-+loff_t
-+xfs_fsverity_metadata_offset(
-+	const struct xfs_inode	*ip)
++struct kmem_cache *xfs_fsverity_ioend_cache;
++mempool_t xfs_fsverity_ioend_pool;
++
++#define XFS_FSVERITY_IOEND_POOL_MIN	128
++
++/*
++ * Back the fsverity ioend allocations with a mempool so that read I/O
++ * completion always makes forward progress and cannot deadlock
++ */
++int
++xfs_fsverity_init(void)
 +{
-+	return round_up(i_size_read(VFS_IC(ip)), XFS_FSVERITY_START_ALIGN);
++	return mempool_init_slab_pool(&xfs_fsverity_ioend_pool,
++			XFS_FSVERITY_IOEND_POOL_MIN, xfs_fsverity_ioend_cache);
 +}
-diff --git a/fs/xfs/libxfs/xfs_verity.h b/fs/xfs/libxfs/xfs_verity.h
++
++void
++xfs_fsverity_exit(void)
++{
++	mempool_exit(&xfs_fsverity_ioend_pool);
++}
++
++bool
++xfs_fsverity_is_file_data(
++	const struct xfs_inode	*ip,
++	loff_t			offset)
++{
++	return fsverity_active(VFS_IC(ip)) &&
++			offset < xfs_fsverity_metadata_offset(ip);
++}
+diff --git a/fs/xfs/xfs_fsverity.h b/fs/xfs/xfs_fsverity.h
 new file mode 100644
-index 000000000000..da90f798faa8
+index 000000000000..44f7bc7831f2
 --- /dev/null
-+++ b/fs/xfs/libxfs/xfs_verity.h
-@@ -0,0 +1,13 @@
++++ b/fs/xfs/xfs_fsverity.h
+@@ -0,0 +1,40 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2026 Red Hat, Inc.
 + */
-+#ifndef __XFS_VERITY_H__
-+#define __XFS_VERITY_H__
++#ifndef __XFS_FSVERITY_H__
++#define __XFS_FSVERITY_H__
 +
 +#include "xfs_platform.h"
-+#include <linux/fsverity.h>
-+
-+loff_t xfs_fsverity_metadata_offset(const struct xfs_inode *ip);
-+
-+#endif	/* __XFS_VERITY_H__ */
-diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-index 1db6f3640c53..b9728997f944 100644
---- a/fs/xfs/xfs_aops.c
-+++ b/fs/xfs/xfs_aops.c
-@@ -23,6 +23,7 @@
- #include "xfs_ioend.h"
- #include "xfs_zone_alloc.h"
- #include "xfs_rtgroup.h"
 +#include "xfs_verity.h"
- 
- struct xfs_writepage_ctx {
- 	struct iomap_writepage_ctx ctx;
-@@ -265,7 +266,8 @@ xfs_map_blocks(
- 	    isnullstartblock(imap.br_startblock))
- 		goto allocate_blocks;
- 
--	xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, 0, 0, XFS_WPC(wpc)->data_seq);
-+	xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, offset, 0, 0,
-+			  XFS_WPC(wpc)->data_seq);
- 	trace_xfs_map_blocks_found(ip, offset, count, whichfork, &imap);
- 	return 0;
- allocate_blocks:
-@@ -441,7 +443,7 @@ xfs_zoned_map_blocks(
- 		imap.br_startblock = HOLESTARTBLOCK;
- 		imap.br_state = XFS_EXT_NORM;
- 		xfs_iunlock(ip, XFS_ILOCK_EXCL);
--		xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, 0, 0, 0);
-+		xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, offset, 0, 0, 0);
- 		return 0;
- 	}
- 	end_fsb = min(end_fsb, imap.br_startoff + imap.br_blockcount);
-diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
-index 50eae7ff6145..5117704530f6 100644
---- a/fs/xfs/xfs_iomap.c
-+++ b/fs/xfs/xfs_iomap.c
-@@ -32,6 +32,8 @@
- #include "xfs_rtbitmap.h"
- #include "xfs_icache.h"
- #include "xfs_zone_alloc.h"
-+#include "xfs_verity.h"
-+#include <linux/fsverity.h>
- 
- #define XFS_ALLOC_ALIGN(mp, off) \
- 	(((off) >> mp->m_allocsize_log) << mp->m_allocsize_log)
-@@ -54,6 +56,15 @@ xfs_alert_fsblock_zero(
- 	return -EFSCORRUPTED;
- }
- 
-+static bool
-+xfs_iomap_is_fsverity_metadata(
-+	struct xfs_inode	*ip,
-+	loff_t			offset)
++#include <linux/iomap.h>
++#include <linux/mempool.h>
++
++#ifdef CONFIG_FS_VERITY
++int xfs_fsverity_init(void);
++void xfs_fsverity_exit(void);
++bool xfs_fsverity_is_file_data(const struct xfs_inode *ip, loff_t offset);
++#else
++static inline int xfs_fsverity_init(void)
 +{
-+	return offset >= xfs_fsverity_metadata_offset(ip) &&
-+	       (fsverity_is_building(VFS_I(ip)) || fsverity_active(VFS_I(ip)));
++	return 0;
 +}
++static inline void xfs_fsverity_exit(void)
++{
++}
++static inline bool xfs_fsverity_is_file_data(const struct xfs_inode *ip,
++					    loff_t offset)
++{
++	return false;
++}
++#endif	/* CONFIG_FS_VERITY */
 +
- u64
- xfs_iomap_inode_sequence(
- 	struct xfs_inode	*ip,
-@@ -101,6 +112,7 @@ xfs_bmbt_to_iomap(
- 	struct xfs_inode	*ip,
- 	struct iomap		*iomap,
- 	struct xfs_bmbt_irec	*imap,
-+	loff_t			offset,
- 	unsigned int		mapping_flags,
- 	u16			iomap_flags,
- 	u64			sequence_cookie)
-@@ -152,6 +164,15 @@ xfs_bmbt_to_iomap(
- 			iomap->flags |= IOMAP_F_INTEGRITY;
++struct xfs_fsverity_ioend {
++	struct iomap_ioend	*ioend;
++	struct work_struct	work;
++};
++
++extern struct kmem_cache *xfs_fsverity_ioend_cache;
++extern mempool_t xfs_fsverity_ioend_pool;
++
++#endif	/* __XFS_FSVERITY_H__ */
+diff --git a/fs/xfs/xfs_ioend.c b/fs/xfs/xfs_ioend.c
+index 7f4a4a95afe5..61f211a3b805 100644
+--- a/fs/xfs/xfs_ioend.c
++++ b/fs/xfs/xfs_ioend.c
+@@ -18,7 +18,26 @@
+ #include "xfs_ioend.h"
+ #include "xfs_error.h"
+ #include "xfs_errortag.h"
++#include "xfs_fsverity.h"
+ #include <linux/bio-integrity.h>
++#include <linux/fsverity.h>
++
++static void
++xfs_end_fsverity_io_read(
++	struct work_struct		*work)
++{
++	struct xfs_fsverity_ioend	*fsv_ioend =
++			container_of(work, struct xfs_fsverity_ioend, work);
++	struct iomap_ioend		*ioend = fsv_ioend->ioend;
++	struct bio			*bio = &ioend->io_bio;
++
++	mempool_free(fsv_ioend, &xfs_fsverity_ioend_pool);
++
++	if (!bio->bi_status)
++		fsverity_verify_bio(ioend->io_vi, bio);
++
++	iomap_finish_ioends(ioend, blk_status_to_errno(bio->bi_status));
++}
+ 
+ static void
+ xfs_dio_bounce_end_io(
+@@ -93,12 +112,14 @@ xfs_read_bounce_and_resubmit(
+ 
+ static void
+ xfs_end_io_read(
+-	struct bio		*bio)
++	struct bio			*bio)
+ {
+-	struct iomap_ioend	*ioend = iomap_ioend_from_bio(bio);
+-	struct xfs_inode	*ip = XFS_I(ioend->io_inode);
+-	struct xfs_mount	*mp = ip->i_mount;
+-	int			error = blk_status_to_errno(bio->bi_status);
++	struct iomap_ioend		*ioend = iomap_ioend_from_bio(bio);
++	struct xfs_inode		*ip = XFS_I(ioend->io_inode);
++	struct xfs_mount		*mp = ip->i_mount;
++	int				error =
++			blk_status_to_errno(bio->bi_status);
++	struct xfs_fsverity_ioend	*fsv_ioend;
+ 
+ 	if (!error && (ioend->io_flags & IOMAP_IOEND_INTEGRITY)) {
+ 		error = iomap_ioend_integrity_verify(ioend);
+@@ -117,6 +138,24 @@ xfs_end_io_read(
+ 		}
  	}
  
 +	/*
-+	 * Tell iomap when this I/O covers fs-verity metadata so it handles size
-+	 * updates and post-EOF folios correctly.  The attr fork uses a separate
-+	 * offset space, so exclude it.
++	 * If we have fsverity on this bio, we need to run fsverity verification
++	 * of data folios from a separate fsverity workqueue. This is necessary
++	 * to avoid deadlocking due to fsverity issuing more reads of fsverity
++	 * metadata which would be processed by the same worker in the BIO
++	 * completion workqueue.
 +	 */
-+	if (!(iomap_flags & IOMAP_F_XATTR) &&
-+	    xfs_iomap_is_fsverity_metadata(ip, offset))
-+		iomap->flags |= IOMAP_F_FSVERITY;
++	if (IS_ENABLED(CONFIG_FS_VERITY) && !error && ioend->io_vi &&
++			xfs_fsverity_is_file_data(ip, ioend->io_offset)) {
++		fsv_ioend = mempool_alloc(&xfs_fsverity_ioend_pool,
++				GFP_NOFS);
++		fsv_ioend->ioend = ioend;
++		INIT_WORK(&fsv_ioend->work, xfs_end_fsverity_io_read);
 +
- 	/*
- 	 * If the inode is dirty for datasync purposes, let iomap know so it
- 	 * doesn't elide the IO completion journal flushes on O_DSYNC IO.
-@@ -1006,7 +1027,8 @@ xfs_direct_write_iomap_begin(
- 	seq = xfs_iomap_inode_sequence(ip, iomap_flags);
- 	xfs_iunlock(ip, lockmode);
- 	trace_xfs_iomap_found(ip, offset, length, XFS_DATA_FORK, &imap);
--	return xfs_bmbt_to_iomap(ip, iomap, &imap, flags, iomap_flags, seq);
-+	return xfs_bmbt_to_iomap(ip, iomap, &imap, offset, flags, iomap_flags,
-+			seq);
++		fsverity_enqueue_verify_work(&fsv_ioend->work);
++		return;
++	}
++
+ 	iomap_finish_ioends(ioend, error);
+ }
  
- allocate_blocks:
- 	error = -EAGAIN;
-@@ -1037,7 +1059,7 @@ xfs_direct_write_iomap_begin(
- 		return error;
+@@ -125,13 +164,15 @@ xfs_ioend_submit_read(
+ 	struct inode		*inode,
+ 	struct bio		*bio,
+ 	loff_t			file_offset,
+-	u16			ioend_flags)
++	u16			ioend_flags,
++	struct fsverity_info	*vi)
+ {
+ 	struct xfs_inode	*ip = XFS_I(inode);
+ 	struct xfs_mount	*mp = ip->i_mount;
+ 	struct iomap_ioend	*ioend;
  
- 	trace_xfs_iomap_alloc(ip, offset, length, XFS_DATA_FORK, &imap);
--	return xfs_bmbt_to_iomap(ip, iomap, &imap, flags,
-+	return xfs_bmbt_to_iomap(ip, iomap, &imap, offset, flags,
- 				 iomap_flags | IOMAP_F_NEW, seq);
+ 	ioend = iomap_init_ioend(inode, bio, file_offset, ioend_flags);
++	ioend->io_vi = vi;
+ 	if ((ioend_flags & IOMAP_IOEND_DIRECT) &&
+ 	    READ_ONCE(mp->m_read_bounce) == XFS_READ_BOUNCE_ALWAYS) {
+ 		iomap_bounce_read(ioend, bdev_logical_block_size(bio->bi_bdev),
+diff --git a/fs/xfs/xfs_ioend.h b/fs/xfs/xfs_ioend.h
+index 7c2a1ea3e6ed..992c248a693a 100644
+--- a/fs/xfs/xfs_ioend.h
++++ b/fs/xfs/xfs_ioend.h
+@@ -2,6 +2,8 @@
+ #ifndef __XFS_IOEND_H
+ #define __XFS_IOEND_H
  
- out_found_cow:
-@@ -1045,13 +1067,15 @@ xfs_direct_write_iomap_begin(
- 	trace_xfs_iomap_found(ip, offset, length - offset, XFS_COW_FORK, &cmap);
- 	if (imap.br_startblock != HOLESTARTBLOCK) {
- 		seq = xfs_iomap_inode_sequence(ip, 0);
--		error = xfs_bmbt_to_iomap(ip, srcmap, &imap, flags, 0, seq);
-+		error = xfs_bmbt_to_iomap(ip, srcmap, &imap, offset, flags,
-+				0, seq);
- 		if (error)
- 			goto out_unlock;
- 	}
- 	seq = xfs_iomap_inode_sequence(ip, IOMAP_F_SHARED);
- 	xfs_iunlock(ip, lockmode);
--	return xfs_bmbt_to_iomap(ip, iomap, &cmap, flags, IOMAP_F_SHARED, seq);
-+	return xfs_bmbt_to_iomap(ip, iomap, &cmap, offset, flags,
-+			IOMAP_F_SHARED, seq);
++#include <linux/fsverity.h>
++
+ /*
+  * Fast and loose check if this write could update the on-disk inode size.
+  */
+@@ -13,6 +15,6 @@ static inline bool xfs_ioend_is_append(struct iomap_ioend *ioend)
  
- out_unlock:
- 	if (lockmode)
-@@ -1270,7 +1294,8 @@ xfs_atomic_write_cow_iomap_begin(
- 	trace_xfs_iomap_found(ip, offset, length, XFS_COW_FORK, &cmap);
- 	seq = xfs_iomap_inode_sequence(ip, IOMAP_F_SHARED);
- 	xfs_iunlock(ip, XFS_ILOCK_EXCL);
--	return xfs_bmbt_to_iomap(ip, iomap, &cmap, flags, IOMAP_F_SHARED, seq);
-+	return xfs_bmbt_to_iomap(ip, iomap, &cmap, offset, flags,
-+			IOMAP_F_SHARED, seq);
+ void xfs_end_bio(struct bio *bio);
+ void xfs_ioend_submit_read(struct inode *inode, struct bio *bio,
+-		loff_t file_offset, u16 ioend_flags);
++		loff_t file_offset, u16 ioend_flags, struct fsverity_info *vi);
  
- convert_delay:
- 	xfs_iunlock(ip, XFS_ILOCK_EXCL);
-@@ -1622,8 +1647,9 @@ xfs_zoned_fill_srcmap(
+ #endif /* __XFS_IOEND_H */
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index 5a06132aa384..532bf304a921 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -50,6 +50,7 @@
+ #include "xfs_rtalloc.h"
+ #include "xfs_zone_alloc.h"
+ #include "xfs_healthmon.h"
++#include "xfs_fsverity.h"
+ #include "scrub/stats.h"
+ #include "scrub/rcbag_btree.h"
+ 
+@@ -2516,8 +2517,20 @@ xfs_init_caches(void)
+ 	if (!xfs_parent_args_cache)
+ 		goto out_destroy_xmi_cache;
+ 
++#ifdef CONFIG_FS_VERITY
++	xfs_fsverity_ioend_cache = kmem_cache_create("xfs_fsverity_ioend",
++					     sizeof(struct xfs_fsverity_ioend),
++					     0, 0, NULL);
++	if (!xfs_fsverity_ioend_cache)
++		goto out_destroy_parent_args_cache;
++#endif
++
+ 	return 0;
+ 
++#ifdef CONFIG_FS_VERITY
++ out_destroy_parent_args_cache:
++	kmem_cache_destroy(xfs_parent_args_cache);
++#endif
+  out_destroy_xmi_cache:
+ 	kmem_cache_destroy(xfs_xmi_cache);
+  out_destroy_xmd_cache:
+@@ -2580,6 +2593,9 @@ xfs_destroy_caches(void)
+ 	 * destroy caches.
  	 */
- 	xfs_trim_extent(&smap, offset_fsb, *end_fsb - offset_fsb);
- 	*end_fsb = min(*end_fsb, smap.br_startoff + smap.br_blockcount);
--	return xfs_bmbt_to_iomap(ip, srcmap, &smap, flags, 0,
--			xfs_iomap_inode_sequence(ip, 0));
-+	return xfs_bmbt_to_iomap(ip, srcmap, &smap,
-+			XFS_FSB_TO_B(ip->i_mount, offset_fsb), flags,
-+			0, xfs_iomap_inode_sequence(ip, 0));
- }
- 
- static int
-@@ -1796,7 +1822,7 @@ xfs_zoned_buffered_write_iomap_begin(
- 	trace_xfs_iomap_alloc(ip, offset, XFS_FSB_TO_B(mp, count_fsb),
- 			XFS_COW_FORK, &got);
- done:
--	error = xfs_bmbt_to_iomap(ip, iomap, &got, flags, iomap_flags,
-+	error = xfs_bmbt_to_iomap(ip, iomap, &got, offset, flags, iomap_flags,
- 			xfs_iomap_inode_sequence(ip, IOMAP_F_SHARED));
- out_unlock:
- 	xfs_iunlock(ip, lockmode);
-@@ -2104,7 +2130,8 @@ xfs_buffered_write_iomap_begin(
- found_imap:
- 	seq = xfs_iomap_inode_sequence(ip, iomap_flags);
- 	xfs_iunlock(ip, lockmode);
--	return xfs_bmbt_to_iomap(ip, iomap, &imap, flags, iomap_flags, seq);
-+	return xfs_bmbt_to_iomap(ip, iomap, &imap, offset, flags, iomap_flags,
-+			seq);
- 
- convert_delay:
- 	xfs_iunlock(ip, lockmode);
-@@ -2119,8 +2146,8 @@ xfs_buffered_write_iomap_begin(
- 
- found_cow:
- 	if (imap.br_startoff <= offset_fsb) {
--		error = xfs_bmbt_to_iomap(ip, srcmap, &imap, flags, 0,
--				xfs_iomap_inode_sequence(ip, 0));
-+		error = xfs_bmbt_to_iomap(ip, srcmap, &imap, offset, flags,
-+				0, xfs_iomap_inode_sequence(ip, 0));
- 		if (error)
- 			goto out_unlock;
- 	} else {
-@@ -2131,7 +2158,8 @@ xfs_buffered_write_iomap_begin(
- 	iomap_flags |= IOMAP_F_SHARED;
- 	seq = xfs_iomap_inode_sequence(ip, iomap_flags);
- 	xfs_iunlock(ip, lockmode);
--	return xfs_bmbt_to_iomap(ip, iomap, &cmap, flags, iomap_flags, seq);
-+	return xfs_bmbt_to_iomap(ip, iomap, &cmap, offset, flags, iomap_flags,
-+			seq);
- 
- out_unlock:
- 	xfs_iunlock(ip, lockmode);
-@@ -2238,7 +2266,7 @@ xfs_read_iomap_begin(
+ 	rcu_barrier();
++#ifdef CONFIG_FS_VERITY
++	kmem_cache_destroy(xfs_fsverity_ioend_cache);
++#endif
+ 	kmem_cache_destroy(xfs_parent_args_cache);
+ 	kmem_cache_destroy(xfs_xmd_cache);
+ 	kmem_cache_destroy(xfs_xmi_cache);
+@@ -2660,10 +2676,14 @@ init_xfs_fs(void)
  	if (error)
- 		return error;
- 	trace_xfs_iomap_found(ip, offset, length, XFS_DATA_FORK, &imap);
--	return xfs_bmbt_to_iomap(ip, iomap, &imap, flags,
-+	return xfs_bmbt_to_iomap(ip, iomap, &imap, offset, flags,
- 				 shared ? IOMAP_F_SHARED : 0, seq);
- }
+ 		goto out;
  
-@@ -2298,7 +2326,7 @@ xfs_seek_iomap_begin(
- 			end_fsb = min(end_fsb, data_fsb);
- 		xfs_trim_extent(&cmap, offset_fsb, end_fsb - offset_fsb);
- 		seq = xfs_iomap_inode_sequence(ip, IOMAP_F_SHARED);
--		error = xfs_bmbt_to_iomap(ip, iomap, &cmap, flags,
-+		error = xfs_bmbt_to_iomap(ip, iomap, &cmap, offset, flags,
- 				IOMAP_F_SHARED, seq);
- 		/*
- 		 * This is a COW extent, so we must probe the page cache
-@@ -2322,7 +2350,7 @@ xfs_seek_iomap_begin(
- done:
- 	seq = xfs_iomap_inode_sequence(ip, 0);
- 	xfs_trim_extent(&imap, offset_fsb, end_fsb - offset_fsb);
--	error = xfs_bmbt_to_iomap(ip, iomap, &imap, flags, 0, seq);
-+	error = xfs_bmbt_to_iomap(ip, iomap, &imap, offset, flags, 0, seq);
- out_unlock:
- 	xfs_iunlock(ip, lockmode);
- 	return error;
-@@ -2370,7 +2398,8 @@ xfs_xattr_iomap_begin(
+-	error = xfs_init_workqueues();
++	error = xfs_fsverity_init();
  	if (error)
- 		return error;
- 	ASSERT(nimaps);
--	return xfs_bmbt_to_iomap(ip, iomap, &imap, flags, IOMAP_F_XATTR, seq);
-+	return xfs_bmbt_to_iomap(ip, iomap, &imap, offset, flags,
-+			IOMAP_F_XATTR, seq);
+ 		goto out_destroy_caches;
+ 
++	error = xfs_init_workqueues();
++	if (error)
++		goto out_fsverity_exit;
++
+ 	error = xfs_mru_cache_init();
+ 	if (error)
+ 		goto out_destroy_wq;
+@@ -2740,6 +2760,8 @@ init_xfs_fs(void)
+ 	xfs_mru_cache_uninit();
+  out_destroy_wq:
+ 	xfs_destroy_workqueues();
++ out_fsverity_exit:
++	xfs_fsverity_exit();
+  out_destroy_caches:
+ 	xfs_destroy_caches();
+  out:
+@@ -2763,6 +2785,7 @@ exit_xfs_fs(void)
+ 	xfs_cleanup_procfs();
+ 	xfs_mru_cache_uninit();
+ 	xfs_destroy_workqueues();
++	xfs_fsverity_exit();
+ 	xfs_destroy_caches();
+ 	xfs_uuid_table_free();
  }
- 
- DEFINE_IOMAP_ITER_NEXT(xfs_xattr_iomap_next, xfs_xattr_iomap_begin);
-diff --git a/fs/xfs/xfs_iomap.h b/fs/xfs/xfs_iomap.h
-index 071fff666507..c9bd6de1bfda 100644
---- a/fs/xfs/xfs_iomap.h
-+++ b/fs/xfs/xfs_iomap.h
-@@ -22,8 +22,9 @@ xfs_fileoff_t xfs_iomap_eof_align_last_fsb(struct xfs_inode *ip,
- 
- u64 xfs_iomap_inode_sequence(struct xfs_inode *ip, u16 iomap_flags);
- int xfs_bmbt_to_iomap(struct xfs_inode *ip, struct iomap *iomap,
--		struct xfs_bmbt_irec *imap, unsigned int mapping_flags,
--		u16 iomap_flags, u64 sequence_cookie);
-+		struct xfs_bmbt_irec *imap, loff_t offset,
-+		unsigned int mapping_flags, u16 iomap_flags,
-+		u64 sequence_cookie);
- 
- int xfs_zero_range(struct xfs_inode *ip, loff_t pos, loff_t len,
- 		struct xfs_zone_alloc_ctx *ac, bool *did_zero);
-diff --git a/fs/xfs/xfs_pnfs.c b/fs/xfs/xfs_pnfs.c
-index 065875c8b7da..ff097400d064 100644
---- a/fs/xfs/xfs_pnfs.c
-+++ b/fs/xfs/xfs_pnfs.c
-@@ -256,7 +256,7 @@ xfs_fs_map_blocks(
- 	}
- 	xfs_iunlock(ip, XFS_IOLOCK_EXCL | XFS_MMAPLOCK_EXCL);
- 
--	error = xfs_bmbt_to_iomap(ip, iomap, &imap, 0, 0, seq);
-+	error = xfs_bmbt_to_iomap(ip, iomap, &imap, offset, 0, 0, seq);
- 	*device_generation = mp->m_generation;
- 	return error;
- out_unlock:
 -- 
 2.54.0
 
