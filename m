@@ -1,56 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795162565;
-	b=UXOcEnh4/B2G8XHLpqFqa9N0enqRU5ae463dGDbqi+BGtE2WO4kGW6bHzXeVABwzEPy0
-	 IL+A02xt15mZ0e16ms/1psAq9I9LL7dG1jP6WRKmG4o1fa57JsJmKWUR8GczsZviXhAbu
-	 PKpFNVhizCoFJHBtED6ldhGjbXIgGFEMf8bxkE1Al0jghUF4xmIhq1YY3nnQcqKRyQvdl
-	 jEJjugaxVFOE7LqM0yBlY3Dphtda6194HwATqHElJO97Y0uEUJioUEwdNR+tGU7XpoVDj
-	 5wcUtsJgVNJdxj5QZQj3WtXKZAuHWifnynTDmkwUZtQLUPB2VQPPawrILQ1Q+sD2KtA==
+	t=1795190024;
+	b=jk6KTE62wy6dVfk6XpUWDiXuzfxz4adVwtX9u1BG7BCg5LdtZFMgN0P4kHeMfzAkiBLg
+	 qQm5UBgBTWHdEzazsdHngj62lQR4vYmlW6l+JUlA+RtQ8DfpH2ZiMjKTjrQBbyg25jK1T
+	 QKJ3XL6AnSrIZaCxyb92uOPfFZfEq12qZYnjWPW7MKHAH9VgQxt/HbLSbCPjEZGFxP++2
+	 1GnigY6y22Y8pDSlEglxXAu3aNNKkHzM2uQ2LQzvM0uKXRc7/ZM98sDQloYUjwMMk78ue
+	 GhMtX34EfJrx2eMG0pxHjLj6tPEoanM/8gzXhKvI7nYBc5rd66hvVvj+Dk1pizFm7Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795162565;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=gRnXn7A8a8ltwBq+RheRl5mDgBsU2Z5PbLlb1u7e8CU=;
-	b=BJFsRyUJY4UbcqL6JI/lco7oXma4kGulbpVSgOy4JnXw6hh1QSJINwavxrVeXQ8GwhbE
-	 gdcvOn6sxz2wZQuAyKfXvqnbGrqYZ+DTr/d4uUNqpro1duain6/3aSeTpk0rgZ5l1ojsF
-	 vf5O4kOqz+G0AbQCvyXg8IvG0N3ozGCHnD7WBMO3m7swkG5TRb3nyokCL68DSjpU+nKgN
-	 cMs+EEys8nx4v6PSw1eg0xwuRmnKBBf6wgnYAwTZ1objbxUWwxNOrKfbdySDt+k3V7Wcp
-	 HBCUSvCw5L4/Qr833lyjaDohk2o1CszYpBXyzGbwkc6P5cemTJCLvdM1hB+JdCp6NIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795190024;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=v+LHSOGcYG6qwjHdgPt0+XZc2oJGKJ+L7kW/ZhoRQBc=;
+	b=zLpUkR3yNHxTKamX/ajH4aYQElGzfIKMrOyely8dNTjV4KIFUU+XCRChZHRd9hjgkeBu
+	 a4ql0Yzg2g7CLFGQII5fejp7tPASpTW1Fs4BlGOm9UuYllJfwbGkLos6/D7u38vr0p8Vf
+	 HO2SqsNWiHInz2uDXz+/CLnM4K59KBw3NQuqCucsQgcj3WrIi684Gwxpnn5XSvu5Eqcfz
+	 Ib+CvdYLghcUT8Qm5iFfCW5+dQj//UUHjURYY3cQW8RSypx520r+XQv2htanjpCvNsswg
+	 kbY+OJA2b0Wss2wMOtzuEnfCjZyHCoB7n8itsO168UyAh7IUizyRX/3P49FTVt8tgFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O3SBUo3Q;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DTWV4yfc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C14606A332;
-	Fri, 20 Nov 2026 08:16:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC09E606A334;
+	Fri, 20 Nov 2026 15:53:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O3SBUo3Q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEE661F000CA;
-	Fri, 20 Nov 2026 08:16:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DTWV4yfc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05D3D1F000D0;
+	Fri, 20 Nov 2026 15:53:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795162565;
-	bh=gRnXn7A8a8ltwBq+RheRl5mDgBsU2Z5PbLlb1u7e8CU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O3SBUo3Qd1oYvzOGUJ5rYpD2S8YhyUOUglVc/LxFyzDJLfoAn4a0DXLMJ/nR+m9M8
-	 sNN5u2N3okNnUETsRESBjksvHqkmuUTTC0GL7Ont3UhHFelFdFj0HhHZ7depwkLkrM
-	 Tfv/2kQ7CM3b6uy97snz53Hu1sfbx+dQsM6VxJ2fSK5sIWd8oDLSs7VmdAamuShnoF
-	 Q9DEGgGxDOMCy7wPXUwg36k8y4264dUYGGGdHlM6kDleWtbjv+uydRghVSrMVw5/EQ
-	 7uL+EVf4BdNUN8gnHe6Dn2+hYNRRLpE+tOjk9vaTUe7t98luO9gcouKOjdlybNTogO
-	 pIEzydj/7wkog==
-Date: Fri, 20 Nov 2026 09:15:58 +0100
+	s=k20260515; t=1795190024;
+	bh=v+LHSOGcYG6qwjHdgPt0+XZc2oJGKJ+L7kW/ZhoRQBc=;
+	h=From:To:Cc:Subject:Date;
+	b=DTWV4yfch6T4GKNBEDPtPRjXNy936zjSMDhrGuKJvN/8SwkSNSYDzrCPcYZwfLb3l
+	 1slRfaMzRiOXOxdJpAkxti4i6T2MFR3Nv3huXUy/H/jQBkb5ljZe7YtCK9rIE5qYap
+	 mh+RxfXvSz5RVEtdOTN3PqKgv9/a9jykomEYe2TrmIIYxFhBg76PlhYbpiq3dSNTmc
+	 oIOed94Q+baMMwrVDIjpZoS0xWYmt/adIw0ZFOzTAsJDDKTxlKbZY6XJOurL8F3r0/
+	 PxVhTTSv2Nl8tJnJbGWy/yZHAalZgK5QGFuikwrI1iVwJiPw7Ido60UMggXtPTwffK
+	 D+Vw5QInfdfcg==
 From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: ebiggers@kernel.org, hch@lst.de, fsverity@lists.linux.dev, 
-	dsterba@suse.com, linux-xfs@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, jaegeuk@kernel.org, chao@kernel.org, tytso@mit.edu
-Subject: Re: [PATCH v2 2/5] fsverity: add I_VERITY_BUILDING inode state flag
-Message-ID: <awABahzFVV5pX6bG@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20261105115532.613467-1-aalbersh@kernel.org>
- <20261105115532.613467-3-aalbersh@kernel.org>
- <20261119-gefunden-beteiligen-epidemie-5a23ff160ef4@brauner>
+To: "fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"fsverity" <fsverity@lists.linux.dev>,
+	"linux-ext4" <linux-ext4@vger.kernel.org>,
+	"linux-btrfs" <linux-btrfs@vger.kernel.org>,
+	"linux-f2fs" <linux-f2fs-devel@lists.sourceforge.net>,
+	"linux-xfs" <linux-xfs@vger.kernel.org>,
+	dsterba@suse.com,
+	"Eric Biggers" <ebiggers@kernel.org>,
+	"Christian Brauner" <brauner@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>,
+	tytso@mit.edu,
+	chao@kernel.org,
+	jaegeuk@kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: [PATCH v3 0/7] fsverity: lift ioctl() input masking and runtime inode flag to VFS
+Date: Fri, 20 Nov 2026 16:50:22 +0100
+Message-ID: <20261120155032.187246-1-aalbersh@kernel.org>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -60,39 +67,69 @@ List-Unsubscribe: <mailto:fsverity+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fsverity+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119-gefunden-beteiligen-epidemie-5a23ff160ef4@brauner>
+Content-Transfer-Encoding: 8bit
 
-On 2026-11-19 21:48:27, Christian Brauner wrote:
-> On Thu, Nov 05, 2026 at 12:55:27PM +0100, Andrey Albershteyn wrote:
-> > Every filesystem that supports fs-verity keeps a private runtime inode
-> > flag meaning Merkle tree is currently being built *_VERITY_IN_PROGRESS.
-> > They all serve the same two purposes: reject a concurrent enable with
-> > -EBUSY and let the write paths recognize the special writes done while
-> >
-> > ...
-> >
-> > +/**
-> > + * fsverity_is_building() - is fs-verity being enabled on the inode
-> > + * @inode: inode to check
-> > + *
-> > + * This checks whether the inode's Merkle tree is currently being built.
-> > + * While this is the case the file is read-only to userspace and the only writes
-> > + * allowed are for the fs-verity metadata. This becomes false when fsverity
-> > + * metadata is fully created and written to disk or building failed.
-> > + *
-> > + * Return: true if fs-verity is being enabled on the inode
-> > + */
-> > +static inline bool fsverity_is_building(const struct inode *inode)
-> > +{
-> > +	return inode_state_read_once((struct inode *)inode) & I_VERITY_BUILDING;
-> 
-> Isn't the fix to make inode_state_read_once() take a const struct inode *?
-> 
+Hi folks,
 
-Yes I have a fix, I will send as part of this series in the next
-revision
+This patchset lifts two things from filesystems to VFS level:
+- No-op'ing FS_VERITY_FL in FS_IOC_SETFLAGS ioctl()
+- Runtime fsverity construction flag on inode
+
+The second patch fixes BTRFS get-modify-set loop with
+FS_IOC_GETFLAGS/SETFLAGS ioctl()s, as it does return fsverity flag but
+not mask it out.
+
+Testing, -g verity passes for all fs, except btrfs/277 and
+btrfs+generic/574.
+
+The btrfs/277 seems to fail due to difference between what kernel
+and userspace versions support (btrfs-progs v7.1 doesn't seem to
+support latest streams v3).
+
+The generic/574 on BTRFS fails only for 1024 block size no matter
+the change (fails on v7.3 too). I haven't checked why.
+
+Based on v7.3-rc3.
+
+Changes in v3:
+- Add comment that I_VERITY_BUILDING is set over enable
+- Revert comment changes in ext4 and f2fs
+- Added I_VERITY_BUILDING to show_inode_state()
+- Updated comment in begin_enable; dropped -EBUSY
+- Added patch changing inode_state_read_once() to const
+- Use fsverity_is_building() around ->begin_enable() call
+- Use fsverity_is_building() in iomap
+Changes in v2:
+- Return ret in btrfs_begin_enable_verity()
+- Include linux-fsdevel
+
+Andrey Albershteyn (7):
+  fs: constify inode argument of inode_state_read_once()
+  fs: strip FS_VERITY_FL from FS_IOC_SETFLAGS
+  fs,fsverity: add I_VERITY_BUILDING inode state flag
+  iomap: use fsverity_is_building() to check for fsverity IO
+  btrfs: use I_VERITY_BUILDING instead of private flags
+  ext4: use I_VERITY_BUILDING instead of private flags
+  f2fs: use I_VERITY_BUILDING instead of private flags
+
+ fs/btrfs/btrfs_inode.h           |  7 -------
+ fs/btrfs/verity.c                | 12 ++----------
+ fs/ext4/ext4.h                   |  7 -------
+ fs/ext4/file.c                   |  2 +-
+ fs/ext4/inode.c                  | 17 +++++++++--------
+ fs/ext4/ioctl.c                  |  3 +--
+ fs/ext4/verity.c                 | 19 ++++++-------------
+ fs/f2fs/data.c                   | 10 +++++-----
+ fs/f2fs/f2fs.h                   |  7 -------
+ fs/f2fs/verity.c                 | 12 +++---------
+ fs/file_attr.c                   | 10 ++++++++++
+ fs/iomap/buffered-io.c           |  2 +-
+ fs/verity/enable.c               | 22 +++++++++++++++++++---
+ include/linux/fs.h               |  8 +++++++-
+ include/linux/fsverity.h         | 26 ++++++++++++++++++++++++--
+ include/trace/events/writeback.h |  3 ++-
+ 16 files changed, 90 insertions(+), 77 deletions(-)
 
 -- 
-- Andrey
+2.54.0
+
