@@ -1,46 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795587365;
-	b=0BEQf7J2sSJPRWvhYZkxl3i3FKgDC91T7ebkAzhhQ3xSiRvVx9X3xFAjZw8loggc4Q+0
-	 VeMG177r3ySvwImbaMUyG/idOuzNUK/37lvN9BqQGRkefiRWlPkuGQuFzXnS6vL4+hELk
-	 eNYIsWRLsM8NnKvMU41jRsBDEgcu/sKASGHKz6CFvzvLRx2UBDEnQz019ntIpxJJDSE4F
-	 x/Ql596JRe6v+BccJ+7Cugp4DnfQ3rPRm7biZh8u0oFCrikV5eQOjubo+86tbFaq6sDyn
-	 uI9+ZxnhAnRja0ss8To1K2GWbfWjkly5gn/PkQ4dnXuJ+TJl/75JmA8UQr3bMiWD3Aw==
+	t=1795596678;
+	b=yqs/FukRE52/d2OxGd4fEy2Zk5hrcmUV5L2CIW0KjEInfSSRcVEIRWdQ1cKuM6D/V7Mf
+	 NDfz/6krnW44P5SBUOPIGOtg12xqDPlvaLe3YQm55Qa64epxQrWgdV1rhxUC1tImlYuNS
+	 4f3BaLS2SDslMvElij7PWY5ApRa8NrvObV/dsaBBVkGJvXL1UoGR5h13ThXzRYmA2bMhV
+	 98vxPR+Pp4GZeSNR396y6723euN6v6JGRc2KEKY3a8/C25ak+61qKUlqvYbZAN7SahDt1
+	 pGhSDOral1CWYrbYd1ziLMwLyApw7un4OK3FUnyPoBHe98L0cgTDdvoIKeztiqm9KhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795587365;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=ytCkvKWImMchISbudsB2LLM+jbU+ELfGkaAp9hL16aA=;
-	b=N+NMicCQL06N/xpjQWc4XpabdclgJ99Rk4tC3S4aJXcj5DFY7fct3wIVgs7lBQwhSohY
-	 xAx9xHRMGNPg9ghnnBYMawyCzInH25D2DY+9opncXXrTNQsTtMKEoDdFrNr31yto0YERA
-	 zSGRaBC+NBulB9PnJcrdMtnk5vGAwAkyXXWuP31nQdTad+H4RlPT5f2nA1js7wTsmKR4R
-	 K2o9zC8IE6mbEYRwFq8cfLE76C+viOhNnrg5aCnBxHE3tnMa2r/h3e/XMngJlpbGDocbT
-	 mwOpkQpq+gci0Tl/fqGSUACqS4gcV+5G2zEGBNmdIeDGTKdqNRm49pmA6tlD9vJ6Yug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795596678;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=kUxmD3O0e6bplmCqlY/rbyMbAFW3h8LIYJ4umDO8GLE=;
+	b=n5ekgZQFc89VI0AbM70YpxlEedP7g/TTExYKJNlH2Ppjy5Dta+9qmUgjzwGESvtt24P7
+	 n/nJI3DQZHKfq0dIbFBf5DcXPb75jtvpV0JKh9KS68Qxb+1SE6etcJUC+0ClD11yccJ4w
+	 zgD4oDkrsZ9hAQi4jHjz2unykMKNNjdU8lwTUQI4WqE3ywcYaCvHjd/UXXV+S7wjZvIRz
+	 eb50SI0e44iOOgyLWeocvvBjaVSPSfILepvVb+mo7LOPUG0YlOjLZPZQhsczKywHYZmzz
+	 GphkyZ1yI1cbJCHmHhP3VHCacUHmVfwxWuu/1XNmyHeY/jl1WZDcLOIveJCCgc7xFFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lst.de;
-	spf=pass smtp.mailfrom=lst.de;
-	arc=none smtp.remote-ip=213.95.11.211
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RUUn0ERL;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87E0606D329;
-	Wed, 25 Nov 2026 06:16:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A87E0606D329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3E5D968AFE; Wed, 25 Nov 2026 07:16:01 +0100 (CET)
-Date: Wed, 25 Nov 2026 07:16:00 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, sashiko-reviews@lists.linux.dev,
-	Eric Biggers <ebiggers@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	fsverity <fsverity@lists.linux.dev>, david@fromorbit.com,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: Re: [PATCH v19 01/15] xfs: introduce fsverity on-disk changes
-Message-ID: <20261125061600.GB20968@lst.de>
-References: <20261120155752.192025-1-aalbersh@kernel.org> <20261120155752.192025-2-aalbersh@kernel.org> <sashiko-outbox-225564@kernel.org> <20261121002310.GA13395@lst.de> <awICI9nADM7ut-WK@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DB8606A31E;
+	Wed, 25 Nov 2026 08:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RUUn0ERL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 104F61F000C4;
+	Wed, 25 Nov 2026 08:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795596677;
+	bh=kUxmD3O0e6bplmCqlY/rbyMbAFW3h8LIYJ4umDO8GLE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RUUn0ERLeyRLd0PVNxUg+9/o5xvXnVS+fCQ5TIcYojSXfDqAqbyQHK6FhSIqo3tlO
+	 X7iodjYQArDgm3AdcNUp4a5IwD2blXo+crFgIKacidzS86qhkgWMJZRaDivvQi0BNh
+	 4Yeuy//zdOgMRY4hlYVnoOLGTTANv0IXlRHori3B/Kvss3guzu5MgGU26JrElEsS2M
+	 dZ9PlzgkS8z97suJjs/m1pcIiwiPWwDZo517f+zU8hj4/GLEmlzsLQ2HimZbFpda9V
+	 9IK+PMl2AgGOuf0h1CGumyf0okAG1zffwfliVX/E8zxDIZ44hwO76igzD6vcdNF+2q
+	 Jp3F05dbwnDTA==
+Date: Wed, 25 Nov 2026 09:51:13 +0100
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: sashiko-reviews@lists.linux.dev, Eric Biggers <ebiggers@kernel.org>, 
+	Carlos Maiolino <cem@kernel.org>, fsverity <fsverity@lists.linux.dev>, david@fromorbit.com
+Subject: Re: [PATCH v19 05/15] xfs: handle fsverity I/O in write/read path
+Message-ID: <awaftWKo68Vz4f0G@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20261120155752.192025-1-aalbersh@kernel.org>
+ <20261120155752.192025-6-aalbersh@kernel.org>
+ <sashiko-outbox-225565@kernel.org>
+ <20261121002602.GB13395@lst.de>
+ <awQVBBV4en5undcp@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+ <20261125061517.GA20968@lst.de>
 X-Mailing-List: fsverity@lists.linux.dev
 List-Id: <fsverity.lists.linux.dev>
 List-Post: <mailto:fsverity@lists.linux.dev>
@@ -52,30 +63,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <awICI9nADM7ut-WK@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20261125061517.GA20968@lst.de>
 
-On Sat, Nov 21, 2026 at 09:42:59PM +0100, Andrey Albershteyn wrote:
-> On 2026-11-21 01:23:10, Christoph Hellwig wrote:
-> > On Fri, Nov 20, 2026 at 04:26:31PM +0000, sashiko-bot@kernel.org wrote:
-> > > [Severity: Medium]
-> > > Does exposing FS_XFLAG_VERITY in xfs_ip2xflags() without allowing
-> > > FS_VERITY_FL in xfs_fileattr_set() break FS_IOC_SETFLAGS on verity inodes?
+On 2026-11-25 07:15:17, Christoph Hellwig wrote:
+> On Mon, Nov 23, 2026 at 11:39:35AM +0100, Andrey Albershteyn wrote:
+> > > > Also, in xfs_zoned_map_blocks(), the non-hole path calls
+> > > > xfs_iomap_set_anon_write(), which overwrites wpc->iomap.flags with
+> > > > IOMAP_F_ANON_WRITE | IOMAP_F_DIRTY and drops IOMAP_F_FSVERITY.
 > > > 
-> > > When FS_IOC_GETFLAGS runs on a verity inode, xfs_fileattr_get() ->
-> > > xfs_fill_fsxattr() -> fileattr_fill_xflags() translates FS_XFLAG_VERITY
-> > > into FS_VERITY_FL in fa->flags.  When userspace such as chattr(1) modifies
-> > > an unrelated flag (like FS_NOATIME_FL or FS_IMMUTABLE_FL) and writes the
-> > > flags back via FS_IOC_SETFLAGS, xfs_fileattr_set() checks fa->flags against
-> > > an allowlist that does not include FS_VERITY_FL:
+> > > Yeah.  This was kinda why I wondered if an inode flag would do
+> > > better for this.
 > > 
-> > Yeah.  ext4 just ignores flags like verity in fileattr_set.
-> > Should we do the same here?
+> > Note, I added a guard against using fs-verity on zoned in v19 for now.
+> > 
+> > Previously, I thought that zoned allocation happens in iomap_begin()
+> > but it's obviously not, sashiko pointed out that I don't allocate
+> > any space.
+> > 
+> > I have a patch with added branches in write path with zone
+> > allocations (see below) but I decided to leave it out for follow-up
+> > patchset; for this patchset to get in some mergable state. And zoned
+> > setup probably need more testing, I just did -g verity on -r zoned.
 > 
-> yes, fixed in the other patchset [1]
+> I'm fine with delaying zoned support, although that wasn't really
+> what I suggested above.  I was hoping we could get rid of the
+> IOMAP_F_FSVERITY as most of this should be covered by the inode flag
+> now.  Or am I missing something?
 > 
-> 1: https://lore.kernel.org/fsverity/20261120155032.187246-1-aalbersh@kernel.org/T/#m96800af1279dd56736b8199528c1c6238984e2f9
 
-Please make sure to include everything the next version.  That makes
-life so much easier when reviewing.
+This flag is also used in read path when entablement already done.
+And as Eric and sashiko pointed out in the other patchset,
+I_VERITY_BUILDING doesn't strictly require "no data I/O" during tree
+building; this is done by XFS only. So, I think it's still needed.
 
+-- 
+- Andrey
